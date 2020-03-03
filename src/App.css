@@ -1,38 +1,53 @@
 .App {
   text-align: center;
+  font-size: 30px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/*** CARD ***/
+.card h2 {
+  font-size: 40%;
+  margin-top: 10%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.card h3 {
+  font-size: 80%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.effectsText {
+  font-size: 12px;
+  padding: 0 15px 0 15px;
 }
 
-.App-link {
-  color: #61dafb;
+.card img {
+  max-width: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Movement {
+}
+
+.movementSymbol {
+  max-width: 50px;
+}
+
+.Cost {
+  position: absolute;
+  bottom: -3%;
+  left: 6.5%;
+}
+
+.VictoryPoints {
+  position: absolute;
+  bottom: -3%;
+  right: 4%;
+}
+
+.Effects {
+  position: relative;
+  bottom: 0;
+  height: 44%;
+  margin-top: 50%;
+}
+
+.cardEffect {
+  max-width: 30px;
 }
