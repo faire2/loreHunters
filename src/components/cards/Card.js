@@ -25,8 +25,8 @@ export default function Card(props) {
         <div style={styles} className="card">
             <Movement movement={card.movement}/>
             <h2>{card.cardName}</h2>
-            <Effects effects={card.effects}/>
-            <AlternativeEffects effects={card.effects2} />
+            <Effects effects={card.effectsText}/>
+            <AlternativeEffects effects={card.effects2Text} />
             <Cost cost={card.cost}/>
             <VictoryPoints points={card.points}/>
         </div>

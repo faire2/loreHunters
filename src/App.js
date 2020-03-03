@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {CARDS} from "./data/cards";
+import {CARD_TYPE, CARDS} from "./data/cards";
 import CardsArea from "./components/main/CardsArea";
 import {PlayerStateContext, StoreContext} from "./Contexts";
 import Resources from "./components/resources/Resources";
@@ -83,7 +83,7 @@ function getInitialItemsState() {
     let items = shuffleArray(Object.keys(CARDS).map(key => {
             return CARDS[key]
     }));
-    items = items.filter(card => card !== CARDS.explore && card !== CARDS.fear && card !== CARDS.coin);
+    items = items.filter(card => card.type !== CARD_TYPE.basic);
 
     let itemsSetup = drawCards(items, GLOBAL_VARS.storeSize);
     console.log("Initial items' state:");
