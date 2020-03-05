@@ -7,6 +7,7 @@ import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
 import Resources from "./components/resources/Resources";
 import Store from "./components/store/Store";
+import {Controls} from "./components/main/Controls";
 
 function App() {
     const [playerState, setPlayerState] = useState(getInitialPlayerState);
@@ -229,7 +230,9 @@ function App() {
     function handleCardBuy(card, cardIndex) {
         console.log("Buying card: " + card.cardName);
         const tPlayerState = {...playerState};
-        const isActiveRevealItemWithDiscount = activeEffects[0] === EFFECT.revealItemBuyWithDiscount;
+        const activeEffect = activeEffects[0];
+        const tActiveEffects = [...activeEffects];
+        const isActiveRevealItemWithDiscount = activeEffect === EFFECT.revealItemBuyWithDiscount;
 
         /* Fishing Rod discount effect */
         if (isActiveRevealItemWithDiscount) {
@@ -237,12 +240,12 @@ function App() {
         }
 
         /* Bag effect */
-        if (activeEffects[0] === EFFECT.gainItemToHand && card.type === CARD_TYPE.item) {
+        if (activeEffect === EFFECT.gainItemToHand && card.type === CARD_TYPE.item) {
             card.cost = 0;
         }
 
         /* Whip effect */
-        if (activeEffects[0] === EFFECT.gainArtifact && card.type === CARD_TYPE.artifact) {
+        if (activeEffect === EFFECT.gainArtifact && card.type === CARD_TYPE.artifact) {
             card.cost = 0;
         }
 
@@ -259,28 +262,35 @@ function App() {
             if (!isActiveRevealItemWithDiscount) addCardToStore(card.type);
             setStore(tStore);
 
-            /* we pay the cost and add the card to discard deck */
+            /* we pay the cost and add the card to discard deck or to hand */
             card.state = CARD_STATE.discard;
-            tPlayerState.discardDeck.push(card);
+            if (activeEffect === EFFECT.gainItemToHand) {
+                tPlayerState.hand.push(card);
+            } else {
+                tPlayerState.discardDeck.push(card);
+            }
+            
+            if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount)
+            
             tPlayerState.resources.coins -= card.cost;
             setPlayerState(tPlayerState);
+            setActiveEffects(tActiveEffects);
         } else {
             console.log("Card could not be bought: " + card);
         }
     }
 
     function drawCards(cardsNum, tPlayerState) {
-        let drawDeck = tPlayerState.playerState.drawDeck;
-        let discardDeck = tPlayerState.playerState.discardDeck;
+        let drawDeck = tPlayerState.drawDeck;
+        let discardDeck = tPlayerState.discardDeck;
         for (let i = 0; i < cardsNum; i++) {
+            console.log("tPlayerState: ");
+            console.log(tPlayerState);
             if (drawDeck === 0) {
-                shuffleArray(discardDeck);
-                for (let card of discardDeck) {
-                    tPlayerState = addCardToDrawDeck(card, tPlayerState)
-                }
-                discardDeck = [];
+                tPlayerState = addDiscardToDrawDeck(tPlayerState);
             }
             tPlayerState = addCardToHand(drawDeck[0], tPlayerState);
+            discardDeck.splice(0, 1);
         }
         return tPlayerState;
     }
@@ -307,13 +317,56 @@ function App() {
     }
 
     function addCardToHand(card, tPlayerState) {
-        tPlayerState.playerState.hand.push(card.state = CARD_STATE.inHand);
+        card.state = CARD_STATE.inHand;
+        tPlayerState.hand.push(card);
         return tPlayerState
     }
 
-    function addCardToDrawDeck(card, tPlayerState) {
-        tPlayerState.playerState.drawDeck.push(card.state = CARD_STATE.drawDeck);
+    function addCardToDiscardDeck(card, tPlayersState) {
+        card.state = CARD_STATE.discard;
+        tPlayersState.discardDeck.push(card);
+        return tPlayersState;
+    }
+
+    function addDiscardToDrawDeck(tPlayerState) {
+        tPlayerState.discardDeck = shuffleArray(tPlayerState.discardDeck);
+        console.log("discard: ");
+        console.log(tPlayerState.discardDeck);
+        tPlayerState.drawDeck = [...tPlayerState.discardDeck];
+
+        for (let card of tPlayerState.drawDeck) {
+            card.state = CARD_STATE.drawDeck;
+        }
+        tPlayerState.discardDeck = [];
         return tPlayerState;
+    }
+
+    function handleEndRound() {
+        let tPlayerState = playerState;
+
+        /* remove active card */
+        if (tPlayerState.activeCard !== false) {
+            tPlayerState.discardDeck.push(tPlayerState.activeCard);
+            tPlayerState.activeCard = false;
+        }
+
+        /* discard the hand */
+        for (let card of tPlayerState.hand) {
+            tPlayerState = addCardToDiscardDeck(card, tPlayerState);
+            tPlayerState.hand = [];
+        }
+
+        /* draw a new hand */
+        for (let i = 0; i < GLOBAL_VARS.handSize; i++) {
+            if (tPlayerState.drawDeck.length === 0) {
+                tPlayerState = addDiscardToDrawDeck(tPlayerState);
+            }
+            tPlayerState = addCardToHand(tPlayerState.drawDeck[0], playerState);
+            tPlayerState.drawDeck.splice(0, 1);
+        }
+        setPlayerState(tPlayerState);
+        setActiveEffects([]);
+        console.log("*** END OF ROUND ***");
     }
 
     return (
@@ -331,10 +384,12 @@ function App() {
                     playerState: playerState,
                     activeEffects: activeEffects,
                     cancelEffect: cancelEffect,
+                    handleEndRound: handleEndRound,
                 }}>
                     <Resources/>
                     <Store/>
                     <CardsArea/>
+                    <Controls/>
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>
@@ -350,7 +405,7 @@ export const RES = Object.freeze({
 });
 
 export const GLOBAL_VARS = Object.freeze({
-    initialHandSize: 5,
+    handSize: 5,
     initialCards: [CARDS.fear, CARDS.fear, CARDS.coin, CARDS.coin, CARDS.explore, CARDS.explore],
     storeSize: 5,
 });
@@ -379,7 +434,7 @@ function getInitialPlayerState() {
 
     const initialCards = shuffleArray(GLOBAL_VARS.initialCards);
 
-    const cardsSetup = drawCards(initialCards, GLOBAL_VARS.initialHandSize);
+    const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
     for (let card of cardsSetup.drawCards) {
         card.state = CARD_STATE.inHand;
     }
