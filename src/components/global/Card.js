@@ -38,15 +38,11 @@ export default function Card(props) {
     }
 
     function handleClickOnCard() {
-        const activeEffect = boardStateContext.activeEffects[0];
+        const activeEffects = boardStateContext.activeEffects;
         if (card.state === CARD_STATE.inStore) {
             console.log("Click on buy");
             boardStateContext.handleCardBuy(card, props.index)
-        } else if (activeEffect === EFFECT.destroyCard) {
-            boardStateContext.handleActiveEffectClickOnCard(card, props.index);
-        } else if (activeEffect === EFFECT.destroyGuardian || activeEffect === EFFECT.removeGuardian) {
-            if (card.type === CARD_TYPE.guardian) {boardStateContext.handleActiveEffectClickOnCard(card, props.index)}
-        } else if (activeEffect === EFFECT.drawFromDiscard && card.state === CARD_STATE.discard) {
+        } else if (activeEffects.length > 0) {
             boardStateContext.handleActiveEffectClickOnCard(card, props.index);
         }
     }

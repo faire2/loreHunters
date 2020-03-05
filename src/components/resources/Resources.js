@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {Coin, Explore, Jewel, Text, Weapon} from "../Symbols";
+import {Coin, Explore, Jewel, Shiny, Text, Weapon} from "../Symbols";
 
 export default function Resources(props) {
     const playerStateContext = useContext(PlayerStateContext);
@@ -27,6 +27,10 @@ export default function Resources(props) {
                 <div>
                     <Jewel/>
                     {playerStateContext.playerState.resources.jewels}
+                </div>
+                <div>
+                    <Shiny />
+                    {playerStateContext.playerState.resources.shiny}
                 </div>
             </div>
         </div>
