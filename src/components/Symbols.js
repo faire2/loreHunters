@@ -1,8 +1,8 @@
 import React from "react";
-import sJeep from "../img/symbols/Gjeep.png"
+/*import sJeep from "../img/symbols/Gjeep.png"
 import sWalk from "../img/symbols/Gwalk.png"
 import sPlane from "../img/symbols/Gplane.png"
-import sShip from "../img/symbols/Gship.png"
+import sShip from "../img/symbols/Gship.png"*/
 
 import draw1 from "../img/symbols/Card+.png"
 import draw2 from "../img/symbols/Card++.png"

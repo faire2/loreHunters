@@ -3,6 +3,26 @@
   font-size: 30px;
 }
 
+.cardRow {
+  min-height: 210px;
+}
+
+.vertical-text {
+  text-align: center;
+  font-size: 20px;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  height: 210px;
+}
+
+.redBgr {
+  background-color: crimson;
+}
+
+.goldBgr {
+  background-color: gold;
+}
+
 /*** CARD ***/
 .card h2 {
   font-size: 40%;
@@ -46,6 +66,13 @@
 }
 
 .Effects {
+  position: relative;
+  bottom: 0;
+  height: 44%;
+  margin-top: 40%;
+}
+
+.Effects2 {
   position: relative;
   bottom: 0;
   height: 44%;

@@ -1,9 +1,9 @@
 import React, {useContext} from "react";
-import {StoreContext} from "../../Contexts";
-import Card from "../cards/Card";
+import {BoardStateContext} from "../../Contexts";
+import Card from "../global/Card";
 
 export default function Store(props) {
-    const storeContext = useContext(StoreContext);
+    const storeContext = useContext(BoardStateContext);
 
     return (
         <div>
