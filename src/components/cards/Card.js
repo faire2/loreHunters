@@ -1,12 +1,7 @@
 import React, {useContext} from 'react';
-
-import bgrItemEmpty from "../../img/cardBackgrounds/ItemBrownEmpty3.png"
-import bgrWalk from "../../img/cardBackgrounds/ItemBrownWalk3.png"
-import bgrJeep from "../../img/cardBackgrounds/ItemBrownJeep3.png"
-import bgrShip from "../../img/cardBackgrounds/ItemBrownShip3.png"
-import bgrPlane from "../../img/cardBackgrounds/ItemBrownPlane3.png"
-import {CARD_STATE, CARD_TYPE, EFFECT} from "../../data/cards";
+import {CARD_STATE, ITEM_TRANSPORT} from "../../data/cards";
 import {BoardStateContext} from "../../Contexts";
+import {EFFECT} from "../../data/effects";
 
 
 export default function Card(props) {
@@ -19,7 +14,7 @@ export default function Card(props) {
         height: 200,
         margin: 5,
         position: "relative",
-        backgroundImage: `url(${card.background}`,
+        backgroundImage: `url(${card.itemTransport}`,
         backgroundSize: "cover"
     };
 
@@ -50,7 +45,7 @@ export default function Card(props) {
 
     return (
         <div style={styles} className="card" onClick={() => handleClickOnCard()}>
-            <Movement movement={card.movement}/>
+            <Movement itemTransport={card.itemTransport} handleClickOnEffect={handleClickOnEffect}/>
             <h2>{card.cardName}</h2>
             <span style={{fontSize: 10}}> {card.state} </span>
             <Effects effectsText={card.effectsText} effects={card.effects} style={pointerStyle}
@@ -65,10 +60,33 @@ export default function Card(props) {
 }
 
 
-const Movement = (props) =>
-    <div className="Movement">
-        {props.movement}
-    </div>;
+const Movement = (props) => {
+    let effect = [];
+    switch (props.itemTransport) {
+        case ITEM_TRANSPORT.walk:
+            effect.push(EFFECT.gainWalk);
+            break;
+        case ITEM_TRANSPORT.jeep:
+            effect.push(EFFECT.gainJeep);
+            break;
+        case ITEM_TRANSPORT.ship:
+            effect.push(EFFECT.gainShip);
+            break;
+        case ITEM_TRANSPORT.plane:
+            effect.push(EFFECT.gainPlane);
+            break;
+        case ITEM_TRANSPORT.empty:
+            break;
+        default:
+            console.log("Unknwown ITEM_TRANSPORT type in Card > Movement: " + props.itemTransport);
+    }
+
+    return (
+        <div className="Movement" onClick={() => props.handleClickOnEffect(effect)}>
+            {props.movement}
+        </div>
+    )
+};
 
 const Effects = (props) =>
     <div className="Effects" style={props.style} onClick={() => props.handleClickOnEffect(props.effects)}>
@@ -90,10 +108,4 @@ const VictoryPoints = (props) =>
         <h3>{props.points}</h3>
     </div>;
 
-export const BACKGROUNDS = Object.freeze({
-    itemEmpty: bgrItemEmpty,
-    itemWalk: bgrWalk,
-    itemJeep: bgrJeep,
-    itemShip: bgrShip,
-    itemPlane: bgrPlane
-});
+

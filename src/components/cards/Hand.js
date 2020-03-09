@@ -1,4 +1,4 @@
-import Card from "../global/Card";
+import Card from "./Card";
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
 

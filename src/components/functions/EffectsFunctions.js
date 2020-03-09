@@ -1,8 +1,9 @@
-import {CARD_STATE, CARD_TYPE, EFFECT} from "../../data/cards";
+import {CARD_STATE, CARD_TYPE} from "../../data/cards";
 import {addCardToDiscardDeck, addCardToHand, addCardToStore, destroyCard, drawCards} from "./CardManipulationFuntions";
+import {EFFECT} from "../../data/effects";
 
-export function processCardEffect(tCard, tPlayerState, effects, tActiveEffects, tStore) {
-    tCard.state = CARD_STATE.active;
+export function processEffects(tCard, tPlayerState, effects, tActiveEffects, tStore, tLocations) {
+    if (tCard !== null) {tCard.state = CARD_STATE.active};
     for (let effect of effects) {
         console.log("Resolving effect: " + effect);
         switch (effect) {
@@ -10,10 +11,6 @@ export function processCardEffect(tCard, tPlayerState, effects, tActiveEffects, 
                 // todo artifact
                 break;
 
-            case EFFECT.travelWalk:
-            case EFFECT.travelJeep:
-            case EFFECT.travelShip:
-            case EFFECT.travelPlane:
             case EFFECT.discard:
             case EFFECT.destroyCard:
             case EFFECT.drawFromDiscard:
@@ -22,7 +19,6 @@ export function processCardEffect(tCard, tPlayerState, effects, tActiveEffects, 
             case EFFECT.removeGuardian:
                 tActiveEffects.push(effect);
                 break;
-
             case EFFECT.destroyThisCard:
                 tCard.state = CARD_STATE.destroyed;
                 break;
@@ -83,6 +79,22 @@ export function processCardEffect(tCard, tPlayerState, effects, tActiveEffects, 
                 tPlayerState.resources.shiny += 1;
                 break;
 
+            case EFFECT.gainWalk:
+                tPlayerState.resources.walk += 1;
+                break;
+
+            case EFFECT.gainJeep:
+                tPlayerState.resources.jeep += 1;
+                break;
+
+            case EFFECT.gainShip:
+                tPlayerState.resources.ship += 1;
+                break;
+
+            case EFFECT.gainPlane:
+                tPlayerState.resources.plane += 1;
+                break;
+
             case EFFECT.loseCoin:
                 tPlayerState.resources.coins -= 1;
                 break;
@@ -121,12 +133,16 @@ export function processCardEffect(tCard, tPlayerState, effects, tActiveEffects, 
                 console.log(effects);
         }
     }
+    console.log("returning active effect:");
+    console.log(tActiveEffects);
     return {tPlayerState: tPlayerState, tActiveEffects: tActiveEffects, tStore: tStore};
 }
 
+
 export function processActiveEffect(card, cardIndex, tPlayerState, tActiveEffects) {
-    if (tActiveEffects[0] === EFFECT.travelWalk || tActiveEffects[0] === EFFECT.travelPlane || tActiveEffects[0] === EFFECT.travelShip
-        || tActiveEffects[0] === EFFECT.travelJeep || tActiveEffects[0] === EFFECT.return || tActiveEffects[0] === EFFECT.useYourLocation
+    console.log(tActiveEffects);
+    if (tActiveEffects[0] === EFFECT.gainWalk || tActiveEffects[0] === EFFECT.gainPlane || tActiveEffects[0] === EFFECT.gainShip
+        || tActiveEffects[0] === EFFECT.gainJeep || tActiveEffects[0] === EFFECT.return || tActiveEffects[0] === EFFECT.useYourLocation
         || tActiveEffects[0] === EFFECT.useEmptyLocation || tActiveEffects[0] === EFFECT.useOpponentsLocation) {
         // todo locations - probably do nothing
     } else {
@@ -134,6 +150,7 @@ export function processActiveEffect(card, cardIndex, tPlayerState, tActiveEffect
             case EFFECT.discard:
                 tPlayerState = addCardToDiscardDeck(card, tPlayerState);
                 tPlayerState.hand.splice(cardIndex, 1);
+                break;
             case EFFECT.destroyGuardian:
             case EFFECT.destroyCard:
                 tPlayerState = destroyCard(card.state, cardIndex, tPlayerState);

@@ -21,6 +21,9 @@ import jewel from "../img/symbols/J.png"
 import arrow from "../img/symbols/A.png"
 import shiny from "../img/symbols/D.png"
 import guardian from "../img/symbols/G.png"
+import artifact from "../img/symbols/artifact.png"
+import uptrade from "../img/symbols/uptrade.png"
+import item from "../img/symbols/item.png"
 
 export const Coin = (props) => <img src={coin} alt="gain a coin" className="cardEffect"/>;
 export const Explore = (props) => <img src={explore} alt="gain an explore token" className="cardEffect"/>;
@@ -39,3 +42,6 @@ export const Jewel = (props) => <img src={jewel} alt="gain a jewel" className="c
 export const Arrow = (props) => <img src={arrow} alt="exchanged for" className="cardEffect"/>;
 export const Shiny = (props) => <img src={shiny} alt="shiny" className="cardEffect"/>;
 export const Guardian = (props) => <img src={guardian} alt="guardian" className="cardEffect"/>;
+export const Artifact = (props) => <img src={artifact} alt="artifact" className="cardEffect"/>;
+export const Uptrade = (props) => <img src={uptrade} alt="uptrade" className="cardEffect"/>;
+export const Item = (props) => <img src={item} alt="item" className="cardEffect"/>;

@@ -1,13 +1,18 @@
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {Coin, Explore, Jewel, Shiny, Text, Weapon} from "../Symbols";
+import {Adventurer, Coin, Explore, Jeep, Jewel, Plane, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
 
 export default function Resources(props) {
     const playerStateContext = useContext(PlayerStateContext);
 
+    const availableAdventurers = [];
+    for (let i = 0; i < playerStateContext.playerState.availableAdventurers; i++) {
+        availableAdventurers.push(<Adventurer key={i}/>)
+    }
+
     return (
         <div className="text-center">
-            <div className="d-inline-flex flex-row">
+            <div className="d-inline-flex flex-row resources">
                 <div>
                     <Coin/>
                     {playerStateContext.playerState.resources.coins}
@@ -29,8 +34,29 @@ export default function Resources(props) {
                     {playerStateContext.playerState.resources.jewels}
                 </div>
                 <div>
-                    <Shiny />
+                    <Shiny/>
                     {playerStateContext.playerState.resources.shiny}
+                </div>
+            </div><br/>
+            <div className="d-inline-flex flex-row resources">
+                <div>
+                    <Walk />
+                    {playerStateContext.playerState.resources.walk}
+                </div>
+                <div>
+                    <Jeep />
+                    {playerStateContext.playerState.resources.jeep}
+                </div>
+                <div>
+                    <Ship />
+                    {playerStateContext.playerState.resources.ship}
+                </div>
+                <div>
+                    <Plane />
+                    {playerStateContext.playerState.resources.plane}
+                </div>
+                <div>
+                    {availableAdventurers}
                 </div>
             </div>
         </div>

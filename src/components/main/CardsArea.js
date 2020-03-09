@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import {Hand} from "../cards/Hand";
 import {PlayerStateContext} from "../../Contexts";
-import {DrawDeck} from "../global/DrawDeck";
-import {DiscardDeck} from "../global/DiscardDeck";
-import Card from "../global/Card";
+import {DrawDeck} from "../cards/DrawDeck";
+import {DiscardDeck} from "../cards/DiscardDeck";
+import Card from "../cards/Card";
 
 export default function CardsArea(props) {
     const playerStateContext = useContext(PlayerStateContext);

@@ -1,7 +1,9 @@
-import {shuffleArray} from "../cards/CardManipulationFuntions";
+import {shuffleArray} from "./CardManipulationFuntions";
 import {CARD_STATE, CARD_TYPE, CARDS} from "../../data/cards";
 import {GLOBAL_VARS} from "../../App";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations";
 
+/* INITIAL PLAYER STATE */
 export function getInitialPlayerState() {
     let playerState = {
         resources: {
@@ -10,8 +12,13 @@ export function getInitialPlayerState() {
             texts: 0,
             weapons: 0,
             jewels: 0,
-            shiny: 0
+            shiny: 0,
+            walk: 0,
+            jeep: 0,
+            ship: 0,
+            plane: 0
         },
+        availableAdventurers: GLOBAL_VARS.adventurers,
         hand: [],
         activeCard: false,
         drawDeck: [],
@@ -32,6 +39,7 @@ export function getInitialPlayerState() {
     return playerState;
 }
 
+/* INITIAL STORE */
 export function getInitialStoreItems() {
     /* all items, each item is represented only once! */
     let items = shuffleArray(Object.keys(CARDS).map(key => {
@@ -44,7 +52,18 @@ export function getInitialStoreItems() {
         card.state = CARD_STATE.inStore;
     }
     return {itemsStore: itemsSetup.drawCards, itemsDeck: itemsSetup.deck}
+}
 
+/* INITIAL LOCATIONS */
+export function getInitialLocations() {
+    let locations = LOCATIONS;
+    for (let i = 0; i < locations.length; i++) {
+        let location = locations[i];
+        location.state = (location.level === LOCATION_LEVEL["1"]) ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
+        location.index = i;
+    }
+    console.log(locations);
+    return locations;
 }
 
 function drawCards(deck, cardsToDraw) {
@@ -58,6 +77,5 @@ function drawCards(deck, cardsToDraw) {
 }
 
 function getRandomNumber(size) {
-    const rNum = Math.floor(Math.random() * (size)) + 1;
-    return rNum;
+    return Math.floor(Math.random() * (size)) + 1;
 }
