@@ -13,27 +13,27 @@ export default function Resources(props) {
     return (
         <div className="text-center">
             <div className="d-inline-flex flex-row resources">
-                <div>
+                <div onClick={() => props.handleClickOnResource(RESOURCES.COINS)}>
                     <Coin/>
                     {playerStateContext.playerState.resources.coins}
                 </div>
-                <div>
+                <div onClick={() => props.handleClickOnResource(RESOURCES.EXPLORE)}>
                     <Explore/>
                     {playerStateContext.playerState.resources.explore}
                 </div>
-                <div>
+                <div onClick={() => props.handleClickOnResource(RESOURCES.TEXTS)}>
                     <Text/>
                     {playerStateContext.playerState.resources.texts}
                 </div>
-                <div>
+                <div onClick={() => props.handleClickOnResource(RESOURCES.WEAPONS)}>
                     <Weapon/>
                     {playerStateContext.playerState.resources.weapons}
                 </div>
-                <div>
+                <div onClick={() => props.handleClickOnResource(RESOURCES.JEWELS)}>
                     <Jewel/>
                     {playerStateContext.playerState.resources.jewels}
                 </div>
-                <div>
+                <div onClick={() => props.handleClickOnResource(RESOURCES.SHINIES)}>
                     <Shiny/>
                     {playerStateContext.playerState.resources.shiny}
                 </div>
@@ -62,3 +62,12 @@ export default function Resources(props) {
         </div>
     )
 }
+
+export const RESOURCES = Object.freeze({
+    COINS: "coins",
+    EXPLORE: "explore",
+    TEXTS: "texts",
+    WEAPONS: "weapons",
+    JEWELS: "jewels",
+    SHINIES: "shinys",
+});

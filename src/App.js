@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {CARD_STATE, CARD_TYPE, ITEMS} from "./data/cards";
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
-import Resources from "./components/resources/Resources";
+import Resources, {RESOURCES} from "./components/resources/Resources";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
 import {
@@ -24,6 +24,7 @@ import {LOCATION_STATE, TRANSPORT_TYPE} from "./data/locations";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {payForTravelIfPossible} from "./components/locations/checkTravelCostAndPayForTravel";
+import {EFFECT} from "./data/effects";
 
 function App() {
     const [playerState, setPlayerState] = useState(getInitialPlayerState);
@@ -167,6 +168,38 @@ function App() {
         setLocations(tLocations);
     }
 
+    /** HANDLE CLICK ON RESOURCE **/
+    function handleClickOnResource(resource) {
+        if (activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
+            const tPlayerState = {...playerState};
+            let resources = tPlayerState.resources;
+            const tActiveEffects = [...activeEffects];
+            switch (resource) {
+                case RESOURCES.texts:
+                    resources.texts -= 1;
+                    resources.weapons += 1;
+                    break;
+                case RESOURCES.weapons:
+                    resources.weapons -= 1;
+                    resources.jewels += 1;
+                    break;
+                case RESOURCES.JEWELS:
+                    resources.jewels -= 1;
+                    resources.shiny += 1;
+                    break;
+                case RESOURCES.SHINIES:
+                    resources.shiny -= 1;
+                    resources.texts += 3;
+                    break;
+                default:
+                    console.log("Unknown resource in handleClickOnResource: " + resource);
+            }
+            tActiveEffects.splice(0, 1);
+            setPlayerState(tPlayerState);
+            setActiveEffects(tActiveEffects);
+        }
+    }
+
     /** BUY A CARD **/
     function handleCardBuy(card, cardIndex) {
         console.log("Buying card: " + card.cardName);
@@ -263,7 +296,7 @@ function App() {
                     cancelEffect: cancelEffect,
                     handleEndRound: handleEndRound,
                 }}>
-                    <Resources/>
+                    <Resources handleClickOnResource={handleClickOnResource}/>
                     <Store/>
                     <LocationsArea/>
                     <CardsArea/>
