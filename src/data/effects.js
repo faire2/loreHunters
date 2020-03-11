@@ -27,7 +27,7 @@ export const EFFECT = Object.freeze({
     gainCoinForGuardians: "gain a coin for each destroyed Guardian (max. 4)",
     gainCoinsIfLast: "if this was last card, gain 2 coins",
     gainExplore: "gain an explore",
-    gainExploreForShinys: "gain an explore for each shiny (max. 4)",
+    gainExploreForShinys: "gain an explore for each shinies (max. 4)",
     gainExploreForGuardians: "gain an explore for each guardian in you play area",
     gainFear: "gain a fear card",
     gainItem: "gain an item", // todo implement
@@ -37,7 +37,7 @@ export const EFFECT = Object.freeze({
     gainOrDecipherWithJewel: "gain or decipher a legend with a discount of jewel", // todo legend implement
     gainOrDecipherWithTextsOrWeapon: "gain or decipher a legend with a discount of 2 texts or 1 weapon", // todo legend implement
     gainPlane: "travel with an airplane",
-    gainShiny: "gain a shiny",
+    gainShiny: "gain a shinies",
     gainShip: "travel with a ship",
     gainText: "gain a text",
     gainWalk: "travel on foot",
@@ -48,7 +48,7 @@ export const EFFECT = Object.freeze({
     loseText: "lose a text",
     loseWeapon: "lose a weapon",
     loseJewel: "lose a jewel",
-    moveAdvToEmptyLocation: "move deployed adventurer to an empty tLocation",
+    moveAdvToEmptyLocation: "move deployed adventurer to a different empty tLocation",
     moveToAdjacentLocation: "move deployed adventurer to an adjacent tLocation", // todo implement
     progress: "progress in a legend",
     refreshAdventurer: "refresh an adventurer", // todo legend implement

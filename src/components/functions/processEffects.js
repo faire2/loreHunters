@@ -4,6 +4,7 @@ import {EFFECT} from "../../data/effects";
 import {LOCATION_STATE} from "../../data/locations";
 
 export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveEffects, tStore, location, tLocations) {
+    console.log("Processing effects");
     console.log(effects);
     if (tCard !== null) {
         tCard.state = CARD_STATE.active
@@ -21,10 +22,13 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
             case EFFECT.destroyGuardian:
             case EFFECT.drawFromDiscard:
             case EFFECT.gainItemToHand:
+            case EFFECT.payTouseOccupiedLocation:
+            /*case EFFECT.refreshAdventurer:
+            case EFFECT.refreshAllAdventurers:*/
+            case EFFECT.removeGuardian:
+            case EFFECT.uptrade:
             case EFFECT.useItemOnMarket:
             case EFFECT.useArtifactOnMarket:
-            case EFFECT.payTouseOccupiedLocation:
-            case EFFECT.removeGuardian:
                 tActiveEffects.push(effect);
                 break;
 
@@ -54,8 +58,10 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
                 break;
 
             case EFFECT.drawFromDrawDeck:
+                console.log("here");
                 tActiveEffects.push(effect);
                 /* hand is stored in activeEffects to be retrieved later */
+                tPlayerState.hand.splice(cardIndex, 1);
                 tActiveEffects.splice(1, 0, tPlayerState.hand);
                 tPlayerState.hand = tPlayerState.drawDeck;
                 break;
@@ -63,9 +69,13 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
             case EFFECT.draw2ForGuardian:
                 let isGuardian = false;
                 for (const card of tPlayerState.hand) {
-                    if (card.type === CARD_TYPE.guardian) { isGuardian = true }
+                    if (card.type === CARD_TYPE.guardian) {
+                        isGuardian = true
+                    }
                 }
-                if (isGuardian) {drawCards(2, tPlayerState)}
+                if (isGuardian) {
+                    drawCards(2, tPlayerState)
+                }
                 break;
 
             case EFFECT.gainAdventurerForThisRound:
@@ -101,7 +111,7 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
                 break;
 
             case EFFECT.gainExploreForShinys:
-                tPlayerState.resources.coins += tPlayerState.resources.shiny;
+                tPlayerState.resources.coins += tPlayerState.resources.shinies;
                 break;
 
             case EFFECT.gainFear:
@@ -121,7 +131,7 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
                 break;
 
             case EFFECT.gainShiny:
-                tPlayerState.resources.shiny += 1;
+                tPlayerState.resources.shinies += 1;
                 break;
 
             case EFFECT.gainShip:

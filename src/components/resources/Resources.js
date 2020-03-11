@@ -35,7 +35,7 @@ export default function Resources(props) {
                 </div>
                 <div onClick={() => props.handleClickOnResource(RESOURCES.SHINIES)}>
                     <Shiny/>
-                    {playerStateContext.playerState.resources.shiny}
+                    {playerStateContext.playerState.resources.shinies}
                 </div>
             </div><br/>
             <div className="d-inline-flex flex-row resources">
@@ -69,5 +69,5 @@ export const RESOURCES = Object.freeze({
     TEXTS: "texts",
     WEAPONS: "weapons",
     JEWELS: "jewels",
-    SHINIES: "shinys",
+    SHINIES: "shinies",
 });

@@ -7,12 +7,12 @@ import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations";
 export function getInitialPlayerState() {
     let playerState = {
         resources: {
-            coins: 2,
+            coins: 20,
             explore: 5,
-            texts: 0,
+            texts: 5,
             weapons: 0,
             jewels: 0,
-            shiny: 0,
+            shinies: 0,
             walk: 0,
             jeep: 0,
             ship: 0,
@@ -28,14 +28,22 @@ export function getInitialPlayerState() {
     };
 
     const initialCards = shuffleArray(GLOBAL_VARS.initialCards);
-
     const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
-    for (let card of cardsSetup.drawCards) {
-        card.state = CARD_STATE.inHand;
+    const hand = [];
+    const drawDeck = [];
+
+    for (let card of cardsSetup.deck) {
+        card.state = CARD_STATE.drawDeck;
+        drawDeck.push(card);
     }
 
-    playerState.hand = cardsSetup.drawCards;
-    playerState.drawDeck = cardsSetup.deck;
+    for (let card of cardsSetup.drawCards) {
+        card.state = CARD_STATE.inHand;
+        hand.push(card);
+    }
+
+    playerState.hand = hand;
+    playerState.drawDeck = drawDeck;
     return playerState;
 }
 

@@ -35,13 +35,17 @@ export function drawCards(cardsNum, tPlayerState) {
 }
 
 export function addDiscardToDrawDeck(tPlayerState) {
+    console.log("RESHUFFLING...");
     tPlayerState.discardDeck = shuffleArray(tPlayerState.discardDeck);
-    tPlayerState.drawDeck = [...tPlayerState.discardDeck];
+    const tDrawDeck = [...tPlayerState.discardDeck];
 
-    for (let card of tPlayerState.drawDeck) {
-        card.state = CARD_STATE.drawDeck;
+    for (let i = 0; i < tDrawDeck.length; i++) {
+        let tCard = {...tDrawDeck[i]};
+        tCard.state = CARD_STATE.drawDeck;
+        tDrawDeck.splice(i, 1, tCard);
     }
     tPlayerState.discardDeck = [];
+    tPlayerState.drawDeck = tDrawDeck;
     return tPlayerState;
 }
 
@@ -65,6 +69,7 @@ export function addCardToStore(cardType, store) {
 export function destroyCard(cardState, cardIndex, tPlayerState) {
     switch (cardState) {
         case CARD_STATE.inHand:
+            console.log("card index: " + cardIndex);
             tPlayerState.hand.splice(cardIndex, 1);
             break;
         case CARD_STATE.active:

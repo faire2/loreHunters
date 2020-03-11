@@ -81,6 +81,8 @@ function App() {
             }
 
             if (tActiveEffects.length > 0) {
+                console.log("Setting active effects:");
+                console.log(tActiveEffects);
                 setActiveEffects(tActiveEffects)
             }
             setPlayerState(tPlayerState);
@@ -170,26 +172,28 @@ function App() {
 
     /** HANDLE CLICK ON RESOURCE **/
     function handleClickOnResource(resource) {
+        console.log("Handling click on resources with resource: " + resource);
         if (activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
-            console.log("HANDLING CLICK ON RESOURCES");
             const tPlayerState = {...playerState};
             let resources = tPlayerState.resources;
             const tActiveEffects = [...activeEffects];
+            /* todo fix should work with RESOURCES..., but doesn't */
             switch (resource) {
-                case RESOURCES.texts:
+                case "texts":
                     resources.texts -= 1;
                     resources.weapons += 1;
                     break;
-                case RESOURCES.weapons:
+                case "weapons":
                     resources.weapons -= 1;
                     resources.jewels += 1;
                     break;
-                case RESOURCES.JEWELS:
+                case "jewels":
                     resources.jewels -= 1;
-                    resources.shiny += 1;
+                    resources.shinies += 1;
                     break;
-                case RESOURCES.SHINIES:
-                    resources.shiny -= 1;
+                case "shinies":
+                    console.log("HERE");
+                    resources.shinies -= 1;
                     resources.texts += 3;
                     break;
                 default:
@@ -197,7 +201,7 @@ function App() {
             }
             tActiveEffects.splice(0, 1);
             setPlayerState(tPlayerState);
-            /*setActiveEffects(tActiveEffects);*/
+            setActiveEffects(tActiveEffects);
         }
     }
 

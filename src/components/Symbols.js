@@ -41,7 +41,7 @@ export const Text = (props) => <img src={text} alt="gain a text" className="card
 export const Weapon = (props) => <img src={weapon} alt="gain a weapon" className="cardEffect"/>;
 export const Jewel = (props) => <img src={jewel} alt="gain a jewel" className="cardEffect"/>;
 export const Arrow = (props) => <img src={arrow} alt="exchanged for" className="cardEffect"/>;
-export const Shiny = (props) => <img src={shiny} alt="shiny" className="cardEffect"/>;
+export const Shiny = (props) => <img src={shiny} alt="shinies" className="cardEffect"/>;
 export const Guardian = (props) => <img src={guardian} alt="guardian" className="cardEffect"/>;
 export const Artifact = (props) => <img src={artifact} alt="artifact" className="cardEffect"/>;
 export const Uptrade = (props) => <img src={uptrade} alt="uptrade" className="cardEffect"/>;

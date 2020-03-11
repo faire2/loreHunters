@@ -10,6 +10,7 @@ import {CARD_STATE, CARD_TYPE} from "../../data/cards";
 import {LOCATION_STATE} from "../../data/locations";
 import {processEffects} from "./processEffects";
 import {payForTravelIfPossible} from "../locations/checkTravelCostAndPayForTravel";
+import {processCardBuy} from "./processCardBuy";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, tActiveEffects, tStore, tLocations) {
     console.log(tActiveEffects);
@@ -20,38 +21,49 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         console.log("Resolving active effect: " + tActiveEffects[0]);
         switch (tActiveEffects[0]) {
 
+            /* When active effect deals with card in store */
+            case EFFECT.buyItemWithDiscount3:
+            case EFFECT.gainItem:
+            case EFFECT.gainItemToHand:
+            case EFFECT.gainArtifact:
+            case EFFECT.gainArtifactForExplore:
+            case EFFECT.revealItemBuyWithDiscount:
+                const buyResults = processCardBuy(tCard, cardIndex, tPlayerState, tActiveEffects, tStore, tLocations);
+                tPlayerState = buyResults.tPlayerState;
+                tStore = buyResults.tStore;
+                tActiveEffects = buyResults.tActiveEffects;
+                break;
+
             case EFFECT.discard:
                 if (tCard.state === CARD_STATE.inHand) {
                     tPlayerState = addCardToDiscardDeck(tCard, tPlayerState);
                     tPlayerState.hand.splice(cardIndex, 1);
+                    tActiveEffects.splice(0, 1);
                 }
                 break;
 
             case EFFECT.discardFor2Cards:
+                console.log("HERE");
                 if (tCard.state === CARD_STATE.inHand) {
+                    console.log("HERE2");
                     tPlayerState = addCardToDiscardDeck(tCard, tPlayerState);
                     tPlayerState.hand.splice(cardIndex, 1);
                     drawCards(2, tPlayerState);
+                    tActiveEffects.splice(0, 1);
                 }
                 break;
 
-                case EFFECT.discardFor2Jewels:
+            case EFFECT.discardFor2Jewels:
                 if (tCard.state === CARD_STATE.inHand) {
                     tPlayerState = addCardToDiscardDeck(tCard, tPlayerState);
                     tPlayerState.hand.splice(cardIndex, 1);
                     tPlayerState.resources.jewels += 2;
+                    tActiveEffects.splice(0, 1);
                 }
                 break;
 
             case EFFECT.defeatGuardian:
                 if (tCard.type === CARD_TYPE.guardian) {
-                    tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
-                    //todo guardian: defeat effect should be implemented here
-                }
-                break;
-
-            case EFFECT.destroyGuardian:
-                if (tCard !== null && tCard.type === CARD_TYPE.guardian) {
                     tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
                     //todo guardian: defeat effect should be implemented here
                 }
@@ -64,6 +76,13 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tActiveEffects.splice(0, 1);
                 break;
 
+            case EFFECT.destroyGuardian:
+                if (tCard !== null && tCard.type === CARD_TYPE.guardian) {
+                    tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                    //todo guardian: defeat effect should be implemented here
+                }
+                break;
+
             case EFFECT.drawFromDiscard:
                 tPlayerState = addCardToHand(tCard, tPlayerState);
                 tPlayerState.discardDeck.splice(cardIndex, 1);
@@ -71,13 +90,40 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 break;
 
             case EFFECT.drawFromDrawDeck:
-                if (tCard.state === CARD_STATE.inHand) {
+                console.log("Card state: " + tCard.state);
+                if (tCard.state === CARD_STATE.drawDeck) {
+                    console.log("HERE");
                     /* we have the actual hand stored in active effects */
                     tPlayerState.hand = tActiveEffects[1];
                     tPlayerState.drawDeck = shuffleArray(tPlayerState.drawDeck);
+                    tCard.state = CARD_STATE.inHand;
                     tPlayerState.hand.push(tCard);
                     tActiveEffects.splice(0, 2);
-                    tPlayerState.drawDeck = tPlayerState.drawDeck.filter(card => card.name !== tCard.name);
+                    for (let i = 0; i < tPlayerState.drawDeck.length; i++) {
+                        if (tPlayerState.drawDeck[i].cardName === tCard.cardName) {
+                            tPlayerState.drawDeck.splice(i, 1);
+                        }
+                    }
+                    tPlayerState.drawDeck = tPlayerState.drawDeck;
+                }
+                break;
+
+            /* checks if the clicked location is not the same as the location from which the adv. was removed earlier */
+            case EFFECT.moveAdvToEmptyLocation:
+                if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.index !== tActiveEffects[1].index) {
+                    const travelCheckResults = payForTravelIfPossible(tPlayerState, tLocation);
+                    if (travelCheckResults.enoughResources) {
+                        tPlayerState = travelCheckResults.tPlayerState;
+                        tPlayerState.availableAdventurers -= 1;
+                        tLocation.state = LOCATION_STATE.occupied;
+                        /* we have to remove original location from the activeAffects array */
+                        tActiveEffects.splice(0, 2);
+                        const effectsResult = processEffects(null, cardIndex, tPlayerState, tLocation.effects, tActiveEffects, tStore, tLocations)
+                        tPlayerState = effectsResult.tPlayerState;
+                        tLocations = effectsResult.tLocations;
+                        tActiveEffects = effectsResult.tActiveEffects;
+                        tStore = effectsResult.tStore;
+                    }
                 }
                 break;
 
@@ -93,37 +139,21 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 }
                 break;
 
-            /* checks if the clicked location is not the same as the location from which the adv. was removed earlier */
-            case EFFECT.moveAdvToEmptyLocation:
-                if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.index !== tActiveEffects[1].index) {
-                    const travelCheckResults = payForTravelIfPossible(tPlayerState, tLocation);
-                    if (travelCheckResults.enoughResources) {
-                        tPlayerState = travelCheckResults.tPlayerState;
-                        tPlayerState.availableAdventurers -= 1;
-                        tLocation.state = LOCATION_STATE.occupied;
-                        /* we have to remove original location from the activeAffects array */
-                        tActiveEffects.splice(0, 2);
-                        const effectsResult = processEffects(null, tPlayerState, tLocation.effects, tActiveEffects, tStore, tLocations)
-                        tPlayerState = effectsResult.tPlayerState;
-                        tLocations = effectsResult.tLocations;
-                        tActiveEffects = effectsResult.tActiveEffects;
-                        tStore = effectsResult.tStore;
-                    }
-                }
-                break;
             case EFFECT.useItemOnMarket:
-                console.log("here");
+                console.log("HERE");
                 if (tCard.type === CARD_TYPE.item && tCard.state === CARD_STATE.inStore) {
-                    const effectsResult = processEffects(tCard, tPlayerState, tCard.effects, null, null, null);
+                    console.log("HERE2");
+                    const effectsResult = processEffects(tCard, cardIndex, tPlayerState, tCard.effects, null, null, null);
                     tPlayerState = effectsResult.tPlayerState;
                     tActiveEffects.splice(0, 1);
-                    /* when the effect is processed, the card is marked as active, which is wrong*/
+                    /* when the effect was processed, the card state was changed to active, which is wrong*/
                     tCard.state = CARD_STATE.inStore;
                 }
                 break;
+
             case EFFECT.useArtifactOnMarket:
                 if (tCard.type === CARD_TYPE.artifact && tCard.state === CARD_STATE.inStore) {
-                    const effectsResult = processEffects(tCard, tPlayerState, tCard.effects, null, null, null);
+                    const effectsResult = processEffects(tCard, cardIndex, tPlayerState, tCard.effects, tActiveEffects, null, null);
                     tPlayerState = effectsResult.tPlayerState;
                     tActiveEffects.splice(0, 1);
                     /* when the effect is processed, the card is marked as active, which is wrong*/
@@ -135,7 +165,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 console.log("TLOCATION:");
                 console.log(tLocation);
                 if (tLocation.state === LOCATION_STATE.occupied && tPlayerState.resources.coins > 0) {
-                    const effectsResult = processEffects(null, tPlayerState, tLocation.effects, tActiveEffects,
+                    const effectsResult = processEffects(null, cardIndex, tPlayerState, tLocation.effects, tActiveEffects,
                         tStore, tLocation, tLocations);
                     tPlayerState = effectsResult.tPlayerState;
                     tActiveEffects = effectsResult.tActiveEffects;

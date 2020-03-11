@@ -33,11 +33,11 @@ export default function Card(props) {
 
     function handleClickOnCard() {
         const activeEffects = boardStateContext.activeEffects;
-        if (card.state === CARD_STATE.inStore) {
+        if (activeEffects.length > 0) {
+            boardStateContext.handleActiveEffectClickOnCard(card, props.index);
+        } else if (card.state === CARD_STATE.inStore) {
             console.log("Click on buy");
             boardStateContext.handleCardBuy(card, props.index);
-        } else if (activeEffects.length > 0) {
-            boardStateContext.handleActiveEffectClickOnCard(card, props.index);
         }
     }
 

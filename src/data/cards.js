@@ -628,7 +628,7 @@ export const ARTIFACTS = Object.freeze({
         type: CARD_TYPE.artifact,
         itemTransport: CARD_TRANSPORT.artifact,
         effectsText:
-            <div className="effectsText">Pick a card from your draw deck.</div>,
+            <div className="effectsText">Defeat a guardian in your play area or discard pile.</div>, // todo replace with guardian icon
         effects: [EFFECT.defeatGuardian],
         cost: 4,
         points: 1
