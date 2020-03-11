@@ -8,11 +8,11 @@ export function getInitialPlayerState() {
     let playerState = {
         resources: {
             coins: 20,
-            explore: 5,
-            texts: 5,
+            explore: 20,
+            texts: 0,
             weapons: 0,
             jewels: 0,
-            shinies: 0,
+            shinies: 20,
             walk: 0,
             jeep: 0,
             ship: 0,
@@ -31,6 +31,7 @@ export function getInitialPlayerState() {
     const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
     const hand = [];
     const drawDeck = [];
+    cardsSetup.drawCards.push(ITEMS.whip);
 
     for (let card of cardsSetup.deck) {
         card.state = CARD_STATE.drawDeck;

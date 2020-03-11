@@ -106,7 +106,7 @@ export const LOCATIONS =
                 exploreText: <div className="effectsText"><Explore /><Explore /><Coin /><Coin /></div>,
                 exploreCost: {explore: 2, coins: 3},
                 effectsText: <div className="effectsText"><Artifact /> - <Explore /><Explore /><Explore /></div>,
-                effects: [EFFECT.gainArtifactForExplore],
+                effects: [EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.gainArtifact],
                 useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
             },
             {
@@ -196,7 +196,7 @@ export const LOCATIONS =
                 exploreText: <div className="effectsText"><Explore /><Explore /><Explore /><Explore /></div>,
                 exploreCost: {explore: 4, coins: 0},
                 effectsText: <div className="effectsText"><Discard />:<Jewel /><Text /></div>,
-                effects: [EFFECT.discardForJewelText],
+                effects: [EFFECT.discard, EFFECT.gainJewel, EFFECT.gainText],
                 useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
             },
             {
@@ -223,7 +223,7 @@ export const LOCATIONS =
                 exploreText: <div className="effectsText"><Explore /><Explore /><Explore /><Explore /></div>,
                 exploreCost: {explore: 4, coins: 0},
                 effectsText: <div className="effectsText"><Discard />:<Weapon /><Weapon /></div>,
-                effects: [EFFECT.discardFor2Weapons],
+                effects: [EFFECT.discard, EFFECT.gainWeapon, EFFECT.gainWeapon],
                 useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
             },
             {
@@ -277,7 +277,7 @@ export const LOCATIONS =
                 exploreText: <div className="effectsText"><Explore /><Explore /><Explore /><Explore /><Explore /></div>,
                 exploreCost: {explore: 5, coins: 0},
                 effectsText: <div className="effectsText"><Discard />:<Weapon /><Weapon /><Weapon /></div>,
-                effects: [EFFECT.discardFor3Weapons],
+                effects: [EFFECT.discard, EFFECT.gainWeapon, EFFECT.gainWeapon, EFFECT.gainWeapon],
                 useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
             },
             {

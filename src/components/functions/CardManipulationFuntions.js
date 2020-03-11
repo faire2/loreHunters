@@ -67,9 +67,10 @@ export function addCardToStore(cardType, store) {
 }
 
 export function destroyCard(cardState, cardIndex, tPlayerState) {
+    console.log("HERE");
+    console.log(cardState);
     switch (cardState) {
         case CARD_STATE.inHand:
-            console.log("card index: " + cardIndex);
             tPlayerState.hand.splice(cardIndex, 1);
             break;
         case CARD_STATE.active:

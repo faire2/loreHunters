@@ -109,9 +109,9 @@ export const ITEMS = Object.freeze({
         cardName: "Camel",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.jeep,
-        effectsText: <div className="effectsText"><Draw1Card/> and <Coin/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainCoin],
-        cost: 2,
+        effectsText: <div className="effectsText"><Draw1Card/> and <Coin/><Coin /></div>,
+        effects: [EFFECT.draw1, EFFECT.gainCoin, EFFECT.gainCoin],
+        cost: 3,
         points: 1
     },
     packDonkey: {
@@ -127,8 +127,8 @@ export const ITEMS = Object.freeze({
         cardName: "Horse",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.jeep,
-        effectsText: <div className="effectsText"><Draw1Card/> and return <Adventurer/> back home. </div>,
-        effects: [EFFECT.draw1, EFFECT.return],
+        effectsText: <div className="effectsText"><Draw1Card/> and <Explore /><Explore /> </div>,
+        effects: [EFFECT.draw1, EFFECT.gainExplore, EFFECT.gainExplore],
         cost: 4,
         points: 1
     },
@@ -136,9 +136,9 @@ export const ITEMS = Object.freeze({
         cardName: "Dog",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.jeep,
-        effectsText: <div className="effectsText"><Draw1Card/> and <Explore/>. </div>,
-        effects: [EFFECT.draw1, EFFECT.gainExplore],
-        cost: 2,
+        effectsText: <div className="effectsText"><Draw2Cards/> and <Discard />. </div>,
+        effects: [EFFECT.draw2, EFFECT.discard],
+        cost: 1,
         points: 1
     },
     canoe: {
@@ -176,8 +176,8 @@ export const ITEMS = Object.freeze({
         cardName: "Hot Air Baloon",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.empty,
-        effectsText: <div className="effectsText"><Plane/> <Explore/></div>,
-        effects: [EFFECT.gainPlane, EFFECT.gainExplore],
+        effectsText: <div className="effectsText"><Plane/> <Explore/> <Explore /></div>,
+        effects: [EFFECT.gainPlane, EFFECT.gainExplore, EFFECT.gainExplore],
         cost: 2,
         points: 1
     },
@@ -185,13 +185,13 @@ export const ITEMS = Object.freeze({
         cardName: "Airplane",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.plane,
-        effectsText: <div className="effectsText"><Plane/> <Explore/></div>,
-        effects: [EFFECT.gainPlane, EFFECT.gainExplore],
+        effectsText: <div className="effectsText"><Explore/> <Explore /> <Explore/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainExplore],
         cost: 5,
         points: 2
     },
-    jewel: {
-        cardName: "Jewel",
+    goldPan: {
+        cardName: "Gold Pan",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.ship,
         effectsText: <div className="effectsText"><Coin/> <Coin/></div>,
@@ -212,7 +212,7 @@ export const ITEMS = Object.freeze({
         cardName: "Trowel",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.jeep,
-        effectsText: <div className="effectsText">1x: <Explore/> <Arrow/> <Jewel/></div>,
+        effectsText: <div className="effectsText"><Explore/> <Arrow/> <Jewel/></div>,
         effects: [EFFECT.loseExplore, EFFECT.gainJewel],
         cost: 1,
         points: 1
@@ -240,39 +240,39 @@ export const ITEMS = Object.freeze({
     /*hammock: {
         cardName: "Hammock",
         type: CARD_TYPE.item,
-        itemTransport: itemTransportS.itemShip,
-        effectsText: <div className="effectsText"><Draw1Card/></div>,
-        effects2Text: /!* (H) *!/"",
-        cost: 2,
+        itemTransport: CARD_TRANSPORT.itemShip,
+        effectsText: <div className="effectsText">Refresh <Adventurer /> and <Uptrade /></div>,
+        effects2Text: [EFFECT.refreshAdventurer, EFFECT.uptrade],
+        cost: 1,
         points: 1
     },*/
-    coffee: {
+    /*coffee: {
         cardName: "Coffee",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.ship,
-        effectsText: <div className="effectsText">Return <Adventurer/> back home.</div>,
-        effects: [EFFECT.return],
+        effectsText: <div className="effectsText"><Draw2Cards /><Discard /> and refresh all you <Adventurer /></div>,
+        effects: [EFFECT.draw2, EFFECT.discard, EFFECT.refreshAllAdventurers],
         cost: 2,
         points: 1
-    },
-    banjo: {
+    },*/
+    /*banjo: {
         cardName: "Banjo",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.ship,
-        effectsText: <div className="effectsText">Gain 1 <Coin/> for each Legend you started.</div>,
+        effectsText: <div className="effectsText">Gain 1 <Coin/> for each Legend you claimed.</div>,
         effects: [EFFECT.gainCoinForLegends],
-        cost: 1,
+        cost: 2,
         points: 1
-    },
-    beerMug: {
+    },*/
+    /*beerMug: {
         cardName: "Beer Mug",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.jeep,
         effectsText: <div className="effectsText">Gain 1 <Coin/> for each <Guardian/> you defeated (max 4).</div>,
         effects: [EFFECT.return],
         cost: 2,
-        points: 2
-    },
+        points: 1
+    },*/
     journal: {
         cardName: "Journal",
         type: CARD_TYPE.item,
@@ -288,8 +288,8 @@ export const ITEMS = Object.freeze({
         itemTransport: CARD_TRANSPORT.ship,
         effectsText: <div className="effectsText"><Discard/> <Arrow/> <Coin/> <Coin/> <Coin/>.</div>,
         effects: [EFFECT.discard, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
-        cost: 2,
-        points: 2
+        cost: 1,
+        points: 0
     },
     parrot: {
         cardName: "Parrot",
@@ -298,16 +298,16 @@ export const ITEMS = Object.freeze({
         effectsText: <div className="effectsText"><Discard/> <Arrow/> <Jewel/>.</div>,
         effects: [EFFECT.discard, EFFECT.gainJewel],
         cost: 2,
-        points: 2
+        points: 1
     },
     boots: {
         cardName: "Boots",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.walk,
-        effectsText: <div className="effectsText"> First pay to progress in a legend, then <Explore/> <Explore/></div>,
-        effects: [EFFECT.progress, EFFECT.gainExplore, EFFECT.gainExplore],
-        cost: 1,
-        points: 2
+        effectsText: <div className="effectsText"> <Draw1Card /> <Explore /> <Walk /></div>,
+        effects: [EFFECT.draw1, EFFECT.gainExplore, EFFECT.gainWalk],
+        cost: 3,
+        points: 1
     },
     pocketWatch: {
         cardName: "Pocket Watch",
@@ -317,15 +317,15 @@ export const ITEMS = Object.freeze({
             <Coin/></div>,
         effects: [EFFECT.gainCoin, EFFECT.gainCoinsIfLast],
         cost: 3,
-        points: 2
+        points: 1
     },
     grapplingHook: {
         cardName: "Grappling Hook",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.ship,
-        effectsText: <div className="effectsText"> You may use the effect of an empty location. </div>,
-        effects: [EFFECT.useEmptyLocation],
-        cost: 4,
+        effectsText: <div className="effectsText"> Exhaust your <Adventurer /> and use the effect of an adjacent empty (II) location. </div>,
+        effects: [EFFECT.useAdjacentEmptyLocation],
+        cost: 2,
         points: 1
     },
     camouflagePaint: {
@@ -353,8 +353,8 @@ export const ITEMS = Object.freeze({
         itemTransport: CARD_TRANSPORT.ship,
         effectsText: <div className="effectsText"> Reveal the top card of the Item deck.<br/>You may buy any Item with
             discount of <Coin/> <Coin/></div>,
-        effects: [EFFECT.revealItemBuyWithDiscount],
-        cost: 4,
+        effects: [EFFECT.revealItemBuyWithDiscount2],
+        cost: 2,
         points: 1
     },
     compass: {
@@ -364,21 +364,21 @@ export const ITEMS = Object.freeze({
         effectsText:
             <div className="effectsText"> Reveal the top card of the Artifact deck. <br/>You may buy any Artifact with
                 discount of <Explore/> <Explore/></div>,
-        effects: [EFFECT.buyArtifact],
+        effects: [EFFECT.revealArtifactBuyWithDiscount2],
         cost: 2,
         points: 1
     },
-    flintPistol: {
+    /*flintPistol: {
         cardName: "Flint Pistol",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.jeep,
         effectsText:
             <div className="effectsText"> Defeat <Guardian/> in your play area or discard pile.</div>,
-        effects: [EFFECT.destroyGuardian],
+        effects: [EFFECT.defeatGuardian],
         cost: 4,
         points: 1
-    },
-    bowAndArrows: {
+    },*/
+    /*bowAndArrows: {
         cardName: "Bow and Arrows",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.jeep,
@@ -386,9 +386,9 @@ export const ITEMS = Object.freeze({
             <div className="effectsText"><Explore/> plus <Explore/> for each <Guardian/> in your Play Area and Discard
                 Pile.</div>,
         effects: [EFFECT.gainExplore, EFFECT.gainExploreForGuardians],
-        cost: 4,
-        points: 1
-    },
+        cost: 2,
+        points: 2
+    },*/
     messengerPidgeon: {
         cardName: "Messenger Pidgeon",
         type: CARD_TYPE.item,
@@ -405,9 +405,9 @@ export const ITEMS = Object.freeze({
         itemTransport: CARD_TRANSPORT.jeep,
         effectsText:
             <div className="effectsText">Gain an Artifact then destroy this card.</div>,
-        effects: [EFFECT.gainArtifact, EFFECT.destroyThisCard],
+        effects: [EFFECT.destroyThisCard, EFFECT.gainArtifact],
         cost: 2,
-        points: 2
+        points: 1
     },
     bookOfMyths: {
         cardName: "Book of Myths",

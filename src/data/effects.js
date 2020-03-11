@@ -1,5 +1,5 @@
 export const EFFECT = Object.freeze({
-    buyArtifact: "buy and artifact with a discount",
+    revealArtifactBuyWithDiscount2: "buy and artifact with a discount",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
     defeatGuardian: "defeat a guardian in play area or discard pile",
     destroyCard: "pick a card to destroy",
@@ -17,6 +17,7 @@ export const EFFECT = Object.freeze({
     discardForJewelText: "discard to gain jewel and item", // todo implement
     discardFor2Weapons: "discard to gain 2 weapons", // todo implement
     discardFor3Weapons: "discard to gain 3 weapons", // todo implement
+    exhaustAdventurer: "exhaust adventurer", // todo legend implement
     gainAdventurerForThisRound: "gain adventurer for this round",
     gainArtifact: "gain an artifact",
     gainArtifactForExplore: "gain artifact for explore", // todo artifacts implement
@@ -48,19 +49,20 @@ export const EFFECT = Object.freeze({
     loseText: "lose a text",
     loseWeapon: "lose a weapon",
     loseJewel: "lose a jewel",
+    markOwnLocation: "mark location for adjacency / non-identity check",
     moveAdvToEmptyLocation: "move deployed adventurer to a different empty tLocation",
     moveToAdjacentLocation: "move deployed adventurer to an adjacent tLocation", // todo implement
     progress: "progress in a legend",
     refreshAdventurer: "refresh an adventurer", // todo legend implement
     refreshAllAdventurers: "refresh all your adventurers", // todo legend implement
     removeGuardian: "remove a guardian from play",
-    revealItemBuyWithDiscount: "buy an item with discount",
+    revealItemBuyWithDiscount2: "buy an item with discount",
     return: "return adventurer from tLocation",
-    useEmptyLocation: "use an empty tLocation",
+    useAdjacentEmptyLocation: "use an adjacent empty location", // todo implement restriction + level restriction
     payTouseOccupiedLocation: "use an occupied location",
     useItemOnMarket: "use effect of an item on the market",
     useArtifactOnMarket: "use effect of an artifact on the market",
-    useOpponentsLocation: "use a tLocation occupied by an opponent", //todo implement
+    useOpponentsLocation: "use a (II) location occupied by an opponent", //todo implement
     uptrade: "uptrade", //todo implement
-    useYourLocation: "use a tLocation occupied by you", //todo implement
+    useYourLocation: "use a location occupied by you",
 });

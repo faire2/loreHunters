@@ -115,19 +115,19 @@ function App() {
                         resources.explore -= location.exploreCost.explore;
 
                         /* todo guardians player can choose between tLocation benefits and guardian benefits */
-                        const effectsResult = processEffects(null, null,{...playerState}, effects,
+                        const effectsResult = processEffects(null, null, {...playerState}, effects,
                             [...activeEffects], {...store}, location, {...locations});
                         /* costs are only coins and explore => we only need to update playerState */
                         setPlayerState(effectsResult.tPlayerState);
                         setActiveEffects(effectsResult.tActiveEffects);
                         setStore(effectsResult.tStore);
                         setLocations(effectsResult.tLocations);
+                        let tLocation = {...locations[location.index]};
+                        tLocation.state = LOCATION_STATE.explored;
+                        let tLocations = [...locations];
+                        tLocations.splice(location.index, 1, tLocation);
+                        setLocations(tLocations);
                     }
-                    let tLocation = {...locations[location.index]};
-                    tLocation.state = LOCATION_STATE.explored;
-                    let tLocations = [...locations];
-                    tLocations.splice(location.index, 1, tLocation);
-                    setLocations(tLocations);
                     break;
                 case LOCATION_STATE.explored:
                     const travelCheckResults = payForTravelIfPossible(tPlayerState, location);

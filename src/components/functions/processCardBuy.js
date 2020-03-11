@@ -7,13 +7,18 @@ export function processCardBuy(card, cardIndex, tPlayerState, tActiveEffects, tS
     const activeEffect = tActiveEffects[0];
 
     /* Fishing Rod discount effect */
-    if (activeEffect === EFFECT.revealItemBuyWithDiscount) {
-        card.cost = card.cost  >= 3 ? card.cost - 3 : 0;
+    if (activeEffect === EFFECT.revealItemBuyWithDiscount2) {
+        card.cost = card.cost  >= 2 ? card.cost - 2 : 0;
     }
     
     /* Amulet of Charm effect */
     if (activeEffect === EFFECT.buyItemWithDiscount3) {
         card.cost = card.cost >= 3  ? card.cost - 3 : 0;
+    }
+
+    /* Compass effect */
+    if (activeEffect === EFFECT.revealArtifactBuyWithDiscount2) {
+        card.cost = card.cost >= 2 ? card.cost - 2 : 0;
     }
 
     /* Bag effect */
@@ -30,7 +35,8 @@ export function processCardBuy(card, cardIndex, tPlayerState, tActiveEffects, tS
     if (card.type === CARD_TYPE.item && card.cost <= tPlayerState.resources.coins) {
 
         /* if we revealed extra item and it was not bought we must discard it */
-        if (activeEffect === EFFECT.revealItemBuyWithDiscount && cardIndex !== tStore.offer.length + 1) {
+        if ((activeEffect === EFFECT.revealItemBuyWithDiscount2 || activeEffect === EFFECT.revealArtifactBuyWithDiscount2)
+            && cardIndex !== tStore.offer.length + 1) {
             tStore.offer.splice(tStore.offer.length - 1);
         }
 
@@ -47,10 +53,6 @@ export function processCardBuy(card, cardIndex, tPlayerState, tActiveEffects, tS
         }
 
         tPlayerState.resources.coins -= card.cost;
-        if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount
-            || activeEffect === EFFECT.gainArtifact) {
-            tActiveEffects.splice(0, 1);
-        }
     } else if (card.type === CARD_TYPE.artifact && card.cost <= tPlayerState.resources.explore) {
         tStore.offer.splice(cardIndex, 1);
         tStore = addCardToStore(card.type, tStore);
@@ -66,5 +68,11 @@ export function processCardBuy(card, cardIndex, tPlayerState, tActiveEffects, tS
         console.log("Card could not be bought: ");
         console.log(card);
     }
+
+    if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount2
+        || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount2) {
+        tActiveEffects.splice(0, 1);
+    }
+
     return {tPlayerState: tPlayerState, tStore: tStore, tActiveEffects: tActiveEffects}
 }
