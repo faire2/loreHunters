@@ -8,7 +8,7 @@ export function getInitialPlayerState() {
     let playerState = {
         resources: {
             coins: 2,
-            explore: 0,
+            explore: 5,
             texts: 0,
             weapons: 0,
             jewels: 0,
@@ -53,6 +53,9 @@ export function getInitialStoreItems() {
     }));
 
     let itemsSetup = drawCards(items, GLOBAL_VARS.storeSize);
+    itemsSetup.drawCards.push(ARTIFACTS.amuletOfCharm);
+    artifacts.splice(0, 1);
+
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;
     }

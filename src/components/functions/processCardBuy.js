@@ -8,12 +8,12 @@ export function processCardBuy(card, cardIndex, tPlayerState, tActiveEffects, tS
 
     /* Fishing Rod discount effect */
     if (activeEffect === EFFECT.revealItemBuyWithDiscount) {
-        card.cost -= card - 3 >= 0 ? card.cost : 0;
+        card.cost = card.cost  >= 3 ? card.cost - 3 : 0;
     }
     
     /* Amulet of Charm effect */
     if (activeEffect === EFFECT.buyItemWithDiscount3) {
-        card.cost -= card - 3 >= 0 ? card.cost : 0;
+        card.cost = card.cost >= 3  ? card.cost - 3 : 0;
     }
 
     /* Bag effect */
@@ -59,7 +59,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, tActiveEffects, tS
         tPlayerState.resources.explore -= card.cost;
 
         /* the artifact effect applies when artifact is bought */
-        const effectsResult = processEffects(card, tPlayerState, card.effects, tActiveEffects, null, null);
+        const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, tActiveEffects, null, null);
         tPlayerState = effectsResult.tPlayerState;
         tActiveEffects = effectsResult.tActiveEffects;
     } else {

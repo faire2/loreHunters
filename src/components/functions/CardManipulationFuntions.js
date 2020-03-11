@@ -58,7 +58,7 @@ export function addCardToStore(cardType, store) {
     }
     tCard.state = CARD_STATE.inStore;
     const tStore = {...store};
-    tStore.offer.splice(0, 0, tCard);
+    tStore.offer.push(tCard);
     return tStore;
 }
 

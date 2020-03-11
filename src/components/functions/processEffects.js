@@ -4,6 +4,7 @@ import {EFFECT} from "../../data/effects";
 import {LOCATION_STATE} from "../../data/locations";
 
 export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveEffects, tStore, location, tLocations) {
+    console.log(effects);
     if (tCard !== null) {
         tCard.state = CARD_STATE.active
     }
@@ -181,5 +182,3 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
     console.log(tActiveEffects);
     return {tPlayerState: tPlayerState, tActiveEffects: tActiveEffects, tStore: tStore, tLocations: tLocations};
 }
-
-/* tCard, tPlayerState, effects, tActiveEffects, tStore, tLocations */

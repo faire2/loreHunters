@@ -20,7 +20,7 @@ import {
 } from "./components/functions/InitialStateFunctions";
 import {processEffects} from "./components/functions/processEffects";
 import LocationsArea from "./components/main/LocationsArea";
-import {LOCATION_STATE, TRANSPORT_TYPE} from "./data/locations";
+import {LOCATION_STATE} from "./data/locations";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {payForTravelIfPossible} from "./components/locations/checkTravelCostAndPayForTravel";
@@ -171,6 +171,7 @@ function App() {
     /** HANDLE CLICK ON RESOURCE **/
     function handleClickOnResource(resource) {
         if (activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
+            console.log("HANDLING CLICK ON RESOURCES");
             const tPlayerState = {...playerState};
             let resources = tPlayerState.resources;
             const tActiveEffects = [...activeEffects];
@@ -196,13 +197,13 @@ function App() {
             }
             tActiveEffects.splice(0, 1);
             setPlayerState(tPlayerState);
-            setActiveEffects(tActiveEffects);
+            /*setActiveEffects(tActiveEffects);*/
         }
     }
 
     /** BUY A CARD **/
     function handleCardBuy(card, cardIndex) {
-        console.log("Buying card: " + card.cardName);
+        console.log("Buying card: " + card.cardName + " with effect: " + card.effects);
         const buyResult = processCardBuy(card, cardIndex, {...playerState}, [...activeEffects],
             {...store}, [...locations]);
         const tPlayerState = buyResult.tPlayerState;
