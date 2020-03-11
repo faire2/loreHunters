@@ -1,5 +1,5 @@
 import {shuffleArray} from "./CardManipulationFuntions";
-import {CARD_STATE, CARD_TYPE, CARDS} from "../../data/cards";
+import {ARTIFACTS, CARD_STATE, CARD_TYPE, ITEMS} from "../../data/cards";
 import {GLOBAL_VARS} from "../../App";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations";
 
@@ -42,16 +42,21 @@ export function getInitialPlayerState() {
 /* INITIAL STORE */
 export function getInitialStoreItems() {
     /* all items, each item is represented only once! */
-    let items = shuffleArray(Object.keys(CARDS).map(key => {
-        return CARDS[key]
+    let items = shuffleArray(Object.keys(ITEMS).map(key => {
+        return ITEMS[key];
     }));
     items = items.filter(card => card.type !== CARD_TYPE.basic);
+
+    let artifacts = shuffleArray(Object.keys(ARTIFACTS).map(key => {
+        ARTIFACTS[key].state = CARD_STATE.inStore;
+        return ARTIFACTS[key];
+    }));
 
     let itemsSetup = drawCards(items, GLOBAL_VARS.storeSize);
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;
     }
-    return {itemsStore: itemsSetup.drawCards, itemsDeck: itemsSetup.deck}
+    return {offer: itemsSetup.drawCards, itemsDeck: itemsSetup.deck, artifactsDeck: artifacts}
 }
 
 /* INITIAL LOCATIONS */
@@ -62,7 +67,6 @@ export function getInitialLocations() {
         location.state = (location.level === LOCATION_LEVEL["1"]) ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
         location.index = i;
     }
-    console.log(locations);
     return locations;
 }
 

@@ -6,8 +6,8 @@ export default function Store(props) {
     const storeContext = useContext(BoardStateContext);
 
     return (
-        <div>
-            {storeContext.storeItems.map((card, i) =>
+        <div className="float-left">
+            {storeContext.storeOffer.map((card, i) =>
                 <div key={i} >
                     <Card card={card} index={i}/>
                 </div>

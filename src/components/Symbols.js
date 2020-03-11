@@ -24,6 +24,7 @@ import guardian from "../img/symbols/G.png"
 import artifact from "../img/symbols/artifact.png"
 import uptrade from "../img/symbols/uptrade.png"
 import item from "../img/symbols/item.png"
+import fear from "../img/symbols/Fear.png"
 
 export const Coin = (props) => <img src={coin} alt="gain a coin" className="cardEffect"/>;
 export const Explore = (props) => <img src={explore} alt="gain an explore token" className="cardEffect"/>;
@@ -45,3 +46,4 @@ export const Guardian = (props) => <img src={guardian} alt="guardian" className=
 export const Artifact = (props) => <img src={artifact} alt="artifact" className="cardEffect"/>;
 export const Uptrade = (props) => <img src={uptrade} alt="uptrade" className="cardEffect"/>;
 export const Item = (props) => <img src={item} alt="item" className="cardEffect"/>;
+export const Fear = (props) => <img src={fear} alt="fear" className="cardEffect"/>;

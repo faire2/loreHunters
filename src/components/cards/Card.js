@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {CARD_STATE, ITEM_TRANSPORT} from "../../data/cards";
+import {CARD_STATE, CARD_TRANSPORT} from "../../data/cards";
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
 
@@ -27,7 +27,6 @@ export default function Card(props) {
 */
     function handleClickOnEffect(effects) {
         if (card.state !== CARD_STATE.inStore && boardStateContext.activeEffects.length === 0) {
-            console.log("Click on effect");
             boardStateContext.handleCardEffect(effects, props.index);
         }
     }
@@ -36,7 +35,7 @@ export default function Card(props) {
         const activeEffects = boardStateContext.activeEffects;
         if (card.state === CARD_STATE.inStore) {
             console.log("Click on buy");
-            boardStateContext.handleCardBuy(card, props.index)
+            boardStateContext.handleCardBuy(card, props.index);
         } else if (activeEffects.length > 0) {
             boardStateContext.handleActiveEffectClickOnCard(card, props.index);
         }
@@ -63,19 +62,20 @@ export default function Card(props) {
 const Movement = (props) => {
     let effect = [];
     switch (props.itemTransport) {
-        case ITEM_TRANSPORT.walk:
+        case CARD_TRANSPORT.walk:
             effect.push(EFFECT.gainWalk);
             break;
-        case ITEM_TRANSPORT.jeep:
+        case CARD_TRANSPORT.jeep:
             effect.push(EFFECT.gainJeep);
             break;
-        case ITEM_TRANSPORT.ship:
+        case CARD_TRANSPORT.ship:
             effect.push(EFFECT.gainShip);
             break;
-        case ITEM_TRANSPORT.plane:
+        case CARD_TRANSPORT.plane:
+        case CARD_TRANSPORT.artifact:
             effect.push(EFFECT.gainPlane);
             break;
-        case ITEM_TRANSPORT.empty:
+        case CARD_TRANSPORT.empty:
             break;
         default:
             console.log("Unknwown ITEM_TRANSPORT type in Card > Movement: " + props.itemTransport);

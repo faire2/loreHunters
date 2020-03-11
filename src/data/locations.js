@@ -30,9 +30,9 @@ export const TRANSPORT_TYPE = Object.freeze({
 });
 
 export const LOCATION_TYPE = Object.freeze({
-    green: "green location that requires boats",
-    brown: "brown location that requires jeeps",
-    mixed: "brown and green location - unique"
+    green: "green tLocation that requires boats",
+    brown: "brown tLocation that requires jeeps",
+    mixed: "brown and green tLocation - unique"
 });
 
 export const LOCATIONS =

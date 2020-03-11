@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {CARD_STATE, CARDS, ITEM_TRANSPORT} from "./data/cards";
+import {CARD_STATE, CARD_TYPE, ITEMS} from "./data/cards";
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
 import Resources from "./components/resources/Resources";
@@ -18,9 +18,12 @@ import {
     getInitialPlayerState,
     getInitialStoreItems
 } from "./components/functions/InitialStateFunctions";
-import {processActiveEffect, processCardBuy, processEffects} from "./components/functions/EffectsFunctions";
+import {processEffects} from "./components/functions/processEffects";
 import LocationsArea from "./components/main/LocationsArea";
 import {LOCATION_STATE, TRANSPORT_TYPE} from "./data/locations";
+import {processActiveEffect} from "./components/functions/processActiveEffects";
+import {processCardBuy} from "./components/functions/processCardBuy";
+import {payForTravelIfPossible} from "./components/locations/checkTravelCostAndPayForTravel";
 
 function App() {
     const [playerState, setPlayerState] = useState(getInitialPlayerState);
@@ -40,153 +43,135 @@ function App() {
     console.log(locations);
 
 
+    /** CARD EFFECTS **/
     function handleClickOnCardEffect(effects, cardIndex) {
         let tPlayerState = {...playerState};
         let tActiveEffects = [...activeEffects];
         let tStore = {...store};
         const tcard = tPlayerState.hand[cardIndex];
+        console.log("Handling card effects: ");
+        console.log(effects);
+        console.log(tcard);
 
-        const effectsResult = processEffects(tcard, tPlayerState, effects, tActiveEffects, tStore);
-        tPlayerState = effectsResult.tPlayerState;
-        tActiveEffects = effectsResult.tActiveEffects;
-        tStore = effectsResult.tStore;
+        if (tcard.type === CARD_TYPE.item || tcard.type === CARD_TYPE.basic ||
+            (tcard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
+            const effectsResult = processEffects(tcard, cardIndex, tPlayerState, effects, tActiveEffects, tStore, null, null);
+            tPlayerState = effectsResult.tPlayerState;
+            tActiveEffects = effectsResult.tActiveEffects;
+            tStore = effectsResult.tStore;
 
-        /* if we have an active card, we move it to discard or to destroyed cards */
-        const activeCard = tPlayerState.activeCard;
-        if (activeCard !== false) {
-            if (tcard.state !== CARD_STATE.destroyed) {
-                tPlayerState.discardDeck.push(activeCard)
-            } else {
-                tPlayerState.destroyedCards.push(activeCard)
+            /* if we have an active card, we move it to discard or to destroyed cards */
+            const activeCard = tPlayerState.activeCard;
+            if (activeCard !== false) {
+                if (tcard.state !== CARD_STATE.destroyed) {
+                    tPlayerState.discardDeck.push(activeCard)
+                } else {
+                    tPlayerState.destroyedCards.push(activeCard)
+                }
             }
-        }
-        /* we make the played card the active one... */
-        tPlayerState.activeCard = tcard;
-        /* ...and remove it from the hand */
-        tPlayerState.hand.splice(cardIndex, 1);
+            /* we make the played card the active one... */
+            tPlayerState.activeCard = tcard;
+            /* ...and remove it from the hand */
+            tPlayerState.hand.splice(cardIndex, 1);
 
-        if (tActiveEffects.length > 0) {
-            setActiveEffects(tActiveEffects)
+            /* if the card is an artifact, pay for the use */
+            if (tcard.type === CARD_TYPE.artifact) {
+                tPlayerState.resources.texts -= 1;
+            }
+
+            if (tActiveEffects.length > 0) {
+                setActiveEffects(tActiveEffects)
+            }
+            setPlayerState(tPlayerState);
+            setStore(tStore);
         }
-        setPlayerState(tPlayerState);
-        setStore(tStore);
     }
 
+    /** LOCATION EFFECTS **/
     function handleClickOnLocation(effects, location) {
+        console.log("Clicked on location");
         let tPlayerState = {...playerState};
         const resources = tPlayerState.resources;
-        switch (location.state) {
-            case LOCATION_STATE.unexplored:
-                if (resources.explore >= location.exploreCost.explore
-                    && resources.coins >= location.exploreCost.coins) {
-                    resources.coins -= location.exploreCost.coins;
-                    resources.explore -= location.exploreCost.explore;
+        if (activeEffects.length > 0) {
+            const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
+                [...activeEffects], {...store}, [...locations]);
+            tPlayerState = effectResult.tPlayerState;
+            setPlayerState(tPlayerState);
+            const tActiveEffects = effectResult.tActiveEffects;
+            setActiveEffects(tActiveEffects)
+            const tLocation = effectResult.tLocation;
+            let tLocations = [...locations];
+            tLocations.splice(location.index, 1, tLocation);
+            setLocations(tLocations);
+        } else {
+            switch (location.state) {
+                case LOCATION_STATE.unexplored:
+                    if (resources.explore >= location.exploreCost.explore
+                        && resources.coins >= location.exploreCost.coins) {
+                        resources.coins -= location.exploreCost.coins;
+                        resources.explore -= location.exploreCost.explore;
 
-                    /* todo guardians player can choose between location benefits and guardian benefits */
-                    const effectsResult = processEffects(null, {...playerState}, effects, [...activeEffects], {...store}, {...locations});
-                    /* costs are only coins and explore => we only need to update playerState */
-                    setPlayerState(effectsResult.tPlayerState);
-                    if (effectsResult.tActiveEffects.length > 0) {
-                        setActiveEffects(effectsResult.tActiveEffects)
+                        /* todo guardians player can choose between tLocation benefits and guardian benefits */
+                        const effectsResult = processEffects(null, null,{...playerState}, effects,
+                            [...activeEffects], {...store}, location, {...locations});
+                        /* costs are only coins and explore => we only need to update playerState */
+                        setPlayerState(effectsResult.tPlayerState);
+                        setActiveEffects(effectsResult.tActiveEffects);
+                        setStore(effectsResult.tStore);
+                        setLocations(effectsResult.tLocations);
                     }
-                }
-                let tLocation = {...locations[location.index]};
-                tLocation.state = LOCATION_STATE.explored;
-                let tLocations = [...locations];
-                tLocations.splice(location.index, 1, tLocation);
-                setLocations(tLocations);
-                break;
-            case LOCATION_STATE.explored:
-                let enoughResources = false;
-                const transportType = location.useCost.transportType;
-                const transportCost = location.useCost.amount;
-                switch (transportType) {
-                    case TRANSPORT_TYPE.walk:
-                        if (resources.walk + resources.jeep + resources.ship + resources.plane >= transportCost) {
-                            enoughResources = true;
-                            resources.walk -= transportCost;
-                            if (resources.walk < 0) {
-                                resources.jeep += resources.walk;
-                                resources.walk = 0;
-                                if (resources.jeep < 0) {
-                                    resources.ship += resources.jeep;
-                                    resources.jeep = 0;
-                                    if (resources.ship < 0) {
-                                        resources.plane += resources.ship;
-                                        resources.ship = 0;
-                                    }
-
-                                }
-                            }
-                        }
-                        break;
-                    case
-                    TRANSPORT_TYPE.jeep:
-                        if (resources.jeep + resources.plane >= transportCost) {
-                            enoughResources = true;
-                            resources.jeep -= transportCost;
-                            if (resources.jeep < 0) {
-                                resources.plane += resources.jeep;
-                                resources.jeep = 0;
-                            }
-                        }
-                        break;
-                    case
-                    TRANSPORT_TYPE.ship:
-                        if (resources.ship + resources.plane >= transportCost) {
-                            enoughResources = true;
-                            resources.ship -= transportCost;
-                            if (resources.ship < 0) {
-                                resources.plane += resources.ship;
-                                resources.ship = 0;
-                            }
-                        }
-                        break;
-                    case
-                    TRANSPORT_TYPE.plane:
-                        if (resources.plane >= transportCost) {
-                            enoughResources = true;
-                            resources.plane -= transportCost;
-                        }
-                        break;
-                    default:
-                        console.log("Unknown transportation cost for using location in handleClickOnLocation: " + location.useCost.transportType);
-                        console.log(location);
-                }
-
-                if (enoughResources === true) {
-                    tPlayerState.availableAdventurers -= 1;
-                    const effectsResult = processEffects(null, tPlayerState, effects, [...activeEffects], {...store}, [...locations]);
-                    setPlayerState(effectsResult.tPlayerState);
-                    setActiveEffects(effectsResult.tActiveEffects);
-
                     let tLocation = {...locations[location.index]};
-                    tLocation.state = LOCATION_STATE.occupied;
+                    tLocation.state = LOCATION_STATE.explored;
                     let tLocations = [...locations];
                     tLocations.splice(location.index, 1, tLocation);
                     setLocations(tLocations);
-                }
-                break;
-            case LOCATION_STATE.occupied:
-                console.log("Location is occupied.");
-                break;
-            default:
-                console.log("Unknown location state in handleClickOnLocation: " + location.state);
-                console.log(location);
+                    break;
+                case LOCATION_STATE.explored:
+                    const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
+                    if (travelCheckResults.enoughResources) {
+                        tPlayerState = travelCheckResults.tPlayerState;
+                        tPlayerState.availableAdventurers -= 1;
+                        const effectsResult = processEffects(null, null, tPlayerState, effects, [...activeEffects],
+                            {...store}, location, [...locations]);
+                        setPlayerState(effectsResult.tPlayerState);
+                        setActiveEffects(effectsResult.tActiveEffects);
+
+                        let tLocation = {...locations[location.index]};
+                        tLocation.state = LOCATION_STATE.occupied;
+                        let tLocations = [...locations];
+                        tLocations.splice(location.index, 1, tLocation);
+                        setLocations(tLocations);
+                    }
+                    break;
+                case LOCATION_STATE.occupied:
+                    console.log("Location is occupied.");
+                    break;
+                default:
+                    console.log("Unknown tLocation state in handleClickOnLocation: " + location.state);
+                    console.log(location);
+            }
         }
     }
 
+    /** HANDLE ACTIVE EFFECTS **/
     function handleActiveEffectClickOnCard(card, cardIndex) {
-        const effectProcessResults = processActiveEffect(card, cardIndex, {...playerState}, [...activeEffects]);
+        const effectProcessResults = processActiveEffect(card, cardIndex, null, {...playerState},
+            [...activeEffects], {...store}, [...locations]);
         const tPlayerState = effectProcessResults.tPlayerState;
         const tActiveEffects = effectProcessResults.tActiveEffects;
+        const tStore = effectProcessResults.tStore;
+        const tLocations = effectProcessResults.tLocations;
         setActiveEffects(tActiveEffects);
         setPlayerState(tPlayerState);
+        setStore(tStore);
+        setLocations(tLocations);
     }
 
+    /** BUY A CARD **/
     function handleCardBuy(card, cardIndex) {
         console.log("Buying card: " + card.cardName);
-        const buyResult = processCardBuy(card, cardIndex, {...playerState}, [...activeEffects], {...store});
+        const buyResult = processCardBuy(card, cardIndex, {...playerState}, [...activeEffects],
+            {...store}, [...locations]);
         const tPlayerState = buyResult.tPlayerState;
         const tActiveEffects = buyResult.tActiveEffects;
         const tStore = buyResult.tStore;
@@ -200,6 +185,7 @@ function App() {
         setActiveEffects([]);
     }
 
+    /** END OF ROUND **/
     function handleEndRound() {
         let tPlayerState = playerState;
 
@@ -220,22 +206,39 @@ function App() {
             if (tPlayerState.drawDeck.length === 0) {
                 tPlayerState = addDiscardToDrawDeck(tPlayerState);
             }
-            tPlayerState = addCardToHand(tPlayerState.drawDeck[0], playerState);
-            tPlayerState.drawDeck.splice(0, 1);
+            if (tPlayerState.drawDeck.length > 0) {
+                tPlayerState = addCardToHand(tPlayerState.drawDeck[0], playerState);
+                tPlayerState.drawDeck.splice(0, 1);
+            }
+        }
+
+        /* handle store changes */
+        let tStore = {...store};
+        if (tStore.offer.length > 0) {
+            tStore.offer.splice(tStore.offer.length - round, 1, tStore.artifactsDeck[0]);
+            tStore.artifactsDeck.splice(0, 1);
+            setStore(tStore);
         }
 
         /* return adventurers */
         let tLocations = [];
         for (let location of locations) {
             let tLocation = {...location};
-            if (location.state === LOCATION_STATE.occupied) {tLocation.state = LOCATION_STATE.explored};
+            if (location.state === LOCATION_STATE.occupied) {
+                tLocation.state = LOCATION_STATE.explored
+            }
             tLocations.push(tLocation);
         }
         setLocations(tLocations);
-
         tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
-        setPlayerState(tPlayerState);
 
+        /* reset transport resources */
+        tPlayerState.resources.walk = 0;
+        tPlayerState.resources.jeep = 0;
+        tPlayerState.resources.ship = 0;
+        tPlayerState.resources.plane = 0;
+
+        setPlayerState(tPlayerState);
         setActiveEffects([]);
         setRound(round + 1);
         console.log("*** END OF ROUND ***");
@@ -244,7 +247,7 @@ function App() {
     return (
         <div className="App">
             <BoardStateContext.Provider value={{
-                storeItems: store.itemsStore,
+                storeOffer: store.offer,
                 storeItemsDeck: store.itemsDeck,
                 activeEffects: activeEffects,
                 setActiveEffects: setActiveEffects,
@@ -261,10 +264,8 @@ function App() {
                     handleEndRound: handleEndRound,
                 }}>
                     <Resources/>
-                    <div className="d-flex flex-row">
-                        <Store/>
-                        <LocationsArea/>
-                    </div>
+                    <Store/>
+                    <LocationsArea/>
                     <CardsArea/>
                     <Controls/>
                     {activeEffects[0]}
@@ -284,7 +285,7 @@ export const RES = Object.freeze({
 
 export const GLOBAL_VARS = Object.freeze({
     handSize: 5,
-    initialCards: [CARDS.fear, CARDS.fear, CARDS.coin, CARDS.coin, CARDS.explore, CARDS.explore],
+    initialCards: [ITEMS.fear, ITEMS.fear, ITEMS.coin, ITEMS.coin, ITEMS.explore, ITEMS.explore],
     storeSize: 5,
     adventurers: 2,
 });

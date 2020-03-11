@@ -26,8 +26,10 @@ export function drawCards(cardsNum, tPlayerState) {
         if (drawDeck === 0) {
             tPlayerState = addDiscardToDrawDeck(tPlayerState);
         }
-        tPlayerState = addCardToHand(drawDeck[0], tPlayerState);
-        tPlayerState.drawDeck.splice(0, 1);
+        if (tPlayerState.drawDeck.length > 0) {
+            tPlayerState = addCardToHand(drawDeck[0], tPlayerState);
+            tPlayerState.drawDeck.splice(0, 1);
+        }
     }
     return tPlayerState;
 }
@@ -49,13 +51,14 @@ export function addCardToStore(cardType, store) {
         tCard = store.itemsDeck[0];
         store.itemsDeck.splice(0, 1);
     } else if (cardType === CARD_TYPE.artifact) {
-        //todo implement
+        tCard = store.artifactsDeck[0];
+        store.artifactsDeck.splice(0, 1);
     } else {
         console.log("Unknown card type in addCardToStore: " + cardType);
     }
     tCard.state = CARD_STATE.inStore;
     const tStore = {...store};
-    tStore.itemsStore.push(tCard);
+    tStore.offer.splice(0, 0, tCard);
     return tStore;
 }
 

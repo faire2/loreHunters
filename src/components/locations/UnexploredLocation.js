@@ -12,7 +12,7 @@ export default function ExploredLocation(props) {
         transportIcons.push(<span key={i}>{location.useCost.transportType}</span>)
     }
 
-    /* initial colors are changed based on location type */
+    /* initial colors are changed based on tLocation type */
     let fillColor = "#cdcdcd";
     let tokenFillColor = "#9f9f9f";
     let tokenStrokeColor = "#616161";
@@ -33,7 +33,7 @@ export default function ExploredLocation(props) {
             tokenStrokeColor = "#705731";
             break;
         default:
-            console.log("Unknown location type in component Location: ");
+            console.log("Unknown tLocation type in component Location: ");
             console.log(location);
     }
 
