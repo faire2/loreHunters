@@ -1,11 +1,13 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {LOCATION_STATE, LOCATION_TYPE} from "../../data/locations";
 import {AdventurerIcon, AdventurerToken} from "../Symbols";
 import {BoardStateContext, PlayerStateContext} from "../../Contexts";
+import {GLOBAL_VARS} from "../../App";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
     const playerStateContext = useContext(PlayerStateContext);
+    const [playerOwner, setPlayerOwner] = useState(false);
     const location = props.location;
 
     const transportIcons = [];
@@ -64,9 +66,14 @@ export default function ExploredLocation(props) {
         marginTop: 10,
     };
 
+    function handleClickOnExploredLocation() {
+        setPlayerOwner(boardStateContext.playerIndex);
+        boardStateContext.handleClickOnLocation(location.effects, location)
+    }
+
     return (
         <div style={containerStyle}
-             onClick={() => boardStateContext.handleClickOnLocation(location.effects, location)}>
+             onClick={() => handleClickOnExploredLocation()}>
             <div>
                 <div>{locationTag}</div>
                 <div style={effectsStyle}>{location.effectsText}</div>
@@ -78,7 +85,7 @@ export default function ExploredLocation(props) {
                             fill={tokenFillColor} stroke={tokenStrokeColor} strokeWidth={tokenStrokeWidth}/>
                 </svg>
                 <div style={adventurerStyle}>
-                    {location.state === LOCATION_STATE.explored ? transportIcons : <AdventurerToken color={playerStateContext.playerState.color} />}
+                    {location.state === LOCATION_STATE.explored ? transportIcons : <AdventurerToken color={GLOBAL_VARS.playerColors[playerOwner]} />}
                 </div>
             </div>
             <span style={{fontSize: 10}}> {location.state} </span>

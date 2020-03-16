@@ -231,67 +231,91 @@ function App() {
         setActiveEffects([]);
     }
 
-    /** END OF ROUND **/
-    function handleEndRound() {
-        let tPlayerState = playerState;
-
-        /* remove active card */
-        if (tPlayerState.activeCard !== false) {
-            tPlayerState.discardDeck.push(tPlayerState.activeCard);
-            tPlayerState.activeCard = false;
-        }
-
-        /* move cards from hand to discard */
-        for (let card of tPlayerState.hand) {
-            tPlayerState = addCardToDiscardDeck(card, tPlayerState);
-            tPlayerState.hand = [];
-        }
-
-        /* draw a new hand */
-        for (let i = 0; i < GLOBAL_VARS.handSize; i++) {
-            if (tPlayerState.drawDeck.length === 0) {
-                tPlayerState = addDiscardToDrawDeck(tPlayerState);
-            }
-            if (tPlayerState.drawDeck.length > 0) {
-                tPlayerState = addCardToHand(tPlayerState.drawDeck[0], playerState);
-                tPlayerState.drawDeck.splice(0, 1);
-            }
-        }
-
-        /* handle store changes */
-        let tStore = {...store};
-        if (tStore.offer.length > 0) {
-            tStore.offer.splice(tStore.offer.length - round, 1, tStore.artifactsDeck[0]);
-            tStore.artifactsDeck.splice(0, 1);
-            setStore(tStore);
-        }
-
-        /* return adventurers */
-        let tLocations = [];
-        for (let location of locations) {
-            let tLocation = {...location};
-            if (location.state === LOCATION_STATE.occupied) {
-                tLocation.state = LOCATION_STATE.explored
-            }
-            tLocations.push(tLocation);
-        }
-        setLocations(tLocations);
-        tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
-
-        /* reset transport resources */
-        tPlayerState.resources.walk = 0;
-        tPlayerState.resources.jeep = 0;
-        tPlayerState.resources.ship = 0;
-        tPlayerState.resources.plane = 0;
-
-        setPlayerState(tPlayerState);
-        setActiveEffects([]);
-        setRound(round + 1);
+    /** SET NEXT PLAYER **/
+    function nextPlayer() {
         const nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
         setPlayerIndex(nextPlayerIndex);
-        console.log("Next player's index: " + nextPlayerIndex);
-        console.log(playerStates[nextPlayerIndex]);
-        console.log("*** END OF ROUND ***");
+    }
+
+    /** END OF ROUND **/
+    function handleEndRound() {
+        let tPlayerState = {...playerState};
+        tPlayerState.finishedRound = true;
+        setPlayerState(tPlayerState);
+
+        let haveAllFinished = true;
+        for (let playerState of playerStates) {
+            if (!playerState.finishedRound) {haveAllFinished = false}
+        }
+
+        const nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
+        setPlayerIndex(nextPlayerIndex);
+
+        if (haveAllFinished) {
+
+            /* remove active card */
+            if (tPlayerState.activeCard !== false) {
+                tPlayerState.discardDeck.push(tPlayerState.activeCard);
+                tPlayerState.activeCard = false;
+            }
+
+            /* move cards from hand to discard */
+            for (let card of tPlayerState.hand) {
+                tPlayerState = addCardToDiscardDeck(card, tPlayerState);
+                tPlayerState.hand = [];
+            }
+
+            /* draw a new hand */
+            for (let i = 0; i < GLOBAL_VARS.handSize; i++) {
+                if (tPlayerState.drawDeck.length === 0) {
+                    tPlayerState = addDiscardToDrawDeck(tPlayerState);
+                }
+                if (tPlayerState.drawDeck.length > 0) {
+                    tPlayerState = addCardToHand(tPlayerState.drawDeck[0], playerState);
+                    tPlayerState.drawDeck.splice(0, 1);
+                }
+            }
+
+            /* handle store changes */
+            let tStore = {...store};
+            if (tStore.offer.length > 0) {
+                tStore.offer.splice(tStore.offer.length - round, 1, tStore.artifactsDeck[0]);
+                tStore.artifactsDeck.splice(0, 1);
+                setStore(tStore);
+            }
+
+            /* remove adventurers from locations */
+            let tLocations = [];
+            for (let location of locations) {
+                let tLocation = {...location};
+                if (location.state === LOCATION_STATE.occupied) {
+                    tLocation.state = LOCATION_STATE.explored
+                }
+                tLocations.push(tLocation);
+            }
+            setLocations(tLocations);
+
+            /* reset player states */
+            for (let playerState of playerStates) {
+                tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
+
+                /* reset transport resources */
+                tPlayerState.resources.walk = 0;
+                tPlayerState.resources.jeep = 0;
+                tPlayerState.resources.ship = 0;
+                tPlayerState.resources.plane = 0;
+
+                tPlayerState.finishedRound = false;
+
+                setPlayerState(tPlayerState);
+            }
+
+            setActiveEffects([]);
+            setRound(round + 1);
+            console.log("Next player's index: " + nextPlayerIndex);
+            console.log(playerStates[nextPlayerIndex]);
+            console.log("*** END OF ROUND ***");
+        }
     }
 
     return (
@@ -306,6 +330,7 @@ function App() {
                 handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
                 locations: locations,
                 handleClickOnLocation: handleClickOnLocation,
+                playerIndex: playerIndex,
             }}>
                 <PlayerStateContext.Provider value={{
                     playerState: playerState,
@@ -339,7 +364,7 @@ export const GLOBAL_VARS = Object.freeze({
     storeSize: 5,
     adventurers: 2,
     numOfPlayers: 2,
-    playerColors: ["#CDCDCD", "#2A8CFF", "#00CD27", "#CD1800"],
+    playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
 });
 
 export const BOARD_STATE = Object.freeze({

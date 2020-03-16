@@ -29,6 +29,7 @@ export function getInitialPlayerStates() {
             playedCards: [],
             destroyedCards: [],
             color: GLOBAL_VARS.playerColors[i],
+            finishedRound: false,
         };
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
