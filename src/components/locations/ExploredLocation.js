@@ -1,10 +1,11 @@
 import React, {useContext} from "react";
 import {LOCATION_STATE, LOCATION_TYPE} from "../../data/locations";
-import {Adventurer} from "../Symbols";
-import {BoardStateContext} from "../../Contexts";
+import {AdventurerIcon, AdventurerToken} from "../Symbols";
+import {BoardStateContext, PlayerStateContext} from "../../Contexts";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
+    const playerStateContext = useContext(PlayerStateContext);
     const location = props.location;
 
     const transportIcons = [];
@@ -77,7 +78,7 @@ export default function ExploredLocation(props) {
                             fill={tokenFillColor} stroke={tokenStrokeColor} strokeWidth={tokenStrokeWidth}/>
                 </svg>
                 <div style={adventurerStyle}>
-                    {location.state === LOCATION_STATE.explored ? transportIcons : <Adventurer />}
+                    {location.state === LOCATION_STATE.explored ? transportIcons : <AdventurerToken color={playerStateContext.playerState.color} />}
                 </div>
             </div>
             <span style={{fontSize: 10}}> {location.state} </span>

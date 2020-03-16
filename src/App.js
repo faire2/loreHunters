@@ -15,7 +15,7 @@ import {
 } from "./components/functions/CardManipulationFuntions";
 import {
     getInitialLocations,
-    getInitialPlayerState,
+    getInitialPlayerStates,
     getInitialStoreItems
 } from "./components/functions/InitialStateFunctions";
 import {processEffects} from "./components/functions/processEffects";
@@ -27,10 +27,18 @@ import {payForTravelIfPossible} from "./components/locations/checkTravelCostAndP
 import {EFFECT} from "./data/effects";
 
 function App() {
-    const [playerState, setPlayerState] = useState(getInitialPlayerState);
+    const [playerStates, setPlayerStates] = useState(getInitialPlayerStates);
+    const [playerIndex, setPlayerIndex] = useState(0);
+
+    const playerState = playerStates[playerIndex];
+    function setPlayerState(playerState) {
+        let tPlayerStates = [...playerStates];
+        tPlayerStates.splice(playerIndex, 1, playerState);
+        setPlayerStates(tPlayerStates);
+    }
     /*const [tempState, setTempState] = useState({});*/
-    const [store, setStore] = useState(getInitialStoreItems);
     const [round, setRound] = useState(1);
+    const [store, setStore] = useState(getInitialStoreItems);
     const [activeEffects, setActiveEffects] = useState([]);
     const [locations, setLocations] = useState(getInitialLocations());
 
@@ -279,6 +287,10 @@ function App() {
         setPlayerState(tPlayerState);
         setActiveEffects([]);
         setRound(round + 1);
+        const nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
+        setPlayerIndex(nextPlayerIndex);
+        console.log("Next player's index: " + nextPlayerIndex);
+        console.log(playerStates[nextPlayerIndex]);
         console.log("*** END OF ROUND ***");
     }
 
@@ -326,6 +338,8 @@ export const GLOBAL_VARS = Object.freeze({
     initialCards: [ITEMS.fear, ITEMS.fear, ITEMS.coin, ITEMS.coin, ITEMS.explore, ITEMS.explore],
     storeSize: 5,
     adventurers: 2,
+    numOfPlayers: 2,
+    playerColors: ["#CDCDCD", "#2A8CFF", "#00CD27", "#CD1800"],
 });
 
 export const BOARD_STATE = Object.freeze({

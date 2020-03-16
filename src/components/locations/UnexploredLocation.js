@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {LOCATION_STATE, LOCATION_TYPE} from "../../data/locations";
-import {Adventurer} from "../Symbols";
+import {AdventurerIcon} from "../Symbols";
 import {BoardStateContext} from "../../Contexts";
 
 export default function ExploredLocation(props) {

@@ -1,6 +1,6 @@
 import React from "react";
 import {
-    Adventurer,
+    AdventurerIcon,
     Arrow,
     Coin,
     DestroyCard,
@@ -241,7 +241,7 @@ export const ITEMS = Object.freeze({
         cardName: "Hammock",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.itemShip,
-        effectsText: <div className="effectsText">Refresh <Adventurer /> and <Uptrade /></div>,
+        effectsText: <div className="effectsText">Refresh <AdventurerIcon /> and <Uptrade /></div>,
         effects2Text: [EFFECT.refreshAdventurer, EFFECT.uptrade],
         cost: 1,
         points: 1
@@ -250,7 +250,7 @@ export const ITEMS = Object.freeze({
         cardName: "Coffee",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.ship,
-        effectsText: <div className="effectsText"><Draw2Cards /><Discard /> and refresh all you <Adventurer /></div>,
+        effectsText: <div className="effectsText"><Draw2Cards /><Discard /> and refresh all you <AdventurerIcon /></div>,
         effects: [EFFECT.draw2, EFFECT.discard, EFFECT.refreshAllAdventurers],
         cost: 2,
         points: 1
@@ -323,7 +323,7 @@ export const ITEMS = Object.freeze({
         cardName: "Grappling Hook",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.ship,
-        effectsText: <div className="effectsText"> Exhaust your <Adventurer /> and use the effect of an adjacent empty (II) location. </div>,
+        effectsText: <div className="effectsText"> Exhaust your <AdventurerIcon /> and use the effect of an adjacent empty (II) location. </div>,
         effects: [EFFECT.useAdjacentEmptyLocation],
         cost: 2,
         points: 1
@@ -341,7 +341,7 @@ export const ITEMS = Object.freeze({
         cardName: "Tent",
         type: CARD_TYPE.item,
         itemTransport: CARD_TRANSPORT.plane,
-        effectsText: <div className="effectsText"> Use the effect of a location already occupied by your <Adventurer/>
+        effectsText: <div className="effectsText"> Use the effect of a location already occupied by your <AdventurerIcon/>
         </div>,
         effects: [EFFECT.useYourLocation],
         cost: 4,
@@ -478,7 +478,7 @@ export const ARTIFACTS = Object.freeze({
         type: CARD_TYPE.artifact,
         itemTransport: CARD_TRANSPORT.artifact,
         effectsText:
-            <div className="effectsText">For this round only: <Adventurer /> </div>,
+            <div className="effectsText">For this round only: <AdventurerIcon /> </div>,
         effects: [EFFECT.gainAdventurerForThisRound],
         cost: 3,
         points: 2
@@ -528,7 +528,7 @@ export const ARTIFACTS = Object.freeze({
         type: CARD_TYPE.artifact,
         itemTransport: CARD_TRANSPORT.artifact,
         effectsText:
-            <div className="effectsText"><Plane /> and relocate one of your deployed <Adventurer /> to an empty location.</div>,
+            <div className="effectsText"><Plane /> and relocate one of your deployed <AdventurerIcon /> to an empty location.</div>,
         effects: [EFFECT.gainPlane, EFFECT.moveAdvToEmptyLocation],
         cost: 2,
         points: 2
@@ -538,7 +538,7 @@ export const ARTIFACTS = Object.freeze({
         type: CARD_TYPE.artifact,
         itemTransport: CARD_TRANSPORT.artifact,
         effectsText:
-            <div className="effectsText"><Plane /> and place one of your deployed <Adventurer /> to an adjacent.</div>,
+            <div className="effectsText"><Plane /> and place one of your deployed <AdventurerIcon /> to an adjacent.</div>,
         effects: [EFFECT.gainPlane, EFFECT.moveToAdjacentLocation],
         cost: 1,
         points: 1
@@ -548,7 +548,7 @@ export const ARTIFACTS = Object.freeze({
         type: CARD_TYPE.artifact,
         itemTransport: CARD_TRANSPORT.artifact,
         effectsText:
-            <div className="effectsText">Refresh all your <Adventurer />.</div>,
+            <div className="effectsText">Refresh all your <AdventurerIcon />.</div>,
         effects: [EFFECT.refreshAdventurer],
         cost: 3,
         points: 2
@@ -558,7 +558,7 @@ export const ARTIFACTS = Object.freeze({
         type: CARD_TYPE.artifact,
         itemTransport: CARD_TRANSPORT.artifact,
         effectsText:
-            <div className="effectsText"><Draw2Cards /> and refresh <Adventurer /></div>,
+            <div className="effectsText"><Draw2Cards /> and refresh <AdventurerIcon /></div>,
         effects: [EFFECT.draw2, EFFECT.refreshAdventurer],
         cost: 4,
         points: 2

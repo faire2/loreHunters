@@ -4,48 +4,54 @@ import {GLOBAL_VARS} from "../../App";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations";
 
 /* INITIAL PLAYER STATE */
-export function getInitialPlayerState() {
-    let playerState = {
-        resources: {
-            coins: 20,
-            explore: 20,
-            texts: 0,
-            weapons: 0,
-            jewels: 0,
-            shinies: 20,
-            walk: 0,
-            jeep: 0,
-            ship: 0,
-            plane: 0
-        },
-        availableAdventurers: GLOBAL_VARS.adventurers,
-        hand: [],
-        activeCard: false,
-        drawDeck: [],
-        discardDeck: [],
-        playedCards: [],
-        destroyedCards: []
-    };
+export function getInitialPlayerStates() {
+    let playerStates = [];
 
-    const initialCards = shuffleArray(GLOBAL_VARS.initialCards);
-    const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
-    const hand = [];
-    const drawDeck = [];
-    cardsSetup.drawCards.push(ITEMS.whip);
+    for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+        let playerState = {
+            resources: {
+                coins: 20,
+                explore: 20,
+                texts: 0,
+                weapons: 0,
+                jewels: 0,
+                shinies: 20,
+                walk: 0,
+                jeep: 0,
+                ship: 0,
+                plane: 0
+            },
+            availableAdventurers: GLOBAL_VARS.adventurers,
+            hand: [],
+            activeCard: false,
+            drawDeck: [],
+            discardDeck: [],
+            playedCards: [],
+            destroyedCards: [],
+            color: GLOBAL_VARS.playerColors[i],
+        };
 
-    for (let card of cardsSetup.deck) {
-        card.state = CARD_STATE.drawDeck;
-        drawDeck.push(card);
+        const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
+        const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
+        const hand = [];
+        const drawDeck = [];
+        cardsSetup.drawCards.push(ITEMS.whip);
+
+        for (let card of cardsSetup.deck) {
+            card.state = CARD_STATE.drawDeck;
+            drawDeck.push(card);
+        }
+
+        for (let card of cardsSetup.drawCards) {
+            card.state = CARD_STATE.inHand;
+            hand.push(card);
+        }
+
+        playerState.hand = hand;
+        playerState.drawDeck = drawDeck;
+        playerStates.push(playerState);
     }
-
-    for (let card of cardsSetup.drawCards) {
-        card.state = CARD_STATE.inHand;
-        hand.push(card);
-    }
-
-    playerState.hand = hand;
-    playerState.drawDeck = drawDeck;
-    return playerState;
+    return playerStates;
 }
 
 /* INITIAL STORE */
