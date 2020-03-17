@@ -1,4 +1,5 @@
 import {CARD_STATE, CARD_TYPE} from "../../data/cards";
+import cloneDeep from 'lodash/cloneDeep';
 
 export function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -8,10 +9,12 @@ export function shuffleArray(array) {
     return array;
 }
 
-export function addCardToHand(card, tPlayerState) {
+export function addCardToHand(card, origPlayerState) {
+    let tPlayerState = cloneDeep(origPlayerState);
+
     card.state = CARD_STATE.inHand;
     tPlayerState.hand.push(card);
-    return tPlayerState
+    return cloneDeep(tPlayerState);
 }
 
 export function addCardToDiscardDeck(card, tPlayersState) {
@@ -20,10 +23,12 @@ export function addCardToDiscardDeck(card, tPlayersState) {
     return tPlayersState;
 }
 
-export function drawCards(cardsNum, tPlayerState) {
-    let drawDeck = tPlayerState.drawDeck;
+export function drawCards(cardsNum, origPlayerState) {
+    let tPlayerState = {...origPlayerState};
+
+    let drawDeck = [...tPlayerState.drawDeck];
     for (let i = 0; i < cardsNum; i++) {
-        if (drawDeck === 0) {
+        if (drawDeck.length === 0) {
             tPlayerState = addDiscardToDrawDeck(tPlayerState);
         }
         if (tPlayerState.drawDeck.length > 0) {
@@ -34,8 +39,9 @@ export function drawCards(cardsNum, tPlayerState) {
     return tPlayerState;
 }
 
-export function addDiscardToDrawDeck(tPlayerState) {
+export function addDiscardToDrawDeck(origPlayerState) {
     console.log("RESHUFFLING...");
+    let tPlayerState = {...origPlayerState};
     tPlayerState.discardDeck = shuffleArray(tPlayerState.discardDeck);
     const tDrawDeck = [...tPlayerState.discardDeck];
 

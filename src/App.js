@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import cloneDeep from 'lodash/cloneDeep';
 
 import {CARD_STATE, CARD_TYPE, ITEMS} from "./data/cards";
 import CardsArea from "./components/main/CardsArea";
@@ -31,25 +32,30 @@ function App() {
     const [playerIndex, setPlayerIndex] = useState(0);
 
     const playerState = playerStates[playerIndex];
+
     function setPlayerState(playerState) {
         let tPlayerStates = [...playerStates];
         tPlayerStates.splice(playerIndex, 1, playerState);
         setPlayerStates(tPlayerStates);
     }
+
     /*const [tempState, setTempState] = useState({});*/
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(getInitialStoreItems);
     const [activeEffects, setActiveEffects] = useState([]);
     const [locations, setLocations] = useState(getInitialLocations());
 
-    console.log("Player's state:");
+    console.log("*** player states ***");
+    console.log(playerStates);
+
+    /*console.log("Player's state:");
     console.log(playerState);
     console.log("Store's state:");
     console.log(store.itemsStore);
     console.log("Active effects:");
     console.log(activeEffects);
     console.log("Locations:");
-    console.log(locations);
+    console.log(locations);*/
 
 
     /** CARD EFFECTS **/
@@ -96,6 +102,7 @@ function App() {
             setPlayerState(tPlayerState);
             setStore(tStore);
         }
+        nextPlayer()
     }
 
     /** LOCATION EFFECTS **/
@@ -109,11 +116,12 @@ function App() {
             tPlayerState = effectResult.tPlayerState;
             setPlayerState(tPlayerState);
             const tActiveEffects = effectResult.tActiveEffects;
-            setActiveEffects(tActiveEffects)
+            setActiveEffects(tActiveEffects);
             const tLocation = effectResult.tLocation;
             let tLocations = [...locations];
             tLocations.splice(location.index, 1, tLocation);
             setLocations(tLocations);
+            nextPlayer()
         } else {
             switch (location.state) {
                 case LOCATION_STATE.unexplored:
@@ -135,6 +143,7 @@ function App() {
                         let tLocations = [...locations];
                         tLocations.splice(location.index, 1, tLocation);
                         setLocations(tLocations);
+                        nextPlayer()
                     }
                     break;
                 case LOCATION_STATE.explored:
@@ -152,6 +161,7 @@ function App() {
                         let tLocations = [...locations];
                         tLocations.splice(location.index, 1, tLocation);
                         setLocations(tLocations);
+                        nextPlayer()
                     }
                     break;
                 case LOCATION_STATE.occupied:
@@ -176,6 +186,7 @@ function App() {
         setPlayerState(tPlayerState);
         setStore(tStore);
         setLocations(tLocations);
+        nextPlayer();
     }
 
     /** HANDLE CLICK ON RESOURCE **/
@@ -225,6 +236,7 @@ function App() {
         setPlayerState(tPlayerState);
         setActiveEffects(tActiveEffects);
         setStore(tStore);
+        nextPlayer();
     }
 
     function cancelEffect(effect) {
@@ -233,48 +245,34 @@ function App() {
 
     /** SET NEXT PLAYER **/
     function nextPlayer() {
-        const nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
-        setPlayerIndex(nextPlayerIndex);
+        if (activeEffects.length === 0) {
+            /* looks for a player that has not yet finished */
+            console.log("PLAYER " + (playerIndex + 1) + " passing action.");
+            let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
+            while (nextPlayerIndex !== playerIndex) {
+                console.log("Has player " + (nextPlayerIndex + 1) + " finished round? " + playerStates[nextPlayerIndex].finishedRound);
+                if (!playerStates[nextPlayerIndex].finishedRound) {
+                    setPlayerIndex(nextPlayerIndex);
+                    console.log("PASSING ACTION TO PLAYER " + (nextPlayerIndex + 1));
+                    break;
+                }
+                nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0
+            }
+        }
     }
 
     /** END OF ROUND **/
     function handleEndRound() {
-        let tPlayerState = {...playerState};
-        tPlayerState.finishedRound = true;
-        setPlayerState(tPlayerState);
-
+        let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
         let haveAllFinished = true;
-        for (let playerState of playerStates) {
-            if (!playerState.finishedRound) {haveAllFinished = false}
+        while (playerIndex !== nextPlayerIndex) {
+            if (!playerStates[nextPlayerIndex].finishedRound) {
+                haveAllFinished = false;
+            }
+            nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0;
         }
 
-        const nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
-        setPlayerIndex(nextPlayerIndex);
-
         if (haveAllFinished) {
-
-            /* remove active card */
-            if (tPlayerState.activeCard !== false) {
-                tPlayerState.discardDeck.push(tPlayerState.activeCard);
-                tPlayerState.activeCard = false;
-            }
-
-            /* move cards from hand to discard */
-            for (let card of tPlayerState.hand) {
-                tPlayerState = addCardToDiscardDeck(card, tPlayerState);
-                tPlayerState.hand = [];
-            }
-
-            /* draw a new hand */
-            for (let i = 0; i < GLOBAL_VARS.handSize; i++) {
-                if (tPlayerState.drawDeck.length === 0) {
-                    tPlayerState = addDiscardToDrawDeck(tPlayerState);
-                }
-                if (tPlayerState.drawDeck.length > 0) {
-                    tPlayerState = addCardToHand(tPlayerState.drawDeck[0], playerState);
-                    tPlayerState.drawDeck.splice(0, 1);
-                }
-            }
 
             /* handle store changes */
             let tStore = {...store};
@@ -296,8 +294,35 @@ function App() {
             setLocations(tLocations);
 
             /* reset player states */
-            for (let playerState of playerStates) {
+            let tPlayerStates = [];
+            for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+                let tPlayerState = cloneDeep(playerStates[i]);
                 tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
+
+                /* remove active card */
+                if (tPlayerState.activeCard !== false) {
+                    tPlayerState.discardDeck.push(tPlayerState.activeCard);
+                    tPlayerState.activeCard = false;
+                }
+
+                /* move cards from hand to discard */
+                for (let card of tPlayerState.hand) {
+                    tPlayerState = addCardToDiscardDeck(card, tPlayerState);
+                    tPlayerState.hand = [];
+                }
+
+                /* draw a new hand */
+                for (let i = 0; i < GLOBAL_VARS.handSize; i++) {
+                    if (tPlayerState.drawDeck.length === 0) {
+                        tPlayerState = addDiscardToDrawDeck(tPlayerState);
+                    }
+                    if (tPlayerState.drawDeck.length > 0) {
+                        const result = addCardToHand(tPlayerState.drawDeck[0], cloneDeep(tPlayerState));
+                        tPlayerState = cloneDeep(result);
+
+                        tPlayerState.drawDeck.splice(0, 1);
+                    }
+                }
 
                 /* reset transport resources */
                 tPlayerState.resources.walk = 0;
@@ -306,15 +331,18 @@ function App() {
                 tPlayerState.resources.plane = 0;
 
                 tPlayerState.finishedRound = false;
-
-                setPlayerState(tPlayerState);
+                tPlayerStates.push(tPlayerState);
             }
+            setPlayerStates(tPlayerStates);
 
             setActiveEffects([]);
             setRound(round + 1);
-            console.log("Next player's index: " + nextPlayerIndex);
-            console.log(playerStates[nextPlayerIndex]);
             console.log("*** END OF ROUND ***");
+        } else {
+            let tPlayerState = {...playerState};
+            tPlayerState.finishedRound = true;
+            setPlayerState(tPlayerState);
+            nextPlayer();
         }
     }
 
@@ -365,10 +393,6 @@ export const GLOBAL_VARS = Object.freeze({
     adventurers: 2,
     numOfPlayers: 2,
     playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
-});
-
-export const BOARD_STATE = Object.freeze({
-    buyItem: "buy an item"
 });
 
 export default App;

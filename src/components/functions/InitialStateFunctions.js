@@ -9,6 +9,7 @@ export function getInitialPlayerStates() {
 
     for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
         let playerState = {
+            finishedRound: false,
             resources: {
                 coins: 20,
                 explore: 20,
@@ -29,14 +30,13 @@ export function getInitialPlayerStates() {
             playedCards: [],
             destroyedCards: [],
             color: GLOBAL_VARS.playerColors[i],
-            finishedRound: false,
         };
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
         const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
         const hand = [];
         const drawDeck = [];
-        cardsSetup.drawCards.push(ITEMS.whip);
+        /*cardsSetup.drawCards.push(ITEMS.whip);*/
 
         for (let card of cardsSetup.deck) {
             card.state = CARD_STATE.drawDeck;

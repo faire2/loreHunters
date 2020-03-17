@@ -67,8 +67,10 @@ export default function ExploredLocation(props) {
     };
 
     function handleClickOnExploredLocation() {
-        setPlayerOwner(boardStateContext.playerIndex);
-        boardStateContext.handleClickOnLocation(location.effects, location)
+        if (location.state === LOCATION_STATE.explored) {
+            setPlayerOwner(boardStateContext.playerIndex);
+            boardStateContext.handleClickOnLocation(location.effects, location)
+        }
     }
 
     return (
