@@ -48,9 +48,9 @@ export default function Card(props) {
             <h2>{card.cardName}</h2>
             <span style={{fontSize: 10}}> {card.state} </span>
             <Effects effectsText={card.effectsText} effects={card.effects} style={pointerStyle}
-                     handleClickOnEffect={handleClickOnEffect}/>
+                     handleClickOnEffect={handleClickOnEffect} index={props.index} card={props.card}/>
             <AlternativeEffects effectsText={card.effects2Text} effects={card.effects2} style={pointerStyle}
-                                handleClickOnEffect={handleClickOnEffect}/>
+                                handleClickOnEffect={handleClickOnEffect} index={props.index} card={props.card}/>
             <Cost cost={card.cost}/>
             <VictoryPoints points={card.points}/>
 
@@ -89,12 +89,12 @@ const Movement = (props) => {
 };
 
 const Effects = (props) =>
-    <div className="Effects" style={props.style} onClick={() => props.handleClickOnEffect(props.effects)}>
+    <div className="Effects" style={props.style} onClick={() => props.handleClickOnEffect(props.effects)} key={props.card + props.index}>
         {props.effectsText}
     </div>;
 
 const AlternativeEffects = (props) =>
-    <div className="Effects2" style={props.style} onClick={() => props.handleClickOnEffect(props.effects)}>
+    <div className="Effects2" style={props.style} onClick={() => props.handleClickOnEffect(props.effects)} key={props.card + props.index}>
         {props.effectsText}
     </div>;
 

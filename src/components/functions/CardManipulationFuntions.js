@@ -60,15 +60,16 @@ export function addCardToStore(cardType, store) {
     if (cardType === CARD_TYPE.item) {
         tCard = store.itemsDeck[0];
         store.itemsDeck.splice(0, 1);
+        store.itemsOffer.push(tCard)
     } else if (cardType === CARD_TYPE.artifact) {
         tCard = store.artifactsDeck[0];
         store.artifactsDeck.splice(0, 1);
+        store.artifactsOffer.push(tCard);
     } else {
         console.log("Unknown card type in addCardToStore: " + cardType);
     }
     tCard.state = CARD_STATE.inStore;
-    const tStore = {...store};
-    tStore.offer.push(tCard);
+    const tStore = cloneDeep(store);
     return tStore;
 }
 

@@ -1,11 +1,13 @@
 import {CARD_STATE, CARD_TYPE, ITEMS} from "../../data/cards";
-import {addCardToDiscardDeck, addCardToHand, addCardToStore, destroyCard, drawCards} from "./CardManipulationFuntions";
+import {addCardToStore, destroyCard, drawCards} from "./CardManipulationFuntions";
 import {EFFECT} from "../../data/effects";
-import {LOCATION_STATE} from "../../data/locations";
+import cloneDeep from 'lodash/cloneDeep';
 
-export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveEffects, tStore, location, tLocations) {
+export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemoved, tStore, location, tLocations) {
     console.log("Processing effects");
     console.log(effects);
+    let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
+
     if (tCard !== null) {
         tCard.state = CARD_STATE.active
     }
@@ -16,6 +18,8 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
         for (let effect of effects) {
             console.log("Resolving effect: " + effect);
             switch (effect) {
+                /*case EFFECT.refreshAdventurer:
+                case EFFECT.refreshAllAdventurers:*/
                 case EFFECT.buyItemWithDiscount3:
                 case EFFECT.discardFor2Cards:
                 case EFFECT.discardFor2Jewels:
@@ -26,8 +30,6 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
                 case EFFECT.gainItemToHand:
                 case EFFECT.gainArtifact:
                 case EFFECT.payTouseOccupiedLocation:
-                /*case EFFECT.refreshAdventurer:
-                case EFFECT.refreshAllAdventurers:*/
                 case EFFECT.removeGuardian:
                 case EFFECT.uptrade:
                 case EFFECT.useItemOnMarket:
@@ -79,10 +81,9 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
                     break;
 
                 case EFFECT.drawFromDrawDeck:
-                    console.log("here");
                     tActiveEffects.push(effect);
-                    /* hand is stored in activeEffects to be retrieved later */
                     tPlayerState.hand.splice(cardIndex, 1);
+                    /* hand is stored in activeEffects to be retrieved later */
                     tActiveEffects.splice(1, 0, tPlayerState.hand);
                     tPlayerState.hand = tPlayerState.drawDeck;
                     break;
@@ -235,7 +236,6 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, tActiveE
             }
         }
     }
-    console.log("returning active effect:");
-    console.log(tActiveEffects);
-    return {tPlayerState: tPlayerState, tActiveEffects: tActiveEffects, tStore: tStore, tLocations: tLocations};
+    tPlayerState.activeEffects = tActiveEffects;
+    return {tPlayerState: tPlayerState, tStore: tStore, tLocations: tLocations};
 }

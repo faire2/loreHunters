@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {cloneElement, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import cloneDeep from 'lodash/cloneDeep';
@@ -6,7 +6,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import {CARD_STATE, CARD_TYPE, ITEMS} from "./data/cards";
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
-import Resources, {RESOURCES} from "./components/resources/Resources";
+import Resources from "./components/resources/Resources";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
 import {
@@ -31,10 +31,10 @@ function App() {
     const [playerStates, setPlayerStates] = useState(getInitialPlayerStates);
     const [playerIndex, setPlayerIndex] = useState(0);
 
-    const playerState = playerStates[playerIndex];
+    const playerState = cloneDeep(playerStates[playerIndex]);
 
     function setPlayerState(playerState) {
-        let tPlayerStates = [...playerStates];
+        let tPlayerStates = cloneDeep(playerStates);
         tPlayerStates.splice(playerIndex, 1, playerState);
         setPlayerStates(tPlayerStates);
     }
@@ -42,7 +42,6 @@ function App() {
     /*const [tempState, setTempState] = useState({});*/
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(getInitialStoreItems);
-    const [activeEffects, setActiveEffects] = useState([]);
     const [locations, setLocations] = useState(getInitialLocations());
 
     console.log("*** player states ***");
@@ -60,9 +59,8 @@ function App() {
 
     /** CARD EFFECTS **/
     function handleClickOnCardEffect(effects, cardIndex) {
-        let tPlayerState = {...playerState};
-        let tActiveEffects = [...activeEffects];
-        let tStore = {...store};
+        let tPlayerState = cloneDeep(playerState);
+        let tStore = cloneDeep(store);
         const tcard = tPlayerState.hand[cardIndex];
         console.log("Handling card effects: ");
         console.log(effects);
@@ -70,9 +68,10 @@ function App() {
 
         if (tcard.type === CARD_TYPE.item || tcard.type === CARD_TYPE.basic ||
             (tcard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
-            const effectsResult = processEffects(tcard, cardIndex, tPlayerState, effects, tActiveEffects, tStore, null, null);
+            const effectsResult = processEffects(tcard, cardIndex, tPlayerState, effects, null, tStore, null, null);
+
             tPlayerState = effectsResult.tPlayerState;
-            tActiveEffects = effectsResult.tActiveEffects;
+            tPlayerState.actions -= 1;
             tStore = effectsResult.tStore;
 
             /* if we have an active card, we move it to discard or to destroyed cards */
@@ -94,29 +93,22 @@ function App() {
                 tPlayerState.resources.texts -= 1;
             }
 
-            if (tActiveEffects.length > 0) {
-                console.log("Setting active effects:");
-                console.log(tActiveEffects);
-                setActiveEffects(tActiveEffects)
-            }
             setPlayerState(tPlayerState);
             setStore(tStore);
         }
-        nextPlayer()
     }
 
     /** LOCATION EFFECTS **/
     function handleClickOnLocation(effects, location) {
         console.log("Clicked on location");
-        let tPlayerState = {...playerState};
+        let tPlayerState = cloneDeep(playerState);
         const resources = tPlayerState.resources;
-        if (activeEffects.length > 0) {
+        if (tPlayerState.activeEffects.length > 0) {
             const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
-                [...activeEffects], {...store}, [...locations]);
+                [...tPlayerState.activeEffects], {...store}, [...locations]);
             tPlayerState = effectResult.tPlayerState;
+            tPlayerState.activeEffects = effectResult.tActiveEffects;
             setPlayerState(tPlayerState);
-            const tActiveEffects = effectResult.tActiveEffects;
-            setActiveEffects(tActiveEffects);
             const tLocation = effectResult.tLocation;
             let tLocations = [...locations];
             tLocations.splice(location.index, 1, tLocation);
@@ -126,42 +118,43 @@ function App() {
             switch (location.state) {
                 case LOCATION_STATE.unexplored:
                     if (resources.explore >= location.exploreCost.explore
-                        && resources.coins >= location.exploreCost.coins) {
+                        && resources.coins >= location.exploreCost.coins && playerState.actions > 0) {
                         resources.coins -= location.exploreCost.coins;
                         resources.explore -= location.exploreCost.explore;
 
                         /* todo guardians player can choose between tLocation benefits and guardian benefits */
                         const effectsResult = processEffects(null, null, {...playerState}, effects,
-                            [...activeEffects], {...store}, location, {...locations});
+                            [...tPlayerState.activeEffects], {...store}, location, {...locations});
                         /* costs are only coins and explore => we only need to update playerState */
+                        tPlayerState = effectsResult.tPlayerState;
+                        tPlayerState.actions -= 1;
                         setPlayerState(effectsResult.tPlayerState);
-                        setActiveEffects(effectsResult.tActiveEffects);
+
                         setStore(effectsResult.tStore);
                         setLocations(effectsResult.tLocations);
+
                         let tLocation = {...locations[location.index]};
                         tLocation.state = LOCATION_STATE.explored;
                         let tLocations = [...locations];
                         tLocations.splice(location.index, 1, tLocation);
                         setLocations(tLocations);
-                        nextPlayer()
                     }
                     break;
                 case LOCATION_STATE.explored:
                     const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
-                    if (travelCheckResults.enoughResources) {
+                    if (travelCheckResults.enoughResources && tPlayerState.actions > 0) {
                         tPlayerState = travelCheckResults.tPlayerState;
                         tPlayerState.availableAdventurers -= 1;
-                        const effectsResult = processEffects(null, null, tPlayerState, effects, [...activeEffects],
+                        tPlayerState.actions -= 1;
+                        const effectsResult = processEffects(null, null, tPlayerState, effects, null,
                             {...store}, location, [...locations]);
                         setPlayerState(effectsResult.tPlayerState);
-                        setActiveEffects(effectsResult.tActiveEffects);
 
                         let tLocation = {...locations[location.index]};
                         tLocation.state = LOCATION_STATE.occupied;
                         let tLocations = [...locations];
                         tLocations.splice(location.index, 1, tLocation);
                         setLocations(tLocations);
-                        nextPlayer()
                     }
                     break;
                 case LOCATION_STATE.occupied:
@@ -176,26 +169,23 @@ function App() {
 
     /** HANDLE ACTIVE EFFECTS **/
     function handleActiveEffectClickOnCard(card, cardIndex) {
-        const effectProcessResults = processActiveEffect(card, cardIndex, null, {...playerState},
-            [...activeEffects], {...store}, [...locations]);
+        const effectProcessResults = processActiveEffect(card, cardIndex, null, cloneDeep(playerState),
+            null, {...store}, [...locations]);
         const tPlayerState = effectProcessResults.tPlayerState;
-        const tActiveEffects = effectProcessResults.tActiveEffects;
         const tStore = effectProcessResults.tStore;
         const tLocations = effectProcessResults.tLocations;
-        setActiveEffects(tActiveEffects);
         setPlayerState(tPlayerState);
         setStore(tStore);
         setLocations(tLocations);
-        nextPlayer();
     }
 
     /** HANDLE CLICK ON RESOURCE **/
     function handleClickOnResource(resource) {
         console.log("Handling click on resources with resource: " + resource);
-        if (activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
-            const tPlayerState = {...playerState};
+        if (playerState.activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
+            const tPlayerState = cloneDeep(playerState);
             let resources = tPlayerState.resources;
-            const tActiveEffects = [...activeEffects];
+            const tActiveEffects = tPlayerState.activeEffects;
             /* todo fix should work with RESOURCES..., but doesn't */
             switch (resource) {
                 case "texts":
@@ -220,45 +210,47 @@ function App() {
             }
             tActiveEffects.splice(0, 1);
             setPlayerState(tPlayerState);
-            setActiveEffects(tActiveEffects);
         }
     }
 
     /** BUY A CARD **/
     function handleCardBuy(card, cardIndex) {
         console.log("Buying card: " + card.cardName + " with effect: " + card.effects);
-        const buyResult = processCardBuy(card, cardIndex, {...playerState}, [...activeEffects],
-            {...store}, [...locations]);
-        const tPlayerState = buyResult.tPlayerState;
-        const tActiveEffects = buyResult.tActiveEffects;
-        const tStore = buyResult.tStore;
+        if (playerState.actions > 0) {
+            const buyResult = processCardBuy(card, cardIndex, cloneDeep(playerState), null,
+                cloneDeep(store), [...locations]);
+            const tPlayerState = buyResult.tPlayerState;
+            const tStore = buyResult.tStore;
 
-        setPlayerState(tPlayerState);
-        setActiveEffects(tActiveEffects);
-        setStore(tStore);
-        nextPlayer();
+            setPlayerState(cloneDeep(tPlayerState));
+            setStore(tStore);
+            console.log("playerstate after buying: ");
+            console.log(playerState[playerIndex]);
+        }
     }
 
     function cancelEffect(effect) {
-        setActiveEffects([]);
+
     }
 
     /** SET NEXT PLAYER **/
     function nextPlayer() {
-        if (activeEffects.length === 0) {
-            /* looks for a player that has not yet finished */
-            console.log("PLAYER " + (playerIndex + 1) + " passing action.");
-            let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
-            while (nextPlayerIndex !== playerIndex) {
-                console.log("Has player " + (nextPlayerIndex + 1) + " finished round? " + playerStates[nextPlayerIndex].finishedRound);
-                if (!playerStates[nextPlayerIndex].finishedRound) {
-                    setPlayerIndex(nextPlayerIndex);
-                    console.log("PASSING ACTION TO PLAYER " + (nextPlayerIndex + 1));
-                    break;
-                }
-                nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0
+        /* looks for a player that has not yet finished */
+        console.log("PLAYER " + (playerIndex + 1) + " passing action.");
+        console.log(playerState);
+        let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
+        while (nextPlayerIndex !== playerIndex) {
+            console.log("Has player " + (nextPlayerIndex + 1) + " finished round? " + playerStates[nextPlayerIndex].finishedRound);
+            if (!playerStates[nextPlayerIndex].finishedRound) {
+                setPlayerIndex(nextPlayerIndex);
+                console.log("PASSING ACTION TO PLAYER " + (nextPlayerIndex + 1));
+                break;
             }
+            nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0
         }
+        let tPlayerState = cloneDeep(playerState);
+        tPlayerState.actions = 1;
+        setPlayerState(tPlayerState);
     }
 
     /** END OF ROUND **/
@@ -276,8 +268,8 @@ function App() {
 
             /* handle store changes */
             let tStore = {...store};
-            if (tStore.offer.length > 0) {
-                tStore.offer.splice(tStore.offer.length - round, 1, tStore.artifactsDeck[0]);
+            if (tStore.itemsOffer.length > 0) {
+                tStore.itemsOffer.splice(tStore.itemsOffer.length - round, 1, tStore.artifactsDeck[0]);
                 tStore.artifactsDeck.splice(0, 1);
                 setStore(tStore);
             }
@@ -330,12 +322,16 @@ function App() {
                 tPlayerState.resources.ship = 0;
                 tPlayerState.resources.plane = 0;
 
+                /* reset active effects */
+                tPlayerState.activeEffects = [];
+
+                tPlayerState.actions = 1;
+
                 tPlayerState.finishedRound = false;
                 tPlayerStates.push(tPlayerState);
             }
             setPlayerStates(tPlayerStates);
 
-            setActiveEffects([]);
             setRound(round + 1);
             console.log("*** END OF ROUND ***");
         } else {
@@ -349,10 +345,8 @@ function App() {
     return (
         <div className="App">
             <BoardStateContext.Provider value={{
-                storeOffer: store.offer,
-                storeItemsDeck: store.itemsDeck,
-                activeEffects: activeEffects,
-                setActiveEffects: setActiveEffects,
+                store: store,
+                activeEffects: playerState.activeEffects,
                 handleCardEffect: handleClickOnCardEffect,
                 handleCardBuy: handleCardBuy,
                 handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
@@ -362,16 +356,20 @@ function App() {
             }}>
                 <PlayerStateContext.Provider value={{
                     playerState: playerState,
-                    activeEffects: activeEffects,
+                    activeEffects: playerState.activeEffects,
                     cancelEffect: cancelEffect,
                     handleEndRound: handleEndRound,
+                    nextPlayer: nextPlayer,
                 }}>
                     <Resources handleClickOnResource={handleClickOnResource}/>
                     <Store/>
                     <LocationsArea/>
                     <CardsArea/>
-                    <Controls/>
-                    {activeEffects[0]}
+                    <div className="d-inline-flex flex-row text-center">
+                        Actions: {playerState.actions}
+                        <Controls/>
+                        {playerState.activeEffects[0]}
+                    </div>
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>
@@ -388,8 +386,9 @@ export const RES = Object.freeze({
 
 export const GLOBAL_VARS = Object.freeze({
     handSize: 5,
-    initialCards: [ITEMS.fear, ITEMS.fear, ITEMS.coin, ITEMS.coin, ITEMS.explore, ITEMS.explore],
-    storeSize: 5,
+    initialCards: [cloneDeep(ITEMS.fear), cloneDeep(ITEMS.fear), cloneDeep(ITEMS.coin), cloneDeep(ITEMS.coin), cloneDeep(ITEMS.explore), cloneDeep(ITEMS.explore)],
+    itemsInStore: 5,
+    artifactsInStore: 1,
     adventurers: 2,
     numOfPlayers: 2,
     playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],

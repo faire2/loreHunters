@@ -1,9 +1,4 @@
 import React from "react";
-/*import sJeep from "../img/symbols/Gjeep.png"
-import sWalk from "../img/symbols/Gwalk.png"
-import sPlane from "../img/symbols/Gplane.png"
-import sShip from "../img/symbols/Gship.png"*/
-
 import draw1 from "../img/symbols/Card+.png"
 import draw2 from "../img/symbols/Card++.png"
 import destroyCard from "../img/symbols/CardX.png"
@@ -14,7 +9,6 @@ import walk from "../img/symbols/Walk.png"
 import ship from "../img/symbols/ship.png"
 import jeep from "../img/symbols/Jeep.png"
 import plane from "../img/symbols/Plane.png"
-import adventurer from "../img/symbols/Adv.png"
 import text from "../img/symbols/T.png"
 import weapon from "../img/symbols/W.png"
 import jewel from "../img/symbols/J.png"
@@ -25,6 +19,10 @@ import artifact from "../img/symbols/artifact.png"
 import uptrade from "../img/symbols/uptrade.png"
 import item from "../img/symbols/item.png"
 import fear from "../img/symbols/Fear.png"
+/*import sJeep from "../img/symbols/Gjeep.png"
+import sWalk from "../img/symbols/Gwalk.png"
+import sPlane from "../img/symbols/Gplane.png"
+import sShip from "../img/symbols/Gship.png"*/
 
 export const Coin = (props) => <img src={coin} alt="gain a coin" className="cardEffect"/>;
 export const Explore = (props) => <img src={explore} alt="gain an explore token" className="cardEffect"/>;

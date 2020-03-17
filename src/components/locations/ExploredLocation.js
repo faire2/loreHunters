@@ -1,12 +1,11 @@
 import React, {useContext, useState} from "react";
 import {LOCATION_STATE, LOCATION_TYPE} from "../../data/locations";
-import {AdventurerIcon, AdventurerToken} from "../Symbols";
-import {BoardStateContext, PlayerStateContext} from "../../Contexts";
+import {AdventurerToken} from "../Symbols";
+import {BoardStateContext} from "../../Contexts";
 import {GLOBAL_VARS} from "../../App";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
-    const playerStateContext = useContext(PlayerStateContext);
     const [playerOwner, setPlayerOwner] = useState(false);
     const location = props.location;
 

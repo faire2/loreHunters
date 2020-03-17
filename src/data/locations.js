@@ -1,14 +1,17 @@
 import {
     Artifact,
     Coin,
-    DestroyCard, Discard,
+    DestroyCard,
+    Discard,
     Draw1Card,
-    Explore, Item,
+    Explore,
     Jeep,
     Jewel,
-    Plane, Shiny,
+    Plane,
+    Shiny,
     Ship,
-    Text, Uptrade,
+    Text,
+    Uptrade,
     Walk,
     Weapon
 } from "../components/Symbols";

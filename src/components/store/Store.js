@@ -7,8 +7,13 @@ export default function Store(props) {
 
     return (
         <div className="float-left">
-            {storeContext.storeOffer.map((card, i) =>
-                <div key={i} >
+            {storeContext.store.itemsOffer.map((card, i) =>
+                <div key={"item" + i} >
+                    <Card card={card} index={i}/>
+                </div>
+            )}
+            {storeContext.store.artifactsOffer.map((card, i) =>
+                <div key={"artifact" + i} >
                     <Card card={card} index={i}/>
                 </div>
             )}

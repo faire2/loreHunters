@@ -13,7 +13,7 @@ export function getInitialPlayerStates() {
             resources: {
                 coins: 20,
                 explore: 20,
-                texts: 0,
+                texts: 2,
                 weapons: 0,
                 jewels: 0,
                 shinies: 20,
@@ -22,6 +22,7 @@ export function getInitialPlayerStates() {
                 ship: 0,
                 plane: 0
             },
+            activeEffects: [],
             availableAdventurers: GLOBAL_VARS.adventurers,
             hand: [],
             activeCard: false,
@@ -30,16 +31,17 @@ export function getInitialPlayerStates() {
             playedCards: [],
             destroyedCards: [],
             color: GLOBAL_VARS.playerColors[i],
+            actions: 1,
         };
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
         const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
         const hand = [];
         const drawDeck = [];
-        /*cardsSetup.drawCards.push(ITEMS.whip);*/
+
+        cardsSetup.drawCards.push(ARTIFACTS.ringOfLight);
 
         for (let card of cardsSetup.deck) {
-            card.state = CARD_STATE.drawDeck;
             drawDeck.push(card);
         }
 
@@ -52,6 +54,12 @@ export function getInitialPlayerStates() {
         playerState.drawDeck = drawDeck;
         playerStates.push(playerState);
     }
+    // bug was causing draw deck status for 1st player to be "in hand"
+    for (let playerState of playerStates) {
+        for (let card of playerState.drawDeck) {
+            card.state = CARD_STATE.drawDeck;
+        }
+    }
     return playerStates;
 }
 
@@ -63,19 +71,25 @@ export function getInitialStoreItems() {
     }));
     items = items.filter(card => card.type !== CARD_TYPE.basic);
 
+    /* array of artifacts */
     let artifacts = shuffleArray(Object.keys(ARTIFACTS).map(key => {
         ARTIFACTS[key].state = CARD_STATE.inStore;
         return ARTIFACTS[key];
     }));
 
-    let itemsSetup = drawCards(items, GLOBAL_VARS.storeSize);
-    itemsSetup.drawCards.push(ARTIFACTS.amuletOfCharm);
-    artifacts.splice(0, 1);
+    let itemsSetup = drawCards(items, GLOBAL_VARS.itemsInStore);
+    let artifactSetup = drawCards(artifacts, GLOBAL_VARS.artifactsInStore);
+
 
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;
     }
-    return {offer: itemsSetup.drawCards, itemsDeck: itemsSetup.deck, artifactsDeck: artifacts}
+    return {
+        itemsOffer: itemsSetup.drawCards,
+        artifactsOffer: artifactSetup.drawCards,
+        itemsDeck: itemsSetup.deck,
+        artifactsDeck: artifactSetup.deck
+    }
 }
 
 /* INITIAL LOCATIONS */

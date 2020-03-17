@@ -1,18 +1,13 @@
 import {EFFECT} from "../../data/effects";
-import {
-    addCardToDiscardDeck,
-    addCardToHand,
-    addCardToStore,
-    destroyCard, drawCards,
-    shuffleArray
-} from "./CardManipulationFuntions";
+import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, shuffleArray} from "./CardManipulationFuntions";
 import {CARD_STATE, CARD_TYPE} from "../../data/cards";
 import {LOCATION_STATE} from "../../data/locations";
 import {processEffects} from "./processEffects";
 import {payForTravelIfPossible} from "../locations/checkTravelCostAndPayForTravel";
 import {processCardBuy} from "./processCardBuy";
 
-export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, tActiveEffects, tStore, tLocations) {
+export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations) {
+    let tActiveEffects = tPlayerState.activeEffects;
     console.log(tActiveEffects);
     console.log("Resolving active effect: " + tActiveEffects[0]);
     switch (tActiveEffects[0]) {
@@ -89,7 +84,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.drawFromDrawDeck:
-            console.log("Card state: " + tCard.state);
             if (tCard.state === CARD_STATE.drawDeck) {
                 console.log("HERE");
                 /* we have the actual hand stored in active effects */
@@ -103,7 +97,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                         tPlayerState.drawDeck.splice(i, 1);
                     }
                 }
-                tPlayerState.drawDeck = tPlayerState.drawDeck;
+                /*tPlayerState.drawDeck = tPlayerState.drawDeck;*/
             }
             break;
 
@@ -212,7 +206,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
     return {
         tPlayerState: tPlayerState,
-        tActiveEffects: tActiveEffects,
         tLocation: tLocation,
         tLocations: tLocations,
         tStore: tStore
