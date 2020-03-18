@@ -24,13 +24,16 @@ import LocationsArea from "./components/main/LocationsArea";
 import {LOCATION_STATE} from "./data/locations";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
-import {payForTravelIfPossible} from "./components/locations/checkTravelCostAndPayForTravel";
 import {EFFECT} from "./data/effects";
+import ModalDialogue from "./components/main/Modal";
+import {payForTravelIfPossible} from "./components/locations/payForTravelIfPossible";
 
 
 function App() {
     const [playerStates, setPlayerStates] = useState(getInitialPlayerStates);
     const [playerIndex, setPlayerIndex] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+    const [modalData, setModalData] = useState({location: null, guardian: null});
 
     const playerState = cloneDeep(playerStates[playerIndex]);
 
@@ -126,21 +129,17 @@ function App() {
                         resources.explore -= location.exploreCost.explore;
 
                         /* todo guardians player can choose between tLocation benefits and guardian benefits */
-                        const effectsResult = processEffects(null, null, {...playerState}, effects,
-                            [...tPlayerState.activeEffects], {...store}, location, {...locations});
-                        /* costs are only coins and explore => we only need to update playerState */
-                        tPlayerState = effectsResult.tPlayerState;
+                        tPlayerState = cloneDeep(playerState);
                         tPlayerState.actions -= 1;
-                        setPlayerState(effectsResult.tPlayerState);
-
-                        setStore(effectsResult.tStore);
-                        setLocations(effectsResult.tLocations);
+                        setPlayerState(tPlayerState);
 
                         let tLocation = {...locations[location.index]};
                         tLocation.state = LOCATION_STATE.explored;
                         let tLocations = [...locations];
                         tLocations.splice(location.index, 1, tLocation);
                         setLocations(tLocations);
+                        setModalData({location: location, guardian: playerState.guardians[0]});
+                        setShowModal(true);
                     }
                     break;
                 case LOCATION_STATE.explored:
@@ -256,6 +255,21 @@ function App() {
         setPlayerState(tPlayerState);
     }
 
+    /** HANDLE NEW LOCATION EXPLORE **/
+    function handleLocationExploredReward(effects) {
+        console.log("here");
+        const effectsResult = processEffects(null, null, cloneDeep(playerState), effects,
+            null, cloneDeep(store), null, cloneDeep(locations));
+        /* costs are only coins and explore => we only need to update playerState */
+        let tPlayerState = effectsResult.tPlayerState;
+        tPlayerState.discardDeck.push(tPlayerState.guardians[0]);
+        tPlayerState.guardians.splice(0, 1);
+        setPlayerState(effectsResult.tPlayerState);
+        setLocations(effectsResult.tLocations);
+        setStore(effectsResult.tStore);
+        setShowModal(false);
+    }
+
     /** END OF ROUND **/
     function handleEndRound() {
         let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
@@ -356,6 +370,9 @@ function App() {
                 locations: locations,
                 handleClickOnLocation: handleClickOnLocation,
                 playerIndex: playerIndex,
+                showModal: showModal,
+                modalData: modalData,
+                handleLocationExploredReward: handleLocationExploredReward,
             }}>
                 <PlayerStateContext.Provider value={{
                     playerState: playerState,
@@ -373,6 +390,7 @@ function App() {
                         <Controls/>
                         {playerState.activeEffects[0]}
                     </div>
+                    <ModalDialogue/>
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

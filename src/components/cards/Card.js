@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {CARD_STATE, CARD_TRANSPORT} from "../../data/cards";
+import {CARD_STATE, CARD_TRANSPORT, CARD_TYPE} from "../../data/cards";
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
 
@@ -8,6 +8,8 @@ export default function Card(props) {
     const card = props.card;
     const boardStateContext = useContext(BoardStateContext);
     // if cardsState = inShop => no effects, else (in hand) clickOn effects only active, if activeEffects.length = 0
+    const isGuardian = card.type === CARD_TYPE.guardian;
+    const isPointer = card.state !== CARD_STATE.inStore ? "pointer" : "default";
 
     const styles = {
         width: 142,
@@ -18,9 +20,50 @@ export default function Card(props) {
         backgroundSize: "cover"
     };
 
-    const pointer = {cursor: "pointer"};
-    const noPointer = {cursor: "default"};
-    const pointerStyle = card.state !== CARD_STATE.inStore ? pointer : noPointer;
+    const cardTopStyle = {
+        position: "absolute",
+        visibility: isGuardian ? "true" : "false",
+        right: 0,
+        marginTop: isGuardian ? 5 : 0,
+        fontSize: 1,
+        cursor: isPointer,
+        width: isGuardian ? "" : "100%",
+        height: isGuardian ? "" : "10%",
+    };
+
+    const cardNameStyle = {
+        fontSize: "40%",
+        marginTop: isGuardian ? "58%" : "10%",
+    };
+
+    const effectsStyle = {
+        position: "relative",
+        marginTop: isGuardian ? "35%" : "48%",
+        cursor: isPointer,
+    };
+
+    const alternativeEffectsStyle = {
+        position: "relative",
+        cursor: isPointer,
+        marginTop: 10
+    };
+
+    const costStyle = {
+        position: "absolute",
+        bottom: "-3%",
+        left: "6.5%",
+        color: isGuardian ? "gold" : "black",
+        fontSize: 30
+    };
+
+    const pointsStyle = {
+        position: "absolute",
+        bottom: "-3%",
+        right: "4%",
+        visibility: isGuardian ? "hidden" : "visible",
+        textShadow: "-1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF",
+        fontSize: 30,
+    };
 
     /*console.log("Displaying card:" + card.cardName);
     console.log(card);
@@ -44,67 +87,68 @@ export default function Card(props) {
 
     return (
         <div style={styles} className="card" onClick={() => handleClickOnCard()}>
-            <Movement itemTransport={card.itemTransport} handleClickOnEffect={handleClickOnEffect}/>
-            <h2>{card.cardName}</h2>
-            <span style={{fontSize: 10}}> {card.state} </span>
-            <Effects effectsText={card.effectsText} effects={card.effects} style={pointerStyle}
-                     handleClickOnEffect={handleClickOnEffect} index={props.index} card={props.card}/>
-            <AlternativeEffects effectsText={card.effects2Text} effects={card.effects2} style={pointerStyle}
-                                handleClickOnEffect={handleClickOnEffect} index={props.index} card={props.card}/>
-            <Cost cost={card.cost}/>
-            <VictoryPoints points={card.points}/>
-
+            <CardTop itemTransport={card.itemTransport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
+                     discovery={isGuardian ? card.discoveryText : ""}
+                     discoveryEffect={isGuardian ? card.discoveryEffect : []}/>
+            <h2 style={cardNameStyle}>{card.cardName}</h2>
+            <Effects effectsText={card.effectsText} effects={card.effects} style={effectsStyle}
+                     handleClickOnEffect={handleClickOnEffect}/>
+            <AlternativeEffects effectsText={card.effects2Text} effects={card.effects2} style={alternativeEffectsStyle}
+                                handleClickOnEffect={handleClickOnEffect}/>
+            <Cost cost={card.cost} style={costStyle}/>
+            <VictoryPoints points={card.points} style={pointsStyle}/>
+            <span style={{fontSize: 10, position: "absolute", top: 50, left: 40}}> {card.state} </span>
         </div>
     )
 }
 
 
-const Movement = (props) => {
-    let effect = [];
+const CardTop = (props) => {
+    let effects = props.discoveryEffect;
     switch (props.itemTransport) {
         case CARD_TRANSPORT.walk:
-            effect.push(EFFECT.gainWalk);
+            effects.push(EFFECT.gainWalk);
             break;
         case CARD_TRANSPORT.jeep:
-            effect.push(EFFECT.gainJeep);
+            effects.push(EFFECT.gainJeep);
             break;
         case CARD_TRANSPORT.ship:
-            effect.push(EFFECT.gainShip);
+            effects.push(EFFECT.gainShip);
             break;
         case CARD_TRANSPORT.plane:
         case CARD_TRANSPORT.artifact:
-            effect.push(EFFECT.gainPlane);
+            effects.push(EFFECT.gainPlane);
             break;
         case CARD_TRANSPORT.empty:
+        case CARD_TRANSPORT.guardian:
             break;
         default:
             console.log("Unknwown ITEM_TRANSPORT type in Card > Movement: " + props.itemTransport);
     }
-
     return (
-        <div className="Movement" onClick={() => props.handleClickOnEffect(effect, true)}>
-            {props.movement}
+        <div style={props.style} onClick={() => props.handleClickOnEffect(effects, true)}>
+            {props.discovery}
         </div>
     )
 };
 
 const Effects = (props) =>
-    <div className="Effects" style={props.style} onClick={() => props.handleClickOnEffect(props.effects, false)} key={props.card + props.index}>
+    <div style={props.style} onClick={() => props.handleClickOnEffect(props.effects, false)}>
         {props.effectsText}
     </div>;
 
 const AlternativeEffects = (props) =>
-    <div className="Effects2" style={props.style} onClick={() => props.handleClickOnEffect(props.effects, false)} key={props.card + props.index}>
+    <div style={props.style} onClick={() => props.handleClickOnEffect(props.effects, false)}>
         {props.effectsText}
     </div>;
 
 const Cost = (props) =>
-    <div className="Cost">
+    <div style={props.style}>
         <h3>{props.cost}</h3>
     </div>;
 
 const VictoryPoints = (props) =>
-    <div className="VictoryPoints">
+    <div style={props.style}>
         <h3>{props.points}</h3>
     </div>;
 

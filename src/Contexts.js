@@ -1,4 +1,4 @@
 import React from "react";
 
-export const PlayerStateContext = React.createContext("");
-export const BoardStateContext = React.createContext("");
+export const PlayerStateContext = React.createContext(null);
+export const BoardStateContext = React.createContext(null);

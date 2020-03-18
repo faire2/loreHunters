@@ -2,11 +2,17 @@ import {CARD_STATE, CARD_TYPE, ITEMS} from "../../data/cards";
 import {addCardToStore, destroyCard, drawCards} from "./CardManipulationFuntions";
 import {EFFECT} from "../../data/effects";
 import cloneDeep from 'lodash/cloneDeep';
+import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";
 
-export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemoved, tStore, location, tLocations) {
+export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location, originalLocations) {
     console.log("Processing effects");
     console.log(effects);
+    let tPlayerState = cloneDeep(originalPlayersState);
+    let tStore = cloneDeep(originalStore);
+    let tLocations = cloneDeep(originalLocations);
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
+    let processedAllEffects = true;
+
 
     if (tCard !== null) {
         tCard.state = CARD_STATE.active
@@ -55,13 +61,16 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemo
                     tActiveEffects.splice(1, 0, [...tEffects]);
                     return;
 
-                    // todo fix bug: card doesnt leave active cards
+                case EFFECT.defeatThisGuardian:
+                    if (tCard.type === CARD_TYPE.guardian) {
+                        tCard.points = tCard.cost;  /* victory points for defeating guardian are stored in costs */
+                        tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                        tPlayerState.destroyedCards[tPlayerState.destroyedCards.length - 1].state = CARD_STATE.defeatedGuardian;
+                    }
+                    break;
+
                 case EFFECT.destroyThisCard:
-                    tPlayerState.activeCard = [];
-                    console.log("LOGGING1");
-                    console.log(tPlayerState);
-                    tCard.state = CARD_STATE.destroyed;
-                    tPlayerState.destroyedCards.push(tCard);
+                    tPlayerState = destroyCard(tCard);
                     break;
 
                 case EFFECT.destroyThisCardToDefeatAGuardan:
@@ -176,6 +185,7 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemo
                     if (tPlayerState.resources.coins > 0) {
                         tPlayerState.resources.coins -= 1;
                     } else {
+                        processedAllEffects = false;
                         return;
                     }
                     break;
@@ -184,6 +194,7 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemo
                     if (tPlayerState.resources.explore > 0) {
                         tPlayerState.resources.explore -= 1;
                     } else {
+                        processedAllEffects = false;
                         return;
                     }
                     break;
@@ -192,6 +203,7 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemo
                     if (tPlayerState.resources.texts > 0) {
                         tPlayerState.resources.texts -= 1;
                     } else {
+                        processedAllEffects = false;
                         return;
                     }
                     break;
@@ -200,6 +212,7 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemo
                     if (tPlayerState.resources.weapons > 0) {
                         tPlayerState.resources.weapons -= 1;
                     } else {
+                        processedAllEffects = false;
                         return;
                     }
                     break;
@@ -208,6 +221,20 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemo
                     if (tPlayerState.resources.jewels > 0) {
                         tPlayerState.resources.jewels -= 1;
                     } else {
+                        processedAllEffects = false;
+                        return;
+                    }
+                    break;
+
+                case EFFECT.loseWalk:
+                case EFFECT.loseJeep:
+                case EFFECT.loseShip:
+                case EFFECT.losePlane:
+                    const travelResults = payForTravelIfPossible(tPlayerState, null, effect);
+                    if (travelResults.enoughResources) {
+                        tPlayerState = travelResults.tPlayerState;
+                    } else {
+                        processedAllEffects = false;
                         return;
                     }
                     break;
@@ -236,6 +263,16 @@ export function processEffects(tCard, cardIndex, tPlayerState, effects, toBeRemo
             }
         }
     }
+
+    if (!processedAllEffects) {
+        console.log("Some effects could not be processed in processEffects");
+        return {
+            tPlayerState: originalPlayersState, tStore: originalStore, tLocations: originalLocations
+        }
+    } else if (tCard !== null) {
+        tCard.state = CARD_STATE.active
+    }
+
     tPlayerState.activeEffects = tActiveEffects;
     return {tPlayerState: tPlayerState, tStore: tStore, tLocations: tLocations};
 }

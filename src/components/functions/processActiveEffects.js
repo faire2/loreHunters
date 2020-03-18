@@ -3,8 +3,8 @@ import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, shuffleArra
 import {CARD_STATE, CARD_TYPE} from "../../data/cards";
 import {LOCATION_STATE} from "../../data/locations";
 import {processEffects} from "./processEffects";
-import {payForTravelIfPossible} from "../locations/checkTravelCostAndPayForTravel";
 import {processCardBuy} from "./processCardBuy";
+import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations) {
     let tActiveEffects = tPlayerState.activeEffects;
@@ -98,6 +98,12 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                     }
                 }
                 /*tPlayerState.drawDeck = tPlayerState.drawDeck;*/
+            }
+            break;
+
+        case EFFECT.exploreLocationWithDiscount2:
+            if (tLocation !== null) {
+                // todo location implement
             }
             break;
 

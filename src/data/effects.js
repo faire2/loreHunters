@@ -2,6 +2,7 @@ export const EFFECT = Object.freeze({
     revealArtifactBuyWithDiscount2: "buy and artifact with a discount",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
     defeatGuardian: "defeat a guardian in play area or discard pile",
+    defeatThisGuardian: "defeat this guardian card",
     destroyCard: "pick a card to destroy",
     destroyGuardian: "destroy a guardian",
     destroyThisCard: "destroy this card",
@@ -18,6 +19,7 @@ export const EFFECT = Object.freeze({
     discardFor2Weapons: "discard to gain 2 weapons", // todo implement
     discardFor3Weapons: "discard to gain 3 weapons", // todo implement
     exhaustAdventurer: "exhaust adventurer", // todo legend implement
+    exploreLocationWithDiscount2: "explore location with discount of 2 explore, do not gain a guardian ",
     gainAdventurerForThisRound: "gain adventurer for this round",
     gainArtifact: "gain an artifact",
     gainArtifactForExplore: "gain artifact for explore", // todo artifacts implement
@@ -49,6 +51,10 @@ export const EFFECT = Object.freeze({
     loseText: "lose a text",
     loseWeapon: "lose a weapon",
     loseJewel: "lose a jewel",
+    loseWalk: "lose a walk",
+    loseJeep: "lose a jeep",
+    loseShip: "lose a ship",
+    losePlane: "lose a plane",
     markOwnLocation: "mark location for adjacency / non-identity check",
     moveAdvToEmptyLocation: "move deployed adventurer to a different empty tLocation",
     moveToAdjacentLocation: "move deployed adventurer to an adjacent tLocation", // todo implement

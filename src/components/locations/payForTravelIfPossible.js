@@ -1,9 +1,41 @@
+import React from "react";
 import {TRANSPORT_TYPE} from "../../data/locations";
+import {EFFECT} from "../../data/effects";
 
-export function  payForTravelIfPossible(tPlayerState, location) {
+export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
-    const transportType = location.useCost.transportType;
-    const transportCost = location.useCost.amount;
+    let transportType = null;
+    let transportCost = null;
+
+    if (location !== null) {
+        transportType = TRANSPORT_TYPE.jeep;
+        transportCost = location.useCost.amount;
+    } else {
+        switch (effect) {
+            case EFFECT.loseWalk:
+                transportType = TRANSPORT_TYPE.walk;
+                transportCost = 1;
+                break;
+            case EFFECT.loseJeep:
+                transportType = TRANSPORT_TYPE.jeep;
+                transportCost = 1;
+                break;
+            case EFFECT.loseShip:
+                transportType = TRANSPORT_TYPE.ship;
+                transportCost = 1;
+                break;
+            case EFFECT.losePlane:
+                transportType = TRANSPORT_TYPE.plane;
+                transportCost = 1;
+                break;
+            default:
+                console.log("Unknown mode of transport for guardian card in payForTravelIfPossible: " + effect);
+        }
+    }
+
+    console.log("Transport type: " + transportType);
+    console.log("Transport cost: " + transportCost);
+
     let enoughResources = false;
 
     switch (transportType) {
@@ -55,7 +87,7 @@ export function  payForTravelIfPossible(tPlayerState, location) {
             }
             break;
         default:
-            console.log("Unknown transportation cost for using tLocation in handleClickOnLocation: " + location.useCost.transportType);
+            console.log("Unknown transportation type in payForTravelIfPossible: " + transportCost);
             console.log(location);
     }
     console.log("**Travel check - has enough resources for travel? " + enoughResources);

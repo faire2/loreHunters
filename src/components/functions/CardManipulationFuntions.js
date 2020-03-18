@@ -74,23 +74,27 @@ export function addCardToStore(cardType, store) {
 }
 
 export function destroyCard(cardState, cardIndex, tPlayerState) {
-    console.log("HERE");
+    let card = null;
+    console.log("destroying card");
     console.log(cardState);
     switch (cardState) {
         case CARD_STATE.inHand:
+            card = tPlayerState.hand[cardIndex];
             tPlayerState.hand.splice(cardIndex, 1);
             break;
         case CARD_STATE.active:
+            card = tPlayerState.activeCard;
             tPlayerState.activeCard = false;
             break;
         case CARD_STATE.discard:
+            card = tPlayerState.discardDeck[cardIndex];
             tPlayerState.discardDeck.splice(cardIndex, 1);
             break;
         case CARD_STATE.inStore:
         case CARD_STATE.destroyed:
-            break;
         default:
             console.log("Cannot process state " + cardState + " while removing card.");
     }
+    if (card !== null) {tPlayerState.destroyedCards.push(card)}
     return tPlayerState;
 }

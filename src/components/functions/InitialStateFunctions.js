@@ -1,5 +1,5 @@
 import {shuffleArray} from "./CardManipulationFuntions";
-import {ARTIFACTS, CARD_STATE, CARD_TYPE, ITEMS} from "../../data/cards";
+import {ARTIFACTS, CARD_STATE, CARD_TYPE, GUARDIANS, ITEMS} from "../../data/cards";
 import {GLOBAL_VARS} from "../../App";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations";
 
@@ -32,6 +32,7 @@ export function getInitialPlayerStates() {
             destroyedCards: [],
             color: GLOBAL_VARS.playerColors[i],
             actions: 1,
+            guardians: [],
         };
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
@@ -50,8 +51,15 @@ export function getInitialPlayerStates() {
             hand.push(card);
         }
 
+        let guardians = [];
+
+        for (let key in GUARDIANS) {
+            guardians.push(GUARDIANS[key]);
+        }
+
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;
+        playerState.guardians = shuffleArray(guardians);
         playerStates.push(playerState);
     }
     // bug was causing draw deck status for 1st player to be "in hand"

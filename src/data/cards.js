@@ -2,7 +2,7 @@ import React from "react";
 import {
     AdventurerIcon,
     Arrow,
-    Coin,
+    Coin, DefeatedGuardian,
     DestroyCard,
     Discard,
     Draw1Card,
@@ -24,6 +24,7 @@ import bgrJeep from "../img/cardBackgrounds/ItemBrownJeep3.png";
 import bgrShip from "../img/cardBackgrounds/ItemBrownShip3.png";
 import bgrPlane from "../img/cardBackgrounds/ItemBrownPlane3.png";
 import bgrArtifact from "../img/cardBackgrounds/Artifacts7.png";
+import bgrGuardian from "../img/cardBackgrounds/Guardian12.png";
 import {EFFECT} from "./effects";
 
 export const CARD_TRANSPORT = Object.freeze({
@@ -32,12 +33,14 @@ export const CARD_TRANSPORT = Object.freeze({
     jeep: bgrJeep,
     ship: bgrShip,
     plane: bgrPlane,
-    artifact: bgrArtifact
+    artifact: bgrArtifact,
+    guardian: bgrGuardian
 });
 
 export const CARD_STATE = Object.freeze({
     active: "active card",
     destroyed: "destroyed card",
+    defeatedGuardian: "defeated guardian",
     discard: "card is discarded",
     drawDeck: "card in draw deck",
     inHand: "card is in hand",
@@ -723,7 +726,7 @@ export const ARTIFACTS = Object.freeze({
         cost: 1,
         points: 2
     },
-    gianEgg: {
+    giantEgg: {
         cardName: "Giant Egg",
         type: CARD_TYPE.artifact,
         itemTransport: CARD_TRANSPORT.artifact,
@@ -735,5 +738,225 @@ export const ARTIFACTS = Object.freeze({
         effects2: [EFFECT.destroyThisCardToDefeatAGuardan],
         cost: 1,
         points: 2
+    },
+});
+
+/* cost turns to VP when guardian is defeated */
+export const GUARDIANS = Object.freeze({
+    foxSpirit: {
+        cardName: "Fox Spirit",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Jeep/><Coin/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Text /><Coin /><Explore /></div>,
+        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainExplore],
+        cost: 1,
+        points: -1
+    },
+    forestDragon: {
+        cardName: "Forest Dragon",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Jeep/><Explore/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Text /><Coin /><Explore /></div>,
+        discoveryEffect: [EFFECT.gainText, EFFECT.gainCoin, EFFECT.gainCoin],
+        cost: 1,
+        points: -1
+    },
+    naga: {
+        cardName: "Naga",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Jeep/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseJeep, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Weapon /><Text /></div>,
+        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainText],
+        cost: 2,
+        points: -1
+    },
+    stoneTitan: {
+        cardName: "Stone Titan",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Jeep/><Weapon/><Text /> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseJeep, EFFECT.loseWeapon, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Text /><Coin /><Explore /></div>,
+        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainExplore],
+        cost: 3,
+        points: -1
+    },
+    golem: {
+        cardName: "Golem",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Jeep/><Text /><Text /> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseJeep, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Text /><Text/><Explore /></div>,
+        discoveryEffect: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
+        cost: 2,
+        points: -1
+    },
+    mountainGuardian: {
+        cardName: "Mountain Guardian",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Plane/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.losePlane, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Text /><Coin /><Explore /></div>,
+        discoveryEffect: [EFFECT.destroyCard, EFFECT.gainText, EFFECT.gainExplore],
+        cost: 3,
+        points: -1
+    },
+    gryphon: {
+        cardName: "Gryphon",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Plane /><Text /> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.losePlane, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Jewel /></div>,
+        discoveryEffect: [EFFECT.gainJewel],
+        cost: 3,
+        points: -1
+    },
+    whisperingShadow: {
+        cardName: "Whispering Shadow",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Walk/><Text/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Weapon /><Explore /></div>,
+        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainExplore],
+        cost: 1,
+        points: -1
+    },
+    giantScarab: {
+        cardName: "Giant Scarab",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Jeep/><Jewel/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseJeep, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Weapon /><Coin /></div>,
+        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainWeapon],
+        cost: 3,
+        points: -1
+    },
+    swampSnake: {
+        cardName: "Swamp snake",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Ship/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseShip, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Jewel /></div>,
+        discoveryEffect: [EFFECT.gainJewel],
+        cost: 2,
+        points: -1
+    },
+    stealingMonkey: {
+        cardName: "Stealing Monkey",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Ship/><Coin/><Coin/><Coin/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseShip, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Jewel /></div>,
+        discoveryEffect: [EFFECT.gainJewel],
+        cost: 3,
+        points: -1
+    },
+    hornedHippo: {
+        cardName: "Horned Hippo",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Jeep/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseShip, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Text /><Weapon /></div>,
+        discoveryEffect: [EFFECT.gainText, EFFECT.gainWeapon],
+        cost: 3,
+        points: -1
+    },
+    lakeMonster: {
+        cardName: "Lake Monster",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Ship/><Ship /><Weapon /> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseShip, EFFECT.loseShip, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Text /><Coin /><Explore /></div>,
+        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainExplore],
+        cost: 3,
+        points: -1
+    },
+    energyLeech: {
+        cardName: "Energy Leech",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Walk/><Walk/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Weapon /><Explore /></div>,
+        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainExplore],
+        cost: 1,
+        points: -1
+    },
+    swarmingSpiders: {
+        cardName: "Swarming Spiders",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Walk/><Explore/><Explore /> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Weapon /><Coin /></div>,
+        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainCoin],
+        cost: 2,
+        points: -1
+    },
+    HeartOfForest: {
+        cardName: "Heart of the Forest",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Walk/><Jewel/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseWalk, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Coin /><Coin /><Explore /></div>,
+        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore],
+        cost: 3,
+        points: -1
+    },
+    wyvern: {
+        cardName: "Wyvern",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Walk/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseWalk, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Text /><Explore /><Explore /></div>,
+        discoveryEffect: [EFFECT.gainText, EFFECT.gainExplore, EFFECT.gainExplore],
+        cost: 2,
+        points: -1
+    },
+    crabmanHermit: {
+        cardName: "Crabman Hermit",
+        type: CARD_TYPE.guardian,
+        itemTransport: CARD_TRANSPORT.guardian,
+        effectsText:
+            <div className="effectsText"><Ship /><Text /><Text /> <Arrow/> <DefeatedGuardian/></div>,
+        effects: [EFFECT.loseShip, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        discoveryText: <div ><Jewel /></div>,
+        discoveryEffect: [EFFECT.gainJewel],
+        cost: 2,
+        points: -1
     },
 });

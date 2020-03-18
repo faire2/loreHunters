@@ -28,11 +28,6 @@
 }
 
 /*** CARD ***/
-.card h2 {
-  font-size: 40%;
-  margin-top: 10%;
-}
-
 .card h3 {
   font-size: 80%;
 }
@@ -48,43 +43,6 @@
 
 .card img {
   max-width: 15px;
-}
-
-.Movement {
-  position: absolute;
-  width: 100%;
-  height: 10%;
-  cursor: pointer;
-}
-
-.movementSymbol {
-  max-width: 50px;
-}
-
-.Cost {
-  position: absolute;
-  bottom: -3%;
-  left: 6.5%;
-}
-
-.VictoryPoints {
-  position: absolute;
-  bottom: -3%;
-  right: 4%;
-}
-
-.Effects {
-  position: relative;
-  bottom: 0;
-  height: 44%;
-  margin-top: 40%;
-}
-
-.Effects2 {
-  position: relative;
-  bottom: 0;
-  height: 44%;
-  margin-top: 50%;
 }
 
 .cardEffect {
