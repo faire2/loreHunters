@@ -8,7 +8,7 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     let transportCost = null;
 
     if (location !== null) {
-        transportType = TRANSPORT_TYPE.jeep;
+        transportType = location.useCost.transportType;
         transportCost = location.useCost.amount;
     } else {
         switch (effect) {

@@ -40,7 +40,7 @@ export function getInitialPlayerStates() {
         const hand = [];
         const drawDeck = [];
 
-        cardsSetup.drawCards.push(ARTIFACTS.ringOfLight);
+        /*cardsSetup.drawCards.push(ARTIFACTS.ringOfLight);*/
 
         for (let card of cardsSetup.deck) {
             drawDeck.push(card);
