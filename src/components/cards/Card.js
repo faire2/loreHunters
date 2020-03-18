@@ -25,9 +25,9 @@ export default function Card(props) {
     /*console.log("Displaying card:" + card.cardName);
     console.log(card);
 */
-    function handleClickOnEffect(effects) {
+    function handleClickOnEffect(effects, isTravel) {
         if (card.state !== CARD_STATE.inStore && boardStateContext.activeEffects.length === 0) {
-            boardStateContext.handleCardEffect(effects, props.index);
+            boardStateContext.handleCardEffect(effects, props.index, isTravel);
         }
     }
 
@@ -82,19 +82,19 @@ const Movement = (props) => {
     }
 
     return (
-        <div className="Movement" onClick={() => props.handleClickOnEffect(effect)}>
+        <div className="Movement" onClick={() => props.handleClickOnEffect(effect, true)}>
             {props.movement}
         </div>
     )
 };
 
 const Effects = (props) =>
-    <div className="Effects" style={props.style} onClick={() => props.handleClickOnEffect(props.effects)} key={props.card + props.index}>
+    <div className="Effects" style={props.style} onClick={() => props.handleClickOnEffect(props.effects, false)} key={props.card + props.index}>
         {props.effectsText}
     </div>;
 
 const AlternativeEffects = (props) =>
-    <div className="Effects2" style={props.style} onClick={() => props.handleClickOnEffect(props.effects)} key={props.card + props.index}>
+    <div className="Effects2" style={props.style} onClick={() => props.handleClickOnEffect(props.effects, false)} key={props.card + props.index}>
         {props.effectsText}
     </div>;
 

@@ -27,6 +27,7 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {payForTravelIfPossible} from "./components/locations/checkTravelCostAndPayForTravel";
 import {EFFECT} from "./data/effects";
 
+
 function App() {
     const [playerStates, setPlayerStates] = useState(getInitialPlayerStates);
     const [playerIndex, setPlayerIndex] = useState(0);
@@ -58,7 +59,7 @@ function App() {
 
 
     /** CARD EFFECTS **/
-    function handleClickOnCardEffect(effects, cardIndex) {
+    function handleClickOnCardEffect(effects, cardIndex, isTravel) {
         let tPlayerState = cloneDeep(playerState);
         let tStore = cloneDeep(store);
         const tcard = tPlayerState.hand[cardIndex];
@@ -71,7 +72,9 @@ function App() {
             const effectsResult = processEffects(tcard, cardIndex, tPlayerState, effects, null, tStore, null, null);
 
             tPlayerState = effectsResult.tPlayerState;
-            tPlayerState.actions -= 1;
+            if (tcard.type !== CARD_TYPE.basic && !isTravel) {
+                tPlayerState.actions -= 1;
+            }
             tStore = effectsResult.tStore;
 
             /* if we have an active card, we move it to discard or to destroyed cards */
@@ -390,7 +393,7 @@ export const GLOBAL_VARS = Object.freeze({
     itemsInStore: 5,
     artifactsInStore: 1,
     adventurers: 2,
-    numOfPlayers: 2,
+    numOfPlayers: 1,
     playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
 });
 
