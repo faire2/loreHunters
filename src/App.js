@@ -1,4 +1,4 @@
-import React, {cloneElement, useState} from 'react';
+import React, {cloneElement, useEffect, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import cloneDeep from 'lodash/cloneDeep';
@@ -27,6 +27,7 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects";
 import ModalDialogue from "./components/main/Modal";
 import {payForTravelIfPossible} from "./components/locations/payForTravelIfPossible";
+import useSocket from "use-socket.io-client";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
     const [playerIndex, setPlayerIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [modalData, setModalData] = useState({location: null, guardian: null});
+    const [testData, setTestData] = useState(null);
 
     const playerState = cloneDeep(playerStates[playerIndex]);
 
@@ -47,6 +49,20 @@ function App() {
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(getInitialStoreItems);
     const [locations, setLocations] = useState(getInitialLocations());
+
+    const [socket] = useSocket();
+
+    useEffect( () => {
+        socket.emit("test", "test message");
+        socket.on("test response", data => {
+            console.log("test response received");
+            setTestData(data);
+        })
+    });
+
+    function handleEmission() {
+        console.log("emmitting");
+    }
 
     console.log("*** player states ***");
     console.log(playerStates);
@@ -391,6 +407,7 @@ function App() {
                         {playerState.activeEffects[0]}
                     </div>
                     <ModalDialogue/>
+                    {testData}
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

@@ -1,18 +1,26 @@
-const express = require('express');
-const path = require('path');
-const port = process.env.PORT || 8090; // proces... is an environment variable used by heroku
-const app = express();
+const express = require("express");
+const path = require("path");
+const http = require("http")
+const socketIO = require("socket.io")
+const port = process.env.PORT || 3000; // proces... is an environment variable used by heroku
 
-console.log("Dirname: " + __dirname); // __dirname = current working directory (directory where server is runnning)
-app.use(express.static(__dirname));
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+io.origins('*:*') // for latest version
+
 app.use(express.static(path.join(__dirname, '../../build')));
 
+console.log(path.join(__dirname, '../../build', 'index.html'))
 app.get('/*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'))
+    res.sendFile(path.join(__dirname, '../../build', 'index.html'))
 });
 
-app.get('/ping', function (req, res) {
-    return res.send('pong')
-});
+io.on("connection", socket => {
+    console.log("new client");
+    socket.on('disconnect', () => console.log('Client disconnected'));
+    }
+)
 
-app.listen(port);
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
