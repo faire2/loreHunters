@@ -50,7 +50,7 @@ function App() {
     const [store, setStore] = useState(getInitialStoreItems);
     const [locations, setLocations] = useState(getInitialLocations());
 
-    const [socket] = useSocket();
+    const [socket] = useSocket("localhost:4001");
 
     useEffect( () => {
         socket.emit("test", "test message");
@@ -62,6 +62,7 @@ function App() {
 
     function handleEmission() {
         console.log("emmitting");
+        socket.emit("test", "test message");
     }
 
     console.log("*** player states ***");
@@ -405,6 +406,8 @@ function App() {
                         Actions: {playerState.actions}
                         <Controls/>
                         {playerState.activeEffects[0]}
+                        {testData}
+                        <button onClick={() => handleEmission()}>Handle emission</button>
                     </div>
                     <ModalDialogue/>
                     {testData}
