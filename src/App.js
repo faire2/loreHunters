@@ -51,7 +51,7 @@ function App() {
     const [store, setStore] = useState(getInitialStoreItems);
     const [locations, setLocations] = useState(getInitialLocations());
 
-    const [socket] = useSocket("faire2/loreHunters");
+    const [socket] = useSocket("https://lore-hunters.herokuapp.com");
     /*const socket = io("localhost:4001");*/
 
     useEffect( () => {
