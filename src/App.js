@@ -28,6 +28,7 @@ import {EFFECT} from "./data/effects";
 import ModalDialogue from "./components/main/Modal";
 import {payForTravelIfPossible} from "./components/locations/payForTravelIfPossible";
 import useSocket from "use-socket.io-client";
+import io from "socket.io-client"
 
 
 function App() {
@@ -50,7 +51,8 @@ function App() {
     const [store, setStore] = useState(getInitialStoreItems);
     const [locations, setLocations] = useState(getInitialLocations());
 
-    const [socket] = useSocket("localhost:4001");
+    const [socket] = useSocket("faire2/loreHunters");
+    /*const socket = io("localhost:4001");*/
 
     useEffect( () => {
         socket.emit("test", "test message");
