@@ -51,14 +51,19 @@ function App() {
     const [store, setStore] = useState(getInitialStoreItems);
     const [locations, setLocations] = useState(getInitialLocations());
 
-    const [socket] = useSocket("https://lore-hunters.herokuapp.com");
-    /*const socket = io("localhost:4001");*/
+    /* for production / devel */
+    /*const [socket] = useSocket("https://lore-hunters.herokuapp.com");*/
+    const [socket] = useSocket("localhost:4001");
 
     useEffect( () => {
         socket.emit("test", "test message");
         socket.on("test response", data => {
             console.log("test response received");
             setTestData(data);
+        })
+        socket.on("playerStates", data => {
+            console.log("playerStates from server");
+            console.log(data);
         })
     });
 

@@ -1,7 +1,7 @@
-import {shuffleArray} from "./CardManipulationFuntions";
-import {ARTIFACTS, CARD_STATE, CARD_TYPE, GUARDIANS, ITEMS} from "../../data/cards";
-import {GLOBAL_VARS} from "../../App";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations";
+import {shuffleArray} from "./CardManipulationFuntions.js";
+import {ARTIFACTS, CARD_STATE, CARD_TYPE, GUARDIANS, ITEMS} from "../../data/cards.js";
+import {GLOBAL_VARS} from "../../App.js";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations.js";
 
 /* INITIAL PLAYER STATE */
 export function getInitialPlayerStates() {
