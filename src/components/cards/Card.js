@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {CARD_STATE, CARD_TRANSPORT, CARD_TYPE} from "../../data/cards";
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
+import {GUARDIANS_DISCOVERY_EFFECTS, ITEM_EFFECTS} from "../../data/effectsDescription";
 
 
 export default function Card(props) {
@@ -10,6 +11,9 @@ export default function Card(props) {
     // if cardsState = inShop => no effects, else (in hand) clickOn effects only active, if activeEffects.length = 0
     const isGuardian = card.type === CARD_TYPE.guardian;
     const isPointer = card.state !== CARD_STATE.inStore ? "pointer" : "default";
+    const cardEffectDescription = ITEM_EFFECTS[card.id].effectsDescription;
+    const cardAltEfffectDestription = ITEM_EFFECTS[card.id].effectsAltDescription ? ITEM_EFFECTS[card.id].effectsAltDesription : "";
+    const guardianDiscoveryEffectDescription = isGuardian ? GUARDIANS_DISCOVERY_EFFECTS[card.id] : "";
 
     const styles = {
         width: 142,
@@ -88,12 +92,12 @@ export default function Card(props) {
     return (
         <div style={styles} className="card" onClick={() => handleClickOnCard()}>
             <CardTop itemTransport={card.itemTransport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
-                     discovery={isGuardian ? card.discoveryText : ""}
+                     discovery={guardianDiscoveryEffectDescription}
                      discoveryEffect={isGuardian ? card.discoveryEffect : []}/>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
-            <Effects effectsText={card.effectsText} effects={card.effects} style={effectsStyle}
+            <Effects effectsText={cardEffectDescription} effects={card.effects} style={effectsStyle}
                      handleClickOnEffect={handleClickOnEffect}/>
-            <AlternativeEffects effectsText={card.effects2Text} effects={card.effects2} style={alternativeEffectsStyle}
+            <AlternativeEffects effectsText={cardAltEfffectDestription} effects={card.effects2} style={alternativeEffectsStyle}
                                 handleClickOnEffect={handleClickOnEffect}/>
             <Cost cost={card.cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>

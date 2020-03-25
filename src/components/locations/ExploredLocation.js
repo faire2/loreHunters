@@ -3,11 +3,14 @@ import {LOCATION_STATE, LOCATION_TYPE} from "../../data/locations";
 import {AdventurerToken} from "../Symbols";
 import {BoardStateContext} from "../../Contexts";
 import {GLOBAL_VARS} from "../../App";
+import {LOCATIONS_EFFECTS} from "../../data/effectsDescription";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
     const [playerOwner, setPlayerOwner] = useState(false);
     const location = props.location;
+
+    const locationEffectsDescription = LOCATIONS_EFFECTS[location.id];
 
     const transportIcons = [];
     for (let i = 0; i < location.useCost.amount; i++) {
@@ -77,7 +80,7 @@ export default function ExploredLocation(props) {
              onClick={() => handleClickOnExploredLocation()}>
             <div>
                 <div>{locationTag}</div>
-                <div style={effectsStyle}>{location.effectsText}</div>
+                <div style={effectsStyle}>{locationEffectsDescription}</div>
                 <svg width={locationRadius * 2.01} height={locationRadius * 2.01} style={svgStyle}>
                     <circle cx={locationRadius} cy={locationRadius} r={locationRadius} fill={fillColor}/>
                     <rect x={locationRadius - 0.5 * levelRectSide} y={0.1 * locationRadius} width={levelRectSide}

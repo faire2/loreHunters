@@ -1,4 +1,4 @@
-import {shuffleArray} from "./CardManipulationFuntions.js";
+import {shuffleArray} from "./cardManipulationFuntions.js";
 import {ARTIFACTS, CARD_STATE, CARD_TYPE, GUARDIANS, ITEMS} from "../../data/cards.js";
 import {GLOBAL_VARS} from "../../App.js";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations.js";

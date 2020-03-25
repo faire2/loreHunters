@@ -13,12 +13,12 @@ import {
     addCardToDiscardDeck,
     addCardToHand,
     addDiscardToDrawDeck
-} from "./components/functions/CardManipulationFuntions";
+} from "./components/functions/cardManipulationFuntions";
 import {
     getInitialLocations,
     getInitialPlayerStates,
     getInitialStoreItems
-} from "./components/functions/InitialStateFunctions";
+} from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects";
 import LocationsArea from "./components/main/LocationsArea";
 import {LOCATION_STATE} from "./data/locations";
@@ -55,7 +55,7 @@ function App() {
     /*const [socket] = useSocket("https://lore-hunters.herokuapp.com");*/
     const [socket] = useSocket("localhost:4001");
 
-    useEffect( () => {
+    /*useEffect( () => {
         socket.emit("test", "test message");
         socket.on("test response", data => {
             console.log("test response received");
@@ -65,7 +65,7 @@ function App() {
             console.log("playerStates from server");
             console.log(data);
         })
-    });
+    });*/
 
     function handleEmission() {
         console.log("emmitting");

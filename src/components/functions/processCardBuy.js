@@ -1,6 +1,6 @@
 import {EFFECT} from "../../data/effects";
 import {CARD_STATE, CARD_TYPE} from "../../data/cards";
-import {addCardToStore} from "./CardManipulationFuntions";
+import {addCardToStore} from "./cardManipulationFuntions";
 import {processEffects} from "./processEffects";
 
 export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStore, tLocations) {

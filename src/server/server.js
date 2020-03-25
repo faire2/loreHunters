@@ -7,12 +7,12 @@ import express from "express";
 import http from "http"
 import socketIO from "socket.io"
 import path from "path"
-import {getInitialPlayerStates} from "../components/functions/InitialStateFunctions.js";
+import {getInitialPlayerStates} from "../components/functions/initialStateFunctions.js";
 
 const port = process.env.PORT || 4001;
 const app = express();
 const server = http.createServer(app);
-const playerStates = getInitialPlayerStates();
+/*const playerStates = getInitialPlayerStates();*/
 
 
 // socket with an instance of the server

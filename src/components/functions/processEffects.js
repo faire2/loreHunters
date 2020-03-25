@@ -1,5 +1,5 @@
 import {CARD_STATE, CARD_TYPE, ITEMS} from "../../data/cards";
-import {addCardToStore, destroyCard, drawCards} from "./CardManipulationFuntions";
+import {addCardToStore, destroyCard, drawCards} from "./cardManipulationFuntions";
 import {EFFECT} from "../../data/effects";
 import cloneDeep from 'lodash/cloneDeep';
 import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";

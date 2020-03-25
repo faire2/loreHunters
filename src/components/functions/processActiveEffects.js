@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects";
-import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, shuffleArray} from "./CardManipulationFuntions";
+import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, shuffleArray} from "./cardManipulationFuntions";
 import {CARD_STATE, CARD_TYPE} from "../../data/cards";
 import {LOCATION_STATE} from "../../data/locations";
 import {processEffects} from "./processEffects";
