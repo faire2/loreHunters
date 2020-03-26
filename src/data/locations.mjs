@@ -1,19 +1,18 @@
-import {Jeep, Plane, Ship, Walk} from "../components/Symbols";
-
 import React from "react";
 
-import {EFFECT} from "./effects";
+import {EFFECT} from "./effects.mjs";
+
+export const TRANSPORT_TYPE = Object.freeze({
+    walk: "<Walk />",
+    jeep: "<Jeep />",
+    ship: "<Ship />",
+    plane: "<Plane />"
+});
 
 export const LOCATION_LEVEL = Object.freeze({
     1: "I",
     2: "II",
     3: "III"
-});
-export const TRANSPORT_TYPE = Object.freeze({
-    walk: <Walk />,
-    jeep: <Jeep />,
-    ship: <Ship />,
-    plane: <Plane />
 });
 
 export const LOCATION_TYPE = Object.freeze({

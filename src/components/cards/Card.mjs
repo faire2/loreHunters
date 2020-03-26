@@ -3,6 +3,7 @@ import {CARD_STATE, CARD_TRANSPORT, CARD_TYPE} from "../../data/cards";
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
 import {GUARDIANS_DISCOVERY_EFFECTS, ITEM_EFFECTS} from "../../data/effectsDescription";
+import {Jeep, Plane, Ship, Walk} from "../Symbols";
 
 
 export default function Card(props) {

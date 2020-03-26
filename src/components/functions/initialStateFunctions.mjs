@@ -1,10 +1,13 @@
 import {shuffleArray} from "./cardManipulationFuntions.js";
-import {ARTIFACTS, CARD_STATE, CARD_TYPE, GUARDIANS, ITEMS} from "../../data/cards.js";
-import {GLOBAL_VARS} from "../../App.js";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations.js";
+import {ARTIFACTS, CARD_STATE, CARD_TYPE, GUARDIANS, ITEMS} from "../../data/cards.mjs";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations.mjs";
+import React from "react";
+import {cloneDeep} from "lodash";
+
+
 
 /* INITIAL PLAYER STATE */
-export function getInitialPlayerStates() {
+export default function getInitialPlayerStates() {
     let playerStates = [];
 
     for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
@@ -124,3 +127,15 @@ function drawCards(deck, cardsToDraw) {
 function getRandomNumber(size) {
     return Math.floor(Math.random() * (size)) + 1;
 }
+
+export const GLOBAL_VARS = Object.freeze({
+    handSize: 5,
+    initialCards: [cloneDeep(ITEMS.fear), cloneDeep(ITEMS.fear), cloneDeep(ITEMS.coin), cloneDeep(ITEMS.coin), cloneDeep(ITEMS.explore), cloneDeep(ITEMS.explore)],
+    itemsInStore: 5,
+    artifactsInStore: 1,
+    adventurers: 2,
+    numOfPlayers: 2,
+    playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
+});
+
+

@@ -432,14 +432,6 @@ export const RES = Object.freeze({
     explore: "explore"
 });
 
-export const GLOBAL_VARS = Object.freeze({
-    handSize: 5,
-    initialCards: [cloneDeep(ITEMS.fear), cloneDeep(ITEMS.fear), cloneDeep(ITEMS.coin), cloneDeep(ITEMS.coin), cloneDeep(ITEMS.explore), cloneDeep(ITEMS.explore)],
-    itemsInStore: 5,
-    artifactsInStore: 1,
-    adventurers: 2,
-    numOfPlayers: 2,
-    playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
-});
+
 
 export default App;

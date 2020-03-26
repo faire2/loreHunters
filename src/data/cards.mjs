@@ -1,41 +1,14 @@
 import React from "react";
-import {
-    AdventurerIcon,
-    Arrow,
-    Coin,
-    DefeatedGuardian,
-    DestroyCard,
-    Discard,
-    Draw1Card,
-    Draw2Cards,
-    Explore,
-    Fear,
-    Jeep,
-    Jewel,
-    Plane,
-    Ship,
-    Text,
-    Uptrade,
-    Walk,
-    Weapon
-} from "../components/Symbols";
-import bgrItemEmpty from "../img/cardBackgrounds/ItemBrownEmpty3.png";
-import bgrWalk from "../img/cardBackgrounds/ItemBrownWalk3.png";
-import bgrJeep from "../img/cardBackgrounds/ItemBrownJeep3.png";
-import bgrShip from "../img/cardBackgrounds/ItemBrownShip3.png";
-import bgrPlane from "../img/cardBackgrounds/ItemBrownPlane3.png";
-import bgrArtifact from "../img/cardBackgrounds/Artifacts7.png";
-import bgrGuardian from "../img/cardBackgrounds/Guardian12.png";
-import {EFFECT} from "./effects";
+import {EFFECT} from "./effects.mjs";
 
 export const CARD_TRANSPORT = Object.freeze({
-    empty: bgrItemEmpty,
-    walk: bgrWalk,
-    jeep: bgrJeep,
-    ship: bgrShip,
-    plane: bgrPlane,
-    artifact: bgrArtifact,
-    guardian: bgrGuardian
+    empty: "bgrItemEmpty",
+    walk: "bgrWalk",
+    jeep: "bgrJeep",
+    ship: "bgrShip",
+    plane: "bgrPlane",
+    artifact: "bgrArtifact",
+    guardian: "bgrGuardian"
 });
 
 export const CARD_STATE = Object.freeze({
