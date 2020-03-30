@@ -1,9 +1,8 @@
-import React, {cloneElement, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import cloneDeep from 'lodash/cloneDeep';
 
-import {CARD_STATE, CARD_TYPE, ITEMS} from "./data/cards";
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
 import Resources from "./components/resources/Resources";
@@ -14,21 +13,20 @@ import {
     addCardToHand,
     addDiscardToDrawDeck
 } from "./components/functions/cardManipulationFuntions";
-import {
+import getInitialPlayerStates, {
     getInitialLocations,
-    getInitialPlayerStates,
-    getInitialStoreItems
+    getInitialStoreItems, GLOBAL_VARS
 } from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects";
 import LocationsArea from "./components/main/LocationsArea";
-import {LOCATION_STATE} from "./data/locations";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects";
 import ModalDialogue from "./components/main/Modal";
 import {payForTravelIfPossible} from "./components/locations/payForTravelIfPossible";
 import useSocket from "use-socket.io-client";
-import io from "socket.io-client"
+import {CARD_STATE, CARD_TYPE, LOCATION_STATE} from "./data/idLists";
+import {TRANSMISSIONS} from "./server/server";
 
 
 function App() {
@@ -55,17 +53,17 @@ function App() {
     /*const [socket] = useSocket("https://lore-hunters.herokuapp.com");*/
     const [socket] = useSocket("localhost:4001");
 
-    /*useEffect( () => {
+    useEffect( () => {
         socket.emit("test", "test message");
         socket.on("test response", data => {
             console.log("test response received");
             setTestData(data);
         })
-        socket.on("playerStates", data => {
-            console.log("playerStates from server");
+        socket.on(TRANSMISSIONS.getState, data => {
+            console.log("data server");
             console.log(data);
         })
-    });*/
+    });
 
     function handleEmission() {
         console.log("emmitting");
@@ -135,12 +133,12 @@ function App() {
         const resources = tPlayerState.resources;
         if (tPlayerState.activeEffects.length > 0) {
             const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
-                [...tPlayerState.activeEffects], {...store}, [...locations]);
+                [...tPlayerState.activeEffects], {...store}, {...locations});
             tPlayerState = effectResult.tPlayerState;
             tPlayerState.activeEffects = effectResult.tActiveEffects;
             setPlayerState(tPlayerState);
             const tLocation = effectResult.tLocation;
-            let tLocations = [...locations];
+            let tLocations = {...locations};
             tLocations.splice(location.index, 1, tLocation);
             setLocations(tLocations);
             nextPlayer()
@@ -159,7 +157,7 @@ function App() {
 
                         let tLocation = {...locations[location.index]};
                         tLocation.state = LOCATION_STATE.explored;
-                        let tLocations = [...locations];
+                        let tLocations = {...locations};
                         tLocations.splice(location.index, 1, tLocation);
                         setLocations(tLocations);
                         setModalData({location: location, guardian: playerState.guardians[0]});
@@ -173,12 +171,12 @@ function App() {
                         tPlayerState.availableAdventurers -= 1;
                         tPlayerState.actions -= 1;
                         const effectsResult = processEffects(null, null, tPlayerState, effects, null,
-                            {...store}, location, [...locations]);
+                            {...store}, location, {...locations});
                         setPlayerState(effectsResult.tPlayerState);
 
                         let tLocation = {...locations[location.index]};
                         tLocation.state = LOCATION_STATE.occupied;
-                        let tLocations = [...locations];
+                        let tLocations = {...locations};
                         tLocations.splice(location.index, 1, tLocation);
                         setLocations(tLocations);
                     }
@@ -196,7 +194,7 @@ function App() {
     /** HANDLE ACTIVE EFFECTS **/
     function handleActiveEffectClickOnCard(card, cardIndex) {
         const effectProcessResults = processActiveEffect(card, cardIndex, null, cloneDeep(playerState),
-            null, {...store}, [...locations]);
+            null, {...store}, {...locations});
         const tPlayerState = effectProcessResults.tPlayerState;
         const tStore = effectProcessResults.tStore;
         const tLocations = effectProcessResults.tLocations;
@@ -244,7 +242,7 @@ function App() {
         console.log("Buying card: " + card.cardName + " with effect: " + card.effects);
         if (playerState.actions > 0) {
             const buyResult = processCardBuy(card, cardIndex, cloneDeep(playerState), null,
-                cloneDeep(store), [...locations]);
+                cloneDeep(store), {...locations});
             const tPlayerState = buyResult.tPlayerState;
             const tStore = buyResult.tStore;
 
@@ -423,15 +421,5 @@ function App() {
         </div>
     )
 }
-
-export const RES = Object.freeze({
-    arms: "armaments",
-    texts: "texts",
-    jewels: "jewels",
-    gold: "gold",
-    explore: "explore"
-});
-
-
 
 export default App;

@@ -1,17 +1,14 @@
 import React, {useContext, useState} from "react";
-import {LOCATION_STATE, LOCATION_TYPE} from "../../data/locations";
 import {AdventurerToken} from "../Symbols";
 import {BoardStateContext} from "../../Contexts";
-import {GLOBAL_VARS} from "../../App";
-import {LOCATIONS_EFFECTS} from "../../data/effectsDescription";
+import {LOCATION_TYPE} from "../../data/locations";
+import {LOCATION_STATE} from "../../data/idLists";
+import {GLOBAL_VARS} from "../functions/initialStateFunctions";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
     const [playerOwner, setPlayerOwner] = useState(false);
     const location = props.location;
-
-    const locationEffectsDescription = LOCATIONS_EFFECTS[location.id];
-
     const transportIcons = [];
     for (let i = 0; i < location.useCost.amount; i++) {
         transportIcons.push(<span key={i}>{location.useCost.transportType}</span>)
@@ -43,8 +40,6 @@ export default function ExploredLocation(props) {
             console.log("Unknown tLocation type in component Location: ");
             console.log(location);
     }
-
-    const locationTag = (location.level);
 
     const containerStyle = {
         minWidth: locationRadius * 2,
@@ -79,8 +74,8 @@ export default function ExploredLocation(props) {
         <div style={containerStyle}
              onClick={() => handleClickOnExploredLocation()}>
             <div>
-                <div>{locationTag}</div>
-                <div style={effectsStyle}>{locationEffectsDescription}</div>
+                <div>{props.level}</div>
+                <div style={effectsStyle}>{location.effectsText}</div>
                 <svg width={locationRadius * 2.01} height={locationRadius * 2.01} style={svgStyle}>
                     <circle cx={locationRadius} cy={locationRadius} r={locationRadius} fill={fillColor}/>
                     <rect x={locationRadius - 0.5 * levelRectSide} y={0.1 * locationRadius} width={levelRectSide}
@@ -89,7 +84,7 @@ export default function ExploredLocation(props) {
                             fill={tokenFillColor} stroke={tokenStrokeColor} strokeWidth={tokenStrokeWidth}/>
                 </svg>
                 <div style={adventurerStyle}>
-                    {location.state === LOCATION_STATE.explored ? transportIcons : <AdventurerToken color={GLOBAL_VARS.playerColors[playerOwner]} />}
+                    {props.state === LOCATION_STATE.explored ? transportIcons : <AdventurerToken color={GLOBAL_VARS.playerColors[playerOwner]} />}
                 </div>
             </div>
             <span style={{fontSize: 10}}> {location.state} </span>

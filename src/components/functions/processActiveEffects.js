@@ -1,10 +1,10 @@
 import {EFFECT} from "../../data/effects";
-import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, shuffleArray} from "./cardManipulationFuntions";
-import {CARD_STATE, CARD_TYPE} from "../../data/cards";
-import {LOCATION_STATE} from "../../data/locations";
+import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards} from "./cardManipulationFuntions";
 import {processEffects} from "./processEffects";
 import {processCardBuy} from "./processCardBuy";
 import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";
+import {CARD_STATE, CARD_TYPE, LOCATION_STATE} from "../../data/idLists";
+import {shuffleArray} from "./initialStateFunctions";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations) {
     let tActiveEffects = tPlayerState.activeEffects;
@@ -212,7 +212,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
     return {
         tPlayerState: tPlayerState,
-        tLocation: tLocation,
         tLocations: tLocations,
         tStore: tStore
     }

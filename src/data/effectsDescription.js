@@ -1,26 +1,24 @@
 import React from "react";
 import {
     AdventurerIcon,
-    Arrow, Artifact,
-    Coin, DefeatedGuardian,
+    Arrow,
+    Coin,
     DestroyCard,
     Discard,
     Draw1Card,
     Draw2Cards,
-    Explore, Fear,
+    Explore,
     Guardian,
     Jeep,
     Jewel,
     Plane,
     Shiny,
     Ship,
-    Text, Uptrade,
+    Text,
+    Uptrade,
     Walk,
     Weapon
 } from "../components/Symbols";
-import {EFFECT} from "./effects";
-import {LOCATION_LEVEL, LOCATION_TYPE, TRANSPORT_TYPE} from "./locations";
-import {CARD_TRANSPORT, CARD_TYPE} from "./cards";
 
 export const ITEM_EFFECTS = Object.freeze({
     fear: {
@@ -182,171 +180,3 @@ export const ITEM_EFFECTS = Object.freeze({
             <div className="effectsDescription"><DestroyCard/></div>,
     },
 });
-
-export const ARTIFACT_EFFECTS = Object.freeze({
-    golemShem: <div className="effectsText">For this round only: <AdventurerIcon/></div>,
-    bookOfSecrets: <div className="effectsText">Gain a bonus from an unclaimed, visible legend.</div>,
-    chestOfWonders: <div className="effectsText">Use the effect of an item on the market</div>,
-    mirrorShard: <div className="effectsText">Use the effect of an artifact in the market</div>,
-    portalStone: <div className="effectsText"><Plane/> and relocate one of your deployed <AdventurerIcon/> to an empty
-        location.</div>,
-    pathfinderStaff: <div className="effectsText"><Plane/> and place one of your deployed <AdventurerIcon/> to an
-        adjacent.</div>,
-    healingOrb: <div className="effectsText">Refresh all your <AdventurerIcon/>.</div>,
-    mysteriousTexts: <div className="effectsText"><Draw2Cards/> and refresh <AdventurerIcon/></div>,
-    cursedTreasure: <div className="effectsText"><Fear/><Coin/><Coin/><Coin/><Coin/></div>,
-    darkKnowledge: <div className="effectsText"><Fear/><Jewel/></div>,
-    goldenMask: <div className="effectsText">Pay <Coin/> to gain effect of an occupied location.</div>,
-    warMask: <div className="effectsText"><Draw1Card/><DestroyCard/></div>,
-    ritualDagger: <div className="effectsText"><Discard/> to gain <Jewel/><Jewel/></div>,
-    ringOfLight: <div className="effectsText">Pick a card from your draw deck.</div>,
-    beastKiller: <div className="effectsText">Defeat a guardian in your play area or discard pile.</div>, // todo replace with guardian icon
-    flameJewek: <div className="effectsText">Gain or Decipher a Legend with a discount of <Jewel/></div>,
-    inscribedBlade: <div className="effectsText">Gain or Decipher a Legend with a discount
-        of <Text/><Text/> or <Weapon/></div>,
-    amuletOfCharm: <div className="effectsText">Buy an item with discount of <Coin/><Coin/><Coin/></div>,
-    drinkingHorn: <div className="effectsText"><DestroyCard/><Discard/><Draw2Cards/></div>,
-    ancientCipher: <div className="effectsText"><Draw1Card/> <Coin/></div>,
-    transmutation: <div className="effectsText"><DestroyCard/> <Coin/><Coin/></div>,
-    fearlessBlade: <div className="effectsText"><DestroyCard/> <Weapon/></div>,
-    keysToAllDoors: <div className="effectsText"><Coin/> <Coin/> <Coin/></div>,
-    treacherousWhistle: <div className="effectsText"><Draw2Cards/> if a guardian is drawn</div>, //todo replace guardian with an icon
-    giantEgg: <div className="effectsText"><Text/><Text/> and <Uptrade/></div>, //todo replace guardian with an icon
-});
-
-export const GUARDIANS_DISCOVERY_EFFECTS = Object.freeze({
-    foxSpirit: <div><Text/><Coin/><Explore/></div>,
-    forestDragon: <div className="effectsText"><Jeep/><Explore/> <Arrow/> <DefeatedGuardian/></div>,
-    naga: <div className="effectsText"><Jeep/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    stoneTitan: <div className="effectsText"><Jeep/><Weapon/><Text/> <Arrow/> <DefeatedGuardian/></div>,
-    golem: <div className="effectsText"><Jeep/><Text/><Text/> <DefeatedGuardian/></div>,
-    mountainGuardian: <div className="effectsText"><Plane/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    gryphon: <div className="effectsText"><Plane/><Text/> <Arrow/> <DefeatedGuardian/></div>,
-    whisperingShadow: <div className="effectsText"><Walk/><Text/> <Arrow/> <DefeatedGuardian/></div>,
-    giantScarab: <div className="effectsText"><Jeep/><Jewel/> <Arrow/> <DefeatedGuardian/></div>,
-    swampSnake: <div className="effectsText"><Ship/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    stealingMonkey: <div className="effectsText"><Ship/><Coin/><Coin/><Coin/> <Arrow/> <DefeatedGuardian/></div>,
-    hornedHippo: <div className="effectsText"><Jeep/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    lakeMonster: <div className="effectsText"><Ship/><Ship/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    energyLeech: <div className="effectsText"><Walk/><Walk/> <Arrow/> <DefeatedGuardian/></div>,
-    swarmingSpiders: <div className="effectsText"><Walk/><Explore/><Explore/> <Arrow/> <DefeatedGuardian/></div>,
-    HeartOfForest: <div className="effectsText"><Walk/><Jewel/> <Arrow/> <DefeatedGuardian/></div>,
-    wyvern: <div className="effectsText"><Walk/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    crabmanHermit: <div className="effectsText"><Ship/><Text/><Text/> <Arrow/> <DefeatedGuardian/></div>,
-});
-
-export const GUARDIANS_EFFECTS = Object.freeze({
-    foxSpirit: <div className="effectsText"><Jeep/><Coin/> <Arrow/> <DefeatedGuardian/></div>,
-    forestDragon: <div className="effectsText"><Jeep/><Explore/> <Arrow/> <DefeatedGuardian/></div>,
-    naga:         <div className="effectsText"><Jeep/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    stoneTitan: <div className="effectsText"><Jeep/><Weapon/><Text/> <Arrow/> <DefeatedGuardian/></div>,
-    golem: <div className="effectsText"><Jeep/><Text/><Text/> <DefeatedGuardian/></div>,
-    mountainGuardian: <div cssName="effectsText"><Plane/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    gryphon: <div className="effectsText"><Plane/><Text/> <Arrow/> <DefeatedGuardian/></div>,
-    whisperingShadow: <div className="effectsText"><Walk/><Text/> <Arrow/> <DefeatedGuardian/></div>,
-    giantScarab: <div className="effectsText"><Jeep/><Jewel/> <Arrow/> <DefeatedGuardian/></div>,
-    swampSnake: <div className="effectsText"><Ship/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    stealingMonkey: <div className="effectsText"><Ship/><Coin/><Coin/><Coin/> <Arrow/> <DefeatedGuardian/></div>,
-    hornedHippo: <div className="effectsText"><Jeep/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    lakeMonster: <div className="effectsText"><Ship/><Ship/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    energyLeech: <div className="effectsText"><Walk/><Walk/> <Arrow/> <DefeatedGuardian/></div>,
-    swarmingSpiders: <div className="effectsText"><Walk/><Explore/><Explore/> <Arrow/> <DefeatedGuardian/></div>,
-    HeartOfForest: <div className="effectsText"><Walk/><Jewel/> <Arrow/> <DefeatedGuardian/></div>,
-    wyvern: <div className="effectsText"><Walk/><Weapon/> <Arrow/> <DefeatedGuardian/></div>,
-    crabmanHermit: <div className="effectsText"><Ship/><Text/><Text/> <Arrow/> <DefeatedGuardian/></div>,
-});
-
-export const LOCATIONS_EXPLORE_COST = Object.freeze({
-    1: "",
-    brown2: <div className="effectsText"><Explore/><Explore/><Coin/><Coin/></div>,
-    brown3: <div className="effectsText"><Explore/><Explore/><Coin/><Coin/><Coin/></div>,
-    green2: <div className="effectsText"><Explore/><Explore/><Explore/><Explore/></div>,
-    green3: <div className="effectsText"><Explore/><Explore/><Explore/><Explore/><Explore/></div>,
-})
-
-export const LOCATIONS_EFFECTS = Object.freeze(
-    {
-        "b1": <div className="effectsText"><Coin/> <Coin/></div>,
-    },
-    {
-        "b2": <div className="effectsText"><Text/> <Text/></div>,
-    },
-    {
-        "b3": <div className="effectsText"><Explore/> <Explore/></div>,
-    },
-    {
-        "b4": <div className="effectsText"><Weapon/></div>,
-    },
-    {
-        "b5": <div className="effectsText"><Weapon/><Draw1Card/></div>,
-    },
-    {
-        "b6": <div className="effectsText"><Weapon/><DestroyCard/></div>,
-    },
-    {
-        "b7": <div className="effectsText"><Jewel/></div>,
-    },
-    {
-        "b8": <div className="effectsText"><Artifact/> - <Explore/><Explore/><Explore/></div>,
-    },
-    {
-        "b9": <div className="effectsText"><Text/><Coin/><Uptrade/></div>,
-    },
-    {
-        "b10": <div className="effectsText"><Draw1Card/><Coin/><Explore/></div>,
-    },
-    {
-        "b11": <div className="effectsText"><Text/><Text/><DestroyCard/></div>,
-    },
-    {
-        "b12": <div className="effectsText"><Weapon/><Text/></div>,
-    },
-    {
-        "b13": <div className="effectsText"><Jewel/><Weapon/></div>,
-    },
-    {
-        "b14": <div className="effectsText"><Shiny/><Uptrade/></div>,
-    },
-    {
-        "b15": <div className="effectsText"><Draw1Card/><Jewel/><Text/></div>,
-    },
-    {
-        "b16": <div className="effectsText"><Jewel/><Text/><Coin/></div>,
-    },
-    {
-        "g1": <div className="effectsText"><Explore/><Explore/><Uptrade/></div>,
-    },
-    {
-        "g2": <div className="effectsText"><Discard/>:<Jewel/><Text/></div>,
-    },
-    {
-        "g3": <div className="effectsText"><Weapon/><Coin/></div>,
-    },
-    {
-        "g4": <div className="effectsText"><Weapon/><Coin/></div>,
-    },
-    {
-        "g5": <div className="effectsText"><Discard/>:<Weapon/><Weapon/></div>,
-    },
-    {
-        "g6": <div className="effectsText">DrawFromDisc.<Coin/></div>,
-    },
-    {
-        "g7": <div className="effectsText"><Text/><Text/><Text/></div>,
-    },
-    {
-        "g8": <div className="effectsText"><Weapon/><Uptrade/></div>,
-    },
-    {
-        "g9": <div className="effectsText">DivneZaskrtnuti<Coin/></div>,
-    },
-    {
-        "g10": <div className="effectsText"><Jewel/><Text/><Text/></div>,
-    },
-    {
-        "g11": <div className="effectsText"><Discard/>:<Weapon/><Weapon/><Weapon/></div>,
-    },
-    {
-        "g12": <div className="effectsText"><Jewel/><Explore/><Explore/></div>,
-    },
-);

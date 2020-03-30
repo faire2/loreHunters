@@ -3,16 +3,14 @@ const path = require("path");
 const http = require("http");
 const socketIO = require("socket.io");
 // localhost  server port
-/*import express from "express";
-import http from "http"
-import socketIO from "socket.io"
-import path from "path"
-import {getInitialPlayerStates} from "../components/functions/initialStateFunctions.mjs";*/
 
 const port = process.env.PORT || 4001;
 const app = express();
 const server = http.createServer(app);
-/*const playerStates = getInitialPlayerStates();*/
+const initialStateFunctions = require("../components/functions/initialStateFunctions.mjs")
+const playerStates = initialStateFunctions.getInitialPlayerStates;
+console.log("here");
+console.log(playerStates[0].hand[0].cardName)
 
 
 // socket with an instance of the server
@@ -34,3 +32,5 @@ app.get('/*', function(req, res) {
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
+
+

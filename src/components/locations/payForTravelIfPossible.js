@@ -1,4 +1,3 @@
-import React from "react";
 import {TRANSPORT_TYPE} from "../../data/locations";
 import {EFFECT} from "../../data/effects";
 

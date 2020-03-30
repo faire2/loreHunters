@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "./Card";
 
+
 export const DiscardDeck = (props) => {
     return (
     props.cards.map((card, i) => {

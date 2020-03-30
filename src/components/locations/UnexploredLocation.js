@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
-import {LOCATION_LEVEL, LOCATION_TYPE} from "../../data/locations";
 import {BoardStateContext} from "../../Contexts";
-import {LOCATIONS_EXPLORE_COST} from "../../data/effectsDescription";
+import {LOCATION_TYPE, LOCATIONS_EXPLORE_COST} from "../../data/locations";
+import {LOCATION_LEVEL} from "../../data/idLists";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
@@ -9,15 +9,15 @@ export default function ExploredLocation(props) {
     let exploreCost = null;
 
     if (location.type === LOCATION_TYPE.brown) {
-        if (location.level === LOCATION_LEVEL["2"]) {
+        if (props.level === LOCATION_LEVEL["2"]) {
             exploreCost = LOCATIONS_EXPLORE_COST.brown2
-        } else if (location.level === LOCATION_LEVEL["3"]) {
+        } else if (props.level === LOCATION_LEVEL["3"]) {
             exploreCost = LOCATIONS_EXPLORE_COST.brown3
         }
     } else if (location.type === LOCATION_TYPE.green) {
-        if (location.level === LOCATION_LEVEL["2"]) {
+        if (props.level === LOCATION_LEVEL["2"]) {
             exploreCost = LOCATIONS_EXPLORE_COST.green2
-        } else if (location.level === LOCATION_LEVEL["3"]) {
+        } else if (props.level === LOCATION_LEVEL["3"]) {
             exploreCost = LOCATIONS_EXPLORE_COST.green3
         }
     } else if (location.level === LOCATION_LEVEL["1"]) {
@@ -56,8 +56,6 @@ export default function ExploredLocation(props) {
             console.log(location);
     }
 
-    const locationTag = (location.level);
-
     const containerStyle = {
         minWidth: locationRadius * 2,
         position: "relative",
@@ -83,7 +81,7 @@ export default function ExploredLocation(props) {
         <div style={containerStyle}
              onClick={() => boardStateContext.handleClickOnLocation(location.effects, location)}>
             <div>
-                <div>{locationTag}</div>
+                <div>{props.level}</div>
                 <div style={effectsStyle}>{exploreCost}</div>
                 <svg width={locationRadius * 2.01} height={locationRadius * 2.01} style={svgStyle}>
                     <circle cx={locationRadius} cy={locationRadius} r={locationRadius} fill={fillColor}/>

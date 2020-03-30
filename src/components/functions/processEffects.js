@@ -1,8 +1,8 @@
-import {CARD_STATE, CARD_TYPE, ITEMS} from "../../data/cards";
 import {addCardToStore, destroyCard, drawCards} from "./cardManipulationFuntions";
 import {EFFECT} from "../../data/effects";
 import cloneDeep from 'lodash/cloneDeep';
 import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";
+import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location, originalLocations) {
     console.log("Processing effects");
@@ -146,7 +146,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainFear:
-                    tPlayerState.discardDeck.push(ITEMS.fear);
+                    tPlayerState.discardDeck.push(ITEM_IDs.fear);
                     break;
 
                 case EFFECT.gainJeep:

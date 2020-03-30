@@ -1,10 +1,14 @@
-import {shuffleArray} from "./cardManipulationFuntions.js";
-import {ARTIFACTS, CARD_STATE, CARD_TYPE, GUARDIANS, ITEMS} from "../../data/cards.mjs";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATIONS} from "../../data/locations.mjs";
-import React from "react";
-import {cloneDeep} from "lodash";
+import {
+    ARTIFACT_IDs,
+    GUARDIAN_IDs,
+    ITEM_IDs,
+    LOCATION_IDs,
+    LOCATION_LEVEL,
+    LOCATION_STATE
+} from "../../data/idLists.mjs";
+import {CARD_STATE, CARD_TYPE} from "../../data/idLists.mjs";
 
-
+/*module.exports.getInitialPlayerStates = getInitialPlayerStates();*/
 
 /* INITIAL PLAYER STATE */
 export default function getInitialPlayerStates() {
@@ -35,7 +39,6 @@ export default function getInitialPlayerStates() {
             destroyedCards: [],
             color: GLOBAL_VARS.playerColors[i],
             actions: 1,
-            guardians: [],
         };
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
@@ -46,6 +49,7 @@ export default function getInitialPlayerStates() {
         /*cardsSetup.drawCards.push(ARTIFACTS.ringOfLight);*/
 
         for (let card of cardsSetup.deck) {
+            card.state = CARD_STATE.drawDeck;
             drawDeck.push(card);
         }
 
@@ -54,22 +58,9 @@ export default function getInitialPlayerStates() {
             hand.push(card);
         }
 
-        let guardians = [];
-
-        for (let key in GUARDIANS) {
-            guardians.push(GUARDIANS[key]);
-        }
-
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;
-        playerState.guardians = shuffleArray(guardians);
         playerStates.push(playerState);
-    }
-    // bug was causing draw deck status for 1st player to be "in hand"
-    for (let playerState of playerStates) {
-        for (let card of playerState.drawDeck) {
-            card.state = CARD_STATE.drawDeck;
-        }
     }
     return playerStates;
 }
@@ -77,16 +68,21 @@ export default function getInitialPlayerStates() {
 /* INITIAL STORE */
 export function getInitialStoreItems() {
     /* all items, each item is represented only once! */
-    let items = shuffleArray(Object.keys(ITEMS).map(key => {
-        return ITEMS[key];
+    let items = shuffleArray(Object.keys(ITEM_IDs).map(key => {
+        return ITEM_IDs[key];
     }));
     items = items.filter(card => card.type !== CARD_TYPE.basic);
 
     /* array of artifacts */
-    let artifacts = shuffleArray(Object.keys(ARTIFACTS).map(key => {
-        ARTIFACTS[key].state = CARD_STATE.inStore;
-        return ARTIFACTS[key];
+    let artifacts = shuffleArray(Object.keys(ARTIFACT_IDs).map(key => {
+        ARTIFACT_IDs[key].state = CARD_STATE.inStore;
+        return ARTIFACT_IDs[key];
     }));
+
+    let guardians = [];
+    for (let key in GUARDIAN_IDs) {
+        guardians.push(GUARDIAN_IDs[key]);
+    }
 
     let itemsSetup = drawCards(items, GLOBAL_VARS.itemsInStore);
     let artifactSetup = drawCards(artifacts, GLOBAL_VARS.artifactsInStore);
@@ -99,17 +95,16 @@ export function getInitialStoreItems() {
         itemsOffer: itemsSetup.drawCards,
         artifactsOffer: artifactSetup.drawCards,
         itemsDeck: itemsSetup.deck,
-        artifactsDeck: artifactSetup.deck
+        artifactsDeck: artifactSetup.deck,
+        guardians: shuffleArray(guardians),
     }
 }
 
-/* INITIAL LOCATIONS */
+/* INITIAL Locations */
 export function getInitialLocations() {
-    let locations = LOCATIONS;
-    for (let i = 0; i < locations.length; i++) {
-        let location = locations[i];
-        location.state = (location.level === LOCATION_LEVEL["1"]) ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
-        location.index = i;
+    let locations = LOCATION_IDs;
+    for (let key in locations) {
+        locations[key].state = (locations[key].level === LOCATION_LEVEL["1"]) ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
     }
     return locations;
 }
@@ -130,7 +125,8 @@ function getRandomNumber(size) {
 
 export const GLOBAL_VARS = Object.freeze({
     handSize: 5,
-    initialCards: [cloneDeep(ITEMS.fear), cloneDeep(ITEMS.fear), cloneDeep(ITEMS.coin), cloneDeep(ITEMS.coin), cloneDeep(ITEMS.explore), cloneDeep(ITEMS.explore)],
+    initialCards: [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},
+        {...ITEM_IDs.fear}, {...ITEM_IDs.fear}],
     itemsInStore: 5,
     artifactsInStore: 1,
     adventurers: 2,
@@ -139,3 +135,10 @@ export const GLOBAL_VARS = Object.freeze({
 });
 
 
+export function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let rand = Math.floor(Math.random() * (i + 1));
+        [array[i], array[rand]] = [array[rand], array[i]];
+    }
+    return array;
+}

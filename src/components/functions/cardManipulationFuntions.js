@@ -1,13 +1,6 @@
-import {CARD_STATE, CARD_TYPE} from "../../data/cards";
 import cloneDeep from 'lodash/cloneDeep';
-
-export function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        let rand = Math.floor(Math.random() * (i + 1));
-        [array[i], array[rand]] = [array[rand], array[i]];
-    }
-    return array;
-}
+import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
+import {shuffleArray} from "./initialStateFunctions";
 
 export function addCardToHand(card, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);

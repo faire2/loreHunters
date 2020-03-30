@@ -1,7 +1,7 @@
 import {EFFECT} from "../../data/effects";
-import {CARD_STATE, CARD_TYPE} from "../../data/cards";
 import {addCardToStore} from "./cardManipulationFuntions";
 import {processEffects} from "./processEffects";
+import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 
 export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStore, tLocations) {
     const activeEffect = tPlayerState.activeEffects[0];

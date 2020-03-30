@@ -1,20 +1,31 @@
 import React, {useContext} from 'react';
-import {CARD_STATE, CARD_TRANSPORT, CARD_TYPE} from "../../data/cards";
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
-import {GUARDIANS_DISCOVERY_EFFECTS, ITEM_EFFECTS} from "../../data/effectsDescription";
-import {Jeep, Plane, Ship, Walk} from "../Symbols";
+import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists";
+import {ARTIFACTS, CARD_TRANSPORT, GUARDIANS, ITEMS} from "../../data/cards";
+import {ITEM_EFFECTS} from "../../data/effectsDescription";
 
 
 export default function Card(props) {
-    const card = props.card;
+    let card;
+    if (props.card.type === CARD_TYPE.item || props.card.type === CARD_TYPE.basic) {
+        card = ITEMS[props.card.id]
+    } else if (props.card.type === CARD_TYPE.artifact) {
+        card = ARTIFACTS[props.card.id]
+    } else if (props.card.type === CARD_TYPE.guardian) {
+        card = GUARDIANS[props.card.id]
+    } else {
+        console.log("Unable to process card type in Card.js: " + props.card.type);
+    }
+    card.state = props.card.state;
+
     const boardStateContext = useContext(BoardStateContext);
     // if cardsState = inShop => no effects, else (in hand) clickOn effects only active, if activeEffects.length = 0
     const isGuardian = card.type === CARD_TYPE.guardian;
     const isPointer = card.state !== CARD_STATE.inStore ? "pointer" : "default";
-    const cardEffectDescription = ITEM_EFFECTS[card.id].effectsDescription;
-    const cardAltEfffectDestription = ITEM_EFFECTS[card.id].effectsAltDescription ? ITEM_EFFECTS[card.id].effectsAltDesription : "";
-    const guardianDiscoveryEffectDescription = isGuardian ? GUARDIANS_DISCOVERY_EFFECTS[card.id] : "";
+    const effectsText = card.effectsText;
+    const effectsText2 = card.effectsText2 ? card.effectsText2 : "";
+    const guardianDiscoveryEffectDescription = isGuardian ? card.discoveryText : "";
 
     const styles = {
         width: 142,
@@ -96,9 +107,9 @@ export default function Card(props) {
                      discovery={guardianDiscoveryEffectDescription}
                      discoveryEffect={isGuardian ? card.discoveryEffect : []}/>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
-            <Effects effectsText={cardEffectDescription} effects={card.effects} style={effectsStyle}
+            <Effects effectsText={effectsText} effects={card.effects} style={effectsStyle}
                      handleClickOnEffect={handleClickOnEffect}/>
-            <AlternativeEffects effectsText={cardAltEfffectDestription} effects={card.effects2} style={alternativeEffectsStyle}
+            <AlternativeEffects effectsText={effectsText2} effects={card.effects2} style={alternativeEffectsStyle}
                                 handleClickOnEffect={handleClickOnEffect}/>
             <Cost cost={card.cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>

@@ -2,6 +2,9 @@
   "name": "lore_hunters",
   "version": "0.1.0",
   "private": true,
+  "babel": {
+    "plugins": ["@babel/plugin-syntax-import-meta"]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
@@ -19,7 +22,7 @@
     "use-socket.io-client": "^1.1.0"
   },
   "scripts": {
-    "start": "node src/server/server.mjs",
+    "start": "node src/server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -38,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-import-meta": "^7.8.3"
   }
 }
