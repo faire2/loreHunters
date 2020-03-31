@@ -5,10 +5,12 @@ import express from "express";
 import socketIO from "socket.io"
 import getInitialPlayerStates from "../components/functions/initialStateFunctions.mjs";
 import {TRANSMISSIONS} from "../data/idLists.mjs";
+import cors from "cors"
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
 const app = express();
+app.use(cors());
 const server = http.createServer(app);
 
 const playerStates = getInitialPlayerStates();
@@ -16,7 +18,6 @@ const players = [];
 
 // socket with an instance of the server
 const io = socketIO(server);
-io.origins('*:*')
 io.on("connection", socket => {
     console.log("New client connected: " + socket.id);
     // insert player into null position push him to the end
