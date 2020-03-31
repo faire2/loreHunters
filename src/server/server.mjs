@@ -35,7 +35,7 @@ io.on("connection", socket => {
         }
     }
     console.log("players:" + players);
-    io.sockets.emit(TRANSMISSIONS.getState, playerStates[players.indexOf(socket.id)]);
+    socket.emit(TRANSMISSIONS.getState, playerStates[players.indexOf(socket.id)]);
     console.log("Emitted playerstate to player no. " + players.indexOf(socket.id));
 
     socket.on("test", data => {
