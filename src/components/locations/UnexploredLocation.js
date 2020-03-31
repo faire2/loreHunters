@@ -34,6 +34,7 @@ export default function ExploredLocation(props) {
     /* initial colors are changed based on tLocation type */
     let fillColor = "#cdcdcd";
     let tokenFillColor = "#9f9f9f";
+    // eslint-disable-next-line no-unused-vars
     let tokenStrokeColor = "#616161";
 
     /* svg element sizes */

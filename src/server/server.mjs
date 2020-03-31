@@ -1,13 +1,12 @@
 import path from 'path';
-import { fileURLToPath } from 'url';
+import http from "http";
+import dirname from "es-dirname"
 import express from "express";
-import http from "http"
 import socketIO from "socket.io"
 import getInitialPlayerStates from "../components/functions/initialStateFunctions.mjs";
+import {TRANSMISSIONS} from "../data/idLists.mjs";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
+const __dirname = dirname();
 const port = process.env.PORT || 4001;
 const app = express();
 const server = http.createServer(app);
@@ -34,12 +33,12 @@ io.on("connection", socket => {
         }
     }
     console.log("players:" + players);
-    io.sockets.emit(TRANSMISSIONS.getState, "brown bear");
+    io.sockets.emit(TRANSMISSIONS.getState, playerStates[players.indexOf(socket.id)]);
+    console.log("Emitted playerstate to player no. " + players.indexOf(socket.id));
 
     socket.on("test", data => {
         console.log("test received");
         console.log(socket.id);
-
         /*io.sockets.emit("playerStates", playerStates);*/
     });
     socket.on("disconnect", () => {
@@ -54,7 +53,3 @@ app.get('/*', function(req, res) {
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
-
-export const TRANSMISSIONS = Object.freeze({
-    getState: "getState"
-})

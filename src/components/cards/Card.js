@@ -1,9 +1,8 @@
 import React, {useContext} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
-import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists";
+import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 import {ARTIFACTS, CARD_TRANSPORT, GUARDIANS, ITEMS} from "../../data/cards";
-import {ITEM_EFFECTS} from "../../data/effectsDescription";
 
 
 export default function Card(props) {

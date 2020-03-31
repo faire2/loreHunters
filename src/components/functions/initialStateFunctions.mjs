@@ -4,42 +4,56 @@ import {
     ITEM_IDs,
     LOCATION_IDs,
     LOCATION_LEVEL,
-    LOCATION_STATE
+    LOCATION_STATE,
+    CARD_STATE,
+    CARD_TYPE
 } from "../../data/idLists.mjs";
-import {CARD_STATE, CARD_TYPE} from "../../data/idLists.mjs";
 
-/*module.exports.getInitialPlayerStates = getInitialPlayerStates();*/
+export const GLOBAL_VARS = Object.freeze({
+    handSize: 5,
+    initialCards: [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},
+        {...ITEM_IDs.fear}, {...ITEM_IDs.fear}],
+    itemsInStore: 5,
+    artifactsInStore: 1,
+    adventurers: 2,
+    numOfPlayers: 2,
+    playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
+});
 
 /* INITIAL PLAYER STATE */
+
+export const emptyPlayerState = Object.freeze({
+    finishedRound: false,
+    resources: {
+        coins: 20,
+        explore: 20,
+        texts: 2,
+        weapons: 0,
+        jewels: 0,
+        shinies: 20,
+        walk: 0,
+        jeep: 0,
+        ship: 0,
+        plane: 0
+    },
+    activeEffects: [],
+    availableAdventurers: GLOBAL_VARS.adventurers,
+    hand: [],
+    activeCard: false,
+    drawDeck: [],
+    discardDeck: [],
+    playedCards: [],
+    destroyedCards: [],
+    color: null,
+    actions: 1,
+});
+
 export default function getInitialPlayerStates() {
     let playerStates = [];
 
     for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
-        let playerState = {
-            finishedRound: false,
-            resources: {
-                coins: 20,
-                explore: 20,
-                texts: 2,
-                weapons: 0,
-                jewels: 0,
-                shinies: 20,
-                walk: 0,
-                jeep: 0,
-                ship: 0,
-                plane: 0
-            },
-            activeEffects: [],
-            availableAdventurers: GLOBAL_VARS.adventurers,
-            hand: [],
-            activeCard: false,
-            drawDeck: [],
-            discardDeck: [],
-            playedCards: [],
-            destroyedCards: [],
-            color: GLOBAL_VARS.playerColors[i],
-            actions: 1,
-        };
+        let playerState = {...emptyPlayerState};
+        playerState.color = GLOBAL_VARS.playerColors[i];
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
         const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
@@ -122,18 +136,6 @@ function drawCards(deck, cardsToDraw) {
 function getRandomNumber(size) {
     return Math.floor(Math.random() * (size)) + 1;
 }
-
-export const GLOBAL_VARS = Object.freeze({
-    handSize: 5,
-    initialCards: [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},
-        {...ITEM_IDs.fear}, {...ITEM_IDs.fear}],
-    itemsInStore: 5,
-    artifactsInStore: 1,
-    adventurers: 2,
-    numOfPlayers: 2,
-    playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
-});
-
 
 export function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {

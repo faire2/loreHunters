@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import cloneDeep from 'lodash/cloneDeep';
 
+
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
 import Resources from "./components/resources/Resources";
@@ -14,8 +15,10 @@ import {
     addDiscardToDrawDeck
 } from "./components/functions/cardManipulationFuntions";
 import getInitialPlayerStates, {
+    emptyPlayerState,
     getInitialLocations,
-    getInitialStoreItems, GLOBAL_VARS
+    getInitialStoreItems,
+    GLOBAL_VARS
 } from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects";
 import LocationsArea from "./components/main/LocationsArea";
@@ -24,10 +27,8 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects";
 import ModalDialogue from "./components/main/Modal";
 import {payForTravelIfPossible} from "./components/locations/payForTravelIfPossible";
-import useSocket from "use-socket.io-client";
-import {CARD_STATE, CARD_TYPE, LOCATION_STATE} from "./data/idLists";
-import {TRANSMISSIONS} from "./server/server";
-
+import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
+import {socket} from "./server/socketConnection";
 
 function App() {
     const [playerStates, setPlayerStates] = useState(getInitialPlayerStates);
@@ -36,42 +37,28 @@ function App() {
     const [modalData, setModalData] = useState({location: null, guardian: null});
     const [testData, setTestData] = useState(null);
 
-    const playerState = cloneDeep(playerStates[playerIndex]);
-
-    function setPlayerState(playerState) {
-        let tPlayerStates = cloneDeep(playerStates);
-        tPlayerStates.splice(playerIndex, 1, playerState);
-        setPlayerStates(tPlayerStates);
-    }
+    const [playerState, setPlayerState] = useState(emptyPlayerState);
 
     /*const [tempState, setTempState] = useState({});*/
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(getInitialStoreItems);
     const [locations, setLocations] = useState(getInitialLocations());
 
-    /* for production / devel */
-    /*const [socket] = useSocket("https://lore-hunters.herokuapp.com");*/
-    const [socket] = useSocket("localhost:4001");
-
     useEffect( () => {
-        socket.emit("test", "test message");
-        socket.on("test response", data => {
-            console.log("test response received");
-            setTestData(data);
+        socket.on(TRANSMISSIONS.getState, playerState => {
+            console.log("received player's state from server");
+            console.log(playerState);
+            setPlayerState(playerState);
         })
-        socket.on(TRANSMISSIONS.getState, data => {
-            console.log("data server");
-            console.log(data);
-        })
-    });
+    }, []);
 
     function handleEmission() {
         console.log("emmitting");
         socket.emit("test", "test message");
     }
 
-    console.log("*** player states ***");
-    console.log(playerStates);
+    console.log("*** player state ***");
+    console.log(playerState);
 
     /*console.log("Player's state:");
     console.log(playerState);
