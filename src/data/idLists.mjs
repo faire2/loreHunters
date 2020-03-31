@@ -1,3 +1,7 @@
+import {fileURLToPath} from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+
 export const LOCATION_LEVEL = Object.freeze({
     1: "I",
     2: "II",

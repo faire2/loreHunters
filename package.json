@@ -2,9 +2,6 @@
   "name": "lore_hunters",
   "version": "0.1.0",
   "private": true,
-  "babel": {
-    "plugins": ["@babel/plugin-syntax-import-meta"]
-  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
@@ -22,8 +19,8 @@
     "use-socket.io-client": "^1.1.0"
   },
   "scripts": {
-    "start": "node src/server/server.js",
-    "build": "react-scripts build",
+    "start": "webpack --mode=development",
+    "build": "webpack --mode=production",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -43,6 +40,16 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-syntax-import-meta": "^7.8.3"
+    "@babel/plugin-syntax-import-meta": "^7.8.3",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.4.2",
+    "html-webpack-plugin": "^4.0.0-beta.11",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.2"
   }
 }
