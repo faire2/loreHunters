@@ -16,6 +16,7 @@ const players = [];
 
 // socket with an instance of the server
 const io = socketIO(server);
+io.set('origins', '*:*');
 io.on("connection", socket => {
     console.log("New client connected: " + socket.id);
     // insert player into null position push him to the end
