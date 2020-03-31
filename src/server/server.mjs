@@ -5,30 +5,16 @@ import express from "express";
 import socketIO from "socket.io"
 import getInitialPlayerStates from "../components/functions/initialStateFunctions.mjs";
 import {TRANSMISSIONS} from "../data/idLists.mjs";
-
-const allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-
-    // intercept OPTIONS method
-    if ('OPTIONS' == req.method) {
-        res.send(200);
-    }
-    else {
-        next();
-    }
-};
+import cors from "cors"
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
 const app = express();
-app.use(allowCrossDomain);
+app.use(cors());
 const server = http.createServer(app);
 
 const playerStates = getInitialPlayerStates();
 const players = [];
-
 
 // socket with an instance of the server
 const io = socketIO(server);
