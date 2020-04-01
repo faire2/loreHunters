@@ -13,11 +13,6 @@ const app = express();
 app.use(cors());
 const server = http.createServer(app)
 
-var corsOptions = {
-    origin: 'http://herokuapp.com',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-
 const playerStates = getInitialPlayerStates();
 const players = [];
 
@@ -55,7 +50,7 @@ io.on("connection", socket => {
 });
 
 app.use(express.static(path.join(__dirname, '../../build')));
-app.get('/*', cors(corsOptions), function(req, res) {
+app.get('/*', function(req, res) {
     res.sendFile(path.join(__dirname, '../../build', 'index.html'))
 });
 
