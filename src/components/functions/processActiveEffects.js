@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects";
-import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards} from "./cardManipulationFuntions";
+import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, getIdCard} from "./cardManipulationFuntions";
 import {processEffects} from "./processEffects";
 import {processCardBuy} from "./processCardBuy";
 import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";
@@ -90,10 +90,10 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState.hand = tActiveEffects[1];
                 tPlayerState.drawDeck = shuffleArray(tPlayerState.drawDeck);
                 tCard.state = CARD_STATE.inHand;
-                tPlayerState.hand.push(tCard);
+                tPlayerState.hand.push(getIdCard(tCard));
                 tActiveEffects.splice(0, 2);
                 for (let i = 0; i < tPlayerState.drawDeck.length; i++) {
-                    if (tPlayerState.drawDeck[i].cardName === tCard.cardName) {
+                    if (tPlayerState.drawDeck[i].id === tCard.id) {
                         tPlayerState.drawDeck.splice(i, 1);
                     }
                 }

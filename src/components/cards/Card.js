@@ -7,16 +7,18 @@ import {ARTIFACTS, CARD_TRANSPORT, GUARDIANS, ITEMS} from "../../data/cards";
 
 export default function Card(props) {
     let card;
-    if (props.card.type === CARD_TYPE.item || props.card.type === CARD_TYPE.basic) {
+    const cardType = props.card.type;
+    if (cardType === CARD_TYPE.item || cardType === CARD_TYPE.basic) {
         card = ITEMS[props.card.id]
-    } else if (props.card.type === CARD_TYPE.artifact) {
+    } else if (cardType === CARD_TYPE.artifact) {
         card = ARTIFACTS[props.card.id]
-    } else if (props.card.type === CARD_TYPE.guardian) {
+    } else if (cardType === CARD_TYPE.guardian) {
         card = GUARDIANS[props.card.id]
     } else {
-        console.log("Unable to process card type in Card.js: " + props.card.type);
+        console.log("Unable to process card type in Card.js: " + cardType);
     }
     card.state = props.card.state;
+    card.type = cardType;
 
     const boardStateContext = useContext(BoardStateContext);
     // if cardsState = inShop => no effects, else (in hand) clickOn effects only active, if activeEffects.length = 0

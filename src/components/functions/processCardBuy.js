@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects";
-import {addCardToStore} from "./cardManipulationFuntions";
+import {addCardToStore, getIdCard} from "./cardManipulationFuntions";
 import {processEffects} from "./processEffects";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 
@@ -48,9 +48,9 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         /* we pay the cost and add the card to discard deck or to hand */
         card.state = CARD_STATE.discard;
         if (activeEffect === EFFECT.gainItemToHand) {
-            tPlayerState.hand.push(card);
+            tPlayerState.hand.push(getIdCard(card));
         } else {
-            tPlayerState.discardDeck.push(card);
+            tPlayerState.discardDeck.push(getIdCard(card));
         }
 
         tPlayerState.resources.coins -= card.cost;
@@ -59,7 +59,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         tStore.artifactsOffer.splice(cardIndex, 1);
         tStore = addCardToStore(card.type, tStore);
         card.state = CARD_STATE.discard;
-        tPlayerState.discardDeck.push(card);
+        tPlayerState.discardDeck.push(getIdCard(card));
         tPlayerState.resources.explore -= card.cost;
         tPlayerState.actions -= 1;
         console.log("HERE ");

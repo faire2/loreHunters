@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep';
-import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
+import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists";
 import {shuffleArray} from "./initialStateFunctions";
 
 export function addCardToHand(card, origPlayerState) {
@@ -10,9 +10,10 @@ export function addCardToHand(card, origPlayerState) {
     return cloneDeep(tPlayerState);
 }
 
-export function addCardToDiscardDeck(card, tPlayersState) {
-    card.state = CARD_STATE.discard;
-    tPlayersState.discardDeck.push(card);
+export function addCardToDiscardDeck(jsxCard, tPlayersState) {
+    let idCard = getIdCard(jsxCard)
+    idCard.state = CARD_STATE.discard;
+    tPlayersState.discardDeck.push(idCard);
     return tPlayersState;
 }
 
@@ -90,4 +91,21 @@ export function destroyCard(cardState, cardIndex, tPlayerState) {
     }
     if (card !== null) {tPlayerState.destroyedCards.push(card)}
     return tPlayerState;
+}
+
+export function getIdCard(jsxCard) {
+    const cardId = jsxCard.id;
+    switch (jsxCard.type) {
+        case (CARD_TYPE.basic):
+        case (CARD_TYPE.item):
+            return ITEM_IDs[cardId];
+        case (CARD_TYPE.artifact):
+            return ARTIFACT_IDs[cardId];
+        case (CARD_TYPE.guardian):
+            return GUARDIAN_IDs[cardId];
+        default:
+            console.log("Cannot determine idCard: " + jsxCard.id);
+
+    }
+
 }
