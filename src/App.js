@@ -30,36 +30,27 @@ import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLis
 import {socket} from "./server/socketConnection";
 
 function App() {
-    const [playerStates, setPlayerStates] = useState(getInitialPlayerStates);
+    const [playerStates, setPlayerStates] = useState(null);
     const [playerIndex, setPlayerIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [modalData, setModalData] = useState({location: null, guardian: null});
-    const [testData, setTestData] = useState(null);
 
     const [playerState, setPlayerState] = useState(emptyPlayerState);
 
-    /*const [tempState, setTempState] = useState({});*/
     const [round, setRound] = useState(1);
-    const [store, setStore] = useState(getInitialStoreItems);
-    const [locations, setLocations] = useState(getInitialLocations());
+    const [store, setStore] = useState(null);
+    const [locations, setLocations] = useState(null);
 
     useEffect( () => {
-        socket.on(TRANSMISSIONS.getState, playerState => {
-            console.log("received player's state from server");
-            console.log(playerState);
-            setPlayerState(playerState);
+        socket.on(TRANSMISSIONS.getStates, states => {
+            console.log("received states from server");
+            console.log(states);
+            setPlayerState(states.playerState);
+            setStore(states.store);
+            setLocations(states.locations);
+            setRound(states.round);
         })
     }, []);
-
-    /*console.log("Player's state:");
-    console.log(playerState);
-    console.log("Store's state:");
-    console.log(store.itemsStore);
-    console.log("Active effects:");
-    console.log(activeEffects);
-    console.log("Locations:");
-    console.log(locations);*/
-
 
     /** CARD EFFECTS **/
     function handleClickOnCardEffect(effects, cardIndex, isTravel) {
@@ -384,10 +375,8 @@ function App() {
                         Actions: {playerState.actions}
                         <Controls/>
                         {playerState.activeEffects[0]}
-                        {testData}
                     </div>
                     <ExplorationDialogueModal/>
-                    {testData}
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

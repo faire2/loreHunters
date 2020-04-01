@@ -496,5 +496,5 @@ export const LOCATION_IDs = Object.freeze({
 })
 
 export const TRANSMISSIONS = Object.freeze({
-    getState: "getState"
+    getStates: "getState"
 })

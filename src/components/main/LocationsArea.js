@@ -12,7 +12,7 @@ export default function LocationsArea() {
     return (
         <div>
             <div className="d-flex flex-row position-relative mb-5">
-                {Object.keys(locations).map((key, i) =>
+                {locations !== null && Object.keys(locations).map((key, i) =>
                     <div key={"location" + i}>
                         {locations[key].state !== LOCATION_STATE.unexplored ?
                             <ExploredLocation location={Locations[key]} level={locations[key].level} state={locations[key].state} /> :
