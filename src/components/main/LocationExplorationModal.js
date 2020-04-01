@@ -1,9 +1,10 @@
 import React, {useContext} from "react";
 import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
+import {GUARDIANS} from "../../data/cards";
 
 
-export default function ModalDialogue() {
+export default function ExplorationDialogueModal() {
     const boardStateContext = useContext(BoardStateContext);
 
     const showModal = boardStateContext.showModal;
@@ -13,7 +14,7 @@ export default function ModalDialogue() {
 
     return (
         <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null}>
-            <Modal.Header closeButton>
+            <Modal.Header>
                 <Modal.Title>Choose reward for exploring location</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -23,7 +24,8 @@ export default function ModalDialogue() {
                     </div> : ""}
                 {guardian !== null ?
                     <div
-                        onClick={() => boardStateContext.handleLocationExploredReward(guardian.discoveryEffect)}>{guardian.discoveryText}
+                        onClick={() => boardStateContext.handleLocationExploredReward(GUARDIANS[guardian.id].discoveryEffect)}>
+                        {GUARDIANS[guardian.id].discoveryText}
                     </div> : ""}
             </Modal.Body>
         </Modal>

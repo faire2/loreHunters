@@ -64,11 +64,13 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.destroyCard:
-            tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
-            tCard.state = CARD_STATE.destroyed;
-            tPlayerState.destroyedCards.push(tCard);
-            tActiveEffects.splice(0, 1);
-            break;
+            if (tCard !== null) {
+                tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                tCard.state = CARD_STATE.destroyed;
+                tPlayerState.destroyedCards.push(tCard);
+                tActiveEffects.splice(0, 1);
+                break;
+            }
 
         case EFFECT.destroyGuardian:
             if (tCard !== null && tCard.type === CARD_TYPE.guardian) {

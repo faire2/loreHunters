@@ -5,9 +5,10 @@ import {LOCATION_LEVEL} from "../../data/idLists";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
-    const location = props.location;
-    let exploreCost = null;
+    let location = props.location;
+    location.state = props.state;
 
+    let exploreCost = null;
     if (location.type === LOCATION_TYPE.brown) {
         if (props.level === LOCATION_LEVEL["2"]) {
             exploreCost = LOCATIONS_EXPLORE_COST.brown2

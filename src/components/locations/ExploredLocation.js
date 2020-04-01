@@ -9,6 +9,8 @@ export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
     const [playerOwner, setPlayerOwner] = useState(false);
     const location = props.location;
+    location.state = props.state;
+
     const transportIcons = [];
     for (let i = 0; i < location.useCost.amount; i++) {
         transportIcons.push(<span key={i}>{location.useCost.transportType}</span>)

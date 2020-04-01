@@ -16,7 +16,7 @@ export default function LocationsArea() {
                     <div key={"location" + i}>
                         {locations[key].state !== LOCATION_STATE.unexplored ?
                             <ExploredLocation location={Locations[key]} level={locations[key].level} state={locations[key].state} /> :
-                            <UnexploredLocation location={Locations[key]} level={locations[key].level}/>
+                            <UnexploredLocation location={Locations[key]} level={locations[key].level} state={locations[key].state}/>
                         }
                     </div>
                 )}

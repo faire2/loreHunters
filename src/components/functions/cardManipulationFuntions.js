@@ -105,7 +105,5 @@ export function getIdCard(jsxCard) {
             return GUARDIAN_IDs[cardId];
         default:
             console.log("Cannot determine idCard: " + jsxCard.id);
-
     }
-
 }

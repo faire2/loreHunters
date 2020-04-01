@@ -3,7 +3,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import cloneDeep from 'lodash/cloneDeep';
 
-
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
 import Resources from "./components/resources/Resources";
@@ -25,7 +24,7 @@ import LocationsArea from "./components/main/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects";
-import ModalDialogue from "./components/main/Modal";
+import ExplorationDialogueModal from "./components/main/LocationExplorationModal";
 import {payForTravelIfPossible} from "./components/locations/payForTravelIfPossible";
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
@@ -75,9 +74,8 @@ function App() {
         let tPlayerState = cloneDeep(playerState);
         let tStore = cloneDeep(store);
         const tcard = tPlayerState.hand[cardIndex];
-        console.log("Handling card effects: ");
+        console.log("Handling card effects: " + tcard.cardName);
         console.log(effects);
-        console.log(tcard);
 
         if (tcard.type === CARD_TYPE.item || tcard.type === CARD_TYPE.basic ||
             (tcard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
@@ -118,17 +116,14 @@ function App() {
         console.log("Clicked on location");
         let tPlayerState = cloneDeep(playerState);
         const resources = tPlayerState.resources;
+
+        /* Resolve active effects */
         if (tPlayerState.activeEffects.length > 0) {
             const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
-                [...tPlayerState.activeEffects], {...store}, {...locations});
-            tPlayerState = effectResult.tPlayerState;
-            tPlayerState.activeEffects = effectResult.tActiveEffects;
-            setPlayerState(tPlayerState);
-            const tLocation = effectResult.tLocation;
-            let tLocations = {...locations};
-            tLocations.splice(location.index, 1, tLocation);
-            setLocations(tLocations);
-            nextPlayer()
+                null, {...store}, {...locations});
+            setPlayerState(effectResult.tPlayerState);
+            setLocations(effectResult.tLocations);
+            setStore(effectResult.tStore);
         } else {
             switch (location.state) {
                 case LOCATION_STATE.unexplored:
@@ -137,17 +132,17 @@ function App() {
                         resources.coins -= location.exploreCost.coins;
                         resources.explore -= location.exploreCost.explore;
 
-                        /* todo guardians player can choose between tLocation benefits and guardian benefits */
-                        tPlayerState = cloneDeep(playerState);
                         tPlayerState.actions -= 1;
                         setPlayerState(tPlayerState);
 
-                        let tLocation = {...locations[location.index]};
-                        tLocation.state = LOCATION_STATE.explored;
-                        let tLocations = {...locations};
-                        tLocations.splice(location.index, 1, tLocation);
+                        let tLocations = cloneDeep(locations);
+                        for (let key in tLocations) {
+                            if (tLocations[key].id === location.id) {
+                                tLocations[key].state = LOCATION_STATE.explored;
+                            }
+                        }
                         setLocations(tLocations);
-                        setModalData({location: location, guardian: playerState.guardians[0]});
+                        setModalData({location: location, guardian: store.guardians[0]});
                         setShowModal(true);
                     }
                     break;
@@ -266,13 +261,12 @@ function App() {
 
     /** HANDLE NEW LOCATION EXPLORE **/
     function handleLocationExploredReward(effects) {
-        console.log("here");
         const effectsResult = processEffects(null, null, cloneDeep(playerState), effects,
             null, cloneDeep(store), null, cloneDeep(locations));
         /* costs are only coins and explore => we only need to update playerState */
         let tPlayerState = effectsResult.tPlayerState;
-        tPlayerState.discardDeck.push(tPlayerState.guardians[0]);
-        tPlayerState.guardians.splice(0, 1);
+        tPlayerState.discardDeck.push(store.guardians[0]);
+        store.guardians.splice(0, 1);
         setPlayerState(effectsResult.tPlayerState);
         setLocations(effectsResult.tLocations);
         setStore(effectsResult.tStore);
@@ -401,7 +395,7 @@ function App() {
                         {testData}
                         <button onClick={() => handleEmission()}>Handle emission</button>
                     </div>
-                    <ModalDialogue/>
+                    <ExplorationDialogueModal/>
                     {testData}
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
