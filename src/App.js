@@ -51,14 +51,6 @@ function App() {
         })
     }, []);
 
-    function handleEmission() {
-        console.log("emmitting");
-        socket.emit("test", "test message");
-    }
-
-    console.log("*** player state ***");
-    console.log(playerState);
-
     /*console.log("Player's state:");
     console.log(playerState);
     console.log("Store's state:");
@@ -393,7 +385,6 @@ function App() {
                         <Controls/>
                         {playerState.activeEffects[0]}
                         {testData}
-                        <button onClick={() => handleEmission()}>Handle emission</button>
                     </div>
                     <ExplorationDialogueModal/>
                     {testData}
