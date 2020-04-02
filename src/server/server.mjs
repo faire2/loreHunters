@@ -34,16 +34,18 @@ let activePlayer = 0;
 const io = socketIO(server);
 io.on("connection", socket => {
     console.log("New client connected: " + socket.id);
-    // todo limit number of players according to global settings
-    players = addPlayer(players, socket.id);
-    socket.emit(TRANSMISSIONS.getStates, {
-        playerState: playerStates[players.indexOf(socket.id)],
-        store: store,
-        locations: locations,
-        round: round,
-        isActivePlayer: players.indexOf(socket.id) === activePlayer
-    });
-    console.log("Emitted playerstate to player no. " + players.indexOf(socket.id));
+    // todo maybe we could allow for more players?
+    if (players.length < GLOBAL_VARS.numOfPlayers) {
+        players = addPlayer(players, socket.id);
+        socket.emit(TRANSMISSIONS.getStates, {
+            playerState: playerStates[players.indexOf(socket.id)],
+            store: store,
+            locations: locations,
+            round: round,
+            isActivePlayer: players.indexOf(socket.id) === activePlayer
+        });
+        console.log("Emitted playerstate to player no. " + players.indexOf(socket.id));
+    }
 
     /** NEXT PLAYER **/
     socket.on(TRANSMISSIONS.nextPlayer, states => {
@@ -142,7 +144,6 @@ io.on("connection", socket => {
                 tPlayerState.actions = 1;
                 tPlayerState.finishedRound = false;
                 tPlayerStates.push(tPlayerState);
-                //todo isactive player + 1
             }
             playerStates = tPlayerStates;
             round += 1;
