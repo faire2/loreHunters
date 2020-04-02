@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects";
-import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, getIdCard} from "./cardManipulationFuntions";
+import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, getIdCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects";
 import {processCardBuy} from "./processCardBuy";
 import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";

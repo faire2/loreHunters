@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects";
-import {addCardToStore, getIdCard} from "./cardManipulationFuntions";
+import {addCardToStore, getIdCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 

@@ -8,12 +8,7 @@ import {BoardStateContext, PlayerStateContext} from "./Contexts";
 import Resources from "./components/resources/Resources";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
-import {
-    addCardToDiscardDeck,
-    addCardToHand,
-    addDiscardToDrawDeck
-} from "./components/functions/cardManipulationFuntions";
-import {emptyPlayerState, GLOBAL_VARS} from "./components/functions/initialStateFunctions";
+import {emptyPlayerState} from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects";
 import LocationsArea from "./components/main/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
@@ -25,10 +20,8 @@ import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLis
 import {socket} from "./server/socketConnection";
 
 function App() {
-    const [playerStates, setPlayerStates] = useState(null);
-    const [playerIndex, setPlayerIndex] = useState(0);
-
     const [playerState, setPlayerState] = useState(emptyPlayerState);
+    const [playerIndex, setPlayerIndex] = useState(0);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(null);
     const [locations, setLocations] = useState(null);
@@ -58,7 +51,6 @@ function App() {
             setIsActivePlayer(states.isActivePlayer);
         })
     }, []);
-    console.log(isActivePlayer);
 
     /** CARD EFFECTS **/
     function handleClickOnCardEffect(effects, cardIndex, isTravel) {
@@ -230,25 +222,11 @@ function App() {
 
                 setPlayerState(cloneDeep(tPlayerState));
                 setStore(tStore);
-                console.log("playerstate after buying: ");
-                console.log(playerState[playerIndex]);
             }
         }
     }
 
     function cancelEffect(effect) {
-
-    }
-
-    /** SET NEXT PLAYER **/
-    function nextPlayer() {
-        if (isActivePlayer) {
-            let tPlayerState = cloneDeep(playerState);
-            tPlayerState.actions = 1;
-            tPlayerState.activeEffects = [];
-            socket.emit(TRANSMISSIONS.nextPlayer, {playerState: tPlayerState, store: store, locations: locations})
-            setPlayerState(tPlayerState);
-        }
     }
 
     /** HANDLE NEW LOCATION EXPLORE **/
@@ -265,94 +243,22 @@ function App() {
         setShowModal(false);
     }
 
+    /** SET NEXT PLAYER **/
+    function nextPlayer() {
+        if (isActivePlayer) {
+            let tPlayerState = cloneDeep(playerState);
+            tPlayerState.actions = 1;
+            tPlayerState.activeEffects = [];
+            socket.emit(TRANSMISSIONS.nextPlayer, {playerState: tPlayerState, store: store, locations: locations})
+            setPlayerState(tPlayerState);
+        }
+    }
+
     /** END OF ROUND **/
     function handleEndRound() {
         if (isActivePlayer) {
-            let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
-            let haveAllFinished = true;
-            while (playerIndex !== nextPlayerIndex) {
-                if (!playerStates[nextPlayerIndex].finishedRound) {
-                    haveAllFinished = false;
-                }
-                nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0;
-            }
-
-            if (haveAllFinished) {
-
-                /* handle store changes */
-                let tStore = {...store};
-                if (tStore.itemsOffer.length > 0) {
-                    tStore.itemsOffer.splice(tStore.itemsOffer.length - round, 1, tStore.artifactsDeck[0]);
-                    tStore.artifactsDeck.splice(0, 1);
-                    setStore(tStore);
-                }
-
-                /* remove adventurers from locations */
-                let tLocations = [];
-                for (let location of locations) {
-                    let tLocation = {...location};
-                    if (location.state === LOCATION_STATE.occupied) {
-                        tLocation.state = LOCATION_STATE.explored
-                    }
-                    tLocations.push(tLocation);
-                }
-                setLocations(tLocations);
-
-                /* reset player states */
-                let tPlayerStates = [];
-                for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
-                    let tPlayerState = cloneDeep(playerStates[i]);
-                    tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
-
-                    /* remove active card */
-                    if (tPlayerState.activeCard !== false) {
-                        tPlayerState.discardDeck.push(tPlayerState.activeCard);
-                        tPlayerState.activeCard = false;
-                    }
-
-                    /* move cards from hand to discard */
-                    for (let card of tPlayerState.hand) {
-                        tPlayerState = addCardToDiscardDeck(card, tPlayerState);
-                        tPlayerState.hand = [];
-                    }
-
-                    /* draw a new hand */
-                    for (let i = 0; i < GLOBAL_VARS.handSize; i++) {
-                        if (tPlayerState.drawDeck.length === 0) {
-                            tPlayerState = addDiscardToDrawDeck(tPlayerState);
-                        }
-                        if (tPlayerState.drawDeck.length > 0) {
-                            const result = addCardToHand(tPlayerState.drawDeck[0], cloneDeep(tPlayerState));
-                            tPlayerState = cloneDeep(result);
-
-                            tPlayerState.drawDeck.splice(0, 1);
-                        }
-                    }
-
-                    /* reset transport resources */
-                    tPlayerState.resources.walk = 0;
-                    tPlayerState.resources.jeep = 0;
-                    tPlayerState.resources.ship = 0;
-                    tPlayerState.resources.plane = 0;
-
-                    /* reset active effects */
-                    tPlayerState.activeEffects = [];
-
-                    tPlayerState.actions = 1;
-
-                    tPlayerState.finishedRound = false;
-                    tPlayerStates.push(tPlayerState);
-                }
-                setPlayerStates(tPlayerStates);
-
-                setRound(round + 1);
-                console.log("*** END OF ROUND ***");
-            } else {
-                let tPlayerState = {...playerState};
-                tPlayerState.finishedRound = true;
-                setPlayerState(tPlayerState);
-                nextPlayer();
-            }
+            console.log("finishing round");
+            socket.emit(TRANSMISSIONS.finishedRound, {playerState: playerState, store: store, locations: locations})
         }
     }
 

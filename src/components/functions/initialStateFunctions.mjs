@@ -23,7 +23,6 @@ export const GLOBAL_VARS = Object.freeze({
 /* INITIAL PLAYER STATE */
 
 export const emptyPlayerState = Object.freeze({
-    finishedRound: false,
     resources: {
         coins: 20,
         explore: 20,
@@ -46,6 +45,7 @@ export const emptyPlayerState = Object.freeze({
     destroyedCards: [],
     color: null,
     actions: 1,
+    finishedRound: false,
 });
 
 export default function getInitialPlayerStates() {

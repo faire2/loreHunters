@@ -497,6 +497,7 @@ export const LOCATION_IDs = Object.freeze({
 
 export const TRANSMISSIONS = Object.freeze({
     getStates: "getState",
+    stateUpdate: "stateUpdate",
     nextPlayer: "nextPlayer",
-    stateUpdate: "stateUpdate"
+    finishedRound: "finishedRound",
 })

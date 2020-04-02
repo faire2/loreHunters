@@ -1,4 +1,4 @@
-import {addCardToStore, destroyCard, drawCards} from "./cardManipulationFuntions";
+import {addCardToStore, destroyCard, drawCards} from "./cardManipulationFuntions.mjs";
 import {EFFECT} from "../../data/effects";
 import cloneDeep from 'lodash/cloneDeep';
 import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";
