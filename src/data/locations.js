@@ -22,11 +22,7 @@ export const TRANSPORT_TYPE = Object.freeze({
 });
 
 
-export const LOCATION_TYPE = Object.freeze({
-    green: "green tLocation that requires boats",
-    brown: "brown tLocation that requires jeeps",
-    mixed: "brown and green tLocation - unique"
-});
+
 
 export const LOCATIONS_EXPLORE_COST = Object.freeze({
     1: "",
@@ -38,8 +34,7 @@ export const LOCATIONS_EXPLORE_COST = Object.freeze({
 
 export const Locations = Object.freeze({
     b1: {
-        id: "b1",
-        type: LOCATION_TYPE.brown,
+    id: "b1",
         exploreCost: {explore: 0, coins: 0},
         effectsText: <div className="effectsText"><Coin/><Coin/></div>,
         effects: [EFFECT.gainCoin, EFFECT.gainCoin],
@@ -47,7 +42,6 @@ export const Locations = Object.freeze({
     },
     b2: {
         id: "b2",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 0, coins: 0},
         effectsText: <div className="effectsText"><Text/><Text/></div>,
         effects: [EFFECT.gainText, EFFECT.gainText],
@@ -55,7 +49,6 @@ export const Locations = Object.freeze({
     },
     b3: {
         id: "b3",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 0, coins: 0},
         effectsText: <div className="effectsText"><Explore/><Explore/></div>,
         effects: [EFFECT.gainExplore, EFFECT.gainExplore],
@@ -63,7 +56,6 @@ export const Locations = Object.freeze({
     },
     b4: {
         id: "b4",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 0, coins: 0},
         effectsText: <div className="effectsText"><Weapon/></div>,
         effects: [EFFECT.gainWeapon],
@@ -71,7 +63,6 @@ export const Locations = Object.freeze({
     },
     b5: {
         id: "b5",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 2},
         effectsText: <div className="effectsText"><Weapon/><Draw1Card/></div>,
         effects: [EFFECT.gainWeapon, EFFECT.draw1],
@@ -79,7 +70,6 @@ export const Locations = Object.freeze({
     },
     b6: {
         id: "b6",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 2},
         effectsText: <div className="effectsText"><Weapon/><DestroyCard/></div>,
         effects: [EFFECT.gainWeapon, EFFECT.destroyCard],
@@ -87,7 +77,6 @@ export const Locations = Object.freeze({
     },
     b7: {
         id: "b7",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Jewel/></div>,
         effects: [EFFECT.gainJewel],
@@ -95,7 +84,6 @@ export const Locations = Object.freeze({
     },
     b8: {
         id: "b8",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText">-<Explore/><Explore/>: <Artifact/></div>,
         effects: [EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.gainArtifact],
@@ -103,7 +91,6 @@ export const Locations = Object.freeze({
     },
     b9: {
         id: "b9",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Text/><Coin/><Uptrade/></div>,
         effects: [EFFECT.gainText, EFFECT.gainCoin, EFFECT.uptrade],
@@ -111,7 +98,6 @@ export const Locations = Object.freeze({
     },
     b10: {
         id: "b10",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Draw1Card/><Coin/><Explore/></div>,
         effects: [EFFECT.draw1, EFFECT.gainCoin, EFFECT.gainExplore],
@@ -119,7 +105,6 @@ export const Locations = Object.freeze({
     },
     b11: {
         id: "b11",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Text/><Text/><DestroyCard/></div>,
         effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.destroyCard],
@@ -127,7 +112,6 @@ export const Locations = Object.freeze({
     },
     b12: {
         id: "b12",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Weapon/><Text/></div>,
         effects: [EFFECT.gainWeapon, EFFECT.gainText],
@@ -135,7 +119,6 @@ export const Locations = Object.freeze({
     },
     b13: {
         id: "b13",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Jewel/><Weapon/></div>,
         effects: [EFFECT.gainJewel, EFFECT.gainWeapon],
@@ -143,7 +126,6 @@ export const Locations = Object.freeze({
     },
     b14: {
         id: "b14",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Shiny/><Uptrade/></div>,
         effects: [EFFECT.gainShiny, EFFECT.uptrade],
@@ -151,7 +133,6 @@ export const Locations = Object.freeze({
     },
     b15: {
         id: "b15",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Draw1Card/><Jewel/><Text/></div>,
         effects: [EFFECT.draw1, EFFECT.gainJewel, EFFECT.gainText],
@@ -159,7 +140,6 @@ export const Locations = Object.freeze({
     },
     b16: {
         id: "b16",
-        type: LOCATION_TYPE.brown,
         exploreCost: {explore: 2, coins: 3},
         effectsText: <div className="effectsText"><Text/><Jewel/><Coin/></div>,
         effects: [EFFECT.gainJewel, EFFECT.gainText, EFFECT.gainCoin],
@@ -167,7 +147,6 @@ export const Locations = Object.freeze({
     },
     g1: {
         id: "g1",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 4, coins: 0},
         effectsText: <div className="effectsText"><Explore/><Explore/><Uptrade/></div>,
         effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.uptrade],
@@ -175,7 +154,6 @@ export const Locations = Object.freeze({
     },
     g2: {
         id: "g2",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 4, coins: 0},
         effectsText: <div className="effectsText"><Discard/>: <Text/><Jewel/></div>,
         effects: [EFFECT.discard, EFFECT.gainJewel, EFFECT.gainText],
@@ -183,7 +161,6 @@ export const Locations = Object.freeze({
     },
     g3: {
         id: "g3",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 4, coins: 0},
         effectsText: <div className="effectsText"><Weapon/><Coin/></div>,
         effects: [EFFECT.gainWeapon, EFFECT.gainCoin],
@@ -191,7 +168,6 @@ export const Locations = Object.freeze({
     },
     g4: { //todo duplicate with previous!
         id: "g4",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 4, coins: 0},
         effectsText: <div className="effectsText"><Coin/><Weapon/></div>,
         effects: [EFFECT.gainWeapon, EFFECT.gainCoin],
@@ -199,7 +175,6 @@ export const Locations = Object.freeze({
     },
     g5: {
         id: "g5",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 4, coins: 0},
         effectsText: <div className="effectsText"><Discard/>:<Weapon/><Weapon/></div>,
         effects: [EFFECT.discard, EFFECT.gainWeapon, EFFECT.gainWeapon],
@@ -207,7 +182,6 @@ export const Locations = Object.freeze({
     },
     g6: {
         id: "g6",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 4, coins: 0},
         effectsText: <div className="effectsText"><Coin/><Draw1Card/> from discard </div>,
         effects: [EFFECT.drawFromDiscard, EFFECT.gainCoin],
@@ -215,7 +189,6 @@ export const Locations = Object.freeze({
     },
     g7: {
         id: "g7",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 4, coins: 0},
         effectsText: <div className="effectsText"><Text/><Text/><Text/></div>,
         effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
@@ -223,7 +196,6 @@ export const Locations = Object.freeze({
     },
     g8: {
         id: "g8",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 4, coins: 0},
         effectsText: <div className="effectsText"><Weapon/><Uptrade/></div>,
         effects: [EFFECT.gainWeapon, EFFECT.uptrade],
@@ -231,7 +203,6 @@ export const Locations = Object.freeze({
     },
     g9: {
         id: "g9",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 5, coins: 0},
         effectsText: <div className="effectsText"><Coin/></div>,
         effects: [EFFECT.gainCoin],
@@ -239,7 +210,6 @@ export const Locations = Object.freeze({
     },
     g10: {
         id: "g10",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 5, coins: 0},
         effectsText: <div className="effectsText"><Text/><Text/><Jewel/></div>,
         effects: [EFFECT.gainJewel, EFFECT.gainText, EFFECT.gainText],
@@ -247,7 +217,6 @@ export const Locations = Object.freeze({
     },
     g11: {
         id: "g11",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 5, coins: 0},
         effectsText: <div className="effectsText"><Discard/>: <Weapon/><Weapon/><Weapon/></div>,
         effects: [EFFECT.discard, EFFECT.gainWeapon, EFFECT.gainWeapon, EFFECT.gainWeapon],
@@ -255,12 +224,18 @@ export const Locations = Object.freeze({
     },
     g12: {
         id: "g12",
-        type: LOCATION_TYPE.green,
         exploreCost: {explore: 5, coins: 0},
         effectsText: <div className="effectsText"><Explore/><Explore/><Jewel/></div>,
         effects: [EFFECT.gainJewel, EFFECT.gainExplore, EFFECT.gainExplore],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
     },
+    m1: {
+        id: "m1",
+        exploreCost: {explore: 0, coins: 0},
+        effectsText: <div className="effectsText"><Explore/><Jewel/></div>,
+        effects: [EFFECT.gainJewel, EFFECT.gainExplore],
+        useCost: {transportType: TRANSPORT_TYPE.walk, amount: 2}
+    }
 });
 
 

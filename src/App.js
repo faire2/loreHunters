@@ -16,7 +16,7 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects";
 import ExplorationDialogueModal from "./components/main/LocationExplorationModal";
 import {payForTravelIfPossible} from "./components/locations/payForTravelIfPossible";
-import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
+import {CARD_STATE, CARD_TYPE, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
 
 function App() {
@@ -122,11 +122,28 @@ function App() {
                             setPlayerState(tPlayerState);
 
                             let tLocations = cloneDeep(locations);
-                            for (let key in tLocations) {
-                                if (tLocations[key].id === location.id) {
-                                    tLocations[key].state = LOCATION_STATE.explored;
+                            const locationLevel = LOCATION_IDs[location.id].level;
+                            let locationsOfLevel;
+                            switch (locationLevel) {
+                                case LOCATION_LEVEL["1"]:
+                                    locationsOfLevel = tLocations.level1;
+                                    break;
+                                case LOCATION_LEVEL["2"]:
+                                    locationsOfLevel = tLocations.level2;
+                                    break;
+                                case LOCATION_LEVEL["3"]:
+                                    locationsOfLevel = tLocations.level3
+                                    break;
+                                default:
+                                    console.log("Unable to process location level in handleLocation: " + locationLevel);
+                            }
+
+                            for (let key in locationsOfLevel) {
+                                if (locationsOfLevel[key].id === location.id) {
+                                    locationsOfLevel[key].state = LOCATION_STATE.explored;
                                 }
                             }
+
                             setLocations(tLocations);
                             setModalData({location: location, guardian: store.guardians[0]});
                             setShowModal(true);

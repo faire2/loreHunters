@@ -1,8 +1,7 @@
 import React, {useContext, useState} from "react";
 import {AdventurerToken} from "../Symbols";
 import {BoardStateContext} from "../../Contexts";
-import {LOCATION_TYPE} from "../../data/locations";
-import {LOCATION_STATE} from "../../data/idLists";
+import {LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
 
 export default function ExploredLocation(props) {
@@ -27,7 +26,7 @@ export default function ExploredLocation(props) {
     const tokenStrokeWidth = 1;
     const levelRectSide = 30;
 
-    switch (location.type) {
+    switch (props.type) {
         case LOCATION_TYPE.green:
             fillColor = "#90B13E";
             tokenFillColor = "#C3EF53";
@@ -35,6 +34,11 @@ export default function ExploredLocation(props) {
             break;
         case LOCATION_TYPE.brown:
             fillColor = "#aa6a3d";
+            tokenFillColor = "#ECB767";
+            tokenStrokeColor = "#705731";
+            break;
+        case LOCATION_TYPE.mixed:
+            fillColor = "#8d4646";
             tokenFillColor = "#ECB767";
             tokenStrokeColor = "#705731";
             break;
@@ -89,7 +93,6 @@ export default function ExploredLocation(props) {
                     {props.state === LOCATION_STATE.explored ? transportIcons : <AdventurerToken color={GLOBAL_VARS.playerColors[playerOwner]} />}
                 </div>
             </div>
-            <span style={{fontSize: 10}}> {location.state} </span>
         </div>
     )
 }

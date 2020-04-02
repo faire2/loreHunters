@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
-import {LOCATION_TYPE, LOCATIONS_EXPLORE_COST} from "../../data/locations";
-import {LOCATION_LEVEL} from "../../data/idLists";
+import {LOCATIONS_EXPLORE_COST} from "../../data/locations";
+import {LOCATION_LEVEL, LOCATION_TYPE} from "../../data/idLists";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
@@ -9,13 +9,13 @@ export default function ExploredLocation(props) {
     location.state = props.state;
 
     let exploreCost = null;
-    if (location.type === LOCATION_TYPE.brown) {
+    if (props.type === LOCATION_TYPE.brown) {
         if (props.level === LOCATION_LEVEL["2"]) {
             exploreCost = LOCATIONS_EXPLORE_COST.brown2
         } else if (props.level === LOCATION_LEVEL["3"]) {
             exploreCost = LOCATIONS_EXPLORE_COST.brown3
         }
-    } else if (location.type === LOCATION_TYPE.green) {
+    } else if (props.type === LOCATION_TYPE.green) {
         if (props.level === LOCATION_LEVEL["2"]) {
             exploreCost = LOCATIONS_EXPLORE_COST.green2
         } else if (props.level === LOCATION_LEVEL["3"]) {
@@ -42,7 +42,7 @@ export default function ExploredLocation(props) {
     const locationRadius = 75;
     const levelRectSide = 30;
 
-    switch (location.type) {
+    switch (props.type) {
         case LOCATION_TYPE.green:
             fillColor = "#90B13E";
             tokenFillColor = "#C3EF53";
@@ -91,7 +91,6 @@ export default function ExploredLocation(props) {
                           height={levelRectSide} fill={tokenFillColor} rx="3" ry="3"/>
                 </svg>
             </div>
-            <span style={{fontSize: 10}}> {location.state} </span>
         </div>
     )
 }

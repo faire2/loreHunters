@@ -1,12 +1,13 @@
 import {
     ARTIFACT_IDs,
+    CARD_STATE,
+    CARD_TYPE,
     GUARDIAN_IDs,
     ITEM_IDs,
     LOCATION_IDs,
     LOCATION_LEVEL,
     LOCATION_STATE,
-    CARD_STATE,
-    CARD_TYPE
+    LOCATION_TYPE
 } from "../../data/idLists.mjs";
 
 export const GLOBAL_VARS = Object.freeze({
@@ -16,7 +17,7 @@ export const GLOBAL_VARS = Object.freeze({
     itemsInStore: 5,
     artifactsInStore: 1,
     adventurers: 2,
-    numOfPlayers: 2,
+    numOfPlayers: 3,
     playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
 });
 
@@ -114,13 +115,131 @@ export function getInitialStoreItems() {
     }
 }
 
-/* INITIAL Locations */
+/* INITIAL LOCATIONS */
 export function getInitialLocations() {
     let locations = LOCATION_IDs;
+    const locationKeys = shuffleArray(Object.keys(locations));
+
+    /* we need to get the right number of green and brown locations of each location level according to n of players */
+    let level1Green = [];
+    let level2Green = [];
+    let level3Green = [];
+    let level1Brown = [];
+    let level2Brown = [];
+    let level3Brown = [];
+
+    let level2Max;
+    let level3Max;
+
+    switch (GLOBAL_VARS.numOfPlayers) {
+        case 1:
+        case 2:
+            level2Max = 2;
+            level3Max = 2;
+            break;
+        case 3:
+            level2Max = 3;
+            level3Max = 2;
+            break;
+        case 4:
+            level2Max = 4;
+            level3Max = 2;
+            break;
+        default:
+            console.log("Unable to process number of players in getInitialLocations: " + GLOBAL_VARS.numOfPlayers);
+    }
+
+    for (let i = 0; i < locationKeys.length; i++) {
+        let location = locations[locationKeys[i]];
+        console.log("location level: " + location.level);
+        switch (location.level) {
+            case LOCATION_LEVEL["1"]:
+                if (location.type === LOCATION_TYPE.brown) {
+                    level1Brown.push(location);
+                } else if (location.type === LOCATION_TYPE.green) {
+                    level1Green.push(location);
+                } else {
+                    console.log("Unable to process location type in getInitialLocations: ");
+                    console.log(location);
+                }
+                break;
+            case LOCATION_LEVEL["2"]:
+                if (location.type === LOCATION_TYPE.brown && level2Brown.length < level2Max) {
+                    level2Brown.push(location);
+                } else if (location.type === LOCATION_TYPE.green && level2Green.length < level2Max) {
+                    level2Green.push(location);
+                } else {
+                    console.log("Unable to process location type in getInitialLocations: ");
+                    console.log(location);
+                }
+                break;
+            case LOCATION_LEVEL["3"]:
+                if (location.type === LOCATION_TYPE.brown && level3Brown.length < level3Max) {
+                    level3Brown.push(location);
+                } else if (location.type === LOCATION_TYPE.green && level3Green.length < level3Max) {
+                    level3Green.push(location);
+                } else {
+                    console.log("Unable to process location type in getInitialLocations: ");
+                    console.log(location);
+                }
+                break;
+            default:
+                console.log("Unable to process location level in getInitialLocations: " + locations[locationKeys[i]]);
+        }
+    }
+
+    /* level 1 locations start explored, other not */
     for (let key in locations) {
         locations[key].state = (locations[key].level === LOCATION_LEVEL["1"]) ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
     }
-    return locations;
+
+    /* there are is a specific spatial configuration for every player number variation: */
+    let line1 = [...level1Brown, LOCATION_IDs.m1, ...level1Green];
+    let line2 = [];
+    let line3 = [];
+    let line4 = [];
+
+    switch (GLOBAL_VARS.numOfPlayers) {
+        case 1:
+        case 2:
+            line2 = [...level2Brown, ...level2Green];
+            line3 = [...level3Brown, ...level3Green];
+            break;
+        case 3:
+            line2 = [level2Brown[0], level2Brown[1], level2Green[0], level2Green[1]];
+            line3 = [level3Brown[0], level2Brown[2], level2Green[2], level3Green[0]];
+            line4 = [level3Brown[1], "empty", level3Green[1]];
+            break;
+        case 4:
+            line2 = [level2Brown[0], level2Brown[1], level2Green[0], level2Green[1]];
+            line3 = [level2Brown[2], level2Brown[3], level2Green[2], level2Green[3]];
+            line4 = [level3Brown[0], level3Brown[1], level3Green[0], level3Green[1]];
+            break;
+        default:
+            console.log("Unable to process number of players in getInitialLocations: " + GLOBAL_VARS.numOfPlayers);
+    }
+
+    for (let location of line1) {
+        location.line = 1;
+    }
+    for (let location of line2) {
+        location.line = 2;
+    }
+    for (let location of line3) {
+        location.line = 3;
+    }
+    if (line4.length > 0) {
+        for (let location of line1) {
+            location.line = 1;
+        }
+    }
+
+    return {
+        line1: line1,
+        line2: line2,
+        line3: line3,
+        line4: line4,
+    };
 }
 
 function drawCards(deck, cardsToDraw) {
