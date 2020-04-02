@@ -382,10 +382,11 @@ function App() {
                     <LocationsArea/>
                     <CardsArea/>
                     <div className="d-inline-flex flex-row text-center">
-                        <Controls/>
+                        <Controls/><br/>
+                    </div>
+                    <div>
                         {playerState.activeEffects[0]}
-                        {isActivePlayer ? <p>Your turn!</p> : <p>Wait for your turn...</p>}
-                        Actions: {playerState.actions}
+                        {isActivePlayer ? <p>Your turn! Actions: {playerState.actions}</p> : <p>Wait for your turn...</p>}
                     </div>
                     <ExplorationDialogueModal/>
                 </PlayerStateContext.Provider>
