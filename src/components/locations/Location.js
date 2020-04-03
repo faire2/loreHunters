@@ -1,18 +1,41 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {AdventurerToken} from "../Symbols";
 import {BoardStateContext} from "../../Contexts";
-import {LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
+import {LOCATIONS_EXPLORE_COST} from "../../data/locations";
 
-export default function ExploredLocation(props) {
+export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
     const location = props.location;
-    const playerOwner = null;
-    location.state = props.state;
+    location.state = props.idLocation.state;
+    const type = props.idLocation.type;
+    const level = props.idLocation.level;
 
+    /* transport icons for explored location*/
     const transportIcons = [];
     for (let i = 0; i < location.useCost.amount; i++) {
         transportIcons.push(<span key={i}>{location.useCost.transportType}</span>)
+    }
+
+    /* explore costs for unexplored location */
+    let exploreCost = null;
+    if (type === LOCATION_TYPE.brown) {
+        if (level === LOCATION_LEVEL["2"]) {
+            exploreCost = LOCATIONS_EXPLORE_COST.brown2
+        } else if (level === LOCATION_LEVEL["3"]) {
+            exploreCost = LOCATIONS_EXPLORE_COST.brown3
+        }
+    } else if (type === LOCATION_TYPE.green) {
+        if (level === LOCATION_LEVEL["2"]) {
+            exploreCost = LOCATIONS_EXPLORE_COST.green2
+        } else if (level === LOCATION_LEVEL["3"]) {
+            exploreCost = LOCATIONS_EXPLORE_COST.green3
+        }
+    } else if (location.level === LOCATION_LEVEL["1"]) {
+        exploreCost = null;
+    } else {
+        console.log ("Unable to determine exploration cost for location: " + location.id)
     }
 
     /* initial colors are changed based on tLocation type */
@@ -22,11 +45,11 @@ export default function ExploredLocation(props) {
 
     /* svg element sizes */
     const locationRadius = 75;
+    const levelRectSide = 30;
     const tokenRadius = 30;
     const tokenStrokeWidth = 1;
-    const levelRectSide = 30;
 
-    switch (props.type) {
+    switch (props.idLocation.type) {
         case LOCATION_TYPE.green:
             fillColor = "#90B13E";
             tokenFillColor = "#C3EF53";
@@ -55,7 +78,9 @@ export default function ExploredLocation(props) {
     };
 
     const effectsStyle = {
-        marginTop: "2%",
+        marginTop: location.state === LOCATION_STATE.unexplored ? "10%" : "2%",
+        maxWidth: 150,
+        cursor: "pointer",
     };
 
     const svgStyle = {
@@ -67,29 +92,28 @@ export default function ExploredLocation(props) {
 
     const adventurerStyle = {
         marginTop: 10,
+        maxWidth: 150,
     };
 
-    function handleClickOnExploredLocation() {
-        if (location.state === LOCATION_STATE.explored) {
-            boardStateContext.handleClickOnLocation(location.effects, location, props.line)
-        }
-    }
 
     return (
         <div style={containerStyle}
-             onClick={() => handleClickOnExploredLocation()}>
+             onClick={() => boardStateContext.handleClickOnLocation(location.effects, location, props.idLocation.line)}>
             <div>
-                <div>{props.level}</div>
-                <div style={effectsStyle}>{location.effectsText}</div>
+                <div>{props.idLocation.level}</div>
+                <div style={effectsStyle}>{location.state === LOCATION_STATE.unexplored ? exploreCost : location.effectsText}</div>
                 <svg width={locationRadius * 2.01} height={locationRadius * 2.01} style={svgStyle}>
                     <circle cx={locationRadius} cy={locationRadius} r={locationRadius} fill={fillColor}/>
                     <rect x={locationRadius - 0.5 * levelRectSide} y={0.1 * locationRadius} width={levelRectSide}
                           height={levelRectSide} fill={tokenFillColor} rx="3" ry="3"/>
-                    <circle cx={locationRadius} cy={locationRadius + 0.55 * locationRadius} r={tokenRadius}
+                    {location.state !== LOCATION_STATE.unexplored &&
+                        <circle cx={locationRadius} cy={locationRadius + 0.55 * locationRadius} r={tokenRadius}
                             fill={tokenFillColor} stroke={tokenStrokeColor} strokeWidth={tokenStrokeWidth}/>
+                    }
                 </svg>
                 <div style={adventurerStyle}>
-                    {props.state === LOCATION_STATE.explored ? transportIcons : <AdventurerToken color={GLOBAL_VARS.playerColors[playerOwner]} />}
+                    {props.idLocation.state === LOCATION_STATE.explored && transportIcons}
+                    {props.idLocation.state === LOCATION_STATE.occupied && <AdventurerToken color={GLOBAL_VARS.playerColors[props.idLocation.owner]} />}
                 </div>
             </div>
         </div>

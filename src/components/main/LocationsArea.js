@@ -1,9 +1,7 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
-import ExploredLocation from "../locations/ExploredLocation";
-import UnexploredLocation from "../locations/UnexploredLocation";
-import {LOCATION_STATE} from "../../data/idLists";
 import {Locations} from "../../data/locations";
+import Location from "../locations/Location";
 
 export default function LocationsArea() {
     const boardStateContext = useContext(BoardStateContext);
@@ -23,66 +21,46 @@ export default function LocationsArea() {
 
     return (
         <div>
-            <div style={style} className="d-flex flex-row position-relative">
-                {locations !== null && locations.line1.map((location, i) =>
-                    <div key={"location" + i}>
-                        {location.state !== LOCATION_STATE.unexplored ?
-                            <ExploredLocation location={Locations[location.id]} level={location.level}
-                                              state={location.state} type={location.type}/> :
-                            <UnexploredLocation location={Locations[location.id]} level={location.level}
-                                                state={location.state} type={location.type}/>
-                        }
-                    </div>
-                )}
-            </div>
-            <div style={leftMargin}>
-                <div style={style} className="d-flex flex-row position-relative">
-                    {locations !== null && locations.line2.map((location, i) =>
-                        <div key={"location" + i}>
-                            {location.state !== LOCATION_STATE.unexplored ?
-                                <ExploredLocation location={Locations[location.id]} level={location.level}
-                                                  state={location.state} type={location.type}/> :
-                                <UnexploredLocation location={Locations[location.id]} level={location.level}
-                                                    state={location.state} type={location.type}/>
-                            }
-                        </div>
-                    )}
-                </div>
-            </div>
-            <div style={style} className="d-flex flex-row position-relative">
-                <br/>
-                {locations !== null && locations.line3.map((location, i) =>
-                    <div key={"location" + i}>
-                        {location.state !== LOCATION_STATE.unexplored ?
-                            <ExploredLocation location={Locations[location.id]} level={location.level}
-                                              state={location.state} type={location.type}/> :
-                            <UnexploredLocation location={Locations[location.id]} level={location.level}
-                                                state={location.state} type={location.type}/>
-                        }
-                    </div>
-                )}
-            </div>
             <div style={leftMargin}>
                 <div style={style} className="d-flex flex-row position-relative">
                     <br/>
                     {locations !== null && locations.line4.map((location, i) => {
                         if (location === "empty") {
-                            return <div style={empty}></div>
+                            return <div key={"empty" + i} style={empty}></div>
                         } else {
                             return (
-                                <div key={"location" + i}>
-                                    {location.state !== LOCATION_STATE.unexplored ?
-                                        <ExploredLocation location={Locations[location.id]} level={location.level}
-                                                          state={location.state} type={location.type}/> :
-                                        <UnexploredLocation location={Locations[location.id]} level={location.level}
-                                                            state={location.state} type={location.type}/>
-                                    }
+                                <div key={"locationLine1-" + i}>
+                                    <Location location={Locations[location.id]} idLocation={location} />
                                 </div>
                             )
                         }
                     })
                     }
                 </div>
+            </div>
+            <div style={style} className="d-flex flex-row position-relative">
+                <br/>
+                {locations !== null && locations.line3.map((location, i) =>
+                    <div key={"locationLine1-" + i}>
+                        <Location location={Locations[location.id]} idLocation={location} />
+                    </div>
+                )}
+            </div>
+            <div style={leftMargin}>
+                <div style={style} className="d-flex flex-row position-relative">
+                    {locations !== null && locations.line2.map((location, i) =>
+                        <div key={"locationLine1-" + i}>
+                            <Location location={Locations[location.id]} idLocation={location} />
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div style={style} className="d-flex flex-row position-relative">
+                {locations !== null && locations.line1.map((location, i) =>
+                    <div key={"locationLine1-" + i}>
+                        <Location location={Locations[location.id]} idLocation={location} />
+                    </div>
+                )}
             </div>
         </div>
     )

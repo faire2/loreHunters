@@ -4,10 +4,11 @@ import {shuffleArray} from "./initialStateFunctions.mjs";
 
 export function addCardToHand(card, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);
-
-    card.state = CARD_STATE.inHand;
-    tPlayerState.hand.push(card);
-    return cloneDeep(tPlayerState);
+    if (card) {
+        card.state = CARD_STATE.inHand;
+        tPlayerState.hand.push(card);
+    }
+    return tPlayerState;
 }
 
 export function addCardToDiscardDeck(jsxCard, tPlayersState) {
@@ -89,7 +90,9 @@ export function destroyCard(cardState, cardIndex, tPlayerState) {
         default:
             console.log("Cannot process state " + cardState + " while removing card.");
     }
-    if (card !== null) {tPlayerState.destroyedCards.push(card)}
+    if (card !== null) {
+        tPlayerState.destroyedCards.push(card)
+    }
     return tPlayerState;
 }
 

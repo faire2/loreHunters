@@ -34,7 +34,6 @@ let activePlayer = 0;
 const io = socketIO(server);
 io.on("connection", socket => {
     console.log("New client connected: " + socket.id);
-    // todo maybe we could allow for more players?
     if (players.length < GLOBAL_VARS.numOfPlayers) {
         players = addPlayer(players, socket.id);
         socket.emit(TRANSMISSIONS.getStates, {
@@ -96,12 +95,14 @@ io.on("connection", socket => {
             /* remove adventurers from locations */
             let tLocations = cloneDeep(locations);
             for (let key in locations) {
-                let location = locations[key];
-                if (location.state === LOCATION_STATE.occupied) {
-                    location.state = LOCATION_STATE.explored
+                let locationLine = locations[key];
+                for (let location of locationLine) {
+                    if (location.state === LOCATION_STATE.occupied) {
+                        location.state = LOCATION_STATE.explored;
+                        location.owner = null;
+                    }
                 }
             }
-            locations = tLocations;
 
             /* reset player states */
             let tPlayerStates = [];

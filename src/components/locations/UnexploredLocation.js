@@ -1,31 +1,13 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
-import {LOCATIONS_EXPLORE_COST} from "../../data/locations";
-import {LOCATION_LEVEL, LOCATION_TYPE} from "../../data/idLists";
+import {LOCATION_TYPE} from "../../data/idLists";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
     let location = props.location;
     location.state = props.state;
 
-    let exploreCost = null;
-    if (props.type === LOCATION_TYPE.brown) {
-        if (props.level === LOCATION_LEVEL["2"]) {
-            exploreCost = LOCATIONS_EXPLORE_COST.brown2
-        } else if (props.level === LOCATION_LEVEL["3"]) {
-            exploreCost = LOCATIONS_EXPLORE_COST.brown3
-        }
-    } else if (props.type === LOCATION_TYPE.green) {
-        if (props.level === LOCATION_LEVEL["2"]) {
-            exploreCost = LOCATIONS_EXPLORE_COST.green2
-        } else if (props.level === LOCATION_LEVEL["3"]) {
-            exploreCost = LOCATIONS_EXPLORE_COST.green3
-        }
-    } else if (location.level === LOCATION_LEVEL["1"]) {
-        exploreCost = null;
-    } else {
-        console.log ("Unable to determine exploration cost for location: " + location.id)
-    }
+
 
     const transportIcons = [];
     for (let i = 0; i < location.useCost.amount; i++) {
@@ -80,11 +62,11 @@ export default function ExploredLocation(props) {
     };
 
     return (
-        <div style={containerStyle}
-             onClick={() => boardStateContext.handleClickOnLocation(location.effects, location)}>
-            <div>
+
+            <div><div style={containerStyle}
+                      onClick={() => boardStateContext.handleClickOnLocation(location.effects, location, props.line)}>
                 <div>{props.level}</div>
-                <div style={effectsStyle}>{exploreCost}</div>
+                <div style={effectsStyle}>{{/*exploreCost*/}}</div>
                 <svg width={locationRadius * 2.01} height={locationRadius * 2.01} style={svgStyle}>
                     <circle cx={locationRadius} cy={locationRadius} r={locationRadius} fill={fillColor}/>
                     <rect x={locationRadius - 0.5 * levelRectSide} y={0.1 * locationRadius} width={levelRectSide}

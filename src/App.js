@@ -15,13 +15,12 @@ import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects";
 import ExplorationDialogueModal from "./components/main/LocationExplorationModal";
-import {payForTravelIfPossible} from "./components/locations/payForTravelIfPossible";
-import {CARD_STATE, CARD_TYPE, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
+import {exploreLocation, payForTravelIfPossible} from "./components/locations/locationFunctions";
+import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
-    const [playerIndex, setPlayerIndex] = useState(0);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(null);
     const [locations, setLocations] = useState(null);
@@ -49,6 +48,11 @@ function App() {
             setLocations(states.locations);
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);
+        })
+
+        socket.on(TRANSMISSIONS.testData, data => {
+            console.log("*** TEST DATA ***");
+            console.log(data);
         })
     }, []);
 
@@ -97,53 +101,25 @@ function App() {
     }
 
     /** LOCATION EFFECTS **/
-    function handleClickOnLocation(effects, location) {
+    function handleClickOnLocation(effects, location, locationLine) {
         if (isActivePlayer) {
             console.log("Clicked on location");
             let tPlayerState = cloneDeep(playerState);
-            const resources = tPlayerState.resources;
+            let tLocations = cloneDeep(locations);
 
             /* Resolve active effects */
             if (tPlayerState.activeEffects.length > 0) {
                 const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
-                    null, {...store}, {...locations});
+                    null, {...store}, tLocations);
                 setPlayerState(effectResult.tPlayerState);
                 setLocations(effectResult.tLocations);
                 setStore(effectResult.tStore);
             } else {
                 switch (location.state) {
                     case LOCATION_STATE.unexplored:
-                        if (resources.explore >= location.exploreCost.explore
-                            && resources.coins >= location.exploreCost.coins && playerState.actions > 0) {
-                            resources.coins -= location.exploreCost.coins;
-                            resources.explore -= location.exploreCost.explore;
-
-                            tPlayerState.actions -= 1;
+                        const exploreResults = exploreLocation(location, locationLine, tLocations, tPlayerState)
+                        if (exploreResults.locationCanBeExplored) {
                             setPlayerState(tPlayerState);
-
-                            let tLocations = cloneDeep(locations);
-                            const locationLevel = LOCATION_IDs[location.id].level;
-                            let locationsOfLevel;
-                            switch (locationLevel) {
-                                case LOCATION_LEVEL["1"]:
-                                    locationsOfLevel = tLocations.level1;
-                                    break;
-                                case LOCATION_LEVEL["2"]:
-                                    locationsOfLevel = tLocations.level2;
-                                    break;
-                                case LOCATION_LEVEL["3"]:
-                                    locationsOfLevel = tLocations.level3
-                                    break;
-                                default:
-                                    console.log("Unable to process location level in handleLocation: " + locationLevel);
-                            }
-
-                            for (let key in locationsOfLevel) {
-                                if (locationsOfLevel[key].id === location.id) {
-                                    locationsOfLevel[key].state = LOCATION_STATE.explored;
-                                }
-                            }
-
                             setLocations(tLocations);
                             setModalData({location: location, guardian: store.guardians[0]});
                             setShowModal(true);
@@ -159,10 +135,13 @@ function App() {
                                 {...store}, location, {...locations});
                             setPlayerState(effectsResult.tPlayerState);
 
-                            let tLocation = {...locations[location.index]};
-                            tLocation.state = LOCATION_STATE.occupied;
-                            let tLocations = {...locations};
-                            tLocations.splice(location.index, 1, tLocation);
+                            let tLocations = cloneDeep(locations);
+                            for (let tLocation of tLocations[locationLine]) {
+                                if (tLocation.id === location.id) {
+                                    tLocation.state = LOCATION_STATE.occupied;
+                                    tLocation.owner = playerState.playerIndex;
+                                }
+                            }
                             setLocations(tLocations);
                         }
                         break;
@@ -289,7 +268,7 @@ function App() {
                 handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
                 locations: locations,
                 handleClickOnLocation: handleClickOnLocation,
-                playerIndex: playerIndex,
+                playerIndex: playerState.playerIndex,
                 showModal: showModal,
                 modalData: modalData,
                 handleLocationExploredReward: handleLocationExploredReward,

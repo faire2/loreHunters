@@ -2,7 +2,7 @@ import {EFFECT} from "../../data/effects";
 import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, getIdCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects";
 import {processCardBuy} from "./processCardBuy";
-import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";
+import {payForTravelIfPossible} from "../locations/locationFunctions";
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE} from "../../data/idLists";
 import {shuffleArray} from "./initialStateFunctions";
 
@@ -13,6 +13,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
     switch (tActiveEffects[0]) {
 
         /* When active effect deals with card in store */
+        // todo gain artifact allows to buy multiple artifacts
         case EFFECT.buyItemWithDiscount3:
         case EFFECT.gainItem:
         case EFFECT.gainItemToHand:
@@ -63,6 +64,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
+            //todo - didn't work properly with card in discard pile
         case EFFECT.destroyCard:
             if (tCard !== null) {
                 tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
@@ -71,6 +73,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tActiveEffects.splice(0, 1);
                 break;
             }
+            break;
 
         case EFFECT.destroyGuardian:
             if (tCard !== null && tCard.type === CARD_TYPE.guardian) {

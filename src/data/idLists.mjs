@@ -386,6 +386,7 @@ export const GUARDIAN_IDs = Object.freeze({
     },
 });
 
+/* Generating locations assigns them new key / value: *line*: numberOfLine, in which is the location displayed */
 export const LOCATION_IDs = Object.freeze({
         b1: {
             id: "b1",
@@ -538,4 +539,5 @@ export const TRANSMISSIONS = Object.freeze({
     stateUpdate: "stateUpdate",
     nextPlayer: "nextPlayer",
     finishedRound: "finishedRound",
+    testData: "testData",
 })

@@ -17,13 +17,22 @@ export const GLOBAL_VARS = Object.freeze({
     itemsInStore: 5,
     artifactsInStore: 1,
     adventurers: 2,
-    numOfPlayers: 3,
+    numOfPlayers: 4,
     playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
 });
+
+export const LOCATION_LINE = Object.freeze({
+    line1: "line1",
+    line2: "line2",
+    line3: "line3",
+    line4: "line4"
+})
+
 
 /* INITIAL PLAYER STATE */
 
 export const emptyPlayerState = Object.freeze({
+    playerIndex: null,
     resources: {
         coins: 20,
         explore: 20,
@@ -54,6 +63,7 @@ export default function getInitialPlayerStates() {
 
     for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
         let playerState = {...emptyPlayerState};
+        playerState.playerIndex = i;
         playerState.color = GLOBAL_VARS.playerColors[i];
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
@@ -220,25 +230,28 @@ export function getInitialLocations() {
     }
 
     for (let location of line1) {
-        location.line = 1;
+        location.line = LOCATION_LINE.line1;
     }
     for (let location of line2) {
-        location.line = 2;
+        location.line = LOCATION_LINE.line2;
     }
     for (let location of line3) {
-        location.line = 3;
+        location.line = LOCATION_LINE.line3;
     }
     if (line4.length > 0) {
-        for (let location of line1) {
-            location.line = 1;
+        for (let location of line4) {
+            if (location !== "empty") {
+                location.line = LOCATION_LINE.line4;
+            }
         }
     }
+    console.log(line1[0]);
 
     return {
-        line1: line1,
-        line2: line2,
-        line3: line3,
-        line4: line4,
+        [LOCATION_LINE.line1]: line1,
+        [LOCATION_LINE.line2]: line2,
+        [LOCATION_LINE.line3]: line3,
+        [LOCATION_LINE.line4]: line4,
     };
 }
 

@@ -1,7 +1,7 @@
 import {addCardToStore, destroyCard, drawCards} from "./cardManipulationFuntions.mjs";
 import {EFFECT} from "../../data/effects";
 import cloneDeep from 'lodash/cloneDeep';
-import {payForTravelIfPossible} from "../locations/payForTravelIfPossible";
+import {payForTravelIfPossible} from "../locations/locationFunctions";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location, originalLocations) {
