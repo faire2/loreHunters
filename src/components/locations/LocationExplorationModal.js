@@ -20,7 +20,7 @@ export default function ExplorationDialogueModal() {
             <Modal.Body>
                 {location !== null ?
                     <div
-                        onClick={() => boardStateContext.handleLocationExploredReward(location.effects)}>{location.effectsText}
+                        onClick={() => boardStateContext.handleLocationExploredReward(location.effects)}>{location.effectsImage}
                     </div> : ""}
                 {guardian !== null ?
                     <div

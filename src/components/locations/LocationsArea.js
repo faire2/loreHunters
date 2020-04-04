@@ -8,16 +8,20 @@ export default function LocationsArea() {
     const locations = boardStateContext.locations;
 
     const style = {
-        marginTop: -13,
+        marginTop: "-2vw",
     };
 
     const leftMargin = {
-        marginLeft: 210,
+        marginLeft: "7vw",
     };
 
     const empty = {
         minWidth: 116,
     };
+
+    const redBgr = {
+        backgroundColor: "red"
+    }
 
     return (
         <div>

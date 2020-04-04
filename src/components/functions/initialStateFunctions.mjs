@@ -131,10 +131,9 @@ export function getInitialLocations() {
     const locationKeys = shuffleArray(Object.keys(locations));
 
     /* we need to get the right number of green and brown locations of each location level according to n of players */
-    let level1Green = [];
+    let level1 = [];
     let level2Green = [];
     let level3Green = [];
-    let level1Brown = [];
     let level2Brown = [];
     let level3Brown = [];
 
@@ -161,33 +160,33 @@ export function getInitialLocations() {
 
     for (let i = 0; i < locationKeys.length; i++) {
         let location = locations[locationKeys[i]];
-        console.log("location level: " + location.level);
         switch (location.level) {
             case LOCATION_LEVEL["1"]:
-                if (location.type === LOCATION_TYPE.brown) {
-                    level1Brown.push(location);
-                } else if (location.type === LOCATION_TYPE.green) {
-                    level1Green.push(location);
-                } else {
-                    console.log("Unable to process location type in getInitialLocations: ");
-                    console.log(location);
-                }
+                level1.push(location);
                 break;
             case LOCATION_LEVEL["2"]:
-                if (location.type === LOCATION_TYPE.brown && level2Brown.length < level2Max) {
-                    level2Brown.push(location);
-                } else if (location.type === LOCATION_TYPE.green && level2Green.length < level2Max) {
-                    level2Green.push(location);
+                if (location.type === LOCATION_TYPE.brown) {
+                    if (level2Brown.length < level2Max) {
+                        level2Brown.push(location);
+                    }
+                } else if (location.type === LOCATION_TYPE.green) {
+                    if (level2Green.length < level2Max) {
+                        level2Green.push(location);
+                    }
                 } else {
                     console.log("Unable to process location type in getInitialLocations: ");
                     console.log(location);
                 }
                 break;
             case LOCATION_LEVEL["3"]:
-                if (location.type === LOCATION_TYPE.brown && level3Brown.length < level3Max) {
-                    level3Brown.push(location);
-                } else if (location.type === LOCATION_TYPE.green && level3Green.length < level3Max) {
-                    level3Green.push(location);
+                if (location.type === LOCATION_TYPE.brown) {
+                    if (level3Brown.length < level3Max) {
+                        level3Brown.push(location);
+                    }
+                } else if (location.type === LOCATION_TYPE.green) {
+                    if (level3Green.length < level3Max) {
+                        level3Green.push(location);
+                    }
                 } else {
                     console.log("Unable to process location type in getInitialLocations: ");
                     console.log(location);
@@ -204,7 +203,7 @@ export function getInitialLocations() {
     }
 
     /* there are is a specific spatial configuration for every player number variation: */
-    let line1 = [...level1Brown, LOCATION_IDs.m1, ...level1Green];
+    let line1 = level1;
     let line2 = [];
     let line3 = [];
     let line4 = [];
@@ -245,7 +244,6 @@ export function getInitialLocations() {
             }
         }
     }
-    console.log(line1[0]);
 
     return {
         [LOCATION_LINE.line1]: line1,

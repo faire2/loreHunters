@@ -11,9 +11,9 @@ export const LOCATION_STATE = Object.freeze({
 });
 
 export const LOCATION_TYPE = Object.freeze({
-    green: "green tLocation that requires boats",
-    brown: "brown tLocation that requires jeeps",
-    mixed: "brown and green tLocation - unique"
+    basic: "basic location",
+    green: "green location",
+    brown: "brown location",
 });
 
 export const CARD_STATE = Object.freeze({
@@ -388,151 +388,116 @@ export const GUARDIAN_IDs = Object.freeze({
 
 /* Generating locations assigns them new key / value: *line*: numberOfLine, in which is the location displayed */
 export const LOCATION_IDs = Object.freeze({
-        b1: {
-            id: "b1",
-            type: LOCATION_TYPE.brown,
+        1: {
+            id: "1",
+            type: LOCATION_TYPE.basic,
             level: LOCATION_LEVEL["1"],
         },
-        b2: {
-            id: "b2",
-            type: LOCATION_TYPE.green,
+        2: {
+            id: "2",
+            type: LOCATION_TYPE.basic,
             level: LOCATION_LEVEL["1"],
         },
-        b3: {
-            id: "b3",
-            type: LOCATION_TYPE.green,
+        3: {
+            id: "3",
+            type: LOCATION_TYPE.basic,
             level: LOCATION_LEVEL["1"],
         },
-        b4: {
-            id: "b4",
-            type: LOCATION_TYPE.brown,
+        4: {
+            id: "4",
+            type: LOCATION_TYPE.basic,
             level: LOCATION_LEVEL["1"],
         },
-        b5: {
-            id: "b5",
+        5: {
+            id: "5",
+            type: LOCATION_TYPE.basic,
+            level: LOCATION_LEVEL["1"],
+        },
+        b21: {
+            id: "b21",
             type: LOCATION_TYPE.brown,
             level: LOCATION_LEVEL["2"],
         },
-        b6: {
-            id: "b6",
+        b22: {
+            id: "b22",
             type: LOCATION_TYPE.brown,
             level: LOCATION_LEVEL["2"],
         },
-        b7: {
-            id: "b7",
+        b23: {
+            id: "b23",
             type: LOCATION_TYPE.brown,
             level: LOCATION_LEVEL["2"],
         },
-        b8: {
-            id: "b8",
+        b24: {
+            id: "b24",
             type: LOCATION_TYPE.brown,
             level: LOCATION_LEVEL["2"],
         },
-        b9: {
-            id: "b9",
+        b25: {
+            id: "b25",
             type: LOCATION_TYPE.brown,
             level: LOCATION_LEVEL["2"],
         },
-        b10: {
-            id: "b10",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["2"],
-        },
-        b11: {
-            id: "b11",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["2"],
-        },
-        b12: {
-            id: "b12",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["2"],
-        },
-        b13: {
-            id: "b13",
-            level: LOCATION_LEVEL["3"],
-        },
-        b14: {
-            id: "b14",
+        b31: {
+            id: "b31",
             type: LOCATION_TYPE.brown,
             level: LOCATION_LEVEL["3"],
         },
-        b15: {
-            id: "b15",
+        b32: {
+            id: "b32",
+            level: LOCATION_LEVEL["3"],
+        },
+        b33: {
+            id: "b33",
             type: LOCATION_TYPE.brown,
             level: LOCATION_LEVEL["3"],
         },
-        b16: {
-            id: "b16",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["3"],
-        },
-        g1: {
-            id: "g1",
+        g21: {
+            id: "g21",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["2"],
         },
-        g2: {
-            id: "g2",
+        g22: {
+            id: "g22",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["2"],
         },
-        g3: {
-            id: "g3",
+        g23: {
+            id: "g23",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["2"],
         },
-        g4: {
-            id: "g4",
+        g24: {
+            id: "g24",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["2"],
         },
-        g5: {
-            id: "g5",
+        g25: {
+            id: "g25",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["2"],
         },
-        g6: {
-            id: "g6",
+        g26: {
+            id: "g26",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["2"],
         },
-        g7: {
-            id: "g7",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["2"],
-        },
-        g8: {
-            id: "g8",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["2"],
-        },
-        g9: {
-            id: "g9",
+        g31: {
+            id: "g31",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["3"],
         },
-        g10: {
-            id: "g10",
+        g32: {
+            id: "g32",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["3"],
         },
-        g11: {
-            id: "g11",
+        g33: {
+            id: "g33",
             type: LOCATION_TYPE.green,
             level: LOCATION_LEVEL["3"],
         },
-        g12: {
-            id: "g12",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["3"],
-        },
-        m1: {
-            id: "m1",
-            type: LOCATION_TYPE.mixed,
-            level: LOCATION_LEVEL["1"]
-        },
-})
+});
 
 export const TRANSMISSIONS = Object.freeze({
     getStates: "getState",
@@ -540,4 +505,4 @@ export const TRANSMISSIONS = Object.freeze({
     nextPlayer: "nextPlayer",
     finishedRound: "finishedRound",
     testData: "testData",
-})
+});

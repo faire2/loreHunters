@@ -13,6 +13,21 @@ import {
     Weapon
 } from "../components/Symbols";
 import React from "react";
+import {
+    B21,
+    B22,
+    B23,
+    B24,
+    B25,
+    B31,
+    B32,
+    B33,
+    G21,
+    G22,
+    G23,
+    G24,
+    G25, G26, G31, G32, G33, L11, L12, L13, L14, L15
+} from "../components/locations/locations_images";
 
 export const TRANSPORT_TYPE = Object.freeze({
     walk: <Walk />,
@@ -21,221 +36,161 @@ export const TRANSPORT_TYPE = Object.freeze({
     plane: <Plane />
 });
 
-
-
-
-export const LOCATIONS_EXPLORE_COST = Object.freeze({
-    1: "",
-    brown2: <div className="effectsText"><Explore/><Explore/><Coin/><Coin/></div>,
-    brown3: <div className="effectsText"><Explore/><Explore/><Coin/><Coin/><Coin/></div>,
-    green2: <div className="effectsText"><Explore/><Explore/><Explore/><Explore/></div>,
-    green3: <div className="effectsText"><Explore/><Explore/><Explore/><Explore/><Explore/></div>,
-})
-
 export const Locations = Object.freeze({
-    b1: {
-    id: "b1",
-        exploreCost: {explore: 0, coins: 0},
+    1: {
+    id: "1",
         effectsText: <div className="effectsText"><Coin/><Coin/></div>,
+        effectsImage: <L11/>,
         effects: [EFFECT.gainCoin, EFFECT.gainCoin],
         useCost: {transportType: TRANSPORT_TYPE.walk, amount: 1}
     },
-    b2: {
-        id: "b2",
-        exploreCost: {explore: 0, coins: 0},
+    2: {
+        id: "2",
         effectsText: <div className="effectsText"><Text/><Text/></div>,
+        effectsImage: <L12/>,
         effects: [EFFECT.gainText, EFFECT.gainText],
         useCost: {transportType: TRANSPORT_TYPE.walk, amount: 1}
     },
-    b3: {
-        id: "b3",
-        exploreCost: {explore: 0, coins: 0},
+    3: {
+        id: "3",
         effectsText: <div className="effectsText"><Explore/><Explore/></div>,
+        effectsImage: <L13/>,
         effects: [EFFECT.gainExplore, EFFECT.gainExplore],
         useCost: {transportType: TRANSPORT_TYPE.walk, amount: 1}
     },
-    b4: {
-        id: "b4",
-        exploreCost: {explore: 0, coins: 0},
+    4: {
+        id: "4",
         effectsText: <div className="effectsText"><Weapon/></div>,
+        effectsImage: <L14/>,
         effects: [EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.walk, amount: 1}
     },
-    b5: {
-        id: "b5",
-        exploreCost: {explore: 2, coins: 2},
+    5: {
+        id: "5",
+        effectsText: <div className="effectsText"><Explore/><Jewel/></div>,
+        effectsImage: <L15/>,
+        effects: [EFFECT.gainExplore, EFFECT.gainJewel],
+        useCost: {transportType: TRANSPORT_TYPE.walk, amount: 2}
+    },
+    b21: {
+        id: "b21",
         effectsText: <div className="effectsText"><Weapon/><Draw1Card/></div>,
-        effects: [EFFECT.gainWeapon, EFFECT.draw1],
+        effectsImage: <B21/>,
+        effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
-    b6: {
-        id: "b6",
-        exploreCost: {explore: 2, coins: 2},
-        effectsText: <div className="effectsText"><Weapon/><DestroyCard/></div>,
-        effects: [EFFECT.gainWeapon, EFFECT.destroyCard],
+    b22: {
+        id: "b22",
+        effectsText: <div className="effectsText"><Weapon/><Draw1Card/></div>,
+        effectsImage: <B22/>,
+        effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
-    b7: {
-        id: "b7",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Jewel/></div>,
-        effects: [EFFECT.gainJewel],
-        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
-    },
-    b8: {
-        id: "b8",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText">-<Explore/><Explore/>: <Artifact/></div>,
-        effects: [EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.gainArtifact],
-        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
-    },
-    b9: {
-        id: "b9",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Text/><Coin/><Uptrade/></div>,
-        effects: [EFFECT.gainText, EFFECT.gainCoin, EFFECT.uptrade],
-        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
-    },
-    b10: {
-        id: "b10",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Draw1Card/><Coin/><Explore/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainCoin, EFFECT.gainExplore],
-        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
-    },
-    b11: {
-        id: "b11",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Text/><Text/><DestroyCard/></div>,
+    b23: {
+        id: "b23",
+        effectsText: <div className="effectsText"><Weapon/><Draw1Card/></div>,
+        effectsImage: <B23/>,
         effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.destroyCard],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
-    b12: {
-        id: "b12",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Weapon/><Text/></div>,
-        effects: [EFFECT.gainWeapon, EFFECT.gainText],
+    b24: {
+        id: "b24",
+        effectsText: <div className="effectsText"><Weapon/><Draw1Card/></div>,
+        effectsImage: <B24/>,
+        effects: [EFFECT.gainText, EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
-    b13: {
-        id: "b13",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Jewel/><Weapon/></div>,
-        effects: [EFFECT.gainJewel, EFFECT.gainWeapon],
+    b25: {
+        id: "b25",
+        effectsText: <div className="effectsText"><Weapon/><Draw1Card/></div>,
+        effectsImage: <B25/>,
+        effects: [EFFECT.gainJewel],
+        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
+    },
+    b31: {
+        id: "b31",
+        effectsText: <div className="effectsText"><Weapon/><DestroyCard/></div>,
+        effectsImage: <B31/>,
+        effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
     },
-    b14: {
-        id: "b14",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Shiny/><Uptrade/></div>,
-        effects: [EFFECT.gainShiny, EFFECT.uptrade],
+    b32: {
+        id: "b32",
+        effectsText: <div className="effectsText"><Jewel/></div>,
+        effectsImage: <B32/>,
+        effects: [EFFECT.gainWeapon, EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
     },
-    b15: {
-        id: "b15",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Draw1Card/><Jewel/><Text/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainJewel, EFFECT.gainText],
+    b33: {
+        id: "b33",
+        effectsText: <div className="effectsText">-<Explore/><Explore/>: <Artifact/></div>,
+        effectsImage: <B33/>,
+        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
     },
-    b16: {
-        id: "b16",
-        exploreCost: {explore: 2, coins: 3},
-        effectsText: <div className="effectsText"><Text/><Jewel/><Coin/></div>,
-        effects: [EFFECT.gainJewel, EFFECT.gainText, EFFECT.gainCoin],
-        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
-    },
-    g1: {
-        id: "g1",
-        exploreCost: {explore: 4, coins: 0},
+    g21: {
+        id: "g21",
         effectsText: <div className="effectsText"><Explore/><Explore/><Uptrade/></div>,
-        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.uptrade],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
-    },
-    g2: {
-        id: "g2",
-        exploreCost: {explore: 4, coins: 0},
-        effectsText: <div className="effectsText"><Discard/>: <Text/><Jewel/></div>,
-        effects: [EFFECT.discard, EFFECT.gainJewel, EFFECT.gainText],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
-    },
-    g3: {
-        id: "g3",
-        exploreCost: {explore: 4, coins: 0},
-        effectsText: <div className="effectsText"><Weapon/><Coin/></div>,
-        effects: [EFFECT.gainWeapon, EFFECT.gainCoin],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
-    },
-    g4: { //todo duplicate with previous!
-        id: "g4",
-        exploreCost: {explore: 4, coins: 0},
-        effectsText: <div className="effectsText"><Coin/><Weapon/></div>,
-        effects: [EFFECT.gainWeapon, EFFECT.gainCoin],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
-    },
-    g5: {
-        id: "g5",
-        exploreCost: {explore: 4, coins: 0},
-        effectsText: <div className="effectsText"><Discard/>:<Weapon/><Weapon/></div>,
-        effects: [EFFECT.discard, EFFECT.gainWeapon, EFFECT.gainWeapon],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
-    },
-    g6: {
-        id: "g6",
-        exploreCost: {explore: 4, coins: 0},
-        effectsText: <div className="effectsText"><Coin/><Draw1Card/> from discard </div>,
-        effects: [EFFECT.drawFromDiscard, EFFECT.gainCoin],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
-    },
-    g7: {
-        id: "g7",
-        exploreCost: {explore: 4, coins: 0},
-        effectsText: <div className="effectsText"><Text/><Text/><Text/></div>,
+        effectsImage: <G21/>,
         effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
     },
-    g8: {
-        id: "g8",
-        exploreCost: {explore: 4, coins: 0},
-        effectsText: <div className="effectsText"><Weapon/><Uptrade/></div>,
-        effects: [EFFECT.gainWeapon, EFFECT.uptrade],
+    g22: {
+        id: "g22",
+        effectsText: <div className="effectsText"><Discard/>: <Text/><Jewel/></div>,
+        effectsImage: <G22/>,
+        effects: [EFFECT.gainCoin, EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
     },
-    g9: {
-        id: "g9",
-        exploreCost: {explore: 5, coins: 0},
+    g23: {
+        id: "g23",
+        effectsText: <div className="effectsText"><Weapon/><Coin/></div>,
+        effectsImage: <G23/>,
+        effects: [EFFECT.gainItem],
+        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
+    },
+    g24: {
+        id: "g24",
+        effectsText: <div className="effectsText"><Coin/><Weapon/></div>,
+        effectsImage: <G24/>,
+        effects: [EFFECT.gainWeapon, EFFECT.draw1],
+        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
+    },
+    g25: {
+        id: "g25",
+        effectsText: <div className="effectsText"><Discard/>:<Weapon/><Weapon/></div>,
+        effectsImage: <G25/>,
+        effects: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.draw1],
+        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
+    },
+    g26: {
+        id: "g26",
+        effectsText: <div className="effectsText"><Coin/><Draw1Card/> from discard </div>,
+        effectsImage: <G26/>,
+        effects: [EFFECT.gainWeapon, EFFECT.destroyCard],
+        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
+    },
+    g31: {
+        id: "g31",
+        effectsText: <div className="effectsText"><Text/><Text/><Text/></div>,
+        effectsImage: <G31/>,
+        effects: [EFFECT.gainText, EFFECT.gainJewel, EFFECT.draw1],
+        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
+    },
+    g32: {
+        id: "g32",
+        effectsText: <div className="effectsText"><Weapon/><Uptrade/></div>,
+        effectsImage: <G32/>,
+        effects: [EFFECT.gainCoin, EFFECT.defeatGuardian],
+        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
+    },
+    g33: {
+        id: "g33",
         effectsText: <div className="effectsText"><Coin/></div>,
-        effects: [EFFECT.gainCoin],
+        effectsImage: <G33/>,
+        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
     },
-    g10: {
-        id: "g10",
-        exploreCost: {explore: 5, coins: 0},
-        effectsText: <div className="effectsText"><Text/><Text/><Jewel/></div>,
-        effects: [EFFECT.gainJewel, EFFECT.gainText, EFFECT.gainText],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
-    },
-    g11: {
-        id: "g11",
-        exploreCost: {explore: 5, coins: 0},
-        effectsText: <div className="effectsText"><Discard/>: <Weapon/><Weapon/><Weapon/></div>,
-        effects: [EFFECT.discard, EFFECT.gainWeapon, EFFECT.gainWeapon, EFFECT.gainWeapon],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
-    },
-    g12: {
-        id: "g12",
-        exploreCost: {explore: 5, coins: 0},
-        effectsText: <div className="effectsText"><Explore/><Explore/><Jewel/></div>,
-        effects: [EFFECT.gainJewel, EFFECT.gainExplore, EFFECT.gainExplore],
-        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
-    },
-    m1: {
-        id: "m1",
-        exploreCost: {explore: 0, coins: 0},
-        effectsText: <div className="effectsText"><Explore/><Jewel/></div>,
-        effects: [EFFECT.gainJewel, EFFECT.gainExplore],
-        useCost: {transportType: TRANSPORT_TYPE.walk, amount: 2}
-    }
 });
 
 

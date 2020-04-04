@@ -1,10 +1,17 @@
 import React, {useContext} from "react";
-import {AdventurerToken} from "../Symbols";
+import {AdventurerToken, Coin, Explore} from "../Symbols";
 import {BoardStateContext} from "../../Contexts";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
-import {LOCATIONS_EXPLORE_COST} from "../../data/locations";
-import {EffectTemplate, LocationTemplate, LongestEffect} from "./locations_images";
+import {
+    BgrBasic,
+    BgrBasicDouble,
+    BgrBrown2,
+    BgrBrown2Unexplored,
+    BgrBrown3, BgrBrown3Unexplored,
+    BgrGreen2, BgrGreen2Unexplored,
+    BgrGreen3, BgrGreen3Unexplored
+} from "./locations_images";
 
 export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
@@ -12,6 +19,7 @@ export default function Location(props) {
     location.state = props.idLocation.state;
     const type = props.idLocation.type;
     const level = props.idLocation.level;
+    console.log("loc level: " + level);
 
     /* transport icons for explored location*/
     const transportIcons = [];
@@ -21,60 +29,50 @@ export default function Location(props) {
 
     /* explore costs for unexplored location */
     let exploreCost = null;
+    let exploreCostText = null;
+    let locationBackground = null;
+    let locationUnexploredBackground = null;
+
     if (type === LOCATION_TYPE.brown) {
         if (level === LOCATION_LEVEL["2"]) {
-            exploreCost = LOCATIONS_EXPLORE_COST.brown2
+            exploreCost = {explore: 3, coins: 1};
+            exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Coin/></div>;
+            locationBackground = <BgrBrown2/>;
+            locationUnexploredBackground = <BgrBrown2Unexplored/>;
         } else if (level === LOCATION_LEVEL["3"]) {
-            exploreCost = LOCATIONS_EXPLORE_COST.brown3
+            exploreCost = {explore: 4, coins: 1};
+            exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/><Coin/></div>;
+            locationBackground = <BgrBrown3/>;
+            locationUnexploredBackground = <BgrBrown3Unexplored/>;
         }
     } else if (type === LOCATION_TYPE.green) {
         if (level === LOCATION_LEVEL["2"]) {
-            exploreCost = LOCATIONS_EXPLORE_COST.green2
+            exploreCost = {explore: 4, coins: 0};
+            exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/></div>;
+            locationBackground = <BgrGreen2/>;
+            locationUnexploredBackground = <BgrGreen2Unexplored/>;
         } else if (level === LOCATION_LEVEL["3"]) {
-            exploreCost = LOCATIONS_EXPLORE_COST.green3
+            exploreCost = {explore: 5, coins: 0};
+            exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/><Explore/></div>;
+            locationBackground = <BgrGreen3/>;
+            locationUnexploredBackground = <BgrGreen3Unexplored/>
         }
-    } else if (location.level === LOCATION_LEVEL["1"]) {
-        exploreCost = null;
+    } else if (type === LOCATION_TYPE.basic) {
+        exploreCostText = null;
+        if (location.id === "5") {
+            locationBackground = <BgrBasicDouble/>
+        } else {
+            locationBackground = <BgrBasic/>
+        }
     } else {
-        console.log("Unable to determine exploration cost for location: " + location.id)
+        console.log("Unable to process location level or type in Location.js: " + location.id + " / " + type + " / " + level)
     }
-
-    /* initial colors are changed based on tLocation type */
-    let fillColor = "#cdcdcd";
-    let tokenFillColor = "#9f9f9f";
-    let tokenStrokeColor = "#616161";
-
-    /*/!* svg element sizes *!/
-    const locationRadius = 75;
-    const levelRectSide = 30;
-    const tokenRadius = 30;
-    const tokenStrokeWidth = 1;*/
-
-    switch (props.idLocation.type) {
-        case LOCATION_TYPE.green:
-            fillColor = "#90B13E";
-            tokenFillColor = "#C3EF53";
-            tokenStrokeColor = "#596D26";
-            break;
-        case LOCATION_TYPE.brown:
-            fillColor = "#aa6a3d";
-            tokenFillColor = "#ECB767";
-            tokenStrokeColor = "#705731";
-            break;
-        case LOCATION_TYPE.mixed:
-            fillColor = "#8d4646";
-            tokenFillColor = "#ECB767";
-            tokenStrokeColor = "#705731";
-            break;
-        default:
-            console.log("Unknown tLocation type in component Location: ");
-            console.log(location);
-    }
+    location.exploreCost = exploreCost;
 
     const containerStyle = {
         /*minWidth: locationRadius * 2,*/
-        width: 116,
-        height: 76,
+        width: "15vw",
+        height: "9.87vw",
         position: "relative",
         textAlign: "center",
     };
@@ -83,57 +81,41 @@ export default function Location(props) {
         left: 0,
         position: "absolute",
         zIndex: 1,
+        width: "100%"
     };
 
     const effectsStyle = {
+        top: "5%",
         right: 0,
         left: 0,
-        top: "10%",
         margin: "auto",
         position: "absolute",
-        maxWidth: "75%",
         cursor: "pointer",
         zIndex: 2,
+        display: "inline-block",
     };
 
-    /*const svgStyle = {
-        position: "absolute",
-        left: 0,
-        top: 0,
-        zIndex: -1,
-    };*/
-
     const adventurerStyle = {
-        marginTop: 10,
-        maxWidth: 150,
+        bottom: "2.5vw",
+        right: 0,
+        left: 0,
+        margin: "auto",
+        position: "absolute",
+        cursor: "pointer",
+        zIndex: 2,
+        display: "inline-block",
     };
 
 
     return (
         <div style={containerStyle}
              onClick={() => boardStateContext.handleClickOnLocation(location.effects, location, props.idLocation.line)}>
-            <LocationTemplate style={bgrStyle}/>
-            <div>
-                <LongestEffect style={effectsStyle}/>
+            {location.state === LOCATION_STATE.unexplored ? locationUnexploredBackground : locationBackground}
+            <div style={effectsStyle}>
+                {location.state === LOCATION_STATE.unexplored ? "" : location.effectsImage}
             </div>
-            <div>
-                {/*<div>{props.idLocation.level}</div>
-                <div style={effectsStyle}>{location.state === LOCATION_STATE.unexplored ? exploreCost : location.effectsText}</div>
-                <svg width={locationRadius * 2.01} height={locationRadius * 2.01} style={svgStyle}>
-                    <circle cx={locationRadius} cy={locationRadius} r={locationRadius} fill={fillColor}/>
-                    <rect x={locationRadius - 0.5 * levelRectSide} y={0.1 * locationRadius} width={levelRectSide}
-                          height={levelRectSide} fill={tokenFillColor} rx="3" ry="3"/>
-                    {location.state !== LOCATION_STATE.unexplored &&
-                        <circle cx={locationRadius} cy={locationRadius + 0.55 * locationRadius} r={tokenRadius}
-                            fill={tokenFillColor} stroke={tokenStrokeColor} strokeWidth={tokenStrokeWidth}/>
-                    }
-                </svg>*/}
-                <div style={adventurerStyle}>
-                    {/*{props.idLocation.state === LOCATION_STATE.explored && transportIcons}*/}
-                    {props.idLocation.state === LOCATION_STATE.occupied &&
-                    <AdventurerToken color={GLOBAL_VARS.playerColors[props.idLocation.owner]}/>}
-                </div>
-            </div>
+            {props.idLocation.state === LOCATION_STATE.occupied &&
+            <AdventurerToken color={GLOBAL_VARS.playerColors[props.idLocation.owner]} style={adventurerStyle}/>}
         </div>
     )
 }

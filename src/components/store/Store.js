@@ -18,7 +18,7 @@ export default function Store(props) {
     )
 
     return (
-        <div className="float-left">
+        <div className="d-flex flex-row">
             {items}
             {artifacts}
         </div>
