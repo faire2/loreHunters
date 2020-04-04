@@ -18,6 +18,7 @@ import ExplorationDialogueModal from "./components/locations/LocationExploration
 import {exploreLocation, payForTravelIfPossible} from "./components/locations/locationFunctions";
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
+import {BonusArea} from "./components/bonuses/Bonuses";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -57,7 +58,7 @@ function App() {
     }, []);
 
     /** CARD EFFECTS **/
-    function handleClickOnCardEffect(effects, cardIndex, isTravel) {
+    function handleClickOnCardEffect(effects, cardIndex, costsAction) {
         let tPlayerState = cloneDeep(playerState);
         let tStore = cloneDeep(store);
         const tcard = tPlayerState.hand[cardIndex];
@@ -70,7 +71,7 @@ function App() {
                 const effectsResult = processEffects(tcard, cardIndex, tPlayerState, effects, null, tStore, null, null);
 
                 tPlayerState = effectsResult.tPlayerState;
-                if (tcard.type !== CARD_TYPE.basic && !isTravel) {
+                if (tcard.type !== CARD_TYPE.basic && !costsAction) {
                     tPlayerState.actions -= 1;
                 }
                 tStore = effectsResult.tStore;
@@ -153,6 +154,17 @@ function App() {
                         console.log(location);
                 }
             }
+        }
+    }
+
+    /** HANDLE BONUS**/
+    function handleClickOnBonus(effects) {
+        if (isActivePlayer) {
+            const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
+                null, cloneDeep(store), null, cloneDeep(locations));
+            setPlayerState(effectProcessResults.tPlayerState);
+            setStore(effectProcessResults.tStore);
+            setLocations(effectProcessResults.tLocations);
         }
     }
 
@@ -280,6 +292,7 @@ function App() {
                     nextPlayer: nextPlayer,
                 }}>
                     <Resources handleClickOnResource={handleClickOnResource}/>
+                    <BonusArea handleClickOnBonus={handleClickOnBonus}/>
                     <Store/>
                     <LocationsArea/>
                     <CardsArea/>
@@ -288,7 +301,8 @@ function App() {
                     </div>
                     <div>
                         {playerState.activeEffects[0]}
-                        {isActivePlayer ? <p>Your turn! Actions: {playerState.actions}</p> : <p>Wait for your turn...</p>}
+                        {isActivePlayer ? <p>Your turn! Actions: {playerState.actions}</p> :
+                            <p>Wait for your turn...</p>}
                     </div>
                     <ExplorationDialogueModal/>
                 </PlayerStateContext.Provider>
