@@ -33,17 +33,20 @@ let activePlayer = 0;
 
 const io = socketIO(server);
 io.on("connection", socket => {
-    console.log("New client connected: " + socket.id);
-    if (players.length < GLOBAL_VARS.numOfPlayers) {
-        players = addPlayer(players, socket.id);
-        socket.emit(TRANSMISSIONS.getStates, {
-            playerState: playerStates[players.indexOf(socket.id)],
-            store: store,
-            locations: locations,
-            round: round,
-            isActivePlayer: players.indexOf(socket.id) === activePlayer
-        });
-        console.log("Emitted playerstate to player no. " + players.indexOf(socket.id));
+    console.log("New client connected: " + socket.id + " | " + players);
+
+    for (let i = 0; i < playerStates.length; i++) {
+        if (players[i] === null) {
+            players = addPlayer(players, socket.id);
+            socket.emit(TRANSMISSIONS.getStates, {
+                playerState: playerStates[players.indexOf(socket.id)],
+                store: store,
+                locations: locations,
+                round: round,
+                isActivePlayer: players.indexOf(socket.id) === activePlayer
+            });
+            console.log("Emitted playerstate to player no. " + players.indexOf(socket.id));
+        }
     }
 
     /** NEXT PLAYER **/
@@ -153,12 +156,12 @@ io.on("connection", socket => {
             nextPlayer(playerIndex);
         }
         updateStatesToAll();
-    })
+    });
     /* DISCONNECT */
     socket.on("disconnect", () => {
         console.log("Client " + socket.id + " disconnected. Removing from active players.");
-        players.splice(players.indexOf(socket.id), 1, false);
-    })
+        players.splice(players.indexOf(socket.id), 1, null);
+    });
 
     function updateStatesToAll() {
         for (let player of players) {
@@ -190,4 +193,4 @@ app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, '../../build', 'index.html'))
 });
 
-server.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`))

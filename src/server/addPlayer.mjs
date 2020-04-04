@@ -7,7 +7,7 @@ export default function addPlayer(players, socketId) {
             if (i === players.length - 1 && players[i] !== false) {
                 players.push(socketId);
                 break;
-            } else if (players[i] === false) {
+            } else if (players[i] === null) {
                 players.splice(i, 1, socketId);
                 break;
             }
