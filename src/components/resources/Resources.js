@@ -1,18 +1,25 @@
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Coin, Explore, Jeep, Jewel, Plane, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
+import {GLOBAL_VARS} from "../functions/initialStateFunctions";
 
 export default function Resources(props) {
     const playerStateContext = useContext(PlayerStateContext);
 
     const availableAdventurers = [];
     for (let i = 0; i < playerStateContext.playerState.availableAdventurers; i++) {
-        availableAdventurers.push(<AdventurerToken key={i} color={playerStateContext.playerState.color}/>)
+        availableAdventurers.push(<AdventurerToken key={i} color={GLOBAL_VARS.playerColors[playerStateContext.playerState.playerIndex]}/>)
     }
 
+    const style = {
+      position: "relative",
+        float: "right"
+
+    };
+
     return (
-        <div className="text-center">
-            <div className="d-inline-flex flex-row resources">
+        <div style={style}>
+            <div>
                 <div onClick={() => props.handleClickOnResource(RESOURCES.COINS)}>
                     <Coin/>
                     {playerStateContext.playerState.resources.coins}
@@ -38,7 +45,7 @@ export default function Resources(props) {
                     {playerStateContext.playerState.resources.shinies}
                 </div>
             </div><br/>
-            <div className="d-inline-flex flex-row resources">
+            <div>
                 <div>
                     <Walk />
                     {playerStateContext.playerState.resources.walk}

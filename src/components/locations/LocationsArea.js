@@ -7,24 +7,24 @@ export default function LocationsArea() {
     const boardStateContext = useContext(BoardStateContext);
     const locations = boardStateContext.locations;
 
+    const marginTop = {
+      marginTop: "3vw",
+    };
+
     const style = {
-        marginTop: "-2vw",
+        marginTop: "-3vw",
     };
 
     const leftMargin = {
-        marginLeft: "7vw",
+        marginLeft: "7.5vw",
     };
 
     const empty = {
         minWidth: 116,
     };
 
-    const redBgr = {
-        backgroundColor: "red"
-    }
-
     return (
-        <div>
+        <div style={marginTop}>
             <div style={leftMargin}>
                 <div style={style} className="d-flex flex-row position-relative">
                     <br/>

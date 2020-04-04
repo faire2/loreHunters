@@ -15,10 +15,6 @@
   height: 210px;
 }
 
-.resources > * {
-  margin-left: 20px;
-}
-
 .redBgr {
   background-color: crimson;
 }

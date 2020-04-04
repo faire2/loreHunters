@@ -18,7 +18,7 @@ export const GLOBAL_VARS = Object.freeze({
     artifactsInStore: 1,
     adventurers: 2,
     numOfPlayers: 1,
-    playerColors: ["#FFD41A", "#2A8CFF", "#00CD27", "#CD1800"],
+    playerColors: ["#ffc257", "#2A8CFF", "#00CD27", "#CD1800"],
 });
 
 export const LOCATION_LINE = Object.freeze({
@@ -26,7 +26,7 @@ export const LOCATION_LINE = Object.freeze({
     line2: "line2",
     line3: "line3",
     line4: "line4"
-})
+});
 
 
 /* INITIAL PLAYER STATE */

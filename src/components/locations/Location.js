@@ -77,13 +77,6 @@ export default function Location(props) {
         textAlign: "center",
     };
 
-    const bgrStyle = {
-        left: 0,
-        position: "absolute",
-        zIndex: 1,
-        width: "100%"
-    };
-
     const effectsStyle = {
         top: "5%",
         right: 0,
@@ -96,7 +89,7 @@ export default function Location(props) {
     };
 
     const adventurerStyle = {
-        bottom: "2.5vw",
+        bottom: "2vw",
         right: 0,
         left: 0,
         margin: "auto",
