@@ -1,23 +1,23 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
 import {Locations} from "../../data/locations";
-import Location from "../locations/Location";
+import Location from "./Location";
 
 export default function LocationsArea() {
     const boardStateContext = useContext(BoardStateContext);
     const locations = boardStateContext.locations;
 
     const style = {
-        minHeight: 160,
-    }
+        marginTop: -13,
+    };
 
     const leftMargin = {
-        marginLeft: 240,
-    }
+        marginLeft: 210,
+    };
 
     const empty = {
-        minWidth: 160,
-    }
+        minWidth: 116,
+    };
 
     return (
         <div>

@@ -4,7 +4,6 @@ import {BoardStateContext} from "../../Contexts";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
 import {LOCATIONS_EXPLORE_COST} from "../../data/locations";
-import {EffectTemplate, LocationTemplate, LongestEffect} from "./locations_images";
 
 export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
@@ -36,7 +35,7 @@ export default function Location(props) {
     } else if (location.level === LOCATION_LEVEL["1"]) {
         exploreCost = null;
     } else {
-        console.log("Unable to determine exploration cost for location: " + location.id)
+        console.log ("Unable to determine exploration cost for location: " + location.id)
     }
 
     /* initial colors are changed based on tLocation type */
@@ -44,11 +43,11 @@ export default function Location(props) {
     let tokenFillColor = "#9f9f9f";
     let tokenStrokeColor = "#616161";
 
-    /*/!* svg element sizes *!/
+    /* svg element sizes */
     const locationRadius = 75;
     const levelRectSide = 30;
     const tokenRadius = 30;
-    const tokenStrokeWidth = 1;*/
+    const tokenStrokeWidth = 1;
 
     switch (props.idLocation.type) {
         case LOCATION_TYPE.green:
@@ -72,36 +71,24 @@ export default function Location(props) {
     }
 
     const containerStyle = {
-        /*minWidth: locationRadius * 2,*/
-        width: 116,
-        height: 76,
+        minWidth: locationRadius * 2,
         position: "relative",
         textAlign: "center",
-    };
-
-    const bgrStyle = {
-        left: 0,
-        position: "absolute",
-        zIndex: 1,
+        margin: 5,
     };
 
     const effectsStyle = {
-        right: 0,
-        left: 0,
-        top: "10%",
-        margin: "auto",
-        position: "absolute",
-        maxWidth: "75%",
+        marginTop: location.state === LOCATION_STATE.unexplored ? "10%" : "2%",
+        maxWidth: 150,
         cursor: "pointer",
-        zIndex: 2,
     };
 
-    /*const svgStyle = {
+    const svgStyle = {
         position: "absolute",
         left: 0,
         top: 0,
         zIndex: -1,
-    };*/
+    };
 
     const adventurerStyle = {
         marginTop: 10,
@@ -112,12 +99,8 @@ export default function Location(props) {
     return (
         <div style={containerStyle}
              onClick={() => boardStateContext.handleClickOnLocation(location.effects, location, props.idLocation.line)}>
-            <LocationTemplate style={bgrStyle}/>
             <div>
-                <LongestEffect style={effectsStyle}/>
-            </div>
-            <div>
-                {/*<div>{props.idLocation.level}</div>
+                <div>{props.idLocation.level}</div>
                 <div style={effectsStyle}>{location.state === LOCATION_STATE.unexplored ? exploreCost : location.effectsText}</div>
                 <svg width={locationRadius * 2.01} height={locationRadius * 2.01} style={svgStyle}>
                     <circle cx={locationRadius} cy={locationRadius} r={locationRadius} fill={fillColor}/>
@@ -127,11 +110,10 @@ export default function Location(props) {
                         <circle cx={locationRadius} cy={locationRadius + 0.55 * locationRadius} r={tokenRadius}
                             fill={tokenFillColor} stroke={tokenStrokeColor} strokeWidth={tokenStrokeWidth}/>
                     }
-                </svg>*/}
+                </svg>
                 <div style={adventurerStyle}>
-                    {/*{props.idLocation.state === LOCATION_STATE.explored && transportIcons}*/}
-                    {props.idLocation.state === LOCATION_STATE.occupied &&
-                    <AdventurerToken color={GLOBAL_VARS.playerColors[props.idLocation.owner]}/>}
+                    {props.idLocation.state === LOCATION_STATE.explored && transportIcons}
+                    {props.idLocation.state === LOCATION_STATE.occupied && <AdventurerToken color={GLOBAL_VARS.playerColors[props.idLocation.owner]} />}
                 </div>
             </div>
         </div>

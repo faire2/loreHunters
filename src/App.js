@@ -10,11 +10,11 @@ import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
 import {emptyPlayerState} from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects";
-import LocationsArea from "./components/main/LocationsArea";
+import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects";
-import ExplorationDialogueModal from "./components/main/LocationExplorationModal";
+import ExplorationDialogueModal from "./components/locations/LocationExplorationModal";
 import {exploreLocation, payForTravelIfPossible} from "./components/locations/locationFunctions";
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
@@ -38,7 +38,7 @@ function App() {
             setLocations(states.locations);
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);
-        })
+        });
 
         socket.on(TRANSMISSIONS.stateUpdate, states => {
             console.log("received states from server");
@@ -48,7 +48,7 @@ function App() {
             setLocations(states.locations);
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);
-        })
+        });
 
         socket.on(TRANSMISSIONS.testData, data => {
             console.log("*** TEST DATA ***");
