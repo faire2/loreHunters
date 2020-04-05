@@ -1,14 +1,22 @@
 import React from "react";
 import {EFFECT} from "../../data/effects";
 import {AdventurerIcon, Coin, DestroyCard, Draw1Card, Plane, Uptrade} from "../Symbols";
+import bonusBgr from "../../img/bonus_action_background.png"
 
 export const BonusArea = (props) => {
 
         const bonusStyle = {
             cursor: "pointer",
-            backgroundColor: "#844219",
-            width: "13vw",
-            marginRight: "1vw"
+            width: "15vw",
+            marginRight: "1vw",
+            textAlign: "center",
+            zIndex: 3,
+        };
+
+        const bgrStyle = {
+          width: "15vw",
+            position: "absolute",
+            zIndex: -1,
         };
 
         const bonusArray = [
@@ -30,9 +38,12 @@ export const BonusArea = (props) => {
             ];
 
         return (
-            <div className="d-flex flex-row">
+            <div className="d-flex flex-row text-left">
                 {bonusArray.map(bonus =>
-                    bonus
+                    <div>
+                        <img src={bonusBgr} style={bgrStyle}/>
+                        {bonus}
+                    </div>
                 )}
             </div>
         )
