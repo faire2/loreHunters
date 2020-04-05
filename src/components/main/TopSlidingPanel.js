@@ -6,18 +6,18 @@ export default function TopSlidingPanel() {
 
     const slideStyle = {
         position: "fixed",
-        left: 0,
+        right: 0,
         top: 0,
         height: extendRightPanel ? "27vw" : "7vw",
-        width: "100vh",
-        zIndex: 1,
+        width: extendRightPanel ? "100vw" : "5vw",
+        zIndex: 0,
         backgroundColor: "none",
         transition: "all .5s cubic-bezier(0, .2, 0, 1)",
     };
 
     const buttonStyle = {
       position: "absolute",
-        bottom: "2.5vh",
+        bottom: "2.5vw",
         right: "1vw",
         backgroundColor: "#74a69f",
         width: 40,

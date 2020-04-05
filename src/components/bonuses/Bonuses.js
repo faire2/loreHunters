@@ -3,7 +3,7 @@ import {EFFECT} from "../../data/effects";
 import {AdventurerIcon, Coin, DestroyCard, Draw1Card, Plane, Uptrade} from "../Symbols";
 import bonusBgr from "../../img/bonus_action_background.png"
 
-export const BonusArea = (props) => {
+export const BonusActions = (props) => {
 
         const bonusStyle = {
             cursor: "pointer",

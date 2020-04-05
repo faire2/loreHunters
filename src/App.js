@@ -18,8 +18,8 @@ import ExplorationDialogueModal from "./components/locations/LocationExploration
 import {exploreLocation, payForTravelIfPossible} from "./components/locations/locationFunctions";
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
-import {BonusArea} from "./components/bonuses/Bonuses";
-import TopSlidingPanel from "./components/main/topSlidingPanel";
+import {BonusActions} from "./components/bonuses/Bonuses";
+import TopSlidingPanel from "./components/main/TopSlidingPanel";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -296,7 +296,7 @@ function App() {
                 }}>
                     <TopSlidingPanel/>
                     <Resources/>
-                    <BonusArea handleClickOnBonus={handleClickOnBonus}/>
+                    <BonusActions handleClickOnBonus={handleClickOnBonus}/>
                     <Store/>
                     <LocationsArea/>
                     <CardsArea/>
