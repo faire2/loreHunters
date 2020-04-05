@@ -8,58 +8,60 @@ export default function Resources(props) {
 
     const availableAdventurers = [];
     for (let i = 0; i < playerStateContext.playerState.availableAdventurers; i++) {
-        availableAdventurers.push(<AdventurerToken key={i} color={GLOBAL_VARS.playerColors[playerStateContext.playerState.playerIndex]}/>)
+        availableAdventurers.push(<AdventurerToken key={i}
+                                                   color={GLOBAL_VARS.playerColors[playerStateContext.playerState.playerIndex]}/>)
     }
 
     const style = {
-      position: "relative",
-        float: "right"
-
+        position: "relative",
+        float: "right",
+        marginLeft: "1vw",
+        marginTop: "30vw"
     };
 
     return (
-        <div style={style}>
-            <div>
-                <div onClick={() => props.handleClickOnResource(RESOURCES.COINS)}>
+        <div style={style} className="d-flex flex-row">
+            <div style={{marginRight: "2vw"}}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.COINS)}>
                     <Coin/>
                     {playerStateContext.playerState.resources.coins}
                 </div>
-                <div onClick={() => props.handleClickOnResource(RESOURCES.EXPLORE)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.EXPLORE)}>
                     <Explore/>
                     {playerStateContext.playerState.resources.explore}
                 </div>
-                <div onClick={() => props.handleClickOnResource(RESOURCES.TEXTS)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.TEXTS)}>
                     <Text/>
                     {playerStateContext.playerState.resources.texts}
                 </div>
-                <div onClick={() => props.handleClickOnResource(RESOURCES.WEAPONS)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.WEAPONS)}>
                     <Weapon/>
                     {playerStateContext.playerState.resources.weapons}
                 </div>
-                <div onClick={() => props.handleClickOnResource(RESOURCES.JEWELS)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.JEWELS)}>
                     <Jewel/>
                     {playerStateContext.playerState.resources.jewels}
                 </div>
-                <div onClick={() => props.handleClickOnResource(RESOURCES.SHINIES)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.SHINIES)}>
                     <Shiny/>
                     {playerStateContext.playerState.resources.shinies}
                 </div>
-            </div><br/>
+            </div>
             <div>
                 <div>
-                    <Walk />
+                    <Walk/>
                     {playerStateContext.playerState.resources.walk}
                 </div>
                 <div>
-                    <Jeep />
+                    <Jeep/>
                     {playerStateContext.playerState.resources.jeep}
                 </div>
                 <div>
-                    <Ship />
+                    <Ship/>
                     {playerStateContext.playerState.resources.ship}
                 </div>
                 <div>
-                    <Plane />
+                    <Plane/>
                     {playerStateContext.playerState.resources.plane}
                 </div>
                 <div>

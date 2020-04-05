@@ -19,15 +19,17 @@ import {exploreLocation, payForTravelIfPossible} from "./components/locations/lo
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusArea} from "./components/bonuses/Bonuses";
+import TopSlidingPanel from "./components/main/topSlidingPanel";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(null);
     const [locations, setLocations] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [modalData, setModalData] = useState({location: null, guardian: null});
     const [isActivePlayer, setIsActivePlayer] = useState(false);
+
+    const [showLocationsModal, setShowLocationsModal] = useState(false);
+    const [locationsModalData, setLocationsModalData] = useState({location: null, guardian: null});
 
 
     useEffect(() => {
@@ -122,8 +124,8 @@ function App() {
                         if (exploreResults.locationCanBeExplored) {
                             setPlayerState(tPlayerState);
                             setLocations(tLocations);
-                            setModalData({location: location, guardian: store.guardians[0]});
-                            setShowModal(true);
+                            setLocationsModalData({location: location, guardian: store.guardians[0]});
+                            setShowLocationsModal(true);
                         }
                         break;
                     case LOCATION_STATE.explored:
@@ -248,7 +250,7 @@ function App() {
         setPlayerState(effectsResult.tPlayerState);
         setLocations(effectsResult.tLocations);
         setStore(effectsResult.tStore);
-        setShowModal(false);
+        setShowLocationsModal(false);
     }
 
     /** SET NEXT PLAYER **/
@@ -281,8 +283,8 @@ function App() {
                 locations: locations,
                 handleClickOnLocation: handleClickOnLocation,
                 playerIndex: playerState.playerIndex,
-                showModal: showModal,
-                modalData: modalData,
+                showModal: showLocationsModal,
+                modalData: locationsModalData,
                 handleLocationExploredReward: handleLocationExploredReward,
             }}>
                 <PlayerStateContext.Provider value={{
@@ -290,8 +292,10 @@ function App() {
                     cancelEffect: cancelEffect,
                     handleEndRound: handleEndRound,
                     nextPlayer: nextPlayer,
+                    handleClickOnResource: handleClickOnResource,
                 }}>
-                    <Resources handleClickOnResource={handleClickOnResource}/>
+                    <TopSlidingPanel/>
+                    <Resources/>
                     <BonusArea handleClickOnBonus={handleClickOnBonus}/>
                     <Store/>
                     <LocationsArea/>
