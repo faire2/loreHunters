@@ -8,6 +8,7 @@ import {LOCATION_STATE, TRANSMISSIONS} from "../data/idLists.mjs";
 import addPlayer from "./addPlayer.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import getInitialPlayerStates, {
+    getInitialLegends,
     getInitialLocations,
     getInitialStoreItems,
     GLOBAL_VARS
@@ -17,6 +18,7 @@ import {
     addCardToHand,
     addDiscardToDrawDeck
 } from "../components/functions/cardManipulationFuntions.mjs";
+import {EFFECT} from "../data/effects.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -28,26 +30,23 @@ let players = [];
 let playerStates = getInitialPlayerStates();
 let store = getInitialStoreItems();
 let locations = getInitialLocations();
+let legends = getInitialLegends();
 let round = 1;
 let activePlayer = 0;
 
 const io = socketIO(server);
 io.on("connection", socket => {
-    console.log("New client connected: " + socket.id + " | " + players);
-
-    for (let i = 0; i < playerStates.length; i++) {
-        if (players[i] === null) {
-            players = addPlayer(players, socket.id);
-            socket.emit(TRANSMISSIONS.getStates, {
-                playerState: playerStates[players.indexOf(socket.id)],
-                store: store,
-                locations: locations,
-                round: round,
-                isActivePlayer: players.indexOf(socket.id) === activePlayer
-            });
-            console.log("Emitted playerstate to player no. " + players.indexOf(socket.id));
-        }
-    }
+    players = addPlayer(players, socket.id);
+    console.log("New client connected: " + socket.id + " | [" + players + "]");
+    socket.emit(TRANSMISSIONS.getStates, {
+        playerState: playerStates[players.indexOf(socket.id)],
+        store: store,
+        locations: locations,
+        round: round,
+        legends: legends,
+        isActivePlayer: players.indexOf(socket.id) === activePlayer,
+    });
+    console.log("Emitted initial playerstate to player no. " + players.indexOf(socket.id));
 
     /** NEXT PLAYER **/
     socket.on(TRANSMISSIONS.nextPlayer, states => {
@@ -57,8 +56,10 @@ io.on("connection", socket => {
         playerStates.splice(playerIndex, 1, states.playerState);
         store = states.store;
         locations = states.locations;
+        legends = states.legends;
         updateStatesToAll();
-    })
+        console.log("States updated");
+    });
 
     /** End of round**/
     socket.on(TRANSMISSIONS.finishedRound, states => {
@@ -74,6 +75,7 @@ io.on("connection", socket => {
         playerStates.splice(playerIndex, 1, tPlayerState);
         store = states.store;
         locations = states.locations;
+        legends = states.legends;
 
         let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
         let haveAllFinished = true;
@@ -86,6 +88,7 @@ io.on("connection", socket => {
         }
         console.log("have all finished: " + haveAllFinished);
 
+        //todo do not run after 5th round
         if (haveAllFinished) {
             /* handle store changes */
             let tStore = cloneDeep(store);
@@ -97,7 +100,7 @@ io.on("connection", socket => {
 
             /* remove adventurers from locations */
             let tLocations = cloneDeep(locations);
-            for (let key in locations) {
+            for (let key in tLocations) {
                 let locationLine = locations[key];
                 for (let location of locationLine) {
                     if (location.state === LOCATION_STATE.occupied) {
@@ -136,6 +139,9 @@ io.on("connection", socket => {
                         tPlayerState.drawDeck.splice(0, 1);
                     }
                 }
+
+                /* handle regular incomes */
+                tPlayerState = handleIncomes(tPlayerState);
 
                 /* reset transport resources */
                 tPlayerState.resources.walk = 0;
@@ -194,3 +200,27 @@ app.get('/*', function (req, res) {
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
+
+function handleIncomes(playerState) {
+    for (let effect of playerState.incomes) {
+        switch (effect) {
+            case EFFECT.incomeAdventurer:
+                playerState.availableAdventurers += 1;
+                break;
+            case EFFECT.incomeCard:
+                const result = addCardToHand(playerState.drawDeck[0], cloneDeep(playerState));
+                playerState = cloneDeep(result);
+                playerState.drawDeck.splice(0, 1);
+                break;
+            case EFFECT.incomeCoin:
+                playerState.resources.coins += 1;
+                break;
+            case EFFECT.incomeText:
+                playerState.resources.texts += 1;
+                break;
+            default:
+                console.log("Unable to process effect in handleIncomes: " + effect);
+        }
+    }
+    return playerState;
+}

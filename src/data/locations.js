@@ -1,4 +1,4 @@
-import {EFFECT} from "./effects.js";
+import {EFFECT} from "./effects.mjs";
 import {
     Artifact,
     Coin,

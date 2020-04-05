@@ -1,16 +1,19 @@
 import {addCardToStore, destroyCard, drawCards} from "./cardManipulationFuntions.mjs";
-import {EFFECT} from "../../data/effects";
-import cloneDeep from 'lodash/cloneDeep';
-import {payForTravelIfPossible} from "../locations/locationFunctions";
-import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists";
+import {EFFECT} from "../../data/effects.mjs";
+import cloneDeep from 'lodash/cloneDeep.js';
+import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
+import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
+import {GLOBAL_VARS} from "./initialStateFunctions";
 
-export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location, originalLocations) {
+export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
+                               originalLocations, originalLegend) {
     console.log("Processing effects");
     console.log(effects);
     let tPlayerState = cloneDeep(originalPlayersState);
     let tStore = cloneDeep(originalStore);
     let tLocations = cloneDeep(originalLocations);
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
+    let tLegend = cloneDeep(originalLegend);
     let processedAllEffects = true;
 
 
@@ -27,8 +30,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 /*case EFFECT.refreshAdventurer:
                 case EFFECT.refreshAllAdventurers:*/
                 case EFFECT.buyItemWithDiscount3:
-                case EFFECT.discardFor2Cards:
-                case EFFECT.discardFor2Jewels:
                 case EFFECT.defeatGuardian:
                 case EFFECT.destroyCard:
                 case EFFECT.destroyGuardian:
@@ -80,7 +81,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-
                 case EFFECT.draw1:
                     tPlayerState = drawCards(1, tPlayerState);
                     break;
@@ -107,6 +107,23 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     if (isGuardian) {
                         drawCards(2, tPlayerState)
                     }
+                    break;
+
+                case EFFECT.firstGainsCoin:
+                    if (wasPlayerFirst([...tLegend.positions], tLegend.state[tPlayerState.playerIndex], tPlayerState.playerIndex)) {
+                        tPlayerState.resources.coins += 1;
+                    }
+                    break;
+
+                case EFFECT.firstGainsExplore:
+                    if (wasPlayerFirst([...tLegend.positions], tLegend.state[tPlayerState.playerIndex], tPlayerState.playerIndex)) {
+                        tPlayerState.resources.coins += 1;
+                    }
+                    break;
+
+                case EFFECT.incomeAdventurer:
+                    tPlayerState.availableAdventurers += 1;
+                    tPlayerState.incomes.push(EFFECT.gainAdventurerForThisRound);
                     break;
 
                 case EFFECT.gainAdventurerForThisRound:
@@ -275,4 +292,21 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
     tPlayerState.activeEffects = tActiveEffects;
     return {tPlayerState: tPlayerState, tStore: tStore, tLocations: tLocations};
+}
+
+// checks it other players have already reached this position in the given legend
+function wasPlayerFirst(legendPositions, thisPlayerPosition, thisPlayerIndex) {
+    legendPositions.splice(thisPlayerIndex, 1);
+    let numberOfOtherPlayers = 0;
+    for (let playerPosition of legendPositions) {
+        if (playerPosition >= thisPlayerPosition) {
+            numberOfOtherPlayers += 1;
+        }
+    }
+    // in 4 players game second player gains the price too
+    if (GLOBAL_VARS.numOfPlayers < 4) {
+        return numberOfOtherPlayers <= 0;
+    } else if (GLOBAL_VARS.numOfPlayers === 4) {
+        return numberOfOtherPlayers <= 1
+    }
 }

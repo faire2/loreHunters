@@ -13,13 +13,9 @@ export const EFFECT = Object.freeze({
     drawFromDiscard: "draw a card from your discard pile",
     drawFromDrawDeck: "draw a card from your draw deck",
     discard: "discard a card",
-    discardFor2Cards: "discard a card to draw 2 cards",
-    discardFor2Jewels: "discard to gain 2 jewels",
-    discardForJewelText: "discard to gain jewel and item", // todo implement
-    discardFor2Weapons: "discard to gain 2 weapons", // todo implement
-    discardFor3Weapons: "discard to gain 3 weapons", // todo implement
-    exhaustAdventurer: "exhaust adventurer", // todo legend implement
     exploreLocationWithDiscount2: "explore location with discount of 2 explore, do not gain a guardian ",
+    firstGainsCoin: "first player that reaches this tile of legend gets a coin",
+    firstGainsExplore: "first player that reaches this tile of legend gets an explore",
     gainAdventurerForThisRound: "gain adventurer for this round",
     gainArtifact: "gain an artifact",
     gainArtifactForExplore: "gain artifact for explore", // todo artifacts implement
@@ -29,6 +25,7 @@ export const EFFECT = Object.freeze({
     gainCoinForLegends: "gain a coin for each legend",
     gainCoinForGuardians: "gain a coin for each destroyed Guardian (max. 4)",
     gainCoinsIfLast: "if this was last card, gain 2 coins",
+    gainExpeditionCard: "gain an expedition card",
     gainExplore: "gain an explore",
     gainExploreForShinys: "gain an explore for each shinies (max. 4)",
     gainExploreForGuardians: "gain an explore for each guardian in you play area",
@@ -43,9 +40,15 @@ export const EFFECT = Object.freeze({
     gainShiny: "gain a shinies",
     gainShip: "travel with a ship",
     gainText: "gain a text",
+    gainTreasure: "gain treasure",
     gainWalk: "travel on foot",
     gainWeapon: "gain a weapon",
     goldenMask: "plane to an occupied location, use its effect twice", // todo ??? implement
+    // incomes are processed by the server during end of round phase
+    incomeAdventurer: "gain an extra adventurer income",
+    incomeCard: "gain a draw card income",
+    incomeCoin: "gain a coin income",
+    incomeText: "gain a text income",
     loseCoin: "lose a coin",
     loseExplore: "lose an explore",
     loseText: "lose a text",

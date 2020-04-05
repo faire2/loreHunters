@@ -499,6 +499,15 @@ export const LOCATION_IDs = Object.freeze({
         },
 });
 
+export const LEGEND_IDS = Object.freeze({
+    legend1: {
+        id: "legend1"
+    },
+    legend2: {
+        id: "legend2"
+    }
+});
+
 export const TRANSMISSIONS = Object.freeze({
     getStates: "getState",
     stateUpdate: "stateUpdate",
@@ -506,3 +515,4 @@ export const TRANSMISSIONS = Object.freeze({
     finishedRound: "finishedRound",
     testData: "testData",
 });
+

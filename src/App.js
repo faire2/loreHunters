@@ -26,6 +26,7 @@ function App() {
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(null);
     const [locations, setLocations] = useState(null);
+    const [legends, setLegends] = useState(null);
     const [isActivePlayer, setIsActivePlayer] = useState(false);
 
     const [showLocationsModal, setShowLocationsModal] = useState(false);
@@ -34,11 +35,14 @@ function App() {
 
     useEffect(() => {
         socket.on(TRANSMISSIONS.getStates, states => {
-            console.log("received states from server");
+            console.log("received initial states from server");
             console.log(states);
             setPlayerState(states.playerState);
             setStore(states.store);
             setLocations(states.locations);
+            setLegends(states.legends);
+            console.log("LEGENDS: ");
+            console.log(legends);
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);
         });
@@ -49,6 +53,7 @@ function App() {
             setPlayerState(states.playerState);
             setStore(states.store);
             setLocations(states.locations);
+            setLegends(states.legends);
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);
         });
@@ -159,8 +164,8 @@ function App() {
         }
     }
 
-    /** HANDLE BONUS**/
-    function handleClickOnBonus(effects) {
+    /** HANDLE BONUS / LEGEND **/
+    function handleClickOnField(effects) {
         if (isActivePlayer) {
             const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
                 null, cloneDeep(store), null, cloneDeep(locations));
@@ -259,7 +264,7 @@ function App() {
             let tPlayerState = cloneDeep(playerState);
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
-            socket.emit(TRANSMISSIONS.nextPlayer, {playerState: tPlayerState, store: store, locations: locations})
+            socket.emit(TRANSMISSIONS.nextPlayer, {playerState: tPlayerState, store: store, locations: locations, legends: legends})
             setPlayerState(tPlayerState);
         }
     }
@@ -268,7 +273,7 @@ function App() {
     function handleEndRound() {
         if (isActivePlayer) {
             console.log("finishing round");
-            socket.emit(TRANSMISSIONS.finishedRound, {playerState: playerState, store: store, locations: locations})
+            socket.emit(TRANSMISSIONS.finishedRound, {playerState: playerState, store: store, locations: locations, legends: legends})
         }
     }
 
@@ -286,6 +291,8 @@ function App() {
                 showModal: showLocationsModal,
                 modalData: locationsModalData,
                 handleLocationExploredReward: handleLocationExploredReward,
+                legends: legends,
+                handleClickOnField: handleClickOnField,
             }}>
                 <PlayerStateContext.Provider value={{
                     playerState: playerState,
@@ -296,7 +303,7 @@ function App() {
                 }}>
                     <TopSlidingPanel/>
                     <Resources/>
-                    <BonusActions handleClickOnBonus={handleClickOnBonus}/>
+                    <BonusActions handleClickOnBonus={handleClickOnField}/>
                     <Store/>
                     <LocationsArea/>
                     <CardsArea/>

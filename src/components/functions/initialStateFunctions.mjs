@@ -4,6 +4,7 @@ import {
     CARD_TYPE,
     GUARDIAN_IDs,
     ITEM_IDs,
+    LEGEND_IDS,
     LOCATION_IDs,
     LOCATION_LEVEL,
     LOCATION_STATE,
@@ -32,7 +33,6 @@ export const LOCATION_LINE = Object.freeze({
 /* INITIAL PLAYER STATE */
 
 export const emptyPlayerState = Object.freeze({
-    playerIndex: null,
     resources: {
         coins: 20,
         explore: 20,
@@ -43,19 +43,21 @@ export const emptyPlayerState = Object.freeze({
         walk: 0,
         jeep: 0,
         ship: 0,
-        plane: 0
+        plane: 0,
     },
+    actions: 1,
+    activeCard: false,
     activeEffects: [],
     availableAdventurers: GLOBAL_VARS.adventurers,
-    hand: [],
-    activeCard: false,
-    drawDeck: [],
-    discardDeck: [],
-    playedCards: [],
-    destroyedCards: [],
     color: null,
-    actions: 1,
+    destroyedCards: [],
+    discardDeck: [],
+    drawDeck: [],
     finishedRound: false,
+    incomes: [],
+    hand: [],
+    playedCards: [],
+    playerIndex: null,
 });
 
 export default function getInitialPlayerStates() {
@@ -251,6 +253,18 @@ export function getInitialLocations() {
         [LOCATION_LINE.line3]: line3,
         [LOCATION_LINE.line4]: line4,
     };
+}
+
+export function getInitialLegends() {
+    const legendsKeys = shuffleArray(Object.keys(LEGEND_IDS));
+    const legends = [LEGEND_IDS[legendsKeys[0]], LEGEND_IDS[legendsKeys[1]]];
+    for (let legend of legends) {
+        legend.positions = [];
+        for (let i; i < GLOBAL_VARS.numOfPlayers; i++) {
+            legend.positions.push(null);
+        }
+    }
+    return legends;
 }
 
 function drawCards(deck, cardsToDraw) {
