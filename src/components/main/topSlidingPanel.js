@@ -17,7 +17,7 @@ export default function TopSlidingPanel() {
 
     const buttonStyle = {
       position: "absolute",
-        top: "0.5vh",
+        bottom: "2.5vh",
         right: "1vw",
         backgroundColor: "#74a69f",
         width: 40,

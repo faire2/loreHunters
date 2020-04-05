@@ -27,7 +27,7 @@ import {
     G23,
     G24,
     G25, G26, G31, G32, G33, L11, L12, L13, L14, L15
-} from "../components/locations/locations_images";
+} from "../components/locations/locationsImages";
 
 export const TRANSPORT_TYPE = Object.freeze({
     walk: <Walk />,

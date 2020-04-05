@@ -1,13 +1,14 @@
-import React, {useContext} from "react";
-import {BoardStateContext} from "../../Contexts";
-import {LOCATION_TYPE} from "../../data/idLists";
+import React, {useContext, useState} from "react";
+import {AdventurerToken} from "../../Symbols";
+import {BoardStateContext} from "../../../Contexts";
+import {LOCATION_STATE, LOCATION_TYPE} from "../../../data/idLists";
+import {GLOBAL_VARS} from "../../functions/initialStateFunctions";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);
-    let location = props.location;
+    const location = props.location;
+    const playerOwner = null;
     location.state = props.state;
-
-
 
     const transportIcons = [];
     for (let i = 0; i < location.useCost.amount; i++) {
@@ -17,11 +18,12 @@ export default function ExploredLocation(props) {
     /* initial colors are changed based on tLocation type */
     let fillColor = "#cdcdcd";
     let tokenFillColor = "#9f9f9f";
-    // eslint-disable-next-line no-unused-vars
     let tokenStrokeColor = "#616161";
 
     /* svg element sizes */
     const locationRadius = 75;
+    const tokenRadius = 30;
+    const tokenStrokeWidth = 1;
     const levelRectSide = 30;
 
     switch (props.type) {
@@ -35,6 +37,11 @@ export default function ExploredLocation(props) {
             tokenFillColor = "#ECB767";
             tokenStrokeColor = "#705731";
             break;
+        case LOCATION_TYPE.mixed:
+            fillColor = "#8d4646";
+            tokenFillColor = "#ECB767";
+            tokenStrokeColor = "#705731";
+            break;
         default:
             console.log("Unknown tLocation type in component Location: ");
             console.log(location);
@@ -45,13 +52,10 @@ export default function ExploredLocation(props) {
         position: "relative",
         textAlign: "center",
         margin: 5,
-        cursor: "pointer",
     };
 
     const effectsStyle = {
-        marginTop: "11%",
-        display: "block",
-        maxWidth: 150,
+        marginTop: "2%",
     };
 
     const svgStyle = {
@@ -61,17 +65,32 @@ export default function ExploredLocation(props) {
         zIndex: -1,
     };
 
-    return (
+    const adventurerStyle = {
+        marginTop: 10,
+    };
 
-            <div><div style={containerStyle}
-                      onClick={() => boardStateContext.handleClickOnLocation(location.effects, location, props.line)}>
+    function handleClickOnExploredLocation() {
+        if (location.state === LOCATION_STATE.explored) {
+            boardStateContext.handleClickOnLocation(location.effects, location, props.line)
+        }
+    }
+
+    return (
+        <div style={containerStyle}
+             onClick={() => handleClickOnExploredLocation()}>
+            <div>
                 <div>{props.level}</div>
-                <div style={effectsStyle}>{{/*exploreCost*/}}</div>
+                <div style={effectsStyle}>{location.effectsText}</div>
                 <svg width={locationRadius * 2.01} height={locationRadius * 2.01} style={svgStyle}>
                     <circle cx={locationRadius} cy={locationRadius} r={locationRadius} fill={fillColor}/>
                     <rect x={locationRadius - 0.5 * levelRectSide} y={0.1 * locationRadius} width={levelRectSide}
                           height={levelRectSide} fill={tokenFillColor} rx="3" ry="3"/>
+                    <circle cx={locationRadius} cy={locationRadius + 0.55 * locationRadius} r={tokenRadius}
+                            fill={tokenFillColor} stroke={tokenStrokeColor} strokeWidth={tokenStrokeWidth}/>
                 </svg>
+                <div style={adventurerStyle}>
+                    {props.state === LOCATION_STATE.explored ? transportIcons : <AdventurerToken color={GLOBAL_VARS.playerColors[playerOwner]} />}
+                </div>
             </div>
         </div>
     )

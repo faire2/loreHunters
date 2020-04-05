@@ -11,7 +11,7 @@ import {
     BgrBrown3, BgrBrown3Unexplored,
     BgrGreen2, BgrGreen2Unexplored,
     BgrGreen3, BgrGreen3Unexplored
-} from "./locations_images";
+} from "./locationsImages";
 
 export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);

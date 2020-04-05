@@ -1,9 +1,9 @@
 import React, {useContext} from "react";
-import {AdventurerToken} from "../Symbols";
-import {BoardStateContext} from "../../Contexts";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
-import {GLOBAL_VARS} from "../functions/initialStateFunctions";
-import {LOCATIONS_EXPLORE_COST} from "../../data/locations";
+import {AdventurerToken} from "../../Symbols";
+import {BoardStateContext} from "../../../Contexts";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../../data/idLists";
+import {GLOBAL_VARS} from "../../functions/initialStateFunctions";
+import {LOCATIONS_EXPLORE_COST} from "../../../data/locations";
 
 export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
