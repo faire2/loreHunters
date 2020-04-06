@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Legends} from "../../data/legends";
-import {processEffects} from "../functions/processEffects";
+import {processEffects} from "../functions/processEffects.mjs";
 
 export function Legend(props) {
     const [playerPositions, setPlayerPositions] = useState([]);
@@ -38,7 +38,9 @@ export function Legend(props) {
                 {jsxLegend.graphic}
                 <div className="d-flex flex-row">
                     {divArray.map((div, i) =>
-                        div
+                        <div key={i}>
+                            {div}
+                        </div>
                     )}
                 </div>
             </div>

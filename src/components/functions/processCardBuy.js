@@ -1,6 +1,6 @@
-import {EFFECT} from "../../data/effects";
+import {EFFECT} from "../../data/effects.mjs";
 import {addCardToStore, getIdCard} from "./cardManipulationFuntions.mjs";
-import {processEffects} from "./processEffects";
+import {processEffects} from "./processEffects.mjs";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 
 export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStore, tLocations) {

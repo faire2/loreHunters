@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {BoardStateContext} from "../../Contexts";
-import {EFFECT} from "../../data/effects";
+import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 import {ARTIFACTS, CARD_TRANSPORT, GUARDIANS, ITEMS} from "../../data/cards";
 

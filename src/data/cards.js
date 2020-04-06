@@ -25,7 +25,7 @@ import bgrShip from "../img/cardBackgrounds/ItemBrownShip3.png";
 import bgrPlane from "../img/cardBackgrounds/ItemBrownPlane3.png";
 import bgrArtifact from "../img/cardBackgrounds/Artifacts7.png";
 import bgrGuardian from "../img/cardBackgrounds/Guardian12.png";
-import {EFFECT} from "./effects";
+import {EFFECT} from "./effects.mjs";
 import {CARD_TYPE} from "./idLists";
 
 export const CARD_TRANSPORT = Object.freeze({

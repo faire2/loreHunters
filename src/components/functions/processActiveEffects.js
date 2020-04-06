@@ -1,8 +1,8 @@
-import {EFFECT} from "../../data/effects";
+import {EFFECT} from "../../data/effects.mjs";
 import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, getIdCard} from "./cardManipulationFuntions.mjs";
-import {processEffects} from "./processEffects";
+import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
-import {payForTravelIfPossible} from "../locations/locationFunctions";
+import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE} from "../../data/idLists";
 import {shuffleArray} from "./initialStateFunctions";
 

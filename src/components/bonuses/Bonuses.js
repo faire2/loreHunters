@@ -1,5 +1,5 @@
 import React from "react";
-import {EFFECT} from "../../data/effects";
+import {EFFECT} from "../../data/effects.mjs";
 import {AdventurerIcon, Coin, DestroyCard, Draw1Card, Plane, Uptrade} from "../Symbols";
 import bonusBgr from "../../img/bonus_action_background.png"
 
@@ -39,8 +39,8 @@ export const BonusActions = (props) => {
 
         return (
             <div className="d-flex flex-row text-left">
-                {bonusArray.map(bonus =>
-                    <div>
+                {bonusArray.map((bonus, i) =>
+                    <div key={i}>
                         <img src={bonusBgr} style={bgrStyle}/>
                         {bonus}
                     </div>

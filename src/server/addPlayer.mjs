@@ -4,7 +4,7 @@ export default function addPlayer(players, socketId) {
         players.push(socketId)
     } else {
         for (let i = 0; i < players.length; i++) {
-            if (i === players.length - 1 && players[i] !== false) {
+            if (i === players.length - 1 && players[i] !== null) {
                 players.push(socketId);
                 break;
             } else if (players[i] === null) {
