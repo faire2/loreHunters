@@ -22,6 +22,7 @@ import {BonusActions} from "./components/bonuses/Bonuses";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
 
 function App() {
+    console.log(process.env.NODE_ENV);
     const [playerState, setPlayerState] = useState(emptyPlayerState);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(null);
