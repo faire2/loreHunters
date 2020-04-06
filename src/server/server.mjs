@@ -37,16 +37,20 @@ let activePlayer = 0;
 const io = socketIO(server);
 io.on("connection", socket => {
     players = addPlayer(players, socket.id);
-    console.log("New client connected: " + socket.id + " | [" + players + "]");
-    socket.emit(TRANSMISSIONS.getStates, {
-        playerState: playerStates[players.indexOf(socket.id)],
-        store: store,
-        locations: locations,
-        round: round,
-        legends: legends,
-        isActivePlayer: players.indexOf(socket.id) === activePlayer,
-    });
-    console.log("Emitted initial playerstate to player no. " + players.indexOf(socket.id));
+    if (players.includes(socket.id)) {
+        console.log("New client connected: " + socket.id + " | [" + players + "]");
+        socket.emit(TRANSMISSIONS.getStates, {
+            playerState: playerStates[players.indexOf(socket.id)],
+            store: store,
+            locations: locations,
+            round: round,
+            legends: legends,
+            isActivePlayer: players.indexOf(socket.id) === activePlayer,
+        });
+        console.log("Emitted initial playerstate to player no. " + players.indexOf(socket.id));
+    } else {
+        console.log("Socket connection refused: " + socket.id);
+    }
 
     /** NEXT PLAYER **/
     socket.on(TRANSMISSIONS.nextPlayer, states => {

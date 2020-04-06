@@ -1,16 +1,18 @@
-// insert player into null position push him to the end
+// insert player into null position or push him to the end
+import {GLOBAL_VARS} from "../components/functions/initialStateFunctions.mjs";
+
 export default function addPlayer(players, socketId) {
     if (players.length === 0) {
         players.push(socketId)
     } else {
         for (let i = 0; i < players.length; i++) {
-            if (i === players.length - 1 && players[i] !== null) {
-                players.push(socketId);
-                break;
-            } else if (players[i] === null) {
+            if (players[i] === null) {
                 players.splice(i, 1, socketId);
                 break;
             }
+        }
+        if (players.length < GLOBAL_VARS.numOfPlayers - 1) {
+            players.push(socketId);
         }
     }
     return players;
