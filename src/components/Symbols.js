@@ -60,21 +60,22 @@ export const AdventurerIcon = () =>
     </svg>;
 
 export const AdventurerToken = (props) => {
-    return (
-        <div style={props.style}>
-            <svg width="3vw" height="3vw" viewBox="0 0 99 119">
-                <metadata>
-                    Created by potrace 1.15, written by Peter Selinger 2001-2017
-                </metadata>
-                <g transform="translate(0.000000,119.000000) scale(0.100000,-0.100000)"
-                   fill={props.color} stroke="none">
-                    <path d="M336 1174 c-10 -9 -16 -33 -16 -62 0 -26 -4 -52 -8 -59 -4 -6 -35 -17 -69 -23 -35 -7 -68 -19 -74 -26 -23 -28 50 -108 134 -145 20 -9 27 -19 27
+    const color = props.color;
+    const adventurerSVG =
+        <svg width="15" height="15" viewBox="0 0 99 119">
+            <metadata>
+                Created by potrace 1.15, written by Peter Selinger 2001-2017
+            </metadata>
+            <g transform="translate(0.000000,119.000000) scale(0.100000,-0.100000)" fill={color} stroke="none">
+                <path d="M336 1174 c-10 -9 -16 -33 -16 -62 0 -26 -4 -52 -8 -59 -4 -6 -35 -17 -69 -23 -35 -7 -68 -19 -74 -26 -23 -28 50 -108 134 -145 20 -9 27 -19 27
 -40 0 -23 -5 -30 -27 -35 -98 -21 -212 -74 -265 -122 -36 -32 -38 -38 -38 -92 0 -84 11 -92 134 -105 32 -3 62 -8 67 -11 11 -6 -12 -69 -50 -133 -77 -129
 -114 -215 -115 -266 l-1 -50 168 -3 168 -2 57 90 c33 52 63 89 71 88 8 -2 35 -41 61 -88 l47 -85 172 -3 171 -2 0 43 c0 56 -35 151 -90 247 -86 149 -86 148
 -74 160 6 6 43 14 83 17 98 8 121 26 121 97 0 62 -17 89 -84 133 -42 28 -157 74 -221 88 -29 6 -28 7 23 24 79 27 122 76 122 139 0 47 -72 102 -135 102 -18
 0 -25 7 -30 33 -3 17 -13 49 -22 70 l-16 37 -138 0 c-112 0 -141 -3 -153 -16z"/>
-                </g>
-            </svg>
-        </div>
+            </g>
+        </svg>
+
+    return (
+        <img style={{width: "5vw"}} src={adventurerSVG}/>
     )
 };
