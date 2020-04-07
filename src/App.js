@@ -68,37 +68,28 @@ function App() {
     function handleClickOnCardEffect(effects, cardIndex, costsAction) {
         let tPlayerState = cloneDeep(playerState);
         let tStore = cloneDeep(store);
-        const tcard = tPlayerState.hand[cardIndex];
-        console.log("Handling card effects: " + tcard.cardName);
+        const tCard = tPlayerState.hand[cardIndex];
+        console.log("Handling card effects: " + tCard.cardName);
         console.log(effects);
 
         if (isActivePlayer) {
-            if (tcard.type === CARD_TYPE.item || tcard.type === CARD_TYPE.basic ||
-                (tcard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
-                const effectsResult = processEffects(tcard, cardIndex, tPlayerState, effects, null, tStore, null, null);
+            if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic ||
+                (tCard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
+                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
 
                 tPlayerState = effectsResult.tPlayerState;
-                if (tcard.type !== CARD_TYPE.basic && !costsAction) {
+                if (tCard.type !== CARD_TYPE.basic && !costsAction) {
                     tPlayerState.actions -= 1;
                 }
                 tStore = effectsResult.tStore;
 
-                /* if we have an active card, we move it to discard or to destroyed cards */
-                const activeCard = tPlayerState.activeCard;
-                if (activeCard !== false) {
-                    if (tcard.state !== CARD_STATE.destroyed) {
-                        tPlayerState.discardDeck.push(activeCard)
-                    } else {
-                        tPlayerState.destroyedCards.push(activeCard)
-                    }
-                }
-                /* we make the played card the active one... */
-                tPlayerState.activeCard = tcard;
+                /* we push the played card the active cards area... */
+                tPlayerState.activeCards.push(tCard);
                 /* ...and remove it from the hand */
                 tPlayerState.hand.splice(cardIndex, 1);
 
-                /* if the card is an artifact, pay for the use */
-                if (tcard.type === CARD_TYPE.artifact) {
+                /* if the card is an artifact and effect is not a transport, pay for the use */
+                if (tCard.type === CARD_TYPE.artifact && costsAction) {
                     tPlayerState.resources.texts -= 1;
                 }
 

@@ -18,7 +18,7 @@ export const GLOBAL_VARS = Object.freeze({
     itemsInStore: 5,
     artifactsInStore: 1,
     adventurers: 2,
-    numOfPlayers: 2,
+    numOfPlayers: 1,
     playerColors: ["#dc9500", "#2A8CFF", "#00CD27", "#CD1800"],
 });
 
@@ -46,7 +46,7 @@ export const emptyPlayerState = Object.freeze({
         plane: 0,
     },
     actions: 1,
-    activeCard: false,
+    activeCards: [],
     activeEffects: [],
     availableAdventurers: GLOBAL_VARS.adventurers,
     color: null,

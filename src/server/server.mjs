@@ -120,17 +120,17 @@ io.on("connection", socket => {
                 let tPlayerState = cloneDeep(playerStates[i]);
                 tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
 
-                /* remove active card */
-                if (tPlayerState.activeCard !== false) {
-                    tPlayerState.discardDeck.push(tPlayerState.activeCard);
-                    tPlayerState.activeCard = false;
+                /* move active cards to discard */
+                for (let card of tPlayerState.activeCards) {
+                    tPlayerState = addCardToDiscardDeck(card, tPlayerState);
                 }
+                tPlayerState.activeCards = [];
 
                 /* move cards from hand to discard */
                 for (let card of tPlayerState.hand) {
                     tPlayerState = addCardToDiscardDeck(card, tPlayerState);
-                    tPlayerState.hand = [];
                 }
+                tPlayerState.hand = [];
 
                 /* draw a new hand */
                 for (let i = 0; i < GLOBAL_VARS.handSize; i++) {

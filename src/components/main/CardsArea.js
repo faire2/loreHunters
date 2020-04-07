@@ -7,7 +7,7 @@ import Card from "../cards/Card";
 
 export default function CardsArea(props) {
     const playerStateContext = useContext(PlayerStateContext);
-    const activeCard = playerStateContext.playerState.activeCard;
+    const activeCards = playerStateContext.playerState.activeCards;
     const minWidthStyle = {
         minWidth: "20vw"
     }
@@ -20,28 +20,30 @@ export default function CardsArea(props) {
                         <DrawDeck cards={playerStateContext.playerState.drawDeck}/>
                 </div>
                 <div className="d-flex flex-row" style={minWidthStyle}>
-                    <div className="vertical-text">ACTIVE CARD</div>
-                    {activeCard !== false ?
-                        <ActiveCard activeCard={activeCard} activeEffect={playerStateContext.activeEffects}
-                                    cancelEffect={playerStateContext.cancelEffect}/> : ""}
+                    <div className="vertical-text">ACTIVE CARDS</div>
+                    {activeCards !== false ?
+                        <ActiveCards activeCards={activeCards} activeEffect={playerStateContext.activeEffects}
+                                     cancelEffect={playerStateContext.cancelEffect}/> : ""}
 
                 </div>
-                <div className="d-flex flex-row"style={minWidthStyle}>
-                    <div className="vertical-text">DISCARD</div>
-                    <DiscardDeck cards={playerStateContext.playerState.discardDeck}/>
+                <div className="d-flex flex-row" style={minWidthStyle}>
+
                 </div>
             </div>
-            <div className="">
-                <div className="">
-                    <Hand/>
-                </div>
+            <div className="d-flex flex-row">
+                <Hand/>
+                <div className="vertical-text">DISCARD</div>
+                <DiscardDeck cards={playerStateContext.playerState.discardDeck}/>
             </div>
         </div>
     )
 }
 
-const ActiveCard = props =>
-    <div className="d-flex flex-row">
-        <Card card={props.activeCard} index=""/>
-        <button className="btn btn-danger" onClick={() => props.cancelEffect(props.activeEffect[0])}>x</button>
+const ActiveCards = props =>
+    <div className="d-flex flex-row position-relative">
+        {props.activeCards.map((card, i) =>
+            <div key={i} >
+                <Card card={card} index={i}/>
+            </div>
+        )}
     </div>

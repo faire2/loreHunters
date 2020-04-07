@@ -11,8 +11,8 @@ export function addCardToHand(card, origPlayerState) {
     return tPlayerState;
 }
 
-export function addCardToDiscardDeck(jsxCard, tPlayersState) {
-    let idCard = getIdCard(jsxCard)
+export function addCardToDiscardDeck(card, tPlayersState) {
+    let idCard = getIdCard(card)
     idCard.state = CARD_STATE.discard;
     tPlayersState.discardDeck.push(idCard);
     return tPlayersState;
