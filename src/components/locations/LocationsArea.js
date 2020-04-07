@@ -9,8 +9,9 @@ export default function LocationsArea() {
     const locations = boardStateContext.locations;
 
     const container = {
+        position: "relative",
         marginTop: "3vw",
-        height: "33vw",
+        height: "40vw",
     };
 
     const locationStyle = {
@@ -28,7 +29,7 @@ export default function LocationsArea() {
     const bgrImg = {
         position: "absolute",
         width: "80vw",
-        height: "33vw",
+        height: "40vw",
         left: 0,
         zIndex: -1
     };
@@ -36,8 +37,7 @@ export default function LocationsArea() {
     const verticalCenter = {
         position: "absolute",
         top: "50%",
-        height: "33vw",
-        marginTop: "-17.5vw"
+        marginTop: "-15vw",
     }
 
     return (
