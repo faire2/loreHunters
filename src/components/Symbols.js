@@ -62,7 +62,7 @@ export const AdventurerIcon = () =>
 export const AdventurerToken = (props) => {
     const color = props.color;
     const adventurerSVG =
-        <svg width="15" height="15" viewBox="0 0 99 119">
+        <svg width="100%" height="100%" viewBox="0 0 99 119">
             <metadata>
                 Created by potrace 1.15, written by Peter Selinger 2001-2017
             </metadata>
@@ -76,6 +76,8 @@ export const AdventurerToken = (props) => {
         </svg>
 
     return (
-        <img style={{width: "5vw"}} src={adventurerSVG}/>
+        <div style={{width: "3vw"}}>
+            {adventurerSVG}
+        </div>
     )
 };
