@@ -10,6 +10,7 @@ export default function LocationsArea() {
 
     const container = {
         marginTop: "3vw",
+        height: "33vw",
     };
 
     const locationStyle = {
@@ -32,49 +33,58 @@ export default function LocationsArea() {
         zIndex: -1
     };
 
+    const verticalCenter = {
+        position: "absolute",
+        top: "50%",
+        height: "33vw",
+        marginTop: "-17.5vw"
+    }
+
     return (
         <div style={container}>
             <img src={map} style={bgrImg}/>
-            <div style={leftMargin}>
+            <div style={verticalCenter}>
+                <div style={leftMargin}>
+                    <div style={locationStyle} className="d-flex flex-row position-relative">
+                        <br/>
+                        {locations !== null && locations.line4.map((location, i) => {
+                            if (location === "empty") {
+                                return <div key={"empty" + i} style={empty}></div>
+                            } else {
+                                return (
+                                    <div key={"locationLine1-" + i}>
+                                        <Location location={Locations[location.id]} idLocation={location}/>
+                                    </div>
+                                )
+                            }
+                        })
+                        }
+                    </div>
+                </div>
                 <div style={locationStyle} className="d-flex flex-row position-relative">
                     <br/>
-                    {locations !== null && locations.line4.map((location, i) => {
-                        if (location === "empty") {
-                            return <div key={"empty" + i} style={empty}></div>
-                        } else {
-                            return (
-                                <div key={"locationLine1-" + i}>
-                                    <Location location={Locations[location.id]} idLocation={location}/>
-                                </div>
-                            )
-                        }
-                    })
-                    }
-                </div>
-            </div>
-            <div style={locationStyle} className="d-flex flex-row position-relative">
-                <br/>
-                {locations !== null && locations.line3.map((location, i) =>
-                    <div key={"locationLine1-" + i}>
-                        <Location location={Locations[location.id]} idLocation={location}/>
-                    </div>
-                )}
-            </div>
-            <div style={leftMargin}>
-                <div style={locationStyle} className="d-flex flex-row position-relative">
-                    {locations !== null && locations.line2.map((location, i) =>
+                    {locations !== null && locations.line3.map((location, i) =>
                         <div key={"locationLine1-" + i}>
                             <Location location={Locations[location.id]} idLocation={location}/>
                         </div>
                     )}
                 </div>
-            </div>
-            <div style={locationStyle} className="d-flex flex-row position-relative">
-                {locations !== null && locations.line1.map((location, i) =>
-                    <div key={"locationLine1-" + i}>
-                        <Location location={Locations[location.id]} idLocation={location}/>
+                <div style={leftMargin}>
+                    <div style={locationStyle} className="d-flex flex-row position-relative">
+                        {locations !== null && locations.line2.map((location, i) =>
+                            <div key={"locationLine1-" + i}>
+                                <Location location={Locations[location.id]} idLocation={location}/>
+                            </div>
+                        )}
                     </div>
-                )}
+                </div>
+                <div style={locationStyle} className="d-flex flex-row position-relative">
+                    {locations !== null && locations.line1.map((location, i) =>
+                        <div key={"locationLine1-" + i}>
+                            <Location location={Locations[location.id]} idLocation={location}/>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )
