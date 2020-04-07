@@ -11,7 +11,7 @@ export default function addPlayer(players, socketId) {
                 break;
             }
         }
-        if (players.length < GLOBAL_VARS.numOfPlayers - 1) {
+        if (players.length < GLOBAL_VARS.numOfPlayers) {
             players.push(socketId);
         }
     }

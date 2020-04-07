@@ -8,28 +8,31 @@ import Card from "../cards/Card";
 export default function CardsArea(props) {
     const playerStateContext = useContext(PlayerStateContext);
     const activeCard = playerStateContext.playerState.activeCard;
+    const minWidthStyle = {
+        minWidth: "20vw"
+    }
 
     return (
         <div>
-            <div className="row cardRow">
-                <div className="col-3 d-flex flex-row">
+            <div className="d-flex flex-row cardRow">
+                <div className="d-flex flex-row" style={minWidthStyle}>
                     <div className="vertical-text">DRAW DECK</div>
-                    <DrawDeck cards={playerStateContext.playerState.drawDeck}/>
+                        <DrawDeck cards={playerStateContext.playerState.drawDeck}/>
                 </div>
-                <div className="col-3 d-flex flex-row">
+                <div className="d-flex flex-row" style={minWidthStyle}>
                     <div className="vertical-text">ACTIVE CARD</div>
                     {activeCard !== false ?
                         <ActiveCard activeCard={activeCard} activeEffect={playerStateContext.activeEffects}
-                                    cancelEffect={playerStateContext.cancelEffect} /> : ""}
+                                    cancelEffect={playerStateContext.cancelEffect}/> : ""}
 
                 </div>
-                <div className="col-lg-3 d-flex flex-row">
+                <div className="d-flex flex-row"style={minWidthStyle}>
                     <div className="vertical-text">DISCARD</div>
                     <DiscardDeck cards={playerStateContext.playerState.discardDeck}/>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-lg-6 col-9">
+            <div className="">
+                <div className="">
                     <Hand/>
                 </div>
             </div>

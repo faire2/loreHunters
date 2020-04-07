@@ -9,7 +9,6 @@ export function Legend(props) {
 
     const containerStyle = {
         position: "relative",
-        backgroundColor: "red",
     };
 
     const fieldStyle = {

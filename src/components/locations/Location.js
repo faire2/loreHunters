@@ -19,7 +19,6 @@ export default function Location(props) {
     location.state = props.idLocation.state;
     const type = props.idLocation.type;
     const level = props.idLocation.level;
-    console.log("loc level: " + level);
 
     /* transport icons for explored location*/
     const transportIcons = [];
