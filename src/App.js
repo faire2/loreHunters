@@ -121,6 +121,7 @@ function App() {
                             setPlayerState(tPlayerState);
                             setLocations(tLocations);
                             setLocationsModalData({location: location, guardian: store.guardians[0]});
+                            store.guardians.splice(0, 1);
                             setShowLocationsModal(true);
                         }
                         break;
