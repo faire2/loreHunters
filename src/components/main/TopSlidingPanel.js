@@ -9,7 +9,7 @@ export default function TopSlidingPanel() {
         position: "fixed",
         top: 0,
         right: 0,
-        width: "100vw",
+        width: extendRightPanel ?"100vw" : "10vw",
         height: extendRightPanel ? "28vw" : "5vw",
         zIndex: 10,
         transition: "all .5s cubic-bezier(0, .2, 0, 1)",
