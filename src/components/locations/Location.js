@@ -88,7 +88,8 @@ export default function Location(props) {
     };
 
     const adventurerStyle = {
-        bottom: "2vw",
+        width: "3vw",
+        top: "4vw",
         right: 0,
         left: 0,
         margin: "auto",

@@ -8,8 +8,8 @@ export default function Resources(props) {
 
     const availableAdventurers = [];
     for (let i = 0; i < playerStateContext.playerState.availableAdventurers; i++) {
-        availableAdventurers.push(<AdventurerToken key={i}
-                                                   color={GLOBAL_VARS.playerColors[playerStateContext.playerState.playerIndex]}/>)
+        availableAdventurers.push(<AdventurerToken key={i} color={GLOBAL_VARS.playerColors[playerStateContext.playerState.playerIndex]}
+                                                   style={{width: "3vw"}}/>)
     }
 
     const style = {

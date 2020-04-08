@@ -76,7 +76,7 @@ export const AdventurerToken = (props) => {
         </svg>
 
     return (
-        <div style={{width: "3vw"}}>
+        <div style={props.style}>
             {adventurerSVG}
         </div>
     )

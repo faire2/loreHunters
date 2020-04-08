@@ -201,7 +201,7 @@ export function getInitialLocations() {
 
     /* level 1 locations start explored, other not */
     for (let key in locations) {
-        locations[key].state = (locations[key].level === LOCATION_LEVEL["1"]) ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
+        locations[key].state = (locations[key].level === LOCATION_LEVEL["1"]) ? LOCATION_STATE.explored : LOCATION_STATE.occupied;
     }
 
     /* there are is a specific spatial configuration for every player number variation: */
