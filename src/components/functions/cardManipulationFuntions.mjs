@@ -19,32 +19,41 @@ export function addCardToDiscardDeck(card, tPlayersState) {
 }
 
 export function drawCards(cardsNum, origPlayerState) {
-    let tPlayerState = {...origPlayerState};
-
-    let drawDeck = [...tPlayerState.drawDeck];
+    let tPlayerState = cloneDeep(origPlayerState);
+    let drawDeck = tPlayerState.drawDeck;
     for (let i = 0; i < cardsNum; i++) {
         if (drawDeck.length === 0) {
             tPlayerState = addDiscardToDrawDeck(tPlayerState);
+            drawDeck = tPlayerState.drawDeck;
         }
-        if (tPlayerState.drawDeck.length > 0) {
-            tPlayerState = addCardToHand(drawDeck[0], tPlayerState);
-            tPlayerState.drawDeck.splice(0, 1);
+        if (drawDeck.length > 0) {
+            let card = drawDeck[0];
+            // guardians go to play area and another card is drawn to hand
+            if (card.type === CARD_TYPE.guardian) {
+                card.state = CARD_STATE.active;
+                tPlayerState.activeCards.push(card);
+                cardsNum += 1;
+            } else {
+                tPlayerState = addCardToHand(card, tPlayerState);
+            }
+            drawDeck.splice(0, 1);
+            tPlayerState.drawDeck = drawDeck;
         }
+        console.log("draw deck length: " + drawDeck.length);
     }
     return tPlayerState;
 }
 
 export function addDiscardToDrawDeck(origPlayerState) {
     console.log("RESHUFFLING...");
-    let tPlayerState = {...origPlayerState};
+    let tPlayerState = cloneDeep(origPlayerState);
     tPlayerState.discardDeck = shuffleArray(tPlayerState.discardDeck);
     const tDrawDeck = [...tPlayerState.discardDeck];
 
-    for (let i = 0; i < tDrawDeck.length; i++) {
-        let tCard = {...tDrawDeck[i]};
-        tCard.state = CARD_STATE.drawDeck;
-        tDrawDeck.splice(i, 1, tCard);
+    for (let card of tDrawDeck) {
+        card.state = CARD_STATE.drawDeck;
     }
+
     tPlayerState.discardDeck = [];
     tPlayerState.drawDeck = tDrawDeck;
     return tPlayerState;

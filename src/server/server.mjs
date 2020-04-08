@@ -13,11 +13,7 @@ import getInitialPlayerStates, {
     getInitialStoreItems,
     GLOBAL_VARS
 } from "../components/functions/initialStateFunctions.mjs";
-import {
-    addCardToDiscardDeck,
-    addCardToHand,
-    addDiscardToDrawDeck
-} from "../components/functions/cardManipulationFuntions.mjs";
+import {addCardToDiscardDeck, addCardToHand, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
 import {EFFECT} from "../data/effects.mjs";
 
 const __dirname = dirname();
@@ -133,16 +129,7 @@ io.on("connection", socket => {
                 tPlayerState.hand = [];
 
                 /* draw a new hand */
-                for (let i = 0; i < GLOBAL_VARS.handSize; i++) {
-                    if (tPlayerState.drawDeck.length === 0) {
-                        tPlayerState = addDiscardToDrawDeck(tPlayerState);
-                    }
-                    if (tPlayerState.drawDeck.length > 0) {
-                        const result = addCardToHand(tPlayerState.drawDeck[0], cloneDeep(tPlayerState));
-                        tPlayerState = cloneDeep(result);
-                        tPlayerState.drawDeck.splice(0, 1);
-                    }
-                }
+                tPlayerState = drawCards(5, tPlayerState);
 
                 /* handle regular incomes */
                 tPlayerState = handleIncomes(tPlayerState);
