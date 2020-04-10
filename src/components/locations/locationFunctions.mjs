@@ -1,7 +1,6 @@
 import {TRANSPORT_TYPE} from "../../data/locations";
 import {EFFECT} from "../../data/effects";
 import {LOCATION_LINE} from "../functions/initialStateFunctions";
-import {LOCATION_STATE} from "../../data/idLists";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
@@ -95,37 +94,17 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     return {enoughResources: enoughResources, tPlayerState: tPlayerState};
 }
 
-export function exploreLocation(location, locationLine, locations, playerState) {
-    const resources = playerState.resources;
+export function isLocationAdjancentToAdventurer(location, locationLine, locations, playerState) {
     const playerIndex = playerState.playerIndex;
-
-    const enoughResources = resources.explore >= location.exploreCost.explore
-        && resources.coins >= location.exploreCost.coins && playerState.actions > 0;
-
-    let adventurerNear = false;
     const locationPosition = getPositionInLocationLine(location, locationLine, locations);
-    console.log("Location position: " + locationPosition);
     const locationData = {locationPosition: locationPosition, locationLine: locationLine, locations: locations}
     const isFirst = locationPosition === 0;
-    console.log("* IS FIRST: " + isFirst);
     const isLast = locationPosition + 1 === locations[locationLine].length;
-    console.log("* IS LAST: " + isLast);
-    if (checkOwnLine(locationData, playerIndex, isFirst, isLast) || checkPreviousLine(locationData, playerIndex, isFirst, isLast)
-        || checkNextLine(locationData, playerIndex, isFirst, isLast)) {
-        adventurerNear = true;
-    }
-
-    const locationCanBeExplored = enoughResources && adventurerNear;
-    if (locationCanBeExplored) {
-        resources.coins -= location.exploreCost.coins;
-        resources.explore -= location.exploreCost.explore;
-        playerState.actions -= 1;
-        locations[locationLine][locationPosition].state = LOCATION_STATE.explored;
-    }
-    return {playerState: playerState, locations: locations, locationCanBeExplored: locationCanBeExplored};
+    return checkOwnLine(locationData, playerIndex, isFirst, isLast) || checkPreviousLine(locationData, playerIndex, isFirst, isLast)
+        || checkNextLine(locationData, playerIndex, isFirst, isLast);
 }
 
-function getPositionInLocationLine(location, locationLine, locations) {
+export function getPositionInLocationLine(location, locationLine, locations) {
     for (let i = 0; i < locations[locationLine].length; i++) {
         if (locations[locationLine][i].id === location.id) {
             return i;

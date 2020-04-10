@@ -14,12 +14,14 @@ import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
-import ExplorationDialogueModal from "./components/locations/LocationExplorationModal";
-import {exploreLocation, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
-import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
+import ChooseRewardModal from "./components/locations/LocationExplorationModal";
+import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
+import {CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/Bonuses";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
+import {getPositionInLocationLine} from "./components/locations/locationFunctions";
+import {GUARDIANS} from "./data/cards";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -29,8 +31,11 @@ function App() {
     const [legends, setLegends] = useState(null);
     const [isActivePlayer, setIsActivePlayer] = useState(false);
 
-    const [showLocationsModal, setShowLocationsModal] = useState(false);
-    const [locationsModalData, setLocationsModalData] = useState({location: null, guardian: null});
+    const [showRewardsModal, setShowRewardsModal] = useState(false);
+    const [rewardsModalData, setRewardsModalData] = useState({
+        firstReward: {effects: null, effectsText: null},
+        secondReward: {effects: null, effectsText: null}
+    });
 
 
     useEffect(() => {
@@ -116,13 +121,39 @@ function App() {
             } else {
                 switch (location.state) {
                     case LOCATION_STATE.unexplored:
-                        const exploreResults = exploreLocation(location, locationLine, tLocations, tPlayerState)
-                        if (exploreResults.locationCanBeExplored) {
-                            setPlayerState(tPlayerState);
-                            setLocations(tLocations);
-                            setLocationsModalData({location: location, guardian: store.guardians[0]});
-                            store.guardians.splice(0, 1);
-                            setShowLocationsModal(true);
+                        const canExplore = isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState)
+                        if (canExplore) {
+                            const resources = tPlayerState.resources;
+                            const enoughResources = resources.explore >= location.exploreCost.explore
+                                && resources.coins >= location.exploreCost.coins && tPlayerState.actions > 0;
+                            if (enoughResources) {
+                                resources.coins -= location.exploreCost.coins;
+                                resources.explore -= location.exploreCost.explore;
+                                tPlayerState.actions -= 1;
+
+                                const locationPosition = getPositionInLocationLine(location, locationLine, locations);
+                                tLocations[locationLine][locationPosition].state = LOCATION_STATE.explored;
+
+                                setPlayerState(tPlayerState);
+                                setLocations(tLocations);
+                                const guardian = GUARDIANS[store.guardians[0].id];
+                                setRewardsModalData({
+                                        firstReward: {
+                                            effects: location.effects,
+                                            effectsText: location.effectsImage
+                                        },
+                                        secondReward: {
+                                            effects: guardian.discoveryEffect,
+                                            effectsText: guardian.discoveryText
+                                        }
+                                    }
+                                );
+                                tPlayerState.discardDeck.push(store.guardians[0]);
+                                store.guardians.splice(0, 1);
+
+                                setShowRewardsModal(true);
+
+                            }
                         }
                         break;
                     case LOCATION_STATE.explored:
@@ -236,18 +267,16 @@ function App() {
     function cancelEffect(effect) {
     }
 
-    /** HANDLE NEW LOCATION EXPLORE **/
+    /** HANDLE MODAL REWARD EXPLORE **/
     function handleLocationExploredReward(effects) {
         const effectsResult = processEffects(null, null, cloneDeep(playerState), effects,
             null, cloneDeep(store), null, cloneDeep(locations));
         /* costs are only coins and explore => we only need to update playerState */
         let tPlayerState = effectsResult.tPlayerState;
-        tPlayerState.discardDeck.push(store.guardians[0]);
-        store.guardians.splice(0, 1);
         setPlayerState(effectsResult.tPlayerState);
         setLocations(effectsResult.tLocations);
         setStore(effectsResult.tStore);
-        setShowLocationsModal(false);
+        setShowRewardsModal(false);
     }
 
     /** SET NEXT PLAYER **/
@@ -256,7 +285,12 @@ function App() {
             let tPlayerState = cloneDeep(playerState);
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
-            socket.emit(TRANSMISSIONS.nextPlayer, {playerState: tPlayerState, store: store, locations: locations, legends: legends})
+            socket.emit(TRANSMISSIONS.nextPlayer, {
+                playerState: tPlayerState,
+                store: store,
+                locations: locations,
+                legends: legends
+            })
             setPlayerState(tPlayerState);
         }
     }
@@ -265,7 +299,12 @@ function App() {
     function handleEndRound() {
         if (isActivePlayer) {
             console.log("finishing round");
-            socket.emit(TRANSMISSIONS.finishedRound, {playerState: playerState, store: store, locations: locations, legends: legends})
+            socket.emit(TRANSMISSIONS.finishedRound, {
+                playerState: playerState,
+                store: store,
+                locations: locations,
+                legends: legends
+            })
         }
     }
 
@@ -280,8 +319,8 @@ function App() {
                 locations: locations,
                 handleClickOnLocation: handleClickOnLocation,
                 playerIndex: playerState.playerIndex,
-                showModal: showLocationsModal,
-                modalData: locationsModalData,
+                showModal: showRewardsModal,
+                modalData: rewardsModalData,
                 handleLocationExploredReward: handleLocationExploredReward,
                 legends: legends,
                 handleClickOnField: handleClickOnField,
@@ -307,7 +346,7 @@ function App() {
                         {isActivePlayer ? <p>Your turn! Actions: {playerState.actions}</p> :
                             <p>Wait for your turn...</p>}
                     </div>
-                    <ExplorationDialogueModal/>
+                    <ChooseRewardModal/>
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

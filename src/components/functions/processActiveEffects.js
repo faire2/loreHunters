@@ -3,8 +3,9 @@ import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, getIdCard} 
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
-import {CARD_STATE, CARD_TYPE, LOCATION_STATE} from "../../data/idLists";
+import {CARD_STATE, CARD_TYPE, LOCATION_IDs, LOCATION_STATE} from "../../data/idLists";
 import {shuffleArray} from "./initialStateFunctions";
+import {isLocationAdjancentToAdventurer} from "../locations/locationFunctions";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations) {
     let tActiveEffects = tPlayerState.activeEffects;
@@ -37,26 +38,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-        case EFFECT.discardFor2Cards:
-            console.log("HERE");
-            if (tCard.state === CARD_STATE.inHand) {
-                console.log("HERE2");
-                tPlayerState = addCardToDiscardDeck(tCard, tPlayerState);
-                tPlayerState.hand.splice(cardIndex, 1);
-                drawCards(2, tPlayerState);
-                tActiveEffects.splice(0, 1);
-            }
-            break;
-
-        case EFFECT.discardFor2Jewels:
-            if (tCard.state === CARD_STATE.inHand) {
-                tPlayerState = addCardToDiscardDeck(tCard, tPlayerState);
-                tPlayerState.hand.splice(cardIndex, 1);
-                tPlayerState.resources.jewels += 2;
-                tActiveEffects.splice(0, 1);
-            }
-            break;
-
         case EFFECT.defeatGuardian:
             if (tCard.type === CARD_TYPE.guardian) {
                 tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
@@ -64,7 +45,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-            //todo - didn't work properly with card in discard pile
+        //todo - didn't work properly with card in discard pile
         case EFFECT.destroyCard:
             if (tCard !== null) {
                 tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
@@ -109,6 +90,13 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.exploreLocationWithDiscount2:
             if (tLocation !== null) {
                 // todo location implement
+            }
+            break;
+
+        case EFFECT.gainResourceFromAdjacent:
+            const isAdjacent = isLocationAdjancentToAdventurer(tLocation, LOCATION_IDs[tLocation.id].line, tLocations, tPlayerState);
+            if (isAdjacent) {
+
             }
             break;
 

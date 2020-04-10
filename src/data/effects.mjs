@@ -1,5 +1,4 @@
 export const EFFECT = Object.freeze({
-    revealArtifactBuyWithDiscount2: "buy and artifact with a discount",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
     defeatGuardian: "defeat a guardian in play area or discard pile",
     defeatThisGuardian: "defeat this guardian card",
@@ -35,7 +34,7 @@ export const EFFECT = Object.freeze({
     gainJeep: "travel with a jeep",
     gainJewel: "gain a jewel",
     gainPlane: "travel with an airplane",
-    gainResourceFromAdjacent: "gain one resource that can be obtained from a location adjacent to your Adventurer", //todo item
+    gainResourceFromAdjacent: "gain one resource that can be obtained from a location adjacent to your Adventurer",
     gainShiny: "gain a shinies",
     gainShip: "travel with a ship",
     gainText: "gain a text",
@@ -65,12 +64,13 @@ export const EFFECT = Object.freeze({
     refreshAdventurer: "refresh an adventurer", // todo legend implement
     refreshAllAdventurers: "refresh all your adventurers", // todo legend implement
     removeGuardian: "remove a guardian from play",
+    revealArtifactBuyWithDiscount2: "buy and artifact with a discount",
     revealItemBuyWithDiscount2: "buy an item with discount",
     return: "return adventurer from tLocation",
     payTouseOccupiedLocation: "use an occupied location",
     useItemOnMarket: "use effect of an item on the market",
     useArtifactOnMarket: "use effect of an artifact on the market",
     useOpponentsLocation: "use a (II) location occupied by an opponent", //todo implement
-    uptrade: "uptrade", //todo implement
+    uptrade: "uptrade",
     useYourLocation: "use a location occupied by you",
 });

@@ -42,7 +42,7 @@ export const EffectTemplate = (props) => <img src={locationEffectTemplate} alt={
 export const LongestEffect = (props) => <img src={longestEffectTemplate} alt={"generic location template"} style={props.style}/>;
 
 const effectStyle = {
-  height: "4vw",
+  height: "1em",
   display: "inline-block"
 };
 
