@@ -8,11 +8,11 @@ export const EFFECT = Object.freeze({
     destroyThisCard: "destroy this card",
     destroyThisCardToDefeatAGuardan: "destroy this card to defeat a guardian",
     draw1: "draw a card",
-    draw2: "draws 2 cards",
+    draw2: "draws 2 cards", // todo item change to draw1
     draw2ForGuardian: "draw 2 cards if you have a guardian in hand",
     drawFromDiscard: "draw a card from your discard pile",
     drawFromDrawDeck: "draw a card from your draw deck",
-    discard: "discard a card",
+    discard: "discard a card", // todo items: should be enforced
     exploreLocationWithDiscount2: "explore location with discount of 2 explore, do not gain a guardian ",
     firstGainsCoin: "first player that reaches this tile of legend gets a coin",
     firstGainsExplore: "first player that reaches this tile of legend gets an explore",
@@ -34,12 +34,12 @@ export const EFFECT = Object.freeze({
     gainItemToHand: "gain an item to your hand",
     gainJeep: "travel with a jeep",
     gainJewel: "gain a jewel",
-    gainOrDecipherWithJewel: "gain or decipher a legend with a discount of jewel", // todo legend implement
-    gainOrDecipherWithTextsOrWeapon: "gain or decipher a legend with a discount of 2 texts or 1 weapon", // todo legend implement
     gainPlane: "travel with an airplane",
+    gainResourceFromAdjacent: "gain one resource that can be obtained from a location adjacent to your Adventurer", //todo item
     gainShiny: "gain a shinies",
     gainShip: "travel with a ship",
     gainText: "gain a text",
+    gainTextInJungle: "gain a text for each adventurer in a jungle location", //todo items implement
     gainTreasure: "gain treasure",
     gainWalk: "travel on foot",
     gainWeapon: "gain a weapon",
@@ -67,7 +67,6 @@ export const EFFECT = Object.freeze({
     removeGuardian: "remove a guardian from play",
     revealItemBuyWithDiscount2: "buy an item with discount",
     return: "return adventurer from tLocation",
-    useAdjacentEmptyLocation: "use an adjacent empty location", // todo implement restriction + level restriction
     payTouseOccupiedLocation: "use an occupied location",
     useItemOnMarket: "use effect of an item on the market",
     useArtifactOnMarket: "use effect of an artifact on the market",

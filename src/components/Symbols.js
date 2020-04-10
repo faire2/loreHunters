@@ -2,12 +2,13 @@ import React from "react";
 
 import draw1 from "../img/symbols/Card+.png"
 import draw2 from "../img/symbols/Card++.png"
+import draw3 from "../img/symbols/Card+++.png"
 import destroyCard from "../img/symbols/CardX.png"
 import discard from "../img/symbols/Card-.png"
 import coin from "../img/symbols/C.png"
 import explore from "../img/symbols/E.png"
 import walk from "../img/symbols/Walk.png"
-import ship from "../img/symbols/ship.png"
+import ship from "../img/symbols/Ship.png"
 import jeep from "../img/symbols/Jeep.png"
 import plane from "../img/symbols/Plane.png"
 import text from "../img/symbols/T.png"
@@ -16,33 +17,43 @@ import jewel from "../img/symbols/J.png"
 import arrow from "../img/symbols/A.png"
 import shiny from "../img/symbols/D.png"
 import guardian from "../img/symbols/G.png"
-import artifact from "../img/symbols/artifact.png"
-import uptrade from "../img/symbols/uptrade.png"
-import item from "../img/symbols/item.png"
+import artifact from "../img/symbols/Artifact.png"
+import uptrade from "../img/symbols/Uptrade.png"
+import item from "../img/symbols/Item.png"
 import fear from "../img/symbols/Fear.png"
 import defeatedGuardian from "../img/symbols/GX.png"
+import location1 from "../img/symbols/L1.png"
+import location2 from "../img/symbols/L2.png"
 
-export const Coin = (props) => <img src={coin} alt="gain a coin" className="cardEffect"/>;
-export const Explore = (props) => <img src={explore} alt="gain an explore token" className="cardEffect"/>;
-export const Draw1Card = (props) => <img src={draw1} alt="draw a card" className="cardEffect"/>;
-export const Draw2Cards = (props) => <img src={draw2} alt="draw two cards" className="cardEffect"/>;
-export const Discard = (props) => <img src={discard} alt="discard a cart" className="cardEffect"/>;
-export const DestroyCard = (props) => <img src={destroyCard} alt="destroy a card " className="cardEffect"/>;
-export const Walk = (props) => <img src={walk} alt="walk" className="cardEffect"/>;
-export const Ship = (props) => <img src={ship} alt="go by a ship" className="cardEffect"/>;
-export const Jeep = (props) => <img src={jeep} alt="go by a jeep" className="cardEffect"/>;
-export const Plane = (props) => <img src={plane} alt="go by a plane" className="cardEffect"/>;
-export const Text = (props) => <img src={text} alt="gain a text" className="cardEffect"/>;
-export const Weapon = (props) => <img src={weapon} alt="gain a weapon" className="cardEffect"/>;
-export const Jewel = (props) => <img src={jewel} alt="gain a jewel" className="cardEffect"/>;
-export const Arrow = (props) => <img src={arrow} alt="exchanged for" className="cardEffect"/>;
-export const Shiny = (props) => <img src={shiny} alt="shinies" className="cardEffect"/>;
-export const Guardian = (props) => <img src={guardian} alt="guardian" className="cardEffect"/>;
-export const Artifact = (props) => <img src={artifact} alt="artifact" className="cardEffect"/>;
-export const Uptrade = (props) => <img src={uptrade} alt="uptrade" className="cardEffect"/>;
-export const Item = (props) => <img src={item} alt="item" className="cardEffect"/>;
-export const Fear = (props) => <img src={fear} alt="fear" className="cardEffect"/>;
-export const DefeatedGuardian = (props) => <img src={defeatedGuardian} alt="defeated guardian" className="cardEffect"/>;
+const responsive = {
+    height: "1em",
+
+}
+
+export const Coin = (props) => <img src={coin} alt="gain a coin" style={responsive}/>;
+export const Explore = (props) => <img src={explore} alt="gain an explore token" style={responsive}/>;
+export const Draw1Card = (props) => <img src={draw1} alt="draw a card" style={responsive}/>;
+export const Draw2Cards = (props) => <img src={draw2} alt="draw two cards"style={responsive} />;
+export const Draw3Cards = (props) => <img src={draw3} alt="draw three cards"style={responsive} />;
+export const Discard = (props) => <img src={discard} alt="discard a cart"style={responsive} />;
+export const DestroyCard = (props) => <img src={destroyCard} alt="destroy a card "style={responsive} />;
+export const Walk = (props) => <img src={walk} alt="walk" style={responsive}/>;
+export const Ship = (props) => <img src={ship} alt="go by a ship" style={responsive}/>;
+export const Jeep = (props) => <img src={jeep} alt="go by a jeep" style={responsive}/>;
+export const Plane = (props) => <img src={plane} alt="go by a plane" style={responsive}/>;
+export const Text = (props) => <img src={text} alt="gain a text"style={responsive} />;
+export const Weapon = (props) => <img src={weapon} alt="gain a weapon"style={responsive} />;
+export const Jewel = (props) => <img src={jewel} alt="gain a jewel"style={responsive} />;
+export const Arrow = (props) => <img src={arrow} alt="exchanged for"style={responsive} />;
+export const Shiny = (props) => <img src={shiny} alt="shinies"style={responsive} />;
+export const Guardian = (props) => <img src={guardian} alt="guardian"style={responsive} />;
+export const Artifact = (props) => <img src={artifact} alt="artifact"style={responsive} />;
+export const Uptrade = (props) => <img src={uptrade} alt="uptrade"style={responsive} />;
+export const Item = (props) => <img src={item} alt="item"style={responsive} />;
+export const Fear = (props) => <img src={fear} alt="fear"style={responsive} />;
+export const DefeatedGuardian = (props) => <img src={defeatedGuardian} alt="defeated guardian"style={responsive} />;
+export const LocationL1 = (props) => <img src={location1} alt="location of level 1"style={responsive} />;
+export const LocationL2 = (props) => <img src={location2} alt="location of level 2"style={responsive} />;
 
 export const AdventurerIcon = () =>
     <svg width="15" height="15" viewBox="0 0 99 119">

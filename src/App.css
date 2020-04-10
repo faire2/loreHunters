@@ -33,12 +33,8 @@
 }
 
 .effectsText {
-  font-size: 12px;
-  padding: 0 15px 0 15px;
-}
-
-.card img {
-  max-width: 15px;
+  font-size: 1.3vw;
+  margin-top: 0.5vw;
 }
 
 .cardEffect {

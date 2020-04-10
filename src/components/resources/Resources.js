@@ -16,8 +16,12 @@ export default function Resources(props) {
         position: "relative",
         float: "right",
         marginLeft: "1vw",
-        marginTop: "30vw"
+        marginTop: "30vw",
+        fontSize: "3.5vw"
     };
+
+    const iconSize = {
+    }
 
     return (
         <div style={style} className="d-flex flex-row">
@@ -48,19 +52,19 @@ export default function Resources(props) {
                 </div>
             </div>
             <div>
-                <div>
+                <div style={iconSize}>
                     <Walk/>
-                    {playerStateContext.playerState.resources.walk}
+                    {/*{playerStateContext.playerState.resources.walk}*/}
                 </div>
-                <div>
+                <div style={iconSize}>
                     <Jeep/>
                     {playerStateContext.playerState.resources.jeep}
                 </div>
-                <div>
+                <div style={iconSize}>
                     <Ship/>
                     {playerStateContext.playerState.resources.ship}
                 </div>
-                <div>
+                <div style={iconSize}>
                     <Plane/>
                     {playerStateContext.playerState.resources.plane}
                 </div>
