@@ -96,9 +96,9 @@ export default function Card(props) {
 
     const effectsStyle = {
         position: "relative",
-        marginTop: isGuardian ? "35%" : "9vw",
+        marginTop: isGuardian ? "35%" : "8vw",
         cursor: isPointer,
-        fontSize: "3vw"
+        fontSize: "1.1vw"
     };
 
     const costStyle = {
