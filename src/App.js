@@ -31,11 +31,10 @@ function App() {
     const [legends, setLegends] = useState(null);
     const [isActivePlayer, setIsActivePlayer] = useState(false);
 
+    // rewards are an array with objects describing values: {effects: ..., effectsText: ...}
     const [showRewardsModal, setShowRewardsModal] = useState(false);
-    const [rewardsModalData, setRewardsModalData] = useState({
-        firstReward: {effects: null, effectsText: null},
-        secondReward: {effects: null, effectsText: null}
-    });
+    const [rewardsModalData, setRewardsModalData] = useState([]
+    );
 
 
     useEffect(() => {
@@ -77,13 +76,15 @@ function App() {
         console.log("Handling card effects: " + tCard.cardName);
         console.log(effects);
 
-        if (isActivePlayer) {
+        if (isActivePlayer && (!costsAction || playerState.actions > 0)) {
+            console.log("costs action: " + costsAction);
+            console.log(playerState.actions);
             if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic ||
                 (tCard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
 
                 tPlayerState = effectsResult.tPlayerState;
-                if (tCard.type !== CARD_TYPE.basic && !costsAction) {
+                if (tCard.type !== CARD_TYPE.basic && costsAction) {
                     tPlayerState.actions -= 1;
                 }
                 tStore = effectsResult.tStore;
@@ -114,7 +115,8 @@ function App() {
             /* Resolve active effects */
             if (tPlayerState.activeEffects.length > 0) {
                 const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
-                    null, {...store}, tLocations);
+                    null, {...store}, tLocations, setRewardsModal);
+                console.log("finished processing");
                 setPlayerState(effectResult.tPlayerState);
                 setLocations(effectResult.tLocations);
                 setStore(effectResult.tStore);
@@ -137,17 +139,10 @@ function App() {
                                 setPlayerState(tPlayerState);
                                 setLocations(tLocations);
                                 const guardian = GUARDIANS[store.guardians[0].id];
-                                setRewardsModalData({
-                                        firstReward: {
-                                            effects: location.effects,
-                                            effectsText: location.effectsImage
-                                        },
-                                        secondReward: {
-                                            effects: guardian.discoveryEffect,
-                                            effectsText: guardian.discoveryText
-                                        }
-                                    }
-                                );
+                                // player can choose between effect of location and discovery effect of next guardian
+                                setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
+                                    {effects: guardian.discoveryEffect, effectsText: guardian.discoveryText}]);
+                                // guardian is moved to player's discard
                                 tPlayerState.discardDeck.push(store.guardians[0]);
                                 store.guardians.splice(0, 1);
 
@@ -156,7 +151,9 @@ function App() {
                             }
                         }
                         break;
-                    case LOCATION_STATE.explored:
+                    case
+                    LOCATION_STATE.explored
+                    :
                         const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
                         if (travelCheckResults.enoughResources && tPlayerState.actions > 0) {
                             tPlayerState = travelCheckResults.tPlayerState;
@@ -176,7 +173,9 @@ function App() {
                             setLocations(tLocations);
                         }
                         break;
-                    case LOCATION_STATE.occupied:
+                    case
+                    LOCATION_STATE.occupied
+                    :
                         console.log("Location is occupied.");
                         break;
                     default:
@@ -202,7 +201,7 @@ function App() {
     function handleActiveEffectClickOnCard(card, cardIndex) {
         if (isActivePlayer) {
             const effectProcessResults = processActiveEffect(card, cardIndex, null, cloneDeep(playerState),
-                null, {...store}, {...locations});
+                null, {...store}, {...locations}, setRewardsModal);
             const tPlayerState = effectProcessResults.tPlayerState;
             const tStore = effectProcessResults.tStore;
             const tLocations = effectProcessResults.tLocations;
@@ -306,6 +305,11 @@ function App() {
                 legends: legends
             })
         }
+    }
+
+    function setRewardsModal(rewards) {
+        setRewardsModalData(rewards);
+        setShowRewardsModal(true);
     }
 
     return (

@@ -164,7 +164,7 @@ export const ITEMS = Object.freeze({
     hotAirBaloon: {
         id: "hotAirBaloon",
         cardName: "Hot Air Baloon",
-        transport: CARD_TRANSPORT.empty,
+        transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText: <div className="effectsText"><b>Discount:</b> <Explore/><Explore/><Explore/><Explore/> to discover
             any location. Then <b>destroy</b> this card.</div>,
@@ -421,7 +421,7 @@ export const ITEMS = Object.freeze({
     },
     flask: {
         id: "flask",
-        cardName: "Flas",
+        cardName: "Flask",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
         effectsText: <div><Draw3Cards/></div>,

@@ -37,6 +37,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.gainItemToHand:
                 case EFFECT.gainArtifact:
                 case EFFECT.payTouseOccupiedLocation:
+                case EFFECT.gainResourceFromAdjacent:
                 case EFFECT.removeGuardian:
                 case EFFECT.uptrade:
                 case EFFECT.useItemOnMarket:
@@ -287,7 +288,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
             tPlayerState: originalPlayersState, tStore: originalStore, tLocations: originalLocations
         }
     } else if (tCard !== null) {
-        tCard.state = CARD_STATE.active
+        tCard.state = CARD_STATE.active;
     }
 
     tPlayerState.activeEffects = tActiveEffects;

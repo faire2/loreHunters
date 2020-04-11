@@ -1,13 +1,15 @@
+import React from 'react';
 import {EFFECT} from "../../data/effects.mjs";
-import {addCardToDiscardDeck, addCardToHand, destroyCard, drawCards, getIdCard} from "./cardManipulationFuntions.mjs";
+import {addCardToDiscardDeck, addCardToHand, destroyCard, getIdCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, LOCATION_IDs, LOCATION_STATE} from "../../data/idLists";
 import {shuffleArray} from "./initialStateFunctions";
 import {isLocationAdjancentToAdventurer} from "../locations/locationFunctions";
+import {Coin, Explore, Jewel, Text, Weapon} from "../Symbols";
 
-export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations) {
+export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, setRewardsModal) {
     let tActiveEffects = tPlayerState.activeEffects;
     console.log(tActiveEffects);
     console.log("Resolving active effect: " + tActiveEffects[0]);
@@ -94,9 +96,38 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.gainResourceFromAdjacent:
-            const isAdjacent = isLocationAdjancentToAdventurer(tLocation, LOCATION_IDs[tLocation.id].line, tLocations, tPlayerState);
-            if (isAdjacent) {
+            if (tLocation.state === LOCATION_STATE.explored) {
+                const isAdjacent = isLocationAdjancentToAdventurer(tLocation, tLocation.line, tLocations, tPlayerState);
+                if (isAdjacent) {
+                    const rewards = [];
+                    for (let effect of tLocation.effects) {
+                        debugger;
+                        let alreadyPresent = false;
+                        for (let i = 0; i < rewards.length; i++) {
+                            if (rewards[i].effects[0] === effect) {
+                                alreadyPresent = true;
+                                break;
+                            }
+                        }
 
+                        if (!alreadyPresent) {
+                            switch (effect) {
+                                case EFFECT.gainText:
+                                    rewards.push({effects: [EFFECT.gainText], effectsText: <Text/>});
+                                    break;
+                                case EFFECT.gainWeapon:
+                                    rewards.push({effects: [EFFECT.gainWeapon], effectsText: <Weapon/>});
+                                    break;
+                                case EFFECT.gainJewel:
+                                    rewards.push({effects: [EFFECT.gainJewel], effectsText: <Jewel/>});
+                                    break;
+                                default: // do nothing
+                            }
+                        }
+                    }
+                    tActiveEffects.splice(0, 1);
+                    setRewardsModal(rewards);
+                }
             }
             break;
 

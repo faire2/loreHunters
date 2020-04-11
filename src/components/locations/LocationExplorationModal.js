@@ -7,9 +7,7 @@ export default function ChooseRewardModal() {
     const boardStateContext = useContext(BoardStateContext);
 
     const showModal = boardStateContext.showModal;
-    const firstReward = boardStateContext.modalData.firstReward;
-    const secondReward = boardStateContext.modalData.secondReward;
-
+    const rewards = boardStateContext.modalData;
     const fontSizeStyle = {
         fontSize: "6vw"
     }
@@ -21,15 +19,11 @@ export default function ChooseRewardModal() {
             </Modal.Header>
             <Modal.Body>
                 <div className="text-center">
-                {firstReward !== null ?
-                    <div style={fontSizeStyle}
-                        onClick={() => boardStateContext.handleLocationExploredReward(firstReward.effects)}>{firstReward.effectsText}
-                    </div> : ""}
-                {secondReward !== null ?
-                    <div style={fontSizeStyle}
-                        onClick={() => boardStateContext.handleLocationExploredReward(secondReward.effects)}>
-                        {secondReward.effectsText}
-                    </div> : ""}
+                    {rewards !== null && rewards.map((reward, i) =>
+                        <div style={fontSizeStyle} onClick={() => boardStateContext.handleLocationExploredReward(rewards[i].effects)}>
+                            {rewards[i].effectsText}
+                        </div>
+                    )}
                 </div>
             </Modal.Body>
         </Modal>

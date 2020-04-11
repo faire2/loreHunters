@@ -44,7 +44,7 @@ export default function Card(props) {
                 transport.push(<Plane/>)
                 break;
             default:
-                console.log("Unable to propcess card transport type in Card.js: " + card.transport);
+                console.log("Unable to propcess card transport type in Card.js: " + card.id + ", " + card.transport);
 
 
         }
@@ -138,12 +138,9 @@ export default function Card(props) {
         height: "1.8vw",
 }
 
-    /*console.log("Displaying card:" + card.cardName);
-    console.log(card);
-*/
     function handleClickOnEffect(effects, isTravel) {
         if (card.state !== CARD_STATE.inStore && boardStateContext.activeEffects.length === 0) {
-            boardStateContext.handleCardEffect(effects, props.index, isTravel);
+            boardStateContext.handleCardEffect(effects, props.index, !(isTravel || cardType === CARD_TYPE.basic));
         }
     }
 
