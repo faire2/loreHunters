@@ -23,7 +23,7 @@ export function LegendsArea() {
         <div style={style}>
             {legends && legends.map((legend, i) =>
                 <div key={"legend" + i}>
-                    <Legend legend={legend} handleClickOnField={boardStateContext.handleClickOnField}/>
+                    <Legend legend={legend} legends={legends} legendIndex={i} />
                 </div>
             )}
         </div>

@@ -186,8 +186,8 @@ function App() {
         }
     }
 
-    /** HANDLE BONUS / LEGEND **/
-    function handleClickOnField(effects) {
+    /** HANDLE BONUS **/
+    function handleClickOnBonusAction(effects) {
         if (isActivePlayer) {
             const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
                 null, cloneDeep(store), null, cloneDeep(locations));
@@ -195,6 +195,13 @@ function App() {
             setStore(effectProcessResults.tStore);
             setLocations(effectProcessResults.tLocations);
         }
+    }
+
+    /** HANDLE CLICK ON LEGEND **/
+    function handleClickOnLegend(effectsResult) {
+                setPlayerState(effectsResult.tPlayerState);
+                setLocations(effectsResult.tLocations);
+                setStore(effectsResult.tStore);
     }
 
     /** HANDLE ACTIVE EFFECTS **/
@@ -315,19 +322,21 @@ function App() {
     return (
         <div className="App">
             <BoardStateContext.Provider value={{
+                playerState: playerState,
+                playerIndex: playerState.playerIndex,
                 store: store,
+                legends: legends,
+                setLegends: setLegends,
+                locations: locations,
                 activeEffects: playerState.activeEffects,
+                showModal: showRewardsModal,
+                modalData: rewardsModalData,
                 handleCardEffect: handleClickOnCardEffect,
                 handleCardBuy: handleCardBuy,
                 handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
-                locations: locations,
                 handleClickOnLocation: handleClickOnLocation,
-                playerIndex: playerState.playerIndex,
-                showModal: showRewardsModal,
-                modalData: rewardsModalData,
                 handleLocationExploredReward: handleLocationExploredReward,
-                legends: legends,
-                handleClickOnField: handleClickOnField,
+                handleClickOnLegend: handleClickOnLegend,
             }}>
                 <PlayerStateContext.Provider value={{
                     playerState: playerState,
@@ -338,7 +347,7 @@ function App() {
                 }}>
                     <TopSlidingPanel/>
                     <Resources/>
-                    <BonusActions handleClickOnBonus={handleClickOnField}/>
+                    <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
                     <Store/>
                     <LocationsArea/>
                     <CardsArea/>

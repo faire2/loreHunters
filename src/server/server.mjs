@@ -167,7 +167,8 @@ io.on("connection", socket => {
                 store: store,
                 locations: locations,
                 round: round,
-                isActivePlayer: players.indexOf(player) === activePlayer
+                isActivePlayer: players.indexOf(player) === activePlayer,
+                legends: legends
             })
         }
     }

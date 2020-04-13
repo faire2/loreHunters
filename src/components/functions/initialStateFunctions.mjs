@@ -11,6 +11,7 @@ import {
     LOCATION_TYPE
 } from "../../data/idLists.mjs";
 
+/* GLOBAL VARIABLES */
 export const GLOBAL_VARS = Object.freeze({
     handSize: 5,
     initialCards: [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},
@@ -30,7 +31,7 @@ export const LOCATION_LINE = Object.freeze({
 });
 
 
-/* INITIAL PLAYER STATE */
+/* EMPTY PLAYER STATE */
 
 export const emptyPlayerState = Object.freeze({
     resources: {
@@ -60,6 +61,8 @@ export const emptyPlayerState = Object.freeze({
     playerIndex: null,
 });
 
+
+/* INITIAL PLAYER STATES */
 export default function getInitialPlayerStates() {
     let playerStates = [];
 
@@ -92,6 +95,7 @@ export default function getInitialPlayerStates() {
     }
     return playerStates;
 }
+
 
 /* INITIAL STORE */
 export function getInitialStoreItems() {
@@ -127,6 +131,7 @@ export function getInitialStoreItems() {
         guardians: shuffleArray(guardians),
     }
 }
+
 
 /* INITIAL LOCATIONS */
 export function getInitialLocations() {
@@ -256,12 +261,13 @@ export function getInitialLocations() {
     };
 }
 
+/* INITIAL LEGENDS */
 export function getInitialLegends() {
     const legendsKeys = shuffleArray(Object.keys(LEGEND_IDS));
     const legends = [LEGEND_IDS[legendsKeys[0]], LEGEND_IDS[legendsKeys[1]]];
     for (let legend of legends) {
         legend.positions = [];
-        for (let i; i < GLOBAL_VARS.numOfPlayers; i++) {
+        for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
             legend.positions.push(null);
         }
     }
