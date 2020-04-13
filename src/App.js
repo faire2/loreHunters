@@ -16,7 +16,7 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/locations/LocationExplorationModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
-import {CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
+import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/Bonuses";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
@@ -69,17 +69,14 @@ function App() {
     }, []);
 
     /** CARD EFFECTS **/
-    function handleClickOnCardEffect(effects, cardIndex, costsAction) {
+    function handleClickOnCardEffect(effects, cardIndex, costsAction, tCard) {
         let tPlayerState = cloneDeep(playerState);
         let tStore = cloneDeep(store);
-        const tCard = tPlayerState.hand[cardIndex];
         console.log("Handling card effects: " + tCard.cardName);
         console.log(effects);
 
         if (isActivePlayer && (!costsAction || playerState.actions > 0)) {
-            console.log("costs action: " + costsAction);
-            console.log(playerState.actions);
-            if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic ||
+            if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
                 (tCard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
 
@@ -88,11 +85,13 @@ function App() {
                     tPlayerState.actions -= 1;
                 }
                 tStore = effectsResult.tStore;
-
+                if (tCard.state === CARD_STATE.inHand) {
                 /* we push the played card the active cards area... */
                 tPlayerState.activeCards.push(tCard);
+                tCard.state = CARD_STATE.active
                 /* ...and remove it from the hand */
                 tPlayerState.hand.splice(cardIndex, 1);
+                }
 
                 /* if the card is an artifact and effect is not a transport, pay for the use */
                 if (tCard.type === CARD_TYPE.artifact && costsAction) {
@@ -144,6 +143,7 @@ function App() {
                                     {effects: guardian.discoveryEffect, effectsText: guardian.discoveryText}]);
                                 // guardian is moved to player's discard
                                 tPlayerState.discardDeck.push(store.guardians[0]);
+                                tPlayerState.discardDeck[tPlayerState.discardDeck.length -1].state = CARD_STATE.discard;
                                 store.guardians.splice(0, 1);
 
                                 setShowRewardsModal(true);

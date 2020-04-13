@@ -16,10 +16,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let tLegend = cloneDeep(originalLegend);
     let processedAllEffects = true;
 
-
-    if (tCard !== null) {
-        tCard.state = CARD_STATE.active
-    }
     exitLoopFromSwitch();
 
     // eslint-disable-next-line no-unused-vars
@@ -281,16 +277,12 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
             }
         }
     }
-
     if (!processedAllEffects) {
         console.log("Some effects could not be processed in processEffects");
         return {
             tPlayerState: originalPlayersState, tStore: originalStore, tLocations: originalLocations, processedAllEffects: processedAllEffects
         }
-    } else if (tCard !== null) {
-        tCard.state = CARD_STATE.active;
     }
-
     tPlayerState.activeEffects = tActiveEffects;
     return {tPlayerState: tPlayerState, tStore: tStore, tLocations: tLocations, processedAllEffects: processedAllEffects};
 }

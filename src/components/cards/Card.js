@@ -140,7 +140,7 @@ export default function Card(props) {
 
     function handleClickOnEffect(effects, isTravel) {
         if (card.state !== CARD_STATE.inStore && boardStateContext.activeEffects.length === 0) {
-            boardStateContext.handleCardEffect(effects, props.index, !(isTravel || cardType === CARD_TYPE.basic));
+            boardStateContext.handleCardEffect(effects, props.index, !(isTravel || cardType === CARD_TYPE.basic), card);
         }
     }
 

@@ -87,8 +87,8 @@ export function destroyCard(cardState, cardIndex, tPlayerState) {
             tPlayerState.hand.splice(cardIndex, 1);
             break;
         case CARD_STATE.active:
-            card = tPlayerState.activeCard;
-            tPlayerState.activeCard = false;
+            card = tPlayerState.activeCards[cardIndex];
+            tPlayerState.activeCards.splice(cardIndex, 1);
             break;
         case CARD_STATE.discard:
             card = tPlayerState.discardDeck[cardIndex];
@@ -99,6 +99,7 @@ export function destroyCard(cardState, cardIndex, tPlayerState) {
         default:
             console.log("Cannot process state " + cardState + " while removing card.");
     }
+
     if (card !== null) {
         tPlayerState.destroyedCards.push(card)
     }
