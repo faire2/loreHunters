@@ -43,7 +43,7 @@ export function Legend(props) {
         // check that it is first field or that player has adventurer token on previous field
         if (boardStateContext.playerState.actions > 0) {
             if (i === 0 || legends[legendIndex].positions[playerIndex] === i - 1) {
-                const effectsResult = processEffects(null, null, boardStateContext.playerState, jsxLegend.effects[i],
+                let effectsResult = processEffects(null, null, boardStateContext.playerState, jsxLegend.effects[i],
                     null, boardStateContext.store, null, boardStateContext.locations, jsxLegend);
                 if (effectsResult.processedAllEffects) {
                     if (legends[legendIndex].positions[playerIndex] !== null) {
@@ -51,6 +51,7 @@ export function Legend(props) {
                     } else {
                         legends[legendIndex].positions[playerIndex] = 0;
                     }
+                    effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
                     boardStateContext.setLegends(legends);
                     boardStateContext.handleClickOnLegend(effectsResult);
                 }
