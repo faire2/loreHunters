@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {LegendsArea} from "../legends/LegendsArea";
+import Store from "../store/Store";
 
 export default function TopSlidingPanel() {
     const [extendRightPanel, setExtendRightPanel] = useState(false);
@@ -9,15 +10,15 @@ export default function TopSlidingPanel() {
         position: "fixed",
         top: 0,
         right: 0,
-        width: extendRightPanel ?"100vw" : "10vw",
-        height: extendRightPanel ? "28vw" : "5vw",
+        width: "100vw",
+        height: extendRightPanel ? "23vw" : "1.5vw",
         zIndex: 10,
         transition: "all .5s cubic-bezier(0, .2, 0, 1)",
     };
 
-    const buttonStyle = {
+    const sliderButtonStyle = {
         position: "absolute",
-        bottom: 0,
+        bottom: "0",
         right: "3vw",
         backgroundColor: "#74a69f",
         width: 40,
@@ -34,7 +35,7 @@ export default function TopSlidingPanel() {
 
     return (
         <div style={slideStyle} className="d-flex flex-row">
-            <button style={buttonStyle} onMouseEnter={() => setButtonOnHover(!buttonOnHover)}
+            <button style={sliderButtonStyle} onMouseEnter={() => setButtonOnHover(!buttonOnHover)}
                     onMouseLeave={() => setButtonOnHover(!buttonOnHover)}
                     onClick={() => setExtendRightPanel(!extendRightPanel)}/>
             <LegendsArea/>

@@ -16,7 +16,7 @@ export function LegendsArea() {
         left: 0,
         marginLeft: "auto",
         marginRight: "auto",
-        marginBottom: "8vw"
+        marginBottom: "3vw",
     };
 
     return (
