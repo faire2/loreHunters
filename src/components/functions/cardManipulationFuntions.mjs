@@ -96,11 +96,13 @@ export function destroyCard(cardState, cardIndex, tPlayerState) {
             break;
         case CARD_STATE.inStore:
         case CARD_STATE.destroyed:
+        case CARD_STATE.drawDeck:
         default:
             console.log("Cannot process state " + cardState + " while removing card.");
     }
 
     if (card !== null) {
+        //todo jsx card is store, probably should be id card
         tPlayerState.destroyedCards.push(card)
     }
     return tPlayerState;
@@ -108,15 +110,13 @@ export function destroyCard(cardState, cardIndex, tPlayerState) {
 
 export function getIdCard(jsxCard) {
     const cardId = jsxCard.id;
-    switch (jsxCard.type) {
-        case (CARD_TYPE.basic):
-        case (CARD_TYPE.item):
-            return ITEM_IDs[cardId];
-        case (CARD_TYPE.artifact):
-            return ARTIFACT_IDs[cardId];
-        case (CARD_TYPE.guardian):
-            return GUARDIAN_IDs[cardId];
-        default:
-            console.log("Cannot determine idCard: " + jsxCard.id);
+    if (ITEM_IDs[cardId]) {
+        return ITEM_IDs[cardId]
+    } else if (ARTIFACT_IDs[cardId]) {
+        return ARTIFACT_IDs[cardId]
+    } else if (GUARDIAN_IDs[cardId]) {
+        return GUARDIAN_IDs[cardId]
+    } else {
+        console.log("Unhable to get IdCard for: " + jsxCard.id);
     }
 }

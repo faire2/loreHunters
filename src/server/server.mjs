@@ -193,6 +193,7 @@ app.get('/*', function (req, res) {
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
 
+// todo was not working
 function handleIncomes(playerState) {
     for (let effect of playerState.incomes) {
         switch (effect) {

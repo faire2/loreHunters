@@ -23,17 +23,18 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         for (let effect of effects) {
             console.log("Resolving effect: " + effect);
             switch (effect) {
-                /*case EFFECT.refreshAdventurer:
-                case EFFECT.refreshAllAdventurers:*/
+                case EFFECT.activateOccupiedLocation:
                 case EFFECT.buyItemWithDiscount3:
                 case EFFECT.defeatGuardian:
                 case EFFECT.destroyCard:
                 case EFFECT.destroyGuardian:
                 case EFFECT.drawFromDiscard:
-                case EFFECT.gainItemToHand:
                 case EFFECT.gainArtifact:
-                case EFFECT.payTouseOccupiedLocation:
+                case EFFECT.gainItemToHand:
                 case EFFECT.gainResourceFromAdjacent:
+                case EFFECT.payTouseOccupiedLocation:
+                case EFFECT.progressWithJewel:
+                case EFFECT.progressWithTextsOrWeapon:
                 case EFFECT.removeGuardian:
                 case EFFECT.uptrade:
                 case EFFECT.useItemOnMarket:
@@ -48,9 +49,15 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.moveAdvToEmptyLocation:
-                    tActiveEffects.push(EFFECT.return);
-                    tActiveEffects.push(effect);
+                    tActiveEffects.push(EFFECT.removeAdventurer);
+                    tActiveEffects.push(EFFECT.moveAdvToEmptyLocation);
                     break;
+
+                case EFFECT. moveAdvToEmptyAdjacentLocation:
+                    tActiveEffects.push(EFFECT.removeAdventurer);
+                    tActiveEffects.push(EFFECT.moveAdvToEmptyAdjacentLocation);
+                    break;
+
 
                 case EFFECT.discard:
                     let tEffects = [...effects];
@@ -63,6 +70,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     if (tCard.type === CARD_TYPE.guardian) {
                         tCard.points = tCard.cost;  /* victory points for defeating guardian are stored in costs */
                         tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                        tPlayerState.destroyedCards[tPlayerState.destroyedCards.length - 1].state = CARD_STATE.defeatedGuardian;
                         tPlayerState.destroyedCards[tPlayerState.destroyedCards.length - 1].state = CARD_STATE.defeatedGuardian;
                     }
                     break;
@@ -86,12 +94,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState = drawCards(2, tPlayerState);
                     break;
 
-                case EFFECT.drawFromDrawDeck:
+                case EFFECT.drawFromDrawDeckOrDiscard:
                     tActiveEffects.push(effect);
-                    tPlayerState.hand.splice(cardIndex, 1);
                     /* hand is stored in activeEffects to be retrieved later */
                     tActiveEffects.splice(1, 0, tPlayerState.hand);
-                    tPlayerState.hand = tPlayerState.drawDeck;
+                    tPlayerState.hand = [...tPlayerState.drawDeck, ...tPlayerState.discardDeck];
                     break;
 
                 case EFFECT.draw2ForGuardian:
@@ -118,9 +125,38 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
+                case EFFECT.gainDiscoveryBonus:
+                    tActiveEffects.push(effect);
+                    /* hand is stored in activeEffects to be retrieved later */
+                    tActiveEffects.splice(1, 0, tPlayerState.hand);
+                    let newHand = [];
+                    for (let card of tPlayerState.destroyedCards) {
+                        if (card.state === CARD_STATE.defeatedGuardian) {
+                            newHand.push(card);
+                        }
+                    }
+                    tPlayerState.hand = newHand;
+                    break;
+
+
                 case EFFECT.incomeAdventurer:
                     tPlayerState.availableAdventurers += 1;
-                    tPlayerState.incomes.push(EFFECT.gainAdventurerForThisRound);
+                    tPlayerState.incomes.push(EFFECT.incomeAdventurer);
+                    break;
+
+                case EFFECT.incomeCard:
+                    effects.push(EFFECT.draw1);
+                    tPlayerState.incomes.push(EFFECT.incomeCard);
+                    break;
+
+                case EFFECT.incomeCoin:
+                    tPlayerState.resources.coins += 1;
+                    tPlayerState.incomes.push(EFFECT.incomeCoin);
+                    break;
+
+                case EFFECT.incomeText:
+                    tPlayerState.resources.texts += 1;
+                    tPlayerState.incomes.push(EFFECT.incomeText);
                     break;
 
                 case EFFECT.gainAdventurerForThisRound:
@@ -129,6 +165,19 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainCoin:
                     tPlayerState.resources.coins += 1;
+                    break;
+
+                case EFFECT.gainCoinsAndJewelForGuardianVP:
+                    tActiveEffects.push(effect);
+                    /* hand is stored in activeEffects to be retrieved later */
+                    tActiveEffects.splice(1, 0, tPlayerState.hand);
+                    let tempHand = [];
+                    for (let card of tPlayerState.destroyedCards) {
+                        if (card.state === CARD_STATE.defeatedGuardian) {
+                            tempHand.push(card);
+                        }
+                    }
+                    tPlayerState.hand = tempHand;
                     break;
 
                 case EFFECT.gainCoinForLegends:

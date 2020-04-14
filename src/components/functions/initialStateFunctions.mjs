@@ -72,7 +72,10 @@ export default function getInitialPlayerStates() {
         playerState.color = GLOBAL_VARS.playerColors[i];
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
-        initialCards.push(ITEM_IDs.grapplingHook)
+
+        const testCard = {...ARTIFACT_IDs.ritualDagger};
+        testCard.state = CARD_STATE.inHand;
+        initialCards.push(testCard);
         const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
         const hand = [];
         const drawDeck = [];

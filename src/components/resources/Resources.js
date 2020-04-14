@@ -17,11 +17,9 @@ export default function Resources(props) {
         float: "right",
         marginLeft: "1vw",
         marginTop: "30vw",
-        fontSize: "3.5vw"
+        fontSize: "3.5vw",
+        zIndex: 1,
     };
-
-    const iconSize = {
-    }
 
     return (
         <div style={style} className="d-flex flex-row">
@@ -52,19 +50,19 @@ export default function Resources(props) {
                 </div>
             </div>
             <div>
-                <div style={iconSize}>
+                <div>
                     <Walk/>
                     {/*{playerStateContext.playerState.resources.walk}*/}
                 </div>
-                <div style={iconSize}>
+                <div>
                     <Jeep/>
                     {playerStateContext.playerState.resources.jeep}
                 </div>
-                <div style={iconSize}>
+                <div>
                     <Ship/>
                     {playerStateContext.playerState.resources.ship}
                 </div>
-                <div style={iconSize}>
+                <div>
                     <Plane/>
                     {playerStateContext.playerState.resources.plane}
                 </div>

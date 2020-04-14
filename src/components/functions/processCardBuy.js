@@ -6,7 +6,6 @@ import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStore, tLocations) {
     const activeEffect = tPlayerState.activeEffects[0];
     const tActiveEffects = tPlayerState.activeEffects;
-
     /* Fishing Rod discount effect */
     if (activeEffect === EFFECT.revealItemBuyWithDiscount2) {
         card.cost = card.cost  >= 2 ? card.cost - 2 : 0;
@@ -31,7 +30,6 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     if (activeEffect === EFFECT.gainArtifact && card.type === CARD_TYPE.artifact) {
         card.cost = 0;
     }
-
     /* we check that we can buy the item */
     if (card.type === CARD_TYPE.item && card.cost <= tPlayerState.resources.coins) {
 
@@ -50,7 +48,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         if (activeEffect === EFFECT.gainItemToHand) {
             tPlayerState.hand.push(getIdCard(card));
         } else {
-            tPlayerState.discardDeck.push(getIdCard(card));
+            tPlayerState.activeCards.push(getIdCard(card));
         }
 
         tPlayerState.resources.coins -= card.cost;
@@ -59,10 +57,9 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         tStore.artifactsOffer.splice(cardIndex, 1);
         tStore = addCardToStore(card.type, tStore);
         card.state = CARD_STATE.discard;
-        tPlayerState.discardDeck.push(getIdCard(card));
+        tPlayerState.activeCards.push(getIdCard(card));
         tPlayerState.resources.explore -= card.cost;
         tPlayerState.actions -= 1;
-        console.log("HERE ");
 
         /* the artifact effect applies when artifact is bought */
         const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, null, null, null);

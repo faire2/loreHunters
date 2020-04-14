@@ -217,18 +217,18 @@ export const ITEM_IDs = Object.freeze({
 });
 
 export const ARTIFACT_IDs = Object.freeze({
-    golemShem: {
+    /*golemShem: {
         id: "golemShem",
         type: CARD_TYPE.artifact,
-    },
-    bookOfSecrets: {
+    },*/
+    /*bookOfSecrets: {
         id: "bookOfSecrets",
         type: CARD_TYPE.artifact,
-    },
-    chestOfWonders: {
+    },*/
+    /*chestOfWonders: {
         id: "chestOfWonders",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     mirrorShard: {
         id: "mirrorShard",
         type: CARD_TYPE.artifact,
@@ -241,14 +241,14 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "pathfinderStaff",
         type: CARD_TYPE.artifact,
     },
-    healingOrb: {
+    /*healingOrb: {
         id: "healingOrb",
         type: CARD_TYPE.artifact,
-    },
-    mysteriousTexts: {
+    },*/
+    /*mysteriousTexts: {
         id: "mysteriousTexts",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     cursedTreasure: {
         id: "cursedTreasure",
         type: CARD_TYPE.artifact,
@@ -257,16 +257,16 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "darkKnowledge",
         type: CARD_TYPE.artifact,
     },
-    goldenMask: {
+    baneBanisher: {
+        id: "baneBanisher",
+        type: CARD_TYPE.artifact,
+    },
+    /*goldenMask: {
         id: "goldenMask",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     warMask: {
         id: "warMask",
-        type: CARD_TYPE.artifact,
-    },
-    ritualDagger: {
-        id: "ritualDagger",
         type: CARD_TYPE.artifact,
     },
     ringOfLight: {
@@ -285,14 +285,14 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "inscribedBlade",
         type: CARD_TYPE.artifact,
     },
-    amuletOfCharm: {
+    /*amuletOfCharm: {
         id: "amuletOfCharm",
         type: CARD_TYPE.artifact,
     },
     drinkingHorn: {
         id: "drinkingHorn",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     ancientCipher: {
         id: "ancientCipher",
         type: CARD_TYPE.artifact,
@@ -301,7 +301,19 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "transmutation",
         type: CARD_TYPE.artifact,
     },
-    fearlessBlade: {
+    owlEyes: {
+        id: "owlEyes",
+        type: CARD_TYPE.artifact,
+    },
+    goldenMask: {
+        id: "goldenMask",
+        type: CARD_TYPE.artifact,
+    },
+    ritualDagger: {
+        id: "ritualDagger",
+        type: CARD_TYPE.artifact,
+    },
+   /* fearlessBlade: {
         id: "fearlessBlade",
         type: CARD_TYPE.artifact,
     },
@@ -316,7 +328,7 @@ export const ARTIFACT_IDs = Object.freeze({
     giantEgg: {
         id: "giantEgg",
         type: CARD_TYPE.artifact,
-    },
+    },*/
 });
 
 export const GUARDIAN_IDs = Object.freeze({

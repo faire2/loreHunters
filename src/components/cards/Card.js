@@ -7,27 +7,29 @@ import {ARTIFACTS, CARD_TRANSPORT, GUARDIANS, ITEMS} from "../../data/cards";
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
-import {Coin, Explore, Jeep, Plane, Ship, Walk} from "../Symbols";
+import {Coin, Explore, Guardian, Jeep, Plane, Ship, Walk} from "../Symbols";
+import {cloneDeep} from "lodash";
 
 export default function Card(props) {
-    let card;
+    let cardTemplate;
     let cardBackground;
     const cardType = props.card.type;
     if (cardType === CARD_TYPE.item || cardType === CARD_TYPE.basic) {
-        card = ITEMS[props.card.id];
+        cardTemplate = ITEMS[props.card.id];
         cardBackground = itemBgr;
     } else if (cardType === CARD_TYPE.artifact) {
-        card = ARTIFACTS[props.card.id]
+        cardTemplate = ARTIFACTS[props.card.id]
         cardBackground = artifactBgr;
     } else if (cardType === CARD_TYPE.guardian) {
-        card = GUARDIANS[props.card.id]
+        cardTemplate = GUARDIANS[props.card.id]
         cardBackground = guardianBgr;
     } else {
         console.log("Unable to process card type in Card.js: " + cardType);
     }
+    // prevents merge of two cards with same id
+    let card = cloneDeep(cardTemplate);
     card.state = props.card.state;
     card.type = cardType;
-
     let transport = [];
     for (let i = 0; i < card.transportAmount; i++) {
         switch (card.transport) {
@@ -136,7 +138,7 @@ export default function Card(props) {
         fontSize: card.transportAmount > 1 ? "1.6vw" : "2vw",
         width: "1.8vw",
         height: "1.8vw",
-}
+    }
 
     function handleClickOnEffect(effects, isTravel) {
         if (card.state !== CARD_STATE.inStore && boardStateContext.activeEffects.length === 0) {
@@ -154,12 +156,11 @@ export default function Card(props) {
         }
     }
 
-
     return (
         <div style={cardStyle} className="card" onClick={() => handleClickOnCard()}>
-            <CardTop itemTransport={card.itemTransport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
-                     discovery={guardianDiscoveryEffectDescription}
-                     discoveryEffect={isGuardian ? card.discoveryEffect : []}/>
+            <CardTop itemTransport={card.transport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
+                     discovery={guardianDiscoveryEffectDescription} isGuardian={isGuardian}
+                     cardTopEffect={isGuardian ? card.discoveryEffect : []}/>
             <TransportIcons transport={transport} style={transportStyle}/>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
             <Effects effectsText={effectsText} effects={card.effects} style={effectsStyle}
@@ -173,26 +174,29 @@ export default function Card(props) {
 
 
 const CardTop = (props) => {
-    let effects = props.discoveryEffect;
-    switch (props.itemTransport) {
-        case CARD_TRANSPORT.walk:
-            effects.push(EFFECT.gainWalk);
-            break;
-        case CARD_TRANSPORT.jeep:
-            effects.push(EFFECT.gainJeep);
-            break;
-        case CARD_TRANSPORT.ship:
-            effects.push(EFFECT.gainShip);
-            break;
-        case CARD_TRANSPORT.plane:
-        case CARD_TRANSPORT.artifact:
-            effects.push(EFFECT.gainPlane);
-            break;
-        case CARD_TRANSPORT.empty:
-        case CARD_TRANSPORT.guardian:
-            break;
-        default:
-            console.log("Unknwown ITEM_TRANSPORT type in Card > Movement: " + props.itemTransport);
+    // component has either received guardian's discovery effect, or an empty array
+    let effects = props.cardTopEffect;
+    if (!props.isGuardian) {
+        switch (props.itemTransport) {
+            case CARD_TRANSPORT.walk:
+                effects.push(EFFECT.gainWalk);
+                break;
+            case CARD_TRANSPORT.jeep:
+                effects.push(EFFECT.gainJeep);
+                break;
+            case CARD_TRANSPORT.ship:
+                effects.push(EFFECT.gainShip);
+                break;
+            case CARD_TRANSPORT.plane:
+            case CARD_TRANSPORT.artifact:
+                effects.push(EFFECT.gainPlane);
+                break;
+            case CARD_TRANSPORT.empty:
+            case CARD_TRANSPORT.guardian:
+                break;
+            default:
+                console.log("Unknwown ITEM_TRANSPORT type in Card > Movement: " + props.itemTransport);
+        }
     }
     return (
         <div style={props.style} onClick={() => props.handleClickOnEffect(effects, true)}>
@@ -209,13 +213,13 @@ const Effects = (props) =>
 const Cost = (props) =>
     <div style={props.style}>
         {props.cost.map((icon, i) => {
-            const left = i * -1.5 + "vw";
-            return (
-                <div key={i} style={{marginLeft: left}}>
-                    {icon}
-                </div>
-            )
-        }
+                const left = i * -0.5 + "vw";
+                return (
+                    <div key={i} style={{marginLeft: left}}>
+                        {icon}
+                    </div>
+                )
+            }
         )}
     </div>;
 

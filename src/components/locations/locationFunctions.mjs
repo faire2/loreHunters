@@ -1,6 +1,8 @@
-import {TRANSPORT_TYPE} from "../../data/locations";
+import {Locations, TRANSPORT_TYPE} from "../../data/locations";
 import {EFFECT} from "../../data/effects";
 import {LOCATION_LINE} from "../functions/initialStateFunctions";
+import {LOCATION_STATE} from "../../data/idLists";
+import {processEffects} from "../functions/processEffects";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
@@ -200,4 +202,28 @@ function checkNextLine(locationData, playerIndex, isFirst, isLast) {
         console.log("Unable to process line in checkPreviousLine: " + line);
     }
     return false;
+}
+
+export function areLinesAdjacent(line1, line2) {
+    const lineKeys = Object.keys(LOCATION_LINE);
+    const index1 = lineKeys.indexOf(line1);
+    const index2 = lineKeys.indexOf(line2);
+    return (Math.abs(index1 - index2) === 1);
+}
+
+export function resolveRelocation(locationLine, locationIndex, playerState, locations, store) {
+    const location = locations[locationLine][locationIndex];
+    location.state = LOCATION_STATE.occupied;
+    location.owner = playerState.playerIndex;
+    const effectsResult = processEffects(null, null, playerState, Locations[location.id].effects,
+        null, store, location, locations, null);
+    return {playerState: effectsResult.tPlayerState, locations: effectsResult.tLocations, store: effectsResult.tStore}
+}
+
+export function getLocationIndex(locationLine, locationId) {
+    for (let i = 0; i < locationLine.length; i++) {
+        if (locationLine[i].id === locationId) {
+            return i
+        }
+    }
 }

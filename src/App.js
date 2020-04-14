@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
-import Resources from "./components/resources/Resources";
+import Resources, {RESOURCES} from "./components/resources/Resources";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
 import {emptyPlayerState} from "./components/functions/initialStateFunctions";
@@ -22,6 +22,8 @@ import {BonusActions} from "./components/bonuses/Bonuses";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
 import {getPositionInLocationLine} from "./components/locations/locationFunctions";
 import {GUARDIANS} from "./data/cards";
+import {Legends} from "./data/legends";
+import {getDiscountForProgress} from "./components/legends/legendsFunctions";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -78,26 +80,24 @@ function App() {
         if (isActivePlayer && (!costsAction || playerState.actions > 0)) {
             if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
                 (tCard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
+                if (tCard.state === CARD_STATE.inHand) {
+                    /* we push the played card the active cards area... */
+                    tPlayerState.activeCards.push(tCard);
+                    tCard.state = CARD_STATE.active
+                    /* ...and remove it from the hand */
+                    tPlayerState.hand.splice(cardIndex, 1);
+                }
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
-
                 tPlayerState = effectsResult.tPlayerState;
-                if (tCard.type !== CARD_TYPE.basic && costsAction) {
+                if (tCard.type !== CARD_TYPE.basic && costsAction && effectsResult.processedAllEffects) {
                     tPlayerState.actions -= 1;
                 }
                 tStore = effectsResult.tStore;
-                if (tCard.state === CARD_STATE.inHand) {
-                /* we push the played card the active cards area... */
-                tPlayerState.activeCards.push(tCard);
-                tCard.state = CARD_STATE.active
-                /* ...and remove it from the hand */
-                tPlayerState.hand.splice(cardIndex, 1);
-                }
 
                 /* if the card is an artifact and effect is not a transport, pay for the use */
                 if (tCard.type === CARD_TYPE.artifact && costsAction) {
                     tPlayerState.resources.texts -= 1;
                 }
-
                 setPlayerState(tPlayerState);
                 setStore(tStore);
             }
@@ -143,7 +143,7 @@ function App() {
                                     {effects: guardian.discoveryEffect, effectsText: guardian.discoveryText}]);
                                 // guardian is moved to player's discard
                                 tPlayerState.discardDeck.push(store.guardians[0]);
-                                tPlayerState.discardDeck[tPlayerState.discardDeck.length -1].state = CARD_STATE.discard;
+                                tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
                                 store.guardians.splice(0, 1);
 
                                 setShowRewardsModal(true);
@@ -155,7 +155,7 @@ function App() {
                     LOCATION_STATE.explored
                     :
                         const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
-                        if (travelCheckResults.enoughResources && tPlayerState.actions > 0) {
+                        if (travelCheckResults.enoughResources && tPlayerState.actions > 0 && tPlayerState.availableAdventurers > 0) {
                             tPlayerState = travelCheckResults.tPlayerState;
                             tPlayerState.availableAdventurers -= 1;
                             tPlayerState.actions -= 1;
@@ -198,10 +198,34 @@ function App() {
     }
 
     /** HANDLE CLICK ON LEGEND **/
-    function handleClickOnLegend(effectsResult) {
-                setPlayerState(effectsResult.tPlayerState);
-                setLocations(effectsResult.tLocations);
-                setStore(effectsResult.tStore);
+    function handleClickOnLegend(legendIndex, legendFieldIndex) {
+        if (isActivePlayer && playerState.actions > 0) {
+            let effects = Legends[legends[legendIndex].id].effects[legendFieldIndex];
+            const playerIndex = playerState.playerIndex;
+            const legend = legends[legendIndex];
+            // check that it is first field or that player has adventurer token on previous field
+            if (legendFieldIndex === 0 || legend.positions[playerIndex] === legendFieldIndex - 1) {
+                const activeEffect = playerState.activeEffects[0];
+                if (activeEffect === EFFECT.progressWithTexts || activeEffect === EFFECT.progressWithWeapon
+                    || activeEffect === EFFECT.progressWithJewel) {
+                    effects = getDiscountForProgress(effects, activeEffect);
+                }
+                let effectsResult = processEffects(null, null, playerState, effects,
+                    null, store, null, locations, null);
+                if (effectsResult.processedAllEffects) {
+                    if (legend.positions[playerIndex] !== null) {
+                        legend.positions[playerIndex] += 1;
+                    } else {
+                        legend.positions[playerIndex] = 0;
+                    }
+                    effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
+                    setLegends(legends);
+                    setPlayerState(effectsResult.tPlayerState);
+                    setLocations(effectsResult.tLocations);
+                    setStore(effectsResult.tStore);
+                }
+            }
+        }
     }
 
     /** HANDLE ACTIVE EFFECTS **/
@@ -221,34 +245,33 @@ function App() {
     /** HANDLE CLICK ON RESOURCE **/
     function handleClickOnResource(resource) {
         if (isActivePlayer) {
-            console.log("Handling click on resources with resource: " + resource);
+            console.log("Handling click on resource: " + resource);
             if (playerState.activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
                 const tPlayerState = cloneDeep(playerState);
                 let resources = tPlayerState.resources;
                 const tActiveEffects = tPlayerState.activeEffects;
-                /* todo fix should work with RESOURCES..., but doesn't */
-                switch (resource) {
-                    case "texts":
-                        resources.texts -= 1;
-                        resources.weapons += 1;
-                        break;
-                    case "weapons":
-                        resources.weapons -= 1;
-                        resources.jewels += 1;
-                        break;
-                    case "jewels":
-                        resources.jewels -= 1;
-                        resources.shinies += 1;
-                        break;
-                    case "shinies":
-                        console.log("HERE");
-                        resources.shinies -= 1;
-                        resources.texts += 3;
-                        break;
-                    default:
-                        console.log("Unknown resource in handleClickOnResource: " + resource);
+                if (resource === RESOURCES.TEXTS) {
+                    resources.texts -= 1;
+                    resources.weapons += 1;
+                } else if (resource === RESOURCES.WEAPONS) {
+                    resources.weapons -= 1;
+                    resources.jewels += 1;
+                } else if (resource === RESOURCES.JEWELS) {
+                    resources.jewels -= 1;
+                    resources.texts += 3;
+                } else {
+                    console.log("Unknown resource in handleClickOnResource: " + resource);
                 }
                 tActiveEffects.splice(0, 1);
+                setPlayerState(tPlayerState);
+            } else if (playerState.activeEffects[0] === EFFECT.progressWithTextsOrWeapon
+                && (resource === RESOURCES.TEXTS || resource === RESOURCES.WEAPONS)) {
+                const tPlayerState = cloneDeep(playerState);
+                if (resource === RESOURCES.TEXTS) {
+                    tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithTexts);
+                } else {
+                    tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithWeapon);
+                }
                 setPlayerState(tPlayerState);
             }
         }
@@ -263,6 +286,10 @@ function App() {
                     cloneDeep(store), {...locations});
                 const tPlayerState = buyResult.tPlayerState;
                 const tStore = buyResult.tStore;
+                if (card.type === CARD_TYPE.artifact && card.isGuarded) {
+                    tPlayerState.discard.push(store.guardians[0]);
+                    tStore.guardians.splice(0, 1);
+                }
 
                 setPlayerState(cloneDeep(tPlayerState));
                 setStore(tStore);

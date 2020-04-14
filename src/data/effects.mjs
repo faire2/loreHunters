@@ -1,4 +1,5 @@
 export const EFFECT = Object.freeze({
+    activateOccupiedLocation: "activate occupied locaiton",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
     defeatGuardian: "defeat a guardian in play area or discard pile",
     defeatThisGuardian: "defeat this guardian card",
@@ -6,11 +7,15 @@ export const EFFECT = Object.freeze({
     destroyGuardian: "destroy a guardian",
     destroyThisCard: "destroy this card",
     destroyThisCardToDefeatAGuardan: "destroy this card to defeat a guardian",
+    progressWithTexts: "progress in a legend with a discount of two Texts",
+    progressWithWeapon: "progress in a legend with a discount of one Weapon",
+    progressWithJewel: "progress in a legend with a discount of one Jewel",
+    progressWithTextsOrWeapon: "click on Weapon or Text to pick you discount",
     draw1: "draw a card",
     draw2: "draws 2 cards", // todo item change to draw1
     draw2ForGuardian: "draw 2 cards if you have a guardian in hand",
     drawFromDiscard: "draw a card from your discard pile",
-    drawFromDrawDeck: "draw a card from your draw deck",
+    drawFromDrawDeckOrDiscard: "draw a card from your draw deck or discard",
     discard: "discard a card", // todo items: should be enforced
     exploreLocationWithDiscount2: "explore location with discount of 2 explore, do not gain a guardian ",
     firstGainsCoin: "first player that reaches this tile of legend gets a coin",
@@ -23,11 +28,13 @@ export const EFFECT = Object.freeze({
     gainCoin: "gain a coin",
     gainCoinForLegends: "gain a coin for each legend",
     gainCoinForGuardians: "gain a coin for each destroyed Guardian (max. 4)",
+    gainCoinsAndJewelForGuardianVP: "gain a jewel and coins for VP of a defeated guardian",
     gainCoinsIfLast: "if this was last card, gain 2 coins",
     gainExpeditionCard: "gain an expedition card",
     gainExplore: "gain an explore",
     gainExploreForShinys: "gain an explore for each shinies (max. 4)",
     gainExploreForGuardians: "gain an explore for each guardian in you play area",
+    gainDiscoveryBonus: "gain guardian's discovery bonus",
     gainFear: "gain a fear card",
     gainItem: "gain an item", // todo implement
     gainItemToHand: "gain an item to your hand",
@@ -59,11 +66,13 @@ export const EFFECT = Object.freeze({
     losePlane: "lose a plane",
     markOwnLocation: "mark location for adjacency / non-identity check",
     moveAdvToEmptyLocation: "move deployed adventurer to a different empty tLocation",
-    moveToAdjacentLocation: "move deployed adventurer to an adjacent tLocation", // todo implement
+    moveAdvToEmptyAdjacentLocation: "move deployed adventurer to an adjacent tLocation",
     progress: "progress in a legend",
     refreshAdventurer: "refresh an adventurer", // todo legend implement
     refreshAllAdventurers: "refresh all your adventurers", // todo legend implement
     removeGuardian: "remove a guardian from play",
+    // used with effects moving adventurer to another location as step one effect
+    removeAdventurer: "remove adventurer",
     revealArtifactBuyWithDiscount2: "buy and artifact with a discount",
     revealItemBuyWithDiscount2: "buy an item with discount",
     return: "return adventurer from tLocation",
