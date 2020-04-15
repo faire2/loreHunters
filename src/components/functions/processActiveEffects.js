@@ -331,7 +331,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-        case EFFECT.payTouseOccupiedLocation:
+        case EFFECT.payToUseOccupiedLocation:
             if (tLocation.state === LOCATION_STATE.occupied && tPlayerState.resources.coins > 0) {
                 const effectsResult = processEffects(null, cardIndex, tPlayerState, tLocation.effects, tActiveEffects,
                     tStore, tLocation, tLocations);

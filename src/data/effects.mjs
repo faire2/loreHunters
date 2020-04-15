@@ -1,5 +1,6 @@
 export const EFFECT = Object.freeze({
-    activateOccupiedLocation: "activate occupied locaiton",
+    activateOccupiedLocation: "activate occupied location",
+    addExpeditionCard: "add an expedition card",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
     defeatGuardian: "defeat a guardian in play area or discard pile",
     defeatThisGuardian: "defeat this guardian card",
@@ -76,7 +77,7 @@ export const EFFECT = Object.freeze({
     revealArtifactBuyWithDiscount2: "buy and artifact with a discount",
     revealItemBuyWithDiscount2: "buy an item with discount",
     return: "return adventurer from tLocation",
-    payTouseOccupiedLocation: "use an occupied location",
+    payToUseOccupiedLocation: "use an occupied location",
     useItemOnMarket: "use effect of an item on the market",
     useArtifactOnMarket: "use effect of an artifact on the market",
     useOpponentsLocation: "use a (II) location occupied by an opponent", //todo implement

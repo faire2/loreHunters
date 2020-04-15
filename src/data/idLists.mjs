@@ -30,7 +30,8 @@ export const CARD_TYPE = Object.freeze({
     item: "item",
     artifact: "artifact",
     basic: "basic",
-    guardian: "guardian"
+    guardian: "guardian",
+    expedition: "expedition"
 });
 
 export const ITEM_IDs = Object.freeze({

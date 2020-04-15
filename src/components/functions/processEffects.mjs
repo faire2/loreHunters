@@ -32,7 +32,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.gainArtifact:
                 case EFFECT.gainItemToHand:
                 case EFFECT.gainResourceFromAdjacent:
-                case EFFECT.payTouseOccupiedLocation:
+                case EFFECT.payToUseOccupiedLocation:
                 case EFFECT.progressWithJewel:
                 case EFFECT.progressWithTextsOrWeapon:
                 case EFFECT.removeGuardian:
