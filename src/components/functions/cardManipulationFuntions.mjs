@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep.js';
-import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
+import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, EXPEDITIONS_IDs, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
 import {shuffleArray} from "./initialStateFunctions.mjs";
 
 export function addCardToHand(card, origPlayerState) {
@@ -115,7 +115,9 @@ export function getIdCard(jsxCard) {
     } else if (ARTIFACT_IDs[cardId]) {
         return ARTIFACT_IDs[cardId]
     } else if (GUARDIAN_IDs[cardId]) {
-        return GUARDIAN_IDs[cardId]
+        return GUARDIAN_IDs[cardId]}
+    else if (EXPEDITIONS_IDs[cardId]) {
+        return EXPEDITIONS_IDs[cardId]
     } else {
         console.log("Unhable to get IdCard for: " + jsxCard.id);
     }

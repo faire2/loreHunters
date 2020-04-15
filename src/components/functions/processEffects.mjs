@@ -29,6 +29,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.destroyCard:
                 case EFFECT.destroyGuardian:
                 case EFFECT.drawFromDiscard:
+                case EFFECT.gainExpeditionCard:
                 case EFFECT.gainArtifact:
                 case EFFECT.gainItemToHand:
                 case EFFECT.gainResourceFromAdjacent:
@@ -69,9 +70,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.defeatThisGuardian:
                     if (tCard.type === CARD_TYPE.guardian) {
                         tCard.points = tCard.cost;  /* victory points for defeating guardian are stored in costs */
+                        tPlayerState.victoryCards.push(tCard);
                         tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
-                        tPlayerState.destroyedCards[tPlayerState.destroyedCards.length - 1].state = CARD_STATE.defeatedGuardian;
-                        tPlayerState.destroyedCards[tPlayerState.destroyedCards.length - 1].state = CARD_STATE.defeatedGuardian;
+                        tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                     }
                     break;
 
@@ -131,7 +132,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tActiveEffects.splice(1, 0, tPlayerState.hand);
                     let newHand = [];
                     for (let card of tPlayerState.destroyedCards) {
-                        if (card.state === CARD_STATE.defeatedGuardian) {
+                        if (card.state === CARD_STATE.victoryCards) {
                             newHand.push(card);
                         }
                     }
@@ -173,7 +174,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tActiveEffects.splice(1, 0, tPlayerState.hand);
                     let tempHand = [];
                     for (let card of tPlayerState.destroyedCards) {
-                        if (card.state === CARD_STATE.defeatedGuardian) {
+                        if (card.state === CARD_STATE.victoryCards) {
                             tempHand.push(card);
                         }
                     }

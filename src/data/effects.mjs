@@ -1,6 +1,5 @@
 export const EFFECT = Object.freeze({
     activateOccupiedLocation: "activate occupied location",
-    addExpeditionCard: "add an expedition card",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
     defeatGuardian: "defeat a guardian in play area or discard pile",
     defeatThisGuardian: "defeat this guardian card",

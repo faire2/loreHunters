@@ -2,11 +2,12 @@ import React, {useContext} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
-import {ARTIFACTS, CARD_TRANSPORT, GUARDIANS, ITEMS} from "../../data/cards";
+import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, GUARDIANS, ITEMS} from "../../data/cards";
 
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
+import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
 import {Coin, Explore, Guardian, Jeep, Plane, Ship, Walk} from "../Symbols";
 import {cloneDeep} from "lodash";
 
@@ -23,6 +24,9 @@ export default function Card(props) {
     } else if (cardType === CARD_TYPE.guardian) {
         cardTemplate = GUARDIANS[props.card.id]
         cardBackground = guardianBgr;
+    } else if (cardType === CARD_TYPE.expedition) {
+        cardTemplate = EXPEDITIONS[props.card.id];
+        cardBackground = expeditionBgr;
     } else {
         console.log("Unable to process card type in Card.js: " + cardType);
     }
@@ -85,14 +89,13 @@ export default function Card(props) {
         visibility: isGuardian ? "true" : "false",
         right: 0,
         marginTop: isGuardian ? 5 : 0,
-        fontSize: 1,
         cursor: isPointer,
         width: isGuardian ? "" : "100%",
         height: isGuardian ? "" : "10%",
     };
 
     const cardNameStyle = {
-        fontSize: "35%",
+        fontSize: "1vw",
         marginTop: isGuardian ? "58%" : "1.3vw",
     };
 
@@ -100,7 +103,8 @@ export default function Card(props) {
         position: "relative",
         marginTop: isGuardian ? "35%" : "8vw",
         cursor: isPointer,
-        fontSize: "1.1vw"
+        fontSize: "1.1vw",
+        width: "14vw"
     };
 
     const costStyle = {

@@ -1,3 +1,5 @@
+import React from "react";
+
 export const LOCATION_LEVEL = Object.freeze({
     1: "I",
     2: "II",
@@ -19,7 +21,7 @@ export const LOCATION_TYPE = Object.freeze({
 export const CARD_STATE = Object.freeze({
     active: "active card",
     destroyed: "destroyed card",
-    defeatedGuardian: "defeated guardian",
+    victoryCards: "card is among victory cards",
     discard: "card is discarded",
     drawDeck: "card in draw deck",
     inHand: "card is in hand",
@@ -405,6 +407,61 @@ export const GUARDIAN_IDs = Object.freeze({
         id: "crabmanHermit",
         type: CARD_TYPE.guardian,
     },
+});
+
+export const EXPEDITIONS_IDs = Object.freeze({
+    hiddenGems: {
+        id: "hiddenGems",
+        type: CARD_TYPE.expedition,
+    },
+    secretPaths: {
+        id: "secretPaths",
+        type: CARD_TYPE.expedition,
+    },
+    rareFinds: {
+        id: "rareFinds",
+        type: CARD_TYPE.expedition,
+    },
+    fullyEquipped: {
+        id: "fullyEquipped",
+        type: CARD_TYPE.expedition,
+    },
+    trophyHunter: {
+        id: "trophyHunter",
+        type: CARD_TYPE.expedition,
+    },
+    trustedGear: {
+        id: "trustedGear",
+        type: CARD_TYPE.expedition,
+    },
+    collector: {
+        id: "collector",
+        type: CARD_TYPE.expedition,
+    },
+    cartographer: {
+        id: "cartographer",
+        type: CARD_TYPE.expedition,
+    },
+    fearless: {
+        id: "fearless",
+        type: CARD_TYPE.expedition,
+    },
+    beyondBasics: {
+        id: "beyondBasics",
+        type: CARD_TYPE.expedition,
+    },
+    quantityAboveAll: {
+        id: "quantityAboveAll",
+        type: CARD_TYPE.expedition,
+    },
+    belongsToTheMuseum: {
+        id: "belongsToTheMuseum",
+        type: CARD_TYPE.expedition,
+    },
+    secondHandEquipment: {
+        id: "secondHandEquipment",
+        type: CARD_TYPE.expedition,
+    }
 });
 
 /* Generating locations assigns them new key / value: *line*: numberOfLine, in which is the location displayed */

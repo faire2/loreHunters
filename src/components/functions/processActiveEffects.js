@@ -62,7 +62,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             if (tCard.type === CARD_TYPE.guardian) {
                 tCard.points = tCard.cost;  /* victory points for defeating guardian are stored in costs */
                 tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
-                tPlayerState.destroyedCards[tPlayerState.destroyedCards.length - 1].state = CARD_STATE.defeatedGuardian;
+                tPlayerState.destroyedCards[tPlayerState.destroyedCards.length - 1].state = CARD_STATE.victoryCards;
                 tActiveEffects.splice(0, 1);
             }
             break;

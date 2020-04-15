@@ -24,6 +24,7 @@ import {getPositionInLocationLine} from "./components/locations/locationFunction
 import {GUARDIANS} from "./data/cards";
 import {Legends} from "./data/legends";
 import {getDiscountForProgress} from "./components/legends/legendsFunctions";
+import ChooseExpeditionModal from "./components/legends/ChooseExpeditionModal";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -37,6 +38,9 @@ function App() {
     const [showRewardsModal, setShowRewardsModal] = useState(false);
     const [rewardsModalData, setRewardsModalData] = useState([]
     );
+
+    const [showChooseExpeditionModal, setShowChooseExpeditionModal] = useState(false);
+    const [chooseExpeditionModalData, setChooseExpeditionModalData] = useState([]);
 
 
     useEffect(() => {
@@ -186,6 +190,18 @@ function App() {
         }
     }
 
+    /** HANDLE MODAL EXPLORE **/
+    function handleLocationExploredReward(effects) {
+        const effectsResult = processEffects(null, null, cloneDeep(playerState), effects,
+            null, cloneDeep(store), null, cloneDeep(locations));
+        /* costs are only coins and explore => we only need to update playerState */
+        setPlayerState(effectsResult.tPlayerState);
+        setLocations(effectsResult.tLocations);
+        setStore(effectsResult.tStore);
+        setShowRewardsModal(false);
+    }
+
+
     /** HANDLE BONUS **/
     function handleClickOnBonusAction(effects) {
         if (isActivePlayer) {
@@ -219,13 +235,29 @@ function App() {
                         legend.positions[playerIndex] = 0;
                     }
                     effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
-                    setLegends(legends);
+                    if (effectsResult.tPlayerState.activeEffects[0] === EFFECT.gainExpeditionCard) {
+                        const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
+                        store.expeditions.splice(0, 2);
+                        setChooseExpeditionModalData(expeditionsArr);
+                        setShowChooseExpeditionModal(true);
+                        effectsResult.tPlayerState.activeEffects.splice(0, 1);
+                    }
                     setPlayerState(effectsResult.tPlayerState);
                     setLocations(effectsResult.tLocations);
+                    setLegends(legends);
                     setStore(effectsResult.tStore);
                 }
             }
         }
+    }
+
+    /** HANDLE EXPEDITION MODAL REWARD **/
+    function handleExpeditionReward(expeditionIdCard) {
+        setShowChooseExpeditionModal(false);
+        setChooseExpeditionModalData([]);
+        let tPlayerState = cloneDeep(playerState);
+        tPlayerState.victoryCards.push(expeditionIdCard);
+        setPlayerState(tPlayerState)
     }
 
     /** HANDLE ACTIVE EFFECTS **/
@@ -300,18 +332,6 @@ function App() {
     function cancelEffect(effect) {
     }
 
-    /** HANDLE MODAL REWARD EXPLORE **/
-    function handleLocationExploredReward(effects) {
-        const effectsResult = processEffects(null, null, cloneDeep(playerState), effects,
-            null, cloneDeep(store), null, cloneDeep(locations));
-        /* costs are only coins and explore => we only need to update playerState */
-        let tPlayerState = effectsResult.tPlayerState;
-        setPlayerState(effectsResult.tPlayerState);
-        setLocations(effectsResult.tLocations);
-        setStore(effectsResult.tStore);
-        setShowRewardsModal(false);
-    }
-
     /** SET NEXT PLAYER **/
     function nextPlayer() {
         if (isActivePlayer) {
@@ -358,12 +378,15 @@ function App() {
                 activeEffects: playerState.activeEffects,
                 showModal: showRewardsModal,
                 modalData: rewardsModalData,
+                showChooseExpeditionModal: showChooseExpeditionModal,
+                chooseExpeditionModalData: chooseExpeditionModalData,
                 handleCardEffect: handleClickOnCardEffect,
                 handleCardBuy: handleCardBuy,
                 handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
                 handleClickOnLocation: handleClickOnLocation,
                 handleLocationExploredReward: handleLocationExploredReward,
                 handleClickOnLegend: handleClickOnLegend,
+                handleExpeditionReward: handleExpeditionReward,
             }}>
                 <PlayerStateContext.Provider value={{
                     playerState: playerState,
@@ -387,6 +410,7 @@ function App() {
                             <p>Wait for your turn...</p>}
                     </div>
                     <ChooseRewardModal/>
+                    <ChooseExpeditionModal/>
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

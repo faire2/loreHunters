@@ -10,6 +10,7 @@ import {
     LOCATION_STATE,
     LOCATION_TYPE
 } from "../../data/idLists.mjs";
+import {EXPEDITIONS_IDs} from "../../data/idLists.mjs";
 
 /* GLOBAL VARIABLES */
 export const GLOBAL_VARS = Object.freeze({
@@ -37,9 +38,9 @@ export const emptyPlayerState = Object.freeze({
     resources: {
         coins: 20,
         explore: 20,
-        texts: 2,
-        weapons: 0,
-        jewels: 0,
+        texts: 3,
+        weapons: 3,
+        jewels: 3,
         shinies: 20,
         walk: 0,
         jeep: 0,
@@ -59,6 +60,7 @@ export const emptyPlayerState = Object.freeze({
     hand: [],
     playedCards: [],
     playerIndex: null,
+    victoryCards: [],
 });
 
 
@@ -73,7 +75,7 @@ export default function getInitialPlayerStates() {
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
 
-        const testCard = {...ARTIFACT_IDs.ritualDagger};
+        const testCard = {...EXPEDITIONS_IDs.belongsToTheMuseum};
         testCard.state = CARD_STATE.inHand;
         initialCards.push(testCard);
         const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
@@ -108,15 +110,23 @@ export function getInitialStoreItems() {
     }));
     items = items.filter(card => card.type !== CARD_TYPE.basic);
 
-    /* array of artifacts */
+    /* artifacts */
     let artifacts = shuffleArray(Object.keys(ARTIFACT_IDs).map(key => {
         ARTIFACT_IDs[key].state = CARD_STATE.inStore;
         return ARTIFACT_IDs[key];
     }));
 
+    /* guardians */
     let guardians = [];
     for (let key in GUARDIAN_IDs) {
         guardians.push(GUARDIAN_IDs[key]);
+    }
+
+    /* expedition cards */
+    let expeditions = [];
+    for (let key in EXPEDITIONS_IDs) {
+        EXPEDITIONS_IDs[key].state = CARD_STATE.victoryCards;
+        expeditions.push(EXPEDITIONS_IDs[key]);
     }
 
     let itemsSetup = drawCards(items, GLOBAL_VARS.itemsInStore);
@@ -132,6 +142,7 @@ export function getInitialStoreItems() {
         itemsDeck: itemsSetup.deck,
         artifactsDeck: artifactSetup.deck,
         guardians: shuffleArray(guardians),
+        expeditions: shuffleArray(expeditions)
     }
 }
 
@@ -271,7 +282,7 @@ export function getInitialLegends() {
     for (let legend of legends) {
         legend.positions = [];
         for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
-            legend.positions.push(null);
+            legend.positions.push(2);
         }
     }
     return legends;
