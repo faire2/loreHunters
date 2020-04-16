@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
 import {GLOBAL_VARS} from "./initialStateFunctions";
+import {GUARDIAN_IDs} from "../../data/idLists";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations, originalLegend) {
@@ -69,8 +70,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.defeatThisGuardian:
                     if (tCard.type === CARD_TYPE.guardian) {
-                        tCard.points = tCard.cost;  /* victory points for defeating guardian are stored in costs */
-                        tPlayerState.victoryCards.push(tCard);
+                        tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
                         tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
                         tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                     }
@@ -245,7 +245,15 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.weapons += 1;
                     break;
 
-                case EFFECT.loseCoin:
+                case EFFECT.loseAdventurer:
+                    if (tPlayerState.availableAdventurers > 0) {
+                        tPlayerState.availableAdventurers -= 1;
+                    } else {
+                        processedAllEffects = false;
+                        break;
+                    }
+
+                    case EFFECT.loseCoin:
                     if (tPlayerState.resources.coins > 0) {
                         tPlayerState.resources.coins -= 1;
                     } else {

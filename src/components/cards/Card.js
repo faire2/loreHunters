@@ -12,6 +12,7 @@ import {Coin, Explore, Guardian, Jeep, Plane, Ship, Walk} from "../Symbols";
 import {cloneDeep} from "lodash";
 
 export default function Card(props) {
+    /* get JSX card */
     let cardTemplate;
     let cardBackground;
     const cardType = props.card.type;
@@ -34,6 +35,8 @@ export default function Card(props) {
     let card = cloneDeep(cardTemplate);
     card.state = props.card.state;
     card.type = cardType;
+
+    /* get transports */
     let transport = [];
     for (let i = 0; i < card.transportAmount; i++) {
         switch (card.transport) {
@@ -56,7 +59,7 @@ export default function Card(props) {
         }
     }
 
-    /* generation of cost through repeating icons*/
+    /* get card cost */
     let cost = [];
     let unit = null;
     if (cardType === CARD_TYPE.item) {
@@ -84,27 +87,54 @@ export default function Card(props) {
         backgroundSize: "cover"
     };
 
+    /* used as clickable area for playing transport */
     const cardTopStyle = {
         position: "absolute",
-        visibility: isGuardian ? "true" : "false",
         right: 0,
-        marginTop: isGuardian ? 5 : 0,
         cursor: isPointer,
-        width: isGuardian ? "" : "100%",
-        height: isGuardian ? "" : "10%",
+        width: "100%",
+        height: "25%",
+        zIndex: 1,
     };
+
+    const transportStyle = {
+        display: "flex",
+        flex: "auto",
+        alignItems: "center",
+        webkitJustifyContent: "center",
+        justifyContent: "center",
+        position: "absolute",
+        top: card.transportAmount > 1 ? "2.2vw" : "2vw",
+        left: card.transportAmount > 1 ? "0.9vw" : "1.2vw",
+        fontSize: card.transportAmount > 1 ? "1.6vw" : "2vw",
+        width: "1.8vw",
+        height: "1.8vw",
+    }
 
     const cardNameStyle = {
         fontSize: "1vw",
-        marginTop: isGuardian ? "58%" : "1.3vw",
+        marginTop: "1.3vw",
     };
 
     const effectsStyle = {
-        position: "relative",
-        marginTop: isGuardian ? "35%" : "8vw",
+        position: "absolute",
+        marginTop: !isGuardian ? "11vw" : "12.55vw",
+        marginLeft: !isGuardian ? 0 : "1vw",
         cursor: isPointer,
-        fontSize: "1.1vw",
+        fontSize: "0.1vw",
         width: "14vw"
+    };
+
+    // todo: responsiveness depends on font size in Symbols.js
+    const discoveryEffectsStyle = {
+        position: "absolute",
+        top: "3.2vw",
+        display: "flex",
+        flexDirection: "column",
+        right: "0.8vw",
+        width: "1.2vw",
+        fontSize: "1.2vw",
+        height: "100%",
     };
 
     const costStyle = {
@@ -124,25 +154,10 @@ export default function Card(props) {
         display: "flex",
         alignItems: "center",
         right: "1.2vw",
-        visibility: isGuardian ? "hidden" : "visible",
         textShadow: "-1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF",
         fontSize: "3vw",
         height: "3.5vw",
     };
-
-    const transportStyle = {
-        display: "flex",
-        flex: "auto",
-        alignItems: "center",
-        webkitJustifyContent: "center",
-        justifyContent: "center",
-        position: "absolute",
-        top: card.transportAmount > 1 ? "2.2vw" : "2vw",
-        left: card.transportAmount > 1 ? "0.9vw" : "1.2vw",
-        fontSize: card.transportAmount > 1 ? "1.6vw" : "2vw",
-        width: "1.8vw",
-        height: "1.8vw",
-    }
 
     function handleClickOnEffect(effects, isTravel) {
         if (card.state !== CARD_STATE.inStore && boardStateContext.activeEffects.length === 0) {
@@ -163,12 +178,13 @@ export default function Card(props) {
     return (
         <div style={cardStyle} className="card" onClick={() => handleClickOnCard()}>
             <CardTop itemTransport={card.transport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
-                     discovery={guardianDiscoveryEffectDescription} isGuardian={isGuardian}
-                     cardTopEffect={isGuardian ? card.discoveryEffect : []}/>
+                     transportAmount={card.transportAmount}/>
             <TransportIcons transport={transport} style={transportStyle}/>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
             <Effects effectsText={effectsText} effects={card.effects} style={effectsStyle}
                      handleClickOnEffect={handleClickOnEffect}/>
+            {cardType === CARD_TYPE.guardian && <DiscoveryEffects style={discoveryEffectsStyle} discoveryText={card.discoveryText}
+                      discoveryText2={card.discoveryText2}/>}
             <Cost cost={cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
             <span style={{fontSize: 10, position: "absolute", top: 50, left: 40}}> {card.state} </span>
@@ -178,9 +194,8 @@ export default function Card(props) {
 
 
 const CardTop = (props) => {
-    // component has either received guardian's discovery effect, or an empty array
-    let effects = props.cardTopEffect;
-    if (!props.isGuardian) {
+    let effects = [];
+    for (let i = 0; i < props.transportAmount; i++) {
         switch (props.itemTransport) {
             case CARD_TRANSPORT.walk:
                 effects.push(EFFECT.gainWalk);
@@ -202,9 +217,9 @@ const CardTop = (props) => {
                 console.log("Unknwown ITEM_TRANSPORT type in Card > Movement: " + props.itemTransport);
         }
     }
+
     return (
         <div style={props.style} onClick={() => props.handleClickOnEffect(effects, true)}>
-            {props.discovery}
         </div>
     )
 };
@@ -213,6 +228,12 @@ const Effects = (props) =>
     <div style={props.style} onClick={() => props.handleClickOnEffect(props.effects, false)}>
         {props.effectsText}
     </div>;
+
+const DiscoveryEffects = (props) =>
+        <div style={props.style} >
+            {props.discoveryText}
+            <div style={{marginTop:"1.4vw"}}>{props.discoveryText2}</div>
+        </div>
 
 const Cost = (props) =>
     <div style={props.style}>

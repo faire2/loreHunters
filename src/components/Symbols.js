@@ -29,7 +29,6 @@ import victoryPoints from "../img/symbols/VP.png"
 
 const responsive = {
     height: "1em",
-
 }
 
 export const Coin = (props) => <img src={coin} alt="gain a coin" style={responsive}/>;

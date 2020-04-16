@@ -75,9 +75,9 @@ export default function getInitialPlayerStates() {
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
 
-        const testCard = {...EXPEDITIONS_IDs.belongsToTheMuseum};
+        /*const testCard = {...GUARDIAN_IDs.foxSpirit};
         testCard.state = CARD_STATE.inHand;
-        initialCards.push(testCard);
+        initialCards.push(testCard);*/
         const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
         const hand = [];
         const drawDeck = [];
