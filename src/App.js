@@ -16,7 +16,7 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/locations/LocationExplorationModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
-import {CARD_STATE, CARD_TYPE, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
+import {CARD_STATE, CARD_TYPE, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/Bonuses";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
@@ -141,10 +141,17 @@ function App() {
 
                                 setPlayerState(tPlayerState);
                                 setLocations(tLocations);
-                                const guardian = GUARDIANS[store.guardians[0].id];
                                 // player can choose between effect of location and discovery effect of next guardian
+                                const guardian = GUARDIANS[store.guardians[0].id];
+                                const locationLevel = LOCATION_IDs[location.id].level;
+                                // guardian effects are different when location level is 2 and 3
+                                const guardianText = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryTextRow :
+                                    <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>{guardian.discoveryTextRow}{guardian.discoveryTextRow2}</div>;
+                                const guardianEffects = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryEffect :
+                                    [...guardian.discoveryEffect, ...guardian.discoveryEffect2]
+
                                 setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
-                                    {effects: guardian.discoveryEffect, effectsText: guardian.discoveryText}]);
+                                    {effects: guardianEffects, effectsText: guardianText}]);
                                 // guardian is moved to player's discard
                                 tPlayerState.discardDeck.push(store.guardians[0]);
                                 tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
