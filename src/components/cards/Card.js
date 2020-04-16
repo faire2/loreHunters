@@ -134,7 +134,6 @@ export default function Card(props) {
         right: "0.8vw",
         width: "1.2vw",
         fontSize: "1.2vw",
-        height: "100%",
     };
 
     const costStyle = {
@@ -232,7 +231,7 @@ const Effects = (props) =>
 const DiscoveryEffects = (props) =>
         <div style={props.style} >
             {props.discoveryText}
-            <div style={{marginTop:"1.4vw"}}>{props.discoveryText2}</div>
+            <div style={{position: "absolute", marginTop:"5vw"}}>{props.discoveryText2}</div>
         </div>
 
 const Cost = (props) =>
