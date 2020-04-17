@@ -8,8 +8,9 @@ import itemBgr from "../../img/cardBackgrounds/Item.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
 import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
-import {Coin, Explore, Guardian, Jeep, Plane, Ship, Walk} from "../Symbols";
+import {AdventurerIcon, Coin, Discard, Explore, Guardian, Jeep, Plane, Ship, Walk, Weapon} from "../Symbols";
 import {cloneDeep} from "lodash";
+import {gainLockedResourceBack} from "../functions/processEffects";
 
 export default function Card(props) {
     /* get JSX card */
@@ -59,6 +60,37 @@ export default function Card(props) {
         }
     }
 
+    const lockText = card.type === CARD_TYPE.guardian ? card.lockText : null;
+    // If resources have already be locked, display their correct amount
+    let newLockText = [];
+    if (props.card.locked) {
+        for (let i = 0; i < props.card.locked.amount; i++) {
+            switch (props.card.locked.lockEffect) {
+                case (EFFECT.lockAdventurer):
+                    newLockText.push(<AdventurerIcon/>);
+                    break;
+                case (EFFECT.lockCard):
+                    newLockText.push(<Discard/>);
+                    break;
+                case (EFFECT.lockCoins):
+                    newLockText.push(<Coin/>)
+                    break;
+                case (EFFECT.lockExplores):
+                    newLockText.push(<Explore/>);
+                    break;
+                case (EFFECT.lockWeapons):
+                    newLockText.push(<Weapon/>);
+                    break;
+                default:
+                    console.log("Unable to process lock effect in Card.js: " + props.card.lockEffect);
+            }
+        }
+        newLockText = newLockText.map( (icon, i) =>
+        <div style={{fontSize: "1.8vw"}} key={i}>
+            {icon}
+        </div>)
+    }
+
     /* get card cost */
     let cost = [];
     let unit = null;
@@ -76,7 +108,6 @@ export default function Card(props) {
     const isGuardian = card.type === CARD_TYPE.guardian;
     const isPointer = card.state !== CARD_STATE.inStore ? "pointer" : "default";
     const effectsText = card.effectsText;
-    const guardianDiscoveryEffectDescription = isGuardian ? card.discoveryText : "";
 
     const cardStyle = {
         width: "15vw",
@@ -84,7 +115,9 @@ export default function Card(props) {
         margin: 5,
         position: "relative",
         backgroundImage: `url(${cardBackground}`,
-        backgroundSize: "cover"
+        backgroundSize: "cover",
+        marginLeft: card.state === CARD_STATE.locked ? "-5vw" : 0,
+        zIndex: card.state === CARD_STATE.locked ? -1 : 0
     };
 
     /* used as clickable area for playing transport */
@@ -121,7 +154,7 @@ export default function Card(props) {
         marginTop: !isGuardian ? "11vw" : "12.55vw",
         marginLeft: !isGuardian ? 0 : "1vw",
         cursor: isPointer,
-        fontSize: "0.1vw",
+        fontSize: "1.2vw",
         width: "14vw"
     };
 
@@ -141,14 +174,14 @@ export default function Card(props) {
         right: 0,
         marginLeft: "auto",
         marginRight: "auto",
-        top: "9.8vw",
+        top: "10.65vw",
         display: "flex",
         width: "1.2vw",
     };
 
     const costStyle = {
         display: "flex",
-        flexDirectio: "row",
+        flexDirection: "row",
         position: "absolute",
         bottom: "0.6vw",
         left: "6.5%",
@@ -169,7 +202,12 @@ export default function Card(props) {
     };
 
     function handleClickOnEffect(effects, isTravel) {
-        if (card.state !== CARD_STATE.inStore && boardStateContext.activeEffects.length === 0) {
+        if (card.state !== CARD_STATE.inStore && card.state !== CARD_STATE.locked && boardStateContext.activeEffects.length === 0) {
+            if (cardType === CARD_TYPE.guardian && props.card.locked) {
+                const lockEffect = props.card.locked.lockEffect;
+                const amount = props.card.locked.amount;
+                effects = gainLockedResourceBack(lockEffect, amount, effects)
+            }
             boardStateContext.handleCardEffect(effects, props.index, !(isTravel || cardType === CARD_TYPE.basic), card);
         }
     }
@@ -194,7 +232,8 @@ export default function Card(props) {
                      handleClickOnEffect={handleClickOnEffect}/>
             {cardType === CARD_TYPE.guardian && <DiscoveryEffects style={discoveryEffectsStyle} discoveryText={card.discoveryText}
                       discoveryText2={card.discoveryText2}/>}
-            {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle} lockText={card.lockText} />}
+            {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle}
+                     lockText={card.state === CARD_STATE.active ? newLockText : lockText} />}
             <Cost cost={cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
             <span style={{fontSize: 10, position: "absolute", top: 50, left: 40}}> {card.state} </span>

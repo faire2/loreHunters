@@ -55,7 +55,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tActiveEffects.push(EFFECT.moveAdvToEmptyLocation);
                     break;
 
-                case EFFECT. moveAdvToEmptyAdjacentLocation:
+                case EFFECT.moveAdvToEmptyAdjacentLocation:
                     tActiveEffects.push(EFFECT.removeAdventurer);
                     tActiveEffects.push(EFFECT.moveAdvToEmptyAdjacentLocation);
                     break;
@@ -250,10 +250,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         tPlayerState.availableAdventurers -= 1;
                     } else {
                         processedAllEffects = false;
-                        break;
                     }
+                    break;
 
-                    case EFFECT.loseCoin:
+                case EFFECT.loseCoin:
                     if (tPlayerState.resources.coins > 0) {
                         tPlayerState.resources.coins -= 1;
                     } else {
@@ -329,20 +329,36 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tStore = addCardToStore(CARD_TYPE.artifact, tStore);
                     break;
 
+                case EFFECT.unlockCard:
+                    let cardToUnlock = tPlayerState.activeCards[cardIndex];
+                    cardToUnlock.state = CARD_STATE.inHand;
+                    tPlayerState.hand.push(cardToUnlock);
+                    tPlayerState.activeCards.splice(cardIndex, 1);
+                    break;
+
                 default:
                     console.log("HandleCardEffect didn't recognize effect: " + effect);
                     console.log(effects);
             }
         }
     }
+
     if (!processedAllEffects) {
         console.log("Some effects could not be processed in processEffects");
         return {
-            tPlayerState: originalPlayersState, tStore: originalStore, tLocations: originalLocations, processedAllEffects: processedAllEffects
+            tPlayerState: originalPlayersState,
+            tStore: originalStore,
+            tLocations: originalLocations,
+            processedAllEffects: processedAllEffects
         }
     }
     tPlayerState.activeEffects = tActiveEffects;
-    return {tPlayerState: tPlayerState, tStore: tStore, tLocations: tLocations, processedAllEffects: processedAllEffects};
+    return {
+        tPlayerState: tPlayerState,
+        tStore: tStore,
+        tLocations: tLocations,
+        processedAllEffects: processedAllEffects
+    };
 }
 
 // checks it other players have already reached this position in the given legend
@@ -360,4 +376,37 @@ function wasPlayerFirst(legendPositions, thisPlayerPosition, thisPlayerIndex) {
     } else if (GLOBAL_VARS.numOfPlayers === 4) {
         return numberOfOtherPlayers <= 1
     }
+}
+
+export function gainLockedResourceBack(lockEffect, amount, effects) {
+    switch (lockEffect) {
+        case EFFECT.lockAdventurer:
+            if (amount === 1) {
+                effects.push(EFFECT.gainAdventurerForThisRound);
+            }
+            break;
+        case EFFECT.lockCard:
+            if (amount === 1) {
+                effects.push(EFFECT.unlockCard);
+            }
+            break;
+        case EFFECT.lockCoins:
+            for (let i = 0; i < amount; i++) {
+                effects.push(EFFECT.gainCoin);
+            }
+            break;
+        case EFFECT.lockExplores:
+            for (let i = 0; i < amount; i++) {
+                effects.push(EFFECT.gainExplore);
+            }
+            break;
+        case EFFECT.lockWeapons:
+            for (let i = 0; i < amount; i++) {
+                effects.push(EFFECT.gainWeapon);
+            }
+            break;
+        default:
+            console.log("Unable to process lockEffect in gainLockedResourceBack: " + lockEffect);
+    }
+    return effects;
 }

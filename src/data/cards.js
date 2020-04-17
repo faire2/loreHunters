@@ -26,9 +26,9 @@ import {
     VictoryPoints,
     Walk,
     Weapon
-} from "../components/Symbols";
+} from "../components/Symbols.js";
 import {EFFECT} from "./effects.mjs";
-import {CARD_TYPE} from "./idLists";
+import {CARD_TYPE} from "./idLists.mjs";
 
 
 export const CARD_TRANSPORT = Object.freeze({
@@ -41,6 +41,10 @@ export const CARD_TRANSPORT = Object.freeze({
 
 const bigIconsStyle = {
     fontSize: "2.5vw",
+}
+
+const lockEffectsStyle = {
+    fontSize: "1.8vw"
 }
 
 const columnStyle = {
@@ -960,8 +964,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={bigIconsStyle}><Text/><Coin/><Explore/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
-        lockText: <div><Explore/><Explore/></div>,
-        lockEffects: [EFFECT.loseExplore, EFFECT.loseExplore],
+        lockText: <div style={lockEffectsStyle}><Explore/><Explore/></div>,
         cost: null,
         points: 2
     },
@@ -978,8 +981,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
         discoveryTextRow: <div style={bigIconsStyle}><Coin/><Text/><Text/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Explore/><Text/></div>,
-        lockText: <div><Coin/><Coin/></div>,
-        lockEffects: [EFFECT.loseCoin, EFFECT.loseCoin],
+        lockText: <div style={lockEffectsStyle}><Coin/><Coin/></div>,
         cost: null,
         points: 1
     },
@@ -996,8 +998,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainWeapon],
         discoveryTextRow: <div style={bigIconsStyle}><Weapon/><Text/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Weapon/></div>,
-        lockText: <div><Coin/><Coin/></div>,
-        lockEffects: [EFFECT.loseCoin, EFFECT.loseCoin],
+        lockText: <div style={lockEffectsStyle}><Coin/><Coin/></div>,
         cost: null,
         points: 2
     },
@@ -1014,8 +1015,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainText],
         discoveryTextRow: <div style={bigIconsStyle}><Explore/><Weapon/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Text/></div>,
-        lockText: <div><AdventurerIcon/></div>,
-        lockEffects: [EFFECT.loseAdventurer],
+        lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
         cost: null,
         points: 3
     },
@@ -1032,8 +1032,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainWeapon],
         discoveryTextRow: <div style={bigIconsStyle}><Explore/><Text/><Text/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Weapon/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
     },
@@ -1050,8 +1049,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainExplore],
         discoveryTextRow: <div style={bigIconsStyle}><Explore/><Text/><Text/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Weapon/></div>,
-        lockText: <div><Explore/><Explore/></div>,
-        lockEffects: [EFFECT.loseExplore, EFFECT.loseExplore],
+        lockText: <div style={lockEffectsStyle}><Explore/><Explore/></div>,
         cost: null,
         points: 1
     },
@@ -1068,8 +1066,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainText],
         discoveryTextRow: <div style={bigIconsStyle}><Jewel/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Text/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
     },
@@ -1086,8 +1083,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={bigIconsStyle}><Text/><Weapon/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: -1
     },
@@ -1104,8 +1100,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={bigIconsStyle}><Coin/><Weapon/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
     },
@@ -1123,8 +1118,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
         discoveryTextRow: <div style={bigIconsStyle}><Jewel/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Explore/><Text/></div>,
-        lockText: <div><AdventurerIcon/></div>,
-        lockEffects: [EFFECT.loseAdventurer],
+        lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
         cost: null,
         points: 2
     },
@@ -1141,8 +1135,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainExplore],
         discoveryTextRow: <div style={bigIconsStyle}><Jewel/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Explore/></div>,
-        lockText: <div><Coin/><Coin/></div>,
-        lockEffects: [EFFECT.loseCoin, EFFECT.loseCoin],
+        lockText: <div style={lockEffectsStyle}><Coin/><Coin/></div>,
         cost: null,
         points: 1
     },
@@ -1159,8 +1152,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainWeapon],
         discoveryTextRow: <div style={bigIconsStyle}><Coin/><Weapon/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Weapon/></div>,
-        lockText: <div><AdventurerIcon/></div>,
-        lockEffects: [EFFECT.loseAdventurer],
+        lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
         cost: null,
         points: 2
     },
@@ -1177,8 +1169,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={bigIconsStyle}><Text/><Text/><Text/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
     },
@@ -1188,15 +1179,14 @@ export const GUARDIANS = Object.freeze({
         type: CARD_TYPE.guardian,
         effectsText:
             <div style={bigIconsStyle}><Coin/><Explore/></div>,
-        effects: [EFFECT.loseCoin, EFFECT.loseExplore],
+        effects: [EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
         discoveryText: <div style={columnStyle}><Explore/><Weapon/></div>,
         discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainExplore],
         discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={bigIconsStyle}><Explore/><Weapon/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 1
     },
@@ -1213,13 +1203,12 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
         discoveryTextRow: <div style={bigIconsStyle}><Coin/><Weapon/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Explore/><Text/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
     },
-    HeartOfForest: {
-        id: "HeartOfForest",
+    heartOfForest: {
+        id: "heartOfForest",
         cardName: "Heart of the Forest",
         type: CARD_TYPE.guardian,
         effectsText:
@@ -1231,8 +1220,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainText, EFFECT.gainText],
         discoveryTextRow: <div style={bigIconsStyle}><Coin/><Coin/><Explore/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Text/><Text/></div>,
-        lockText: <div><Weapon/><Weapon/></div>,
-        lockEffects: [EFFECT.loseWeapon, EFFECT.loseWeapon],
+        lockText: <div style={lockEffectsStyle}><Weapon/><Weapon/></div>,
         cost: null,
         points: 2
     },
@@ -1249,8 +1237,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainWeapon],
         discoveryTextRow: <div style={bigIconsStyle}><Coin/><Coin/><Coin/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Weapon/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
     },
@@ -1267,8 +1254,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={bigIconsStyle}><Jewel/></div>,
         discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
-        lockText: <div><Discard/></div>,
-        lockEffects: [EFFECT.discardRandom],
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
     },

@@ -1,7 +1,6 @@
 export const EFFECT = Object.freeze({
     activateOccupiedLocation: "activate occupied location",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
-    discardRandom: "discard a random card", //todo implement guardian
     defeatGuardian: "defeat a guardian in play area or discard pile",
     defeatThisGuardian: "defeat this guardian card",
     destroyCard: "pick a card to destroy",
@@ -56,6 +55,11 @@ export const EFFECT = Object.freeze({
     incomeCard: "gain a draw card income",
     incomeCoin: "gain a coin income",
     incomeText: "gain a text income",
+    lockAdventurer: "lock an adventurer",
+    lockCard: "discard a random card",
+    lockCoins: "lock two coins",
+    lockExplores: "lock two explores",
+    lockWeapons: "lock two weapons",
     loseAdventurer: "gain a text income",
     loseCoin: "lose a coin",
     loseExplore: "lose an explore",
@@ -80,6 +84,7 @@ export const EFFECT = Object.freeze({
     return: "return adventurer from tLocation",
     returnResources: "return locked card", //todo implement
     payToUseOccupiedLocation: "use an occupied location",
+    unlockCard: "gain back a locked card",
     useItemOnMarket: "use effect of an item on the market",
     useArtifactOnMarket: "use effect of an artifact on the market",
     useOpponentsLocation: "use a (II) location occupied by an opponent", //todo implement

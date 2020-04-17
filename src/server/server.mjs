@@ -4,7 +4,7 @@ import dirname from "es-dirname"
 import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
-import {LOCATION_STATE, TRANSMISSIONS} from "../data/idLists.mjs";
+import {CARD_TYPE, ITEM_IDs, LOCATION_STATE, TRANSMISSIONS} from "../data/idLists.mjs";
 import addPlayer from "./addPlayer.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import getInitialPlayerStates, {
@@ -118,6 +118,9 @@ io.on("connection", socket => {
 
                 /* move active cards to discard */
                 for (let card of tPlayerState.activeCards) {
+                    if (card.type === CARD_TYPE.guardian) {
+                        tPlayerState = addCardToDiscardDeck({...ITEM_IDs.fear}, tPlayerState);
+                    }
                     tPlayerState = addCardToDiscardDeck(card, tPlayerState);
                 }
                 tPlayerState.activeCards = [];

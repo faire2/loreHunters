@@ -1,4 +1,5 @@
 import React from "react";
+import {EFFECT} from "./effects.mjs";
 
 export const LOCATION_LEVEL = Object.freeze({
     1: "I",
@@ -21,11 +22,12 @@ export const LOCATION_TYPE = Object.freeze({
 export const CARD_STATE = Object.freeze({
     active: "active card",
     destroyed: "destroyed card",
-    victoryCards: "card is among victory cards",
     discard: "card is discarded",
     drawDeck: "card in draw deck",
     inHand: "card is in hand",
     inStore: "card is in store",
+    locked: "locked card",
+    victoryCards: "card is among victory cards",
 });
 
 export const CARD_TYPE = Object.freeze({
@@ -338,74 +340,92 @@ export const GUARDIAN_IDs = Object.freeze({
     foxSpirit: {
         id: "foxSpirit",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockExplores,
     },
     forestDragon: {
         id: "forestDragon",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCoins,
     },
     naga: {
         id: "naga",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCoins,
     },
     stoneTitan: {
         id: "stoneTitan",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockAdventurer,
     },
     golem: {
         id: "golem",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
     mountainGuardian: {
         id: "mountainGuardian",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockExplores,
     },
     gryphon: {
         id: "gryphon",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
     whisperingShadow: {
         id: "whisperingShadow",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
     giantScarab: {
         id: "giantScarab",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
     swampSnake: {
         id: "swampSnake",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockAdventurer,
     },
     stealingMonkey: {
         id: "stealingMonkey",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCoins,
     },
     hornedHippo: {
         id: "hornedHippo",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockAdventurer,
     },
     lakeMonster: {
         id: "lakeMonster",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
     energyLeech: {
         id: "energyLeech",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
     swarmingSpiders: {
         id: "swarmingSpiders",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
-    HeartOfForest: {
-        id: "HeartOfForest",
+    heartOfForest: {
+        id: "heartOfForest",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockWeapons,
     },
     wyvern: {
         id: "wyvern",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
     crabmanHermit: {
         id: "crabmanHermit",
         type: CARD_TYPE.guardian,
+        lockEffects: EFFECT.lockCard,
     },
 });
 

@@ -36,12 +36,12 @@ export const LOCATION_LINE = Object.freeze({
 
 export const emptyPlayerState = Object.freeze({
     resources: {
-        coins: 20,
-        explore: 20,
-        texts: 3,
-        weapons: 3,
-        jewels: 3,
-        shinies: 20,
+        coins: 1,
+        explore: 4,
+        texts: 0,
+        weapons: 0,
+        jewels: 0,
+        shinies: 0,
         walk: 0,
         jeep: 0,
         ship: 0,
@@ -75,14 +75,10 @@ export default function getInitialPlayerStates() {
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
 
-        /*const testCard = {...GUARDIAN_IDs.foxSpirit};
-        testCard.state = CARD_STATE.inHand;
-        initialCards.push(testCard);*/
         const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
         const hand = [];
         const drawDeck = [];
 
-        /*cardsSetup.drawCards.push(ARTIFACTS.ringOfLight);*/
 
         for (let card of cardsSetup.deck) {
             card.state = CARD_STATE.drawDeck;
@@ -93,6 +89,9 @@ export default function getInitialPlayerStates() {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
+        const testCard = {...GUARDIAN_IDs.mountainGuardian};
+        testCard.state = CARD_STATE.inHand;
+        drawDeck.splice(0, 0, testCard);
 
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;
