@@ -130,10 +130,20 @@ export default function Card(props) {
         position: "absolute",
         top: "3.2vw",
         display: "flex",
-        flexDirection: "column",
         right: "0.8vw",
         width: "1.2vw",
         fontSize: "1.2vw",
+    };
+
+    const lockEffectsStyle = {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        marginLeft: "auto",
+        marginRight: "auto",
+        top: "9.8vw",
+        display: "flex",
+        width: "1.2vw",
     };
 
     const costStyle = {
@@ -184,6 +194,7 @@ export default function Card(props) {
                      handleClickOnEffect={handleClickOnEffect}/>
             {cardType === CARD_TYPE.guardian && <DiscoveryEffects style={discoveryEffectsStyle} discoveryText={card.discoveryText}
                       discoveryText2={card.discoveryText2}/>}
+            {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle} lockText={card.lockText} />}
             <Cost cost={cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
             <span style={{fontSize: 10, position: "absolute", top: 50, left: 40}}> {card.state} </span>
@@ -233,6 +244,11 @@ const DiscoveryEffects = (props) =>
             {props.discoveryText}
             <div style={{position: "absolute", marginTop:"5vw"}}>{props.discoveryText2}</div>
         </div>
+
+const LockEffects = (props) =>
+    <div style={props.style}>
+        {props.lockText}
+    </div>
 
 const Cost = (props) =>
     <div style={props.style}>
