@@ -53,7 +53,9 @@ io.on("connection", socket => {
         let playerIndex = players.indexOf(socket.id);
         console.log("PLAYER " + (playerIndex) + " passing action.");
         nextPlayer(playerIndex);
-        playerStates.splice(playerIndex, 1, states.playerState);
+        let tPlayerState = states.playerState;
+        tPlayerState = resetTransport(tPlayerState);
+        playerStates.splice(playerIndex, 1, tPlayerState);
         store = states.store;
         locations = states.locations;
         legends = states.legends;
@@ -69,8 +71,8 @@ io.on("connection", socket => {
         }
         console.log("end of round initiated");
 
-
         let tPlayerState = states.playerState;
+        tPlayerState = resetTransport(tPlayerState);
         tPlayerState.finishedRound = true;
         playerStates.splice(playerIndex, 1, tPlayerState);
         store = states.store;
@@ -138,10 +140,7 @@ io.on("connection", socket => {
                 tPlayerState = handleIncomes(tPlayerState);
 
                 /* reset transport resources */
-                tPlayerState.resources.walk = 0;
-                tPlayerState.resources.jeep = 0;
-                tPlayerState.resources.ship = 0;
-                tPlayerState.resources.plane = 0;
+                tPlayerState = resetTransport(tPlayerState);
 
                 /* reset active rest of counters */
                 tPlayerState.activeEffects = [];
@@ -219,4 +218,12 @@ function handleIncomes(playerState) {
         }
     }
     return playerState;
+}
+
+function resetTransport(playerState) {
+    playerState.resources.walk = 0;
+    playerState.resources.jeep = 0;
+    playerState.resources.ship = 0;
+    playerState.resources.plane = 0;
+    return playerState
 }
