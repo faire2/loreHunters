@@ -71,7 +71,7 @@ export const G33  = () => <img src={g33} alt={"location effect"} style={effectSt
 
 const backgroundStyle = {
   width: "100%",
-  display: "inline-block"
+  verticalAlign: "top"
 };
 
 export const BgrBasic  = () => <img src={bgr1} alt={"basic location background"} style={backgroundStyle}/>;

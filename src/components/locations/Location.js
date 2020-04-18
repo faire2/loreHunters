@@ -75,18 +75,22 @@ export default function Location(props) {
         width: "7vw",
         position: "relative",
         textAlign: "center",
-        marginRight: "0.5vw"
+        marginRight: "0.5vw",
     };
 
     const effectsStyle = {
-        top: "5%",
+        top: "0.5vw",
+        height: "2vw",
+        fontSize: "1.8vw",
         right: 0,
         left: 0,
         margin: "auto",
         position: "absolute",
         cursor: "pointer",
         zIndex: 2,
-        display: "inline-block",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     };
 
     const adventurerStyle = {
