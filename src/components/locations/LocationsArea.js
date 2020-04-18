@@ -10,7 +10,7 @@ export default function LocationsArea() {
 
     const container = {
         position: "relative",
-        width: "43vw",
+        width: "47vw",
         height: "19vw",
         backgroundImage: `url(${map}`,
         backgroundSize: "fill",

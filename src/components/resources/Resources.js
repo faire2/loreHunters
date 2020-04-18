@@ -13,11 +13,10 @@ export default function Resources(props) {
     }
 
     const style = {
-        position: "relative",
-        float: "right",
-        marginLeft: "1vw",
-        marginTop: "0",
-        fontSize: "3.5vw",
+        position: "absolute",
+        marginLeft: "53vw",
+        marginTop: "19vw",
+        fontSize: "2vw",
         zIndex: 1,
     };
 

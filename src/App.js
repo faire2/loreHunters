@@ -25,6 +25,7 @@ import {GUARDIANS} from "./data/cards";
 import {Legends} from "./data/legends";
 import {getDiscountForProgress} from "./components/legends/legendsFunctions";
 import ChooseExpeditionModal from "./components/legends/ChooseExpeditionModal";
+import {RelicsArea} from "./components/relics/RelicsArea";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -407,6 +408,7 @@ function App() {
                     handleClickOnResource: handleClickOnResource,
                 }}>
                     <Resources/>
+                    <RelicsArea/>
                     <LocationsArea/>
                     <TopSlidingPanel/>
                     <div style={{marginLeft: "3vw"}}>
@@ -424,6 +426,7 @@ function App() {
                     </div>
                     <ChooseRewardModal/>
                     <ChooseExpeditionModal/>
+
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>
