@@ -4,7 +4,7 @@ import {addCardToDiscardDeck, addCardToHand, destroyCard, getIdCard} from "./car
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
-import {CARD_STATE, CARD_TYPE, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE} from "../../data/idLists";
+import {CARD_STATE, CARD_TYPE, GUARDIAN_IDs, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE} from "../../data/idLists";
 import {LOCATION_LINE, shuffleArray} from "./initialStateFunctions";
 import {
     areLinesAdjacent,
@@ -60,9 +60,9 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.defeatGuardian:
             if (tCard.type === CARD_TYPE.guardian) {
-                tCard.points = tCard.cost;  /* victory points for defeating guardian are stored in costs */
+                tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
                 tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
-                tPlayerState.destroyedCards[tPlayerState.destroyedCards.length - 1].state = CARD_STATE.victoryCards;
+                tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                 tActiveEffects.splice(0, 1);
             }
             break;
