@@ -70,7 +70,7 @@ export const G32  = () => <img src={g32} alt={"location effect"} style={effectSt
 export const G33  = () => <img src={g33} alt={"location effect"} style={effectStyle}/>;
 
 const backgroundStyle = {
-  width: "13vw",
+  width: "100%",
   display: "inline-block"
 };
 

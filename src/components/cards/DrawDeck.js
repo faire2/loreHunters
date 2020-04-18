@@ -6,9 +6,9 @@ export const DrawDeck = (props) => {
         const margin = 5 + i * 10;
         return (
             <div className="align-middle" key={i} >
-                <div style={{position: "absolute", marginLeft: margin, marginTop: 5}}>
+                <div style={{position: "absolute", marginLeft: margin}}>
                     <svg width="142" height="200">
-                        <rect width="142" height="200" rx="15" ry="15" fill="green" stroke="yellow" strokeWidth="5"/>
+                        <rect width="80" height="120" rx="15" ry="15" fill="green" stroke="yellow" strokeWidth="5"/>
                     </svg>
                 </div>
             </div>)

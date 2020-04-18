@@ -72,10 +72,10 @@ export default function Location(props) {
 
     const containerStyle = {
         /*minWidth: locationRadius * 2,*/
-        width: "15vw",
-        height: "9.87vw",
+        width: "7vw",
         position: "relative",
         textAlign: "center",
+        marginRight: "0.5vw"
     };
 
     const effectsStyle = {

@@ -16,7 +16,7 @@ export default function Resources(props) {
         position: "relative",
         float: "right",
         marginLeft: "1vw",
-        marginTop: "30vw",
+        marginTop: "0",
         fontSize: "3.5vw",
         zIndex: 1,
     };

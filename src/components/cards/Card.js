@@ -86,7 +86,7 @@ export default function Card(props) {
             }
         }
         newLockText = newLockText.map( (icon, i) =>
-        <div style={{fontSize: "1.8vw"}} key={i}>
+        <div key={i}>
             {icon}
         </div>)
     }
@@ -109,14 +109,14 @@ export default function Card(props) {
     const isPointer = card.state !== CARD_STATE.inStore ? "pointer" : "default";
     const effectsText = card.effectsText;
 
+    // card enlargement is based on hover effect set in app.css
     const cardStyle = {
-        width: "15vw",
-        height: "21vw",
-        margin: 5,
+        height: "9vw",
+        width: "6.5vw",
+        marginLeft: card.state === CARD_STATE.locked ? "-3vw" : "0.3vw",
         position: "relative",
         backgroundImage: `url(${cardBackground}`,
-        backgroundSize: "cover",
-        marginLeft: card.state === CARD_STATE.locked ? "-5vw" : 0,
+        backgroundSize: "contain",
         zIndex: card.state === CARD_STATE.locked ? -1 : 0
     };
 
@@ -137,68 +137,66 @@ export default function Card(props) {
         webkitJustifyContent: "center",
         justifyContent: "center",
         position: "absolute",
-        top: card.transportAmount > 1 ? "2.2vw" : "2vw",
-        left: card.transportAmount > 1 ? "0.9vw" : "1.2vw",
-        fontSize: card.transportAmount > 1 ? "1.6vw" : "2vw",
-        width: "1.8vw",
-        height: "1.8vw",
+        top: card.transportAmount === 1 ? "9%" : "10%",
+        left: card.transportAmount === 1 ? "6%" : "7%",
+        fontSize: card.transportAmount === 1 ? "1vw" : "0.7vw",
     }
 
     const cardNameStyle = {
-        fontSize: "1vw",
-        marginTop: "1.3vw",
+        fontSize: "0.5vw",
+        marginTop: "0.5vw",
     };
 
+    //todo fontSize is set in cards.js, should be moved here
     const effectsStyle = {
+        marginTop: !isGuardian ? "70%" : "75%",
+        marginLeft: !isGuardian ? 0 : "35%",
+        fontSize: "0.5vw",
+        textAlign: !isGuardian ? "center" : "left",
         position: "absolute",
-        marginTop: !isGuardian ? "11vw" : "12.55vw",
-        marginLeft: !isGuardian ? 0 : "1vw",
         cursor: isPointer,
-        fontSize: "1.2vw",
-        width: "14vw"
+        width: "95%"
     };
 
     // todo: responsiveness depends on font size in Symbols.js
     const discoveryEffectsStyle = {
         position: "absolute",
-        top: "3.2vw",
         display: "flex",
-        right: "0.8vw",
-        width: "1.2vw",
-        fontSize: "1.2vw",
+        top: "16%",
+        right: "6%",
+        fontSize: "0.5vw",
     };
 
     const lockEffectsStyle = {
+        top: "50%",
+        fontSize: "0.8vw",
         position: "absolute",
         left: 0,
         right: 0,
         marginLeft: "auto",
         marginRight: "auto",
-        top: "10.65vw",
         display: "flex",
         width: "1.2vw",
     };
 
     const costStyle = {
+        bottom: "4%",
+        left: "5%",
+        fontSize: "1.1vw",
         display: "flex",
         flexDirection: "row",
         position: "absolute",
-        bottom: "0.6vw",
-        left: "6.5%",
         color: isGuardian ? "gold" : "black",
-        height: "3.8vw",
-        fontSize: "2.8vw"
     };
 
     const pointsStyle = {
+        fontSize: "1vw",
+        right: "10%",
+        bottom: 0,
         position: "absolute",
-        bottom: "0",
         display: "flex",
         alignItems: "center",
-        right: "1.2vw",
         textShadow: "-1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF",
-        fontSize: "3vw",
-        height: "3.5vw",
     };
 
     function handleClickOnEffect(effects, isTravel) {
@@ -236,7 +234,7 @@ export default function Card(props) {
                      lockText={card.state === CARD_STATE.active ? newLockText : lockText} />}
             <Cost cost={cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
-            <span style={{fontSize: 10, position: "absolute", top: 50, left: 40}}> {card.state} </span>
+            <span style={{fontSize: 10, position: "absolute", top: "20%", left: "10%"}}> {card.state} </span>
         </div>
     )
 }
@@ -281,7 +279,7 @@ const Effects = (props) =>
 const DiscoveryEffects = (props) =>
         <div style={props.style} >
             {props.discoveryText}
-            <div style={{position: "absolute", marginTop:"5vw"}}>{props.discoveryText2}</div>
+            <div style={{position: "absolute", marginTop:"2vw"}}>{props.discoveryText2}</div>
         </div>
 
 const LockEffects = (props) =>
@@ -310,8 +308,8 @@ const VictoryPoints = (props) =>
 const TransportIcons = (props) =>
     <div>
         {props.transport.map((transport, i) => {
-            const left = i * 0.5 + "vw";
-            const top = i * -1 + "vw";
+            const left = i * 5 + "%";
+            const top = i * -7 + "%";
             return (
                 <div style={{...props.style, ...{marginLeft: left, marginTop: top, height: left}}} key={i}>
                     {transport}

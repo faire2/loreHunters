@@ -3,16 +3,12 @@
   font-size: 30px;
 }
 
-.cardRow {
-  min-height: 210px;
-}
-
 .vertical-text {
   text-align: center;
   font-size: 20px;
   writing-mode: vertical-lr;
   text-orientation: mixed;
-  height: 210px;
+  height: 7vw;
 }
 
 .redBgr {
@@ -39,3 +35,6 @@
 .cardEffect {
   max-width: 30px;
 }
+
+.card { transition: transform 0.2s; }
+.card:hover { transform: scale(2,2); z-index: 1!important;}

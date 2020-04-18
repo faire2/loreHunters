@@ -40,11 +40,13 @@ export const CARD_TRANSPORT = Object.freeze({
 });
 
 const bigIconsStyle = {
-    fontSize: "2.5vw",
+    fontSize: "1.2vw",
+    marginTop: "0.5vw",
 }
 
 const lockEffectsStyle = {
-    fontSize: "1.8vw"
+    height: "100%",
+    width: "auto"
 }
 
 const columnStyle = {

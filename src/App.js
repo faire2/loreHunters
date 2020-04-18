@@ -18,7 +18,7 @@ import ChooseRewardModal from "./components/locations/LocationExplorationModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
 import {socket} from "./server/socketConnection";
-import {BonusActions} from "./components/bonuses/Bonuses";
+import {BonusActions} from "./components/bonuses/BonusActions";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
 import {getPositionInLocationLine} from "./components/locations/locationFunctions";
 import {GUARDIANS} from "./data/cards";
@@ -402,11 +402,11 @@ function App() {
                     nextPlayer: nextPlayer,
                     handleClickOnResource: handleClickOnResource,
                 }}>
-                    <TopSlidingPanel/>
                     <Resources/>
+                    <LocationsArea/>
+                    <TopSlidingPanel/>
                     <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
                     <Store/>
-                    <LocationsArea/>
                     <CardsArea/>
                     <div className="d-inline-flex flex-row text-center">
                         <Controls/><br/>

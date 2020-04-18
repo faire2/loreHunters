@@ -10,39 +10,33 @@ export default function LocationsArea() {
 
     const container = {
         position: "relative",
-        marginTop: "3vw",
-        height: "40vw",
+        width: "43vw",
+        height: "19vw",
+        backgroundImage: `url(${map}`,
+        backgroundSize: "fill",
     };
 
     const locationStyle = {
-        marginTop: "-1.4vw",
+        marginTop: "-0.1vw",
+        marginLeft: "0.5vw"
     };
 
     const leftMargin = {
-        marginLeft: "7.5vw",
+        marginLeft: "3.8vw",
     };
 
     const empty = {
         minWidth: 116,
     };
-
-    const bgrImg = {
-        position: "absolute",
-        width: "80vw",
-        height: "40vw",
-        left: 0,
-        zIndex: -1
-    };
-
+    const allLinesPresent = locations !== null && locations.line4.length > 0;
+    console.log(allLinesPresent);
     const verticalCenter = {
         position: "absolute",
-        top: "50%",
-        marginTop: "-15vw",
+        marginTop: allLinesPresent > 0 ? "0.5vw" : "3vw",
     }
 
     return (
         <div style={container}>
-            <img src={map} style={bgrImg}/>
             <div style={verticalCenter}>
                 <div style={leftMargin}>
                     <div style={locationStyle} className="d-flex flex-row position-relative">

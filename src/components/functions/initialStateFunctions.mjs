@@ -232,18 +232,18 @@ export function getInitialLocations() {
     switch (GLOBAL_VARS.numOfPlayers) {
         case 1:
         case 2:
-            line2 = [...level2Brown, ...level2Green];
-            line3 = [...level3Brown, ...level3Green];
+            line2 = [...level2Green, ...level2Brown];
+            line3 = [...level3Green, ...level3Brown];
             break;
         case 3:
-            line2 = [level2Brown[0], level2Brown[1], level2Green[0], level2Green[1]];
-            line3 = [level3Brown[0], level2Brown[2], level2Green[2], level3Green[0]];
-            line4 = [level3Brown[1], "empty", level3Green[1]];
+            line2 = [level2Green[0], level2Green[1], level2Brown[0], level2Brown[1]];
+            line3 = [level3Green[0], level2Green[2], level2Brown[2], level3Brown[0]];
+            line4 = [level3Green[1], "empty", level3Brown[1]];
             break;
         case 4:
-            line2 = [level2Brown[0], level2Brown[1], level2Green[0], level2Green[1]];
-            line3 = [level2Brown[2], level2Brown[3], level2Green[2], level2Green[3]];
-            line4 = [level3Brown[0], level3Brown[1], level3Green[0], level3Green[1]];
+            line2 = [level2Green[0], level2Green[1], level2Brown[0], level2Brown[1]];
+            line3 = [level2Green[2], level2Green[3], level2Brown[2], level2Brown[3]];
+            line4 = [level3Green[0], level3Green[1], level3Brown[0], level3Brown[1]];
             break;
         default:
             console.log("Unable to process number of players in getInitialLocations: " + GLOBAL_VARS.numOfPlayers);
