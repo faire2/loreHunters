@@ -290,7 +290,7 @@ const LockEffects = (props) =>
 const Cost = (props) =>
     <div style={props.style}>
         {props.cost.map((icon, i) => {
-                const left = i * -0.5 + "vw";
+                const left = i * -0.1 + "vw";
                 return (
                     <div key={i} style={{marginLeft: left}}>
                         {icon}
