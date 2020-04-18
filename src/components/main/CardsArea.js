@@ -13,10 +13,6 @@ export default function CardsArea(props) {
     const rowStyle = {
         marginTop: "0.5vw"
     }
-    
-    const minWidthStyle = {
-        minWidth: "20vw"
-    }
 
     return (
         <div>

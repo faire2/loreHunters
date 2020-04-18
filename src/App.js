@@ -146,7 +146,11 @@ function App() {
                                 const locationLevel = LOCATION_IDs[location.id].level;
                                 // guardian effects are different when location level is 2 and 3
                                 const guardianText = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryTextRow :
-                                    <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>{guardian.discoveryTextRow}{guardian.discoveryTextRow2}</div>;
+                                    <div style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "center"
+                                    }}>{guardian.discoveryTextRow}{guardian.discoveryTextRow2}</div>;
                                 const guardianEffects = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryEffect :
                                     [...guardian.discoveryEffect, ...guardian.discoveryEffect2]
 
@@ -405,9 +409,11 @@ function App() {
                     <Resources/>
                     <LocationsArea/>
                     <TopSlidingPanel/>
-                    <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
-                    <Store/>
-                    <CardsArea/>
+                    <div style={{marginLeft: "3vw"}}>
+                        <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
+                        <Store/>
+                        <CardsArea/>
+                    </div>
                     <div className="d-inline-flex flex-row text-center">
                         <Controls/><br/>
                     </div>
