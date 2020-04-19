@@ -36,16 +36,16 @@ export const LOCATION_LINE = Object.freeze({
 
 export const emptyPlayerState = Object.freeze({
     resources: {
-        coins: 1,
-        explore: 4,
-        texts: 0,
-        weapons: 0,
-        jewels: 0,
-        shinies: 0,
-        walk: 0,
-        jeep: 0,
-        ship: 0,
-        plane: 0,
+        coins: 100,
+        explore: 140,
+        texts: 100,
+        weapons: 100,
+        jewels: 100,
+        shinies: 100,
+        walk: 100,
+        jeep: 100,
+        ship: 100,
+        plane: 100,
     },
     actions: 1,
     activeCards: [],
@@ -277,12 +277,15 @@ export function getInitialLocations() {
 /* INITIAL LEGENDS */
 export function getInitialLegends() {
     const legendsKeys = shuffleArray(Object.keys(LEGEND_IDS));
-    const legends = [LEGEND_IDS[legendsKeys[0]], LEGEND_IDS[legendsKeys[1]]];
+    const legends = [LEGEND_IDS[legendsKeys[0]]];
     for (let legend of legends) {
         legend.positions = [];
         for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
-            legend.positions.push(2);
+            legend.positions.push([{columnIndex: null, fieldIndex: null}, {columnIndex: null, fieldIndex: null}]);
         }
+        legend.usage = [];
+        for (let i = 0; i < 8; i++)
+            legend.usage.push([0, 0, 0])
     }
     return legends;
 }

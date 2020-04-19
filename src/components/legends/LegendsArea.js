@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import {BoardStateContext} from "../../Contexts";
+import {Field} from "./tiles/Field";
 import {Legend} from "./Legend";
 
 export function LegendsArea() {
@@ -8,14 +9,11 @@ export function LegendsArea() {
 
     const style = {
         position: "absolute",
-        bottom: 0,
+        top: 0,
+        marginLeft: "47vw",
         zIndex: 0,
         height: "20vw",
         width: "80vw",
-        right: 0,
-        left: 0,
-        marginLeft: "auto",
-        marginRight: "auto",
         marginBottom: "3vw",
     };
 

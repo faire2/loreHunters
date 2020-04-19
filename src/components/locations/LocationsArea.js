@@ -29,7 +29,6 @@ export default function LocationsArea() {
         minWidth: 116,
     };
     const allLinesPresent = locations !== null && locations.line4.length > 0;
-    console.log(allLinesPresent);
     const verticalCenter = {
         position: "absolute",
         marginTop: allLinesPresent > 0 ? "0.5vw" : "3vw",

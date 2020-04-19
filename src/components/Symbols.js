@@ -26,6 +26,7 @@ import location1 from "../img/symbols/L1.png"
 import location2 from "../img/symbols/L2.png"
 import location3 from "../img/symbols/L3.png"
 import victoryPoints from "../img/symbols/VP.png"
+import treasure from "../img/symbols/Treasure.png"
 
 const responsive = {
     height: "1em",
@@ -56,7 +57,8 @@ export const DefeatedGuardian = (props) => <img src={defeatedGuardian} alt="defe
 export const LocationL1 = (props) => <img src={location1} alt="location of level 1"style={responsive} />;
 export const LocationL2 = (props) => <img src={location2} alt="location of level 2"style={responsive} />;
 export const LocationL3 = (props) => <img src={location3} alt="location of level 3"style={responsive} />;
-export const VictoryPoints = (props) => <img src={victoryPoints} alt="location of level 3" style={responsive} />;
+export const VictoryPoints = (props) => <img src={victoryPoints} alt="victory points icon" style={responsive} />;
+export const Treasure = (props) => <img src={treasure} alt="treasure" style={responsive} />;
 
 export const AdventurerIcon = () =>
     <svg width="15" height="15" viewBox="0 0 99 119">

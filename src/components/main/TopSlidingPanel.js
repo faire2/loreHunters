@@ -38,7 +38,6 @@ export default function TopSlidingPanel() {
             <button style={sliderButtonStyle} onMouseEnter={() => setButtonOnHover(!buttonOnHover)}
                     onMouseLeave={() => setButtonOnHover(!buttonOnHover)}
                     onClick={() => setExtendRightPanel(!extendRightPanel)}/>
-            <LegendsArea/>
         </div>
     )
 }

@@ -115,15 +115,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.firstGainsCoin:
-                    if (wasPlayerFirst([...tLegend.positions], tLegend.state[tPlayerState.playerIndex], tPlayerState.playerIndex)) {
                         tPlayerState.resources.coins += 1;
-                    }
                     break;
 
                 case EFFECT.firstGainsExplore:
-                    if (wasPlayerFirst([...tLegend.positions], tLegend.state[tPlayerState.playerIndex], tPlayerState.playerIndex)) {
                         tPlayerState.resources.coins += 1;
-                    }
                     break;
 
                 case EFFECT.gainDiscoveryBonus:
@@ -219,6 +215,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainJewel:
                     tPlayerState.resources.jewels += 1;
+                    break;
+
+                case EFFECT.gainPlaceholder:
+                    tPlayerState.placeholder = 1;
                     break;
 
                 case EFFECT.gainPlane:
@@ -359,23 +359,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         tLocations: tLocations,
         processedAllEffects: processedAllEffects
     };
-}
-
-// checks it other players have already reached this position in the given legend
-function wasPlayerFirst(legendPositions, thisPlayerPosition, thisPlayerIndex) {
-    legendPositions.splice(thisPlayerIndex, 1);
-    let numberOfOtherPlayers = 0;
-    for (let playerPosition of legendPositions) {
-        if (playerPosition >= thisPlayerPosition) {
-            numberOfOtherPlayers += 1;
-        }
-    }
-    // in 4 players game second player gains the price too
-    if (GLOBAL_VARS.numOfPlayers < 4) {
-        return numberOfOtherPlayers <= 0;
-    } else if (GLOBAL_VARS.numOfPlayers === 4) {
-        return numberOfOtherPlayers <= 1
-    }
 }
 
 export function gainLockedResourceBack(lockEffect, amount, effects) {
