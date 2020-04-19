@@ -1,15 +1,19 @@
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {AdventurerToken, Coin, Explore, Jeep, Jewel, Plane, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
+import {AdventurerToken, Coin, Explore, Jeep, Jewel, Blimp, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
+import {IncomeTile} from "../legends/tiles/IncomeTile";
 
 export default function Resources(props) {
     const playerStateContext = useContext(PlayerStateContext);
+    const playerState = playerStateContext.playerState;
+    const resources = playerState.resources;
 
     const availableAdventurers = [];
     for (let i = 0; i < playerStateContext.playerState.availableAdventurers; i++) {
-        availableAdventurers.push(<AdventurerToken key={i} color={GLOBAL_VARS.playerColors[playerStateContext.playerState.playerIndex]}
-                                                   style={{width: "3vw"}}/>)
+        availableAdventurers.push(<AdventurerToken key={i}
+                                                   color={GLOBAL_VARS.playerColors[playerStateContext.playerState.playerIndex]}
+                                                   style={{width: "2vw"}}/>)
     }
 
     const style = {
@@ -20,54 +24,91 @@ export default function Resources(props) {
         zIndex: 1,
     };
 
+    const secondColumnFieldStyle = {
+        display: "flex",
+        flexWrap: "wrap",
+        width: "7vw",
+        fontSize: "2.9vw"
+    }
+
+    let walkIcons = [];
+    for (let i = 0; i < resources.walk; i++) {
+        walkIcons.push(<Walk/>)
+    }
+    let jeepIcons = [];
+    for (let i = 0; i < resources.jeep; i++) {
+        jeepIcons.push(<Jeep/>)
+    }
+    let shipIcons = [];
+    for (let i = 0; i < resources.ship; i++) {
+        shipIcons.push(<Ship/>)
+    }
+    let blimpIcons = [];
+    for (let i = 0; i < resources.plane; i++) {
+        blimpIcons.push(<Blimp/>)
+    }
+
     return (
-        <div style={style} className="d-flex flex-row">
-            <div style={{marginRight: "2vw"}}>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.COINS)}>
-                    <Coin/>
-                    {playerStateContext.playerState.resources.coins}
+        <div>
+            <div style={style} className="d-flex flex-row">
+                <div style={{marginRight: "2vw"}}>
+                    <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.COINS)}>
+                        <Coin/>
+                        {resources.coins}
+                    </div>
+                    <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.EXPLORE)}>
+                        <Explore/>
+                        {resources.explore}
+                    </div>
+                    <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.TEXTS)}>
+                        <Text/>
+                        {resources.texts}
+                    </div>
+                    <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.WEAPONS)}>
+                        <Weapon/>
+                        {resources.weapons}
+                    </div>
+                    <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.JEWELS)}>
+                        <Jewel/>
+                        {resources.jewels}
+                    </div>
+                    <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.SHINIES)}>
+                        <Shiny/>
+                        {resources.shinies}
+                    </div>
                 </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.EXPLORE)}>
-                    <Explore/>
-                    {playerStateContext.playerState.resources.explore}
-                </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.TEXTS)}>
-                    <Text/>
-                    {playerStateContext.playerState.resources.texts}
-                </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.WEAPONS)}>
-                    <Weapon/>
-                    {playerStateContext.playerState.resources.weapons}
-                </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.JEWELS)}>
-                    <Jewel/>
-                    {playerStateContext.playerState.resources.jewels}
-                </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.SHINIES)}>
-                    <Shiny/>
-                    {playerStateContext.playerState.resources.shinies}
+                <div style={{marginTop: "-0.7vw"}}>
+                    <div style={secondColumnFieldStyle}>
+                        {availableAdventurers}
+                    </div>
+                    <div style={secondColumnFieldStyle}>
+                        {walkIcons.map(icon =>
+                            icon
+                        )}
+                    </div>
+                    <div style={secondColumnFieldStyle}>
+                        {jeepIcons.map(icon =>
+                            icon
+                        )}
+                    </div>
+                    <div style={secondColumnFieldStyle}>
+                        {shipIcons.map(icon =>
+                            icon
+                        )}
+                    </div>
+                    <div style={secondColumnFieldStyle}>
+                        {blimpIcons.map(icon =>
+                            icon
+                        )}
+                    </div>
                 </div>
             </div>
             <div>
-                <div>
-                    <Walk/>
-                    {/*{playerStateContext.playerState.resources.walk}*/}
-                </div>
-                <div>
-                    <Jeep/>
-                    {playerStateContext.playerState.resources.jeep}
-                </div>
-                <div>
-                    <Ship/>
-                    {playerStateContext.playerState.resources.ship}
-                </div>
-                <div>
-                    <Plane/>
-                    {playerStateContext.playerState.resources.plane}
-                </div>
-                <div>
-                    {availableAdventurers}
-                </div>
+                {playerState.incomes.map(income =>
+                    <div> a
+                    <IncomeTile income={income}/>
+                    </div>
+                )}
             </div>
         </div>
     )

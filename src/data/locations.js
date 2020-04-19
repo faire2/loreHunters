@@ -6,7 +6,7 @@ import {
     Discard,
     Draw1Card,
     Explore, Jeep,
-    Jewel, Plane,
+    Jewel, Blimp,
     Shiny, Ship,
     Text,
     Uptrade, Walk,
@@ -33,7 +33,7 @@ export const TRANSPORT_TYPE = Object.freeze({
     walk: <Walk />,
     jeep: <Jeep />,
     ship: <Ship />,
-    plane: <Plane />
+    plane: <Blimp />
 });
 
 export const Locations = Object.freeze({

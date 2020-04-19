@@ -42,7 +42,7 @@ export const DestroyCard = (props) => <img src={destroyCard} alt="destroy a card
 export const Walk = (props) => <img src={walk} alt="walk" style={responsive}/>;
 export const Ship = (props) => <img src={ship} alt="go by a ship" style={responsive}/>;
 export const Jeep = (props) => <img src={jeep} alt="go by a jeep" style={responsive}/>;
-export const Plane = (props) => <img src={plane} alt="go by a plane" style={responsive}/>;
+export const Blimp = (props) => <img src={plane} alt="go by a plane" style={responsive}/>;
 export const Text = (props) => <img src={text} alt="gain a text"style={responsive} />;
 export const Weapon = (props) => <img src={weapon} alt="gain a weapon"style={responsive} />;
 export const Jewel = (props) => <img src={jewel} alt="gain a jewel"style={responsive} />;

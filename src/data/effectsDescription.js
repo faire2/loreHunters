@@ -11,7 +11,7 @@ import {
     Guardian,
     Jeep,
     Jewel,
-    Plane,
+    Blimp,
     Shiny,
     Ship,
     Text,
@@ -60,7 +60,7 @@ export const ITEM_EFFECTS = Object.freeze({
         effectsDescription: <div className="effectsDescription"><Ship/> <Explore/> <Explore/></div>,
     },
     hotAirBaloon: {
-        effectsDescription: <div className="effectsDescription"><Plane/> <Explore/> <Explore/></div>,
+        effectsDescription: <div className="effectsDescription"><Blimp/> <Explore/> <Explore/></div>,
     },
     airplane: {
         effectsDescription: <div className="effectsDescription"><Explore/> <Explore/> <Explore/></div>,

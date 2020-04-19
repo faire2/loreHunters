@@ -1,4 +1,4 @@
-import {AdventurerIcon, Coin, Draw1Card, Explore, Plane, Text, Uptrade, Weapon} from "../../Symbols";
+import {AdventurerIcon, Coin, Draw1Card, Explore, Blimp, Text, Uptrade, Weapon} from "../../Symbols";
 import React from "react";
 
 export const INCOMES = Object.freeze({
@@ -44,10 +44,10 @@ export const INCOMES = Object.freeze({
     },
     planeIncome: {
         id: "planeIncome",
-        effectsText: [<Plane/>],
+        effectsText: [<Blimp/>],
     },
     twoPlanesIncome: {
         id: "twoPlanesIncome",
-        effectsText: [<Plane/>, <Plane/>],
+        effectsText: [<Blimp/>, <Blimp/>],
     },
 })

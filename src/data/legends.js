@@ -7,7 +7,7 @@ import {
     Draw2Cards,
     Explore,
     Jewel,
-    Plane,
+    Blimp,
     Text, Treasure,
     Uptrade,
     Weapon
@@ -107,7 +107,7 @@ export const Legends = Object.freeze({
 
                 {
                     effects: [EFFECT.gainPlane],
-                    effectsText: [<Plane/>],
+                    effectsText: [<Blimp/>],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     costText: [<Text/>, <Jewel/>],
                     size: FIELD_SIZE["1"],

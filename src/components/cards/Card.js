@@ -8,7 +8,7 @@ import itemBgr from "../../img/cardBackgrounds/Item.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
 import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
-import {AdventurerIcon, Coin, Discard, Explore, Guardian, Jeep, Plane, Ship, Walk, Weapon} from "../Symbols";
+import {AdventurerIcon, Coin, Discard, Explore, Guardian, Jeep, Blimp, Ship, Walk, Weapon} from "../Symbols";
 import {cloneDeep} from "lodash";
 import {gainLockedResourceBack} from "../functions/processEffects";
 
@@ -52,7 +52,7 @@ export default function Card(props) {
                 transport.push(<Ship/>)
                 break;
             case CARD_TRANSPORT.plane:
-                transport.push(<Plane/>)
+                transport.push(<Blimp/>)
                 break;
             default:
                 console.log("Unable to propcess card transport type in Card.js: " + card.id + ", " + card.transport);

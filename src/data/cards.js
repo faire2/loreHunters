@@ -19,7 +19,7 @@ import {
     LocationL1,
     LocationL2,
     LocationL3,
-    Plane,
+    Blimp,
     Shiny,
     Ship,
     Text,
@@ -1043,7 +1043,7 @@ export const GUARDIANS = Object.freeze({
         cardName: "Mountain Guardian",
         type: CARD_TYPE.guardian,
         effectsText:
-            <div style={bigIconsStyle}><Plane/></div>,
+            <div style={bigIconsStyle}><Blimp/></div>,
         effects: [EFFECT.losePlane, EFFECT.defeatThisGuardian],
         discoveryText: <div style={columnStyle}><Explore/><Text/><Text/></div>,
         discoveryEffect: [EFFECT.destroyCard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
@@ -1060,7 +1060,7 @@ export const GUARDIANS = Object.freeze({
         cardName: "Gryphon",
         type: CARD_TYPE.guardian,
         effectsText:
-            <div style={bigIconsStyle}><Plane/><Explore/></div>,
+            <div style={bigIconsStyle}><Blimp/><Explore/></div>,
         effects: [EFFECT.losePlane, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
         discoveryText: <div style={columnStyle}><Jewel/></div>,
         discoveryEffect: [EFFECT.gainJewel],

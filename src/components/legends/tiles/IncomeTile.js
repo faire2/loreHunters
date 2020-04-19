@@ -5,7 +5,6 @@ import React from "react";
 import {INCOME_LEVEL, INCOME_STATE} from "../../../data/idLists";
 
 export const IncomeTile = (props) => {
-    console.log(props.income);
     const idIncome = props.income;
     const jsxIncome = INCOMES[idIncome.id];
     const state = idIncome.state;
