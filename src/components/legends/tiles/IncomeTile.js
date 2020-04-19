@@ -21,18 +21,23 @@ export const IncomeTile = (props) => {
         backgroundSize: "contain",
         width: size === INCOME_SIZE.small ? "2.25vw" : "5vw",
         height: size === INCOME_SIZE.small ? "2.25vw" : "5vw",
-        fontSize: twoIcons ? (size === INCOME_SIZE.small ? "1.3vw" : "3vw") : (size === INCOME_SIZE.small ? "2vw" : "4.5vw"),
+        fontSize: twoIcons ? (size === INCOME_SIZE.small ? "1.3vw" : "3vw") : (size === INCOME_SIZE.small ? "1.7vw" : "3.8vw"),
         float: "left",
         position: "relative",
         marginLeft: "0.5vw",
-        display: "flex",
-        alignItems: "center",
         backgroundImage: `url(${bgr}`,
     }
 
+    const centerWrapStyle = {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        height: "100%"
+    }
+
     const effectStyle = {
-        marginTop: size === INCOME_SIZE.small ? "-0.6vw" : "-2vw",
-        left: 0
+        marginBottom: "30%"
     }
 
     function handleClick() {
@@ -43,16 +48,20 @@ export const IncomeTile = (props) => {
 
     return (
         <div style={containerStyle} onClick={() => handleClick()}>
-            <div style={{marginTop: "-0.0vw", display: "flex", flexDirection: "row"}}>
-                {state === INCOME_STATE.spent ? "" : jsxIncome.effectsText.map((effect, i) => {
-                        const margin = size === INCOME_SIZE.small ? -i * 0.7 + "vw" : -i * 1.5 + "vw"
-                        return (
-                            <div style={{...effectStyle, ...{marginLeft: margin}}} key={i}>
-                                {effect}
-                            </div>
-                        )
-                    }
-                )}
+            <div style={centerWrapStyle}>
+                <div style={{display: "flex", flexDirection: "row"}}>
+                    {state === INCOME_STATE.spent ? "" : jsxIncome.effectsText.map((effect, i) => {
+                            const margin = size === INCOME_SIZE.small ?
+                                twoIcons ? (-i * 0.7 + "vw") : (0) :
+                                twoIcons ? (-i * 1.6 + "vw") : (0)
+                            return (
+                                <div style={{...effectStyle, ...{marginLeft: margin}}} key={i}>
+                                    {effect}
+                                </div>
+                            )
+                        }
+                    )}
+                </div>
             </div>
         </div>
     )
