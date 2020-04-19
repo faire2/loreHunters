@@ -24,7 +24,7 @@ export function handleIncomes(playerState) {
         for (let effect of income.effects) {
             switch (effect) {
                 case EFFECT.draw1:
-                case EFFECT.gainDiscountedBuy:
+                case EFFECT.buyWithDiscount1:
                 case EFFECT.gainPlane:
                 case EFFECT.uptrade:
                     break;

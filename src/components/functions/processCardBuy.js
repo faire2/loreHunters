@@ -21,6 +21,11 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         card.cost = card.cost >= 2 ? card.cost - 2 : 0;
     }
 
+    /* Discount income effect */
+    if (activeEffect === EFFECT.buyWithDiscount1) {
+        card.cost -= 1;
+    }
+
     /* Bag effect */
     if (activeEffect === EFFECT.gainItemToHand && card.type === CARD_TYPE.item) {
         card.cost = 0;
@@ -30,9 +35,9 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     if (activeEffect === EFFECT.gainArtifact && card.type === CARD_TYPE.artifact) {
         card.cost = 0;
     }
+
     /* we check that we can buy the item */
     if (card.type === CARD_TYPE.item && card.cost <= tPlayerState.resources.coins) {
-
         /* if we revealed extra item and it was not bought we must discard it */
         if ((activeEffect === EFFECT.revealItemBuyWithDiscount2 || activeEffect === EFFECT.revealArtifactBuyWithDiscount2)
             && cardIndex !== tStore.offer.length + 1) {
@@ -70,9 +75,9 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     }
 
     if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount2
-        || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount2) {
+        || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount2 ||
+        activeEffect === EFFECT.buyWithDiscount1) {
         tActiveEffects.splice(0, 1);
     }
-
     return {tPlayerState: tPlayerState, tStore: tStore}
 }

@@ -462,7 +462,7 @@ function App() {
                 case EFFECT.gainWeapon:
                     break;
                 case EFFECT.draw1:
-                case EFFECT.gainDiscountedBuy:
+                case EFFECT.buyWithDiscount1:
                 case EFFECT.gainPlane:
                 case EFFECT.uptrade:
                     const effectsResult = processEffects(null, null, tPlayerState, [effect], null,
@@ -497,7 +497,7 @@ function App() {
                     tPlayerState.discard.push(store.guardians[0]);
                     tStore.guardians.splice(0, 1);
                 }
-
+                debugger
                 setPlayerState(cloneDeep(tPlayerState));
                 setStore(tStore);
             }

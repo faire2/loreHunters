@@ -642,7 +642,7 @@ export const INCOME_IDs = Object.freeze({
     },
     discountedBuyIncome: {
         id: "discountedBuyIncome",
-        effects: [EFFECT.gainDiscountedBuy],
+        effects: [EFFECT.buyWithDiscount1],
         level: INCOME_LEVEL.silver,
     },
     exploreAndCoinIncome: {

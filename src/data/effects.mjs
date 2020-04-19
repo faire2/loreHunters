@@ -30,7 +30,7 @@ export const EFFECT = Object.freeze({
     gainCoinForGuardians: "gain a coin for each destroyed Guardian (max. 4)",
     gainCoinsAndJewelForGuardianVP: "gain a jewel and coins for VP of a defeated guardian",
     gainCoinsIfLast: "if this was last card, gain 2 coins",
-    gainDiscountedBuy: "buy an item or artifact with discount of 1",
+    buyWithDiscount1: "buy an item or artifact with discount of 1",
     gainExpeditionCard: "gain an expedition card",
     gainExplore: "gain an explore",
     gainExploreForShinys: "gain an explore for each shinies (max. 4)",
@@ -52,11 +52,6 @@ export const EFFECT = Object.freeze({
     gainWalk: "travel on foot",
     gainWeapon: "gain a weapon",
     goldenMask: "plane to an occupied location, use its effect twice", // todo ??? implement
-    // incomes are processed by the server during end of round phase
-    incomeAdventurer: "gain an extra adventurer income",
-    incomeCard: "gain a draw card income",
-    incomeCoin: "gain a coin income",
-    incomeText: "gain a text income",
     lockAdventurer: "lock an adventurer",
     lockCard: "discard a random card",
     lockCoins: "lock two coins",

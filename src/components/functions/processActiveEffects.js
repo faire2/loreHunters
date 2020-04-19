@@ -23,6 +23,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         /* When active effect deals with card in store */
         // todo gain artifact allows to buy multiple artifacts
         case EFFECT.buyItemWithDiscount3:
+        case EFFECT.buyWithDiscount1:
         case EFFECT.gainItem:
         case EFFECT.gainItemToHand:
         case EFFECT.gainArtifact:
@@ -137,7 +138,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-            case EFFECT.gainDiscoveryBonus:
+        case EFFECT.gainDiscoveryBonus:
             if (tCard !== null && tCard.type === CARD_TYPE.guardian) {
                 /* we have the actual hand stored in active effects */
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, tCard.discoveryEffect, null,
