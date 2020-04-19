@@ -15,7 +15,7 @@ export default function Resources(props) {
     const style = {
         position: "absolute",
         marginLeft: "53vw",
-        marginTop: "19vw",
+        marginTop: "23vw",
         fontSize: "2vw",
         zIndex: 1,
     };

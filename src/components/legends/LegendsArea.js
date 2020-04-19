@@ -1,27 +1,52 @@
 import React, {useContext} from 'react';
 import {BoardStateContext} from "../../Contexts";
-import {Field} from "./tiles/Field";
 import {Legend} from "./Legend";
+import {Income} from "./tiles/Income";
 
 export function LegendsArea() {
     const boardStateContext = useContext(BoardStateContext);
     const legends = boardStateContext.legends;
+    const store = boardStateContext.store
+    let incomes1offer;
+    let incomes2offer;
+    if (store !== null) {
+        incomes1offer = store.incomes1Offer;
+        incomes2offer = store.incomes2Offer;
+    }
 
-    const style = {
+    const containerStyle = {
         position: "absolute",
         top: 0,
         marginLeft: "47vw",
         zIndex: 0,
-        height: "20vw",
+        height: "23vw",
         width: "80vw",
         marginBottom: "3vw",
     };
 
+    const incomes1Style = {
+        marginLeft: "5.5vw"
+    }
+
+    const incomes2Style = {
+        marginLeft: "16.5vw"
+    }
+
     return (
-        <div style={style}>
+        <div style={containerStyle}>
             {legends && legends.map((legend, i) =>
                 <div key={"legend" + i}>
-                    <Legend legend={legend} legends={legends} legendIndex={i} />
+                    <Legend legend={legend} legends={legends} legendIndex={i}/>
+                </div>
+            )}
+            {incomes1offer && incomes1offer.map((income, i) =>
+                <div style={incomes1Style} key={i}>
+                    <Income income={income}/>
+                </div>
+            )}
+            {incomes1offer && incomes2offer.map((income, i) =>
+                <div style={incomes2Style} key={i}>
+                    <Income income={income}/>
                 </div>
             )}
         </div>

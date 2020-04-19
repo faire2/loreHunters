@@ -2,7 +2,11 @@ import {
     ARTIFACT_IDs,
     CARD_STATE,
     CARD_TYPE,
+    EXPEDITIONS_IDs,
     GUARDIAN_IDs,
+    INCOME_IDs,
+    INCOME_LEVEL,
+    INCOME_STATE,
     ITEM_IDs,
     LEGEND_IDS,
     LOCATION_IDs,
@@ -10,7 +14,6 @@ import {
     LOCATION_STATE,
     LOCATION_TYPE
 } from "../../data/idLists.mjs";
-import {EXPEDITIONS_IDs} from "../../data/idLists.mjs";
 
 /* GLOBAL VARIABLES */
 export const GLOBAL_VARS = Object.freeze({
@@ -128,20 +131,37 @@ export function getInitialStoreItems() {
         expeditions.push(EXPEDITIONS_IDs[key]);
     }
 
-    let itemsSetup = drawCards(items, GLOBAL_VARS.itemsInStore);
-    let artifactSetup = drawCards(artifacts, GLOBAL_VARS.artifactsInStore);
+    /* incomes */
+    let incomes1 = [];
+    let incomes2 = [];
+    for (let key in INCOME_IDs) {
+        INCOME_IDs[key].state = INCOME_STATE.inStore;
+        if (INCOME_IDs[key].level === INCOME_LEVEL.silver) {
+            incomes1.push(INCOME_IDs[key]);
+        } else {
+            incomes2.push(INCOME_IDs[key]);
+        }
+    }
 
+    let itemsSetup = drawCards(items, GLOBAL_VARS.itemsInStore);
+    let artifactsSetup = drawCards(artifacts, GLOBAL_VARS.artifactsInStore);
+    let incomes1Setup = drawCards(incomes1, 2);
+    let incomes2Setup = drawCards(incomes2, 2)
 
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;
     }
     return {
-        itemsOffer: itemsSetup.drawCards,
-        artifactsOffer: artifactSetup.drawCards,
+        artifactsDeck: artifactsSetup.deck,
+        artifactsOffer: artifactsSetup.drawCards,
+        incomes1Deck: incomes1Setup.deck,
+        incomes1Offer: incomes1Setup.drawCards,
+        incomes2Deck: incomes2Setup.deck,
+        incomes2Offer: incomes2Setup.drawCards,
         itemsDeck: itemsSetup.deck,
-        artifactsDeck: artifactSetup.deck,
+        itemsOffer: itemsSetup.drawCards,
+        expeditions: shuffleArray(expeditions),
         guardians: shuffleArray(guardians),
-        expeditions: shuffleArray(expeditions)
     }
 }
 

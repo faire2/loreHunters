@@ -30,6 +30,7 @@ export const EFFECT = Object.freeze({
     gainCoinForGuardians: "gain a coin for each destroyed Guardian (max. 4)",
     gainCoinsAndJewelForGuardianVP: "gain a jewel and coins for VP of a defeated guardian",
     gainCoinsIfLast: "if this was last card, gain 2 coins",
+    gainDiscountedBuy: "buy an item or artifact with discount of 1",
     gainExpeditionCard: "gain an expedition card",
     gainExplore: "gain an explore",
     gainExploreForShinys: "gain an explore for each shinies (max. 4)",

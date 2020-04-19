@@ -38,6 +38,17 @@ export const CARD_TYPE = Object.freeze({
     expedition: "expedition"
 });
 
+export const INCOME_LEVEL = Object.freeze({
+    silver: "silver level",
+    gold: "gold level",
+})
+
+export const INCOME_STATE = Object.freeze({
+    inStore: "in store",
+    ready: "ready",
+    spent: "spent"
+})
+
 export const ITEM_IDs = Object.freeze({
     fear: {
         id: "fear",
@@ -602,6 +613,57 @@ export const LEGEND_IDS = Object.freeze({
         id: "legend1"
     },
 });
+
+export const INCOME_IDs = Object.freeze({
+    adventurerIncome: {
+        id: "adventurerIncome",
+        level: INCOME_LEVEL.gold
+    },
+    drawCardIncome: {
+        id: "drawCardIncome",
+        level: INCOME_LEVEL.gold
+    },
+    coinIncome: {
+        id: "coinIncome",
+        level: INCOME_LEVEL.silver
+    },
+    exploreIncome: {
+        id: "exploreIncome",
+        level: INCOME_LEVEL.silver
+    },
+    discountedBuyIncome: {
+        id: "discountedBuyIncome",
+        level: INCOME_LEVEL.silver
+    },
+    exploreAndCoinIncome: {
+        id: "exploreAndCoinIncome",
+        level: INCOME_LEVEL.gold
+    },
+    coinAndTextIncome: {
+        id: "coinAndTextIncome",
+        level: INCOME_LEVEL.gold
+    },
+    textIncome: {
+        id: "textIncome",
+        level: INCOME_LEVEL.silver
+    },
+    uptradeIncome: {
+        id: "uptradeIncome",
+        level: INCOME_LEVEL.silver
+    },
+    weaponIncome: {
+        id: "weaponIncome",
+        level: INCOME_LEVEL.gold
+    },
+    planeIncome: {
+        id: "planeIncome",
+        level: INCOME_LEVEL.silver
+    },
+    twoPlanesIncome: {
+        id: "twoPlanesIncome",
+        level: INCOME_LEVEL.gold
+    },
+})
 
 export const TRANSMISSIONS = Object.freeze({
     getStates: "getState",

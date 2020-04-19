@@ -1,7 +1,5 @@
 import React, {useContext} from 'react';
 import {Legends} from "../../data/legends";
-import {AdventurerToken} from "../Symbols";
-import {GLOBAL_VARS} from "../functions/initialStateFunctions";
 import {BoardStateContext} from "../../Contexts";
 import {Field} from "./tiles/Field";
 import victoryPoints from "../../img/symbols/VP.png";

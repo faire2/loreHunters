@@ -7,14 +7,13 @@ export function RelicsArea() {
         backgroundImage: `url(${bgr}`,
         backgroundSize: "100%",
         position: "absolute",
-        marginTop: "19vw",
+        marginTop: "23vw",
         marginLeft: "67vw",
         width: "20vw",
         display: "flex",
         flexWrap: "wrap",
         paddingLeft: "4.1vw",
         paddingTop: "1%",
-
     }
 
     const fieldStyle1Icon = {

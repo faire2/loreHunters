@@ -10,7 +10,6 @@ import {EFFECT} from "../../../data/effects";
 
 export const Field = (props) => {
     const columnHeight = props.height;
-    const costEffects = props.field.cost;
     const columnIndex = props.columnIndex;
     const fieldIndex = props.fieldIndex;
     const positions = props.positions;
