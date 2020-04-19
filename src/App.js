@@ -497,7 +497,6 @@ function App() {
                     tPlayerState.discard.push(store.guardians[0]);
                     tStore.guardians.splice(0, 1);
                 }
-                debugger
                 setPlayerState(cloneDeep(tPlayerState));
                 setStore(tStore);
             }
