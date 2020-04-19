@@ -4,12 +4,14 @@ import goldBgr from "../../../img/incomes/goldBack.png"
 import React from "react";
 import {INCOME_LEVEL, INCOME_STATE} from "../../../data/idLists";
 
-export const Income = (props) => {
+export const IncomeTile = (props) => {
+    console.log(props.income);
     const idIncome = props.income;
     const jsxIncome = INCOMES[idIncome.id];
     const state = idIncome.state;
     const bgr = idIncome.level === INCOME_LEVEL.silver ? silverBgr : goldBgr;
-    const twoIcons = jsxIncome.effects.length > 1;
+    const twoIcons = jsxIncome.effectsText.length > 1;
+    const effects = idIncome.effects;
 
     const containerStyle = {
         backgroundImage: `url(${bgr}`,

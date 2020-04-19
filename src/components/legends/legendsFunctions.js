@@ -23,3 +23,20 @@ export function getDiscountForProgress(effects, activeEffect) {
         return resultEffects;
     }
 }
+
+export function getIsRewardDue(columnIndex, positions) {
+    if (columnIndex === 0) {
+        for (let position of positions) {
+            if (position.columnIndex === null) {
+                return false
+            }
+        }
+    } else {
+        for (let position of positions) {
+            if (position.columnIndex < columnIndex || position.columnIndex === null) {
+                return false
+            }
+        }
+    }
+    return true
+}

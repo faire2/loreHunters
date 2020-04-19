@@ -23,10 +23,11 @@ import TopSlidingPanel from "./components/main/TopSlidingPanel";
 import {getPositionInLocationLine} from "./components/locations/locationFunctions";
 import {GUARDIANS} from "./data/cards";
 import {FIELD_SIZE, Legends} from "./data/legends";
-import {getDiscountForProgress} from "./components/legends/legendsFunctions";
-import ChooseExpeditionModal from "./components/legends/ChooseExpeditionModal";
+import {getDiscountForProgress, getIsRewardDue} from "./components/legends/legendsFunctions";
+import ChooseLegendRewardModal from "./components/legends/ChooseLegendRewardModal";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
+import {handleIncomes} from "./server/addPlayer";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -301,6 +302,8 @@ function App() {
                 }
                 let effectsResult = processEffects(null, null, playerState, effects,
                     null, store, null, locations);
+
+                // if effects were processed (price was paid) place the token
                 if (effectsResult.processedAllEffects) {
                     if (columnIndex > 0) {
                         for (let position of positions) {
@@ -341,12 +344,28 @@ function App() {
                     }
 
                     effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
-                    if (effectsResult.tPlayerState.activeEffects[0] === EFFECT.gainExpeditionCard) {
-                        const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                        store.expeditions.splice(0, 2);
-                        setChooseExpeditionModalData(expeditionsArr);
-                        setShowChooseExpeditionModal(true);
-                        effectsResult.tPlayerState.activeEffects.splice(0, 1);
+
+                    // first four columns award extra rewards when all tokens reach them
+                    if (columnIndex < 4) {
+                        const isRewardDue = getIsRewardDue(columnIndex, positions);
+                        if (isRewardDue) {
+                            if (columnIndex === 0 || columnIndex === 2) {
+                                const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
+                                store.expeditions.splice(0, 2);
+                                setChooseExpeditionModalData(expeditionsArr);
+                                setShowChooseExpeditionModal(true);
+                            } else if (columnIndex === 1) {
+                                const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
+                                store.incomes1Offer.splice(0, 2);
+                                setChooseExpeditionModalData(incomeArr);
+                                setShowChooseExpeditionModal(true);
+                            } else if (columnIndex === 3) {
+                                const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
+                                store.incomes2Offer.splice(0, 2);
+                                setChooseExpeditionModalData(incomeArr);
+                                setShowChooseExpeditionModal(true);
+                            }
+                        }
                     }
                     setPlayerState(effectsResult.tPlayerState);
                     setLocations(effectsResult.tLocations);
@@ -358,12 +377,17 @@ function App() {
         }
     }
 
-    /** HANDLE EXPEDITION MODAL REWARD **/
-    function handleExpeditionReward(expeditionIdCard) {
+    /** HANDLE LEGEND REWARD MODAL **/
+    function handleLegendReward(idElement, isGoalCard) {
         setShowChooseExpeditionModal(false);
         setChooseExpeditionModalData([]);
         let tPlayerState = cloneDeep(playerState);
-        tPlayerState.victoryCards.push(expeditionIdCard);
+        if (isGoalCard) {
+            tPlayerState.victoryCards.push(idElement);
+        } else {
+            tPlayerState.incomes.push(idElement);
+            tPlayerState = handleIncomes(tPlayerState);
+        }
         setPlayerState(tPlayerState)
     }
 
@@ -415,6 +439,12 @@ function App() {
             }
         }
     }
+
+    /** HANDLE CLICK ON INCOME TILE **/
+    /*const result = addCardToHand(playerState.drawDeck[0], cloneDeep(playerState));
+    playerState = cloneDeep(result);
+    playerState.drawDeck.splice(0, 1);
+    break;*/
 
     /** BUY A CARD **/
     function handleCardBuy(card, cardIndex) {
@@ -493,7 +523,7 @@ function App() {
                 handleClickOnLocation: handleClickOnLocation,
                 handleLocationExploredReward: handleLocationExploredReward,
                 handleClickOnLegend: handleClickOnLegend,
-                handleExpeditionReward: handleExpeditionReward,
+                handleExpeditionReward: handleLegendReward,
             }}>
                 <PlayerStateContext.Provider value={{
                     playerState: playerState,
@@ -521,7 +551,7 @@ function App() {
                             <p>Wait for your turn...</p>}
                     </div>
                     <ChooseRewardModal/>
-                    <ChooseExpeditionModal/>
+                    <ChooseLegendRewardModal/>
 
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>

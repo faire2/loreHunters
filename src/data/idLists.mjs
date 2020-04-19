@@ -617,50 +617,62 @@ export const LEGEND_IDS = Object.freeze({
 export const INCOME_IDs = Object.freeze({
     adventurerIncome: {
         id: "adventurerIncome",
+        effects: [EFFECT.gainAdventurerForThisRound],
         level: INCOME_LEVEL.gold
     },
     drawCardIncome: {
         id: "drawCardIncome",
+        effects: [EFFECT.draw1],
         level: INCOME_LEVEL.gold
     },
     coinIncome: {
         id: "coinIncome",
-        level: INCOME_LEVEL.silver
+        effects: [EFFECT.gainCoin],
+        level: INCOME_LEVEL.silver,
     },
     exploreIncome: {
         id: "exploreIncome",
-        level: INCOME_LEVEL.silver
+        effects: [EFFECT.gainExplore],
+        level: INCOME_LEVEL.silver,
     },
     discountedBuyIncome: {
         id: "discountedBuyIncome",
-        level: INCOME_LEVEL.silver
+        effects: [EFFECT.gainDiscountedBuy],
+        level: INCOME_LEVEL.silver,
     },
     exploreAndCoinIncome: {
         id: "exploreAndCoinIncome",
+        effects: [EFFECT.gainExplore, EFFECT.gainCoin],
         level: INCOME_LEVEL.gold
     },
     coinAndTextIncome: {
         id: "coinAndTextIncome",
+        effects: [EFFECT.gainCoin, EFFECT.gainText],
         level: INCOME_LEVEL.gold
     },
     textIncome: {
         id: "textIncome",
-        level: INCOME_LEVEL.silver
+        effects: [EFFECT.gainText],
+        level: INCOME_LEVEL.silver,
     },
     uptradeIncome: {
         id: "uptradeIncome",
-        level: INCOME_LEVEL.silver
+        effects: [EFFECT.uptrade],
+        level: INCOME_LEVEL.silver,
     },
     weaponIncome: {
         id: "weaponIncome",
+        effects: [EFFECT.gainWeapon],
         level: INCOME_LEVEL.gold
     },
     planeIncome: {
         id: "planeIncome",
+        effects: [EFFECT.gainPlane],
         level: INCOME_LEVEL.silver
     },
     twoPlanesIncome: {
         id: "twoPlanesIncome",
+        effects: [EFFECT.gainPlane, EFFECT.gainPlane],
         level: INCOME_LEVEL.gold
     },
 })

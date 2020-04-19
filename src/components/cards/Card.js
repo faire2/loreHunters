@@ -31,6 +31,7 @@ export default function Card(props) {
         cardBackground = expeditionBgr;
     } else {
         console.log("Unable to process card type in Card.js: " + cardType);
+        console.log(props.card.id);
     }
     // prevents merge of two cards with same id
     let card = cloneDeep(cardTemplate);

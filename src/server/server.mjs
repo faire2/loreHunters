@@ -5,7 +5,7 @@ import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
 import {CARD_TYPE, ITEM_IDs, LOCATION_STATE, TRANSMISSIONS} from "../data/idLists.mjs";
-import addPlayer from "./addPlayer.mjs";
+import addPlayer, {handleIncomes} from "./addPlayer.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import getInitialPlayerStates, {
     getInitialLegends,
@@ -13,8 +13,7 @@ import getInitialPlayerStates, {
     getInitialStoreItems,
     GLOBAL_VARS
 } from "../components/functions/initialStateFunctions.mjs";
-import {addCardToDiscardDeck, addCardToHand, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
-import {EFFECT} from "../data/effects.mjs";
+import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -194,31 +193,6 @@ app.get('/*', function (req, res) {
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
-
-// todo was not working
-function handleIncomes(playerState) {
-    for (let effect of playerState.incomes) {
-        switch (effect) {
-            case EFFECT.incomeAdventurer:
-                playerState.availableAdventurers += 1;
-                break;
-            case EFFECT.incomeCard:
-                const result = addCardToHand(playerState.drawDeck[0], cloneDeep(playerState));
-                playerState = cloneDeep(result);
-                playerState.drawDeck.splice(0, 1);
-                break;
-            case EFFECT.incomeCoin:
-                playerState.resources.coins += 1;
-                break;
-            case EFFECT.incomeText:
-                playerState.resources.texts += 1;
-                break;
-            default:
-                console.log("Unable to process effect in handleIncomes: " + effect);
-        }
-    }
-    return playerState;
-}
 
 function resetTransport(playerState) {
     playerState.resources.walk = 0;
