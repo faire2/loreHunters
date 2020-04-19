@@ -4,8 +4,8 @@ import dirname from "es-dirname"
 import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
-import {CARD_TYPE, ITEM_IDs, LOCATION_STATE, TRANSMISSIONS} from "../data/idLists.mjs";
-import addPlayer, {handleIncomes} from "./addPlayer.mjs";
+import {CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE, TRANSMISSIONS} from "../data/idLists.mjs";
+import addPlayer, {handleIncomes} from "./serverFunctions.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import getInitialPlayerStates, {
     getInitialLegends,
@@ -140,6 +140,11 @@ io.on("connection", socket => {
 
                 /* reset transport resources */
                 tPlayerState = resetTransport(tPlayerState);
+
+                /* reset income states */
+                for (let income of tPlayerState.incomes) {
+                    income.state = INCOME_STATE.ready
+                }
 
                 /* reset active rest of counters */
                 tPlayerState.activeEffects = [];

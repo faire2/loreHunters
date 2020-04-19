@@ -3,6 +3,7 @@ import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Coin, Explore, Jeep, Jewel, Blimp, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
+import {INCOME_SIZE} from "../../data/idLists";
 
 export default function Resources(props) {
     const playerStateContext = useContext(PlayerStateContext);
@@ -16,7 +17,7 @@ export default function Resources(props) {
                                                    style={{width: "2vw"}}/>)
     }
 
-    const style = {
+    const containerStyle = {
         position: "absolute",
         marginLeft: "53vw",
         marginTop: "23vw",
@@ -49,8 +50,8 @@ export default function Resources(props) {
     }
 
     return (
-        <div>
-            <div style={style} className="d-flex flex-row">
+        <div style={containerStyle}>
+            <div className="d-flex flex-row">
                 <div style={{marginRight: "2vw"}}>
                     <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.COINS)}>
                         <Coin/>
@@ -105,9 +106,7 @@ export default function Resources(props) {
             </div>
             <div>
                 {playerState.incomes.map(income =>
-                    <div> a
-                    <IncomeTile income={income}/>
-                    </div>
+                    <IncomeTile income={income} size={INCOME_SIZE.large}/>
                 )}
             </div>
         </div>

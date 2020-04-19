@@ -2,8 +2,8 @@ import React, {useContext} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {Legend} from "./Legend";
 import {IncomeTile} from "./tiles/IncomeTile";
-import goal from  "../../img/cardBackgrounds/Goal.png"
-import bonusBgr from "../../img/bonus_action_background.png";
+import goal from "../../img/cardBackgrounds/Goal.png"
+import {INCOME_SIZE} from "../../data/idLists";
 
 export function LegendsArea() {
     const boardStateContext = useContext(BoardStateContext);
@@ -55,13 +55,13 @@ export function LegendsArea() {
             <div style={{marginLeft:"0.5vw"}}>{explorePlaceholder}</div>
             {incomes1offer && incomes1offer.map((income, i) =>
                 <div style={incomes1Style} key={i}>
-                    <IncomeTile income={income}/>
+                    <IncomeTile income={income} size={INCOME_SIZE.small}/>
                 </div>
             )}
             <div style={{position: "absolute", marginLeft:"11.5vw"}}>{explorePlaceholder}</div>
             {incomes1offer && incomes2offer.map((income, i) =>
                 <div style={incomes2Style} key={i}>
-                    <IncomeTile income={income}/>
+                    <IncomeTile income={income} size={INCOME_SIZE.small}/>
                 </div>
             )}
         </div>

@@ -3,7 +3,6 @@ import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
-import {GLOBAL_VARS} from "./initialStateFunctions";
 import {GUARDIAN_IDs} from "../../data/idLists";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
@@ -16,7 +15,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
     let tLegend = cloneDeep(originalLegend);
     let processedAllEffects = true;
-
     exitLoopFromSwitch();
 
     // eslint-disable-next-line no-unused-vars

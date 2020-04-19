@@ -49,6 +49,11 @@ export const INCOME_STATE = Object.freeze({
     spent: "spent"
 })
 
+export const INCOME_SIZE = Object.freeze({
+    small: "small",
+    large: "large"
+})
+
 export const ITEM_IDs = Object.freeze({
     fear: {
         id: "fear",

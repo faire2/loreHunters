@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
 import Card from "../cards/Card";
-import {CARD_TYPE} from "../../data/idLists";
+import {CARD_TYPE, INCOME_SIZE} from "../../data/idLists";
 import {IncomeTile} from "./tiles/IncomeTile";
 
 
@@ -31,7 +31,7 @@ export default function ChooseLegendRewardModal() {
                 <div className="text-center">
                     {data.map((element, i) =>
                         <div style={fontSizeStyle} onClick={() => boardStateContext.handleExpeditionReward(element, isGoalCard)}>
-                            {isGoalCard ? <Card card={element} index={i}/> : <IncomeTile income={element}/>}
+                            {isGoalCard ? <Card card={element} index={i}/> : <IncomeTile income={element} size={INCOME_SIZE.large}/>}
                         </div>
                     )}
                 </div>

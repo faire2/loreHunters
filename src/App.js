@@ -16,7 +16,15 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/locations/LocationExplorationModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
-import {CARD_STATE, CARD_TYPE, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE, TRANSMISSIONS} from "./data/idLists";
+import {
+    CARD_STATE,
+    CARD_TYPE,
+    INCOME_STATE,
+    LOCATION_IDs,
+    LOCATION_LEVEL,
+    LOCATION_STATE,
+    TRANSMISSIONS
+} from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
@@ -27,7 +35,7 @@ import {getDiscountForProgress, getIsRewardDue} from "./components/legends/legen
 import ChooseLegendRewardModal from "./components/legends/ChooseLegendRewardModal";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
-import {handleIncomes} from "./server/addPlayer";
+import {handleIncomes} from "./server/serverFunctions";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -385,6 +393,7 @@ function App() {
         if (isGoalCard) {
             tPlayerState.victoryCards.push(idElement);
         } else {
+            idElement.state = INCOME_STATE.ready;
             tPlayerState.incomes.push(idElement);
             tPlayerState = handleIncomes(tPlayerState);
         }
@@ -441,10 +450,39 @@ function App() {
     }
 
     /** HANDLE CLICK ON INCOME TILE **/
-    /*const result = addCardToHand(playerState.drawDeck[0], cloneDeep(playerState));
-    playerState = cloneDeep(result);
-    playerState.drawDeck.splice(0, 1);
-    break;*/
+    function handleClickOnIncomeTile(effects, incomeId) {
+        let tPlayerState = cloneDeep(playerState);
+        for (let effect of effects) {
+            switch (effect) {
+                // this effects are handled automatically in end of round
+                case EFFECT.gainAdventurerForThisRound:
+                case EFFECT.gainCoin:
+                case EFFECT.gainExplore:
+                case EFFECT.gainText:
+                case EFFECT.gainWeapon:
+                    break;
+                case EFFECT.draw1:
+                case EFFECT.gainDiscountedBuy:
+                case EFFECT.gainPlane:
+                case EFFECT.uptrade:
+                    const effectsResult = processEffects(null, null, tPlayerState, [effect], null,
+                        cloneDeep(store), null, cloneDeep(locations), null);
+                    tPlayerState = effectsResult.tPlayerState;
+
+                    break;
+                default:
+                    console.log("Unable to process effect in handleClickOnIncomeTile: ");
+                    console.log(effects);
+            }
+        }
+        for (let income of tPlayerState.incomes) {
+            if (income.id === incomeId) {
+                income.state = INCOME_STATE.spent;
+                break;
+            }
+        }
+        setPlayerState(tPlayerState)
+    }
 
     /** BUY A CARD **/
     function handleCardBuy(card, cardIndex) {
@@ -524,6 +562,7 @@ function App() {
                 handleLocationExploredReward: handleLocationExploredReward,
                 handleClickOnLegend: handleClickOnLegend,
                 handleExpeditionReward: handleLegendReward,
+                handleClickOnIncomeTile: handleClickOnIncomeTile
             }}>
                 <PlayerStateContext.Provider value={{
                     playerState: playerState,
