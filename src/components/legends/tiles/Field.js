@@ -117,12 +117,11 @@ export const Field = (props) => {
     }
 
     function handleClickOnField() {
-        const result = boardStateContext.handleClickOnLegend(props.legendIndex, columnIndex, fieldIndex, effectsArr);
-        if (result) {
+        let tLegends = boardStateContext.handleClickOnLegend(props.legendIndex, columnIndex, fieldIndex, effectsArr);
+        if (tLegends) {
             legend.usage[columnIndex][fieldIndex] = usage + 1;
-            const tLegends = boardStateContext.legends;
-            tLegends.splice(props.legendIndex, 1, legend);
-            boardStateContext.setLegends(tLegends)
+            tLegends[props.legendIndex].usage[columnIndex][fieldIndex] += 1;
+            boardStateContext.setLegends(tLegends);
         }
     }
 

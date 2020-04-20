@@ -31,7 +31,7 @@ import TopSlidingPanel from "./components/main/TopSlidingPanel";
 import {getPositionInLocationLine, occupyLocation} from "./components/locations/locationFunctions";
 import {GUARDIANS} from "./data/cards";
 import {FIELD_SIZE, Legends} from "./data/legends";
-import {getDiscountForProgress, getIsRewardDue} from "./components/legends/legendsFunctions";
+import {getDiscountForProgress, getIsRewardDue, processLegend} from "./components/legends/legendsFunctions";
 import ChooseLegendRewardModal from "./components/legends/ChooseLegendRewardModal";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
@@ -52,7 +52,6 @@ function App() {
 
     const [showChooseExpeditionModal, setShowChooseExpeditionModal] = useState(false);
     const [chooseExpeditionModalData, setChooseExpeditionModalData] = useState([]);
-
 
     useEffect(() => {
         socket.on(TRANSMISSIONS.getStates, states => {
@@ -166,7 +165,7 @@ function App() {
                                 setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
                                     {effects: guardianEffects, effectsText: guardianText}]);
                                 // guardian is moved to player's discard
-                                tPlayerState.resources.shinies +=1;
+                                tPlayerState.resources.shinies += 1;
                                 tPlayerState.discardDeck.push(store.guardians[0]);
                                 tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
                                 store.guardians.splice(0, 1);
@@ -228,149 +227,37 @@ function App() {
     /** HANDLE CLICK ON LEGEND **/
     function handleClickOnLegend(legendIndex, columnIndex, fieldIndex, boons) {
         if (isActivePlayer && playerState.actions > 0) {
-            const jsxLegend = Legends[legends[legendIndex].id]
-            const field = jsxLegend.fields[columnIndex][fieldIndex];
-
-            const playerIndex = playerState.playerIndex;
-            const positions = legends[legendIndex].positions[playerIndex];
-            const previousColumnIndex = columnIndex - 1;
-            let canPlaceToken = false;
-            const prevPositions = [];
-
-            // if first column was clicked we check if the player has any null column position
-            if (columnIndex === 0) {
-                for (let position of positions) {
-                    if (position.columnIndex === null) {
-                        canPlaceToken = true;
-                        break;
-                    }
-                }
-                // if not we check if player has any token in previous column
-            } else if (positions[0].columnIndex === columnIndex - 1 || positions[1].columnIndex === columnIndex - 1) {
-                const previousColumn = jsxLegend.fields[columnIndex - 1];
-
-                // prepare positions in previous column as if there were three elements
-                // first index is always 0
-                prevPositions.push(0);
-                // second position can be 0 or 1
-                let tempIndex = previousColumn[0].size === FIELD_SIZE["1"] ? 1 : 0;
-                prevPositions.push(tempIndex);
-                // third position has three possibilities
-                if (previousColumn[0].size === FIELD_SIZE["1"]) {
-                    tempIndex = previousColumn[1].size === FIELD_SIZE["1"] ? 2 : 1;
-                } else {
-                    tempIndex = previousColumn[0].size === FIELD_SIZE["2"] ? 1 : 0;
-                }
-                prevPositions.push(tempIndex);
-                console.log(prevPositions);
-
-                if (field.size === 1) {
-                    for (let position of positions) {
-                        if (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex]) {
-                            canPlaceToken = true;
-                            break;
-                        }
-                    }
-                } else if (field.size === 2) {
-                    for (let position of positions) {
-                        if ((position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex])
-                            || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1])) {
-                            canPlaceToken = true;
-                            break
-                        }
-                    }
-                } else if (field.size === 3) {
-                    for (let position of positions) {
-                        if ((position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex])
-                            || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1])
-                            || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 2])) {
-                            canPlaceToken = true;
-                            break
+            const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, boons,
+                cloneDeep(playerState), cloneDeep(store), cloneDeep(locations))
+            if (legendResult) {
+                const tStore = legendResult.tStore;
+                // first four columns award extra rewards when all player's tokens reach them
+                if (columnIndex < 4) {
+                    const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
+                    if (isRewardDue) {
+                        if (columnIndex === 0 || columnIndex === 2) {
+                            const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
+                            tStore.expeditions.splice(0, 2);
+                            setChooseExpeditionModalData(expeditionsArr);
+                            setShowChooseExpeditionModal(true);
+                        } else if (columnIndex === 1) {
+                            const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
+                            tStore.incomes1Offer.splice(0, 2);
+                            setChooseExpeditionModalData(incomeArr);
+                            setShowChooseExpeditionModal(true);
+                        } else if (columnIndex === 3) {
+                            const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
+                            tStore.incomes2Offer.splice(0, 2);
+                            setChooseExpeditionModalData(incomeArr);
+                            setShowChooseExpeditionModal(true);
                         }
                     }
                 }
-            }
-            if (canPlaceToken) {
-                const activeEffect = playerState.activeEffects[0];
-                let cost = [...jsxLegend.fields[columnIndex][fieldIndex].cost];
-                let effects = [...cost, ...boons]
-                if (activeEffect === EFFECT.progressWithTexts || activeEffect === EFFECT.progressWithWeapon
-                    || activeEffect === EFFECT.progressWithJewel) {
-                    effects = getDiscountForProgress(effects, activeEffect);
-                }
-                let effectsResult = processEffects(null, null, playerState, effects,
-                    null, store, null, locations);
-
-                // if effects were processed (price was paid) place the token
-                if (effectsResult.processedAllEffects) {
-                    if (columnIndex > 0) {
-                        for (let position of positions) {
-                            if (position.columnIndex === columnIndex - 1) {
-                                let correctToken = false;
-                                switch (field.size) {
-                                    case FIELD_SIZE["3"]:
-                                        if (position.fieldIndex === prevPositions[fieldIndex] + 2) {
-                                            correctToken = true
-                                        }
-                                    case FIELD_SIZE["2"]:
-                                        if (position.fieldIndex === prevPositions[fieldIndex] + 1) {
-                                            correctToken = true
-                                        }
-                                    case FIELD_SIZE["1"]:
-                                        if (position.fieldIndex === prevPositions[fieldIndex]) {
-                                            correctToken = true
-                                        }
-                                        break
-                                    default:
-                                        console.log("Unable to process field size in handleClickOnLegend: " + field.size);
-                                }
-                                if (correctToken) {
-                                    position.columnIndex = columnIndex;
-                                    position.fieldIndex = fieldIndex;
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        for (let position of positions) {
-                            if (position.columnIndex === null && position.fieldIndex === null) {
-                                position.columnIndex = columnIndex;
-                                position.fieldIndex = fieldIndex;
-                                break;
-                            }
-                        }
-                    }
-
-                    effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
-
-                    // first four columns award extra rewards when all tokens reach them
-                    if (columnIndex < 4) {
-                        const isRewardDue = getIsRewardDue(columnIndex, positions);
-                        if (isRewardDue) {
-                            if (columnIndex === 0 || columnIndex === 2) {
-                                const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                                store.expeditions.splice(0, 2);
-                                setChooseExpeditionModalData(expeditionsArr);
-                                setShowChooseExpeditionModal(true);
-                            } else if (columnIndex === 1) {
-                                const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
-                                store.incomes1Offer.splice(0, 2);
-                                setChooseExpeditionModalData(incomeArr);
-                                setShowChooseExpeditionModal(true);
-                            } else if (columnIndex === 3) {
-                                const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
-                                store.incomes2Offer.splice(0, 2);
-                                setChooseExpeditionModalData(incomeArr);
-                                setShowChooseExpeditionModal(true);
-                            }
-                        }
-                    }
-                    setPlayerState(effectsResult.tPlayerState);
-                    setLocations(effectsResult.tLocations);
-                    setLegends(legends);
-                    setStore(effectsResult.tStore);
-                    return true
-                }
+                setPlayerState(legendResult.tPlayerState);
+                setLocations(legendResult.tLocations);
+                setLegends(legendResult.tLegends);
+                setStore(tStore);
+                return legendResult.tLegends;
             }
         }
     }
@@ -510,9 +397,10 @@ function App() {
     }
 
     /** SET NEXT PLAYER **/
-    if (playerState.actions === 0) {
+    /*if (playerState.actions === 0) {
         nextPlayer();
-    }
+    }*/
+
     function nextPlayer() {
         if (isActivePlayer) {
             let tPlayerState = cloneDeep(playerState);
