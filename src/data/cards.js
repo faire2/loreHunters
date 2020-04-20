@@ -41,7 +41,6 @@ export const CARD_TRANSPORT = Object.freeze({
 
 const bigIconsStyle = {
     fontSize: "1.2vw",
-    marginTop: "0.5vw",
 }
 
 const lockEffectsStyle = {

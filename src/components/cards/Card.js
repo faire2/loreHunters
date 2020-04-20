@@ -86,10 +86,10 @@ export default function Card(props) {
                     console.log("Unable to process lock effect in Card.js: " + props.card.lockEffect);
             }
         }
-        newLockText = newLockText.map( (icon, i) =>
-        <div key={i}>
-            {icon}
-        </div>)
+        newLockText = newLockText.map((icon, i) =>
+            <div key={i}>
+                {icon}
+            </div>)
     }
 
     /* get card cost */
@@ -127,7 +127,7 @@ export default function Card(props) {
         right: 0,
         cursor: isPointer,
         width: "100%",
-        height: "25%",
+        height: "13%",
         zIndex: 1,
     };
 
@@ -148,15 +148,19 @@ export default function Card(props) {
         marginTop: "0.5vw",
     };
 
+    const effectsWrapperStyle = {
+        cursor: isPointer,
+        height: "85%",
+    }
+
     //todo fontSize is set in cards.js, should be moved here
     const effectsStyle = {
-        marginTop: !isGuardian ? "70%" : "75%",
-        marginLeft: !isGuardian ? 0 : "35%",
+        width: "95%",
+        marginTop: !isGuardian ? "55%" : "59%",
+        marginLeft: !isGuardian ? 0 : "32%",
         fontSize: "0.5vw",
         textAlign: !isGuardian ? "center" : "left",
         position: "absolute",
-        cursor: isPointer,
-        width: "95%"
     };
 
     // todo: responsiveness depends on font size in Symbols.js
@@ -177,7 +181,8 @@ export default function Card(props) {
         marginLeft: "auto",
         marginRight: "auto",
         display: "flex",
-        width: "1.2vw",
+        flexDirection: "row",
+        width: "1.7vw",
     };
 
     const costStyle = {
@@ -197,7 +202,7 @@ export default function Card(props) {
         position: "absolute",
         display: "flex",
         alignItems: "center",
-        textShadow: "-1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF",
+        color: "white"
     };
 
     function handleClickOnEffect(effects, isTravel) {
@@ -227,12 +232,14 @@ export default function Card(props) {
                      transportAmount={card.transportAmount}/>
             <TransportIcons transport={transport} style={transportStyle}/>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
-            <Effects effectsText={effectsText} effects={card.effects} style={effectsStyle}
-                     handleClickOnEffect={handleClickOnEffect}/>
-            {cardType === CARD_TYPE.guardian && <DiscoveryEffects style={discoveryEffectsStyle} discoveryText={card.discoveryText}
-                      discoveryText2={card.discoveryText2}/>}
+            <div handleClickOnEffect={handleClickOnEffect} style={effectsWrapperStyle}>
+                <Effects effectsText={effectsText} effects={card.effects} style={effectsStyle}/>
+            </div>
+            {cardType === CARD_TYPE.guardian &&
+            <DiscoveryEffects style={discoveryEffectsStyle} discoveryText={card.discoveryText}
+                              discoveryText2={card.discoveryText2}/>}
             {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle}
-                     lockText={card.state === CARD_STATE.active ? newLockText : lockText} />}
+                                                             lockText={card.state === CARD_STATE.active ? newLockText : lockText}/>}
             <Cost cost={cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
             <span style={{fontSize: 10, position: "absolute", top: "20%", left: "10%"}}> {card.state} </span>
@@ -278,10 +285,10 @@ const Effects = (props) =>
     </div>;
 
 const DiscoveryEffects = (props) =>
-        <div style={props.style} >
-            {props.discoveryText}
-            <div style={{position: "absolute", marginTop:"2vw"}}>{props.discoveryText2}</div>
-        </div>
+    <div style={props.style}>
+        {props.discoveryText}
+        <div style={{position: "absolute", marginTop: "2vw"}}>{props.discoveryText2}</div>
+    </div>
 
 const LockEffects = (props) =>
     <div style={props.style}>
