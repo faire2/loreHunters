@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
@@ -8,6 +8,7 @@ import itemBgr from "../../img/cardBackgrounds/Item.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
 import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
+import transportHighlight from "../../img/cardBackgrounds/transportHighlight.png"
 import {AdventurerIcon, Coin, Discard, Explore, Guardian, Jeep, Blimp, Ship, Walk, Weapon} from "../Symbols";
 import {cloneDeep} from "lodash";
 import {gainLockedResourceBack} from "../functions/processEffects";
@@ -56,10 +57,9 @@ export default function Card(props) {
                 break;
             default:
                 console.log("Unable to propcess card transport type in Card.js: " + card.id + ", " + card.transport);
-
-
         }
     }
+    const [highlightTransport, setHighlightTransport] = useState(false);
 
     const lockText = card.type === CARD_TYPE.guardian ? card.lockText : null;
     // If resources have already be locked, display their correct amount
@@ -141,6 +141,19 @@ export default function Card(props) {
         top: card.transportAmount === 1 ? "9%" : "10%",
         left: card.transportAmount === 1 ? "6%" : "7%",
         fontSize: card.transportAmount === 1 ? "1vw" : "0.7vw",
+        zIndex: 2,
+    }
+
+    const transportHighlightStyle = {
+        backgroundImage: `url(${transportHighlight}`,
+        backgroundSize: "100% 100%",
+        position: "absolute",
+        width: "1.2vw",
+        height: "1.2vw",
+        top: "2%",
+        left: "5%",
+        zIndex: 1,
+        visibility: highlightTransport ? "visible" : "hidden",
     }
 
     const cardNameStyle = {
@@ -229,8 +242,9 @@ export default function Card(props) {
     return (
         <div style={cardStyle} className="card" onClick={() => handleClickOnCard()}>
             <CardTop itemTransport={card.transport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
-                     transportAmount={card.transportAmount}/>
+                     transportAmount={card.transportAmount} setHighlightTransport={setHighlightTransport}/>
             <TransportIcons transport={transport} style={transportStyle}/>
+            <div style={transportHighlightStyle}></div>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
             <div handleClickOnEffect={handleClickOnEffect} style={effectsWrapperStyle}>
                 <Effects effectsText={effectsText} effects={card.effects} style={effectsStyle}/>
@@ -242,7 +256,7 @@ export default function Card(props) {
                                                              lockText={card.state === CARD_STATE.active ? newLockText : lockText}/>}
             <Cost cost={cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
-            <span style={{fontSize: 10, position: "absolute", top: "20%", left: "10%"}}> {card.state} </span>
+            <span style={{fontSize: 10, position: "absolute", top: "20%", left: "10%"}}>  {card.state}  </span>
         </div>
     )
 }
@@ -274,7 +288,8 @@ const CardTop = (props) => {
     }
 
     return (
-        <div style={props.style} onClick={() => props.handleClickOnEffect(effects, true)}>
+        <div style={props.style} onClick={() => props.handleClickOnEffect(effects, true)}
+             onMouseEnter={() => props.setHighlightTransport(true)} onMouseLeave={() => props.setHighlightTransport(false)}>
         </div>
     )
 };
