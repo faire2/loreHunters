@@ -484,6 +484,14 @@ function App() {
         setPlayerState(tPlayerState)
     }
 
+    /** HANDLE CLICK ON RELIC **/
+    function handleClickOnRelic(effects) {
+        let tPlayersState = cloneDeep(playerState);
+        let effectsResult = processEffects(null, null, tPlayersState, effects, null,
+            cloneDeep(store), null, cloneDeep(locations), null);
+        setPlayerState(effectsResult.tPlayerState);
+    }
+
     /** BUY A CARD **/
     function handleCardBuy(card, cardIndex) {
         if (isActivePlayer) {
@@ -569,6 +577,7 @@ function App() {
                     handleEndRound: handleEndRound,
                     nextPlayer: nextPlayer,
                     handleClickOnResource: handleClickOnResource,
+                    handleClickOnRelic: handleClickOnRelic,
                 }}>
                     <LegendsArea/>
                     <Resources/>
