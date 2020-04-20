@@ -29,6 +29,7 @@ export default function CardsArea(props) {
                 </div>
             </div>
             <div className="d-flex flex-row" style={rowStyle}>
+                <div className="vertical-text">HAND</div>
                 <Hand/>
                 <div className="vertical-text">DISCARD</div>
                 <DiscardDeck cards={playerStateContext.playerState.discardDeck}/>
