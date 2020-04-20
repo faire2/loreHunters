@@ -36,6 +36,7 @@ import ChooseLegendRewardModal from "./components/legends/ChooseLegendRewardModa
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {handleIncomes} from "./server/serverFunctions";
+import {processUptrade} from "./components/resources/resourcesFunctions";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -282,12 +283,9 @@ function App() {
         if (isActivePlayer) {
             const effectProcessResults = processActiveEffect(card, cardIndex, null, cloneDeep(playerState),
                 null, {...store}, {...locations}, setRewardsModal);
-            const tPlayerState = effectProcessResults.tPlayerState;
-            const tStore = effectProcessResults.tStore;
-            const tLocations = effectProcessResults.tLocations;
-            setPlayerState(tPlayerState);
-            setStore(tStore);
-            setLocations(tLocations);
+            setPlayerState(effectProcessResults.tPlayerState);
+            setStore(effectProcessResults.tStore);
+            setLocations(effectProcessResults.tLocations);
         }
     }
 
@@ -296,23 +294,7 @@ function App() {
         if (isActivePlayer) {
             console.log("Handling click on resource: " + resource);
             if (playerState.activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
-                const tPlayerState = cloneDeep(playerState);
-                let resources = tPlayerState.resources;
-                const tActiveEffects = tPlayerState.activeEffects;
-                if (resource === RESOURCES.TEXTS) {
-                    resources.texts -= 1;
-                    resources.weapons += 1;
-                } else if (resource === RESOURCES.WEAPONS) {
-                    resources.weapons -= 1;
-                    resources.jewels += 1;
-                } else if (resource === RESOURCES.JEWELS) {
-                    resources.jewels -= 1;
-                    resources.texts += 3;
-                } else {
-                    console.log("Unknown resource in handleClickOnResource: " + resource);
-                }
-                tActiveEffects.splice(0, 1);
-                setPlayerState(tPlayerState);
+                setPlayerState(processUptrade(cloneDeep(playerState), resource));
             } else if (playerState.activeEffects[0] === EFFECT.progressWithTextsOrWeapon
                 && (resource === RESOURCES.TEXTS || resource === RESOURCES.WEAPONS)) {
                 const tPlayerState = cloneDeep(playerState);
