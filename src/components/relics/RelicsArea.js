@@ -1,8 +1,10 @@
 import React, {useContext} from "react";
-import {Blimp, Coin, Draw1Card, Explore, Jewel, Shiny, Text, Weapon} from "../Symbols";
+import {Blimp, Coin, Draw1Card, Explore, Jeep, Jewel, Shiny, Text, Weapon} from "../Symbols";
 import bgr from "../../img/relics/relicsBackground.png"
 import {PlayerStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
+import bonusBgr from "../../img/bonus_action_background.png";
+import vpBgr from "../../img/symbols/VP.png";
 
 export function RelicsArea() {
     const playerStateContext = useContext(PlayerStateContext);
@@ -62,54 +64,75 @@ export function RelicsArea() {
         paddingTop: !twoLines ? "0.9vw" : "0.5vw"
     }
 
-    const field1 = <div style={fieldStyle1Icon} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.gainJewel])}>
-            <Jewel/>
+    const victoryPointsStyle = {
+        marginBottom: "110%",
+        backgroundSize: "100% 100%",
+        backgroundImage: `url(${vpBgr}`,
+        width: "2vw",
+        height: "2vw",
+        color: "white",
+        fontSize: "1.2vw"
+    }
+
+    const victoryPointsContainerStyle = {
+        marginLeft: "-17%",
+        marginTop: "7%",
+        position: "absolute",
+        height: "100%",
+    }
+
+    const effectsArr = [
+        [EFFECT.gainJewel],
+        [EFFECT.gainJewel],
+        [EFFECT.gainCoin, EFFECT.gainWeapon],
+        [EFFECT.gainWeapon],
+        [EFFECT.gainExplore, EFFECT.gainText],
+        [EFFECT.gainCoin, EFFECT.gainText],
+        [EFFECT.gainText],
+        [EFFECT.gainExplore],
+        [EFFECT.draw1]];
+
+    const effectsTextArr = [
+        [<Jewel/>],
+        [<Jewel/>],
+        [<Coin/>, <div style={overLapStyle}><Weapon/></div>],
+        [<Weapon/>],
+        [<Explore/>, <div style={overLapStyle}><Text/></div>],
+        [<Coin/>, <div style={overLapStyle}><Text/></div>],
+        [<Coin/>],
+        [<Explore/>],
+        [<Draw1Card/>]
+    ]
+
+    const victoryPoints = [0, 1, 2, 4]
+    const victoryPointsArr = victoryPoints.map((vp, i) =>
+        <div style={victoryPointsStyle} key={i}>
+            {vp}
         </div>
+    );
 
-    const field2 = <div style={fieldStyle1Icon} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.gainJewel])}>
-            <Jewel/>
-        </div>
+    const fieldsArr =
+        effectsTextArr.map((effectsText, i) => {
+                const style = effectsText.length === 1 ? fieldStyle1Icon : fieldStyle2Icons
+                return (
+                    <div style={style} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
+                        {playerState.relics[i] ? effectsText : <Shiny/>}
+                    </div>
+                )
+            }
+        )
 
-    const field3 = <div style={fieldStyle2Icons} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.gainCoin, EFFECT.gainWeapon])}>
-            <Coin/>
-            <div style={overLapStyle}>
-                <Weapon/>
-            </div>
-        </div>
-
-    const field4 = <div style={fieldStyle1Icon} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.gainWeapon])}>
-            <Weapon/>
-        </div>
-
-    const field5 = <div style={fieldStyle2Icons} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.gainExplore, EFFECT.gainText])}>
-        <Explore/> <div style={overLapStyle}><Text/></div>
-    </div>
-
-    const field6 = <div style={fieldStyle2Icons} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.gainCoin, EFFECT.gainText])}>
-        <Coin/> <div style={overLapStyle}><Text/></div>
-    </div>
-
-    const field7 = <div style={fieldStyle1Icon} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.gainText])}>
-        <Text/>
-    </div>
-
-    const field8 = <div style={fieldStyle1Icon} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.gainExplore])}>
-        <Explore/>
-    </div>
-
-    const field9 = <div style={fieldStyle1Icon} onClick={() => playerStateContext.handleClickOnRelic([EFFECT.draw1])}>
-        <Draw1Card/>
-    </div>
 
     return (
         <div style={containerStyle}>
-            {field1}{field2}{field3}
-            {field4}{field5}{field6}
-            {field7}{field8}{field9}
+            {fieldsArr}
             <div style={relicsStyle}>
                 {relicsArr.map(icon =>
                     icon
                 )}
+            </div>
+            <div style={victoryPointsContainerStyle}>
+                {victoryPointsArr}
             </div>
         </div>
     )

@@ -485,11 +485,16 @@ function App() {
     }
 
     /** HANDLE CLICK ON RELIC **/
-    function handleClickOnRelic(effects) {
+    function handleClickOnRelic(effects, effectIndex) {
         let tPlayersState = cloneDeep(playerState);
-        let effectsResult = processEffects(null, null, tPlayersState, effects, null,
-            cloneDeep(store), null, cloneDeep(locations), null);
-        setPlayerState(effectsResult.tPlayerState);
+        if (tPlayersState.relics[effectIndex]) {
+            let effectsResult = processEffects(null, null, tPlayersState, effects, null,
+                cloneDeep(store), null, cloneDeep(locations), null);
+            tPlayersState = effectsResult.tPlayerState;
+            tPlayersState.relics[effectIndex] = false;
+            tPlayersState.resources.shinies -= 1;
+            setPlayerState(effectsResult.tPlayerState);
+        }
     }
 
     /** BUY A CARD **/

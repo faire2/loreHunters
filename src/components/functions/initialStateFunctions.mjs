@@ -58,11 +58,12 @@ export const emptyPlayerState = Object.freeze({
     destroyedCards: [],
     discardDeck: [],
     drawDeck: [],
-    finishedRound: false,
+    finishedRound: true,
     incomes: [],
     hand: [],
     playedCards: [],
     playerIndex: null,
+    relics: [true, true, true, true, true, true, true, true, true],
     victoryCards: [],
 });
 
@@ -92,9 +93,9 @@ export default function getInitialPlayerStates() {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        const testCard = {...GUARDIAN_IDs.mountainGuardian};
+        /*const testCard = {...GUARDIAN_IDs.mountainGuardian};
         testCard.state = CARD_STATE.inHand;
-        drawDeck.splice(0, 0, testCard);
+        drawDeck.splice(0, 0, testCard);*/
 
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;
