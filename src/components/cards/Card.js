@@ -117,10 +117,18 @@ export default function Card(props) {
         width: "6.5vw",
         marginLeft: card.state === CARD_STATE.locked ? "-3vw" : "0.3vw",
         position: "relative",
-        backgroundImage: `url(${cardBackground}`,
-        backgroundSize: "contain",
+
         zIndex: card.state === CARD_STATE.locked ? -1 : 1
     };
+
+    const cardBackgroundStyle = {
+        position: "absolute",
+        backgroundImage: `url(${cardBackground}`,
+        backgroundSize: "100% 100%",
+        zIndex: 1,
+        width: "100%",
+        height: "100%"
+    }
 
     /* used as clickable area for playing transport */
     const cardTopStyle = {
@@ -129,7 +137,7 @@ export default function Card(props) {
         cursor: isPointer,
         width: "100%",
         height: "13%",
-        zIndex: 1,
+        zIndex: 3,
     };
 
     const transportStyle = {
@@ -160,6 +168,7 @@ export default function Card(props) {
     const cardNameStyle = {
         fontSize: "0.5vw",
         marginTop: "0.5vw",
+        zIndex: 1
     };
 
     const cardImageStyle = {
@@ -176,6 +185,7 @@ export default function Card(props) {
     const effectsWrapperStyle = {
         cursor: isPointer,
         height: "85%",
+        zIndex: 2
     }
 
     //todo fontSize is set in cards.js, should be moved here
@@ -186,6 +196,7 @@ export default function Card(props) {
         fontSize: "0.5vw",
         textAlign: !isGuardian ? "center" : "left",
         position: "absolute",
+        zIndex: 1
     };
 
     // todo: responsiveness depends on font size in Symbols.js
@@ -195,6 +206,7 @@ export default function Card(props) {
         top: "16%",
         right: "6%",
         fontSize: "0.5vw",
+        zIndex: 1
     };
 
     const lockEffectsStyle = {
@@ -208,6 +220,7 @@ export default function Card(props) {
         display: "flex",
         flexDirection: "row",
         width: "1.7vw",
+        zIndex: 1
     };
 
     const costStyle = {
@@ -218,6 +231,7 @@ export default function Card(props) {
         flexDirection: "row",
         position: "absolute",
         color: isGuardian ? "gold" : "black",
+        zIndex: 1
     };
 
     const pointsStyle = {
@@ -227,7 +241,8 @@ export default function Card(props) {
         position: "absolute",
         display: "flex",
         alignItems: "center",
-        color: "white"
+        color: "white",
+        zIndex: 1
     };
 
     function handleClickOnEffect(effects, isTravel) {
@@ -253,6 +268,7 @@ export default function Card(props) {
 
     return (
         <div style={cardStyle} className="card" onClick={() => handleClickOnCard()}>
+            <div style={cardBackgroundStyle} />
             <CardTop itemTransport={card.transport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
                      transportAmount={card.transportAmount} setHighlightTransport={setHighlightTransport}/>
             <TransportIcons transport={transport} style={transportStyle}/>
