@@ -507,7 +507,7 @@ function App() {
                 const tPlayerState = buyResult.tPlayerState;
                 const tStore = buyResult.tStore;
                 if (card.type === CARD_TYPE.artifact && card.isGuarded) {
-                    tPlayerState.discard.push(store.guardians[0]);
+                    tPlayerState.discardDeck.push(store.guardians[0]);
                     tStore.guardians.splice(0, 1);
                 }
                 setPlayerState(cloneDeep(tPlayerState));
@@ -520,6 +520,9 @@ function App() {
     }
 
     /** SET NEXT PLAYER **/
+    if (playerState.actions === 0) {
+        nextPlayer();
+    }
     function nextPlayer() {
         if (isActivePlayer) {
             let tPlayerState = cloneDeep(playerState);
