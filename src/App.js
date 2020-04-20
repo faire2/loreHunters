@@ -136,8 +136,7 @@ function App() {
             } else {
                 switch (location.state) {
                     case LOCATION_STATE.unexplored:
-                        const canExplore = isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState)
-                        if (canExplore) {
+                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState)) {
                             const resources = tPlayerState.resources;
                             const enoughResources = resources.explore >= location.exploreCost.explore
                                 && resources.coins >= location.exploreCost.coins && tPlayerState.actions > 0;

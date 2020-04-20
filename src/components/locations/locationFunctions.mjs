@@ -118,7 +118,6 @@ export function getPositionInLocationLine(location, locationLine, locations) {
 
 function checkOwner(locations, checkedLine, checkedLocationPosition, playerIndex) {
     const checkedLocation = locations[checkedLine][checkedLocationPosition];
-    console.log("line, position: " + checkedLine + ", " + checkedLocationPosition);
     return checkedLocation.owner === playerIndex;
 }
 
@@ -157,10 +156,8 @@ function checkPreviousLine(locationData, playerIndex, isFirst, isLast) {
                 return true;
             }
         }
-        if (!isLast) {
-            if (checkOwner(locations, LOCATION_LINE.line2, position, playerIndex)) {
-                return true;
-            }
+        if (checkOwner(locations, LOCATION_LINE.line2, position, playerIndex)) {
+            return true;
         }
     } else if (line === LOCATION_LINE.line4) {
         if (checkOwner(locations, LOCATION_LINE.line3, position, playerIndex)) {
