@@ -37,6 +37,7 @@ import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {handleIncomes} from "./server/serverFunctions";
 import {processUptrade} from "./components/resources/resourcesFunctions";
+import {processIncomeTile} from "./components/functions/processEffects";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -310,37 +311,7 @@ function App() {
 
     /** HANDLE CLICK ON INCOME TILE **/
     function handleClickOnIncomeTile(effects, incomeId) {
-        let tPlayerState = cloneDeep(playerState);
-        for (let effect of effects) {
-            switch (effect) {
-                // this effects are handled automatically in end of round
-                case EFFECT.gainAdventurerForThisRound:
-                case EFFECT.gainCoin:
-                case EFFECT.gainExplore:
-                case EFFECT.gainText:
-                case EFFECT.gainWeapon:
-                    break;
-                case EFFECT.draw1:
-                case EFFECT.buyWithDiscount1:
-                case EFFECT.gainPlane:
-                case EFFECT.uptrade:
-                    const effectsResult = processEffects(null, null, tPlayerState, [effect], null,
-                        cloneDeep(store), null, cloneDeep(locations), null);
-                    tPlayerState = effectsResult.tPlayerState;
-
-                    break;
-                default:
-                    console.log("Unable to process effect in handleClickOnIncomeTile: ");
-                    console.log(effects);
-            }
-        }
-        for (let income of tPlayerState.incomes) {
-            if (income.id === incomeId) {
-                income.state = INCOME_STATE.spent;
-                break;
-            }
-        }
-        setPlayerState(tPlayerState)
+        setPlayerState(processIncomeTile(effects, incomeId, cloneDeep(playerState)))
     }
 
     /** HANDLE CLICK ON RELIC **/

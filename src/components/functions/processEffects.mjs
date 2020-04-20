@@ -3,7 +3,7 @@ import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
-import {GUARDIAN_IDs} from "../../data/idLists";
+import {GUARDIAN_IDs, INCOME_STATE} from "../../data/idLists";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations, originalLegend) {
@@ -391,4 +391,37 @@ export function gainLockedResourceBack(lockEffect, amount, effects) {
             console.log("Unable to process lockEffect in gainLockedResourceBack: " + lockEffect);
     }
     return effects;
+}
+
+export function processIncomeTile(effects, incomeId, playerState) {
+    for (let effect of effects) {
+        switch (effect) {
+            // this effects are handled automatically in end of round
+            case EFFECT.gainAdventurerForThisRound:
+            case EFFECT.gainCoin:
+            case EFFECT.gainExplore:
+            case EFFECT.gainText:
+            case EFFECT.gainWeapon:
+                break;
+            case EFFECT.draw1:
+            case EFFECT.buyWithDiscount1:
+            case EFFECT.gainPlane:
+            case EFFECT.uptrade:
+                const effectsResult = processEffects(null, null, playerState, [effect], null,
+                    null, null, null, null);
+                playerState = effectsResult.tPlayerState;
+
+                break;
+            default:
+                console.log("Unable to process effect in handleClickOnIncomeTile: ");
+                console.log(effects);
+        }
+    }
+    for (let income of playerState.incomes) {
+        if (income.id === incomeId) {
+            income.state = INCOME_STATE.spent;
+            break;
+        }
+    }
+    return playerState
 }
