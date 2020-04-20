@@ -153,7 +153,7 @@ export default function Card(props) {
         top: "2%",
         left: "5%",
         zIndex: 1,
-        visibility: highlightTransport ? "visible" : "hidden",
+        visibility:  highlightTransport && card.state === CARD_STATE.inHand ? "visible" : "hidden",
     }
 
     const cardNameStyle = {
@@ -244,10 +244,11 @@ export default function Card(props) {
             <CardTop itemTransport={card.transport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
                      transportAmount={card.transportAmount} setHighlightTransport={setHighlightTransport}/>
             <TransportIcons transport={transport} style={transportStyle}/>
-            <div style={transportHighlightStyle}></div>
+            <div style={transportHighlightStyle}/>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
-            <div handleClickOnEffect={handleClickOnEffect} style={effectsWrapperStyle}>
-                <Effects effectsText={effectsText} effects={card.effects} style={effectsStyle}/>
+
+            <div onClick={() => handleClickOnEffect(card.effects, false)} style={effectsWrapperStyle}>
+                <Effects effectsText={effectsText} style={effectsStyle}/>
             </div>
             {cardType === CARD_TYPE.guardian &&
             <DiscoveryEffects style={discoveryEffectsStyle} discoveryText={card.discoveryText}
@@ -295,7 +296,7 @@ const CardTop = (props) => {
 };
 
 const Effects = (props) =>
-    <div style={props.style} onClick={() => props.handleClickOnEffect(props.effects, false)}>
+    <div style={props.style}>
         {props.effectsText}
     </div>;
 
