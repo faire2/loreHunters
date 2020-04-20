@@ -227,3 +227,13 @@ export function getLocationIndex(locationLine, locationId) {
         }
     }
 }
+
+export function occupyLocation(tLocations, locationId, locationLine, playerIndex) {
+    for (let tLocation of tLocations[locationLine]) {
+        if (tLocation.id === locationId) {
+            tLocation.state = LOCATION_STATE.occupied;
+            tLocation.owner = playerIndex;
+        }
+    }
+    return tLocations;
+}

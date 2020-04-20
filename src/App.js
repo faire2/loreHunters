@@ -28,7 +28,7 @@ import {
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
-import {getPositionInLocationLine} from "./components/locations/locationFunctions";
+import {getPositionInLocationLine, occupyLocation} from "./components/locations/locationFunctions";
 import {GUARDIANS} from "./data/cards";
 import {FIELD_SIZE, Legends} from "./data/legends";
 import {getDiscountForProgress, getIsRewardDue} from "./components/legends/legendsFunctions";
@@ -96,10 +96,8 @@ function App() {
             if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
                 (tCard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
                 if (tCard.state === CARD_STATE.inHand) {
-                    /* we push the played card the active cards area... */
                     tPlayerState.activeCards.push(tCard);
                     tCard.state = CARD_STATE.active
-                    /* ...and remove it from the hand */
                     tPlayerState.hand.splice(cardIndex, 1);
                 }
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
@@ -179,8 +177,7 @@ function App() {
                         }
                         break;
                     case
-                    LOCATION_STATE.explored
-                    :
+                    LOCATION_STATE.explored:
                         const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
                         if (travelCheckResults.enoughResources && tPlayerState.actions > 0 && tPlayerState.availableAdventurers > 0) {
                             tPlayerState = travelCheckResults.tPlayerState;
@@ -189,20 +186,12 @@ function App() {
                             const effectsResult = processEffects(null, null, tPlayerState, effects, null,
                                 {...store}, location, {...locations});
                             setPlayerState(effectsResult.tPlayerState);
-
-                            let tLocations = cloneDeep(locations);
-                            for (let tLocation of tLocations[locationLine]) {
-                                if (tLocation.id === location.id) {
-                                    tLocation.state = LOCATION_STATE.occupied;
-                                    tLocation.owner = playerState.playerIndex;
-                                }
-                            }
+                            let tLocations = occupyLocation(cloneDeep(locations), location.id, locationLine, tPlayerState.playerIndex);
                             setLocations(tLocations);
                         }
                         break;
                     case
-                    LOCATION_STATE.occupied
-                    :
+                    LOCATION_STATE.occupied:
                         console.log("Location is occupied.");
                         break;
                     default:
