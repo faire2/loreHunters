@@ -168,6 +168,7 @@ function App() {
                                 setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
                                     {effects: guardianEffects, effectsText: guardianText}]);
                                 // guardian is moved to player's discard
+                                tPlayerState.resources.shinies +=1;
                                 tPlayerState.discardDeck.push(store.guardians[0]);
                                 tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
                                 store.guardians.splice(0, 1);
