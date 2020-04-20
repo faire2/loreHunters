@@ -4,6 +4,7 @@ import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, GUARDIANS, ITEMS} from "../../data/cards";
 
+import jeep from "../../img/items/jeep.png"
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
@@ -118,7 +119,7 @@ export default function Card(props) {
         position: "relative",
         backgroundImage: `url(${cardBackground}`,
         backgroundSize: "contain",
-        zIndex: card.state === CARD_STATE.locked ? -1 : 0
+        zIndex: card.state === CARD_STATE.locked ? -1 : 1
     };
 
     /* used as clickable area for playing transport */
@@ -160,6 +161,17 @@ export default function Card(props) {
         fontSize: "0.5vw",
         marginTop: "0.5vw",
     };
+
+    const cardImageStyle = {
+        position: "absolute",
+        marginTop: "17%",
+        height: "45%",
+        width: "100%",
+        backgroundImage: `url(${jeep})`,
+        backgroundColor: "red",
+        backgroundSize: "100% 100%",
+        zIndex: -1
+    }
 
     const effectsWrapperStyle = {
         cursor: isPointer,
@@ -246,6 +258,7 @@ export default function Card(props) {
             <TransportIcons transport={transport} style={transportStyle}/>
             <div style={transportHighlightStyle}/>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
+            <div style={cardImageStyle}/>
 
             <div onClick={() => handleClickOnEffect(card.effects, false)} style={effectsWrapperStyle}>
                 <Effects effectsText={effectsText} style={effectsStyle}/>
@@ -257,7 +270,6 @@ export default function Card(props) {
                                                              lockText={card.state === CARD_STATE.active ? newLockText : lockText}/>}
             <Cost cost={cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
-            <span style={{fontSize: 10, position: "absolute", top: "20%", left: "10%"}}>  {card.state}  </span>
         </div>
     )
 }
