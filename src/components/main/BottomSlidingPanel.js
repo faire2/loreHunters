@@ -2,10 +2,11 @@ import React, {useContext, useState} from "react";
 import Card from "../cards/Card";
 import {PlayerStateContext} from "../../Contexts";
 import {shuffleArray} from "../functions/initialStateFunctions";
-import {cardRowStyle, sideTextStyle} from "../cards/cardRowStyle";
+import {CardRow, cardRowStyle, sideTextStyle} from "../cards/CardRow";
 
 export default function BottomSlidingPanel(props) {
     const playerStateContext = useContext(PlayerStateContext);
+    const playerState = playerStateContext.playerState;
     const extendPanel = props.extendPanel;
 
     const slideStyle = {
@@ -21,30 +22,9 @@ export default function BottomSlidingPanel(props) {
 
     return (
         <div style={slideStyle}>
-            <div style={cardRowStyle}>
-                <div style={sideTextStyle}>RAND. DRAW DECK</div>
-                {shuffleArray(playerStateContext.playerState.drawDeck).map((card, i) =>
-                    <div key={i}>
-                        <Card card={card} index={i}/>
-                    </div>
-                )}
-            </div>
-            <div style={cardRowStyle}>
-                <div style={sideTextStyle}>VICTORY CARDS</div>
-                {shuffleArray(playerStateContext.playerState.victoryCards).map((card, i) =>
-                    <div key={i}>
-                        <Card card={card} index={i}/>
-                    </div>
-                )}
-            </div>
-            <div style={cardRowStyle}>
-                <div style={sideTextStyle}>DISCARD DECK</div>
-                {shuffleArray(playerStateContext.playerState.discardDeck).map((card, i) =>
-                    <div key={i}>
-                        <Card card={card} index={i}/>
-                    </div>
-                )}
-            </div>
+            <CardRow cards={playerState.drawDeck} randomize={true} text={"RAND. DRAW DECK"} />
+            <CardRow cards={playerState.discardDeck} randomize={false} text={"DISCARD DECK"} />
+            <CardRow cards={playerState.victoryCards} randomize={false} text={"VICTORY CARDS"} />
         </div>
     )
 }
