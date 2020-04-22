@@ -413,6 +413,7 @@ function GameBoard() {
 
     const playerStateContextValues = {
         playerState: playerState,
+        isActivePlayer: isActivePlayer,
         handleEndRound: handleEndRound,
         nextPlayer: nextPlayer,
         handleClickOnResource: handleClickOnResource,
@@ -436,8 +437,7 @@ function GameBoard() {
                     <Controls/><br/>
                     <div>
                         {playerState.activeEffects[0]}
-                        {isActivePlayer ? <p>Your turn! Actions: {playerState.actions}</p> :
-                            <p>Wait for your turn...</p>}
+
                     </div>
                     <ChooseRewardModal/>
                     <ChooseLegendRewardModal/>
