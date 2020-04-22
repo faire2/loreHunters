@@ -2,7 +2,7 @@ import Card from "./Card";
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
 
-export function Hand(props) {
+export function Hand() {
     const playerStateContext = useContext(PlayerStateContext);
 
     return (

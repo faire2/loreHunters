@@ -688,5 +688,6 @@ export const TRANSMISSIONS = Object.freeze({
     nextPlayer: "nextPlayer",
     finishedRound: "finishedRound",
     testData: "testData",
+    newGame: "start a new game"
 });
 

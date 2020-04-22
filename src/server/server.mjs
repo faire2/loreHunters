@@ -62,6 +62,12 @@ io.on("connection", socket => {
         console.log("States updated");
     });
 
+    /** NEW GAME **/
+    socket.on(TRANSMISSIONS.newGame, () => {
+        console.log("*** NEW GAME INITIATED ***");
+        newGame();
+    })
+
     /** End of round**/
     socket.on(TRANSMISSIONS.finishedRound, states => {
         let playerIndex = players.indexOf(socket.id);
@@ -189,6 +195,15 @@ io.on("connection", socket => {
             }
             nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0
         }
+    }
+
+    function newGame() {
+        playerStates = getInitialPlayerStates();
+        store = getInitialStoreItems();
+        locations = getInitialLocations();
+        legends = getInitialLegends();
+        round = 1;
+        activePlayer = 0;
     }
 });
 
