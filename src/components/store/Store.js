@@ -19,8 +19,8 @@ export default function Store() {
 
     return (
         <div className="d-flex flex-row">
-            {items}
             {artifacts}
+            {items}
         </div>
     )
 
