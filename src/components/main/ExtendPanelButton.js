@@ -1,24 +1,12 @@
 import React, {useState} from "react";
-import {LegendsArea} from "../legends/LegendsArea";
-import Store from "../store/Store";
 
-export default function TopSlidingPanel() {
-    const [extendRightPanel, setExtendRightPanel] = useState(false);
+export const ExtendPanelButton = props => {
     const [buttonOnHover, setButtonOnHover] = useState(false);
-
-    const slideStyle = {
-        position: "fixed",
-        top: 0,
-        right: 0,
-        width: "100vw",
-        height: extendRightPanel ? "23vw" : "1.5vw",
-        zIndex: 10,
-        transition: "all .5s cubic-bezier(0, .2, 0, 1)",
-    };
+    const [buttonExtended, setButtonExtended] = useState(false)
 
     const sliderButtonStyle = {
         position: "absolute",
-        bottom: "0",
+        bottom: !buttonExtended ? 0 : "23vw",
         right: "3vw",
         backgroundColor: "#74a69f",
         width: 40,
@@ -33,11 +21,16 @@ export default function TopSlidingPanel() {
         zIndex: 2,
     };
 
+    function handleOnClick() {
+        setButtonExtended(!buttonExtended);
+        props.setExtendPanel(!props.extendPanel);
+    }
+
     return (
-        <div style={slideStyle} className="d-flex flex-row">
+        <div>
             <button style={sliderButtonStyle} onMouseEnter={() => setButtonOnHover(!buttonOnHover)}
                     onMouseLeave={() => setButtonOnHover(!buttonOnHover)}
-                    onClick={() => setExtendRightPanel(!extendRightPanel)}/>
+                    onClick={() => handleOnClick()}/>
         </div>
     )
 }

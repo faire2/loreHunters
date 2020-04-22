@@ -27,17 +27,17 @@ import {
 } from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
-import TopSlidingPanel from "./components/main/TopSlidingPanel";
+import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {getPositionInLocationLine, occupyLocation} from "./components/locations/locationFunctions";
 import {GUARDIANS} from "./data/cards";
-import {FIELD_SIZE, Legends} from "./data/legends";
-import {getDiscountForProgress, getIsRewardDue, processLegend} from "./components/legends/legendsFunctions";
+import {getIsRewardDue, processLegend} from "./components/legends/legendsFunctions";
 import ChooseLegendRewardModal from "./components/legends/ChooseLegendRewardModal";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {handleIncomes} from "./server/serverFunctions";
 import {processUptrade} from "./components/resources/resourcesFunctions";
 import {processIncomeTile} from "./components/functions/processEffects";
+import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 
 function App() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -54,6 +54,8 @@ function App() {
 
     const [showChooseExpeditionModal, setShowChooseExpeditionModal] = useState(false);
     const [chooseExpeditionModalData, setChooseExpeditionModalData] = useState([]);
+
+    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
 
     useEffect(() => {
         socket.on(TRANSMISSIONS.getStates, states => {
@@ -421,7 +423,7 @@ function App() {
                     <Resources/>
                     <RelicsArea/>
                     <LocationsArea/>
-                    <TopSlidingPanel/>
+                    <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
                     <div style={{marginLeft: "3vw"}}>
                         <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
                         <Store/>
@@ -437,6 +439,7 @@ function App() {
                     </div>
                     <ChooseRewardModal/>
                     <ChooseLegendRewardModal/>
+                    <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
 
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
