@@ -61,6 +61,15 @@ function GameBoard() {
         socket.on(TRANSMISSIONS.getStates, states => {
             console.log("received initial states from server");
             console.log(states);
+            if (states.playerState.firstTurn) {
+                let store = states.store;
+                const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
+                store.expeditions.splice(0, 2);
+                setChooseExpeditionModalData(expeditionsArr);
+                setShowChooseExpeditionModal(true);
+                states.playerState.firstTurn = false;
+            }
+
             setPlayerState(states.playerState);
             setStore(states.store);
             setLocations(states.locations);
@@ -359,6 +368,8 @@ function GameBoard() {
     function nextPlayer() {
         if (isActivePlayer) {
             let tPlayerState = cloneDeep(playerState);
+            // used to trigger goal reward modal at the beginning of the game
+            if (tPlayerState.firstTurn) {tPlayerState.firstTurn = false}
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
             socket.emit(TRANSMISSIONS.nextPlayer, {

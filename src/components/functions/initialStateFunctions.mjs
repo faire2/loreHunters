@@ -58,6 +58,7 @@ export const emptyPlayerState = Object.freeze({
     destroyedCards: [],
     discardDeck: [],
     drawDeck: [],
+    firstTurn: true,
     finishedRound: false,
     incomes: [],
     hand: [],
