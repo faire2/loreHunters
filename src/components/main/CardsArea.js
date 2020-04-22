@@ -13,7 +13,7 @@ export default function CardsArea() {
 
     return (
         <div>
-            {playerState.activeCards !== false && <CardRow cards={playerState.activeCards} randomize={false} text={"ACT. PLAY AREA"}/>}
+            {playerState.activeCards !== false && <CardRow cards={playerState.activeCards} randomize={false} text={"PLAY AREA"}/>}
             <div style={cardRowStyle}>
                 <div style={sideTextStyle}>HAND</div>
                 <Hand/>
