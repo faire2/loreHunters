@@ -2,6 +2,7 @@ import React, {useContext, useState} from "react";
 import Card from "../cards/Card";
 import {PlayerStateContext} from "../../Contexts";
 import {shuffleArray} from "../functions/initialStateFunctions";
+import {cardRowStyle, sideTextStyle} from "../cards/cardRowStyle";
 
 export default function BottomSlidingPanel(props) {
     const playerStateContext = useContext(PlayerStateContext);
@@ -18,23 +19,10 @@ export default function BottomSlidingPanel(props) {
         backgroundColor: playerStateContext.playerState.color,
     };
 
-    const cardRowStyle = {
-        marginTop: "0.5vw",
-        position: "relative",
-        marginLeft: "2.5vw",
-        display: "flex",
-        flexFlow: "row",
-        height: "9vw"
-    }
-
-    const rotateTextStyle = {
-        writingMode: "vertical-rl",
-    }
-
     return (
         <div style={slideStyle}>
             <div style={cardRowStyle}>
-                <div style={rotateTextStyle}>RAND. DRAW DECK</div>
+                <div style={sideTextStyle}>RAND. DRAW DECK</div>
                 {shuffleArray(playerStateContext.playerState.drawDeck).map((card, i) =>
                     <div key={i}>
                         <Card card={card} index={i}/>
@@ -42,7 +30,7 @@ export default function BottomSlidingPanel(props) {
                 )}
             </div>
             <div style={cardRowStyle}>
-                <div style={rotateTextStyle}>VICTORY CARDS</div>
+                <div style={sideTextStyle}>VICTORY CARDS</div>
                 {shuffleArray(playerStateContext.playerState.victoryCards).map((card, i) =>
                     <div key={i}>
                         <Card card={card} index={i}/>
@@ -50,7 +38,7 @@ export default function BottomSlidingPanel(props) {
                 )}
             </div>
             <div style={cardRowStyle}>
-                <div style={rotateTextStyle}>DISCARD DECK</div>
+                <div style={sideTextStyle}>DISCARD DECK</div>
                 {shuffleArray(playerStateContext.playerState.discardDeck).map((card, i) =>
                     <div key={i}>
                         <Card card={card} index={i}/>
