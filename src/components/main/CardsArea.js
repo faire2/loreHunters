@@ -17,10 +17,9 @@ export default function CardsArea(props) {
     return (
         <div>
             <div className="d-flex flex-row" style={rowStyle}>
-                {/*<div className="d-flex flex-row" style={minWidthStyle}>
-                    <div className="vertical-text">DRAW DECK</div>
-                        <DrawDeck cards={playerStateContext.playerState.drawDeck}/>
-                </div>*/}
+                <div className="d-flex flex-row" >
+
+                </div>
                 <div className="d-flex flex-row" style={rowStyle}>
                     <div className="vertical-text">PLAY AREA</div>
                     {activeCards !== false ?
@@ -29,10 +28,10 @@ export default function CardsArea(props) {
                 </div>
             </div>
             <div className="d-flex flex-row" style={rowStyle}>
+                <div className="vertical-text">DRAW DECK</div>
+                <DrawDeck cards={playerStateContext.playerState.drawDeck}/>
                 <div className="vertical-text">HAND</div>
                 <Hand/>
-                <div className="vertical-text">DISCARD</div>
-                <DiscardDeck cards={playerStateContext.playerState.discardDeck}/>
             </div>
         </div>
     )

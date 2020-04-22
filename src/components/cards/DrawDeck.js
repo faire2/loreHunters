@@ -7,8 +7,8 @@ export const DrawDeck = (props) => {
         return (
             <div className="align-middle" key={i} >
                 <div style={{position: "absolute", marginLeft: margin}}>
-                    <svg width="142" height="200">
-                        <rect width="80" height="120" rx="15" ry="15" fill="green" stroke="yellow" strokeWidth="5"/>
+                    <svg width="200" height="142">
+                        <rect width="120" height="80" rx="15" ry="15" fill="green" stroke="yellow" strokeWidth="5"/>
                     </svg>
                 </div>
             </div>)

@@ -6,7 +6,7 @@ export const ExtendPanelButton = props => {
 
     const sliderButtonStyle = {
         position: "absolute",
-        bottom: !buttonExtended ? 0 : "23vw",
+        bottom: !buttonExtended ? 0 : "28vw",
         right: "3vw",
         backgroundColor: "#74a69f",
         width: 40,
