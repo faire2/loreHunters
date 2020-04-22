@@ -176,8 +176,7 @@ export default function Card(props) {
         marginTop: "17%",
         height: "45%",
         width: "100%",
-        backgroundImage: `url(${jeep})`,
-        backgroundColor: "red",
+        /*backgroundImage: `url(${jeep})`,*/
         backgroundSize: "100% 100%",
         zIndex: -1
     }
