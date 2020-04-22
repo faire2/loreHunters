@@ -351,6 +351,7 @@ function App() {
     }
 
     /** SET NEXT PLAYER **/
+
     /*if (playerState.actions === 0) {
         nextPlayer();
     }*/
@@ -427,8 +428,8 @@ function App() {
                     <div style={{marginLeft: "3vw"}}>
                         <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
                         <Store/>
-                        <CardsArea/>
                     </div>
+                    <CardsArea/>
                     <div className="d-inline-flex flex-row text-center">
                         <Controls/><br/>
                     </div>
