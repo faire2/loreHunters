@@ -684,6 +684,8 @@ export const INCOME_IDs = Object.freeze({
 
 export const TRANSMISSIONS = Object.freeze({
     getStates: "getState",
+    sendScoringStates: "send all states",
+    scoringStates: "emitting all states",
     stateUpdate: "stateUpdate",
     nextPlayer: "nextPlayer",
     finishedRound: "finishedRound",

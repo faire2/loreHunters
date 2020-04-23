@@ -166,6 +166,13 @@ io.on("connection", socket => {
         }
         updateStatesToAll();
     });
+
+    /** SEND BACK ALL PLAYER STATES **/
+    socket.on(TRANSMISSIONS.sendScoringStates, () => {
+        console.log("*Sending player states for scoring, length:" + playerStates.length);
+        socket.emit(TRANSMISSIONS.scoringStates, {playerStates: playerStates, legends: legends});
+    })
+
     /* DISCONNECT */
     socket.on("disconnect", () => {
         console.log("Client " + socket.id + " disconnected. Removing from active players.");

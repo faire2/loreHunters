@@ -9,27 +9,32 @@ import {AdventurerToken, Artifact, DefeatedGuardian, Guardian, Item, Shiny} from
 import Card from "../cards/Card";
 
 export function ScoringPanel(props) {
-    const [actualPlayer, setActualPlayer] = useState(0);
-    const [playerState, setPlayerState] = useState(emptyPlayerState);
+    const [playerStates, setPlayerStates] = useState([emptyPlayerState]);
+    const [playerIndex, setPlayerIndex] = useState(0)
     const [legends, setLegends] = useState(null);
     // todo implement all players' states
 
+    const playerState = playerStates[playerIndex];
     useEffect(() => {
-        socket.on(TRANSMISSIONS.getStates, states => {
-            setPlayerState(states.playerState);
-            setLegends(states.legends);
-        });
+        socket.emit(TRANSMISSIONS.sendScoringStates, {});
+        console.log("emitting");
 
-        socket.on(TRANSMISSIONS.stateUpdate, states => {
-            setPlayerState(states.playerState);
+        socket.on(TRANSMISSIONS.scoringStates, states => {
+            console.log("received")
+            setPlayerStates(states.playerStates);
             setLegends(states.legends);
         });
     }, []);
 
-    const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
-    console.log("player state:");
-    console.log(playerState);
+    function handleClickOnPlayerTab(index) {
+        setPlayerIndex(index);
+    }
 
+
+    console.log("player states:");
+    console.log(playerStates);
+    const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
+    console.log("****************");
     const items = allDeckCards.filter(card => card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic)
     let itemPoints = 0;
     for (let card of items) {
@@ -71,7 +76,7 @@ export function ScoringPanel(props) {
     let relicsPoints = 0;
     for (let i = 0; i < relics.length; i++) {
         if (!relics[i]) {
-          relicsPoints += Math.floor(i / 3);
+            relicsPoints += Math.floor(i / 3);
         }
     }
     relicsPoints += playerState.resources.shinies * 4;
@@ -93,7 +98,7 @@ export function ScoringPanel(props) {
 
     return (
         <div style={containerStyle}>
-            <PlayerTabs/>
+            <PlayerTabs handleClickOnTab={handleClickOnPlayerTab}/>
             <div style={rowStyle}>
                 <Item/>:{itemPoints}<CardRow cards={allDeckCards}/>
             </div>
@@ -113,41 +118,40 @@ export function ScoringPanel(props) {
                 <Shiny/>:{relicsPoints}
             </div>
             {expeditionCards.map((card, i) =>
-            <div key={i}>
-                <div style={{marginLeft: "3vw"}}> <Card card={card} /> </div>
-             </div>
-                )}
+                <div key={i}>
+                    <div style={{marginLeft: "3vw"}}><Card card={card}/></div>
+                </div>
+            )}
         </div>
     )
 }
 
-const PlayerTabs = () => {
+const PlayerTabs = (props) => {
     const playerArr = [];
     for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
         playerArr.push(i)
     }
 
-    const containerStyle = {
-        width: "100vw",
-        height: "5vw"
+    function handleOnClick(i) {
+        props.handleClickOnTab(i);
     }
 
     return (
-        playerArr.map((player, i) =>
-            <div key={i} style={containerStyle}>
+        <div style={{display: "flex", flexFlow: "row", justifyContent: "left"}}>
+            {playerArr.map((player, i) =>
+            <div key={i} onClick={() => handleOnClick(i)}>
                 <PlayerTab playerId={player}/>
             </div>
-        )
+        )}
+        </div>
     )
 }
 
-
 const PlayerTab = (props) => {
     const playerId = props.playerId;
-
     const tabStyle = {
         width: "25vw",
-        height: "100%",
+        height: "5vw",
         backgroundColor: GLOBAL_VARS.playerColors[playerId],
     }
 
