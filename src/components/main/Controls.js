@@ -14,21 +14,24 @@ export const Controls = (props) => {
 
     const containerStyle = {
         position: "absolute",
-        top: "46.5vw",
+        top: "43vw",
         left: "47vw"
     }
 
     const history = useHistory();
     return (
         <div style={containerStyle}>
+            <div style={{display: "flex", flexFlow: "row", justifyContent: "space-evenly"}}>
+                {playerStateContext.playerState.activeEffects[0]}
+                {isActivePlayer ? <p>Your turn! Actions: {playerStateContext.playerState.actions}</p> :
+                    <p>Wait for your turn...</p>}
+            </div>
             <button className="btn-primary" onClick={() => playerStateContext.nextPlayer()}>next player</button>
             <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of  round</button>
             <button className="btn-primary" onClick={() => restartGame()}>restart game</button>
             <button className="btn-primary"
                     onClick={() => history.push({pathname: "/scoring", data: playerStateContext.playerState})}>scoring
             </button>
-            {isActivePlayer ? <p>Your turn! Actions: {playerStateContext.playerState.actions}</p> :
-                <p>Wait for your turn...</p>}
         </div>
     )
 };

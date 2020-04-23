@@ -100,7 +100,7 @@ io.on("connection", socket => {
             /* handle store changes */
             let tStore = cloneDeep(store);
             if (tStore.itemsOffer.length > 0) {
-                tStore.itemsOffer.splice(tStore.itemsOffer.length - round, 1, tStore.artifactsDeck[0]);
+                tStore.itemsOffer.splice(-1 + round, 1, tStore.artifactsDeck[0]);
                 tStore.artifactsDeck.splice(0, 1);
                 store = tStore;
             }

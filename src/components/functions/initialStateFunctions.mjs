@@ -41,9 +41,9 @@ export const emptyPlayerState = Object.freeze({
     resources: {
         coins: 20,
         explore: 1,
-        texts: 0,
-        weapons: 0,
-        jewels: 1,
+        texts: 10,
+        weapons: 10,
+        jewels: 10,
         shinies: 0,
         walk: 0,
         jeep: 0,

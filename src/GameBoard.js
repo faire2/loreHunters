@@ -446,10 +446,6 @@ function GameBoard() {
                     </div>
                     <CardsArea/>
                     <Controls/><br/>
-                    <div>
-                        {playerState.activeEffects[0]}
-
-                    </div>
                     <ChooseRewardModal/>
                     <ChooseLegendRewardModal/>
                     <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
