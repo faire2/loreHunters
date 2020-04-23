@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import {Legends} from "../../data/legends";
+import {LEGENDS} from "../../data/LEGENDS";
 import {AdventurerToken} from "../Symbols";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
 import {BoardStateContext} from "../../Contexts";
 
 export function Legend(props) {
     const idLegend = props.legend;
-    const jsxLegend = Legends[idLegend.id];
+    const jsxLegend = LEGENDS[idLegend.id];
     const legendIndex = props.legendIndex;
     const legends = props.legends;
 

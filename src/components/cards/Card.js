@@ -144,7 +144,6 @@ export default function Card(props) {
         display: "flex",
         flex: "auto",
         alignItems: "center",
-        webkitJustifyContent: "center",
         justifyContent: "center",
         position: "absolute",
         top: card.transportAmount === 1 ? "9%" : "10%",
