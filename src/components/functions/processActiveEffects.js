@@ -350,6 +350,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 + " with state " + tCard.state);
     }
 
+    //todo should not be necessary
+    tPlayerState.activeEffects = tActiveEffects;
     return {
         tPlayerState: tPlayerState,
         tLocations: tLocations,
