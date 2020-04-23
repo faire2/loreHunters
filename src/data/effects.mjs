@@ -18,6 +18,7 @@ export const EFFECT = Object.freeze({
     drawFromDrawDeckOrDiscard: "draw a card from your draw deck or discard",
     discard: "discard a card", // todo items: should be enforced
     exploreLocationWithDiscount2: "explore location with discount of 2 explore, do not gain a guardian ",
+    escapeGuardian: "escape guardian, get back locked resources and gain a fear to handd",
     firstGainsCoin: "first player that reaches this tile of legend gets a coin",
     firstGainsExplore: "first player that reaches this tile of legend gets an explore",
     gainAdventurerForThisRound: "gain adventurer for this round",
@@ -54,9 +55,11 @@ export const EFFECT = Object.freeze({
     goldenMask: "plane to an occupied location, use its effect twice", // todo ??? implement
     lockAdventurer: "lock an adventurer",
     lockCard: "discard a random card",
-    lockCoins: "lock two coins",
-    lockExplores: "lock two explores",
-    lockWeapons: "lock two weapons",
+    lockCoin: "lock a coin",
+    lockExplore: "lock an explore",
+    lockText: "lock a text",
+    lockJewel: "lock a jewel",
+    lockWeapon: "lock a weapon",
     loseAdventurer: "gain a text income",
     loseCoin: "lose a coin",
     loseExplore: "lose an explore",

@@ -23,7 +23,7 @@ export const GLOBAL_VARS = Object.freeze({
     itemsInStore: 5,
     artifactsInStore: 1,
     adventurers: 2,
-    numOfPlayers: 2,
+    numOfPlayers: 1,
     playerColors: ["#ffcc00", "#33cc00", "#0066ff", "#cc0000"],
 });
 
@@ -40,10 +40,10 @@ export const LOCATION_LINE = Object.freeze({
 export const emptyPlayerState = Object.freeze({
     resources: {
         coins: 20,
-        explore: 20,
+        explore: 1,
         texts: 0,
         weapons: 0,
-        jewels: 0,
+        jewels: 1,
         shinies: 0,
         walk: 0,
         jeep: 0,
@@ -94,9 +94,9 @@ export default function getInitialPlayerStates() {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard = {...GUARDIAN_IDs.mountainGuardian};
+        const testCard = {...GUARDIAN_IDs.giantScarab};
         testCard.state = CARD_STATE.inHand;
-        drawDeck.splice(0, 0, testCard);*/
+        drawDeck.splice(0, 0, testCard);
 
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;

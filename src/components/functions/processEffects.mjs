@@ -113,12 +113,20 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
+                case EFFECT.escapeGuardian:
+                    if (tCard.type === CARD_TYPE.guardian) {
+                        tPlayerState.discardDeck.push(GUARDIAN_IDs[tCard.id]);
+                        tPlayerState.activeCards.splice(cardIndex,1);
+                        tPlayerState.hand.push(ITEM_IDs.fear);
+                    }
+                    break;
+
                 case EFFECT.firstGainsCoin:
-                        tPlayerState.resources.coins += 1;
+                    tPlayerState.resources.coins += 1;
                     break;
 
                 case EFFECT.firstGainsExplore:
-                        tPlayerState.resources.coins += 1;
+                    tPlayerState.resources.coins += 1;
                     break;
 
                 case EFFECT.gainDiscoveryBonus:
@@ -205,7 +213,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainFear:
-                    tPlayerState.discardDeck.push(ITEM_IDs.fear);
+                    tPlayerState.discardDeck.push({...ITEM_IDs.fear});
                     break;
 
                 case EFFECT.gainJeep:
@@ -360,35 +368,33 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     };
 }
 
-export function gainLockedResourceBack(lockEffect, amount, effects) {
-    switch (lockEffect) {
-        case EFFECT.lockAdventurer:
-            if (amount === 1) {
-                effects.push(EFFECT.gainAdventurerForThisRound);
-            }
-            break;
-        case EFFECT.lockCard:
-            if (amount === 1) {
-                effects.push(EFFECT.unlockCard);
-            }
-            break;
-        case EFFECT.lockCoins:
-            for (let i = 0; i < amount; i++) {
-                effects.push(EFFECT.gainCoin);
-            }
-            break;
-        case EFFECT.lockExplores:
-            for (let i = 0; i < amount; i++) {
-                effects.push(EFFECT.gainExplore);
-            }
-            break;
-        case EFFECT.lockWeapons:
-            for (let i = 0; i < amount; i++) {
-                effects.push(EFFECT.gainWeapon);
-            }
-            break;
-        default:
-            console.log("Unable to process lockEffect in gainLockedResourceBack: " + lockEffect);
+export function gainLockedResourceBack(lockEffects, effects) {
+    for (let effect of lockEffects) {
+        switch (effect) {
+            case EFFECT.lockAdventurer:
+                    effects.push(EFFECT.gainAdventurerForThisRound);
+                break;
+            case EFFECT.lockCard:
+                    effects.push(EFFECT.unlockCard);
+                break;
+            case EFFECT.lockCoin:
+                    effects.push(EFFECT.gainCoin);
+                break;
+            case EFFECT.lockExplore:
+                    effects.push(EFFECT.gainExplore);
+                break;
+            case EFFECT.lockText:
+                effects.push(EFFECT.gainText);
+                break;
+            case EFFECT.lockWeapon:
+                    effects.push(EFFECT.gainWeapon);
+                break;
+            case EFFECT.lockJewel:
+                effects.push(EFFECT.gainJewel);
+                break;
+            default:
+                console.log("Unable to process lockEffect in gainLockedResourceBack: " + lockEffects);
+        }
     }
     return effects;
 }

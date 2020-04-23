@@ -10,7 +10,20 @@ import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
 import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
 import transportHighlight from "../../img/cardBackgrounds/transportHighlight.png"
-import {AdventurerIcon, Coin, Discard, Explore, Guardian, Jeep, Blimp, Ship, Walk, Weapon} from "../Symbols";
+import {
+    AdventurerIcon,
+    Coin,
+    Discard,
+    Explore,
+    Guardian,
+    Jeep,
+    Blimp,
+    Ship,
+    Walk,
+    Weapon,
+    Jewel,
+    Text
+} from "../Symbols";
 import {cloneDeep} from "lodash";
 import {gainLockedResourceBack} from "../functions/processEffects";
 
@@ -19,6 +32,8 @@ export default function Card(props) {
     let cardTemplate;
     let cardBackground;
     const cardType = props.card.type;
+    const boardStateContext = useContext(BoardStateContext);
+
     if (cardType === CARD_TYPE.item || cardType === CARD_TYPE.basic) {
         cardTemplate = ITEMS[props.card.id];
         cardBackground = itemBgr;
@@ -62,35 +77,48 @@ export default function Card(props) {
     }
     const [highlightTransport, setHighlightTransport] = useState(false);
 
-    const lockText = card.type === CARD_TYPE.guardian ? card.lockText : null;
-    // If resources have already be locked, display their correct amount
-    let newLockText = [];
-    if (props.card.locked) {
-        for (let i = 0; i < props.card.locked.amount; i++) {
-            switch (props.card.locked.lockEffect) {
-                case (EFFECT.lockAdventurer):
-                    newLockText.push(<AdventurerIcon/>);
-                    break;
-                case (EFFECT.lockCard):
-                    newLockText.push(<Discard/>);
-                    break;
-                case (EFFECT.lockCoins):
-                    newLockText.push(<Coin/>)
-                    break;
-                case (EFFECT.lockExplores):
-                    newLockText.push(<Explore/>);
-                    break;
-                case (EFFECT.lockWeapons):
-                    newLockText.push(<Weapon/>);
-                    break;
-                default:
-                    console.log("Unable to process lock effect in Card.js: " + props.card.lockEffect);
+    /* guardian lock effect */
+    let lockText = null;
+    if (card.type === CARD_TYPE.guardian) {
+        // If resources have already been locked, display their correct amount
+        if (card.state !== CARD_STATE.active) {
+            lockText = card.lockText;
+        } else {
+            lockText = [];
+            if (props.card.locked) {
+                for (let effect of props.card.locked) {
+                    switch (effect) {
+                        case (EFFECT.lockAdventurer):
+                            lockText.push(<AdventurerIcon/>);
+                            break;
+                        case (EFFECT.lockCard):
+                            lockText.push(<Discard/>);
+                            break;
+                        case (EFFECT.lockCoin):
+                            lockText.push(<Coin/>)
+                            break;
+                        case (EFFECT.lockExplore):
+                            lockText.push(<Explore/>);
+                            break;
+                        case (EFFECT.lockText):
+                            lockText.push(<Text/>);
+                            break;
+                        case (EFFECT.lockWeapon):
+                            lockText.push(<Weapon/>);
+                            break;
+                        case (EFFECT.lockJewel):
+                            lockText.push(<Jewel/>);
+                            break;
+                        default:
+                            console.log("Unable to process lock effect in Card.js: " + props.card.lockEffects);
+                    }
+                }
+                lockText = lockText.map((icon, i) =>
+                    <div key={i}>
+                        {icon}
+                    </div>)
             }
         }
-        newLockText = newLockText.map((icon, i) =>
-            <div key={i}>
-                {icon}
-            </div>)
     }
 
     /* get card cost */
@@ -105,7 +133,6 @@ export default function Card(props) {
         cost.push(unit)
     }
 
-    const boardStateContext = useContext(BoardStateContext);
     // if cardsState = inShop => no effects, else (in hand) clickOn effects only active, if activeEffects.length = 0
     const isGuardian = card.type === CARD_TYPE.guardian;
     const isPointer = card.state !== CARD_STATE.inStore ? "pointer" : "default";
@@ -115,10 +142,10 @@ export default function Card(props) {
     const cardStyle = {
         height: "9vw",
         width: "6.5vw",
-        marginLeft: card.state === CARD_STATE.locked ? "-3vw" : "0.3vw",
+        marginLeft: card.state === CARD_STATE.locked ? "-1vw" : "0.3vw",
         position: "relative",
 
-        zIndex: card.state === CARD_STATE.locked ? -1 : 1
+        zIndex: card.state === CARD_STATE.locked ? 0 : 1
     };
 
     const cardBackgroundStyle = {
@@ -131,12 +158,12 @@ export default function Card(props) {
     }
 
     /* used as clickable area for playing transport */
-    const cardTopStyle = {
+    const topWrapperStyle = {
         position: "absolute",
         right: 0,
         cursor: isPointer,
         width: "100%",
-        height: "13%",
+        height: "17%",
         zIndex: 3,
     };
 
@@ -161,7 +188,7 @@ export default function Card(props) {
         top: "2%",
         left: "5%",
         zIndex: 1,
-        visibility:  highlightTransport && card.state === CARD_STATE.inHand ? "visible" : "hidden",
+        visibility: highlightTransport && card.state === CARD_STATE.inHand ? "visible" : "hidden",
     }
 
     const cardNameStyle = {
@@ -182,8 +209,14 @@ export default function Card(props) {
 
     const effectsWrapperStyle = {
         cursor: isPointer,
-        height: "85%",
-        zIndex: 2
+        height: card.type !== CARD_TYPE.guardian ? "85%" : "62%",
+        zIndex: 2,
+    }
+
+    const guardianEscapeWrapperStyle = {
+        cursor: isPointer,
+        height: card.type !== CARD_TYPE.guardian ? "0" : "20%",
+        zIndex: 2,
     }
 
     //todo fontSize is set in cards.js, should be moved here
@@ -246,9 +279,8 @@ export default function Card(props) {
     function handleClickOnEffect(effects, isTravel) {
         if (card.state !== CARD_STATE.inStore && card.state !== CARD_STATE.locked && boardStateContext.activeEffects.length === 0) {
             if (cardType === CARD_TYPE.guardian && props.card.locked) {
-                const lockEffect = props.card.locked.lockEffect;
-                const amount = props.card.locked.amount;
-                effects = gainLockedResourceBack(lockEffect, amount, effects)
+                const lockEffects = props.card.locked;
+                effects = gainLockedResourceBack(lockEffects, effects)
             }
             boardStateContext.handleCardEffect(effects, props.index, !(isTravel || cardType === CARD_TYPE.basic), card);
         }
@@ -266,22 +298,23 @@ export default function Card(props) {
 
     return (
         <div style={cardStyle} className="card" onClick={() => handleClickOnCard()}>
-            <div style={cardBackgroundStyle} />
-            <CardTop itemTransport={card.transport} handleClickOnEffect={handleClickOnEffect} style={cardTopStyle}
+            <div style={cardBackgroundStyle}/>
+            <CardTop itemTransport={card.transport} handleClickOnEffect={handleClickOnEffect} style={topWrapperStyle}
                      transportAmount={card.transportAmount} setHighlightTransport={setHighlightTransport}/>
             <TransportIcons transport={transport} style={transportStyle}/>
             <div style={transportHighlightStyle}/>
             <h2 style={cardNameStyle}>{card.cardName}</h2>
             <div style={cardImageStyle}/>
 
-            <div onClick={() => handleClickOnEffect(card.effects, false)} style={effectsWrapperStyle}>
+            <div style={effectsWrapperStyle} onClick={() => handleClickOnEffect(card.effects, false)}>
                 <Effects effectsText={effectsText} style={effectsStyle}/>
             </div>
+            <div style={guardianEscapeWrapperStyle} onClick={() =>
+                handleClickOnEffect([EFFECT.escapeGuardian], false)}/>
             {cardType === CARD_TYPE.guardian &&
             <DiscoveryEffects style={discoveryEffectsStyle} discoveryText={card.discoveryText}
                               discoveryText2={card.discoveryText2}/>}
-            {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle}
-                                                             lockText={card.state === CARD_STATE.active ? newLockText : lockText}/>}
+            {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle} lockText={lockText}/>}
             <Cost cost={cost} style={costStyle}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
         </div>
@@ -316,7 +349,8 @@ const CardTop = (props) => {
 
     return (
         <div style={props.style} onClick={() => props.handleClickOnEffect(effects, true)}
-             onMouseEnter={() => props.setHighlightTransport(true)} onMouseLeave={() => props.setHighlightTransport(false)}>
+             onMouseEnter={() => props.setHighlightTransport(true)}
+             onMouseLeave={() => props.setHighlightTransport(false)}>
         </div>
     )
 };

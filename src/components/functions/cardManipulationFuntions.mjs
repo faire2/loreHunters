@@ -132,66 +132,78 @@ export function getIdCard(jsxCard) {
 }
 
 function processGuardianLockEffects(tPlayerState, guardians, lockEffects) {
-    for (let i = 0; i < lockEffects.length; i++) {
+    for (let i = 0; i < guardians.length; i++) {
+        const numOfLockedCards = 0;
         tPlayerState.activeCards.push(guardians[i]);
-        switch (lockEffects[i]) {
-            case EFFECT.lockCard:
-                // if guardians come at the beginning of the round, the card is locked when the whole hand is drawn
-                if (tPlayerState.hand.length > 0) {
-                    const randomCardIndex = Math.floor(Math.random() * (4));
-                    let lockedCard = tPlayerState.hand[randomCardIndex];
-                    lockedCard.state = CARD_STATE.locked;
-                    tPlayerState.activeCards.push(lockedCard);
-                    tPlayerState.hand.splice(randomCardIndex, 1);
-                    guardians[i].locked = {lockEffect: lockEffects[i], amount: 1}
-                } else {
-                    console.log("Unable to lock card while drawing. Player hand: " + tPlayerState.hand);
-                }
-                break;
-            case EFFECT.lockAdventurer:
-                if (tPlayerState.availableAdventurers > 0) {
-                    tPlayerState.availableAdventurers -= 1
-                    guardians[i].locked = {lockEffect: lockEffects[i], amount: 1}
-                } else {
-                    console.log("Unable to lock adventurer while drawing. Adventurers: " + tPlayerState.availableAdventurers);
-                }
-                break;
-            case EFFECT.lockCoins:
-                if (tPlayerState.resources.coins > 2) {
-                    tPlayerState.resources.coins -= 2;
-                    guardians[i].locked = {lockEffect: lockEffects[i], amount: 2}
-                } else if (tPlayerState.resources.coins === 1) {
-                    tPlayerState.resources.coins -= 1;
-                    guardians[i].locked = {lockEffect: lockEffects[i], amount: 1}
-                } else {
-                    console.log("Unable to lock coins while drawing. Resources: " + tPlayerState.resources);
-                }
-                break;
-            case EFFECT.lockExplores:
-                if (tPlayerState.resources.explore > 2) {
-                    tPlayerState.resources.explore -= 2;
-                    guardians[i].locked = {lockEffect: lockEffects[i], amount: 2}
-                } else if (tPlayerState.resources.explore === 1) {
-                    tPlayerState.resources.explore -= 1;
-                    guardians[i].locked = {lockEffect: lockEffects[i], amount: 1}
-                } else {
-                    console.log("Unable to lock explore while drawing. Resources: " + tPlayerState.resources);
-                }
-                break;
-            case EFFECT.lockWeapons:
-                if (tPlayerState.resources.weapons > 2) {
-                    tPlayerState.resources.weapons -= 2;
-                    guardians[i].locked = {lockEffect: lockEffects[i], amount: 2}
-                } else if (tPlayerState.resources.weapons === 1) {
-                    tPlayerState.resources.weapons -= 1;
-                    guardians[i].locked = {lockEffect: lockEffects[i], amount: 1}
-                } else {
-                    console.log("Unable to lock weapons while drawing. Resources: " + tPlayerState.resources);
-                }
-                break;
-            default:
-                console.log("Cannot process lock effect in drawCards: " + lockEffects[i]);
+        guardians[i].locked = [];
+        for (let effect of lockEffects[i]) {
+            switch (effect) {
+                case EFFECT.lockCard:
+                    // if guardians come at the beginning of the round, the card is locked when the whole hand is drawn
+                    if (tPlayerState.hand.length > 0) {
+                        const randomCardIndex = Math.floor(Math.random() * (4));
+                        let lockedCard = tPlayerState.hand[randomCardIndex];
+                        lockedCard.state = CARD_STATE.locked;
+                        tPlayerState.activeCards.push(lockedCard);
+                        tPlayerState.hand.splice(randomCardIndex, 1);
+                        guardians[i].locked.push(effect);
+                    } else {
+                        console.log("Unable to lock card while drawing. Player hand: " + tPlayerState.hand);
+                    }
+                    break;
+                case EFFECT.lockAdventurer:
+                    if (tPlayerState.availableAdventurers > 0) {
+                        tPlayerState.availableAdventurers -= 1;
+                        guardians[i].locked.push(effect);
+                    } else {
+                        console.log("Unable to lock adventurer while drawing. Adventurers: " + tPlayerState.availableAdventurers);
+                    }
+                    break;
+                case EFFECT.lockCoin:
+                    if (tPlayerState.resources.coins > 0) {
+                        tPlayerState.resources.coins -= 1;
+                        guardians[i].locked.push(effect);
+                    } else {
+                        console.log("Unable to lock coins while drawing. Resources: " + tPlayerState.resources);
+                    }
+                    break;
+                case EFFECT.lockExplore:
+                    if (tPlayerState.resources.explore > 0) {
+                        tPlayerState.resources.explore -= 1;
+                        guardians[i].locked.push(effect);
+                    } else {
+                        console.log("Unable to lock explore while drawing. Resources: " + tPlayerState.resources);
+                    }
+                    break;
+                case EFFECT.lockText:
+                    if (tPlayerState.resources.texts > 0) {
+                        tPlayerState.resources.texts -= 1;
+                        guardians[i].locked.push(effect);
+                    } else {
+                        console.log("Unable to lock weapons while drawing. Resources: " + tPlayerState.resources);
+                    }
+                    break;
+                case EFFECT.lockWeapon:
+                    if (tPlayerState.resources.weapons > 0) {
+                        tPlayerState.resources.weapons -= 1;
+                        guardians[i].locked.push(effect);
+                    } else {
+                        console.log("Unable to lock weapons while drawing. Resources: " + tPlayerState.resources);
+                    }
+                    break;
+                case EFFECT.lockJewel:
+                    if (tPlayerState.resources.jewels > 0) {
+                        tPlayerState.resources.jewels -= 1;
+                        guardians[i].locked.push(effect);
+                    } else {
+                        console.log("Unable to lock weapons while drawing. Resources: " + tPlayerState.resources);
+                    }
+                    break;
+                default:
+                    console.log("Cannot process lock effect in drawCards: " + lockEffects[i]);
+            }
         }
+        debugger
     }
     return tPlayerState
 }
