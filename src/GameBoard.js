@@ -95,7 +95,16 @@ function GameBoard() {
             console.log("*** TEST DATA ***");
             console.log(data);
         })
+
+        document.addEventListener("keydown", handleKeyPress);
+        return (document.removeEventListener('keydown', handleKeyPress));
     }, []);
+
+    function handleKeyPress(e) {
+        if (e.keyCode === 32) {
+            setExtendBottomPanel(value => !value)
+        }
+    }
 
     /** CARD EFFECTS **/
     function handleClickOnCardEffect(effects, cardIndex, costsAction, tCard) {

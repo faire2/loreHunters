@@ -911,7 +911,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Cartographer",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">1 <VictoryPoints/> for each <Shiny/> (up to 8 <VictoryPoints/>)</div>
+            <div className="effectsText">2 <VictoryPoints/> for each <Shiny/> (up to 8 <VictoryPoints/>)</div>
     },
     fearless: {
         id: "fearless",
