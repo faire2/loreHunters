@@ -4,7 +4,7 @@ import dirname from "es-dirname"
 import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
-import {CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE, TRANSMISSIONS} from "../data/idLists.mjs";
+import {CARD_STATE, CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE, TRANSMISSIONS} from "../data/idLists.mjs";
 import addPlayer, {handleIncomes} from "./serverFunctions.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import getInitialPlayerStates, {
@@ -71,8 +71,8 @@ io.on("connection", socket => {
     /** End of round**/
     socket.on(TRANSMISSIONS.finishedRound, states => {
         let playerIndex = players.indexOf(socket.id);
-        for (let playerSTate of playerStates) {
-            console.log("Has player finished round?" + playerSTate.finishedRound);
+        for (let playerState of playerStates) {
+            console.log("Has player finished round?" + playerState.finishedRound);
         }
         console.log("end of round initiated");
 
@@ -138,6 +138,23 @@ io.on("connection", socket => {
                 }
                 tPlayerState.hand = [];
 
+                /* in 5th round all guardians come into play */
+                if (round === 1) {
+                    for (let i; i < tPlayerState.discardDeck.length; i++) {
+                        if (tPlayerState.discardDeck[i].type === CARD_TYPE.guardian) {
+                            tPlayerState.discardDeck[i].state = CARD_STATE.drawDeck;
+                            tPlayerState.hand.push(tPlayerState.drawDeck[i]);
+                            tPlayerState.discardDeck.splice(i);
+                        }
+                    }
+
+                    for (let i; i < tPlayerState.drawDeck.length; i++) {
+                        if (tPlayerState.drawDeck[i].type === CARD_TYPE.guardian) {
+                            tPlayerState.drawDeck[i].splice(0, 0, i);
+                        }
+                    }
+                }
+
                 /* draw a new hand */
                 tPlayerState = drawCards(5, tPlayerState);
 
@@ -157,6 +174,7 @@ io.on("connection", socket => {
                 tPlayerState.actions = 1;
                 tPlayerState.finishedRound = false;
                 tPlayerStates.push(tPlayerState);
+
             }
             playerStates = tPlayerStates;
             round += 1;
