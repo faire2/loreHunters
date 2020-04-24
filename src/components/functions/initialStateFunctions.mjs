@@ -39,11 +39,11 @@ export const LOCATION_LINE = Object.freeze({
 
 export const emptyPlayerState = Object.freeze({
     resources: {
-        coins: 20,
-        explore: 1,
-        texts: 10,
-        weapons: 10,
-        jewels: 10,
+        coins: 2,
+        explore: 0,
+        texts: 0,
+        weapons: 0,
+        jewels: 0,
         shinies: 0,
         walk: 0,
         jeep: 0,
