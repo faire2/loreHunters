@@ -81,6 +81,7 @@ import ritualDaggerImg from "../img/cardImages/artifacts/ritualDagger.png"
 
 import {EFFECT} from "./effects.mjs";
 import {CARD_TYPE} from "./idLists.mjs";
+import {FreeAction} from "../components/Symbols";
 
 
 export const CARD_TRANSPORT = Object.freeze({
@@ -123,7 +124,7 @@ export const ITEMS = Object.freeze({
         cardName: "Coin",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Coin/></div>,
+        effectsText: <div style={bigIconsStyle}><Coin/><FreeAction/></div>,
         effects: [EFFECT.gainCoin],
         cost: 0,
         points: 0
@@ -133,7 +134,7 @@ export const ITEMS = Object.freeze({
         cardName: "Explore",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Explore/></div>,
+        effectsText: <div style={bigIconsStyle}><Explore/><FreeAction/></div>,
         effects: [EFFECT.gainExplore],
         cost: 0,
         points: 0
@@ -143,7 +144,7 @@ export const ITEMS = Object.freeze({
         cardName: "Sea Turtle",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Draw1Card/><Ship/></div>,
+        effectsText: <div style={bigIconsStyle}><Draw1Card/><Ship/><FreeAction/></div>,
         effects: [EFFECT.draw1, EFFECT.gainShip],
         image: seaTurtleImg,
         cost: 2,
@@ -154,7 +155,7 @@ export const ITEMS = Object.freeze({
         cardName: "Ostrich",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Draw1Card/><Jeep/></div>,
+        effectsText: <div style={bigIconsStyle}><Draw1Card/><Jeep/><FreeAction/></div>,
         effects: [EFFECT.draw1, EFFECT.gainJeep],
         image: ostrichImg,
         cost: 2,
@@ -797,7 +798,7 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><b>Discount</b> <Jewel/> to progress in a legend.</div>,
+            <div className="effectsText"><FreeAction/><b>Discount</b> <Jewel/> to progress in a legend.</div>,
         effects: [EFFECT.progressWithJewel],
         isGuarded: false,
         image: flameJewelImg,
@@ -810,7 +811,7 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><b>Discount</b> <Text/><Text/> of <Weapon/> to progress in a legend.</div>,
+            <div className="effectsText"><FreeAction/><b>Discount</b> <Text/><Text/> of <Weapon/> to progress in a legend.</div>,
         effects: [EFFECT.progressWithTextsOrWeapon],
         isGuarded: false,
         image: inscribedBladeImg,
