@@ -38,6 +38,7 @@ import {handleIncomes} from "./server/serverFunctions";
 import {processUptrade} from "./components/resources/resourcesFunctions";
 import {processIncomeTile} from "./components/functions/processEffects";
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
+import {useHistory} from "react-router-dom";
 
 function GameBoard() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -46,6 +47,7 @@ function GameBoard() {
     const [locations, setLocations] = useState(null);
     const [legends, setLegends] = useState(null);
     const [isActivePlayer, setIsActivePlayer] = useState(false);
+    const history = useHistory();
 
     // rewards are an array with objects describing values: {effects: ..., effectsText: ...}
     const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -91,9 +93,9 @@ function GameBoard() {
             setIsActivePlayer(states.isActivePlayer);
         });
 
-        socket.on(TRANSMISSIONS.testData, data => {
-            console.log("*** TEST DATA ***");
-            console.log(data);
+        socket.on(TRANSMISSIONS.scoringStates, data => {
+            console.log("Rerouting to scoring page");
+            history.push({pathname: "/scoring", data: data})
         })
     }, []);
 

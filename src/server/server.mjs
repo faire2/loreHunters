@@ -95,8 +95,7 @@ io.on("connection", socket => {
         }
         console.log("have all finished: " + haveAllFinished);
 
-        //todo do not run after 5th round
-        if (haveAllFinished) {
+        if (haveAllFinished && round < 5) {
             /* handle store changes */
             let tStore = cloneDeep(store);
             if (tStore.itemsOffer.length > 0) {
@@ -179,8 +178,16 @@ io.on("connection", socket => {
             playerStates = tPlayerStates;
             round += 1;
             console.log("*** END OF ROUND ***");
-        } else {
+        } else if (round !== 5) {
             nextPlayer(playerIndex);
+        } else {
+            for (let player of players) {
+                io.to(`${player}`).emit(TRANSMISSIONS.scoringStates, {
+                    playerStates: playerStates,
+                    legends: legends
+                })
+            }
+
         }
         updateStatesToAll();
     });

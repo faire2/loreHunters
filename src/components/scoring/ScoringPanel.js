@@ -9,15 +9,18 @@ import {AdventurerToken, Artifact, DefeatedGuardian, Guardian, Item, Shiny} from
 import Card from "../cards/Card";
 
 export function ScoringPanel(props) {
-    const [playerStates, setPlayerStates] = useState([emptyPlayerState]);
+    const [playerStates, setPlayerStates] = useState(props.location.data ?
+        props.location.data.playerStates : [emptyPlayerState]);
     const [playerIndex, setPlayerIndex] = useState(0)
-    const [legends, setLegends] = useState(null);
-    // todo implement all players' states
+    const [legends, setLegends] = useState(props.location.data ?
+        props.location.data.legends : null);
 
     const playerState = playerStates[playerIndex];
     useEffect(() => {
+        if (!props.location.data) {
         socket.emit(TRANSMISSIONS.sendScoringStates, {});
         console.log("emitting");
+        }
 
         socket.on(TRANSMISSIONS.scoringStates, states => {
             console.log("received")
@@ -139,10 +142,10 @@ const PlayerTabs = (props) => {
     return (
         <div style={{display: "flex", flexFlow: "row", justifyContent: "left"}}>
             {playerArr.map((player, i) =>
-            <div key={i} onClick={() => handleOnClick(i)}>
-                <PlayerTab playerId={player}/>
-            </div>
-        )}
+                <div key={i} onClick={() => handleOnClick(i)}>
+                    <PlayerTab playerId={player}/>
+                </div>
+            )}
         </div>
     )
 }
