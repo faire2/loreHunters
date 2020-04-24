@@ -91,8 +91,8 @@ export const ITEM_IDs = Object.freeze({
         id: "dog",
         type: CARD_TYPE.item,
     },
-    steamBoat: {
-        id: "steamBoat",
+    canoe: {
+        id: "canoe",
         type: CARD_TYPE.item,
     },
     jeep: {

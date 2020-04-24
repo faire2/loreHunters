@@ -187,7 +187,7 @@ export default function Card(props) {
         marginTop: "17%",
         height: "45%",
         width: "100%",
-        /*backgroundImage: `url(${jeep})`,*/
+        backgroundImage: `url(${card.image})`,
         backgroundSize: "100% 100%",
         zIndex: -1
     }
@@ -209,7 +209,7 @@ export default function Card(props) {
         width: "95%",
         marginTop: !isGuardian ? "55%" : "59%",
         marginLeft: !isGuardian ? 0 : "32%",
-        fontSize: "0.5vw",
+        fontSize: "0.49vw",
         textAlign: !isGuardian ? "center" : "left",
         position: "absolute",
         zIndex: 1
