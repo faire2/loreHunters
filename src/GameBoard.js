@@ -40,13 +40,17 @@ import {processUptrade} from "./components/resources/resourcesFunctions";
 import {processIncomeTile} from "./components/functions/processEffects";
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
+import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
+import {CardRow} from "./components/cards/CardRow";
 
 function GameBoard() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
+    const [playerStates, setPlayerStates] = useState([emptyPlayerState]);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(null);
     const [locations, setLocations] = useState(null);
     const [legends, setLegends] = useState(null);
+    const [previousPlayer, setPreviousPlayer] = useState(null);
     const [isActivePlayer, setIsActivePlayer] = useState(false);
     const history = useHistory();
 
@@ -74,24 +78,26 @@ function GameBoard() {
             }
 
             setPlayerState(states.playerState);
+            setPlayerStates(states.playerStates);
             setStore(states.store);
             setLocations(states.locations);
             setLegends(states.legends);
-            console.log("Legends2: ");
-            console.log(legends);
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);
+            setPreviousPlayer(states.previousPlayer);
         });
 
         socket.on(TRANSMISSIONS.stateUpdate, states => {
             console.log("received states from server");
             console.log(states);
             setPlayerState(states.playerState);
+            setPlayerStates(states.playerStates);
             setStore(states.store);
             setLocations(states.locations);
             setLegends(states.legends);
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);
+            setPreviousPlayer(states.previousPlayer);
         });
 
         socket.on(TRANSMISSIONS.scoringStates, data => {
@@ -449,7 +455,9 @@ function GameBoard() {
 
     const playerStateContextValues = {
         playerState: playerState,
+        playerStates: playerStates,
         isActivePlayer: isActivePlayer,
+        previousPlayer: previousPlayer,
         handleEndRound: handleEndRound,
         nextPlayer: nextPlayer,
         handleClickOnResource: handleClickOnResource,
@@ -460,17 +468,18 @@ function GameBoard() {
         <div className="App">
             <BoardStateContext.Provider value={boardStateContextValues}>
                 <PlayerStateContext.Provider value={playerStateContextValues}>
-                    <LegendsArea/>
-                    <Resources/>
-                    <RelicsArea/>
                     <LocationsArea/>
-                    <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
                     <div style={{marginLeft: "3vw"}}>
                         <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
                         <Store/>
                     </div>
                     <CardsArea/>
+                    <LegendsArea/>
+                    <Resources/>
+                    <RelicsArea/>
                     <Controls/><br/>
+                    <OpponentPlayArea/>
+                    <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
                     <ChooseRewardModal/>
                     <ChooseLegendRewardModal/>
                     <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>

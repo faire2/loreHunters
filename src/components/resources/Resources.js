@@ -23,6 +23,7 @@ export default function Resources(props) {
         marginTop: "23vw",
         fontSize: "2vw",
         zIndex: 1,
+        top: 0,
     };
 
     const secondColumnFieldStyle = {

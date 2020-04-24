@@ -28,6 +28,7 @@ let locations = getInitialLocations();
 let legends = getInitialLegends();
 let round = 1;
 let activePlayer = 0;
+let previousPlayer = null;
 
 const io = socketIO(server);
 io.on("connection", socket => {
@@ -40,7 +41,10 @@ io.on("connection", socket => {
             locations: locations,
             round: round,
             legends: legends,
+            activePlayer: activePlayer,
+            previousPlayer: previousPlayer,
             isActivePlayer: players.indexOf(socket.id) === activePlayer,
+            playerStates: playerStates,
         });
         console.log("Emitted initial playerstate to player no. " + players.indexOf(socket.id));
     } else {
@@ -211,13 +215,17 @@ io.on("connection", socket => {
                 store: store,
                 locations: locations,
                 round: round,
+                legends: legends,
+                activePlayer: activePlayer,
                 isActivePlayer: players.indexOf(player) === activePlayer,
-                legends: legends
+                previousPlayer: previousPlayer,
+                playerStates: playerStates,
             })
         }
     }
 
     function nextPlayer(playerIndex) {
+        previousPlayer = playerIndex;
         let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
         while (nextPlayerIndex !== playerIndex) {
             if (!playerStates[nextPlayerIndex].finishedRound) {

@@ -12,7 +12,7 @@ export default function CardsArea() {
     const playerState = playerStateContext.playerState;
 
     const containerStyle = {
-        width: "45vw"
+        width: "45vw",
     }
 
     return (

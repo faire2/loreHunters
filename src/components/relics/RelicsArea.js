@@ -18,6 +18,7 @@ export function RelicsArea() {
     const twoLines = relicsArr.length > 5;
 
     const containerStyle = {
+        top: "0",
         paddingLeft: "3.3vw",
         paddingTop: "0.5%",
         backgroundImage: `url(${bgr}`,
