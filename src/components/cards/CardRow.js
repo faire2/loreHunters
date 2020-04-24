@@ -21,7 +21,9 @@ export const cardRowStyle = {
     marginLeft: "1.7vw",
     display: "flex",
     flexFlow: "row",
-    height: "9vw"
+    minHeight: "9vw",
+    flexWrap: "wrap",
+    backgroundColor: "red"
 }
 
 export const sideTextStyle = {

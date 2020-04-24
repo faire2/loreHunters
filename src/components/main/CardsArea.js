@@ -11,11 +11,15 @@ export default function CardsArea() {
     const playerStateContext = useContext(PlayerStateContext);
     const playerState = playerStateContext.playerState;
 
+    const containerStyle = {
+        width: "45vw"
+    }
+
     return (
-        <div>
+        <div style={containerStyle}>
             {playerState.activeCards !== false && <CardRow cards={playerState.activeCards} randomize={false} text={"PLAY AREA"}/>}
             <div style={cardRowStyle}>
-                <div style={sideTextStyle}>HAND</div>
+
                 <Hand/>
                 <div style={sideTextStyle}>DRAW DECK</div>
                 <DrawDeck cards={playerStateContext.playerState.drawDeck}/>
