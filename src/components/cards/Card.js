@@ -4,6 +4,8 @@ import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, GUARDIANS, ITEMS} from "../../data/cards";
 import itemBgr from "../../img/cardBackgrounds/Item.png"
+import basicItemBgr from "../../img/cardBackgrounds/basicItemBackground.png"
+import fearBgr from "../../img/cardBackgrounds/fearBgr.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
 import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
@@ -19,9 +21,16 @@ export default function Card(props) {
     const cardType = props.card.type;
     const boardStateContext = useContext(BoardStateContext);
 
-    if (cardType === CARD_TYPE.item || cardType === CARD_TYPE.basic) {
+    if (cardType === CARD_TYPE.item) {
         cardTemplate = ITEMS[props.card.id];
         cardBackground = itemBgr;
+    } else if (cardType === CARD_TYPE.basic) {
+        if (props.card.id === ITEMS.fear.id) {
+            cardBackground = fearBgr
+        } else {
+            cardBackground = basicItemBgr;
+        }
+        cardTemplate = ITEMS[props.card.id]
     } else if (cardType === CARD_TYPE.artifact) {
         cardTemplate = ARTIFACTS[props.card.id]
         cardBackground = artifactBgr;
