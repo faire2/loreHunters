@@ -139,7 +139,7 @@ io.on("connection", socket => {
                 tPlayerState.hand = [];
 
                 /* in 5th round all guardians come into play */
-                if (round === 1) {
+                if (round === 4) {
                     for (let i; i < tPlayerState.discardDeck.length; i++) {
                         if (tPlayerState.discardDeck[i].type === CARD_TYPE.guardian) {
                             tPlayerState.discardDeck[i].state = CARD_STATE.drawDeck;
