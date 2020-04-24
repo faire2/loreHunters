@@ -95,10 +95,14 @@ function GameBoard() {
             console.log("*** TEST DATA ***");
             console.log(data);
         })
-
-        document.addEventListener("keydown", handleKeyPress);
-        return (document.removeEventListener('keydown', handleKeyPress));
     }, []);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyPress);
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    });
 
     function handleKeyPress(e) {
         if (e.keyCode === 32) {
@@ -256,17 +260,17 @@ function GameBoard() {
                 if (columnIndex < 4) {
                     const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
                     if (isRewardDue) {
-                        if (columnIndex === 0 || columnIndex === 2) {
+                        if (columnIndex === 1 || columnIndex === 3) {
                             const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
                             tStore.expeditions.splice(0, 2);
                             setChooseExpeditionModalData(expeditionsArr);
                             setShowChooseExpeditionModal(true);
-                        } else if (columnIndex === 1) {
+                        } else if (columnIndex === 0) {
                             const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
                             tStore.incomes1Offer.splice(0, 2);
                             setChooseExpeditionModalData(incomeArr);
                             setShowChooseExpeditionModal(true);
-                        } else if (columnIndex === 3) {
+                        } else if (columnIndex === 2) {
                             const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
                             tStore.incomes2Offer.splice(0, 2);
                             setChooseExpeditionModalData(incomeArr);
@@ -458,7 +462,6 @@ function GameBoard() {
                     <ChooseRewardModal/>
                     <ChooseLegendRewardModal/>
                     <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
-
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

@@ -10,7 +10,7 @@ import {
     Blimp,
     Text, Treasure,
     Uptrade,
-    Weapon
+    Weapon, AdventurerToken
 } from "../components/Symbols";
 
 const style = {
@@ -106,32 +106,32 @@ export const LEGENDS = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainPlane],
-                    effectsText: [<Blimp/>],
+                    effects: [EFFECT.gainPlane, EFFECT.gainPlane],
+                    effectsText: [<Blimp/>, <Blimp/>],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     costText: [<Text/>, <Jewel/>],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.destroyCard],
-                    effectsText: [<DestroyCard/>],
+                    effects: [EFFECT.gainAdventurerForThisRound],
+                    effectsText: [<AdventurerToken/>],
                     cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseWeapon],
                     costText: [<Coin/>, <Text/>, <Weapon/>],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.draw1],
-                    effectsText: [<Draw1Card/>],
-                    cost: [EFFECT.loseCoin, EFFECT.loseWeapon],
-                    costText: [<Coin/>, <Weapon/>],
+                    effects: [EFFECT.draw1, EFFECT.destroyCard],
+                    effectsText: [<Draw1Card/>, <DestroyCard/>],
+                    cost: [EFFECT.lockWeapon, EFFECT.loseWeapon],
+                    costText: [<Weapon/>, <Weapon/>],
                     size: FIELD_SIZE["1"],
                 },
             ],
             [
 
                 {
-                    effects: [EFFECT.firstGainsCoin, EFFECT.firstGainsExplore],
-                    effectsText: [<Coin/>, <Explore/>],
+                    effects: [EFFECT.firstGainsCoin, EFFECT.gainCoin, EFFECT.gainCoin],
+                    effectsText: [<Coin/>, <Coin/>, <Coin/>],
                     cost: [EFFECT.loseJewel, EFFECT.loseJewel],
                     costText: [<Jewel/>, <Jewel/>],
                     size: FIELD_SIZE["3"],
