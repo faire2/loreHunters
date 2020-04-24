@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects";
-import {FIELD_SIZE, LEGENDS} from "../../data/legends";
+import {FIELD_SIZE, Legends2} from "../../data/legends2";
 import {processEffects} from "../functions/processEffects";
 
 export function getDiscountForProgress(effects, activeEffect) {
@@ -44,7 +44,7 @@ export function getIsRewardDue(columnIndex, positions) {
 }
 
 export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boons, playerState, store, locations) {
-    const jsxLegend = LEGENDS[legends[legendIndex].id]
+    const jsxLegend = Legends2[legends[legendIndex].id]
     const field = jsxLegend.fields[columnIndex][fieldIndex];
 
     const playerIndex = playerState.playerIndex;

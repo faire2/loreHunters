@@ -74,7 +74,7 @@ function GameBoard() {
             setStore(states.store);
             setLocations(states.locations);
             setLegends(states.legends);
-            console.log("LEGENDS: ");
+            console.log("Legends2: ");
             console.log(legends);
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);

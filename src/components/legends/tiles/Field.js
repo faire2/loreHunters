@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import block1 from "../../../img/legends/blok1.png"
 import block2 from "../../../img/legends/blok2.png"
 import block3 from "../../../img/legends/blok3.png"
-import {FIELD_SIZE} from "../../../data/legends"
+import {FIELD_SIZE} from "../../../data/legends2"
 import {AdventurerToken} from "../../Symbols";
 import {GLOBAL_VARS} from "../../functions/initialStateFunctions";
 import {BoardStateContext} from "../../../Contexts";

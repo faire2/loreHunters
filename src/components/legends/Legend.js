@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import {LEGENDS} from "../../data/legends";
+import {Legends2} from "../../data/legends2";
 import {BoardStateContext} from "../../Contexts";
 import {Field} from "./tiles/Field";
 import victoryPoints from "../../img/symbols/VP.png";
 
 export function Legend(props) {
     const idLegend = props.legend;
-    const jsxLegend = LEGENDS[idLegend.id];
+    const jsxLegend = Legends2[idLegend.id];
 
     const boardStateContext = useContext(BoardStateContext);
 

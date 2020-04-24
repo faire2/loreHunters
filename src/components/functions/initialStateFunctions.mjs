@@ -296,7 +296,7 @@ export function getInitialLocations() {
     };
 }
 
-/* INITIAL LEGENDS */
+/* INITIAL Legends2 */
 export function getInitialLegends() {
     const legendsKeys = shuffleArray(Object.keys(LEGEND_IDS));
     const legends = [LEGEND_IDS[legendsKeys[0]]];

@@ -4,7 +4,7 @@ import {CardRow} from "../cards/CardRow";
 import {socket} from "../../server/socketConnection";
 import {emptyPlayerState, GLOBAL_VARS} from "../functions/initialStateFunctions";
 import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
-import {LEGENDS} from "../../data/legends";
+import {Legends2} from "../../data/legends2";
 import {AdventurerToken, Artifact, DefeatedGuardian, Guardian, Item, Shiny} from "../Symbols";
 import Card from "../cards/Card";
 
@@ -58,11 +58,11 @@ export function ScoringPanel(props) {
         defeatedGuardianPoints += GUARDIANS[card.id].points;
     }
 
-    /* LEGENDS */
+    /* Legends2 */
     let legendPoints = 0;
     if (legends) {
         for (let i = 0; i < legends.length; i++) {
-            const victoryPoints = LEGENDS[legends[i].id].victoryPoints;
+            const victoryPoints = Legends2[legends[i].id].victoryPoints;
             for (const position of legends[i].positions[playerState.playerIndex]) {
                 if (position.columnIndex !== null) {
                     legendPoints += victoryPoints[position.columnIndex];

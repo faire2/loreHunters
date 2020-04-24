@@ -25,7 +25,7 @@ export const FIELD_SIZE = Object.freeze({
     3: 3
 })
 
-export const LEGENDS = Object.freeze({
+export const Legends2 = Object.freeze({
     legend1: {
         id: "legend1",
         victoryPoints: [1, 3, 5, 8, 12, 17, 20, 20],
