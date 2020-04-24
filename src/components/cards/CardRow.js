@@ -23,7 +23,6 @@ export const cardRowStyle = {
     flexFlow: "row",
     minHeight: "9vw",
     flexWrap: "wrap",
-    backgroundColor: "red"
 }
 
 export const sideTextStyle = {

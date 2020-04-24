@@ -120,9 +120,14 @@ function GameBoard() {
         console.log("Handling card effects: " + tCard.cardName);
         console.log(effects);
 
+        let isAllowed = false
+        if (tCard.type === CARD_TYPE.artifact) {
+            isAllowed = !costsAction || tPlayerState.resources.texts > 0
+        }
+
         if (isActivePlayer && (!costsAction || playerState.actions > 0)) {
             if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
-                (tCard.type === CARD_TYPE.artifact && tPlayerState.resources.texts > 0)) {
+                (tCard.type === CARD_TYPE.artifact && isAllowed)) {
                 if (tCard.state === CARD_STATE.inHand) {
                     tPlayerState.activeCards.push(tCard);
                     tCard.state = CARD_STATE.active
