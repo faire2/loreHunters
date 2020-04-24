@@ -203,7 +203,6 @@ function processGuardianLockEffects(tPlayerState, guardians, lockEffects) {
                     console.log("Cannot process lock effect in drawCards: " + lockEffects[i]);
             }
         }
-        debugger
     }
     return tPlayerState
 }

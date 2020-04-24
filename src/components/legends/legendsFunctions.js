@@ -1,6 +1,8 @@
 import {EFFECT} from "../../data/effects";
 import {FIELD_SIZE, Legends2} from "../../data/legends2";
 import {processEffects} from "../functions/processEffects";
+import {cloneElement} from "react";
+import {cloneDeep} from "lodash";
 
 export function getDiscountForProgress(effects, activeEffect) {
     if (activeEffect === EFFECT.progressWithTexts) {
@@ -108,13 +110,15 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
     }
     if (canPlaceToken) {
         const activeEffect = playerState.activeEffects[0];
+        const tPlayerState = cloneDeep(playerState);
         let cost = [...jsxLegend.fields[columnIndex][fieldIndex].cost];
         let effects = [...cost, ...boons]
         if (activeEffect === EFFECT.progressWithTexts || activeEffect === EFFECT.progressWithWeapon
             || activeEffect === EFFECT.progressWithJewel) {
             effects = getDiscountForProgress(effects, activeEffect);
+            tPlayerState.activeEffects.splice(0, 1);
         }
-        let effectsResult = processEffects(null, null, playerState, effects,
+        let effectsResult = processEffects(null, null, tPlayerState, effects,
             null, store, null, locations);
 
         // if effects were processed (price was paid) place the token

@@ -94,9 +94,9 @@ export default function getInitialPlayerStates() {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard = {...GUARDIAN_IDs.giantScarab};
+        /*const testCard = {...ARTIFACT_IDs.mirrorShard};
         testCard.state = CARD_STATE.inHand;
-        drawDeck.splice(0, 0, testCard);*/
+        hand.splice(0, 0, testCard);*/
 
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;

@@ -3,27 +3,12 @@ import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, GUARDIANS, ITEMS} from "../../data/cards";
-
-import jeep from "../../img/items/jeep.png"
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
 import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
 import transportHighlight from "../../img/cardBackgrounds/transportHighlight.png"
-import {
-    AdventurerIcon,
-    Coin,
-    Discard,
-    Explore,
-    Guardian,
-    Jeep,
-    Blimp,
-    Ship,
-    Walk,
-    Weapon,
-    Jewel,
-    Text
-} from "../Symbols";
+import {AdventurerIcon, Blimp, Coin, Discard, Explore, Jeep, Jewel, Ship, Text, Walk, Weapon} from "../Symbols";
 import {cloneDeep} from "lodash";
 import {gainLockedResourceBack} from "../functions/processEffects";
 

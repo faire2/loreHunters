@@ -17,6 +17,7 @@ import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/locations/LocationExplorationModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
 import {
+    CARDS_ACTIONLESS,
     CARD_STATE,
     CARD_TYPE,
     INCOME_STATE,
@@ -129,7 +130,8 @@ function GameBoard() {
                 }
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
                 tPlayerState = effectsResult.tPlayerState;
-                if (tCard.type !== CARD_TYPE.basic && costsAction && effectsResult.processedAllEffects) {
+                if (tCard.type !== CARD_TYPE.basic && costsAction && effectsResult.processedAllEffects
+                    && !CARDS_ACTIONLESS.includes(tCard.id)) {
                     tPlayerState.actions -= 1;
                 }
                 tStore = effectsResult.tStore;
@@ -318,12 +320,13 @@ function GameBoard() {
     /** HANDLE CLICK ON RESOURCE **/
     function handleClickOnResource(resource) {
         if (isActivePlayer) {
+            const tPlayerState = cloneDeep(playerState);
             console.log("Handling click on resource: " + resource);
             if (playerState.activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
-                setPlayerState(processUptrade(cloneDeep(playerState), resource));
+                tPlayerState.activeEffects.splice(0, 1);
+                setPlayerState(processUptrade(tPlayerState, resource));
             } else if (playerState.activeEffects[0] === EFFECT.progressWithTextsOrWeapon
                 && (resource === RESOURCES.TEXTS || resource === RESOURCES.WEAPONS)) {
-                const tPlayerState = cloneDeep(playerState);
                 if (resource === RESOURCES.TEXTS) {
                     tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithTexts);
                 } else {
@@ -376,15 +379,17 @@ function GameBoard() {
 
     /** SET NEXT PLAYER **/
 
-    /*if (playerState.actions === 0) {
+    if (playerState.actions === 0 && playerState.activeEffects.length === 0) {
         nextPlayer();
-    }*/
+    }
 
     function nextPlayer() {
         if (isActivePlayer) {
             let tPlayerState = cloneDeep(playerState);
             // used to trigger goal reward modal at the beginning of the game
-            if (tPlayerState.firstTurn) {tPlayerState.firstTurn = false}
+            if (tPlayerState.firstTurn) {
+                tPlayerState.firstTurn = false
+            }
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
             socket.emit(TRANSMISSIONS.nextPlayer, {

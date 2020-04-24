@@ -334,22 +334,22 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "ritualDagger",
         type: CARD_TYPE.artifact,
     },
-   /* fearlessBlade: {
-        id: "fearlessBlade",
-        type: CARD_TYPE.artifact,
-    },
-    keysToAllDoors: {
-        id: "keysToAllDoors",
-        type: CARD_TYPE.artifact,
-    },
-    treacherusWhistle: {
-        id: "treacherusWhistle",
-        type: CARD_TYPE.artifact,
-    },
-    giantEgg: {
-        id: "giantEgg",
-        type: CARD_TYPE.artifact,
-    },*/
+    /* fearlessBlade: {
+         id: "fearlessBlade",
+         type: CARD_TYPE.artifact,
+     },
+     keysToAllDoors: {
+         id: "keysToAllDoors",
+         type: CARD_TYPE.artifact,
+     },
+     treacherusWhistle: {
+         id: "treacherusWhistle",
+         type: CARD_TYPE.artifact,
+     },
+     giantEgg: {
+         id: "giantEgg",
+         type: CARD_TYPE.artifact,
+     },*/
 });
 
 export const GUARDIAN_IDs = Object.freeze({
@@ -502,115 +502,115 @@ export const EXPEDITIONS_IDs = Object.freeze({
 
 /* Generating locations assigns them new key / value: *line*: numberOfLine, in which is the location displayed */
 export const LOCATION_IDs = Object.freeze({
-        1: {
-            id: "1",
-            type: LOCATION_TYPE.basic,
-            level: LOCATION_LEVEL["1"],
-        },
-        2: {
-            id: "2",
-            type: LOCATION_TYPE.basic,
-            level: LOCATION_LEVEL["1"],
-        },
-        3: {
-            id: "3",
-            type: LOCATION_TYPE.basic,
-            level: LOCATION_LEVEL["1"],
-        },
-        4: {
-            id: "4",
-            type: LOCATION_TYPE.basic,
-            level: LOCATION_LEVEL["1"],
-        },
-        5: {
-            id: "5",
-            type: LOCATION_TYPE.basic,
-            level: LOCATION_LEVEL["1"],
-        },
-        b21: {
-            id: "b21",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["2"],
-        },
-        b22: {
-            id: "b22",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["2"],
-        },
-        b23: {
-            id: "b23",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["2"],
-        },
-        b24: {
-            id: "b24",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["2"],
-        },
-        b25: {
-            id: "b25",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["2"],
-        },
-        b31: {
-            id: "b31",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["3"],
-        },
-        b32: {
-            id: "b32",
-            level: LOCATION_LEVEL["3"],
-        },
-        b33: {
-            id: "b33",
-            type: LOCATION_TYPE.brown,
-            level: LOCATION_LEVEL["3"],
-        },
-        g21: {
-            id: "g21",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["2"],
-        },
-        g22: {
-            id: "g22",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["2"],
-        },
-        g23: {
-            id: "g23",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["2"],
-        },
-        g24: {
-            id: "g24",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["2"],
-        },
-        g25: {
-            id: "g25",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["2"],
-        },
-        g26: {
-            id: "g26",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["2"],
-        },
-        g31: {
-            id: "g31",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["3"],
-        },
-        g32: {
-            id: "g32",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["3"],
-        },
-        g33: {
-            id: "g33",
-            type: LOCATION_TYPE.green,
-            level: LOCATION_LEVEL["3"],
-        },
+    1: {
+        id: "1",
+        type: LOCATION_TYPE.basic,
+        level: LOCATION_LEVEL["1"],
+    },
+    2: {
+        id: "2",
+        type: LOCATION_TYPE.basic,
+        level: LOCATION_LEVEL["1"],
+    },
+    3: {
+        id: "3",
+        type: LOCATION_TYPE.basic,
+        level: LOCATION_LEVEL["1"],
+    },
+    4: {
+        id: "4",
+        type: LOCATION_TYPE.basic,
+        level: LOCATION_LEVEL["1"],
+    },
+    5: {
+        id: "5",
+        type: LOCATION_TYPE.basic,
+        level: LOCATION_LEVEL["1"],
+    },
+    b21: {
+        id: "b21",
+        type: LOCATION_TYPE.brown,
+        level: LOCATION_LEVEL["2"],
+    },
+    b22: {
+        id: "b22",
+        type: LOCATION_TYPE.brown,
+        level: LOCATION_LEVEL["2"],
+    },
+    b23: {
+        id: "b23",
+        type: LOCATION_TYPE.brown,
+        level: LOCATION_LEVEL["2"],
+    },
+    b24: {
+        id: "b24",
+        type: LOCATION_TYPE.brown,
+        level: LOCATION_LEVEL["2"],
+    },
+    b25: {
+        id: "b25",
+        type: LOCATION_TYPE.brown,
+        level: LOCATION_LEVEL["2"],
+    },
+    b31: {
+        id: "b31",
+        type: LOCATION_TYPE.brown,
+        level: LOCATION_LEVEL["3"],
+    },
+    b32: {
+        id: "b32",
+        level: LOCATION_LEVEL["3"],
+    },
+    b33: {
+        id: "b33",
+        type: LOCATION_TYPE.brown,
+        level: LOCATION_LEVEL["3"],
+    },
+    g21: {
+        id: "g21",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["2"],
+    },
+    g22: {
+        id: "g22",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["2"],
+    },
+    g23: {
+        id: "g23",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["2"],
+    },
+    g24: {
+        id: "g24",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["2"],
+    },
+    g25: {
+        id: "g25",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["2"],
+    },
+    g26: {
+        id: "g26",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["2"],
+    },
+    g31: {
+        id: "g31",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["3"],
+    },
+    g32: {
+        id: "g32",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["3"],
+    },
+    g33: {
+        id: "g33",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["3"],
+    },
 });
 
 export const LEGEND_IDS = Object.freeze({
@@ -693,3 +693,5 @@ export const TRANSMISSIONS = Object.freeze({
     newGame: "start a new game"
 });
 
+export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id, ARTIFACT_IDs.flameJewel.id,
+    ARTIFACT_IDs.inscribedBlade.id]

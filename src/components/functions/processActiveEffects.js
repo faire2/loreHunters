@@ -3,7 +3,6 @@ import {EFFECT} from "../../data/effects.mjs";
 import {addCardToDiscardDeck, addCardToHand, destroyCard, getIdCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
-import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, GUARDIAN_IDs, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE} from "../../data/idLists";
 import {LOCATION_LINE, shuffleArray} from "./initialStateFunctions";
 import {
@@ -12,13 +11,13 @@ import {
     isLocationAdjancentToAdventurer,
     resolveRelocation
 } from "../locations/locationFunctions";
-import {Coin, Explore, Jewel, Text, Weapon} from "../Symbols";
+import {Jewel, Text, Weapon} from "../Symbols";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, setRewardsModal) {
-    let tActiveEffects = tPlayerState.activeEffects;
-    console.log(tActiveEffects);
-    console.log("Resolving active effect: " + tActiveEffects[0]);
-    switch (tActiveEffects[0]) {
+    const activeEffect = tPlayerState.activeEffects[0];
+    console.log(tPlayerState.activeEffects);
+    /*console.log("Resolving active effect: " + tPlayerState.activeEffects[0]);*/
+    switch (activeEffect) {
 
         /* When active effect deals with card in store */
         // todo gain artifact allows to buy multiple artifacts
@@ -30,10 +29,10 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.gainArtifactForExplore:
         case EFFECT.revealArtifactBuyWithDiscount2:
         case EFFECT.revealItemBuyWithDiscount2:
-            const buyResults = processCardBuy(tCard, cardIndex, tPlayerState, tActiveEffects, tStore, tLocations);
+            const buyResults = processCardBuy(tCard, cardIndex, tPlayerState, tPlayerState.activeEffects, tStore, tLocations);
             tPlayerState = buyResults.tPlayerState;
             tStore = buyResults.tStore;
-            tActiveEffects = buyResults.tActiveEffects;
+            tPlayerState.activeEffects = buyResults.tActiveEffects;
             break;
 
         case EFFECT.activateOccupiedLocation:
@@ -45,7 +44,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 }
                 const effectsResult = processEffects(null, null, tPlayerState, effects, null, tStore, null, tLocations, null)
                 tPlayerState = effectsResult.tPlayerState;
-                tActiveEffects.splice(0, 1);
+                tPlayerState.activeEffects.splice(0, 1);
             }
             break;
 
@@ -53,8 +52,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             if (tCard.state === CARD_STATE.inHand) {
                 tPlayerState = addCardToDiscardDeck(tCard, tPlayerState);
                 tPlayerState.hand.splice(cardIndex, 1);
-                const effectsResults = processEffects(null, null, tPlayerState, tActiveEffects[1], tActiveEffects, tStore, null, null);
-                tActiveEffects.splice(0, 2);
+                const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tPlayerState.activeEffects, tStore, null, null);
+                tPlayerState.activeEffects.splice(0, 2);
                 tPlayerState = effectsResults.tPlayerState;
             }
             break;
@@ -64,7 +63,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
                 tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
                 tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
-                tActiveEffects.splice(0, 1);
+                tPlayerState.activeEffects.splice(0, 1);
             }
             break;
 
@@ -73,7 +72,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
                 tCard.state = CARD_STATE.destroyed;
                 tPlayerState.destroyedCards.push(tCard);
-                tActiveEffects.splice(0, 1);
+                tPlayerState.activeEffects.splice(0, 1);
                 break;
             }
             break;
@@ -88,17 +87,17 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.drawFromDiscard:
             tPlayerState = addCardToHand(tCard, tPlayerState);
             tPlayerState.discardDeck.splice(cardIndex, 1);
-            tActiveEffects.splice(0, 1);
+            tPlayerState.activeEffects.splice(0, 1);
             break;
 
         case EFFECT.drawFromDrawDeckOrDiscard:
             if (tCard !== null && (tCard.state === CARD_STATE.drawDeck || tCard.state === CARD_STATE.discard)) {
                 /* we have the actual hand stored in active effects */
-                tPlayerState.hand = tActiveEffects[1];
+                tPlayerState.hand = tPlayerState.activeEffects[1];
                 tPlayerState.drawDeck = shuffleArray(tPlayerState.drawDeck);
                 tCard.state = CARD_STATE.inHand;
                 tPlayerState.hand.push(getIdCard(tCard));
-                tActiveEffects.splice(0, 2);
+                tPlayerState.activeEffects.splice(0, 2);
                 if (tCard.state === CARD_STATE.drawDeck)
                     for (let i = 0; i < tPlayerState.drawDeck.length; i++) {
                         if (tPlayerState.drawDeck[i].id === tCard.id) {
@@ -133,8 +132,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effectsArray, null,
                     null, null, null, null);
                 tPlayerState = effectsResult.tPlayerState;
-                tPlayerState.hand = tActiveEffects[1];
-                tActiveEffects.splice(0, 2);
+                tPlayerState.hand = tPlayerState.activeEffects[1];
+                tPlayerState.activeEffects.splice(0, 2);
             }
             break;
 
@@ -144,8 +143,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, tCard.discoveryEffect, null,
                     null, null, null, null);
                 tPlayerState = effectsResult.tPlayerState;
-                tPlayerState.hand = tActiveEffects[1];
-                tActiveEffects.splice(0, 2);
+                tPlayerState.hand = tPlayerState.activeEffects[1];
+                tPlayerState.activeEffects.splice(0, 2);
             }
             break;
 
@@ -178,7 +177,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                             }
                         }
                     }
-                    tActiveEffects.splice(0, 1);
+                    tPlayerState.activeEffects.splice(0, 1);
                     setRewardsModal(rewards);
                 }
             }
@@ -188,26 +187,26 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied) {
                 tPlayerState.availableAdventurers += 1;
                 tLocation.state = LOCATION_STATE.explored;
-                tActiveEffects.splice(0, 1);
-                if (tActiveEffects[0] === EFFECT.moveAdvToEmptyLocation) {
+                tPlayerState.activeEffects.splice(0, 1);
+                if (tPlayerState.activeEffects[0] === EFFECT.moveAdvToEmptyLocation) {
                     /* we have to remember the original location - it may not be used for deploy */
-                    tActiveEffects.splice(1, 0, tLocation);
+                    tPlayerState.activeEffects.splice(1, 0, tLocation);
                 }
             }
             break;
 
         case EFFECT.markOwnLocation:
             if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied) {
-                tActiveEffects.splice(2, 0, tLocation);
-                tActiveEffects.splice(0, 1);
+                tPlayerState.activeEffects.splice(2, 0, tLocation);
+                tPlayerState.activeEffects.splice(0, 1);
             }
             break;
 
         case EFFECT.moveAdvToEmptyAdjacentLocation:
             if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.level !== LOCATION_LEVEL["3"]) {
                 let isAdjacent = false;
-                const firstLine = tActiveEffects[1].firstLocationLine;
-                const firstIndex = tActiveEffects[1].firstLocationIndex;
+                const firstLine = tPlayerState.activeEffects[1].firstLocationLine;
+                const firstIndex = tPlayerState.activeEffects[1].firstLocationIndex;
                 const secondLine = tLocation.line;
                 let secondIndex = getLocationIndex(tLocations[secondLine], tLocation.id);
                 // both locations are in same line
@@ -229,7 +228,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                     }
                 }
                 if (isAdjacent) {
-                    tActiveEffects.splice(0, 2);
+                    tPlayerState.activeEffects.splice(0, 2);
                     const result = resolveRelocation(secondLine, secondIndex, tPlayerState, tLocations, tStore)
                     tPlayerState = result.playerState;
                     tLocations = result.locations;
@@ -244,11 +243,11 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         /* checks if the clicked location is not the same as the location from which the adv. was removed earlier */
         case EFFECT.moveAdvToEmptyLocation:
-            if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.id !== tActiveEffects[1]
+            if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.id !== tPlayerState.activeEffects[1]
                 && tLocation.level !== LOCATION_LEVEL["3"]) {
                 tPlayerState.availableAdventurers -= 1;
                 /* we have to remove original location id from the activeAffects array */
-                tActiveEffects.splice(0, 2);
+                tPlayerState.activeEffects.splice(0, 2);
                 let line = tLocation.line;
                 let locationIndex = getLocationIndex(tLocations[line], tLocation.id);
                 const result = resolveRelocation(line, locationIndex, tPlayerState, tLocations, tStore)
@@ -260,14 +259,14 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
 
         case EFFECT.useAdjacentEmptyLocation:
-            if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.index !== tActiveEffects[1].index) {
+            if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.index !== tPlayerState.activeEffects[1].index) {
                 /* we have to remove original location from the activeAffects array */
-                tActiveEffects.splice(0, 2);
+                tPlayerState.activeEffects.splice(0, 2);
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects,
-                    tActiveEffects, tStore, tLocations)
+                    tPlayerState.activeEffects, tStore, tLocations)
                 tPlayerState = effectsResult.tPlayerState;
                 tLocations = effectsResult.tLocations;
-                tActiveEffects = effectsResult.tActiveEffects;
+                tPlayerState.activeEffects = effectsResult.tActiveEffects;
                 tStore = effectsResult.tStore;
             }
             break;
@@ -282,18 +281,18 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 }
                 locationToChange.state = LOCATION_STATE.explored;
                 locationToChange.owner = null;
-                tActiveEffects.splice(0, 1);
-                if (tActiveEffects[0] === EFFECT.moveAdvToEmptyAdjacentLocation) {
+                tPlayerState.activeEffects.splice(0, 1);
+                if (tPlayerState.activeEffects[0] === EFFECT.moveAdvToEmptyAdjacentLocation) {
                     // we store the location to check for adjacency later
                     let firstLocationLine = locationToChange.line;
                     let firstLocationIndex = tLocations[firstLocationLine].indexOf(locationToChange);
-                    tActiveEffects.splice(1, 0, {
+                    tPlayerState.activeEffects.splice(1, 0, {
                         firstLocationLine: firstLocationLine,
                         firstLocationIndex: firstLocationIndex
                     })
-                } else if (tActiveEffects[0] === EFFECT.moveAdvToEmptyLocation) {
+                } else if (tPlayerState.activeEffects[0] === EFFECT.moveAdvToEmptyLocation) {
                     // we store the location id to check for identity later
-                    tActiveEffects.splice(1, 0, tLocation.id);
+                    tPlayerState.activeEffects.splice(1, 0, tLocation.id);
                 }
             }
             break;
@@ -301,12 +300,12 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.useYourLocation:
             if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied) {
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects,
-                    tActiveEffects, tStore, tLocations)
+                    tPlayerState.activeEffects, tStore, tLocations)
                 tPlayerState = effectsResult.tPlayerState;
                 tLocations = effectsResult.tLocations;
-                tActiveEffects = effectsResult.tActiveEffects;
+                tPlayerState.activeEffects = effectsResult.tActiveEffects;
                 tStore = effectsResult.tStore;
-                tActiveEffects.splice(0, 1);
+                tPlayerState.activeEffects.splice(0, 1);
             }
             break;
 
@@ -316,7 +315,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 console.log("HERE2");
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, tCard.effects, null, null, null);
                 tPlayerState = effectsResult.tPlayerState;
-                tActiveEffects.splice(0, 1);
+                tPlayerState.activeEffects.splice(0, 1);
                 /* when the effect was processed, the card state was changed to active, which is wrong*/
                 tCard.state = CARD_STATE.inStore;
             }
@@ -324,9 +323,9 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.useArtifactOnMarket:
             if (tCard.type === CARD_TYPE.artifact && tCard.state === CARD_STATE.inStore) {
-                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, tCard.effects, tActiveEffects, null, null);
+                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, tCard.effects, tPlayerState.activeEffects, null, null);
                 tPlayerState = effectsResult.tPlayerState;
-                tActiveEffects.splice(0, 1);
+                tPlayerState.activeEffects.splice(0, 1);
                 /* when the effect was processed, the card was marked as active, which is wrong*/
                 tCard.state = CARD_STATE.inStore;
             }
@@ -334,24 +333,21 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.payToUseOccupiedLocation:
             if (tLocation.state === LOCATION_STATE.occupied && tPlayerState.resources.coins > 0) {
-                const effectsResult = processEffects(null, cardIndex, tPlayerState, tLocation.effects, tActiveEffects,
+                const effectsResult = processEffects(null, cardIndex, tPlayerState, tLocation.effects, tPlayerState.activeEffects,
                     tStore, tLocation, tLocations);
                 tPlayerState = effectsResult.tPlayerState;
-                tActiveEffects = effectsResult.tActiveEffects;
+                tPlayerState.activeEffects = effectsResult.tActiveEffects;
                 tStore = effectsResult.tStore;
                 tLocations = effectsResult.tLocations;
-                tActiveEffects.splice(0, 1);
+                tPlayerState.activeEffects.splice(0, 1);
                 tPlayerState.resources.coins -= 1;
             }
             break;
 
         default:
-            console.log("Cannot process active effect " + tActiveEffects[0] + " on card: " + tCard.cardName
+            console.log("Cannot process active effect " + tPlayerState.activeEffects[0] + " on card: " + tCard.cardName
                 + " with state " + tCard.state);
     }
-
-    //todo should not be necessary
-    tPlayerState.activeEffects = tActiveEffects;
     return {
         tPlayerState: tPlayerState,
         tLocations: tLocations,
