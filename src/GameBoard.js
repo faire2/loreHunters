@@ -95,10 +95,14 @@ function GameBoard() {
             console.log("*** TEST DATA ***");
             console.log(data);
         })
-
-        document.addEventListener("keydown", handleKeyPress);
-        return (document.removeEventListener('keydown', handleKeyPress));
     }, []);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyPress);
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    });
 
     function handleKeyPress(e) {
         if (e.keyCode === 32) {
@@ -458,7 +462,6 @@ function GameBoard() {
                     <ChooseRewardModal/>
                     <ChooseLegendRewardModal/>
                     <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
-
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>
