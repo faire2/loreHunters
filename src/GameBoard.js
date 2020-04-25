@@ -447,6 +447,7 @@ function GameBoard() {
         modalData: rewardsModalData,
         showChooseExpeditionModal: showChooseExpeditionModal,
         chooseExpeditionModalData: chooseExpeditionModalData,
+        round: round,
         handleCardEffect: handleClickOnCardEffect,
         handleCardBuy: handleCardBuy,
         handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,

@@ -1,6 +1,7 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
 import Card from "../cards/Card";
+import staff from "../../img/staff.png"
 
 export default function Store() {
     const storeContext = useContext(BoardStateContext);
@@ -17,11 +18,25 @@ export default function Store() {
         </div>
     )
 
+    const leftMargin = storeContext.round * 6.8 + "vw"
+    const staffStyle = {
+        height: "11vw",
+        marginTop: "-2vw",
+        position: "absolute",
+        marginLeft: leftMargin,
+        left: "1.1vw",
+        zIndex: 2
+    }
+
     return (
         <div className="d-flex flex-row">
             {artifacts}
+            <div style={staffStyle}>
+                <img src={staff} height={"100%"} width={"100%"}/>
+            </div>
             {items}
         </div>
     )
 
 }
+
