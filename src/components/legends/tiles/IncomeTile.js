@@ -19,9 +19,9 @@ export const IncomeTile = (props) => {
 
     const containerStyle = {
         backgroundSize: "contain",
-        width: size === INCOME_SIZE.small ? "2.25vw" : "5vw",
-        height: size === INCOME_SIZE.small ? "2.25vw" : "5vw",
-        fontSize: twoIcons ? (size === INCOME_SIZE.small ? "1.3vw" : "3vw") : (size === INCOME_SIZE.small ? "1.7vw" : "3.8vw"),
+        width: size === INCOME_SIZE.small ? "2.25vw" : "3vw",
+        height: size === INCOME_SIZE.small ? "2.25vw" : "3vw",
+        fontSize: twoIcons ? (size === INCOME_SIZE.small ? "1.3vw" : "1.8vw") : (size === INCOME_SIZE.small ? "1.7vw" : "2.2vw"),
         float: "left",
         position: "relative",
         marginLeft: "0.5vw",

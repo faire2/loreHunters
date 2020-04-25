@@ -1,4 +1,4 @@
-import {RESOURCES} from "./Resources";
+import {RESOURCES} from "./ResourcesArea";
 
 export function processUptrade(tPlayerState, resource) {
     let resources = tPlayerState.resources;

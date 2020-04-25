@@ -28,7 +28,7 @@ let locations = getInitialLocations();
 let legends = getInitialLegends();
 let round = 1;
 let activePlayer = 0;
-let previousPlayer = null;
+let previousPlayer = 0;
 
 const io = socketIO(server);
 io.on("connection", socket => {

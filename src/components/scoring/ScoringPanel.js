@@ -86,7 +86,9 @@ export function ScoringPanel(props) {
 
     const containerStyle = {
         textAlign: "center",
-        fontSize: "6vw"
+        fontSize: "6vw",
+        width: "100%",
+        height: "100%"
     }
 
     const rowStyle = {
@@ -101,7 +103,7 @@ export function ScoringPanel(props) {
 
     return (
         <div style={containerStyle}>
-            <PlayerTabs handleClickOnTab={handleClickOnPlayerTab}/>
+            <PlayerTabs handleClickOnTab={handleClickOnPlayerTab} width={"25vw"} height={"5vw"}/>
             <div style={rowStyle}>
                 <Item/>:{itemPoints}<CardRow cards={allDeckCards}/>
             </div>
@@ -129,7 +131,7 @@ export function ScoringPanel(props) {
     )
 }
 
-const PlayerTabs = (props) => {
+export const PlayerTabs = (props) => {
     const playerArr = [];
     for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
         playerArr.push(i)
@@ -143,7 +145,7 @@ const PlayerTabs = (props) => {
         <div style={{display: "flex", flexFlow: "row", justifyContent: "left"}}>
             {playerArr.map((player, i) =>
                 <div key={i} onClick={() => handleOnClick(i)}>
-                    <PlayerTab playerId={player}/>
+                    <PlayerTab playerId={player} width={props.width} height={props.height}/>
                 </div>
             )}
         </div>
@@ -153,13 +155,13 @@ const PlayerTabs = (props) => {
 const PlayerTab = (props) => {
     const playerId = props.playerId;
     const tabStyle = {
-        width: "25vw",
-        height: "5vw",
+        width: props.width,
+        height: props.height,
         backgroundColor: GLOBAL_VARS.playerColors[playerId],
+        cursor: "pointer",
     }
 
     return (
-        <div style={tabStyle}>
-        </div>
+        <div style={tabStyle}/>
     )
 }

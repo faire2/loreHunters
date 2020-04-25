@@ -5,10 +5,10 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
-import Resources, {RESOURCES} from "./components/resources/Resources";
+import ResourcesArea, {RESOURCES} from "./components/resources/ResourcesArea";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
-import {emptyPlayerState} from "./components/functions/initialStateFunctions";
+import {emptyPlayerState, GLOBAL_VARS} from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects.mjs";
 import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
@@ -45,12 +45,16 @@ import {CardRow} from "./components/cards/CardRow";
 
 function GameBoard() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
-    const [playerStates, setPlayerStates] = useState([emptyPlayerState]);
+    const emptyPlayerStates = [];
+    for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+        emptyPlayerStates.push(emptyPlayerState)
+    }
+    const [playerStates, setPlayerStates] = useState(emptyPlayerStates);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(null);
     const [locations, setLocations] = useState(null);
     const [legends, setLegends] = useState(null);
-    const [previousPlayer, setPreviousPlayer] = useState(null);
+    const [previousPlayer, setPreviousPlayer] = useState(0);
     const [isActivePlayer, setIsActivePlayer] = useState(false);
     const history = useHistory();
 
@@ -475,7 +479,7 @@ function GameBoard() {
                     </div>
                     <CardsArea/>
                     <LegendsArea/>
-                    <Resources/>
+                    <ResourcesArea/>
                     <RelicsArea/>
                     <Controls/><br/>
                     <OpponentPlayArea/>

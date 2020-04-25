@@ -21,7 +21,7 @@ export function OpponentPlayArea() {
 
     return (
         <div style={containerStyle}>
-            <CardRow cards={playerStates[previousPlayer ? previousPlayer : 0].activeCards} text={"PREVIOUSLY PLAYED"}/>
+            <CardRow cards={playerStates[previousPlayer ? previousPlayer : 0].activeCards} text={"LAST PLAYED"}/>
         </div>
     )
 }

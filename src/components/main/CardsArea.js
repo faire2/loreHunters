@@ -4,7 +4,7 @@ import {PlayerStateContext} from "../../Contexts";
 import {DrawDeck} from "../cards/DrawDeck";
 import {DiscardDeck} from "../cards/DiscardDeck";
 import Card from "../cards/Card";
-import Resources from "../resources/Resources";
+import ResourcesArea from "../resources/ResourcesArea";
 import {CardRow, cardRowStyle, sideTextStyle} from "../cards/CardRow";
 
 export default function CardsArea() {
