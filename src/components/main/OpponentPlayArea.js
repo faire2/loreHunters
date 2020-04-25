@@ -16,6 +16,7 @@ export function OpponentPlayArea() {
         marginTop: "39.7vw",
         backgroundColor: playerColor,
         width: "100%",
+        height: "9.6vw",
         top: 0,
     }
 
