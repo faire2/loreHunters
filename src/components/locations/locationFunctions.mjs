@@ -1,4 +1,4 @@
-import {Locations, TRANSPORT_TYPE} from "../../data/locations";
+import {LOCATIONS, TRANSPORT_TYPE} from "../../data/LOCATIONS";
 import {EFFECT} from "../../data/effects";
 import {LOCATION_LINE} from "../functions/initialStateFunctions";
 import {LOCATION_STATE} from "../../data/idLists";
@@ -212,7 +212,7 @@ export function resolveRelocation(locationLine, locationIndex, playerState, loca
     const location = locations[locationLine][locationIndex];
     location.state = LOCATION_STATE.occupied;
     location.owner = playerState.playerIndex;
-    const effectsResult = processEffects(null, null, playerState, Locations[location.id].effects,
+    const effectsResult = processEffects(null, null, playerState, LOCATIONS[location.id].effects,
         null, store, location, locations, null);
     return {playerState: effectsResult.tPlayerState, locations: effectsResult.tLocations, store: effectsResult.tStore}
 }

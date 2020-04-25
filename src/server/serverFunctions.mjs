@@ -1,6 +1,9 @@
 // insert player into null position or push him to the end
 import {GLOBAL_VARS} from "../components/functions/initialStateFunctions.mjs";
 import {EFFECT} from "../data/effects.mjs";
+import cloneDeep from "lodash/cloneDeep.js";
+import {CARD_STATE, CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE} from "../data/idLists.mjs";
+import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
 
 export default function addPlayer(players, socketId) {
     if (players.length === 0) {
@@ -50,4 +53,95 @@ export function handleIncomes(playerState) {
         }
     }
     return playerState;
+}
+
+export function processEndOfRound(playerStates, locations, store, round) {
+    /* handle store changes */
+    let tStore = cloneDeep(store);
+    if (tStore.itemsOffer.length > 0) {
+        tStore.itemsOffer.splice(-1 + round, 1, tStore.artifactsDeck[0]);
+        tStore.artifactsDeck.splice(0, 1);
+    }
+
+    /* remove adventurers from locations */
+    let tLocations = cloneDeep(locations);
+    for (let key in tLocations) {
+        let locationLine = locations[key];
+        for (let location of locationLine) {
+            if (location.state === LOCATION_STATE.occupied) {
+                location.state = LOCATION_STATE.explored;
+                location.owner = null;
+            }
+        }
+    }
+
+    /* reset player states */
+    let tPlayerStates = [];
+    for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+        let tPlayerState = cloneDeep(playerStates[i]);
+        tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
+
+        /* move active cards to discard */
+        for (let card of tPlayerState.activeCards) {
+            if (card.type === CARD_TYPE.guardian) {
+                tPlayerState = addCardToDiscardDeck({...ITEM_IDs.fear}, tPlayerState);
+            }
+            tPlayerState = addCardToDiscardDeck(card, tPlayerState);
+        }
+        tPlayerState.activeCards = [];
+
+        /* move cards from hand to discard */
+        for (let card of tPlayerState.hand) {
+            tPlayerState = addCardToDiscardDeck(card, tPlayerState);
+        }
+        tPlayerState.hand = [];
+
+        /* in 5th round all guardians come into play */
+        if (round === 4) {
+            for (let i; i < tPlayerState.discardDeck.length; i++) {
+                if (tPlayerState.discardDeck[i].type === CARD_TYPE.guardian) {
+                    tPlayerState.discardDeck[i].state = CARD_STATE.drawDeck;
+                    tPlayerState.hand.push(tPlayerState.drawDeck[i]);
+                    tPlayerState.discardDeck.splice(i);
+                }
+            }
+
+            for (let i; i < tPlayerState.drawDeck.length; i++) {
+                if (tPlayerState.drawDeck[i].type === CARD_TYPE.guardian) {
+                    tPlayerState.drawDeck[i].splice(0, 0, i);
+                }
+            }
+        }
+
+        /* draw a new hand */
+        tPlayerState = drawCards(5, tPlayerState);
+
+        /* handle regular incomes */
+        tPlayerState = handleIncomes(tPlayerState);
+
+        /* reset transport resources */
+        tPlayerState = resetTransport(tPlayerState);
+
+        /* reset income states */
+        for (let income of tPlayerState.incomes) {
+            income.state = INCOME_STATE.ready
+        }
+
+        /* reset active rest of counters */
+        tPlayerState.activeEffects = [];
+        tPlayerState.actions = 1;
+        tPlayerState.finishedRound = false;
+        tPlayerStates.push(tPlayerState);
+
+    }
+    console.log("*** END OF ROUND ***");
+    return({playerStates: tPlayerStates, locations: tLocations, store: tStore})
+}
+
+export function resetTransport(playerState) {
+    playerState.resources.walk = 0;
+    playerState.resources.jeep = 0;
+    playerState.resources.ship = 0;
+    playerState.resources.plane = 0;
+    return playerState
 }

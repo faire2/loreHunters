@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
-import {Locations} from "../../data/locations";
+import {LOCATIONS} from "../../data/LOCATIONS";
 import Location from "./Location";
 import map from "../../img/map.png"
 
@@ -46,7 +46,7 @@ export default function LocationsArea() {
                             } else {
                                 return (
                                     <div key={"locationLine1-" + i}>
-                                        <Location location={Locations[location.id]} idLocation={location}/>
+                                        <Location location={LOCATIONS[location.id]} idLocation={location}/>
                                     </div>
                                 )
                             }
@@ -58,7 +58,7 @@ export default function LocationsArea() {
                     <br/>
                     {locations !== null && locations.line3.map((location, i) =>
                         <div key={"locationLine1-" + i}>
-                            <Location location={Locations[location.id]} idLocation={location}/>
+                            <Location location={LOCATIONS[location.id]} idLocation={location}/>
                         </div>
                     )}
                 </div>
@@ -66,7 +66,7 @@ export default function LocationsArea() {
                     <div style={locationStyle} className="d-flex flex-row position-relative">
                         {locations !== null && locations.line2.map((location, i) =>
                             <div key={"locationLine1-" + i}>
-                                <Location location={Locations[location.id]} idLocation={location}/>
+                                <Location location={LOCATIONS[location.id]} idLocation={location}/>
                             </div>
                         )}
                     </div>
@@ -74,7 +74,7 @@ export default function LocationsArea() {
                 <div style={locationStyle} className="d-flex flex-row position-relative">
                     {locations !== null && locations.line1.map((location, i) =>
                         <div key={"locationLine1-" + i}>
-                            <Location location={Locations[location.id]} idLocation={location}/>
+                            <Location location={LOCATIONS[location.id]} idLocation={location}/>
                         </div>
                     )}
                 </div>

@@ -36,7 +36,7 @@ export const TRANSPORT_TYPE = Object.freeze({
     plane: <Blimp />
 });
 
-export const Locations = Object.freeze({
+export const LOCATIONS = Object.freeze({
     1: {
     id: "1",
         effectsText: <div><Coin/><Coin/></div>,
