@@ -29,6 +29,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.destroyGuardian:
                 case EFFECT.drawFromDiscard:
                 case EFFECT.gainArtifact:
+                case EFFECT.gainItem:
                 case EFFECT.buyWithDiscount1:
                 case EFFECT.gainExpeditionCard:
                 case EFFECT.gainItemToHand:

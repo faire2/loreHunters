@@ -31,7 +31,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             const buyResults = processCardBuy(tCard, cardIndex, tPlayerState, tPlayerState.activeEffects, tStore, tLocations);
             tPlayerState = buyResults.tPlayerState;
             tStore = buyResults.tStore;
-            tPlayerState.activeEffects = buyResults.tActiveEffects;
+            tPlayerState.activeEffects = buyResults.tPlayerState.activeEffects;
             break;
 
         case EFFECT.activateOccupiedLocation:
@@ -335,7 +335,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 const effectsResult = processEffects(null, cardIndex, tPlayerState, tLocation.effects, tPlayerState.activeEffects,
                     tStore, tLocation, tLocations);
                 tPlayerState = effectsResult.tPlayerState;
-                tPlayerState.activeEffects = effectsResult.tActiveEffects;
+                tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
                 tStore = effectsResult.tStore;
                 tLocations = effectsResult.tLocations;
                 tPlayerState.activeEffects.splice(0, 1);
