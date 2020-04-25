@@ -30,7 +30,7 @@ export default function ChooseLegendRewardModal() {
             <Modal.Body>
                 <div className="text-center">
                     {data.map((element, i) =>
-                        <div style={fontSizeStyle} onClick={() => boardStateContext.handleExpeditionReward(element, isGoalCard)}>
+                        <div style={fontSizeStyle} onClick={() => boardStateContext.handleExpeditionReward(element, isGoalCard, i)}>
                             {isGoalCard ? <Card card={element} index={i}/> : <IncomeTile income={element} size={INCOME_SIZE.large}/>}
                         </div>
                     )}

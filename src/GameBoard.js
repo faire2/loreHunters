@@ -24,7 +24,7 @@ import {
     LOCATION_IDs,
     LOCATION_LEVEL,
     LOCATION_STATE,
-    TRANSMISSIONS
+    TRANSMISSIONS, INCOME_LEVEL
 } from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
@@ -213,9 +213,7 @@ function GameBoard() {
                                 tPlayerState.discardDeck.push(store.guardians[0]);
                                 tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
                                 store.guardians.splice(0, 1);
-
                                 setShowRewardsModal(true);
-
                             }
                         }
                         break;
@@ -270,7 +268,7 @@ function GameBoard() {
 
     /** HANDLE CLICK ON LEGEND **/
     function handleClickOnLegend(legendIndex, columnIndex, fieldIndex, boons) {
-        if (isActivePlayer && playerState.actions > 0) {
+        if (isActivePlayer && (playerState.actions > 0 || playerState.activeEffects.length > 0)) {
             const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, boons,
                 cloneDeep(playerState), cloneDeep(store), cloneDeep(locations))
             if (legendResult) {
@@ -281,17 +279,14 @@ function GameBoard() {
                     if (isRewardDue) {
                         if (columnIndex === 1 || columnIndex === 3) {
                             const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                            tStore.expeditions.splice(0, 2);
                             setChooseExpeditionModalData(expeditionsArr);
                             setShowChooseExpeditionModal(true);
                         } else if (columnIndex === 0) {
                             const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
-                            tStore.incomes1Offer.splice(0, 2);
                             setChooseExpeditionModalData(incomeArr);
                             setShowChooseExpeditionModal(true);
                         } else if (columnIndex === 2) {
                             const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
-                            tStore.incomes2Offer.splice(0, 2);
                             setChooseExpeditionModalData(incomeArr);
                             setShowChooseExpeditionModal(true);
                         }
@@ -307,18 +302,29 @@ function GameBoard() {
     }
 
     /** HANDLE LEGEND REWARD MODAL **/
-    function handleLegendReward(idElement, isGoalCard) {
+    function handleLegendReward(idElement, isGoalCard, index) {
         setShowChooseExpeditionModal(false);
         setChooseExpeditionModalData([]);
         let tPlayerState = cloneDeep(playerState);
+        let tStore = cloneDeep(store);
         if (isGoalCard) {
             tPlayerState.victoryCards.push(idElement);
+            tStore.expeditions.push(tStore[index]);
+            tStore.expeditions.splice(0, 2);
         } else {
             idElement.state = INCOME_STATE.ready;
             tPlayerState.incomes.push(idElement);
+            if (idElement.level === INCOME_LEVEL.silver) {
+                tStore.incomes1Offer.splice(index, 1, tStore.incomes1Deck[0]);
+                tStore.incomes1Deck.splice(0, 1);
+            } else {
+                tStore.incomes2Offer.splice(index, 1, tStore.incomes1Deck[0]);
+                tStore.incomes2Deck.splice(0, 1);
+            }
             tPlayerState = handleIncomes(tPlayerState);
         }
-        setPlayerState(tPlayerState)
+        setPlayerState(tPlayerState);
+        setStore(tStore);
     }
 
     /** HANDLE ACTIVE EFFECTS **/
@@ -394,7 +400,7 @@ function GameBoard() {
 
     /** SET NEXT PLAYER **/
 
-    if (playerState.actions === 0 && playerState.activeEffects.length === 0) {
+    if (playerState.actions < 1 && playerState.activeEffects.length === 0) {
         nextPlayer();
     }
 
