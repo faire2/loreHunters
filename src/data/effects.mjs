@@ -38,7 +38,7 @@ export const EFFECT = Object.freeze({
     gainExploreForGuardians: "gain an explore for each guardian in you play area",
     gainDiscoveryBonus: "gain guardian's discovery bonus",
     gainFear: "gain a fear card",
-    gainItem: "gain an item", // todo implement
+    gainItem: "gain an item",
     gainItemToHand: "gain an item to your hand",
     gainJeep: "travel with a jeep",
     gainJewel: "gain a jewel",

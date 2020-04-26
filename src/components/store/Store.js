@@ -21,10 +21,11 @@ export default function Store() {
     const leftMargin = storeContext.round * 6.8 + "vw"
     const staffStyle = {
         height: "11vw",
+        width: "3vw",
         marginTop: "-2vw",
         position: "absolute",
         marginLeft: leftMargin,
-        left: "1.1vw",
+        left: "1.7vw",
         zIndex: 2
     }
 
