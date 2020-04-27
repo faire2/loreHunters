@@ -19,7 +19,7 @@ export const IncomeTile = (props) => {
 
     const containerStyle = {
         backgroundSize: "contain",
-        width: size === INCOME_SIZE.small ? "2.1vw" : "3.1vw",
+        width: size === INCOME_SIZE.small ? "2.1vw" : "2.8vw",
         height: size === INCOME_SIZE.small ? "2.25vw" : "3vw",
         fontSize: twoIcons ? (size === INCOME_SIZE.small ? "1.3vw" : "1.8vw") : (size === INCOME_SIZE.small ? "1.7vw" : "2.2vw"),
         float: "left",

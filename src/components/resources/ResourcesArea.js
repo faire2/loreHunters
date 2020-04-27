@@ -63,11 +63,11 @@ const Resources = (props) => {
 
     const containerStyle = {
         display: "flex",
-        width: "20vw",
+        width: "12vw",
         height: "12.5vw",
         flexFlow: "column",
         flexWrap: "wrap",
-        marginLeft: "1.5vw"
+        marginLeft: "1.5vw",
     }
 
     const secondColumnFieldStyle = {
