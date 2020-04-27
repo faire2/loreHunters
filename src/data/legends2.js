@@ -114,7 +114,8 @@ export const Legends2 = Object.freeze({
                 },
                 {
                     effects: [EFFECT.gainAdventurerForThisRound],
-                    effectsText: [<AdventurerToken/>],
+                    effectsText: [<div style={{width: "1.5vw", margin: "0 auto"}}> <AdventurerToken/> </div>],
+                    effectsText: [<div style={{width: "1.5vw", margin: "0 auto"}}> <AdventurerToken/> </div>],
                     cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseWeapon],
                     costText: [<Coin/>, <Text/>, <Weapon/>],
                     size: FIELD_SIZE["1"],
