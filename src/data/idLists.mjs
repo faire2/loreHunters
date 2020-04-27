@@ -486,7 +486,7 @@ export const EXPEDITIONS_IDs = Object.freeze({
         id: "beyondBasics",
         type: CARD_TYPE.expedition,
     },
-    quantityAboveAll: {
+    /*quantityAboveAll: {
         id: "quantityAboveAll",
         type: CARD_TYPE.expedition,
     },
@@ -497,7 +497,7 @@ export const EXPEDITIONS_IDs = Object.freeze({
     secondHandEquipment: {
         id: "secondHandEquipment",
         type: CARD_TYPE.expedition,
-    }
+    }*/
 });
 
 /* Generating locations assigns them new key / value: *line*: numberOfLine, in which is the location displayed */

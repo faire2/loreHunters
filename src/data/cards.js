@@ -961,73 +961,72 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Hidden Gems",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">2 <VictoryPoints/> for up to 3 <Item/> that cost 1 <Coin/></div>
+            <div className="effectsText">+2 <VictoryPoints/> for up to 3 <Item/> that cost only <Coin/></div>
     },
     secretPaths: {
         id: "secretPaths",
         cardName: "Secret Paths",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText"><VictoryPoints/> for each <Shiny/> you own</div>
+            <div className="effectsText">+ <VictoryPoints/> equal to  <Shiny/><Shiny/> that you placed</div>
     },
     rareFinds: {
         id: "rareFinds",
         cardName: "Rare Finds",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">1 <VictoryPoints/> and <VictoryPoints/> of one <Item/> and one <Artifact/> you
-                own.</div>
+            <div className="effectsText">+ <VictoryPoints/> equal to <VictoryPoints/> on one of your <Item/> one <Artifact/>.</div>
     },
     fullyEquipped: {
         id: "fullyEquipped",
         cardName: "Fully Equipped",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">2 <VictoryPoints/> and 1 <VictoryPoints/> for each 3 cards in your deck.</div>,
+            <div className="effectsText">+ 1 <VictoryPoints/> for each 3 cards in your deck.</div>,
     },
     trophyHunter: {
         id: "trophyHunter",
         cardName: "Trophy Hunter",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">1 <VictoryPoints/> and 1 <VictoryPoints/> for each defeated <Guardian/></div>,
+            <div className="effectsText">+1 <VictoryPoints/> for each defeated <Guardian/></div>,
     },
     trustedGear: {
         id: "trustedGear",
         cardName: "Trusted Gear",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">1 <VictoryPoints/> for each <Item/> in your deck (up to 7 <VictoryPoints/>)</div>
+            <div className="effectsText">+1 <VictoryPoints/> for up to 7 <Item/> in your deck.</div>
     },
     collector: {
         id: "collector",
         cardName: "Collector",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">1 <VictoryPoints/> for each <Artifact/> in your deck (up to 7 <VictoryPoints/>)</div>
+            <div className="effectsText">+1 <VictoryPoints/> for up to 7 <Artifact/> in your deck.</div>
     },
     cartographer: {
         id: "cartographer",
         cardName: "Cartographer",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">2 <VictoryPoints/> for each <Shiny/> (up to 8 <VictoryPoints/>)</div>
+            <div className="effectsText">+2 <VictoryPoints/> for up to 4 <Shiny/> you own.</div>
     },
     fearless: {
         id: "fearless",
         cardName: "Fearless",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">6 <VictoryPoints/> if you have no <Fear/> in you deck. 2 <VictoryPoints/> if you have only one.</div>
+            <div className="effectsText">+6 <VictoryPoints/> if you have no <Fear/> in you deck. +2 <VictoryPoints/> if you have only one.</div>
     },
     beyondBasics: {
         id: "beyondBasics",
         cardName: "Beyond Basics",
         type: CARD_TYPE.expedition,
         effectsText:
-            <div className="effectsText">2 <VictoryPoints/> for each Explore and Gold card you destroyed during the game.</div>
+            <div className="effectsText">+2 <VictoryPoints/> for each Explore and Gold card you destroyed during the game.</div>
     },
-    quantityAboveAll: {
+    /*quantityAboveAll: {
         id: "quantityAboveAll",
         cardName: "Quantity Above All",
         type: CARD_TYPE.expedition,
@@ -1047,7 +1046,7 @@ export const EXPEDITIONS = Object.freeze({
         type: CARD_TYPE.expedition,
         effectsText:
             <div className="effectsText">1 <VictoryPoints/> for each <Item/> that costs <Coin/><Coin/> or more (up to 6 <VictoryPoints/>)</div>
-    }
+    }*/
 });
 
 /* cost turns to VP when guardian is defeated */
