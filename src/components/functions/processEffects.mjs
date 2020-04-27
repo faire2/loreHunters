@@ -13,7 +13,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let tStore = cloneDeep(originalStore);
     let tLocations = cloneDeep(originalLocations);
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
-    let tLegend = cloneDeep(originalLegend);
     let processedAllEffects = true;
     exitLoopFromSwitch();
 
@@ -60,13 +59,21 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tActiveEffects.push(EFFECT.moveAdvToEmptyAdjacentLocation);
                     break;
 
-
+                // positive effects hidden behind the discard are stored in activeEffects
                 case EFFECT.discard:
-                    let tEffects = [...effects];
-                    tEffects.splice(0, 1);
-                    tActiveEffects.push(effect);
-                    tActiveEffects.splice(1, 0, [...tEffects]);
-                    return;
+                    if (tPlayerState.hand.length > 1) {
+                        let tEffects = [];
+                        const discardIndex = effects.indexOf(EFFECT.discard);
+                            for (let i = discardIndex + 1; i < effects.length; i++) {
+                                tEffects.push(effects[i]);
+                            }
+                        tActiveEffects.push(effect);
+                        tActiveEffects.splice(1, 0, [...tEffects]);
+                        return;
+                    } else {
+                        processedAllEffects = false;
+                        return;
+                    }
 
                 case EFFECT.defeatThisGuardian:
                     if (tCard.type === CARD_TYPE.guardian) {
@@ -117,7 +124,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.escapeGuardian:
                     if (tCard.type === CARD_TYPE.guardian) {
                         tPlayerState.discardDeck.push(GUARDIAN_IDs[tCard.id]);
-                        tPlayerState.activeCards.splice(cardIndex,1);
+                        tPlayerState.activeCards.splice(cardIndex, 1);
                         tPlayerState.hand.push(ITEM_IDs.fear);
                     }
                     break;
@@ -373,22 +380,22 @@ export function gainLockedResourceBack(lockEffects, effects) {
     for (let effect of lockEffects) {
         switch (effect) {
             case EFFECT.lockAdventurer:
-                    effects.push(EFFECT.gainAdventurerForThisRound);
+                effects.push(EFFECT.gainAdventurerForThisRound);
                 break;
             case EFFECT.lockCard:
-                    effects.push(EFFECT.unlockCard);
+                effects.push(EFFECT.unlockCard);
                 break;
             case EFFECT.lockCoin:
-                    effects.push(EFFECT.gainCoin);
+                effects.push(EFFECT.gainCoin);
                 break;
             case EFFECT.lockExplore:
-                    effects.push(EFFECT.gainExplore);
+                effects.push(EFFECT.gainExplore);
                 break;
             case EFFECT.lockText:
                 effects.push(EFFECT.gainText);
                 break;
             case EFFECT.lockWeapon:
-                    effects.push(EFFECT.gainWeapon);
+                effects.push(EFFECT.gainWeapon);
                 break;
             case EFFECT.lockJewel:
                 effects.push(EFFECT.gainJewel);

@@ -538,7 +538,7 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 1
     },
-    floraSamples: {
+    /*floraSamples: {
         id: "floraSamples",
         cardName: "Flora Samples",
         transport: CARD_TRANSPORT.jeep,
@@ -549,14 +549,14 @@ export const ITEMS = Object.freeze({
         image: floraSamplesImg,
         cost: 1,
         points: 1
-    },
+    },*/
     boomerang: {
         id: "boomerang",
         cardName: "Boomerang",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Coin/><Explore/><Draw1Card/><Discard/></div>,
-        effects: [EFFECT.gainCoin, EFFECT.gainExplore, EFFECT.draw1, EFFECT.discard],
+        effects: [EFFECT.draw1, EFFECT.discard, EFFECT.gainCoin, EFFECT.gainExplore, ],
         image: boomerangImg,
         cost: 2,
         points: 1
