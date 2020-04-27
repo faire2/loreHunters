@@ -215,10 +215,10 @@ export const ITEM_IDs = Object.freeze({
         id: "flask",
         type: CARD_TYPE.item,
     },
-    floraSamples: {
+    /*floraSamples: {
         id: "floraSamples",
         type: CARD_TYPE.item,
-    },
+    },*/
     boomerang: {
         id: "boomerang",
         type: CARD_TYPE.item,
