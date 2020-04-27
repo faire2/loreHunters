@@ -66,7 +66,7 @@ export function processEndOfRound(playerStates, locations, store, round) {
     /* remove adventurers from locations */
     let tLocations = cloneDeep(locations);
     for (let key in tLocations) {
-        let locationLine = locations[key];
+        let locationLine = tLocations[key];
         for (let location of locationLine) {
             if (location.state === LOCATION_STATE.occupied) {
                 location.state = LOCATION_STATE.explored;
@@ -135,7 +135,7 @@ export function processEndOfRound(playerStates, locations, store, round) {
 
     }
     console.log("*** END OF ROUND ***");
-    return({playerStates: tPlayerStates, locations: tLocations, store: tStore})
+    return({playerStates: tPlayerStates, locations: tLocations, store: tStore, test: tLocations})
 }
 
 export function resetTransport(playerState) {
