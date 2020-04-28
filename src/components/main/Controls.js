@@ -15,11 +15,12 @@ export const Controls = (props) => {
 
     const containerStyle = {
         position: "absolute",
-        top: "38.3vw",
+        top: "38.2vw",
         left: "47vw",
         display: "flex",
         flexFlow: "row",
         alignItems: "baseline",
+        fontSize: "1vw",
     }
 
     const history = useHistory();
