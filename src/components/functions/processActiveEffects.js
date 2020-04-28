@@ -26,7 +26,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.gainItemToHand:
         case EFFECT.gainArtifact:
         case EFFECT.gainArtifactForExplore:
-        case EFFECT.revealArtifactBuyWithDiscount2:
+        case EFFECT.revealArtifactBuyWithDiscount:
         case EFFECT.revealItemBuyWithDiscount2:
             const buyResults = processCardBuy(tCard, cardIndex, tPlayerState, tPlayerState.activeEffects, tStore, tLocations);
             tPlayerState = buyResults.tPlayerState;

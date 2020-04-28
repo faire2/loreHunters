@@ -453,7 +453,7 @@ export const ITEMS = Object.freeze({
         effectsText:
             <div className="effectsText"><b>Discount:</b> <Explore/><Explore/><Explore/>. Reveal the top card of the
                 Artifact deck.You may buy any <Artifact/>.</div>,
-        effects: [EFFECT.revealArtifactBuyWithDiscount2],
+        effects: [EFFECT.revealArtifactBuyWithDiscount],
         image: compassImg,
         cost: 3,
         points: 1

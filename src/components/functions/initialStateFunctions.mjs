@@ -94,7 +94,7 @@ export default function getInitialPlayerStates() {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard = {...ITEM_IDs.boomerang};
+        /*const testCard = {...ITEM_IDs.fishingRod};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 

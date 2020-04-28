@@ -339,7 +339,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tStore = addCardToStore(CARD_TYPE.item, tStore);
                     break;
 
-                case EFFECT.revealArtifactBuyWithDiscount2:
+                case EFFECT.revealArtifactBuyWithDiscount:
                     tActiveEffects.push(effect);
                     tStore = addCardToStore(CARD_TYPE.artifact, tStore);
                     break;
