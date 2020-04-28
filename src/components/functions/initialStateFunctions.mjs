@@ -94,9 +94,9 @@ export default function getInitialPlayerStates() {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard = {...ITEM_IDs.fishingRod};
-        testCard.state = CARD_STATE.inHand;
-        hand.splice(0, 0, testCard);*/
+        const testCard = {...GUARDIAN_IDs.energyLeech};
+        testCard.state = CARD_STATE.drawDeck;
+        drawDeck.splice(0, 0, testCard);
 
         /*for (let i = 0; i < 10; i++) {
             let card = {...ITEM_IDs.coin};

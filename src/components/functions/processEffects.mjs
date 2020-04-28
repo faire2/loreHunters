@@ -64,10 +64,12 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     if (tPlayerState.hand.length > 1) {
                         let tEffects = [];
                         const discardIndex = effects.indexOf(EFFECT.discard);
-                            for (let i = discardIndex + 1; i < effects.length; i++) {
-                                tEffects.push(effects[i]);
-                            }
+                        for (let i = discardIndex + 1; i < effects.length; i++) {
+                            tEffects.push(effects[i]);
+                        }
                         tActiveEffects.push(effect);
+                        // if discard leads to defeat of guardian, we need to remember the card
+                        tActiveEffects.splice(1, 0, {card: tCard, position: cardIndex});
                         tActiveEffects.splice(1, 0, [...tEffects]);
                         return;
                     } else {
@@ -76,10 +78,20 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
 
                 case EFFECT.defeatThisGuardian:
-                    if (tCard.type === CARD_TYPE.guardian) {
+                    if (tCard) {
+                        if (tCard.type === CARD_TYPE.guardian) {
+                            tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
+                            tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                            tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
+                        }
+                    // if card is null, we may have stored the guard in evaluating discard effect of the guardian card
+                    } else if (tActiveEffects[2]){
+                        tCard = tActiveEffects[2].card;
+                        cardIndex = tActiveEffects[2].position;
                         tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
                         tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
                         tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
+                        tActiveEffects.splice(0, 3);
                     }
                     break;
 
