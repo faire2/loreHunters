@@ -512,7 +512,7 @@ export const ITEMS = Object.freeze({
         effectsText: <div className="effectsText"><b>Gain:</b> <Shiny/>. Then <b>destroy</b> this card.</div>,
         effects: [EFFECT.gainShiny, EFFECT.destroyThisCard],
         image: bookOfMythsImg,
-        cost: 3,
+        cost: 2,
         points: 1
     },
     bag: {
