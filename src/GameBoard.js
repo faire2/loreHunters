@@ -17,14 +17,15 @@ import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/locations/LocationExplorationModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
 import {
-    CARDS_ACTIONLESS,
     CARD_STATE,
     CARD_TYPE,
+    CARDS_ACTIONLESS,
+    INCOME_LEVEL,
     INCOME_STATE,
     LOCATION_IDs,
     LOCATION_LEVEL,
     LOCATION_STATE,
-    TRANSMISSIONS, INCOME_LEVEL
+    TRANSMISSIONS
 } from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
@@ -41,7 +42,6 @@ import {processIncomeTile} from "./components/functions/processEffects";
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {CardRow} from "./components/cards/CardRow";
 
 function GameBoard() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -108,7 +108,7 @@ function GameBoard() {
             console.log("Rerouting to scoring page");
             history.push({pathname: "/scoring", data: data})
         })
-    }, []);
+    }, [history]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress);
@@ -395,8 +395,8 @@ function GameBoard() {
         }
     }
 
-    function cancelEffect(effect) {
-    }
+    /*function cancelEffect(effect) {
+    }*/
 
     /** SET NEXT PLAYER **/
 

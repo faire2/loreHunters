@@ -1,6 +1,6 @@
 import React from "react";
 import {EFFECT} from "../../data/effects.mjs";
-import {AdventurerIcon, AdventurerToken, Coin, DestroyCard, Draw1Card, Blimp, Uptrade} from "../Symbols";
+import {AdventurerIcon, Blimp, Coin, DestroyCard, Draw1Card, Uptrade} from "../Symbols";
 import bonusBgr from "../../img/bonus_action_background.png"
 
 export const BonusActions = (props) => {

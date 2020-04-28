@@ -1,4 +1,4 @@
-import {LOCATIONS, TRANSPORT_TYPE} from "../../data/LOCATIONS";
+import {LOCATIONS, TRANSPORT_TYPE} from "../../data/locations";
 import {EFFECT} from "../../data/effects";
 import {LOCATION_LINE} from "../functions/initialStateFunctions";
 import {LOCATION_STATE} from "../../data/idLists";

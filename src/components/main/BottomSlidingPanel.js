@@ -1,8 +1,6 @@
-import React, {useContext, useState} from "react";
-import Card from "../cards/Card";
+import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {shuffleArray} from "../functions/initialStateFunctions";
-import {CardRow, cardRowStyle, sideTextStyle} from "../cards/CardRow";
+import {CardRow} from "../cards/CardRow";
 
 export default function BottomSlidingPanel(props) {
     const playerStateContext = useContext(PlayerStateContext);

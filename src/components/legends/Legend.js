@@ -1,14 +1,11 @@
-import React, {useContext} from 'react';
-import {Legends2} from "../../data/legends2";
-import {BoardStateContext} from "../../Contexts";
+import React from 'react';
+import {Legends2} from "../../data/legends";
 import {Field} from "./tiles/Field";
 import victoryPoints from "../../img/symbols/VP.png";
 
 export function Legend(props) {
     const idLegend = props.legend;
     const jsxLegend = Legends2[idLegend.id];
-
-    const boardStateContext = useContext(BoardStateContext);
 
     const containerStyle = {
         position: "relative",
@@ -49,15 +46,6 @@ export function Legend(props) {
             )}
         </div>
     );
-
-    const adventurerSize = {
-        marginTop: "1vw",
-        width: "1.9vw",
-    }
-
-    function handleOnClickField(i) {
-        boardStateContext.handleClickOnLegend(i);
-    }
 
     return (
         <div style={containerStyle}>

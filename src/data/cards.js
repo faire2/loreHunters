@@ -55,7 +55,7 @@ import whipImg from "../img/cardImages/items/whip.png"
 import bookOfMythsImg from "../img/cardImages/items/bookOfMyths.png"
 import bagImg from "../img/cardImages/items/bag.png"
 import flaskImg from "../img/cardImages/items/flask.png"
-import floraSamplesImg from "../img/cardImages/items/floraSamples.png"
+/*import floraSamplesImg from "../img/cardImages/items/floraSamples.png"*/
 import boomerangImg from "../img/cardImages/items/boomerang.png"
 import torchImg from "../img/cardImages/items/torch.png"
 import machetteImg from "../img/cardImages/items/machete.png"

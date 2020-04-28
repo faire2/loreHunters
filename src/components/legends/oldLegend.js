@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Legends2} from "../../data/legends2";
+import {Legends2} from "../../data/legends";
 import {AdventurerToken} from "../Symbols";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
 import {BoardStateContext} from "../../Contexts";

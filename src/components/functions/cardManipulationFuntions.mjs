@@ -2,7 +2,6 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, EXPEDITIONS_IDs, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
 import {shuffleArray} from "./initialStateFunctions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
-import {getLockEffects} from "./processGuardian.mjs";
 
 export function addCardToHand(card, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);
@@ -133,7 +132,6 @@ export function getIdCard(jsxCard) {
 
 function processGuardianLockEffects(tPlayerState, guardians, lockEffects) {
     for (let i = 0; i < guardians.length; i++) {
-        const numOfLockedCards = 0;
         tPlayerState.activeCards.push(guardians[i]);
         guardians[i].locked = [];
         for (let effect of lockEffects[i]) {

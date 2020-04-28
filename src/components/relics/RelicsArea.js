@@ -1,9 +1,8 @@
 import React, {useContext} from "react";
-import {Blimp, Coin, Draw1Card, Explore, Jeep, Jewel, Shiny, Text, Weapon} from "../Symbols";
+import {Coin, Draw1Card, Explore, Jewel, Shiny, Text, Weapon} from "../Symbols";
 import bgr from "../../img/relics/relicsBackground.png"
 import {PlayerStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
-import bonusBgr from "../../img/bonus_action_background.png";
 import vpBgr from "../../img/symbols/VP.png";
 
 export function RelicsArea() {
@@ -127,8 +126,10 @@ export function RelicsArea() {
         <div style={containerStyle}>
             {fieldsArr}
             <div style={relicsStyle}>
-                {relicsArr.map(icon =>
-                    icon
+                {relicsArr.map((icon, i) =>
+                    <div key={i}>
+                        {icon}
+                    </div>
                 )}
             </div>
             <div style={victoryPointsContainerStyle}>

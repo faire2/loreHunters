@@ -1,7 +1,6 @@
 import {INCOMES} from "./incomes";
 import silverBgr from "../../../img/incomes/silverBack.png"
 import goldBgr from "../../../img/incomes/goldBack.png"
-import noBgr from "../../../img/symbols/A.png"
 import React, {useContext} from "react";
 import {INCOME_LEVEL, INCOME_SIZE, INCOME_STATE} from "../../../data/idLists";
 import {BoardStateContext} from "../../../Contexts";

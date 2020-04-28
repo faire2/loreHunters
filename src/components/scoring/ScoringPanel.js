@@ -4,7 +4,7 @@ import {CardRow} from "../cards/CardRow";
 import {socket} from "../../server/socketConnection";
 import {emptyPlayerState, GLOBAL_VARS} from "../functions/initialStateFunctions";
 import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
-import {Legends2} from "../../data/legends2";
+import {Legends2} from "../../data/legends";
 import {AdventurerToken, Artifact, DefeatedGuardian, Guardian, Item, Shiny} from "../Symbols";
 import Card from "../cards/Card";
 
@@ -27,7 +27,7 @@ export function ScoringPanel(props) {
             setPlayerStates(states.playerStates);
             setLegends(states.legends);
         });
-    }, []);
+    }, [props.location.data]);
 
     function handleClickOnPlayerTab(index) {
         setPlayerIndex(index);
@@ -51,10 +51,8 @@ export function ScoringPanel(props) {
     }
 
     const undefeatedGuardians = allDeckCards.filter(card => card.type === CARD_TYPE.guardian)
-    let undefeatedGuardianPoints = 0;
-    for (let card of undefeatedGuardians) {
-        undefeatedGuardianPoints -= 1;
-    }
+    let undefeatedGuardianPoints = 0 - undefeatedGuardians.length;
+
     const defeatedGuardians = playerState.destroyedCards.filter(card => card.type === CARD_TYPE.guardian);
     let defeatedGuardianPoints = 0;
     for (let card of defeatedGuardians) {

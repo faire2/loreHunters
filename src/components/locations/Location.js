@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {AdventurerToken, Coin, Explore} from "../Symbols";
+import {AdventurerToken} from "../Symbols";
 import {BoardStateContext} from "../../Contexts";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
@@ -8,9 +8,12 @@ import {
     BgrBasicDouble,
     BgrBrown2,
     BgrBrown2Unexplored,
-    BgrBrown3, BgrBrown3Unexplored,
-    BgrGreen2, BgrGreen2Unexplored,
-    BgrGreen3, BgrGreen3Unexplored
+    BgrBrown3,
+    BgrBrown3Unexplored,
+    BgrGreen2,
+    BgrGreen2Unexplored,
+    BgrGreen3,
+    BgrGreen3Unexplored
 } from "./locationsImages";
 
 export default function Location(props) {
@@ -23,43 +26,43 @@ export default function Location(props) {
     const level = props.idLocation.level;
 
     /* transport icons for explored location*/
-    const transportIcons = [];
+    /*const transportIcons = [];
     for (let i = 0; i < location.useCost.amount; i++) {
         transportIcons.push(<span key={i}>{location.useCost.transportType}</span>)
-    }
+    }*/
 
     /* explore costs for unexplored location */
     let exploreCost = null;
-    let exploreCostText = null;
+    /*let exploreCostText = null;*/
     let locationBackground = null;
     let locationUnexploredBackground = null;
 
     if (type === LOCATION_TYPE.brown) {
         if (level === LOCATION_LEVEL["2"]) {
             exploreCost = {explore: 3, coins: 1};
-            exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Coin/></div>;
+            /*exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Coin/></div>;*/
             locationBackground = <BgrBrown2/>;
             locationUnexploredBackground = <BgrBrown2Unexplored/>;
         } else if (level === LOCATION_LEVEL["3"]) {
             exploreCost = {explore: 4, coins: 1};
-            exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/><Coin/></div>;
+            /*exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/><Coin/></div>;*/
             locationBackground = <BgrBrown3/>;
             locationUnexploredBackground = <BgrBrown3Unexplored/>;
         }
     } else if (type === LOCATION_TYPE.green) {
         if (level === LOCATION_LEVEL["2"]) {
             exploreCost = {explore: 4, coins: 0};
-            exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/></div>;
+            /*exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/></div>;*/
             locationBackground = <BgrGreen2/>;
             locationUnexploredBackground = <BgrGreen2Unexplored/>;
         } else if (level === LOCATION_LEVEL["3"]) {
             exploreCost = {explore: 5, coins: 0};
-            exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/><Explore/></div>;
+            /*exploreCostText = <div className="effectsText"><Explore/><Explore/><Explore/><Explore/><Explore/></div>;*/
             locationBackground = <BgrGreen3/>;
             locationUnexploredBackground = <BgrGreen3Unexplored/>
         }
     } else if (type === LOCATION_TYPE.basic) {
-        exploreCostText = null;
+        /*exploreCostText = null;*/
         if (location.id === "5") {
             locationBackground = <BgrBasicDouble/>
         } else {

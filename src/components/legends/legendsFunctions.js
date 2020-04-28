@@ -1,7 +1,6 @@
 import {EFFECT} from "../../data/effects";
-import {FIELD_SIZE, Legends2} from "../../data/legends2";
+import {FIELD_SIZE, Legends2} from "../../data/legends";
 import {processEffects} from "../functions/processEffects";
-import {cloneElement} from "react";
 import {cloneDeep} from "lodash";
 
 export function getDiscountForProgress(effects, activeEffect) {
@@ -132,10 +131,12 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
                                 if (position.fieldIndex === prevPositions[fieldIndex] + 2) {
                                     correctToken = true
                                 }
+                            // eslint-disable-next-line no-fallthrough
                             case FIELD_SIZE["2"]:
                                 if (position.fieldIndex === prevPositions[fieldIndex] + 1) {
                                     correctToken = true
                                 }
+                            // eslint-disable-next-line no-fallthrough
                             case FIELD_SIZE["1"]:
                                 if (position.fieldIndex === prevPositions[fieldIndex]) {
                                     correctToken = true

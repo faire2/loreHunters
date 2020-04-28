@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import block1 from "../../../img/legends/blok1.png"
 import block2 from "../../../img/legends/blok2.png"
 import block3 from "../../../img/legends/blok3.png"
-import {FIELD_SIZE} from "../../../data/legends2"
+import {FIELD_SIZE} from "../../../data/legends"
 import {AdventurerToken} from "../../Symbols";
 import {GLOBAL_VARS} from "../../functions/initialStateFunctions";
 import {BoardStateContext} from "../../../Contexts";
@@ -128,8 +128,8 @@ export const Field = (props) => {
     return (
         <div style={containerStyle} onClick={() => handleClickOnField()}>
             <div style={adventurerContainer}>
-                {adventurersArray.map(adventurer =>
-                    <div style={adventurerStyle}>
+                {adventurersArray.map((adventurer, i) =>
+                    <div style={adventurerStyle} key={i}>
                         {adventurer}
                     </div>
                 )}

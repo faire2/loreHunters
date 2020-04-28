@@ -1,15 +1,18 @@
 import {EFFECT} from "./effects.mjs";
 import {
     Artifact,
+    Blimp,
     Coin,
     DestroyCard,
     Discard,
     Draw1Card,
-    Explore, Jeep,
-    Jewel, Blimp,
-    Shiny, Ship,
+    Explore,
+    Jeep,
+    Jewel,
+    Ship,
     Text,
-    Uptrade, Walk,
+    Uptrade,
+    Walk,
     Weapon
 } from "../components/Symbols";
 import React from "react";
@@ -26,7 +29,16 @@ import {
     G22,
     G23,
     G24,
-    G25, G26, G31, G32, G33, L11, L12, L13, L14, L15
+    G25,
+    G26,
+    G31,
+    G32,
+    G33,
+    L11,
+    L12,
+    L13,
+    L14,
+    L15
 } from "../components/locations/locationsImages";
 
 export const TRANSPORT_TYPE = Object.freeze({

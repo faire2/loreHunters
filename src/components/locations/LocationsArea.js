@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
-import {LOCATIONS} from "../../data/LOCATIONS";
+import {LOCATIONS} from "../../data/locations";
 import Location from "./Location";
 import map from "../../img/map.png"
 

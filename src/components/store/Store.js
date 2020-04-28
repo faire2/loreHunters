@@ -33,7 +33,7 @@ export default function Store() {
         <div className="d-flex flex-row">
             {artifacts}
             <div style={staffStyle}>
-                <img src={staff} height={"100%"} width={"100%"}/>
+                <img src={staff} height={"100%"} width={"100%"} alt={"round divider"}/>
             </div>
             {items}
         </div>

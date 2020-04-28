@@ -13,12 +13,6 @@ import {
     Weapon, AdventurerToken
 } from "../components/Symbols";
 
-const style = {
-    width: "100%",
-    height: "auto",
-    bottom: 0,
-};
-
 export const FIELD_SIZE = Object.freeze({
     1: 1,
     2: 2,
@@ -114,7 +108,6 @@ export const Legends2 = Object.freeze({
                 },
                 {
                     effects: [EFFECT.gainAdventurerForThisRound],
-                    effectsText: [<div style={{width: "1.5vw", margin: "0 auto"}}> <AdventurerToken/> </div>],
                     effectsText: [<div style={{width: "1.5vw", margin: "0 auto"}}> <AdventurerToken/> </div>],
                     cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseWeapon],
                     costText: [<Coin/>, <Text/>, <Weapon/>],

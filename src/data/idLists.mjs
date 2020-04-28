@@ -1,4 +1,3 @@
-import React from "react";
 import {EFFECT} from "./effects.mjs";
 
 export const LOCATION_LEVEL = Object.freeze({
