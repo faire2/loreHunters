@@ -219,13 +219,15 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainExploreForGuardians:
-                    // todo guardians must go to destroyed cards when destroyed!
-                    let destroyedGuardians = 0;
-                    for (const card of tPlayerState.destroyedCards) {
-                        destroyedGuardians = card.type === CARD_TYPE.guardian ? destroyedGuardians + 1 : destroyedGuardians;
+                    let guardians = 0;
+                    for (const card of tPlayerState.discardDeck) {
+                        guardians = card.type === CARD_TYPE.guardian ? guardians + 1 : guardians;
                     }
-                    destroyedGuardians = destroyedGuardians > 4 ? 4 : destroyedGuardians;
-                    tPlayerState.resources.coins += destroyedGuardians;
+                    for (const card of tPlayerState.activeCards) {
+                        guardians = card.type === CARD_TYPE.guardian ? guardians + 1 : guardians;
+                    }
+                    guardians = guardians > 4 ? 4 : guardians;
+                    tPlayerState.resources.explore += guardians;
                     break;
 
                 case EFFECT.gainExploreForShinys:
