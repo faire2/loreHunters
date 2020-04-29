@@ -42,6 +42,7 @@ export const Controls = (props) => {
                 {playerStateContext.playerState.activeEffects[0]}
                 {isActivePlayer ? <p>Your turn! Actions: {playerStateContext.playerState.actions}</p> :
                     <p>Wait for your turn...</p>}
+                 | R{playerStateContext.round}
             </div>
         </div>
     )

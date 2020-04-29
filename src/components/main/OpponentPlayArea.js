@@ -8,8 +8,6 @@ export function OpponentPlayArea() {
     const previousPlayer = playerContext.previousPlayer ? playerContext.previousPlayer : 0;
     const playerColor = playerStates[previousPlayer].color;
 
-    const previousHand = previousPlayer ? playerStates[previousPlayer] : [];
-    if (previousHand.length > 0) {debugger}
     const containerStyle = {
         position: "absolute",
         marginLeft: "47vw",

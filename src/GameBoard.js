@@ -42,6 +42,7 @@ import {processIncomeTile} from "./components/functions/processEffects";
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
+import {processGuardianLockEffects} from "./components/functions/cardManipulationFuntions";
 
 function GameBoard() {
     const [playerState, setPlayerState] = useState(emptyPlayerState);
@@ -206,13 +207,21 @@ function GameBoard() {
                                 const guardianEffects = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryEffect :
                                     [...guardian.discoveryEffect, ...guardian.discoveryEffect2]
 
-                                setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
-                                    {effects: guardianEffects, effectsText: guardianText}]);
                                 // guardian is moved to player's discard
                                 tPlayerState.resources.shinies += 1;
+                                if (round < 5 ) {
                                 tPlayerState.discardDeck.push(store.guardians[0]);
                                 tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
-                                store.guardians.splice(0, 1);
+                                } else {
+                                    tPlayerState = processGuardianLockEffects(tPlayerState, [store.guardians[0]],
+                                        [store.guardians[0].lockEffects]);
+                                    setPlayerState(tPlayerState);
+                                }
+                                const tStore = cloneDeep(store);
+                                tStore.guardians.splice(0, 1);
+                                setStore(tStore);
+                                setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
+                                    {effects: guardianEffects, effectsText: guardianText}]);
                                 setShowRewardsModal(true);
                             }
                         }
@@ -226,7 +235,6 @@ function GameBoard() {
                             tPlayerState.actions -= 1;
                             const effectsResult = processEffects(null, null, tPlayerState, effects, null,
                                 {...store}, location, {...locations});
-                            debugger
                             setPlayerState(effectsResult.tPlayerState);
                             let tLocations = occupyLocation(cloneDeep(locations), location.id, locationLine, tPlayerState.playerIndex);
                             setLocations(tLocations);
@@ -470,6 +478,7 @@ function GameBoard() {
         playerStates: playerStates,
         isActivePlayer: isActivePlayer,
         previousPlayer: previousPlayer,
+        round: round,
         handleEndRound: handleEndRound,
         nextPlayer: nextPlayer,
         handleClickOnResource: handleClickOnResource,

@@ -130,8 +130,9 @@ export function getIdCard(jsxCard) {
     }
 }
 
-function processGuardianLockEffects(tPlayerState, guardians, lockEffects) {
+export function processGuardianLockEffects(tPlayerState, guardians, lockEffects) {
     for (let i = 0; i < guardians.length; i++) {
+        guardians[i].state = CARD_STATE.active;
         tPlayerState.activeCards.push(guardians[i]);
         guardians[i].locked = [];
         for (let effect of lockEffects[i]) {
@@ -139,7 +140,7 @@ function processGuardianLockEffects(tPlayerState, guardians, lockEffects) {
                 case EFFECT.lockCard:
                     // if guardians come at the beginning of the round, the card is locked when the whole hand is drawn
                     if (tPlayerState.hand.length > 0) {
-                        const randomCardIndex = Math.floor(Math.random() * (4));
+                        const randomCardIndex = Math.floor(Math.random() * (tPlayerState.hand.length));
                         let lockedCard = tPlayerState.hand[randomCardIndex];
                         lockedCard.state = CARD_STATE.locked;
                         tPlayerState.activeCards.push(lockedCard);

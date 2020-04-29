@@ -15,7 +15,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
     let processedAllEffects = true;
     exitLoopFromSwitch();
-    debugger
 
     // eslint-disable-next-line no-unused-vars
     function exitLoopFromSwitch() {
@@ -72,7 +71,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         tActiveEffects.splice(1, 0, [...tEffects]);
                         // if discard leads to defeat of guardian, we need to remember the card
                         tActiveEffects.splice(2, 0, {card: tCard, position: cardIndex});
-                        debugger
                         return;
                     } else {
                         processedAllEffects = false;
@@ -359,7 +357,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         }
     }
     tPlayerState.activeEffects = tActiveEffects;
-    debugger
     return {
         tPlayerState: tPlayerState,
         tStore: tStore,
