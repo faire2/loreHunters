@@ -226,6 +226,7 @@ function GameBoard() {
                             tPlayerState.actions -= 1;
                             const effectsResult = processEffects(null, null, tPlayerState, effects, null,
                                 {...store}, location, {...locations});
+                            debugger
                             setPlayerState(effectsResult.tPlayerState);
                             let tLocations = occupyLocation(cloneDeep(locations), location.id, locationLine, tPlayerState.playerIndex);
                             setLocations(tLocations);

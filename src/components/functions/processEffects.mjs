@@ -15,6 +15,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
     let processedAllEffects = true;
     exitLoopFromSwitch();
+    debugger
 
     // eslint-disable-next-line no-unused-vars
     function exitLoopFromSwitch() {
@@ -68,9 +69,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             tEffects.push(effects[i]);
                         }
                         tActiveEffects.push(effect);
-                        // if discard leads to defeat of guardian, we need to remember the card
-                        tActiveEffects.splice(1, 0, {card: tCard, position: cardIndex});
                         tActiveEffects.splice(1, 0, [...tEffects]);
+                        // if discard leads to defeat of guardian, we need to remember the card
+                        tActiveEffects.splice(2, 0, {card: tCard, position: cardIndex});
+                        debugger
                         return;
                     } else {
                         processedAllEffects = false;
@@ -84,8 +86,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
                             tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                         }
-                    // if card is null, we may have stored the guard in evaluating discard effect of the guardian card
-                    } else if (tActiveEffects[2]){
+                        // if card is null, we may have stored the guard in evaluating discard effect of the guardian card
+                    } else if (tActiveEffects[2]) {
                         tCard = tActiveEffects[2].card;
                         cardIndex = tActiveEffects[2].position;
                         tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
@@ -323,10 +325,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     //todo legends;
                     break;
 
-                case EFFECT.progressForFree:
-                    //todo legends;
-                    break;
-
                 case EFFECT.revealItemBuyWithDiscount2:
                     tActiveEffects.push(effect);
                     tStore = addCardToStore(CARD_TYPE.item, tStore);
@@ -361,6 +359,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         }
     }
     tPlayerState.activeEffects = tActiveEffects;
+    debugger
     return {
         tPlayerState: tPlayerState,
         tStore: tStore,
