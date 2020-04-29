@@ -154,33 +154,12 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     /* hand is stored in activeEffects to be retrieved later */
                     tActiveEffects.splice(1, 0, tPlayerState.hand);
                     let newHand = [];
-                    for (let card of tPlayerState.destroyedCards) {
-                        if (card.state === CARD_STATE.victoryCards) {
+                    for (let card of tPlayerState.victoryCards) {
+                        if (card.type === CARD_TYPE.guardian) {
                             newHand.push(card);
                         }
                     }
                     tPlayerState.hand = newHand;
-                    break;
-
-
-                case EFFECT.incomeAdventurer:
-                    tPlayerState.availableAdventurers += 1;
-                    tPlayerState.incomes.push(EFFECT.incomeAdventurer);
-                    break;
-
-                case EFFECT.incomeCard:
-                    effects.push(EFFECT.draw1);
-                    tPlayerState.incomes.push(EFFECT.incomeCard);
-                    break;
-
-                case EFFECT.incomeCoin:
-                    tPlayerState.resources.coins += 1;
-                    tPlayerState.incomes.push(EFFECT.incomeCoin);
-                    break;
-
-                case EFFECT.incomeText:
-                    tPlayerState.resources.texts += 1;
-                    tPlayerState.incomes.push(EFFECT.incomeText);
                     break;
 
                 case EFFECT.gainAdventurerForThisRound:
@@ -196,7 +175,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     /* hand is stored in activeEffects to be retrieved later */
                     tActiveEffects.splice(1, 0, tPlayerState.hand);
                     let tempHand = [];
-                    for (let card of tPlayerState.destroyedCards) {
+                    for (let card of tPlayerState.victoryCards) {
                         if (card.state === CARD_STATE.victoryCards) {
                             tempHand.push(card);
                         }

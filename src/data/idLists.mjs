@@ -321,10 +321,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "transmutation",
         type: CARD_TYPE.artifact,
     },
-    owlEyes: {
+    /*owlEyes: {
         id: "owlEyes",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     goldenMask: {
         id: "goldenMask",
         type: CARD_TYPE.artifact,
