@@ -5,15 +5,21 @@ import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
 import {TRANSMISSIONS} from "../data/idLists.mjs";
-import addPlayer, {processEndOfRound, resetTransport} from "./serverFunctions.mjs";
+import {
+    getRoom,
+    getUserName,
+    isRoomNameTaken,
+    nextPlayer,
+    processEndOfRound,
+    processNewConnection,
+    removeUser,
+    updateRoomState
+} from "./serverFunctions.mjs";
 import getInitialPlayerStates, {
     getInitialLegends,
     getInitialLocations,
-    getInitialStoreItems,
-    GLOBAL_VARS
+    getInitialStore
 } from "../components/functions/initialStateFunctions.mjs";
-import cloneDeep from "lodash/cloneDeep.js";
-import {LOCATION_STATE} from "../data/idLists.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -21,153 +27,210 @@ const app = express();
 app.use(cors());
 const server = http.createServer(app)
 
-let players = [];
-let playerStates = getInitialPlayerStates();
-let store = getInitialStoreItems();
-let locations = getInitialLocations();
-let legends = getInitialLegends();
-let round = 1;
-let activePlayer = 0;
-let previousPlayer = 0;
+let users = [];
+let gameRooms = [];
 
 const io = socketIO(server);
 io.on("connection", socket => {
-    players = addPlayer(players, socket.id);
-    if (players.includes(socket.id)) {
-        console.log("New client connected: " + socket.id + " | [" + players + "]");
-        socket.emit(TRANSMISSIONS.getStates, {
-            playerState: playerStates[players.indexOf(socket.id)],
-            store: store,
-            locations: locations,
-            round: round,
-            legends: legends,
-            activePlayer: activePlayer,
-            previousPlayer: previousPlayer,
-            isActivePlayer: players.indexOf(socket.id) === activePlayer,
-            playerStates: playerStates,
+    /* players = addPlayer(players, socket.id);
+     if (players.includes(socket.id)) {
+         console.log("New client connected: " + socket.id + " | [" + players + "]");
+         socket.emit(TRANSMISSIONS.getStates, {
+             playerState: playerStates[players.indexOf(socket.id)],
+             store: store,
+             locations: locations,
+             round: round,
+             legends: legends,
+             activePlayer: activePlayer,
+             previousPlayer: previousPlayer,
+             isActivePlayer: players.indexOf(socket.id) === activePlayer,
+             playerStates: playerStates,
+         });
+         console.log("Emitted initial playerstate to player no. " + players.indexOf(socket.id));
+     } else {
+         console.log("Socket connection refused: " + socket.id);
+     }*/
+
+    /** HAND SHAKE **/
+    socket.on(TRANSMISSIONS.handShake, username => {
+        console.log("* new connection *");
+        users = processNewConnection(username, socket.id, users);
+        console.log(users);
+        io.emit(TRANSMISSIONS.currentUsersAndData, {
+            users: users,
+            rooms: gameRooms,
+            socketRooms: io.sockets.adapter.rooms
         });
-        console.log("Emitted initial playerstate to player no. " + players.indexOf(socket.id));
-    } else {
-        console.log("Socket connection refused: " + socket.id);
-    }
+    })
 
-    /** NEXT PLAYER **/
-    socket.on(TRANSMISSIONS.nextPlayer, states => {
-        let playerIndex = players.indexOf(socket.id);
-        console.log("PLAYER " + (playerIndex) + " passing action.");
-        nextPlayer(playerIndex);
-        let tPlayerState = states.playerState;
-        tPlayerState = resetTransport(tPlayerState);
-        playerStates.splice(playerIndex, 1, tPlayerState);
-        store = states.store;
-        locations = states.locations;
-        legends = states.legends;
-        updateStatesToAll();
-        console.log("States updated");
-    });
 
-    /** NEW GAME **/
+    /** NEW GAME ROOM **/
+    socket.on(TRANSMISSIONS.createGame, roomData => {
+        //check if the name is existing
+        if (!isRoomNameTaken(roomData, gameRooms)) {
+            gameRooms.push({
+                name: roomData.roomName,
+                numOfPlayers: roomData.numOfPlayers,
+                players: [getUserName(socket.id, users)],
+                states: {
+                    playerStates: getInitialPlayerStates(),
+                    store: getInitialStore(),
+                    locations: getInitialLocations(),
+                    legends: getInitialLegends(),
+                    activePlayer: 0,
+                    previousPlayer: 0,
+                    round: 1
+                },
+            });
+            console.log("new room created (" + roomData.roomName + "[" + roomData.players + "])");
+            socket.join(roomData.roomName);
+
+            io.emit(TRANSMISSIONS.currentUsersAndData, {
+                users: users,
+                rooms: gameRooms,
+                socketRooms: io.sockets.adapter.rooms
+            })
+        } else {
+            socket.emit(TRANSMISSIONS.roomNameAlreadyExists, {});
+            console.log("room with this name already exists");
+        }
+    })
+
+    /** JOIN A GAME **/
+    socket.on(TRANSMISSIONS.joinGame, data => {
+        let roomName = data.room.name;
+        for (let room of gameRooms) {
+            if (room.name === roomName) {
+                if (room.players.length < room.numOfPlayers) {
+                    room.players.push(getUserName(socket.id, users));
+                    console.log(getUserName(socket.id, users));
+                    socket.join(roomName);
+                    io.emit(TRANSMISSIONS.currentUsersAndData, {
+                        users: users,
+                        rooms: gameRooms,
+                        socketRooms: io.sockets.adapter.rooms
+                    });
+                    console.log("Player joined room " + roomName + "[" + room.players + "]");
+                } else {
+                    socket.emit(TRANSMISSIONS.roomIsFull, {rooms: gameRooms});
+                    console.log("Room full " + roomName + "[" + room.players + "]");
+                }
+            }
+        }
+    })
+
+    /* NEW GAME * //todo refactor
     socket.on(TRANSMISSIONS.newGame, () => {
         console.log("*** NEW GAME INITIATED ***");
         newGame();
+    })*/
+
+    /** START GAME **/
+    socket.on(TRANSMISSIONS.startGame, data => {
+        const roomName = data.roomName;
+        let room = getRoom(roomName, gameRooms);
+        // eslint-disable-next-line no-unused-vars
+
+        io.to(roomName).emit(TRANSMISSIONS.startGame, {room: room});
+        console.log("New game data sent to: " + roomName + " [" + room.players + "]");
     })
+
+    /** SEND INITIAL GAME STATES **/
+    socket.on(TRANSMISSIONS.sendGameStates, username => {
+        console.log("Game states required by user: " + username);
+    })
+
+
+    /** NEXT PLAYER **/
+    socket.on(TRANSMISSIONS.nextPlayer, states => {
+        let room = getRoom(states.roomName, gameRooms);
+        let playerIndex = room.players.indexOf(getUserName(socket.id, users));
+        console.log("PLAYER " + (playerIndex) + " passing action.");
+        room = updateRoomState(room, playerIndex, states);
+        updateStatesToAll(room);
+        console.log("States updated");
+    });
 
     /** End of round**/
     socket.on(TRANSMISSIONS.finishedRound, states => {
-        let playerIndex = players.indexOf(socket.id);
-        for (let playerState of playerStates) {
+        let room = getRoom(states.roomName, gameRooms);
+        let playerIndex = room.players.indexOf(getUserName(socket.id, users));
+        for (let playerState of room.states.playerStates) {
             console.log("Has player " + playerState.playerIndex + " finished round?" + playerState.finishedRound);
         }
         console.log("end of round initiated");
+        room = updateRoomState(room, playerIndex, states);
+        room.states.playerStates[playerIndex].finishedRound = true;
 
-        let tPlayerState = states.playerState;
-        tPlayerState = resetTransport(tPlayerState);
-        tPlayerState.finishedRound = true;
-        playerStates.splice(playerIndex, 1, tPlayerState);
-        store = states.store;
-        locations = states.locations;
-        legends = states.legends;
-
-        let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
+        let nextPlayerIndex = playerIndex + 1 < room.numOfPlayers ? playerIndex + 1 : 0;
         let haveAllFinished = true;
 
         while (playerIndex !== nextPlayerIndex) {
-            if (!playerStates[nextPlayerIndex].finishedRound) {
+            if (!room.states.playerStates[nextPlayerIndex].finishedRound) {
                 haveAllFinished = false;
             }
-            nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0;
+            nextPlayerIndex = nextPlayerIndex + 1 < room.numOfPlayers ? nextPlayerIndex + 1 : 0;
         }
         console.log("have all finished: " + haveAllFinished);
 
-        if (haveAllFinished && round < 5) {
-            const processResults = processEndOfRound(playerStates, locations, store, round);
-            playerStates = processResults.playerStates;
-            locations = processResults.locations;
-            store = processResults.store;
-            round += 1;
-        } else if (round !== 5) {
-            nextPlayer(playerIndex);
+        if (haveAllFinished && room.states.round < 5) {
+            room = processEndOfRound(room);
+        } else if (room.states.round !== 5) {
+            room.states.activePlayer = nextPlayer(playerIndex);
         } else {
-            for (let player of players) {
-                io.to(`${player}`).emit(TRANSMISSIONS.scoringStates, {
-                    playerStates: playerStates,
-                    legends: legends
-                })
-            }
-
+            io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
+                playerStates: room.states.playerStates,
+                legends: room.states.legends,
+            })
         }
-        updateStatesToAll();
+        updateStatesToAll(room);
     });
 
-    /** SEND BACK ALL PLAYER STATES **/
+    /* SEND BACK ALL PLAYER STATES *
     socket.on(TRANSMISSIONS.sendScoringStates, () => {
         console.log("*Sending player states for scoring, length:" + playerStates.length);
         socket.emit(TRANSMISSIONS.scoringStates, {playerStates: playerStates, legends: legends});
+    })*/
+
+
+    /** JOIN ROOM **/
+    socket.on(TRANSMISSIONS.joinGame, (data) => {
+        console.log(data.roomName);
     })
 
-    /* DISCONNECT */
+
+    /** DISCONNECT **/
     socket.on("disconnect", () => {
-        console.log("Client " + socket.id + " disconnected. Removing from active players." + " | [" + players + "]");
-        players.splice(players.indexOf(socket.id), 1, null);
+        console.log("Client " + socket.id + " disconnected.");
+        /*players.splice(players.indexOf(socket.id), 1, null);*/
+        const removalResult = removeUser(users, gameRooms, socket.id);
+        users = removalResult.users;
+        gameRooms = removalResult.gameRooms;
+
+        io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms});
     });
 
-    function updateStatesToAll() {
-        for (let player of players) {
-            io.to(`${player}`).emit(TRANSMISSIONS.stateUpdate, {
-                playerState: playerStates[players.indexOf(player)],
-                store: store,
-                locations: locations,
-                round: round,
-                legends: legends,
-                activePlayer: activePlayer,
-                isActivePlayer: players.indexOf(player) === activePlayer,
-                previousPlayer: previousPlayer,
-                playerStates: playerStates,
-            })
-        }
+
+    function updateStatesToAll(room) {
+        io.to(room.name).emit(TRANSMISSIONS.stateUpdate, {
+            playerStates: room.states.playerStates,
+            store: room.states.store,
+            locations: room.states.locations,
+            round: room.states.round,
+            legends: room.states.legends,
+            activePlayer: room.states.activePlayer,
+            previousPlayer: room.states.previousPlayer,
+        })
     }
 
-    function nextPlayer(playerIndex) {
-        previousPlayer = playerIndex;
-        let nextPlayerIndex = playerIndex + 1 < GLOBAL_VARS.numOfPlayers ? playerIndex + 1 : 0;
-        while (nextPlayerIndex !== playerIndex) {
-            if (!playerStates[nextPlayerIndex].finishedRound) {
-                activePlayer = nextPlayerIndex;
-                console.log("PASSING ACTION TO PLAYER " + (nextPlayerIndex + 1));
-                break;
-            }
-            nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0
-        }
-    }
-
-    function newGame() {
+    /*function newGame() {
         playerStates = getInitialPlayerStates();
-        store = getInitialStoreItems();
+        store = getInitialStore();
         locations = getInitialLocations();
         legends = getInitialLegends();
         round = 1;
         activePlayer = 0;
-    }
+    }*/
 });
 
 app.use(express.static(path.join(__dirname, '../../build')));

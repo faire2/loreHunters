@@ -44,20 +44,27 @@ import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
 import {processGuardianLockEffects} from "./components/functions/cardManipulationFuntions";
 
-function GameBoard() {
-    const [playerState, setPlayerState] = useState(emptyPlayerState);
+function GameBoard(props) {
+    const history = useHistory();
+    if (!props.location.data) {
+        history.push({pathname: "/", data: {}});
+    }
+    const initialRoom = props.location.data.room;
+    const initialStates = props.location.data.room.states;
+    const initialIndex = props.location.data.playerIndex;
+
+    const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
+    const [round, setRound] = useState(1);
+    const [store, setStore] = useState(initialStates.store);
+    const [locations, setLocations] = useState(initialStates.locations);
+    const [legends, setLegends] = useState(initialStates.legends);
+    const [previousPlayer, setPreviousPlayer] = useState(0);
+    const [isActivePlayer, setIsActivePlayer] = useState(initialIndex === initialStates.activePlayer);
     const emptyPlayerStates = [];
     for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
         emptyPlayerStates.push(emptyPlayerState)
     }
     const [playerStates, setPlayerStates] = useState(emptyPlayerStates);
-    const [round, setRound] = useState(1);
-    const [store, setStore] = useState(null);
-    const [locations, setLocations] = useState(null);
-    const [legends, setLegends] = useState(null);
-    const [previousPlayer, setPreviousPlayer] = useState(0);
-    const [isActivePlayer, setIsActivePlayer] = useState(false);
-    const history = useHistory();
 
     // rewards are an array with objects describing values: {effects: ..., effectsText: ...}
     const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -70,7 +77,7 @@ function GameBoard() {
     const [extendBottomPanel, setExtendBottomPanel] = useState(false);
 
     useEffect(() => {
-        socket.on(TRANSMISSIONS.getStates, states => {
+        /*socket.on(TRANSMISSIONS.getStates, states => {
             console.log("received initial states from server");
             console.log(states);
             if (states.playerState.firstTurn) {
@@ -90,18 +97,18 @@ function GameBoard() {
             setRound(states.round);
             setIsActivePlayer(states.isActivePlayer);
             setPreviousPlayer(states.previousPlayer);
-        });
+        });*/
 
         socket.on(TRANSMISSIONS.stateUpdate, states => {
             console.log("received states from server");
             console.log(states);
-            setPlayerState(states.playerState);
             setPlayerStates(states.playerStates);
+            setPlayerState(states.playerStates[initialIndex]);
             setStore(states.store);
             setLocations(states.locations);
             setLegends(states.legends);
             setRound(states.round);
-            setIsActivePlayer(states.isActivePlayer);
+            setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
         });
 
@@ -117,6 +124,10 @@ function GameBoard() {
             document.removeEventListener('keydown', handleKeyPress);
         };
     });
+
+   /* useEffect(() => {
+        socket.emit(TRANSMISSIONS.sendGameStates, {username: props.location.data.username, room: props.);
+    })*/
 
     function handleKeyPress(e) {
         if (e.keyCode === 32) {
@@ -423,6 +434,7 @@ function GameBoard() {
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
             socket.emit(TRANSMISSIONS.nextPlayer, {
+                roomName: initialRoom.name,
                 playerState: tPlayerState,
                 store: store,
                 locations: locations,
@@ -437,6 +449,7 @@ function GameBoard() {
         if (isActivePlayer) {
             console.log("finishing round");
             socket.emit(TRANSMISSIONS.finishedRound, {
+                roomName: initialRoom.name,
                 playerState: playerState,
                 store: store,
                 locations: locations,

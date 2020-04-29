@@ -93,7 +93,6 @@ export function ScoringPanel(props) {
         display: "flex",
         flexFlow: "row",
         alignItems: "center",
-
     }
 
     /* EXPEDITION CARDS */

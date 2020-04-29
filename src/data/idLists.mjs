@@ -683,14 +683,25 @@ export const INCOME_IDs = Object.freeze({
 })
 
 export const TRANSMISSIONS = Object.freeze({
+    createGame: "set up a new game",
+    currentUsersAndData: "users currently logged in",
+    finishedRound: "finishedRound",
     getStates: "getState",
+    gameStates: "game states",
+    handShake: "handshake",
+    joinGame: "join game",
+    newGame: "start a new game",
+    nextPlayer: "nextPlayer",
+    sendGameStates: "gameStates",
     sendScoringStates: "send all states",
     scoringStates: "emitting all states",
     stateUpdate: "stateUpdate",
-    nextPlayer: "nextPlayer",
-    finishedRound: "finishedRound",
+    roomCreated: "room has been successfully created and player joined it",
+    roomIsFull: "join request denied, room is already full",
+    roomList: "list of all active rooms",
+    roomNameAlreadyExists: "room name already exists and cannot be used",
+    startGame: "open gameboard",
     testData: "testData",
-    newGame: "start a new game"
 });
 
 export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id, ARTIFACT_IDs.flameJewel.id,

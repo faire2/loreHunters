@@ -55,16 +55,19 @@ export function handleIncomes(playerState) {
     return playerState;
 }
 
-export function processEndOfRound(playerStates, locations, store, round) {
+export function processEndOfRound(room) {
+    let round = room.states.round;
+
     /* handle store changes */
-    let tStore = cloneDeep(store);
+    let tStore = cloneDeep(room.states.store);
     if (tStore.itemsOffer.length > 0) {
         tStore.itemsOffer.splice(-1 + round, 1, tStore.artifactsDeck[0]);
         tStore.artifactsDeck.splice(0, 1);
     }
+    room.states.store = tStore;
 
     /* remove adventurers from locations */
-    let tLocations = cloneDeep(locations);
+    let tLocations = cloneDeep(room.states.locations);
     for (let key in tLocations) {
         let locationLine = tLocations[key];
         for (let location of locationLine) {
@@ -74,11 +77,12 @@ export function processEndOfRound(playerStates, locations, store, round) {
             }
         }
     }
+    room.states.locations = tLocations;
 
     /* reset player states */
     let tPlayerStates = [];
-    for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
-        let tPlayerState = cloneDeep(playerStates[i]);
+    for (let i = 0; i < room.numOfPlayers; i++) {
+        let tPlayerState = cloneDeep(room.states.playerStates[i]);
         tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
 
         /* move active cards to discard */
@@ -134,8 +138,10 @@ export function processEndOfRound(playerStates, locations, store, round) {
         tPlayerStates.push(tPlayerState);
 
     }
+    room.states.playerStates = tPlayerStates;
+    room.states.round = round + 1;
     console.log("*** END OF ROUND ***");
-    return({playerStates: tPlayerStates, locations: tLocations, store: tStore, test: tLocations})
+    return room;
 }
 
 export function resetTransport(playerState) {
@@ -144,4 +150,97 @@ export function resetTransport(playerState) {
     playerState.resources.ship = 0;
     playerState.resources.plane = 0;
     return playerState
+}
+
+export function getUserName(userId, users) {
+    for (let user of users) {
+        if (user.userId === userId) {
+            return user.username
+        }
+    }
+}
+
+export function getRoom(roomName, rooms) {
+    for (let room of rooms) {
+        if (room.name === roomName) {
+            return room;
+        }
+    }
+}
+
+export function processNewConnection(username, socketId, users) {
+    let isUserAlreadyRegistered = false;
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].username === username) {
+            users.splice(i, 1, {username: username, userId: socketId});
+            isUserAlreadyRegistered = true;
+        }
+    }
+    if (!isUserAlreadyRegistered) {
+        users.push({username: username, userId: socketId})
+    }
+    let actualUsers = [];
+    for (let user of users) {
+        actualUsers.push(user.username);
+    }
+    console.log("Actual users: [" + actualUsers + "]");
+    return users;
+}
+
+export function isRoomNameTaken(roomData, gameRooms) {
+    console.log("* setting a new game room *");
+    const roomName = roomData.roomName;
+    //check if the name is existing
+    let roomNames = [];
+    for (const room of gameRooms) {
+        roomNames.push(room.name);
+    }
+    return roomNames.includes(roomName)
+}
+
+export function removeUser(users, gameRooms, socketId) {
+    let user = null;
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].userId === socketId) {
+            console.log("User " + users[i].username + " removed from active users.");
+            user = users[i];
+            users.splice(i, 1);
+            break;
+        }
+    }
+    if (user) {
+        for (let room of gameRooms) {
+            for (let i = 0; i < room.players.length; i++) {
+                if (room.players[i] === user.username) {
+                    room.players.splice(i, 1);
+                    console.log("User " + user.username + " removed from room: " + room.name);
+                }
+            }
+        }
+    }
+    return ({users: users, gameRooms: gameRooms})
+}
+
+export function updateRoomState(room, playerIndex, states) {
+    room.states.previousPlayer = playerIndex;
+    room.states.activePlayer = nextPlayer(playerIndex, room);
+    let tPlayerState = states.playerState;
+    tPlayerState = resetTransport(tPlayerState);
+    room.states.playerStates.splice(playerIndex, 1, tPlayerState);
+    room.states.store = states.store;
+    room.states.locations = states.locations;
+    room.states.legends = states.legends;
+    return room;
+}
+
+export function nextPlayer(playerIndex, room) {
+    let nextPlayerIndex = playerIndex + 1 < room.numOfPlayers ? playerIndex + 1 : 0;
+    while (nextPlayerIndex !== playerIndex) {
+        if (!room.states[nextPlayerIndex].finishedRound) {
+            console.log("PASSING ACTION TO PLAYER " + (nextPlayerIndex + 1));
+            return nextPlayerIndex;
+        }
+        nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0
+    }
+    return nextPlayerIndex;
 }

@@ -117,7 +117,7 @@ export default function getInitialPlayerStates() {
 
 
 /* INITIAL STORE */
-export function getInitialStoreItems() {
+export function getInitialStore() {
     /* all items, each item is represented only once! */
     let items = shuffleArray(Object.keys(ITEM_IDs).map(key => {
         return ITEM_IDs[key];
