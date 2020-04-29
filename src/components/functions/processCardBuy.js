@@ -54,6 +54,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         card.state = CARD_STATE.discard;
         if (activeEffect === EFFECT.gainItemToHand) {
             tPlayerState.hand.push(getIdCard(card));
+            tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
         } else {
             tPlayerState.discardDeck.push(getIdCard(card));
         }

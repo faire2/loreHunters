@@ -96,7 +96,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.destroyThisCard:
-                    tPlayerState = destroyCard(tCard);
+                    tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
                     break;
 
                 case EFFECT.destroyThisCardToDefeatAGuardan:
