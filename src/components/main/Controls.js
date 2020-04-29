@@ -32,7 +32,7 @@ export const Controls = (props) => {
                 </button>
                 <button className="btn-primary" onClick={() => restartGame()}>restart game</button>
                 <button className="btn-primary"
-                        onClick={() => history.push({
+                        onClick={()  => history.push({
                             pathname: "/scoring",
                             data: playerStateContext.playerState
                         })}>scoring

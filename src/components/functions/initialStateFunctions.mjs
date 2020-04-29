@@ -96,9 +96,9 @@ export default function getInitialPlayerStates() {
         }
         /*const testCardG = {...GUARDIAN_IDs.foxSpirit};
         testCardG.state = CARD_STATE.drawDeck;
-        drawDeck.splice(0, 0, testCardG);*/
+        drawDeck.splice(0, 0, testCardG);
 
-        /*const testCard = {...ITEM_IDs.bowAndArrows};
+        const testCard = {...ARTIFACT_IDs.owlEyes};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 

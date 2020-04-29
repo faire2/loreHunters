@@ -138,7 +138,7 @@ function GameBoard() {
         if (isActivePlayer && (!costsAction || playerState.actions > 0)) {
             if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
                 (tCard.type === CARD_TYPE.artifact && isAllowed)) {
-                if (tCard.state === CARD_STATE.inHand) {
+                if (tCard.state === CARD_STATE.inHand || tCard.state === undefined) {
                     tPlayerState.activeCards.push(tCard);
                     tCard.state = CARD_STATE.active
                     tPlayerState.hand.splice(cardIndex, 1);
