@@ -70,10 +70,10 @@ export const emptyPlayerState = Object.freeze({
 
 
 /* INITIAL PLAYER STATES */
-export default function getInitialPlayerStates() {
+export default function getInitialPlayerStates(numOfPlayers) {
     let playerStates = [];
 
-    for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+    for (let i = 0; i < numOfPlayers; i++) {
         let playerState = {...emptyPlayerState};
         playerState.playerIndex = i;
         playerState.color = GLOBAL_VARS.playerColors[i];

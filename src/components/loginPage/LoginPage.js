@@ -35,36 +35,38 @@ export function LoginPage() {
 
         socket.on(TRANSMISSIONS.roomCreated, data => {
             setRooms(data.rooms);
-        })
+        });
 
         socket.on(TRANSMISSIONS.roomIsFull, data => {
             setRooms(data.rooms);
-        })
+            setRoomIsFull(true);
+        });
 
         socket.on(TRANSMISSIONS.startGame, data => {
             let playerIndex = data.room.players.indexOf(cookies.username);
             history.push({pathname: "/game", data: {username: cookies.username, room: data.room, playerIndex: playerIndex}});
-        })
+        });
 
         socket.on(TRANSMISSIONS.currentUsersAndData, data => {
-            console.log(data)
+            console.log(data);
             if (!shakedHand) {
                 setShakedHand(true)
             }
             setUsers(data.users);
             setRooms(data.rooms);
+            setRoomIsFull(false);
         }, [])
-    })
+    });
 
     const containerStyle = {
         margin: "10vw"
-    }
+    };
 
     const CreateUsername = () =>
         <div>
             <h3>Enter your username:</h3>
             <FormControl type="text" onBlur={(e) => handleUsernameChange(e.target.value)}/>
-        </div>
+        </div>;
 
     return (
         <CookiesProvider>
@@ -92,7 +94,7 @@ const CurrentUsers = (props) =>
                 {user.username}
             </div>
         )}
-    </div>
+    </div>;
 
 const CurrentRooms = (props) =>
     <div>
@@ -102,20 +104,20 @@ const CurrentRooms = (props) =>
                 <Room room={room} username={props.username}/>
             </div>
         )}
-    </div>
+    </div>;
 
 const Room = (props) => {
     const username = props.username;
     const room = props.room;
     const hasJoined = room.players.includes(username);
-    const hasFreeSlots = room.numOfPlayers > room.players.length
-    const readyToStart = !hasFreeSlots && hasJoined
+    const hasFreeSlots = room.numOfPlayers > room.players.length;
+    const readyToStart = !hasFreeSlots && hasJoined;
 
     const containerStyle = {
         display: "flex",
         flexFlow: "rox",
         marginLeft: "1vw"
-    }
+    };
 
     function joinSession() {
         socket.emit(TRANSMISSIONS.joinGame, {room: room})
@@ -128,7 +130,7 @@ const Room = (props) => {
                     {username}
                 </div>
             )}
-        </div>
+        </div>;
 
     return (
         <div>
@@ -141,8 +143,6 @@ const Room = (props) => {
                 <Button onClick={() => joinSession()} variant="secondary" size="sm">Join</Button>}
                 {readyToStart && <Button onClick={() => socket.emit(TRANSMISSIONS.startGame,{roomName: room.name})} variant="secondary" size="sm">Open game</Button>}
             </ButtonGroup>
-
-
         </div>
     )
-}
+};

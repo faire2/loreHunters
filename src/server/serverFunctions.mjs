@@ -236,11 +236,11 @@ export function updateRoomState(room, playerIndex, states) {
 export function nextPlayer(playerIndex, room) {
     let nextPlayerIndex = playerIndex + 1 < room.numOfPlayers ? playerIndex + 1 : 0;
     while (nextPlayerIndex !== playerIndex) {
-        if (!room.states[nextPlayerIndex].finishedRound) {
+        if (!room.states.playerStates[nextPlayerIndex].finishedRound) {
             console.log("PASSING ACTION TO PLAYER " + (nextPlayerIndex + 1));
             return nextPlayerIndex;
         }
-        nextPlayerIndex = nextPlayerIndex + 1 < GLOBAL_VARS.numOfPlayers ? nextPlayerIndex + 1 : 0
+        nextPlayerIndex = nextPlayerIndex + 1 < room.numOfPlayers ? nextPlayerIndex + 1 : 0
     }
     return nextPlayerIndex;
 }

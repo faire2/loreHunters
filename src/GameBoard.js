@@ -53,6 +53,8 @@ function GameBoard(props) {
     const initialStates = props.location.data.room.states;
     const initialIndex = props.location.data.playerIndex;
 
+    debugger
+
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(initialStates.store);

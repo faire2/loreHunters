@@ -16,16 +16,16 @@ export function NewRoom(props) {
         socket.on(TRANSMISSIONS.roomNameAlreadyExists, () => {
             setExistingRoomName(true);
         });
-    })
+    });
 
     const containerStyle = {
         display: "flex",
         flexFlow: "row",
-    }
+    };
 
     const playersStyle = {
         margin: "0.8vw 1vw 0 2vw"
-    }
+    };
 
     function setUpGame() {
         socket.emit(TRANSMISSIONS.createGame, {roomName: roomName, numOfPlayers: numOfPlayers});

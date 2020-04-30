@@ -55,13 +55,12 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.handShake, username => {
         console.log("* new connection *");
         users = processNewConnection(username, socket.id, users);
-        console.log(users);
         io.emit(TRANSMISSIONS.currentUsersAndData, {
             users: users,
             rooms: gameRooms,
             socketRooms: io.sockets.adapter.rooms
         });
-    })
+    });
 
 
     /** NEW GAME ROOM **/
@@ -73,7 +72,7 @@ io.on("connection", socket => {
                 numOfPlayers: roomData.numOfPlayers,
                 players: [getUserName(socket.id, users)],
                 states: {
-                    playerStates: getInitialPlayerStates(),
+                    playerStates: getInitialPlayerStates(roomData.numOfPlayers),
                     store: getInitialStore(),
                     locations: getInitialLocations(),
                     legends: getInitialLegends(),
@@ -94,7 +93,7 @@ io.on("connection", socket => {
             socket.emit(TRANSMISSIONS.roomNameAlreadyExists, {});
             console.log("room with this name already exists");
         }
-    })
+    });
 
     /** JOIN A GAME **/
     socket.on(TRANSMISSIONS.joinGame, data => {
@@ -117,7 +116,7 @@ io.on("connection", socket => {
                 }
             }
         }
-    })
+    });
 
     /* NEW GAME * //todo refactor
     socket.on(TRANSMISSIONS.newGame, () => {
@@ -133,12 +132,12 @@ io.on("connection", socket => {
 
         io.to(roomName).emit(TRANSMISSIONS.startGame, {room: room});
         console.log("New game data sent to: " + roomName + " [" + room.players + "]");
-    })
+    });
 
     /** SEND INITIAL GAME STATES **/
     socket.on(TRANSMISSIONS.sendGameStates, username => {
         console.log("Game states required by user: " + username);
-    })
+    });
 
 
     /** NEXT PLAYER **/
@@ -196,7 +195,7 @@ io.on("connection", socket => {
     /** JOIN ROOM **/
     socket.on(TRANSMISSIONS.joinGame, (data) => {
         console.log(data.roomName);
-    })
+    });
 
 
     /** DISCONNECT **/
@@ -239,4 +238,3 @@ app.get('/*', function (req, res) {
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
-
