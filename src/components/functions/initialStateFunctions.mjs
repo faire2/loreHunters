@@ -179,7 +179,7 @@ export function getInitialStore() {
 
 
 /* INITIAL LOCATIONS */
-export function getInitialLocations() {
+export function getInitialLocations(numOfPlayers) {
     let locations = LOCATION_IDs;
     const locationKeys = shuffleArray(Object.keys(locations));
 
@@ -193,7 +193,7 @@ export function getInitialLocations() {
     let level2Max;
     let level3Max;
 
-    switch (GLOBAL_VARS.numOfPlayers) {
+    switch (numOfPlayers) {
         case 1:
         case 2:
             level2Max = 2;
@@ -208,7 +208,7 @@ export function getInitialLocations() {
             level3Max = 2;
             break;
         default:
-            console.log("Unable to process number of players in getInitialLocations: " + GLOBAL_VARS.numOfPlayers);
+            console.log("Unable to process number of players in getInitialLocations: " + numOfPlayers);
     }
 
     for (let i = 0; i < locationKeys.length; i++) {
@@ -261,7 +261,7 @@ export function getInitialLocations() {
     let line3 = [];
     let line4 = [];
 
-    switch (GLOBAL_VARS.numOfPlayers) {
+    switch (numOfPlayers) {
         case 1:
         case 2:
             line2 = [...level2Green, ...level2Brown];
@@ -278,7 +278,7 @@ export function getInitialLocations() {
             line4 = [level3Green[0], level3Green[1], level3Brown[0], level3Brown[1]];
             break;
         default:
-            console.log("Unable to process number of players in getInitialLocations: " + GLOBAL_VARS.numOfPlayers);
+            console.log("Unable to process number of players in getInitialLocations: " + numOfPlayers);
     }
 
     for (let location of line1) {
@@ -307,12 +307,12 @@ export function getInitialLocations() {
 }
 
 /* INITIAL Legends2 */
-export function getInitialLegends() {
+export function getInitialLegends(numOfPlayers) {
     const legendsKeys = shuffleArray(Object.keys(LEGEND_IDS));
     const legends = [LEGEND_IDS[legendsKeys[0]]];
     for (let legend of legends) {
         legend.positions = [];
-        for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+        for (let i = 0; i < numOfPlayers; i++) {
             legend.positions.push([{columnIndex: null, fieldIndex: null}, {columnIndex: null, fieldIndex: null}]);
         }
         legend.usage = [];

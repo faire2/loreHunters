@@ -15,13 +15,13 @@ export const Field = (props) => {
     const positions = props.positions;
     const boardStateContext = useContext(BoardStateContext);
     const legend = {...boardStateContext.legends[props.legendIndex]};
-
+    const numOfPlayers = boardStateContext.numOfPlayers;
     // how many times has the field been entered and used
-    let usage = legend.usage[columnIndex][fieldIndex]
+    let usage = legend.usage[columnIndex][fieldIndex];
 
     let effectsTextArr = props.field.effectsText;
     let effectsArr = props.field.effects;
-    if ((usage > 0 && GLOBAL_VARS.numOfPlayers < 4) || (GLOBAL_VARS.numOfPlayers === 4 && usage > 1)) {
+    if ((usage > 0 && numOfPlayers < 4) || (numOfPlayers === 4 && usage > 1)) {
         if (effectsArr[0] === EFFECT.firstGainsExplore || effectsArr[0] === EFFECT.firstGainsCoin) {
             effectsTextArr.splice(0, 1);
             effectsArr.splice(0, 1);
@@ -55,12 +55,12 @@ export const Field = (props) => {
         backgroundImage: `url(${background}`,
         backgroundSize: "100% 100%",
         height: `${height}`,
-    }
+    };
 
     const effectsTextStyle = {
         fontSize: "2vw",
         marginLeft: "0.3vw",
-    }
+    };
 
     const costTextStyle = {
         position: "absolute",
@@ -71,13 +71,13 @@ export const Field = (props) => {
         justifyContent: "center",
         width: "100%",
         marginLeft: "0.3vw"
-    }
+    };
 
     const adventurerStyle = {
         position: "relative",
         width: "1.5vw",
         zIndex: "1"
-    }
+    };
 
     const adventurerContainer = {
         marginLeft: "0.3vw",
@@ -87,14 +87,14 @@ export const Field = (props) => {
         justifyContent: "center",
         alignItems: "center",
         width: "100%"
-    }
+    };
 
     const effectsText =
         <div style={effectsTextStyle}>
             {effectsTextArr.map((effect, i) =>
                 effect
             )}
-        </div>
+        </div>;
 
     const costText =
         <div style={costTextStyle}>
@@ -103,11 +103,11 @@ export const Field = (props) => {
                     {effect}
                 </div>
             )}
-        </div>
+        </div>;
 
     // if any player's position is equal do this legend position, add his adventurer token
     const adventurersArray = [];
-    for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+    for (let i = 0; i < numOfPlayers; i++) {
         const playersPositions = positions[i];
         for (let position of playersPositions) {
             if (position.columnIndex === columnIndex && position.fieldIndex === fieldIndex) {
@@ -138,4 +138,4 @@ export const Field = (props) => {
             {costText}
         </div>
     )
-}
+};

@@ -16,7 +16,7 @@ export function Legend(props) {
 
     const columnStyle = {
         marginRight: "0.5vw"
-    }
+    };
 
     const victoryPointsStyle = {
         backgroundImage: `url(${victoryPoints}`,
@@ -28,12 +28,12 @@ export function Legend(props) {
         backgroundSize: "100% 100%",
         position: "absolute",
         zIndex: 1
-    }
+    };
 
     const VictoryPoints = (props) =>
         <div style={victoryPointsStyle}>
             {props.points}
-        </div>
+        </div>;
 
     const columns = jsxLegend.fields.map((column, i) =>
         <div style={columnStyle} key={"column" + i}>

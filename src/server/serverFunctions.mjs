@@ -5,23 +5,6 @@ import cloneDeep from "lodash/cloneDeep.js";
 import {CARD_STATE, CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE} from "../data/idLists.mjs";
 import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
 
-export default function addPlayer(players, socketId) {
-    if (players.length === 0) {
-        players.push(socketId)
-    } else {
-        for (let i = 0; i < players.length; i++) {
-            if (players[i] === null) {
-                players.splice(i, 1, socketId);
-                break;
-            }
-        }
-        if (players.length < GLOBAL_VARS.numOfPlayers) {
-            players.push(socketId);
-        }
-    }
-    return players;
-}
-
 export function handleIncomes(playerState) {
     for (let income of playerState.incomes) {
         for (let effect of income.effects) {

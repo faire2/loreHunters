@@ -29,18 +29,18 @@ export default function ResourcesArea(props) {
         width: "27.5vw",
     };
 
-    const tabWidth = (13.7 / GLOBAL_VARS.numOfPlayers) + "vw";
+    const tabWidth = (13.7 / playerStateContext.numOfPlayers) + "vw";
     const tabHeight = "1.5vw";
 
     const showOwnContainerStyle = {
         marginTop: tabHeight,
-    }
+    };
 
     const showOtherContainerStyle = {
         position: "absolute",
         marginLeft: "50%",
         top: 0
-    }
+    };
 
     return (
         <div style={containerStyle}>
@@ -48,7 +48,8 @@ export default function ResourcesArea(props) {
                 <Resources playerState={ownPlayerState}/>
             </div>
             <div style={showOtherContainerStyle}>
-                <PlayerTabs width={tabWidth} height={tabHeight} handleClickOnTab={handleClickOnPlayerTab}/>
+                <PlayerTabs width={tabWidth} height={tabHeight} handleClickOnTab={handleClickOnPlayerTab}
+                            numOfPlayers={playerStateContext.numOfPlayers}/>
                 <Resources playerState={showPlayerState}/>
             </div>
         </div>
@@ -68,14 +69,14 @@ const Resources = (props) => {
         flexFlow: "column",
         flexWrap: "wrap",
         marginLeft: "1.5vw",
-    }
+    };
 
     const secondColumnFieldStyle = {
         display: "flex",
         flexWrap: "wrap",
         width: "7vw",
         fontSize: "2.9vw"
-    }
+    };
 
     const availableAdventurers = [];
     for (let i = 0; i < playerStateContext.playerState.availableAdventurers; i++) {
@@ -158,7 +159,7 @@ const Resources = (props) => {
             </div>
         </div>
     )
-}
+};
 
 export const RESOURCES = Object.freeze({
     COINS: "coins",

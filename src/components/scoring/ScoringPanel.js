@@ -87,13 +87,13 @@ export function ScoringPanel(props) {
         fontSize: "6vw",
         width: "100%",
         height: "100%"
-    }
+    };
 
     const rowStyle = {
         display: "flex",
         flexFlow: "row",
         alignItems: "center",
-    }
+    };
 
     /* EXPEDITION CARDS */
     const expeditionCards = playerState.victoryCards.filter(card => card.type === CARD_TYPE.expedition);
@@ -130,7 +130,7 @@ export function ScoringPanel(props) {
 
 export const PlayerTabs = (props) => {
     const playerArr = [];
-    for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+    for (let i = 0; i < props.numOfPlayers; i++) {
         playerArr.push(i)
     }
 

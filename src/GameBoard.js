@@ -52,7 +52,9 @@ function GameBoard(props) {
     const initialRoom = props.location.data.room;
     const initialStates = props.location.data.room.states;
     const initialIndex = props.location.data.playerIndex;
+    const numOfPlayers = initialRoom.numOfPlayers;
 
+    debugger
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(initialStates.store);
@@ -60,8 +62,10 @@ function GameBoard(props) {
     const [legends, setLegends] = useState(initialStates.legends);
     const [previousPlayer, setPreviousPlayer] = useState(0);
     const [isActivePlayer, setIsActivePlayer] = useState(initialIndex === initialStates.activePlayer);
+
+
     const emptyPlayerStates = [];
-    for (let i = 0; i < GLOBAL_VARS.numOfPlayers; i++) {
+    for (let i = 0; i < numOfPlayers; i++) {
         emptyPlayerStates.push(emptyPlayerState)
     }
     const [playerStates, setPlayerStates] = useState(emptyPlayerStates);
@@ -142,7 +146,7 @@ function GameBoard(props) {
         console.log("Handling card effects: " + tCard.cardName);
         console.log(effects);
 
-        let isAllowed = false
+        let isAllowed = false;
         if (tCard.type === CARD_TYPE.artifact) {
             isAllowed = !costsAction || tPlayerState.resources.texts > 0
         }
@@ -152,7 +156,7 @@ function GameBoard(props) {
                 (tCard.type === CARD_TYPE.artifact && isAllowed)) {
                 if (tCard.state === CARD_STATE.inHand || tCard.state === undefined) {
                     tPlayerState.activeCards.push(tCard);
-                    tCard.state = CARD_STATE.active
+                    tCard.state = CARD_STATE.active;
                     tPlayerState.hand.splice(cardIndex, 1);
                 }
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
@@ -477,6 +481,7 @@ function GameBoard(props) {
         showChooseExpeditionModal: showChooseExpeditionModal,
         chooseExpeditionModalData: chooseExpeditionModalData,
         round: round,
+        numOfPlayers: numOfPlayers,
         handleCardEffect: handleClickOnCardEffect,
         handleCardBuy: handleCardBuy,
         handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
@@ -493,6 +498,7 @@ function GameBoard(props) {
         isActivePlayer: isActivePlayer,
         previousPlayer: previousPlayer,
         round: round,
+        numOfPlayers: numOfPlayers,
         handleEndRound: handleEndRound,
         nextPlayer: nextPlayer,
         handleClickOnResource: handleClickOnResource,

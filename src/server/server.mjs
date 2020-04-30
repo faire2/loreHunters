@@ -74,8 +74,8 @@ io.on("connection", socket => {
                 states: {
                     playerStates: getInitialPlayerStates(roomData.numOfPlayers),
                     store: getInitialStore(),
-                    locations: getInitialLocations(),
-                    legends: getInitialLegends(),
+                    locations: getInitialLocations(roomData.numOfPlayers),
+                    legends: getInitialLegends(roomData.numOfPlayers),
                     activePlayer: 0,
                     previousPlayer: 0,
                     round: 1
