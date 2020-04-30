@@ -181,7 +181,7 @@ export function isRoomNameTaken(roomData, gameRooms) {
     return roomNames.includes(roomName)
 }
 
-export function removeUser(users, gameRooms, socketId) {
+export function removeUser(users, socketId) {
     let user = null;
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId === socketId) {
@@ -191,17 +191,7 @@ export function removeUser(users, gameRooms, socketId) {
             break;
         }
     }
-    if (user) {
-        for (let room of gameRooms) {
-            for (let i = 0; i < room.players.length; i++) {
-                if (room.players[i] === user.username) {
-                    room.players.splice(i, 1);
-                    console.log("User " + user.username + " removed from room: " + room.name);
-                }
-            }
-        }
-    }
-    return ({users: users, gameRooms: gameRooms})
+    return ({users: users})
 }
 
 export function updateRoomState(room, playerIndex, states) {

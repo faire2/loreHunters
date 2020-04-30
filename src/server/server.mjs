@@ -201,12 +201,13 @@ io.on("connection", socket => {
     /** DISCONNECT **/
     socket.on("disconnect", () => {
         console.log("Client " + socket.id + " disconnected.");
-        /*players.splice(players.indexOf(socket.id), 1, null);*/
-        const removalResult = removeUser(users, gameRooms, socket.id);
+        const removalResult = removeUser(users, socket.id);
         users = removalResult.users;
-        /*gameRooms = removalResult.gameRooms;*/
-
         io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms});
+        /*console.log("actual rooms");
+        for (let room of gameRooms) {
+            console.log(room.name + "[" + room.players + "]");
+        }*/
     });
 
 
