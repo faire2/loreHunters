@@ -53,8 +53,6 @@ function GameBoard(props) {
     const initialStates = props.location.data.room.states;
     const initialIndex = props.location.data.playerIndex;
 
-    debugger
-
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(initialStates.store);
@@ -423,6 +421,7 @@ function GameBoard(props) {
     /** SET NEXT PLAYER **/
 
     if (playerState.actions < 1 && playerState.activeEffects.length === 0) {
+        debugger
         nextPlayer();
     }
 
@@ -486,7 +485,7 @@ function GameBoard(props) {
         handleClickOnLegend: handleClickOnLegend,
         handleExpeditionReward: handleLegendReward,
         handleClickOnIncomeTile: handleClickOnIncomeTile
-    }
+    };
 
     const playerStateContextValues = {
         playerState: playerState,
@@ -498,7 +497,7 @@ function GameBoard(props) {
         nextPlayer: nextPlayer,
         handleClickOnResource: handleClickOnResource,
         handleClickOnRelic: handleClickOnRelic,
-    }
+    };
 
     return (
         <div className="App">

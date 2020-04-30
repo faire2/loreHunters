@@ -175,7 +175,7 @@ io.on("connection", socket => {
         if (haveAllFinished && room.states.round < 5) {
             room = processEndOfRound(room);
         } else if (room.states.round !== 5) {
-            room.states.activePlayer = nextPlayer(playerIndex);
+            room.states.activePlayer = nextPlayer(playerIndex, room);
         } else {
             io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
                 playerStates: room.states.playerStates,
@@ -204,7 +204,7 @@ io.on("connection", socket => {
         /*players.splice(players.indexOf(socket.id), 1, null);*/
         const removalResult = removeUser(users, gameRooms, socket.id);
         users = removalResult.users;
-        gameRooms = removalResult.gameRooms;
+        /*gameRooms = removalResult.gameRooms;*/
 
         io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms});
     });
