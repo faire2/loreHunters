@@ -202,6 +202,17 @@ io.on("connection", socket => {
         console.log(data.roomName);
     });
 
+    /** DELETE ROOM **/
+    socket.on(TRANSMISSIONS.deleteRoom, data => {
+        for (let i = 0; i < gameRooms.length; i++) {
+            if (gameRooms[i].name === data.roomName) {
+                gameRooms.splice(i, 1);
+                console.log("game room " + data.roomName+ " deleted.");
+            }
+        }
+        io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms, socketRooms: io.sockets.adapter.rooms});
+    });
+
     /** USERNAME CHAGNES **/
     socket.on(TRANSMISSIONS.usernameChanged, data => {
         console.log("Changing username");
@@ -210,7 +221,6 @@ io.on("connection", socket => {
         gameRooms = changeResult.gamerooms;
         io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms, socketRooms: io.sockets.adapter.rooms});
     });
-
 
     /** DISCONNECT **/
     socket.on("disconnect", () => {

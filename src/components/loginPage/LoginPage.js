@@ -155,6 +155,8 @@ const Room = (props) => {
                 {!hasJoined && hasFreeSlots &&
                 <Button onClick={() => joinSession()} variant="secondary" size="sm">Join</Button>}
                 {readyToStart && <Button onClick={() => socket.emit(TRANSMISSIONS.startGame,{roomName: room.name})} variant="secondary" size="sm">Open game</Button>}
+                <Button onClick={() => socket.emit(TRANSMISSIONS.deleteRoom, {roomName: room.name})}
+                        variant={"secondary"} size={"sm"}>Delete room</Button>
             </ButtonGroup>
         </div>
     )

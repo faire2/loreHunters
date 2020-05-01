@@ -685,6 +685,7 @@ export const INCOME_IDs = Object.freeze({
 export const TRANSMISSIONS = Object.freeze({
     createGame: "set up a new game",
     currentUsersAndData: "users currently logged in",
+    deleteRoom: "delete game room",
     finishedRound: "finishedRound",
     getStates: "getState",
     gameStates: "game states",
