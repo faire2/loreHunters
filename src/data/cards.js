@@ -73,7 +73,7 @@ import flameJewelImg from "../img/cardImages/artifacts/flameJewel.png"
 import inscribedBladeImg from "../img/cardImages/artifacts/inscribedBlade.png"
 import ancientCipherImg from "../img/cardImages/artifacts/ancientCipher.png"
 import transmutationImg from "../img/cardImages/artifacts/transmutation.png"
-import owlEyesImg from "../img/cardImages/artifacts/owlEyes.png"
+/*import owlEyesImg from "../img/cardImages/artifacts/owlEyes.png"*/
 import goldenMaskImg from "../img/cardImages/artifacts/goledMask.png"
 import ritualDaggerImg from "../img/cardImages/artifacts/ritualDagger.png"
 
