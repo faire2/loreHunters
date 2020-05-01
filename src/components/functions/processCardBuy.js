@@ -7,7 +7,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     const activeEffect = tPlayerState.activeEffects[0];
     /* Fishing Rod discount effect */
     if (activeEffect === EFFECT.revealItemBuyWithDiscount2) {
-        card.cost = card.cost  >= 2 ? card.cost - 2 : 0;
+        card.cost = card.cost  >= 3 ? card.cost - 3 : 0;
     }
     
     /* Amulet of Charm effect */
