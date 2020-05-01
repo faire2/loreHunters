@@ -55,7 +55,7 @@ function GameBoard(props) {
     const numOfPlayers = initialRoom.numOfPlayers;
 
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
-    const [round, setRound] = useState(1);
+    const [round, setRound] = useState(initialStates.round);
     const [store, setStore] = useState(initialStates.store);
     const [locations, setLocations] = useState(initialStates.locations);
     const [legends, setLegends] = useState(initialStates.legends);
