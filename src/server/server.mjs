@@ -26,7 +26,7 @@ const __dirname = dirname();
 const port = process.env.PORT || 4001;
 const app = express();
 app.use(cors());
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 let users = [];
 let gameRooms = [];
@@ -129,7 +129,11 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.startGame, data => {
         const roomName = data.roomName;
         let room = getRoom(roomName, gameRooms);
-        // eslint-disable-next-line no-unused-vars
+
+        // check that players have joined the socket room
+        for (let player of room.players) {
+            socket.join(roomName);
+        }
 
         io.to(roomName).emit(TRANSMISSIONS.startGame, {room: room});
         console.log("New game data sent to: " + roomName + " [" + room.players + "]");
@@ -204,7 +208,7 @@ io.on("connection", socket => {
         const changeResult = changeFormerUsername(data.formerUsername, data.newUsername, users, gameRooms);
         users = changeResult.users;
         gameRooms = changeResult.gamerooms;
-        io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms});
+        io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms, socketRooms: io.sockets.adapter.rooms});
     });
 
 

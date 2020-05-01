@@ -143,6 +143,14 @@ export function getUserName(userId, users) {
     }
 }
 
+export function getSocketId(username, users) {
+    for (let user of users) {
+        if (user.username === username) {
+            return user.username
+        }
+    }
+}
+
 export function getRoom(roomName, rooms) {
     for (let room of rooms) {
         if (room.name === roomName) {
