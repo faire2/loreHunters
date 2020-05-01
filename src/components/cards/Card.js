@@ -10,7 +10,20 @@ import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
 import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
 import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
 import transportHighlight from "../../img/cardBackgrounds/transportHighlight.png"
-import {AdventurerIcon, Blimp, Coin, Discard, Explore, Jeep, Jewel, Ship, Text, Walk, Weapon} from "../Symbols";
+import {
+    AdventurerIcon,
+    Blimp,
+    Coin,
+    Discard,
+    Explore,
+    Guardian,
+    Jeep,
+    Jewel,
+    Ship,
+    Text,
+    Walk,
+    Weapon
+} from "../Symbols";
 import {cloneDeep} from "lodash";
 import {gainLockedResourceBack} from "../functions/processEffects";
 
@@ -149,7 +162,7 @@ export default function Card(props) {
         zIndex: 1,
         width: "100%",
         height: "100%"
-    }
+    };
 
     /* used as clickable area for playing transport */
     const topWrapperStyle = {
@@ -171,7 +184,7 @@ export default function Card(props) {
         left: card.transportAmount === 1 ? "6%" : "7%",
         fontSize: card.transportAmount === 1 ? "1vw" : "0.7vw",
         zIndex: 2,
-    }
+    };
 
     const transportHighlightStyle = {
         backgroundImage: `url(${transportHighlight}`,
@@ -183,7 +196,7 @@ export default function Card(props) {
         left: "5%",
         zIndex: 1,
         visibility: highlightTransport && card.state === CARD_STATE.inHand ? "visible" : "hidden",
-    }
+    };
 
     const cardNameStyle = {
         fontSize: "0.5vw",
@@ -199,19 +212,19 @@ export default function Card(props) {
         backgroundImage: `url(${card.image})`,
         backgroundSize: "100% 100%",
         zIndex: -1
-    }
+    };
 
     const effectsWrapperStyle = {
         cursor: isPointer,
         height: card.type !== CARD_TYPE.guardian ? "85%" : "62%",
         zIndex: 2,
-    }
+    };
 
     const guardianEscapeWrapperStyle = {
         cursor: isPointer,
         height: card.type !== CARD_TYPE.guardian ? "0" : "20%",
         zIndex: 2,
-    }
+    };
 
     //todo fontSize is set in cards.js, should be moved here
     const effectsStyle = {
@@ -255,8 +268,7 @@ export default function Card(props) {
         display: "flex",
         flexDirection: "row",
         position: "absolute",
-        color: isGuardian ? "gold" : "black",
-        zIndex: 1
+        zIndex: 1,
     };
 
     const pointsStyle = {
@@ -309,7 +321,7 @@ export default function Card(props) {
             <DiscoveryEffects style={discoveryEffectsStyle} discoveryText={card.discoveryText}
                               discoveryText2={card.discoveryText2}/>}
             {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle} lockText={lockText}/>}
-            <Cost cost={cost} style={costStyle}/>
+            <Cost cost={cost} style={costStyle} isGuarded={card.isGuarded}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
             {card.state === undefined && <div style={{position: "absolute", bottom: "-2vw"}}>UNDEFINED</div>}
         </div>
@@ -359,12 +371,12 @@ const DiscoveryEffects = (props) =>
     <div style={props.style}>
         {props.discoveryText}
         <div style={{position: "absolute", marginTop: "2vw"}}>{props.discoveryText2}</div>
-    </div>
+    </div>;
 
 const LockEffects = (props) =>
     <div style={props.style}>
         {props.lockText}
-    </div>
+    </div>;
 
 const Cost = (props) =>
     <div style={props.style}>
@@ -377,6 +389,9 @@ const Cost = (props) =>
                 )
             }
         )}
+        <div style={{marginTop: "0vw", marginLeft: "-0.1vw"}}>
+             {props.isGuarded && <Guardian/>}
+        </div>
     </div>;
 
 const VictoryPoints = (props) =>
@@ -395,6 +410,6 @@ const TransportIcons = (props) =>
                 </div>
             )
         })}
-    </div>
+    </div>;
 
 

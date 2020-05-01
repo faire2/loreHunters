@@ -658,7 +658,7 @@ export const ARTIFACTS = Object.freeze({
         effectsText:
             <div style={bigIconsStyle}><Fear/><Jewel/></div>,
         effects: [EFFECT.gainFear, EFFECT.gainJewel],
-        isGuarded: true,
+        isGuarded: false,
         image: darkKnowledgeImg,
         cost: 2,
         points: 2
