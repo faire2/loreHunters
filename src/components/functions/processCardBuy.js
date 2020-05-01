@@ -67,8 +67,8 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         }
         tStore.artifactsOffer.splice(cardIndex, 1);
         tStore = addCardToStore(card.type, tStore);
-        card.state = CARD_STATE.active;
         tPlayerState.activeCards.push(getIdCard(card));
+        tPlayerState.activeCards[tPlayerState.activeCards.length - 1].state = CARD_STATE.active;
         tPlayerState.resources.explore -= card.cost;
         tPlayerState.actions -= 1;
 

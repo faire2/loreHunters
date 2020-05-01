@@ -44,7 +44,8 @@ export function processEndOfRound(room) {
     /* handle store changes */
     let tStore = cloneDeep(room.states.store);
     if (tStore.itemsOffer.length > 0) {
-        tStore.itemsOffer.splice(-1 + round, 1, tStore.artifactsDeck[0]);
+        tStore.itemsOffer.splice(-1 + round, 1);
+        tStore.artifactsOffer.push(tStore.artifactsDeck[0]);
         tStore.artifactsDeck.splice(0, 1);
     }
     room.states.store = tStore;

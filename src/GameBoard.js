@@ -8,7 +8,7 @@ import {BoardStateContext, PlayerStateContext} from "./Contexts";
 import ResourcesArea, {RESOURCES} from "./components/resources/ResourcesArea";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
-import {emptyPlayerState, GLOBAL_VARS} from "./components/functions/initialStateFunctions";
+import {emptyPlayerState} from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects.mjs";
 import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
@@ -54,7 +54,6 @@ function GameBoard(props) {
     const initialIndex = props.location.data.playerIndex;
     const numOfPlayers = initialRoom.numOfPlayers;
 
-    debugger
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
     const [round, setRound] = useState(1);
     const [store, setStore] = useState(initialStates.store);
@@ -425,7 +424,6 @@ function GameBoard(props) {
     /** SET NEXT PLAYER **/
 
     if (playerState.actions < 1 && playerState.activeEffects.length === 0) {
-        debugger
         nextPlayer();
     }
 
@@ -444,7 +442,7 @@ function GameBoard(props) {
                 store: store,
                 locations: locations,
                 legends: legends
-            })
+            });
             setPlayerState(tPlayerState);
         }
     }
