@@ -182,16 +182,38 @@ export function isRoomNameTaken(roomData, gameRooms) {
 }
 
 export function removeUser(users, socketId) {
-    let user = null;
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId === socketId) {
             console.log("User " + users[i].username + " removed from active users.");
-            user = users[i];
             users.splice(i, 1);
-            break;
+            console.log("Current users: " + users);
+            return ({users: users})
         }
     }
     return ({users: users})
+}
+
+export function changeFormerUsername(formerUsername, newUsername, users, gamerooms) {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].username === formerUsername) {
+            console.log("User " + users[i].username + " changed.");
+            users[i].username = newUsername;
+            console.log("changed active username from " + formerUsername + " to " + newUsername);
+            break;
+        }
+    }
+    for (let i = 0; i < gamerooms.length; i++) {
+        /*console.log(gamerooms[i].name);*/
+        for (let x = 0; x < gamerooms[i].players.length; x++) {
+            /*console.log(gamerooms[i].players[x]);*/
+            if (gamerooms[i].players[x] === formerUsername) {
+                gamerooms[i].players[x] = newUsername;
+                console.log("Changed username from " + formerUsername + " to " + newUsername + " in room " + gamerooms[i].name);
+                break;
+            }
+        }
+    }
+    return ({users: users, gamerooms: gamerooms});
 }
 
 export function updateRoomState(room, playerIndex, states) {

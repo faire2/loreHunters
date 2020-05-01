@@ -10,25 +10,39 @@ import {useHistory} from "react-router-dom";
 
 export function LoginPage() {
     const [cookies, setCookie] = useCookies(["username"]);
+    const [formerUsername, setFormerUsername] = useState(cookies.username ? cookies.username : null);
+    const [showCreateUsername, setShowCreateUsername] = useState(false);
     const [shakedHand, setShakedHand] = useState(false);
     const [users, setUsers] = useState([]);
     const [rooms, setRooms] = useState([]);
-    const [roomIsFull, setRoomIsFull] = useState()
+    const [roomIsFull, setRoomIsFull] = useState();
 
     const currentDate = new Date();
-    const expirationDate = new Date()
+    const expirationDate = new Date();
     expirationDate.setMonth(currentDate.getMonth() + 1);
     const history = useHistory();
 
     function handleUsernameChange(username) {
         setCookie("username", username, {path: "/", expires: expirationDate});
-        socket.emit(TRANSMISSIONS.handShake, cookies.username);
+        setFormerUsername(username);
+        if (!formerUsername) {
+            socket.emit(TRANSMISSIONS.handShake, cookies.username);
+        } else {
+            socket.emit(TRANSMISSIONS.usernameChanged, {formerUsername: formerUsername, newUsername: username});
+        }
+        setShowCreateUsername(false);
+    }
+
+    function pressEnterToBlur(e) {
+        if (e.keyCode === 13) {
+            e.target.blur();
+        }
     }
 
     useEffect(() => {
         // extend cookie if it exists
         if (cookies.username && !shakedHand) {
-            setCookie("username", cookies.username, {path: "/", expires: expirationDate})
+            setCookie("username", cookies.username, {path: "/", expires: expirationDate});
             socket.emit(TRANSMISSIONS.handShake, cookies.username);
             console.log("shaking hand");
         }
@@ -62,18 +76,17 @@ export function LoginPage() {
         margin: "10vw"
     };
 
-    const CreateUsername = () =>
+    const CreateUsername = (props) =>
         <div>
-            <h3>Enter your username:</h3>
-            <FormControl type="text" onBlur={(e) => handleUsernameChange(e.target.value)}/>
+            <h3>{props.username ? "Change" : "Enter"} your username:</h3>
+            <FormControl type="text" onBlur={(e) => handleUsernameChange(e.target.value)} onKeyDown={e => pressEnterToBlur(e)}/>
         </div>;
 
     return (
         <CookiesProvider>
             <div style={containerStyle}>
-                {cookies.username && <h1>Hello {cookies.username}!</h1>}
-                <br/>
-                {!cookies.username && <CreateUsername/>}
+                {cookies.username && <h1 onDoubleClick={() => setShowCreateUsername(!showCreateUsername)}>Hello {cookies.username}!</h1>}
+                {(!cookies.username || showCreateUsername )&& <div><br/><CreateUsername username={cookies.username}/></div>}
                 <br/>
                 <CurrentUsers users={users}/>
                 <br/>

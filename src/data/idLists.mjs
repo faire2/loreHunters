@@ -680,7 +680,7 @@ export const INCOME_IDs = Object.freeze({
         effects: [EFFECT.gainPlane, EFFECT.gainPlane],
         level: INCOME_LEVEL.gold
     },
-})
+});
 
 export const TRANSMISSIONS = Object.freeze({
     createGame: "set up a new game",
@@ -702,7 +702,8 @@ export const TRANSMISSIONS = Object.freeze({
     roomNameAlreadyExists: "room name already exists and cannot be used",
     startGame: "open gameboard",
     testData: "testData",
+    usernameChanged: "usernameChanged",
 });
 
 export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id, ARTIFACT_IDs.flameJewel.id,
-    ARTIFACT_IDs.inscribedBlade.id]
+    ARTIFACT_IDs.inscribedBlade.id];

@@ -6,6 +6,7 @@ import socketIO from "socket.io"
 import cors from "cors"
 import {TRANSMISSIONS} from "../data/idLists.mjs";
 import {
+    changeFormerUsername,
     getRoom,
     getUserName,
     isRoomNameTaken,
@@ -53,7 +54,7 @@ io.on("connection", socket => {
 
     /** HAND SHAKE **/
     socket.on(TRANSMISSIONS.handShake, username => {
-        console.log("* new connection *");
+        console.log("* shaking hand with " + username);
         users = processNewConnection(username, socket.id, users);
         io.emit(TRANSMISSIONS.currentUsersAndData, {
             users: users,
@@ -81,7 +82,7 @@ io.on("connection", socket => {
                     round: 1
                 },
             });
-            console.log("new room created (" + roomData.roomName + "[" + roomData.players + "])");
+            console.log("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");
             socket.join(roomData.roomName);
 
             io.emit(TRANSMISSIONS.currentUsersAndData, {
@@ -193,8 +194,17 @@ io.on("connection", socket => {
 
 
     /** JOIN ROOM **/
-    socket.on(TRANSMISSIONS.joinGame, (data) => {
+    socket.on(TRANSMISSIONS.joinGame, data => {
         console.log(data.roomName);
+    });
+
+    /** USERNAME CHAGNES **/
+    socket.on(TRANSMISSIONS.usernameChanged, data => {
+        console.log("Changing username");
+        const changeResult = changeFormerUsername(data.formerUsername, data.newUsername, users, gameRooms);
+        users = changeResult.users;
+        gameRooms = changeResult.gamerooms;
+        io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms});
     });
 
 
