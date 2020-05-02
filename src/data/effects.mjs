@@ -1,5 +1,6 @@
 export const EFFECT = Object.freeze({
     activateOccupiedLocation: "activate occupied location",
+    activateYourLocation: "use a location occupied by you",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
     defeatGuardian: "defeat a guardian in play area or discard pile",
     defeatThisGuardian: "defeat this guardian card",
@@ -88,5 +89,4 @@ export const EFFECT = Object.freeze({
     useArtifactOnMarket: "use effect of an artifact on the market",
     useOpponentsLocation: "use a (II) location occupied by an opponent", //todo implement
     uptrade: "uptrade",
-    useYourLocation: "use a location occupied by you",
 });

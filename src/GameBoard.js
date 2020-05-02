@@ -185,7 +185,8 @@ function GameBoard(props) {
             let tLocations = cloneDeep(locations);
 
             /* Resolve active effects */
-            if (tPlayerState.activeEffects[0] === EFFECT.gainResourceFromAdjacentLocation) {
+            // explore any location with discount is processed during location exploration
+            if (tPlayerState.activeEffects.length > 0 && tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount4) {
                 const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
                     null, {...store}, tLocations, setRewardsModal);
                 console.log("finished processing");

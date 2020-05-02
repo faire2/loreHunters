@@ -428,7 +428,7 @@ export const ITEMS = Object.freeze({
         effectsText: <div className="effectsText"><b>Activate:</b> <LocationL1/> or <LocationL2/> that you already
             occupy.
         </div>,
-        effects: [EFFECT.useYourLocation],
+        effects: [EFFECT.activateYourLocation],
         image: tentImg,
         cost: 3,
         points: 1,

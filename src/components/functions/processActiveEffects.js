@@ -17,7 +17,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
     const activeEffect = tPlayerState.activeEffects[0];
     console.log(tPlayerState.activeEffects);
     switch (activeEffect) {
-
         /* When active effect deals with card in store */
         // todo gain artifact allows to buy multiple artifacts
         case EFFECT.buyItemWithDiscount3:
@@ -43,6 +42,18 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 }
                 const effectsResult = processEffects(null, null, tPlayerState, effects, null, tStore, null, tLocations, null)
                 tPlayerState = effectsResult.tPlayerState;
+                tPlayerState.activeEffects.splice(0, 1);
+            }
+            break;
+
+        case EFFECT.activateYourLocation:
+            if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied && tLocation.owner === tPlayerState.playerIndex) {
+                const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, null,
+                    tStore, tLocation, tLocations, null);
+                tPlayerState = effectsResult.tPlayerState;
+                tLocations = effectsResult.tLocations;
+                tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
+                tStore = effectsResult.tStore;
                 tPlayerState.activeEffects.splice(0, 1);
             }
             break;
@@ -287,17 +298,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-        case EFFECT.useYourLocation:
-            if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied) {
-                const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, null,
-                    tStore, tLocation, tLocations, null)
-                tPlayerState = effectsResult.tPlayerState;
-                tLocations = effectsResult.tLocations;
-                tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
-                tStore = effectsResult.tStore;
-                tPlayerState.activeEffects.splice(0, 1);
-            }
-            break;
 
         case EFFECT.useItemOnMarket:
             console.log("HERE");

@@ -39,7 +39,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.removeGuardian:
                 case EFFECT.uptrade:
                 case EFFECT.useItemOnMarket:
-                case EFFECT.useYourLocation:
+                case EFFECT.activateYourLocation:
                 case EFFECT.useArtifactOnMarket:
                     tActiveEffects.push(effect);
                     break;
