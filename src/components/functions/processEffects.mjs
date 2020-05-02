@@ -143,12 +143,12 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case EFFECT.firstGainsCoin:
+                case EFFECT.gainCoinIfFirst:
                     tPlayerState.resources.coins += 1;
                     break;
 
-                case EFFECT.firstGainsExplore:
-                    tPlayerState.resources.coins += 1;
+                case EFFECT.GainExploreIfFirst:
+                    tPlayerState.resources.explore += 1;
                     break;
 
                 case EFFECT.gainDiscoveryBonus:

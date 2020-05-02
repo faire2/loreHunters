@@ -42,21 +42,21 @@ export const Legends2 = Object.freeze({
             ],
             [
                 {
-                    effects: [EFFECT.firstGainsCoin],
+                    effects: [EFFECT.gainCoinIfFirst],
                     effectsText: [<Coin/>],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     costText: [<Text/>, <Jewel/>],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.firstGainsExplore],
+                    effects: [EFFECT.GainExploreIfFirst],
                     effectsText: [<Explore/>],
                     cost: [EFFECT.loseCoin, EFFECT.loseJewel],
                     costText: [<Coin/>, <Jewel/>],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.firstGainsExplore],
+                    effects: [EFFECT.GainExploreIfFirst],
                     effectsText: [<Explore/>],
                     cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText, EFFECT.loseText],
                     costText: [<Coin/>,<Text/>,<Text/>,<Text/>],
@@ -83,14 +83,14 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.firstGainsCoin],
+                    effects: [EFFECT.gainCoinIfFirst],
                     effectsText: [<Coin/>],
                     cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon],
                     costText: [<Text/>,<Text/>,<Weapon/>],
                     size: FIELD_SIZE["2"],
                 },
                 {
-                    effects: [EFFECT.firstGainsExplore],
+                    effects: [EFFECT.GainExploreIfFirst],
                     effectsText: [<Explore/>],
                     cost: [EFFECT.loseCoin, EFFECT.loseJewel],
                     costText: [<Coin/>, <Jewel/>],
@@ -124,7 +124,7 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.firstGainsCoin, EFFECT.gainCoin, EFFECT.gainCoin],
+                    effects: [EFFECT.gainCoinIfFirst, EFFECT.gainCoin, EFFECT.gainCoin],
                     effectsText: [<Coin/>, <Coin/>, <Coin/>],
                     cost: [EFFECT.loseJewel, EFFECT.loseJewel],
                     costText: [<Jewel/>, <Jewel/>],

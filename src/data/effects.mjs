@@ -18,8 +18,8 @@ export const EFFECT = Object.freeze({
     discard: "discard a card", // todo items: should be enforced
     exploreAnyLocationWithDiscount4: "explore location with discount of  explore",
     escapeGuardian: "escape guardian, get back locked resources and gain a fear to handd",
-    firstGainsCoin: "first player that reaches this tile of legend gets a coin",
-    firstGainsExplore: "first player that reaches this tile of legend gets an explore",
+    gainCoinIfFirst: "first player that reaches this tile of legend gets a coin",
+    GainExploreIfFirst: "first player that reaches this tile of legend gets an explore",
     gainAdventurerForThisRound: "gain adventurer for this round",
     gainArtifact: "gain an artifact",
     gainArtifactForExplore: "gain artifact for explore", // todo artifacts implement
