@@ -88,16 +88,16 @@ export function removeCard(card, tPlayerState) {
     console.log("removing card : " + card.name);
     switch (card.state) {
         case CARD_STATE.inHand:
-            tPlayerState.hand = tPlayerState.hand.filter(checkedCard => checkedCard.id !== card.id);
+            tPlayerState.hand = spliceCardIfFound(card, tPlayerState.hand);
             break;
         case CARD_STATE.active:
-            tPlayerState.activeCards = tPlayerState.activeCards.filter(checkedCard => checkedCard.id !== card.id);
+            tPlayerState.activeCards = spliceCardIfFound(card, tPlayerState.activeCards);
             break;
         case CARD_STATE.discard:
-            tPlayerState.discardDeck = tPlayerState.discardDeck.filter(checkedCard => checkedCard.id !== card.id);
+            tPlayerState.discardDeck = spliceCardIfFound(card, tPlayerState.discardDeck);
             break;
         case CARD_STATE.drawDeck:
-            tPlayerState.drawDeck= tPlayerState.drawDeck.filter(checkedCard => checkedCard.id !== card.id);
+            tPlayerState.drawDeck = spliceCardIfFound(card, tPlayerState.drawDeck);
             break;
         case CARD_STATE.inStore:
         case CARD_STATE.destroyed:
@@ -197,4 +197,14 @@ export function processGuardianLockEffects(tPlayerState, guardians, lockEffects)
         }
     }
     return tPlayerState
+}
+
+export function spliceCardIfFound(card, cardsArr) {
+    for (let i = 0; i < cardsArr.length; i++) {
+        if (cardsArr[i].id === card.id) {
+            cardsArr.splice(i, 1);
+            break;
+        }
+    }
+    return cardsArr;
 }
