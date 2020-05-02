@@ -98,7 +98,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCardG.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCardG);*/
 
-        /*const testCard = {...ITEM_IDs.flask};
+        /*const testCard = {...ITEM_IDs.torch};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);
 */
