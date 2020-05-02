@@ -86,7 +86,6 @@ export function addCardToStore(cardType, store) {
 
 export function removeCard(card, tPlayerState) {
     console.log("removing card : " + card.name);
-    debugger
     switch (card.state) {
         case CARD_STATE.inHand:
             tPlayerState.hand = tPlayerState.hand.filter(checkedCard => checkedCard.id !== card.id);

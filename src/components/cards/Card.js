@@ -236,6 +236,7 @@ export default function Card(props) {
         position: "absolute",
         zIndex: 1,
         display: "flex",
+        justifyContent: !isGuardian ? "center" : "start",
     };
 
     // todo: responsiveness depends on font size in Symbols.js

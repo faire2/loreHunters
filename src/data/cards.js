@@ -94,19 +94,19 @@ export const CARD_TRANSPORT = Object.freeze({
 
 const bigIconsStyle = {
     fontSize: "1.2vw",
-}
+};
 
 const lockEffectsStyle = {
     height: "100%",
     width: "auto"
-}
+};
 
 const columnStyle = {
     display: "flex",
     flexDirection: "column",
     height: "100%",
     width: "auto",
-}
+};
 
 export const ITEMS = Object.freeze({
     fear: {

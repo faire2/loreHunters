@@ -72,9 +72,9 @@ function GameBoard(props) {
     // rewards are an array with objects describing values: {effects: ..., effectsText: ...}
     const [showRewardsModal, setShowRewardsModal] = useState(false);
     const [rewardsModalData, setRewardsModalData] = useState([]);
-
     const [showChooseExpeditionModal, setShowChooseExpeditionModal] = useState(false);
     const [chooseExpeditionModalData, setChooseExpeditionModalData] = useState([]);
+    const [isModalActive, setIsModalActive] = useState(false);
 
     const [extendBottomPanel, setExtendBottomPanel] = useState(false);
 
@@ -239,6 +239,7 @@ function GameBoard(props) {
                                 setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
                                     {effects: guardianEffects, effectsText: guardianText}]);
                                 setShowRewardsModal(true);
+                                setIsModalActive(true);
                             }
                         }
                         break;
@@ -277,6 +278,7 @@ function GameBoard(props) {
         setLocations(effectsResult.tLocations);
         setStore(effectsResult.tStore);
         setShowRewardsModal(false);
+        setIsModalActive(false);
     }
 
 
@@ -305,16 +307,15 @@ function GameBoard(props) {
                         if (columnIndex === 1 || columnIndex === 3) {
                             const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
                             setChooseExpeditionModalData(expeditionsArr);
-                            setShowChooseExpeditionModal(true);
                         } else if (columnIndex === 0) {
                             const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
                             setChooseExpeditionModalData(incomeArr);
-                            setShowChooseExpeditionModal(true);
                         } else if (columnIndex === 2) {
                             const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
                             setChooseExpeditionModalData(incomeArr);
-                            setShowChooseExpeditionModal(true);
                         }
+                        setShowChooseExpeditionModal(true);
+                        setIsModalActive(true);
                     }
                 }
                 setPlayerState(legendResult.tPlayerState);
@@ -329,6 +330,7 @@ function GameBoard(props) {
     /** HANDLE LEGEND REWARD MODAL **/
     function handleLegendReward(idElement, isGoalCard, index) {
         setShowChooseExpeditionModal(false);
+        setIsModalActive(false);
         setChooseExpeditionModalData([]);
         let tPlayerState = cloneDeep(playerState);
         let tStore = cloneDeep(store);
@@ -425,7 +427,7 @@ function GameBoard(props) {
 
     /** SET NEXT PLAYER **/
 
-    if (playerState.actions < 1 && playerState.activeEffects.length === 0) {
+    if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive) {
         nextPlayer();
     }
 
