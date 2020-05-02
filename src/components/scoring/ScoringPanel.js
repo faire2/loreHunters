@@ -38,19 +38,19 @@ export function ScoringPanel(props) {
     console.log(playerStates);
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
     console.log("****************");
-    const items = allDeckCards.filter(card => card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic)
+    const items = allDeckCards.filter(card => card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic);
     let itemPoints = 0;
     for (let card of items) {
         itemPoints += ITEMS[card.id].points;
     }
 
-    const artifacts = allDeckCards.filter(card => card.type === CARD_TYPE.artifact)
+    const artifacts = allDeckCards.filter(card => card.type === CARD_TYPE.artifact);
     let artifactPoints = 0;
     for (let card of artifacts) {
         artifactPoints += ARTIFACTS[card.id].points;
     }
 
-    const undefeatedGuardians = allDeckCards.filter(card => card.type === CARD_TYPE.guardian)
+    const undefeatedGuardians = allDeckCards.filter(card => card.type === CARD_TYPE.guardian);
     let undefeatedGuardianPoints = 0 - undefeatedGuardians.length;
 
     const defeatedGuardians = playerState.destroyedCards.filter(card => card.type === CARD_TYPE.guardian);
@@ -102,7 +102,7 @@ export function ScoringPanel(props) {
         <div style={containerStyle}>
             <PlayerTabs handleClickOnTab={handleClickOnPlayerTab} width={"25vw"} height={"5vw"}/>
             <div style={rowStyle}>
-                <Item/>:{itemPoints}<CardRow cards={allDeckCards}/>
+                <Item/>:{itemPoints}<CardRow cards={items}/>
             </div>
             <div style={rowStyle}>
                 <Artifact/>:{artifactPoints}<CardRow cards={artifacts}/>
@@ -147,7 +147,7 @@ export const PlayerTabs = (props) => {
             )}
         </div>
     )
-}
+};
 
 const PlayerTab = (props) => {
     const playerId = props.playerId;
@@ -156,9 +156,9 @@ const PlayerTab = (props) => {
         height: props.height,
         backgroundColor: GLOBAL_VARS.playerColors[playerId],
         cursor: "pointer",
-    }
+    };
 
     return (
         <div style={tabStyle}/>
     )
-}
+};
