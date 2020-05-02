@@ -359,8 +359,8 @@ export const ITEMS = Object.freeze({
         cardName: "Journal",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for each <Shiny/> you own (up tp 4) .</div>,
-        effects: [EFFECT.gainExploreForShinys],
+        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for each <Shiny/> you own (up to 4) .</div>,
+        effects: [EFFECT.gainExploreForRelics],
         image: journalImg,
         cost: 3,
         points: 2

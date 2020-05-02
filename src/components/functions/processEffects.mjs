@@ -211,8 +211,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.explore += guardians;
                     break;
 
-                case EFFECT.gainExploreForShinys:
+                case EFFECT.gainExploreForRelics:
                     tPlayerState.resources.explore += tPlayerState.resources.shinies < 5 ? tPlayerState.resources.shinies : 4;
+                    for (let relic of tPlayerState.relics) {
+                        if (!relic) {tPlayerState.resources.explore += 1};
+                    }
                     break;
 
                 case EFFECT.gainFear:

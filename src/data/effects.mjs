@@ -33,7 +33,7 @@ export const EFFECT = Object.freeze({
     buyWithDiscount1: "buy an item or artifact with discount of 1",
     gainExpeditionCard: "gain an expedition card",
     gainExplore: "gain an explore",
-    gainExploreForShinys: "gain an explore for each shinies (max. 4)",
+    gainExploreForRelics: "gain an explore for each shinies (max. 4)",
     gainExploreForGuardians: "gain an explore for each guardian in you play area",
     gainDiscoveryBonus: "gain guardian's discovery bonus",
     gainFear: "gain a fear card",

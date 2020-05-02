@@ -62,7 +62,6 @@ function GameBoard(props) {
     const [previousPlayer, setPreviousPlayer] = useState(0);
     const [isActivePlayer, setIsActivePlayer] = useState(initialIndex === initialStates.activePlayer);
 
-
     const emptyPlayerStates = [];
     for (let i = 0; i < numOfPlayers; i++) {
         emptyPlayerStates.push(emptyPlayerState)
