@@ -102,7 +102,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 
-        /*for (let key in ITEM_IDs) {
+        for (let key in ITEM_IDs) {
             let card = {...ITEM_IDs[key]};
             card.state = CARD_STATE.inHand;
             hand.push(card);
@@ -112,7 +112,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
             let card = {...ARTIFACT_IDs[key]};
             card.state = CARD_STATE.inHand;
             hand.push(card);
-        }*/
+        }
 
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;
