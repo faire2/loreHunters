@@ -617,7 +617,7 @@ export const ARTIFACTS = Object.freeze({
         transportAmount: 1,
         effectsText:
             <div style={bigIconsStyle}><Draw1Card/><DestroyCard/></div>,
-        effects: [EFFECT.draw1, EFFECT.destroyCard],
+        effects: [EFFECT.destroyCard, EFFECT.draw1],
         isGuarded: true,
         image: warMaskImg,
         cost: 2,

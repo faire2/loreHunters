@@ -286,7 +286,7 @@ export default function Card(props) {
 
     function handleClickOnEffect(effects, isTravel) {
         const correctState = card.state === CARD_STATE.inHand || (card.state === CARD_STATE.active
-            && CARD_TYPE === CARD_TYPE.guardian);
+            && card.type === CARD_TYPE.guardian);
         if (correctState && boardStateContext.activeEffects.length === 0) {
             if (cardType === CARD_TYPE.guardian && props.card.locked) {
                 const lockEffects = props.card.locked;

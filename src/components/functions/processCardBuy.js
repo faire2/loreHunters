@@ -5,6 +5,9 @@ import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 
 export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStore, tLocations) {
     const activeEffect = tPlayerState.activeEffects[0];
+    // if artifact comes with guardian, we need to process it
+    let processGuardian = false;
+
     /* Fishing Rod discount effect */
     if (activeEffect === EFFECT.revealItemBuyWithDiscount2) {
         card.cost = card.cost  >= 3 ? card.cost - 3 : 0;
@@ -75,15 +78,16 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         /* the artifact effect applies when artifact is bought */
         const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, null, null, null);
         tPlayerState = effectsResult.tPlayerState;
+
+        if (card.isGuarded) {processGuardian = true}
     } else {
         console.log("Card could not be bought: ");
         console.log(card);
     }
-
     if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount2
         || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount ||
         activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItem) {
         tPlayerState.activeEffects.splice(0, 1);
     }
-    return {tPlayerState: tPlayerState, tStore: tStore}
+    return {tPlayerState: tPlayerState, tStore: tStore, processGuardian: processGuardian}
 }

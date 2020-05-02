@@ -15,6 +15,7 @@ import {Jewel, Text, Weapon} from "../Symbols";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, setRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];
+    let processGuardian = false;
     console.log(tPlayerState.activeEffects);
     switch (activeEffect) {
         /* When active effect deals with card in store */
@@ -31,6 +32,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             tPlayerState = buyResults.tPlayerState;
             tStore = buyResults.tStore;
             tPlayerState.activeEffects = buyResults.tPlayerState.activeEffects;
+            processGuardian = buyResults.processGuardian;
             break;
 
         case EFFECT.activateOccupiedLocation:
@@ -344,6 +346,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
     return {
         tPlayerState: tPlayerState,
         tLocations: tLocations,
-        tStore: tStore
+        tStore: tStore,
+        processGuardian: processGuardian,
     }
 }

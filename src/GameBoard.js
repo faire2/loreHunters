@@ -38,11 +38,11 @@ import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {handleIncomes} from "./server/serverFunctions";
 import {processUptrade} from "./components/resources/resourcesFunctions";
-import {processIncomeTile} from "./components/functions/processEffects";
+import {handleGuardianArrival, processIncomeTile} from "./components/functions/processEffects";
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {processGuardianLockEffects} from "./components/functions/cardManipulationFuntions";
+import {activateGuardianAndLockEffects} from "./components/functions/cardManipulationFuntions";
 
 function GameBoard(props) {
     const history = useHistory();
@@ -217,7 +217,6 @@ function GameBoard(props) {
                                 const locationPosition = getPositionInLocationLine(location, locationLine, locations);
                                 tLocations[locationLine][locationPosition].state = LOCATION_STATE.explored;
 
-                                setPlayerState(tPlayerState);
                                 setLocations(tLocations);
                                 // player can choose between effect of location and discovery effect of next guardian
                                 const guardian = GUARDIANS[store.guardians[0].id];
@@ -232,19 +231,11 @@ function GameBoard(props) {
                                 const guardianEffects = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryEffect :
                                     [...guardian.discoveryEffect, ...guardian.discoveryEffect2];
 
-                                // guardian is moved to player's discard
                                 tPlayerState.resources.shinies += 1;
-                                if (round < 5 ) {
-                                tPlayerState.discardDeck.push(store.guardians[0]);
-                                tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
-                                } else {
-                                    tPlayerState = processGuardianLockEffects(tPlayerState, [store.guardians[0]],
-                                        [store.guardians[0].lockEffects]);
-                                    setPlayerState(tPlayerState);
-                                }
-                                const tStore = cloneDeep(store);
-                                tStore.guardians.splice(0, 1);
-                                setStore(tStore);
+                                // guardian is moved to player's discard
+                                const guardianResults = handleGuardianArrival(tPlayerState, cloneDeep(store), round);
+                                setStore(guardianResults.tStore);
+                                setPlayerState(guardianResults.tPlayerState);
                                 setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
                                     {effects: guardianEffects, effectsText: guardianText}]);
                                 setShowRewardsModal(true);
@@ -368,6 +359,12 @@ function GameBoard(props) {
         if (isActivePlayer) {
             const effectProcessResults = processActiveEffect(card, cardIndex, null, cloneDeep(playerState),
                 null, {...store}, {...locations}, setRewardsModal);
+            if (effectProcessResults.processGuardian) {
+                const guardianResult = handleGuardianArrival(effectProcessResults.tPlayerState, effectProcessResults.tStore,
+                    round);
+                effectProcessResults.tPlayerState = guardianResult.tPlayerState;
+                effectProcessResults.tStore = guardianResult.tStore;
+            }
             setPlayerState(effectProcessResults.tPlayerState);
             setStore(effectProcessResults.tStore);
             setLocations(effectProcessResults.tLocations);
@@ -418,12 +415,13 @@ function GameBoard(props) {
             console.log("Buying card: " + card.cardName + " with effect: " + card.effects);
             if (playerState.actions > 0) {
                 const buyResult = processCardBuy(card, cardIndex, cloneDeep(playerState), null,
-                    cloneDeep(store), {...locations});
-                const tPlayerState = buyResult.tPlayerState;
-                const tStore = buyResult.tStore;
-                if (card.type === CARD_TYPE.artifact && card.isGuarded) {
-                    tPlayerState.discardDeck.push(store.guardians[0]);
-                    tStore.guardians.splice(0, 1);
+                    cloneDeep(store), round);
+                let tPlayerState = buyResult.tPlayerState;
+                let tStore = buyResult.tStore;
+                if (buyResult.processGuardian) {
+                    const guardianResult = handleGuardianArrival(tPlayerState, tStore, round);
+                    tPlayerState = guardianResult.tPlayerState;
+                    tStore = guardianResult.tStore;
                 }
                 setPlayerState(cloneDeep(tPlayerState));
                 setStore(tStore);

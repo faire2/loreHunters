@@ -46,7 +46,7 @@ export function drawCards(cardsNum, origPlayerState) {
             tPlayerState.drawDeck = drawDeck;
         }
     }
-    tPlayerState = processGuardianLockEffects(tPlayerState, guardians, lockEffects)
+    tPlayerState = activateGuardianAndLockEffects(tPlayerState, guardians, lockEffects)
     console.log("draw deck length: " + drawDeck.length);
     return tPlayerState;
 }
@@ -123,7 +123,7 @@ export function getIdCard(jsxCard) {
     }
 }
 
-export function processGuardianLockEffects(tPlayerState, guardians, lockEffects) {
+export function activateGuardianAndLockEffects(tPlayerState, guardians, lockEffects) {
     for (let i = 0; i < guardians.length; i++) {
         guardians[i].state = CARD_STATE.active;
         tPlayerState.activeCards.push(guardians[i]);

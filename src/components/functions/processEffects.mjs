@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs, INCOME_STATE} from "../../data/idLists";
+import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations, originalLegend) {
@@ -96,12 +97,13 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.destroyCard:
                     let tEffects = [];
-                    const index = effects.indexOf(EFFECT.destroyCard);
-                    for (let i = index + 1; i < effects.length; i++) {
+                    const effectsIndex = effects.indexOf(EFFECT.destroyCard);
+                    for (let i = effectsIndex + 1; i < effects.length; i++) {
                         tEffects.push(effects[i]);
                     }
                     tActiveEffects.push(effect);
-                    tActiveEffects.splice(1, 0, [...tEffects]);
+                    const activeEffectsIndex = tActiveEffects.indexOf(effect);
+                    tActiveEffects.splice(activeEffectsIndex + 1, 0, [...tEffects]);
                     return;
 
                 case EFFECT.destroyThisCard:
@@ -441,4 +443,16 @@ export function processIncomeTile(effects, incomeId, playerState) {
         }
     }
     return playerState
+}
+
+export function handleGuardianArrival(tPlayerState, tStore, round) {
+    if (round < 5) {
+        tPlayerState.discardDeck.push(tStore.guardians[0]);
+        tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
+        tStore.guardians.splice(0, 1);
+    } else {
+        tPlayerState = activateGuardianAndLockEffects(tPlayerState, [tStore.guardians[0]],
+            [tStore.guardians[0].lockEffects]);
+    }
+    return {tPlayerState: tPlayerState, tStore: tStore}
 }
