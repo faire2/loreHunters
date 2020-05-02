@@ -68,7 +68,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.destroyCard:
             if (tCard !== null && (tCard.state === CARD_STATE.inHand || tCard.state === CARD_STATE.discard
-                || tCard.state === CARD_STATE.active)) {
+                || tCard.state === CARD_STATE.active) && tCard.type !== CARD_TYPE.guardian) {
                 tPlayerState = removeCard(tCard, tPlayerState);
                 tCard.state = CARD_STATE.destroyed;
                 tPlayerState.destroyedCards.push(tCard);
