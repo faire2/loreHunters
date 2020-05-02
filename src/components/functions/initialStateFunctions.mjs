@@ -94,7 +94,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard0 = {...ITEM_IDs.dog};
+        /*const testCard0 = {...ARTIFACT_IDs.portalStone};
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*/
 
