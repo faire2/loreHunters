@@ -1,4 +1,4 @@
-import {addCardToStore, destroyCard, drawCards} from "./cardManipulationFuntions.mjs";
+import {addCardToStore, removeCard, drawCards} from "./cardManipulationFuntions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
@@ -81,7 +81,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     if (tCard) {
                         if (tCard.type === CARD_TYPE.guardian) {
                             tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
-                            tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                            tPlayerState = removeCard(tCard, tPlayerState);
                             tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                         }
                         // if card is null, we may have stored the guard in evaluating discard effect of the guardian card
@@ -89,19 +89,21 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         tCard = tActiveEffects[2].card;
                         cardIndex = tActiveEffects[2].position;
                         tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
-                        tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                        tPlayerState = removeCard(tCard, tPlayerState);
                         tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                         tActiveEffects.splice(0, 3);
                     }
                     break;
 
                 case EFFECT.destroyThisCard:
-                    tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                    if (tCard !== null) {
+                    tPlayerState = removeCard(tCard, tPlayerState);
+                    }
                     break;
 
                 case EFFECT.destroyThisCardToDefeatAGuardan:
                     if (tCard.state === CARD_STATE.inHand) {
-                        tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                        tPlayerState = removeCard(tCard, tPlayerState);
                         tActiveEffects.push(EFFECT.defeatGuardian);
                     }
                     break;

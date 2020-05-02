@@ -1,6 +1,6 @@
 import React from 'react';
 import {EFFECT} from "../../data/effects.mjs";
-import {addCardToDiscardDeck, addCardToHand, destroyCard, getIdCard} from "./cardManipulationFuntions.mjs";
+import {addCardToDiscardDeck, addCardToHand, removeCard, getIdCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
 import {CARD_STATE, CARD_TYPE, GUARDIAN_IDs, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE} from "../../data/idLists";
@@ -60,7 +60,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.defeatGuardian:
             if (tCard.type === CARD_TYPE.guardian) {
                 tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
-                tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                tPlayerState = removeCard(tCard, tPlayerState);
                 tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                 tPlayerState.activeEffects.splice(0, 1);
             }
@@ -68,18 +68,11 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.destroyCard:
             if (tCard !== null) {
-                tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
+                tPlayerState = removeCard(tCard, tPlayerState);
                 tCard.state = CARD_STATE.destroyed;
                 tPlayerState.destroyedCards.push(tCard);
                 tPlayerState.activeEffects.splice(0, 1);
                 break;
-            }
-            break;
-
-        case EFFECT.destroyGuardian:
-            if (tCard !== null && tCard.type === CARD_TYPE.guardian) {
-                tPlayerState = destroyCard(tCard.state, cardIndex, tPlayerState);
-                //todo guardian: defeat effect should be implemented here
             }
             break;
 

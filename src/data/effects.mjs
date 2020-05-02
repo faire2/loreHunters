@@ -4,7 +4,6 @@ export const EFFECT = Object.freeze({
     defeatGuardian: "defeat a guardian in play area or discard pile",
     defeatThisGuardian: "defeat this guardian card",
     destroyCard: "pick a card to destroy",
-    destroyGuardian: "destroy a guardian",
     destroyThisCard: "destroy this card",
     destroyThisCardToDefeatAGuardan: "destroy this card to defeat a guardian",
     progressWithTexts: "progress in a legend with a discount of two Texts",

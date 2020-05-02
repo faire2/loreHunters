@@ -532,8 +532,8 @@ export const ITEMS = Object.freeze({
         cardName: "Flask",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Draw3Cards/></div>,
-        effects: [EFFECT.draw1, EFFECT.draw1, EFFECT.draw1],
+        effectsText: <div className="effectsText"><Draw3Cards/>, then <b>destroy</b> this card.</div>,
+        effects: [EFFECT.draw1, EFFECT.draw1, EFFECT.draw1, EFFECT.destroyThisCard],
         image: flaskImg,
         cost: 2,
         points: 1
@@ -849,7 +849,7 @@ export const ARTIFACTS = Object.freeze({
         transportAmount: 1,
         effectsText:
             <div className="effectsText"><DestroyCard/><Discard/><Draw2Cards/></div>,
-        effects: [EFFECT.destroyCard, EFFECT.discardFor2Cards],
+        effects: [EFFECT.removeCard, EFFECT.discardFor2Cards],
         cost: 2,
         points: 3
     },*/
@@ -915,7 +915,7 @@ export const ARTIFACTS = Object.freeze({
         transportAmount: 1,
         effectsText:
             <div className="effectsText"><DestroyCard/> <Weapon/></div>,
-        effects: [EFFECT.destroyCard, EFFECT.gainWeapon],
+        effects: [EFFECT.removeCard, EFFECT.gainWeapon],
         cost: 2,
         points: 1
     },

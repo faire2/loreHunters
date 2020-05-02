@@ -229,12 +229,13 @@ export default function Card(props) {
     //todo fontSize is set in cards.js, should be moved here
     const effectsStyle = {
         width: "95%",
-        marginTop: !isGuardian ? "50%" : "59%",
+        marginTop: !isGuardian ? "51%" : "59%",
         marginLeft: !isGuardian ? 0 : "32%",
         fontSize: "0.46vw",
         textAlign: !isGuardian ? "center" : "left",
         position: "absolute",
-        zIndex: 1
+        zIndex: 1,
+        display: "flex",
     };
 
     // todo: responsiveness depends on font size in Symbols.js

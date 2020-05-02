@@ -84,34 +84,28 @@ export function addCardToStore(cardType, store) {
     return tStore;
 }
 
-export function destroyCard(cardState, cardIndex, tPlayerState) {
-    let card = null;
-    console.log("destroying card");
-    console.log(cardState);
-    switch (cardState) {
+export function removeCard(card, tPlayerState) {
+    console.log("removing card : " + card.name);
+    debugger
+    switch (card.state) {
         case CARD_STATE.inHand:
-            card = tPlayerState.hand[cardIndex];
-            tPlayerState.hand.splice(cardIndex, 1);
+            tPlayerState.hand = tPlayerState.hand.filter(checkedCard => checkedCard.id !== card.id);
             break;
         case CARD_STATE.active:
-            card = tPlayerState.activeCards[cardIndex];
-            tPlayerState.activeCards.splice(cardIndex, 1);
+            tPlayerState.activeCards = tPlayerState.activeCards.filter(checkedCard => checkedCard.id !== card.id);
             break;
         case CARD_STATE.discard:
-            card = tPlayerState.discardDeck[cardIndex];
-            tPlayerState.discardDeck.splice(cardIndex, 1);
+            tPlayerState.discardDeck = tPlayerState.discardDeck.filter(checkedCard => checkedCard.id !== card.id);
+            break;
+        case CARD_STATE.drawDeck:
+            tPlayerState.drawDeck= tPlayerState.drawDeck.filter(checkedCard => checkedCard.id !== card.id);
             break;
         case CARD_STATE.inStore:
         case CARD_STATE.destroyed:
-        case CARD_STATE.drawDeck:
         default:
-            console.log("Cannot process state " + cardState + " while removing card.");
+            console.log("Cannot remove card " + card.id + ", state: " + card.state);
     }
-
-    if (card !== null) {
-        //todo jsx card is store, probably should be id card
-        tPlayerState.destroyedCards.push(card)
-    }
+    tPlayerState.destroyedCards.push(getIdCard(card));
     return tPlayerState;
 }
 

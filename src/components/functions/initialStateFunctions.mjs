@@ -98,9 +98,9 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCardG.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCardG);*/
 
-        /*const testCard = {...ITEM_IDs.bag};
+        const testCard = {...ITEM_IDs.flask};
         testCard.state = CARD_STATE.inHand;
-        hand.splice(0, 0, testCard);*/
+        hand.splice(0, 0, testCard);
 
         /*for (let i = 0; i < 10; i++) {
             let card = {...ITEM_IDs.coin};
