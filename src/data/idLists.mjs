@@ -122,11 +122,11 @@ export const ITEM_IDs = Object.freeze({
         id: "trowel",
         type: CARD_TYPE.item,
     },
-    /*pickaxe: {
+    pickaxe: {
         id: "pickaxe",
         type: CARD_TYPE.item,
     },
-    spyglass: {
+    /*spyglass: {
         id: "spyglass",
         type: CARD_TYPE.item,
     },
