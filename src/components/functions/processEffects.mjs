@@ -25,14 +25,14 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.buyItemWithDiscount3:
                 case EFFECT.defeatGuardian:
                 case EFFECT.destroyCard:
-                case EFFECT.destroyGuardian:
                 case EFFECT.drawFromDiscard:
+                case EFFECT.exploreAnyLocationWithDiscount4:
                 case EFFECT.gainArtifact:
                 case EFFECT.gainItem:
                 case EFFECT.buyWithDiscount1:
                 case EFFECT.gainExpeditionCard:
                 case EFFECT.gainItemToHand:
-                case EFFECT.gainResourceFromAdjacent:
+                case EFFECT.gainResourceFromAdjacentLocation:
                 case EFFECT.payToUseOccupiedLocation:
                 case EFFECT.progressWithJewel:
                 case EFFECT.progressWithTextsOrWeapon:

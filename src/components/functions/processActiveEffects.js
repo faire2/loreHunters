@@ -1,6 +1,6 @@
 import React from 'react';
 import {EFFECT} from "../../data/effects.mjs";
-import {addCardToDiscardDeck, addCardToHand, removeCard, getIdCard} from "./cardManipulationFuntions.mjs";
+import {addCardToDiscardDeck, addCardToHand, getIdCard, removeCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
 import {CARD_STATE, CARD_TYPE, GUARDIAN_IDs, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE} from "../../data/idLists";
@@ -108,10 +108,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-        case EFFECT.exploreLocationWithDiscount2:
-            if (tLocation !== null) {
-                // todo location implement
-            }
+        case EFFECT.exploreAnyLocationWithDiscount4:
+            // effect is processed in location exploration
             break;
 
         case EFFECT.gainCoinsAndJewelForGuardianVP:
@@ -141,7 +139,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-        case EFFECT.gainResourceFromAdjacent:
+        case EFFECT.gainResourceFromAdjacentLocation:
             if (tLocation.state === LOCATION_STATE.explored) {
                 const isAdjacent = isLocationAdjancentToAdventurer(tLocation, tLocation.line, tLocations, tPlayerState);
                 if (isAdjacent) {

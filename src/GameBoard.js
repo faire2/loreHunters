@@ -185,7 +185,7 @@ function GameBoard(props) {
             let tLocations = cloneDeep(locations);
 
             /* Resolve active effects */
-            if (tPlayerState.activeEffects.length > 0) {
+            if (tPlayerState.activeEffects[0] === EFFECT.gainResourceFromAdjacentLocation) {
                 const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
                     null, {...store}, tLocations, setRewardsModal);
                 console.log("finished processing");
@@ -195,14 +195,23 @@ function GameBoard(props) {
             } else {
                 switch (location.state) {
                     case LOCATION_STATE.unexplored:
-                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState)) {
+                        const exploreAnywhereWithDiscount = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
+                        if (exploreAnywhereWithDiscount) {tPlayerState.activeEffects.splice(0)}
+                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreAnywhereWithDiscount) {
                             const resources = tPlayerState.resources;
-                            const enoughResources = resources.explore >= location.exploreCost.explore
-                                && resources.coins >= location.exploreCost.coins && tPlayerState.actions > 0;
+
+                            let exploreCost = location.exploreCost.explore;
+                            if (exploreAnywhereWithDiscount) {
+                                exploreCost = exploreCost < 5 ? 0 : exploreCost - 4;
+                            }
+                            const coinsCost = location.exploreCost.coins;
+                            const enoughResources = resources.explore >= exploreCost && resources.coins >= coinsCost
+                                && (tPlayerState.actions > 0 || exploreAnywhereWithDiscount);
+
                             if (enoughResources) {
-                                resources.coins -= location.exploreCost.coins;
-                                resources.explore -= location.exploreCost.explore;
-                                tPlayerState.actions -= 1;
+                                resources.coins -= coinsCost;
+                                resources.explore -= exploreCost;
+                                tPlayerState.actions -= exploreAnywhereWithDiscount ? 1 : 0;
 
                                 const locationPosition = getPositionInLocationLine(location, locationLine, locations);
                                 tLocations[locationLine][locationPosition].state = LOCATION_STATE.explored;
@@ -220,7 +229,7 @@ function GameBoard(props) {
                                         justifyContent: "center"
                                     }}>{guardian.discoveryTextRow}{guardian.discoveryTextRow2}</div>;
                                 const guardianEffects = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryEffect :
-                                    [...guardian.discoveryEffect, ...guardian.discoveryEffect2]
+                                    [...guardian.discoveryEffect, ...guardian.discoveryEffect2];
 
                                 // guardian is moved to player's discard
                                 tPlayerState.resources.shinies += 1;

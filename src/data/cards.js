@@ -251,7 +251,7 @@ export const ITEMS = Object.freeze({
         transportAmount: 1,
         effectsText: <div className="effectsText"><b>Discount:</b> <Explore/><Explore/><Explore/><Explore/> to discover
             any location. Then <b>destroy</b> this card.</div>,
-        effects: [EFFECT.gainPlane, EFFECT.gainExplore, EFFECT.gainExplore],
+        effects: [EFFECT.exploreAnyLocationWithDiscount4], //pozor na update efektu!
         image: hotAirBalloonImg,
         cost: 2,
         points: 1
@@ -403,7 +403,7 @@ export const ITEMS = Object.freeze({
         transportAmount: 1,
         effectsText: <div className="effectsText"><b>Gain:</b> <Text/> or <Weapon/> or <Jewel/> that can be obtained
             from a location adjacent to you <AdventurerIcon/></div>,
-        effects: [EFFECT.gainResourceFromAdjacent],
+        effects: [EFFECT.gainResourceFromAdjacentLocation],
         image: grapplingHookImg,
         cost: 3,
         points: 1
@@ -859,8 +859,8 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div style={bigIconsStyle}><Draw1Card/><Text/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainText],
+            <div style={bigIconsStyle}><Draw1Card/><Coin/></div>,
+        effects: [EFFECT.draw1, EFFECT.gainCoin],
         isGuarded: false,
         image: ancientCipherImg,
         cost: 2,

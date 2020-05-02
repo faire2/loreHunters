@@ -16,7 +16,7 @@ export const EFFECT = Object.freeze({
     drawFromDiscard: "draw a card from your discard pile",
     drawFromDrawDeckOrDiscard: "draw a card from your draw deck or discard",
     discard: "discard a card", // todo items: should be enforced
-    exploreLocationWithDiscount2: "explore location with discount of 2 explore, do not gain a guardian ",
+    exploreAnyLocationWithDiscount4: "explore location with discount of  explore",
     escapeGuardian: "escape guardian, get back locked resources and gain a fear to handd",
     firstGainsCoin: "first player that reaches this tile of legend gets a coin",
     firstGainsExplore: "first player that reaches this tile of legend gets an explore",
@@ -43,7 +43,7 @@ export const EFFECT = Object.freeze({
     gainJewel: "gain a jewel",
     gainPlaceholder: "gain megartifact without a name",
     gainPlane: "travel with an airplane",
-    gainResourceFromAdjacent: "gain one resource that can be obtained from a location adjacent to your Adventurer",
+    gainResourceFromAdjacentLocation: "gain one resource that can be obtained from a location adjacent to your Adventurer",
     gainShiny: "gain a shinies",
     gainShip: "travel with a ship",
     gainText: "gain a text",
