@@ -83,7 +83,9 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState = removeCard(tCard, tPlayerState);
                 tCard.state = CARD_STATE.destroyed;
                 tPlayerState.destroyedCards.push(tCard);
-                tPlayerState.activeEffects.splice(0, 1);
+                const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tPlayerState.activeEffects, tStore, null, null);
+                tPlayerState = effectsResults.tPlayerState;
+                tPlayerState.activeEffects.splice(0, 2);
                 break;
             }
             break;
@@ -247,6 +249,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.moveAdvToEmptyLocation:
             if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.id !== tPlayerState.activeEffects[1]
                 && tLocation.level !== LOCATION_LEVEL["3"]) {
+                tPlayerState.availableAdventurers -= 1;
                 /* we have to remove original location id from the activeAffects array */
                 tPlayerState.activeEffects.splice(0, 2);
                 let line = tLocation.line;

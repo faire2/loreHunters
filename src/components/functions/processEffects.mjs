@@ -24,7 +24,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.activateOccupiedLocation:
                 case EFFECT.buyItemWithDiscount3:
                 case EFFECT.defeatGuardian:
-                case EFFECT.destroyCard:
                 case EFFECT.drawFromDiscard:
                 case EFFECT.exploreAnyLocationWithDiscount4:
                 case EFFECT.gainArtifact:
@@ -94,6 +93,16 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         tActiveEffects.splice(0, 3);
                     }
                     break;
+
+                case EFFECT.destroyCard:
+                    let tEffects = [];
+                    const index = effects.indexOf(EFFECT.destroyCard);
+                    for (let i = index + 1; i < effects.length; i++) {
+                        tEffects.push(effects[i]);
+                    }
+                    tActiveEffects.push(effect);
+                    tActiveEffects.splice(1, 0, [...tEffects]);
+                    return;
 
                 case EFFECT.destroyThisCard:
                     if (tCard !== null) {
