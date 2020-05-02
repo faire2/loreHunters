@@ -251,7 +251,7 @@ export const ITEMS = Object.freeze({
         transportAmount: 1,
         effectsText: <div className="effectsText"><b>Discount:</b> <Explore/><Explore/><Explore/><Explore/> to discover
             any location. Then <b>destroy</b> this card.</div>,
-        effects: [EFFECT.exploreAnyLocationWithDiscount4], //pozor na update efektu!
+        effects: [EFFECT.exploreAnyLocationWithDiscount4, EFFECT.destroyThisCard], //pozor na update efektu, je vyhodnocen v sekci pro explore lokaci
         image: hotAirBalloonImg,
         cost: 2,
         points: 1
