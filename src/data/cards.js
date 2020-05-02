@@ -343,7 +343,7 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 1
     },*/
-    beerMug: {
+    /*beerMug: {
         id: "beerMug",
         cardName: "Beer Mug",
         transport: CARD_TRANSPORT.ship,
@@ -353,7 +353,7 @@ export const ITEMS = Object.freeze({
         image: beerMugImg,
         cost: 2,
         points: 2
-    },
+    },*/
     journal: {
         id: "journal",
         cardName: "Journal",
@@ -384,7 +384,7 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 2
     },
-    pocketWatch: {
+    /*pocketWatch: {
         id: "pocketWatch",
         cardName: "Pocket Watch",
         transport: CARD_TRANSPORT.ship,
@@ -395,7 +395,7 @@ export const ITEMS = Object.freeze({
         image: pocketWatchImg,
         cost: 3,
         points: 2
-    },
+    },*/
     grapplingHook: {
         id: "grapplingHook",
         cardName: "Grappling Hook",
@@ -467,7 +467,7 @@ export const ITEMS = Object.freeze({
         cost: 4,
         points: 1
     },*/
-    bowAndArrows: {
+    /*bowAndArrows: {
         id: "bowAndArrows",
         cardName: "Bow and Arrows",
         transport: CARD_TRANSPORT.jeep,
@@ -479,7 +479,7 @@ export const ITEMS = Object.freeze({
         image: bowAndArrowsImg,
         cost: 2,
         points: 2
-    },
+    },*/
     messengerPidgeon: {
         id: "messengerPidgeon",
         cardName: "Pidgeon",
@@ -623,7 +623,7 @@ export const ARTIFACTS = Object.freeze({
         cost: 2,
         points: 2
     },
-    mirrorShard: {
+    /*mirrorShard: {
         id: "mirrorShard",
         cardName: "Mirror shard",
         transport: CARD_TRANSPORT.plane,
@@ -635,7 +635,7 @@ export const ARTIFACTS = Object.freeze({
         image: mirrorShardImg,
         cost: 2,
         points: 2
-    },
+    },*/
     portalStone: {
         id: "portalStone",
         cardName: "Portal stone",

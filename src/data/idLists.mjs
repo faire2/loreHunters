@@ -40,18 +40,18 @@ export const CARD_TYPE = Object.freeze({
 export const INCOME_LEVEL = Object.freeze({
     silver: "silver level",
     gold: "gold level",
-})
+});
 
 export const INCOME_STATE = Object.freeze({
     inStore: "in store",
     ready: "ready",
     spent: "spent"
-})
+});
 
 export const INCOME_SIZE = Object.freeze({
     small: "small",
     large: "large"
-})
+});
 
 export const ITEM_IDs = Object.freeze({
     fear: {
@@ -142,10 +142,10 @@ export const ITEM_IDs = Object.freeze({
         id: "banjo",
         type: CARD_TYPE.item,
     },*/
-    beerMug: {
+    /*beerMug: {
         id: "beerMug",
         type: CARD_TYPE.item,
-    },
+    },*/
     journal: {
         id: "journal",
         type: CARD_TYPE.item,
@@ -162,10 +162,10 @@ export const ITEM_IDs = Object.freeze({
         id: "boots",
         type: CARD_TYPE.item,
     },
-    pocketWatch: {
+    /*pocketWatch: {
         id: "pocketWatch",
         type: CARD_TYPE.item,
-    },
+    },*/
     grapplingHook: {
         id: "grapplingHook",
         type: CARD_TYPE.item,
@@ -190,10 +190,10 @@ export const ITEM_IDs = Object.freeze({
         id: "flintPistol",
         type: CARD_TYPE.item,
     },*/
-    bowAndArrows: {
+    /*bowAndArrows: {
         id: "bowAndArrows",
         type: CARD_TYPE.item,
-    },
+    },*/
     messengerPidgeon: {
         id: "messengerPidgeon",
         type: CARD_TYPE.item,
@@ -249,10 +249,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "chestOfWonders",
         type: CARD_TYPE.artifact,
     },*/
-    mirrorShard: {
+    /*mirrorShard: {
         id: "mirrorShard",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     portalStone: {
         id: "portalStone",
         type: CARD_TYPE.artifact,
@@ -329,10 +329,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "goldenMask",
         type: CARD_TYPE.artifact,
     },
-    ritualDagger: {
+    /*ritualDagger: {
         id: "ritualDagger",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     /* fearlessBlade: {
          id: "fearlessBlade",
          type: CARD_TYPE.artifact,
