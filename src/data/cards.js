@@ -607,7 +607,7 @@ export const ARTIFACTS = Object.freeze({
         effects: [EFFECT.gainPlane, EFFECT.moveAdvToEmptyAdjacentLocation],
         isGuarded: false,
         image: pathFinderStaffImg,
-        cost: 1,
+        cost: 3,
         points: 1
     },
     warMask: {
