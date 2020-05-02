@@ -94,15 +94,15 @@ export default function getInitialPlayerStates(numOfPlayers) {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCardG = {...GUARDIAN_IDs.foxSpirit};
-        testCardG.state = CARD_STATE.drawDeck;
-        drawDeck.splice(0, 0, testCardG);*/
+        /*const testCard0 = {...ITEM_IDs.dog};
+        testCard0.state = CARD_STATE.drawDeck;
+        drawDeck.splice(0, 0, testCard0);*/
 
-        /*const testCard = {...ITEM_IDs.torch};
+        /*const testCard = {...ITEM_IDs.messengerPidgeon};
         testCard.state = CARD_STATE.inHand;
-        hand.splice(0, 0, testCard);
-*/
-        for (let key in ITEM_IDs) {
+        hand.splice(0, 0, testCard);*/
+
+        /*for (let key in ITEM_IDs) {
             let card = {...ITEM_IDs[key]};
             card.state = CARD_STATE.inHand;
             hand.push(card);
@@ -112,7 +112,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
             let card = {...ARTIFACT_IDs[key]};
             card.state = CARD_STATE.inHand;
             hand.push(card);
-        }
+        }*/
 
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;

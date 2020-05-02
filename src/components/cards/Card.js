@@ -285,7 +285,8 @@ export default function Card(props) {
     };
 
     function handleClickOnEffect(effects, isTravel) {
-        if (card.state !== CARD_STATE.inStore && card.state !== CARD_STATE.locked && boardStateContext.activeEffects.length === 0) {
+        if (card.state !== CARD_STATE.inStore && card.state !== CARD_STATE.active && card.state !== CARD_STATE.locked
+            && boardStateContext.activeEffects.length === 0) {
             if (cardType === CARD_TYPE.guardian && props.card.locked) {
                 const lockEffects = props.card.locked;
                 effects = gainLockedResourceBack(lockEffects, effects)
