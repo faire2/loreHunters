@@ -1,6 +1,6 @@
 import React from "react";
 import {EFFECT} from "../../data/effects.mjs";
-import {AdventurerIcon, Blimp, Coin, DestroyCard, Draw1Card, Uptrade} from "../Symbols";
+import {AdventurerIcon, Blimp, Coin, DefeatedGuardian, DestroyCard, Draw1Card, Uptrade} from "../Symbols";
 import bonusBgr from "../../img/bonus_action_background.png"
 
 export const BonusActions = (props) => {
@@ -31,8 +31,8 @@ export const BonusActions = (props) => {
                      onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.draw1])}>
                     <Coin/><Coin/>: <Draw1Card/></div>,
                 <div style={bonusStyle}
-                     onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.gainAdventurerForThisRound])}>
-                    <Coin/><Coin/><Coin/>: <AdventurerIcon/></div>
+                     onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatGuardian])}>
+                    <Coin/><Coin/><Coin/>: <DefeatedGuardian/></div>
             ];
 
         return (
