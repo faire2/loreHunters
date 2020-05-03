@@ -79,7 +79,7 @@ export const EFFECT = Object.freeze({
     removeGuardian: "remove a guardian from play",
     // used with effects moving adventurer to another location as step one effect
     removeAdventurer: "remove adventurer",
-    revealArtifactBuyWithDiscount: "buy and artifact with a discount",
+    revealArtifactBuyWithDiscount: "buy an artifact with a discount",
     revealItemBuyWithDiscount2: "buy an item with discount",
     return: "return adventurer from tLocation",
     returnResources: "return locked card", //todo implement
