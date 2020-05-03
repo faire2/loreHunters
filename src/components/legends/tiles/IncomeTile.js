@@ -20,12 +20,12 @@ export const IncomeTile = (props) => {
         backgroundSize: "contain",
         width: size === INCOME_SIZE.small ? "2.1vw" : "2.8vw",
         height: size === INCOME_SIZE.small ? "2.25vw" : "3vw",
-        fontSize: twoIcons ? (size === INCOME_SIZE.small ? "1.3vw" : "1.8vw") : (size === INCOME_SIZE.small ? "1.7vw" : "2.2vw"),
+        fontSize: twoIcons ? (size === INCOME_SIZE.small ? "1.0vw" : "1.4vw") : (size === INCOME_SIZE.small ? "1.7vw" : "2.2vw"),
         float: "left",
         position: "relative",
         marginLeft: "0.5vw",
         backgroundImage: `url(${bgr}`,
-    }
+    };
 
     const centerWrapStyle = {
         display: "flex",
@@ -33,11 +33,11 @@ export const IncomeTile = (props) => {
         alignItems: "center",
         width: "100%",
         height: "100%"
-    }
+    };
 
     const effectStyle = {
         marginBottom: "30%"
-    }
+    };
 
     function handleClick() {
         if (state === INCOME_STATE.ready) {
