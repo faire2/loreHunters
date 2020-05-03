@@ -61,6 +61,7 @@ export default function Card(props) {
     let card = cloneDeep(cardTemplate);
     card.state = props.card.state;
     card.type = cardType;
+    if (props.card.locked) {card.locked = props.card.locked}
 
     /* get transports */
     let transport = [];

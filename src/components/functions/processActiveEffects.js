@@ -12,6 +12,7 @@ import {
     resolveRelocation
 } from "../locations/locationFunctions";
 import {Jewel, Text, Weapon} from "../Symbols";
+import {gainLockedResourceBack} from "./processEffects";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, setRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];
@@ -72,9 +73,14 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.defeatGuardian:
             if (tCard.type === CARD_TYPE.guardian) {
+                let lockEffects = gainLockedResourceBack(tCard.locked, []);
                 tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
                 tPlayerState = removeCard(tCard, tPlayerState);
                 tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
+                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, lockEffects,
+                    null, tStore, null, null, null);
+                tPlayerState = effectsResult.tPlayerState;
+                tStore = effectsResult.tStore;
                 tPlayerState.activeEffects.splice(0, 1);
             }
             break;

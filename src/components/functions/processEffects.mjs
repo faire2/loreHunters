@@ -7,7 +7,7 @@ import {GUARDIAN_IDs, INCOME_STATE} from "../../data/idLists";
 import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
-                               originalLocations, originalLegend) {
+                               originalLocations) {
     console.log("Processing effects");
     console.log(effects);
     let tPlayerState = cloneDeep(originalPlayersState);
@@ -450,10 +450,10 @@ export function handleGuardianArrival(tPlayerState, tStore, round) {
     if (round < 5) {
         tPlayerState.discardDeck.push(tStore.guardians[0]);
         tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
-        tStore.guardians.splice(0, 1);
     } else {
         tPlayerState = activateGuardianAndLockEffects(tPlayerState, [tStore.guardians[0]],
             [tStore.guardians[0].lockEffects]);
     }
+        tStore.guardians.splice(0, 1);
     return {tPlayerState: tPlayerState, tStore: tStore}
 }
