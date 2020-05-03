@@ -42,7 +42,6 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {activateGuardianAndLockEffects} from "./components/functions/cardManipulationFuntions";
 
 function GameBoard(props) {
     const history = useHistory();
@@ -120,7 +119,7 @@ function GameBoard(props) {
             console.log("Rerouting to scoring page");
             history.push({pathname: "/scoring", data: data})
         })
-    }, [history]);
+    }, [history, initialIndex, playerState.firstTurn, store]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress);

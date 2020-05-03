@@ -40,16 +40,16 @@ import airPlaneImg from "../img/cardImages/items/airPlane.png"
 import goldPanImg from "../img/cardImages/items/goldPan.png"
 import trowelImg from "../img/cardImages/items/trowel.png"
 import pickaxeImg from "../img/cardImages/items/pickaxe.png"
-import beerMugImg from "../img/cardImages/items/beerMug.png"
+/*import beerMugImg from "../img/cardImages/items/beerMug.png"*/
 import journalImg from "../img/cardImages/items/journal.png"
 import parrotImg from "../img/cardImages/items/parrot.png"
-import pocketWatchImg from "../img/cardImages/items/pocketWatch.png"
+/*import pocketWatchImg from "../img/cardImages/items/pocketWatch.png"*/
 import grapplingHookImg from "../img/cardImages/items/grapplingHook.png"
 import camouflagePaintImg from "../img/cardImages/items/camouflagePaint.png"
 import tentImg from "../img/cardImages/items/tent.png"
 import fishingRodImg from "../img/cardImages/items/fishingRod.png"
 import compassImg from "../img/cardImages/items/compass.png"
-import bowAndArrowsImg from "../img/cardImages/items/bowAndArrows.png"
+/*import bowAndArrowsImg from "../img/cardImages/items/bowAndArrows.png"*/
 import messengerPidgeonImg from "../img/cardImages/items/pidgeon.png"
 import whipImg from "../img/cardImages/items/whip.png"
 import bookOfMythsImg from "../img/cardImages/items/bookOfMyths.png"
@@ -60,7 +60,7 @@ import boomerangImg from "../img/cardImages/items/boomerang.png"
 import torchImg from "../img/cardImages/items/torch.png"
 import machetteImg from "../img/cardImages/items/machete.png"
 
-import mirrorShardImg from "../img/cardImages/artifacts/mirrorShard.png"
+/*import mirrorShardImg from "../img/cardImages/artifacts/mirrorShard.png"*/
 import portalStoneImg from "../img/cardImages/artifacts/portalStone.png"
 import pathFinderStaffImg from "../img/cardImages/artifacts/pathFinderStaff.png"
 import cursedTreasureImg from "../img/cardImages/artifacts/cursedTreasure.png"
