@@ -29,7 +29,7 @@ export function RelicsArea() {
         height: "18vw",
         display: "flex",
         flexWrap: "wrap",
-    }
+    };
 
     const fieldStyle1Icon = {
         height: "1.9vw",
@@ -38,7 +38,7 @@ export function RelicsArea() {
         marginBottom: "9%",
         fontSize: "2.6vw",
         cursor: "pointer",
-    }
+    };
 
     const fieldStyle2Icons = {
         height: "1.9vw",
@@ -47,11 +47,11 @@ export function RelicsArea() {
         marginBottom: "1%",
         fontSize: "1.8vw",
         cursor: "pointer",
-    }
+    };
 
     const overLapStyle = {
         marginTop: "-1.3vw"
-    }
+    };
 
     const relicsStyle = {
         fontSize: !twoLines ? "2.4vw" : "1.8vw",
@@ -61,7 +61,7 @@ export function RelicsArea() {
         flexWrap: "wrap",
         justifyContent: "center",
         paddingTop: !twoLines ? "0.9vw" : "0.5vw"
-    }
+    };
 
     const victoryPointsStyle = {
         marginBottom: "110%",
@@ -71,14 +71,14 @@ export function RelicsArea() {
         height: "2vw",
         color: "white",
         fontSize: "1.2vw"
-    }
+    };
 
     const victoryPointsContainerStyle = {
         marginLeft: "-17%",
         marginTop: "7%",
         position: "absolute",
         height: "100%",
-    }
+    };
 
     const effectsArr = [
         [EFFECT.gainJewel],
@@ -87,7 +87,7 @@ export function RelicsArea() {
         [EFFECT.gainWeapon],
         [EFFECT.gainExplore, EFFECT.gainText],
         [EFFECT.gainCoin, EFFECT.gainText],
-        [EFFECT.gainText],
+        [EFFECT.gainCoin],
         [EFFECT.gainExplore],
         [EFFECT.draw1]];
 
@@ -101,9 +101,9 @@ export function RelicsArea() {
         [<Coin/>],
         [<Explore/>],
         [<Draw1Card/>]
-    ]
+    ];
 
-    const victoryPoints = [0, 1, 2, 4]
+    const victoryPoints = [0, 1, 2, 4];
     const victoryPointsArr = victoryPoints.map((vp, i) =>
         <div style={victoryPointsStyle} key={i}>
             {vp}
@@ -119,7 +119,7 @@ export function RelicsArea() {
                     </div>
                 )
             }
-        )
+        );
 
 
     return (
