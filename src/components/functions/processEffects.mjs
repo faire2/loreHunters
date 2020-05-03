@@ -225,12 +225,13 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.gainExploreForRelics:
                     tPlayerState.resources.explore += tPlayerState.resources.shinies < 5 ? tPlayerState.resources.shinies : 4;
                     for (let relic of tPlayerState.relics) {
-                        if (!relic) {tPlayerState.resources.explore += 1};
+                        if (!relic) {tPlayerState.resources.explore += 1}
                     }
                     break;
 
                 case EFFECT.gainFear:
                     tPlayerState.discardDeck.push({...ITEM_IDs.fear});
+                    tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
                     break;
 
                 case EFFECT.gainJeep:
