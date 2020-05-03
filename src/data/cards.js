@@ -115,7 +115,7 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.walk,
         transportAmount: 1,
         effectsText: "",
-        effects: [],
+        effects: [EFFECT.gainWalk],
         cost: 0,
         points: -1
     },
