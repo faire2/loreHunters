@@ -45,14 +45,17 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     /* we check that we can buy the item */
     if (card.type === CARD_TYPE.item && card.cost <= tPlayerState.resources.coins) {
         /* if we revealed extra item and it was not bought we must discard it */
-        if (activeEffect === EFFECT.revealItemBuyWithDiscount2 && cardIndex !== tStore.itemsOffer.length + 1) {
+        if (activeEffect === EFFECT.revealItemBuyWithDiscount2) {
             tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
+            if (cardIndex !== tStore.itemsOffer.length) {
+                tStore.itemsOffer.splice(cardIndex, 1);
+                tStore = addCardToStore(card.type, tStore);
+            }
+        } else {
+            /* we remove bought card and replace it with next from the store deck */
+            tStore.itemsOffer.splice(cardIndex, 1);
+            tStore = addCardToStore(card.type, tStore);
         }
-
-        /* we remove bought card and replace it with next from the store deck */
-        tStore.itemsOffer.splice(cardIndex, 1);
-        tStore = addCardToStore(card.type, tStore);
-
         /* we pay the cost and add the card to discard deck or to hand */
         card.state = CARD_STATE.discard;
         if (activeEffect === EFFECT.gainItemToHand) {
@@ -65,11 +68,16 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         tPlayerState.resources.coins -= card.cost;
         tPlayerState.actions -= 1;
     } else if (card.type === CARD_TYPE.artifact && card.cost <= tPlayerState.resources.explore) {
-        if (activeEffect === EFFECT.revealArtifactBuyWithDiscount && cardIndex !== tStore.artifactsOffer.length + 1) {
+        if (activeEffect === EFFECT.revealArtifactBuyWithDiscount) {
             tStore.artifactsOffer.splice(tStore.artifactsOffer.length - 1);
+            if (cardIndex !== tStore.artifactsOffer.length) {
+                tStore.artifactsOffer.splice(cardIndex, 1);
+                tStore = addCardToStore(card.type, tStore);
+            }
+        } else {
+            tStore.artifactsOffer.splice(cardIndex, 1);
+            tStore = addCardToStore(card.type, tStore);
         }
-        tStore.artifactsOffer.splice(cardIndex, 1);
-        tStore = addCardToStore(card.type, tStore);
         tPlayerState.activeCards.push(getIdCard(card));
         tPlayerState.activeCards[tPlayerState.activeCards.length - 1].state = CARD_STATE.active;
         tPlayerState.resources.explore -= card.cost;
