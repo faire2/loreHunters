@@ -57,12 +57,12 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
             tStore = addCardToStore(card.type, tStore);
         }
         /* we pay the cost and add the card to discard deck or to hand */
-        card.state = CARD_STATE.discard;
         if (activeEffect === EFFECT.gainItemToHand) {
             tPlayerState.hand.push(getIdCard(card));
             tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
         } else {
             tPlayerState.discardDeck.push(getIdCard(card));
+            tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard
         }
 
         tPlayerState.resources.coins -= card.cost;

@@ -438,7 +438,8 @@ export const ITEMS = Object.freeze({
         cardName: "FishingRod",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Discount:</b> <Coin/><Coin/><Coin/> You may buy any <Item/>.
+        effectsText: <div className="effectsText"><b>Discount:</b> <Coin/><Coin/><Coin/>. Reveal the top card of the Item deck.
+            You may buy any <Item/>.
         </div>,
         effects: [EFFECT.revealItemBuyWithDiscount2],
         image: fishingRodImg,
