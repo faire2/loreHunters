@@ -485,7 +485,7 @@ export const EXPEDITIONS_IDs = Object.freeze({
         id: "beyondBasics",
         type: CARD_TYPE.expedition,
     },
-    /*quantityAboveAll: {
+    quantityAboveAll: {
         id: "quantityAboveAll",
         type: CARD_TYPE.expedition,
     },
@@ -493,10 +493,35 @@ export const EXPEDITIONS_IDs = Object.freeze({
         id: "belongsToTheMuseum",
         type: CARD_TYPE.expedition,
     },
-    secondHandEquipment: {
-        id: "secondHandEquipment",
+    guardedTreasure: {
+        id: "guardedTreasure",
         type: CARD_TYPE.expedition,
-    }*/
+    },
+    checkMyResults: {
+        id: "checkMyResults",
+        type: CARD_TYPE.expedition,
+    },
+    holyGrail: {
+        id: "holyGrail",
+        type: CARD_TYPE.expedition,
+    },
+    powerfulDestruction: {
+        id: "powerfulDestruction",
+        type: CARD_TYPE.expedition,
+    },
+    animalLover: {
+        id: "animalLover",
+        type: CARD_TYPE.expedition,
+    },
+    teamWork: {
+        id: "teamWork",
+        type: CARD_TYPE.expedition,
+    },
+    touchTheSkies: {
+        id: "touchTheSkies",
+        type: CARD_TYPE.expedition,
+    },
+
 });
 
 /* Generating locations assigns them new key / value: *line*: numberOfLine, in which is the location displayed */
