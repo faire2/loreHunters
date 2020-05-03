@@ -27,12 +27,12 @@ export function LegendsArea() {
     };
 
     const incomes1Style = {
-        marginLeft: "5.5vw"
-    }
+        marginLeft: "0.5vw"
+    };
 
     const incomes2Style = {
-        marginLeft: "16.5vw"
-    }
+        marginLeft: "11vw"
+    };
 
     const explorePlaceholder = <div style={{
         height: "3.5vw",
@@ -43,7 +43,7 @@ export function LegendsArea() {
         color: "white",
         float: "left",
     }}>
-    </div>
+    </div>;
 
     return (
         <div style={containerStyle}>
@@ -52,18 +52,18 @@ export function LegendsArea() {
                     <Legend legend={legend} legends={legends} legendIndex={i}/>
                 </div>
             )}
-            <div style={{marginLeft:"0.5vw"}}>{explorePlaceholder}</div>
             {incomes1offer && incomes1offer.map((income, i) =>
                 <div style={incomes1Style} key={i}>
                     <IncomeTile income={income} size={INCOME_SIZE.small}/>
                 </div>
             )}
-            <div style={{position: "absolute", marginLeft:"11.5vw"}}>{explorePlaceholder}</div>
+            <div style={{position: "absolute", marginLeft:"6vw"}}>{explorePlaceholder}</div>
             {incomes1offer && incomes2offer.map((income, i) =>
                 <div style={incomes2Style} key={i}>
                     <IncomeTile income={income} size={INCOME_SIZE.small}/>
                 </div>
             )}
+            <div style={{position: "absolute", marginLeft:"17vw"}}>{explorePlaceholder}</div>
         </div>
     )
 }
