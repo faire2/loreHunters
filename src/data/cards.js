@@ -605,7 +605,7 @@ export const ARTIFACTS = Object.freeze({
         effectsText:
             <div className="effectsText"><b>Relocate</b> your <AdventurerIcon/> to an adjacent
                 empty <LocationL1/> or <LocationL2/>.</div>,
-        effects: [EFFECT.gainPlane, EFFECT.moveAdvToEmptyAdjacentLocation],
+        effects: [EFFECT.gainBlimp, EFFECT.moveAdvToEmptyAdjacentLocation],
         isGuarded: false,
         image: pathFinderStaffImg,
         cost: 3,

@@ -246,7 +246,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.placeholder = 1;
                     break;
 
-                case EFFECT.gainPlane:
+                case EFFECT.gainBlimp:
                     tPlayerState.resources.plane += 1;
                     break;
 
@@ -425,7 +425,7 @@ export function processIncomeTile(effects, incomeId, playerState) {
                 break;
             case EFFECT.draw1:
             case EFFECT.buyWithDiscount1:
-            case EFFECT.gainPlane:
+            case EFFECT.gainBlimp:
             case EFFECT.uptrade:
                 const effectsResult = processEffects(null, null, playerState, [effect], null,
                     null, null, null, null);

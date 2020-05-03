@@ -11,7 +11,7 @@ export function handleIncomes(playerState) {
             switch (effect) {
                 case EFFECT.draw1:
                 case EFFECT.buyWithDiscount1:
-                case EFFECT.gainPlane:
+                case EFFECT.gainBlimp:
                 case EFFECT.uptrade:
                     break;
                 case EFFECT.gainAdventurerForThisRound:

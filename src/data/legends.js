@@ -100,7 +100,7 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainPlane, EFFECT.gainPlane],
+                    effects: [EFFECT.gainBlimp, EFFECT.gainBlimp],
                     effectsText: [<Blimp/>, <Blimp/>],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     costText: [<Text/>, <Jewel/>],

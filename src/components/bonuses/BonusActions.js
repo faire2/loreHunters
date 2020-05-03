@@ -1,6 +1,6 @@
 import React from "react";
 import {EFFECT} from "../../data/effects.mjs";
-import {AdventurerIcon, Blimp, Coin, DefeatedGuardian, DestroyCard, Draw1Card, Uptrade} from "../Symbols";
+import {Blimp, Coin, DefeatedGuardian, DestroyCard, Uptrade, Walk} from "../Symbols";
 import bonusBgr from "../../img/bonus_action_background.png"
 
 export const BonusActions = (props) => {
@@ -18,21 +18,25 @@ export const BonusActions = (props) => {
         };
 
         const bonusArray = [
-                <div style={bonusStyle}
-                     onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.gainPlane])}>
-                    <Coin/><Coin/>: <Blimp/></div>,
-                <div style={bonusStyle}
-                     onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.destroyCard])}>
-                    <Coin/><Coin/>: <DestroyCard/></div>,
-                <div style={bonusStyle}
-                     onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.uptrade])}>
-                    <Coin/><Coin/>: <Uptrade/></div>,
-                <div style={bonusStyle}
-                     onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.draw1])}>
-                    <Coin/><Coin/>: <Draw1Card/></div>,
-                <div style={bonusStyle}
-                     onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatGuardian])}>
-                    <Coin/><Coin/><Coin/>: <DefeatedGuardian/></div>
+            <div style={bonusStyle}
+                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.gainWalk])}>
+                <Coin/>: <Walk/>
+            </div>,
+            <div style={bonusStyle}
+                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.gainBlimp])}>
+                <Coin/><Coin/>: <Blimp/>
+            </div>,
+            <div style={bonusStyle}
+                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.destroyCard])}>
+                <Coin/><Coin/>: <DestroyCard/>
+            </div>,
+            <div style={bonusStyle}
+                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.uptrade])}>
+                <Coin/><Coin/>: <Uptrade/>
+            </div>,
+            <div style={bonusStyle}
+                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatGuardian])}>
+                <Coin/><Coin/><Coin/>: <DefeatedGuardian/></div>
             ];
 
         return (

@@ -672,12 +672,12 @@ export const INCOME_IDs = Object.freeze({
     },
     planeIncome: {
         id: "planeIncome",
-        effects: [EFFECT.gainPlane],
+        effects: [EFFECT.gainBlimp],
         level: INCOME_LEVEL.silver
     },
     twoPlanesIncome: {
         id: "twoPlanesIncome",
-        effects: [EFFECT.gainPlane, EFFECT.gainPlane],
+        effects: [EFFECT.gainBlimp, EFFECT.gainBlimp],
         level: INCOME_LEVEL.gold
     },
 });

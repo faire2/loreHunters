@@ -43,7 +43,7 @@ export const EFFECT = Object.freeze({
     gainJeep: "travel with a jeep",
     gainJewel: "gain a jewel",
     gainPlaceholder: "gain megartifact without a name",
-    gainPlane: "travel with an airplane",
+    gainBlimp: "travel with an airplane",
     gainResourceFromAdjacentLocation: "gain one resource that can be obtained from a location adjacent to your Adventurer",
     gainShiny: "gain a shinies",
     gainShip: "travel with a ship",
