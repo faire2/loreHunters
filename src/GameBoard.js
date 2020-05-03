@@ -399,7 +399,7 @@ function GameBoard(props) {
     /** HANDLE CLICK ON RELIC **/
     function handleClickOnRelic(effects, effectIndex) {
         let tPlayersState = cloneDeep(playerState);
-        if (tPlayersState.relics[effectIndex]) {
+        if (tPlayersState.relics[effectIndex] && tPlayersState.resources.shinies > 0) {
             let effectsResult = processEffects(null, null, tPlayersState, effects, null,
                 cloneDeep(store), null, cloneDeep(locations), null);
             tPlayersState = effectsResult.tPlayerState;
