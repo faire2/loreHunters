@@ -65,6 +65,11 @@ export function processEndOfRound(room) {
 
     /* reset player states */
     let tPlayerStates = [];
+
+    /* pass turn to next initial player */
+    room.states.initialPlayer = room.states.initialPlayer !== room.players.length - 1 ? room.states.initialPlayer + 1 : 0;
+    room.states.activePlayer = room.states.initialPlayer;
+
     for (let i = 0; i < room.numOfPlayers; i++) {
         let tPlayerState = cloneDeep(room.states.playerStates[i]);
         tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
@@ -86,7 +91,7 @@ export function processEndOfRound(room) {
 
         /* in 5th round all guardians come into play */
         if (round === 4) {
-            for (let i; i < tPlayerState.discardDeck.length; i++) {
+            for (let i = 0; i < tPlayerState.discardDeck.length; i++) {
                 if (tPlayerState.discardDeck[i].type === CARD_TYPE.guardian) {
                     tPlayerState.discardDeck[i].state = CARD_STATE.drawDeck;
                     tPlayerState.hand.push(tPlayerState.drawDeck[i]);
@@ -94,7 +99,7 @@ export function processEndOfRound(room) {
                 }
             }
 
-            for (let i; i < tPlayerState.drawDeck.length; i++) {
+            for (let i = 0; i < tPlayerState.drawDeck.length; i++) {
                 if (tPlayerState.drawDeck[i].type === CARD_TYPE.guardian) {
                     tPlayerState.drawDeck[i].splice(0, 0, i);
                 }
@@ -120,7 +125,6 @@ export function processEndOfRound(room) {
         tPlayerState.actions = 1;
         tPlayerState.finishedRound = false;
         tPlayerStates.push(tPlayerState);
-
     }
     room.states.playerStates = tPlayerStates;
     room.states.round = round + 1;

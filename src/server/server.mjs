@@ -78,6 +78,7 @@ io.on("connection", socket => {
                     locations: getInitialLocations(roomData.numOfPlayers),
                     legends: getInitialLegends(roomData.numOfPlayers),
                     activePlayer: 0,
+                    initialPlayer: 0,
                     previousPlayer: 0,
                     round: 1
                 },

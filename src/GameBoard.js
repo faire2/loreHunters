@@ -60,7 +60,6 @@ function GameBoard(props) {
     const [legends, setLegends] = useState(initialStates.legends);
     const [previousPlayer, setPreviousPlayer] = useState(0);
     const [isActivePlayer, setIsActivePlayer] = useState(initialIndex === initialStates.activePlayer);
-    const [isFirstTurn, setIsFirstTurn] = useState(true);
 
     const emptyPlayerStates = [];
     for (let i = 0; i < numOfPlayers; i++) {
@@ -104,9 +103,6 @@ function GameBoard(props) {
             setRound(states.round);
             setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
-            if (states.round === 1) {
-                setIsFirstTurn(states.playerStates[initialIndex].firstTurn)
-            }
         });
 
         socket.on(TRANSMISSIONS.scoringStates, data => {
