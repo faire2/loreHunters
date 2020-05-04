@@ -178,15 +178,17 @@ io.on("connection", socket => {
         }
         console.log("have all finished: " + haveAllFinished);
 
-        if (haveAllFinished && room.states.round < 5) {
-            room = processEndOfRound(room);
-        } else if (room.states.round !== 5) {
-            room.states.activePlayer = nextPlayer(playerIndex, room);
+        if (haveAllFinished) {
+            if (room.states.round < 5) {
+                room = processEndOfRound(room);
+            } else {
+                io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
+                    playerStates: room.states.playerStates,
+                    legends: room.states.legends,
+                })
+            }
         } else {
-            io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
-                playerStates: room.states.playerStates,
-                legends: room.states.legends,
-            })
+            room.states.activePlayer = nextPlayer(playerIndex, room);
         }
         updateStatesToAll(room);
     });
