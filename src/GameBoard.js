@@ -60,6 +60,7 @@ function GameBoard(props) {
     const [legends, setLegends] = useState(initialStates.legends);
     const [previousPlayer, setPreviousPlayer] = useState(0);
     const [isActivePlayer, setIsActivePlayer] = useState(initialIndex === initialStates.activePlayer);
+    const [isFirstTurn, setIsFirstTurn] = useState(true);
 
     const emptyPlayerStates = [];
     for (let i = 0; i < numOfPlayers; i++) {
@@ -75,17 +76,7 @@ function GameBoard(props) {
     const [isModalActive, setIsModalActive] = useState(false);
 
     const [extendBottomPanel, setExtendBottomPanel] = useState(false);
-
     useEffect(() => {
-        if (playerState.firstTurn) {
-            let tStore = store;
-            playerState.firstTurn = false;
-            const expeditionsArr = [tStore.expeditions[0], tStore.expeditions[1]];
-            tStore.expeditions.splice(0, 2);
-            setStore(tStore);
-            setChooseExpeditionModalData(expeditionsArr);
-            setShowChooseExpeditionModal(true);
-        }
 
         /*socket.on(TRANSMISSIONS.getStates, states => {
             console.log("received initial states from server");
@@ -113,6 +104,9 @@ function GameBoard(props) {
             setRound(states.round);
             setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
+            if (states.round === 1) {
+                setIsFirstTurn(states.playerStates[initialIndex].firstTurn)
+            }
         });
 
         socket.on(TRANSMISSIONS.scoringStates, data => {
@@ -120,6 +114,17 @@ function GameBoard(props) {
             history.push({pathname: "/scoring", data: data})
         })
     }, [history, initialIndex, playerState.firstTurn, store]);
+
+    useEffect(() => {
+        if (playerState.firstTurn && isActivePlayer) {
+            let tStore = store;
+            playerState.firstTurn = false;
+            const expeditionsArr = [tStore.expeditions[0], tStore.expeditions[1]];
+            tStore.expeditions.splice(0, 2);
+            setStore(tStore);
+            setChooseExpeditionModalData(expeditionsArr);
+            setShowChooseExpeditionModal(true);
+        }}, [isActivePlayer]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress);
