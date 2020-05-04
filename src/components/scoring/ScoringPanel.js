@@ -84,7 +84,7 @@ export function ScoringPanel(props) {
 
     const containerStyle = {
         textAlign: "center",
-        fontSize: "6vw",
+        fontSize: "4vw",
         width: "100%",
         height: "100%"
     };
@@ -118,6 +118,9 @@ export function ScoringPanel(props) {
             </div>
             <div style={rowStyle}>
                 <Shiny/>:{relicsPoints}
+            </div>
+            Total: {itemPoints + artifactPoints + undefeatedGuardianPoints + defeatedGuardianPoints + legendPoints  + relicsPoints}
+            <div>
             </div>
             {expeditionCards.map((card, i) =>
                 <div key={i}>
