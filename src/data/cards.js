@@ -302,7 +302,7 @@ export const ITEMS = Object.freeze({
         id: "pickaxe",
         cardName: "Pickaxe",
         transport: CARD_TRANSPORT.jeep,
-
+        transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Explore/><Arrow/><Weapon/><Text/></div>,
         effects: [EFFECT.loseExplore, EFFECT.gainText, EFFECT.gainWeapon],
         image: pickaxeImg,
