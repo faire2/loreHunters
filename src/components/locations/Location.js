@@ -22,6 +22,7 @@ export default function Location(props) {
     location.state = props.idLocation.state;
     location.line = props.idLocation.line;
     location.owner = props.idLocation.owner;
+    location.level = props.idLocation.level;
     const type = props.idLocation.type;
     const level = props.idLocation.level;
 
