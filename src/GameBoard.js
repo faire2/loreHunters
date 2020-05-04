@@ -211,7 +211,7 @@ function GameBoard(props) {
                             if (enoughResources) {
                                 resources.coins -= coinsCost;
                                 resources.explore -= exploreCost;
-                                tPlayerState.actions -= exploreAnywhereWithDiscount ? 1 : 0;
+                                tPlayerState.actions -= exploreAnywhereWithDiscount ? 0 : 1;
 
                                 const locationPosition = getPositionInLocationLine(location, locationLine, locations);
                                 tLocations[locationLine][locationPosition].state = LOCATION_STATE.explored;
