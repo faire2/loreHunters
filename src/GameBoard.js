@@ -247,14 +247,18 @@ function GameBoard(props) {
                     LOCATION_STATE.explored:
                         const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
                         if (travelCheckResults.enoughResources && tPlayerState.actions > 0 && tPlayerState.availableAdventurers > 0) {
-                            tPlayerState = travelCheckResults.tPlayerState;
-                            tPlayerState.availableAdventurers -= 1;
-                            tPlayerState.actions -= 1;
-                            const effectsResult = processEffects(null, null, tPlayerState, effects, null,
+                            const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, effects, null,
                                 {...store}, location, {...locations});
-                            setPlayerState(effectsResult.tPlayerState);
-                            let tLocations = occupyLocation(cloneDeep(locations), location.id, locationLine, tPlayerState.playerIndex);
-                            setLocations(tLocations);
+                            if (effectsResult.processedAllEffects) {
+                                tPlayerState = effectsResult.tPlayerState;
+                                tPlayerState.availableAdventurers -= 1;
+                                tPlayerState.actions -= 1;
+                                setPlayerState(tPlayerState);
+                                let tLocations = occupyLocation(cloneDeep(locations), location.id, locationLine, tPlayerState.playerIndex);
+                                setLocations(tLocations);
+                            } else {
+                                console.log("Some effects were not processed. Location could not be used.");
+                            }
                         }
                         break;
                     case

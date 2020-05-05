@@ -102,6 +102,10 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 
+        /*const testCard = {...ARTIFACT_IDs.portalStone};
+        testCard.state = CARD_STATE.inHand;
+        hand.splice(0, 0, testCard);*/
+
         /*for (let key in ITEM_IDs) {
             let card = {...ITEM_IDs[key]};
             card.state = CARD_STATE.inHand;

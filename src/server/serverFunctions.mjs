@@ -238,6 +238,7 @@ export function updateRoomState(room, playerIndex, states) {
     room.states.store = states.store;
     room.states.locations = states.locations;
     room.states.legends = states.legends;
+    console.log("Room " + room.name + " state updated.");
     return room;
 }
 
