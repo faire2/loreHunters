@@ -14,6 +14,7 @@ import {
     LOCATION_STATE,
     LOCATION_TYPE
 } from "../../data/idLists.mjs";
+import cloneDeep from "lodash/cloneDeep.js";
 
 /* GLOBAL VARIABLES */
 export const GLOBAL_VARS = Object.freeze({
@@ -80,7 +81,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
 
         const initialCards = shuffleArray([...GLOBAL_VARS.initialCards]);
 
-        const cardsSetup = drawCards(initialCards, GLOBAL_VARS.handSize);
+        const cardsSetup = drawCards(cloneDeep(initialCards), GLOBAL_VARS.handSize);
         const hand = [];
         const drawDeck = [];
 
