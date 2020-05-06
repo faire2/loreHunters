@@ -109,8 +109,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 /* we have the actual hand stored in active effects */
                 tPlayerState.hand = tPlayerState.activeEffects[1];
                 tPlayerState.drawDeck = shuffleArray(tPlayerState.drawDeck);
-                tCard.state = CARD_STATE.inHand;
                 tPlayerState.hand.push(getIdCard(tCard));
+                tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
                 tPlayerState.activeEffects.splice(0, 2);
                 if (tCard.state === CARD_STATE.drawDeck)
                     for (let i = 0; i < tPlayerState.drawDeck.length; i++) {
