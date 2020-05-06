@@ -13,7 +13,7 @@ export function addCardToHand(card, origPlayerState) {
 }
 
 export function addCardToDiscardDeck(card, tPlayersState) {
-    let idCard = getIdCard(card)
+    let idCard = getIdCard(card);
     idCard.state = CARD_STATE.discard;
     tPlayersState.discardDeck.push(idCard);
     return tPlayersState;
@@ -41,13 +41,19 @@ export function drawCards(cardsNum, origPlayerState) {
                 cardsNum += 1;
             } else {
                 tPlayerState = addCardToHand(card, tPlayerState);
+                console.log("Card added: " + card.id + ". Card state: " + tPlayerState.hand[tPlayerState.hand.length - 1]);
             }
             drawDeck.splice(0, 1);
             tPlayerState.drawDeck = drawDeck;
         }
     }
-    tPlayerState = activateGuardianAndLockEffects(tPlayerState, guardians, lockEffects)
+    tPlayerState = activateGuardianAndLockEffects(tPlayerState, guardians, lockEffects);
     console.log("draw deck length: " + drawDeck.length);
+    console.log("*Checking card states in hand:");
+    for (let card of tPlayerState.hand) {
+        if (card.state !== CARD_STATE.inHand)
+            console.log("WRONG CARD STATE: " + card.id);
+    }
     return tPlayerState;
 }
 

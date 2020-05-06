@@ -35,9 +35,6 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
         }
     }
 
-    console.log("Transport type: " + transportType);
-    console.log("Transport cost: " + transportCost);
-
     let enoughResources = false;
 
     switch (transportType) {

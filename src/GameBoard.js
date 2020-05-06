@@ -174,13 +174,15 @@ function GameBoard(props) {
                 setPlayerState(tPlayerState);
                 setStore(tStore);
             }
+        } else {
+            console.log("Card action could not be processed - player has no actions.");
         }
     }
 
     /** LOCATION EFFECTS **/
     function handleClickOnLocation(effects, location, locationLine) {
         if (isActivePlayer) {
-            console.log("Clicked on location");
+            console.log("Clicked on location " + location.id);
             let tPlayerState = cloneDeep(playerState);
             let tLocations = cloneDeep(locations);
 
@@ -189,13 +191,14 @@ function GameBoard(props) {
             if (tPlayerState.activeEffects.length > 0 && tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount4) {
                 const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
                     null, {...store}, tLocations, setRewardsModal);
-                console.log("finished processing");
+                console.log("finished processing active effects in location");
                 setPlayerState(effectResult.tPlayerState);
                 setLocations(effectResult.tLocations);
                 setStore(effectResult.tStore);
             } else {
                 switch (location.state) {
                     case LOCATION_STATE.unexplored:
+                        console.log("Exloring location initialized.");
                         const exploreAnywhereWithDiscount = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
                         if (exploreAnywhereWithDiscount) {tPlayerState.activeEffects.splice(0)}
                         if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreAnywhereWithDiscount) {
@@ -240,7 +243,11 @@ function GameBoard(props) {
                                     {effects: guardianEffects, effectsText: guardianText}]);
                                 setShowRewardsModal(true);
                                 setIsModalActive(true);
+                            } else {
+                                console.log("Not enough resources to explore location.");
                             }
+                        } else {
+                            console.log("Location is not adjacent.");
                         }
                         break;
                     case
@@ -250,6 +257,7 @@ function GameBoard(props) {
                             const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, effects, null,
                                 {...store}, location, {...locations});
                             if (effectsResult.processedAllEffects) {
+                                console.log("Location effects have been processed.");
                                 tPlayerState = effectsResult.tPlayerState;
                                 tPlayerState.availableAdventurers -= 1;
                                 tPlayerState.actions -= 1;
@@ -259,6 +267,8 @@ function GameBoard(props) {
                             } else {
                                 console.log("Some effects were not processed. Location could not be used.");
                             }
+                        } else {
+                            console.log("Location could not be used. Travel possible: " + travelCheckResults.enoughResources);
                         }
                         break;
                     case

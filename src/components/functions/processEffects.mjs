@@ -61,7 +61,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 // positive effects hidden behind the discard are stored in activeEffects
                 case EFFECT.discard:
-                    if (tPlayerState.hand.length > 1) {
+                    if (tPlayerState.hand.length > 0) {
                         let tEffects = [];
                         const discardIndex = effects.indexOf(EFFECT.discard);
                         for (let i = discardIndex + 1; i < effects.length; i++) {
@@ -74,6 +74,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         return;
                     } else {
                         processedAllEffects = false;
+                        console.log("Discard could not been procesed - not enough cards.");
                         return;
                     }
 
@@ -223,10 +224,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainExploreForRelics:
-                    tPlayerState.resources.explore += tPlayerState.resources.shinies < 5 ? tPlayerState.resources.shinies : 4;
+                    let allRelics = tPlayerState.resources.relics;
                     for (let relic of tPlayerState.relics) {
-                        if (!relic) {tPlayerState.resources.explore += 1}
+                        if (!relic) {allRelics += 1}
                     }
+                    tPlayerState.resources.explore += allRelics < 4 ? allRelics : 4;
                     break;
 
                 case EFFECT.gainFear:

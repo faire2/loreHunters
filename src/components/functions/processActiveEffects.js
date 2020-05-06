@@ -62,7 +62,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.discard:
-            if (tCard.state === CARD_STATE.inHand) {
+            if (tCard && tCard.state === CARD_STATE.inHand) {
                 tPlayerState = addCardToDiscardDeck(tCard, tPlayerState);
                 tPlayerState.hand.splice(cardIndex, 1);
                 const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tPlayerState.activeEffects, tStore, null, null);
