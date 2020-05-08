@@ -441,8 +441,11 @@ function GameBoard(props) {
         }
     }
 
-    /*function cancelEffect(effect) {
-    }*/
+    function cancelEffects() {
+        let tPlayerState = cloneDeep(playerState);
+        tPlayerState.activeEffects = [];
+        setPlayerState(tPlayerState);
+    }
 
     /** SET NEXT PLAYER **/
 
@@ -524,6 +527,7 @@ function GameBoard(props) {
         nextPlayer: nextPlayer,
         handleClickOnResource: handleClickOnResource,
         handleClickOnRelic: handleClickOnRelic,
+        cancelEffects: cancelEffects,
     };
 
     return (

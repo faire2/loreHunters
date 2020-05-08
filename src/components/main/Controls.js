@@ -1,10 +1,13 @@
 import React, {useContext} from 'react';
 import {PlayerStateContext} from "../../Contexts";
 import {ButtonGroup} from "react-bootstrap";
+import {EFFECT} from "../../data/effects";
 
 export const Controls = (props) => {
     const playerStateContext = useContext(PlayerStateContext);
     const isActivePlayer = playerStateContext.isActivePlayer;
+    const destroyEffect = playerStateContext.playerState.activeEffects[0] === EFFECT.destroyCard
+        || playerStateContext.playerState.activeEffects[0] === EFFECT.defeatGuardian;
 
     /*function restartGame() {
         socket.emit(TRANSMISSIONS.newGame, {})
@@ -25,8 +28,8 @@ export const Controls = (props) => {
         <div style={containerStyle}>
             <ButtonGroup aria-label="Control buttons">
                 {/*<button className="btn-primary" onClick={() => playerStateContext.nextPlayer()}>next player</button>*/}
-                <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round
-                </button>
+                {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
+                {destroyEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
                 {/*<button className="btn-primary" onClick={() => restartGame()}>restart game</button>*/}
                 {/*<button className="btn-primary"
                         onClick={()  => history.push({

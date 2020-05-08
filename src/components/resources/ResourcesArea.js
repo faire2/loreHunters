@@ -20,8 +20,8 @@ export default function ResourcesArea(props) {
 
     const containerStyle = {
         position: "absolute",
-        marginLeft: "47vw",
-        marginTop: "24vw",
+        marginLeft: "46vw",
+        marginTop: "23.5vw",
         fontSize: "1.3vw",
         zIndex: 1,
         top: 0,
@@ -71,6 +71,14 @@ const Resources = (props) => {
         marginLeft: "1.5vw",
     };
 
+    const firstColumnFieldStyle = {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        width: "3vw",
+        fontSize: "1.5vw",
+    };
+
     const secondColumnFieldStyle = {
         display: "flex",
         flexWrap: "wrap",
@@ -105,29 +113,31 @@ const Resources = (props) => {
 
     return (
         <div style={containerStyle}>
-            <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.COINS)}>
-                <Coin/>
-                {resources.coins}
-            </div>
-            <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.EXPLORE)}>
-                <Explore/>
-                {resources.explore}
-            </div>
-            <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.SHINIES)}>
-                <Shiny/>
-                {resources.shinies}
-            </div>
-            <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.TEXTS)}>
-                <Text/>
-                {resources.texts}
-            </div>
-            <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.WEAPONS)}>
-                <Weapon/>
-                {resources.weapons}
-            </div>
-            <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.JEWELS)}>
-                <Jewel/>
-                {resources.jewels}
+            <div style={firstColumnFieldStyle}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.COINS)}>
+                    <Coin/>
+                    {resources.coins}
+                </div>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.EXPLORE)}>
+                    <Explore/>
+                    {resources.explore}
+                </div>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.TEXTS)}>
+                    <Text/>
+                    {resources.texts}
+                </div>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.WEAPONS)}>
+                    <Weapon/>
+                    {resources.weapons}
+                </div>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.JEWELS)}>
+                    <Jewel/>
+                    {resources.jewels}
+                </div>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.RELICS)}>
+                    <Shiny/>
+                    {resources.shinies}
+                </div>
             </div>
             <div style={secondColumnFieldStyle}>
                 {availableAdventurers}
@@ -152,7 +162,7 @@ const Resources = (props) => {
                     icon
                 )}
             </div>
-            <div>
+            <div style={secondColumnFieldStyle}>
                 {playerState.incomes.map(income =>
                     <IncomeTile income={income} size={INCOME_SIZE.large}/>
                 )}
@@ -167,5 +177,5 @@ export const RESOURCES = Object.freeze({
     TEXTS: "texts",
     WEAPONS: "weapons",
     JEWELS: "jewels",
-    SHINIES: "shinies",
+    RELICS: "relics",
 });
