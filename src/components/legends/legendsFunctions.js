@@ -65,7 +65,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
             }
         }
         // if not we check if player has any token in previous column
-    } else if (positions[0].columnIndex === columnIndex - 1 || positions[1].columnIndex === columnIndex - 1) {
+    } else if (checkTokenColumns(positions, columnIndex - 1)) {
         const previousColumn = jsxLegend.fields[columnIndex - 1];
 
         // prepare positions in previous column as if there were three elements
@@ -166,6 +166,15 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
             legends[legendIndex].positions[playerIndex] = positions;
             effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
             return {tPlayerState: effectsResult.tPlayerState, tLegends: legends, tStore: store, tLocations: locations, positions: positions}
+        }
+    }
+    return false
+}
+
+function checkTokenColumns(positions, targetColumn) {
+    for (let position of positions) {
+        if (position.columnIndex === targetColumn) {
+            return true
         }
     }
     return false

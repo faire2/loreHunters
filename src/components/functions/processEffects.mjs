@@ -1,4 +1,4 @@
-import {addCardToStore, removeCard, drawCards} from "./cardManipulationFuntions.mjs";
+import {addCardToStore, drawCards, removeCard} from "./cardManipulationFuntions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
@@ -6,7 +6,6 @@ import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs, INCOME_STATE} from "../../data/idLists";
 import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
 import React from "react";
-import {Coin, Explore} from "../Symbols";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations, setRewardsModalData) {

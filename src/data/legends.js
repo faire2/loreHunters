@@ -44,7 +44,7 @@ export const Legends2 = Object.freeze({
             /* 2 */
             [
                 {
-                    effects: [EFFECT.gainExplore],
+                    effects: [EFFECT.gainExploreIfFirst],
                     effectsText: [<Explore/>],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     costText: [<Text/>, <Jewel/>],
