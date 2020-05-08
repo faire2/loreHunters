@@ -28,12 +28,14 @@ import location3 from "../img/symbols/L3.png"
 import victoryPoints from "../img/symbols/VP.png"
 import treasure from "../img/symbols/Treasure.png"
 import freeAction from "../img/symbols/freeAction.png"
+import cardDiscount from "../img/symbols/CardDiscount.png"
 
 const responsive = {
     height: "1em",
-}
+};
 
 export const Coin = (props) => <img src={coin} alt="gain a coin" style={responsive}/>;
+export const Discount = (props) => <img src={cardDiscount} alt="discount" style={responsive}/>;
 export const Explore = (props) => <img src={explore} alt="gain an explore token" style={responsive}/>;
 export const Draw1Card = (props) => <img src={draw1} alt="draw a card" style={responsive}/>;
 export const Draw2Cards = (props) => <img src={draw2} alt="draw two cards"style={responsive} />;
