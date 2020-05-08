@@ -14,7 +14,7 @@ import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
-import ChooseRewardModal from "./components/locations/LocationExplorationModal";
+import ChooseRewardModal from "./components/locations/ChooseRewardModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
 import {
     CARD_STATE,
@@ -311,11 +311,10 @@ function GameBoard(props) {
     function handleClickOnLegend(legendIndex, columnIndex, fieldIndex, boons) {
         if (isActivePlayer && (playerState.actions > 0 || playerState.activeEffects.length > 0)) {
             const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, boons,
-                cloneDeep(playerState), cloneDeep(store), cloneDeep(locations))
+                cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
             if (legendResult) {
                 const tStore = legendResult.tStore;
-                // first four columns award extra rewards when all player's tokens reach them
-                if (columnIndex < 4) {
+                // first four columns award extra rewards when non-first player's tokens reach them
                     const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
                     if (isRewardDue) {
                         if (columnIndex === 1 || columnIndex === 3) {
@@ -331,7 +330,6 @@ function GameBoard(props) {
                         setShowChooseExpeditionModal(true);
                         setIsModalActive(true);
                     }
-                }
                 setPlayerState(legendResult.tPlayerState);
                 setLocations(legendResult.tLocations);
                 setLegends(legendResult.tLegends);

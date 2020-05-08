@@ -5,9 +5,11 @@ import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs, INCOME_STATE} from "../../data/idLists";
 import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
+import React from "react";
+import {Coin, Explore} from "../Symbols";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
-                               originalLocations) {
+                               originalLocations, setRewardsModalData) {
     console.log("Processing effects");
     console.log(effects);
     let tPlayerState = cloneDeep(originalPlayersState);
@@ -15,6 +17,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let tLocations = cloneDeep(originalLocations);
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
     let processedAllEffects = true;
+    let showRewardsModal = false;
     exitLoopFromSwitch();
 
     // eslint-disable-next-line no-unused-vars
@@ -161,6 +164,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.GainExploreIfFirst:
                     tPlayerState.resources.explore += 1;
+                    break;
+
+                case EFFECT.gainCoinOrExploreIfFirst:
+                    /*setRewardsModalData([{effects: EFFECT.gainCoin, effectsText: <Coin/>}, {effects: EFFECT.gainExplore, effectsText: <Explore/>}]);
+                    showRewardsModal = true;*/
                     break;
 
                 case EFFECT.gainDiscoveryBonus:
@@ -380,7 +388,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         tPlayerState: tPlayerState,
         tStore: tStore,
         tLocations: tLocations,
-        processedAllEffects: processedAllEffects
+        processedAllEffects: processedAllEffects,
+        showRewardsModal: showRewardsModal
     };
 }
 

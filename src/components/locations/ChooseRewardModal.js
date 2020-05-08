@@ -10,7 +10,7 @@ export default function ChooseRewardModal() {
     const rewards = boardStateContext.modalData;
     const fontSizeStyle = {
         fontSize: "6vw"
-    }
+    };
 
     return (
         <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null}>

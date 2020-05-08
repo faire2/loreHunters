@@ -28,24 +28,26 @@ export function getDiscountForProgress(effects, activeEffect) {
 }
 
 export function getIsRewardDue(columnIndex, positions) {
+    let tokensBehind = 0;
     if (columnIndex === 0) {
         for (let position of positions) {
             if (position.columnIndex === null) {
-                return false
+                tokensBehind +=1;
             }
         }
     } else {
         for (let position of positions) {
             if (position.columnIndex < columnIndex || position.columnIndex === null) {
-                return false
+                tokensBehind +=1;
             }
         }
     }
-    return true
+    // if two tokens are behind, no reward is awarded
+    return tokensBehind < 2;
 }
 
 export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boons, playerState, store, locations) {
-    const jsxLegend = Legends2[legends[legendIndex].id]
+    const jsxLegend = Legends2[legends[legendIndex].id];
     const field = jsxLegend.fields[columnIndex][fieldIndex];
 
     const playerIndex = playerState.playerIndex;

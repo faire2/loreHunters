@@ -20,7 +20,7 @@ export default function ChooseLegendRewardModal() {
 
     const fontSizeStyle = {
         fontSize: "6vw"
-    }
+    };
 
     return (
         <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null}>

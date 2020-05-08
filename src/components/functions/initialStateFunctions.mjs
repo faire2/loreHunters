@@ -24,8 +24,8 @@ export const GLOBAL_VARS = Object.freeze({
     itemsInStore: 5,
     artifactsInStore: 1,
     adventurers: 2,
-    numOfPlayers: 1,
     playerColors: ["#ffcc00", "#33cc00", "#0066ff", "#cc0000"],
+    numOfLegendTokens: 3,
 });
 
 export const LOCATION_LINE = Object.freeze({
@@ -324,7 +324,12 @@ export function getInitialLegends(numOfPlayers) {
     for (let legend of legends) {
         legend.positions = [];
         for (let i = 0; i < numOfPlayers; i++) {
-            legend.positions.push([{columnIndex: null, fieldIndex: null}, {columnIndex: null, fieldIndex: null}]);
+            let playerArr = [];
+            let tokenPosition = {columnIndex: null, fieldIndex: null};
+            for (let i = 0; i < GLOBAL_VARS.numOfLegendTokens; i++) {
+                playerArr.push(tokenPosition);
+            }
+            legend.positions.push(playerArr);
         }
         legend.usage = [];
         for (let i = 0; i < 8; i++)
