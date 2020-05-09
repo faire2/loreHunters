@@ -960,7 +960,7 @@ export const EXPEDITIONS = Object.freeze({
     hiddenGems: {
         id: "hiddenGems",
         cardName: "Hidden Gems",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each <Item/> that cost only <Coin/></div>,
         points: 4,
@@ -968,7 +968,7 @@ export const EXPEDITIONS = Object.freeze({
     secretPaths: {
         id: "secretPaths",
         cardName: "Secret Paths",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+ ?<VictoryPoints/> Score again 2 of  <Shiny/> that you placed</div>,
         points: 0
@@ -976,7 +976,7 @@ export const EXPEDITIONS = Object.freeze({
     rareFinds: {
         id: "rareFinds",
         cardName: "Rare Finds",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+ ?<VictoryPoints/> equal to <VictoryPoints/> on one of your <Item/> and one of your <Artifact/>.</div>,
         points: 2,
@@ -984,7 +984,7 @@ export const EXPEDITIONS = Object.freeze({
     fullyEquipped: {
         id: "fullyEquipped",
         cardName: "Fully Equipped",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+ 1 <VictoryPoints/> for each 2 cards in your deck.</div>,
         points: 0,
@@ -992,7 +992,7 @@ export const EXPEDITIONS = Object.freeze({
     trophyHunter: {
         id: "trophyHunter",
         cardName: "Trophy Hunter",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each defeated <Guardian/></div>,
         points: 3,
@@ -1000,7 +1000,7 @@ export const EXPEDITIONS = Object.freeze({
     trustedGear: {
         id: "trustedGear",
         cardName: "Trusted Gear",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for up to 7 <Item/> in your deck.</div>,
         points: 1,
@@ -1008,7 +1008,7 @@ export const EXPEDITIONS = Object.freeze({
     collector: {
         id: "collector",
         cardName: "Collector",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for up to 7 <Artifact/> in your deck.</div>,
         points: 2,
@@ -1016,7 +1016,7 @@ export const EXPEDITIONS = Object.freeze({
     cartographer: {
         id: "cartographer",
         cardName: "Cartographer",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each <Shiny/> you own.</div>,
         points: 3,
@@ -1024,7 +1024,7 @@ export const EXPEDITIONS = Object.freeze({
     fearless: {
         id: "fearless",
         cardName: "Fearless",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+6 <VictoryPoints/> if you have no <Fear/> in you deck. +2 <VictoryPoints/> if you have only one.</div>,
         points: 1,
@@ -1032,7 +1032,7 @@ export const EXPEDITIONS = Object.freeze({
     beyondBasics: {
         id: "beyondBasics",
         cardName: "Beyond Basics",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+2 <VictoryPoints/> for each Explore and Gold card you destroyed during the game.</div>,
         points: 1,
@@ -1040,7 +1040,7 @@ export const EXPEDITIONS = Object.freeze({
     quantityAboveAll: {
         id: "quantityAboveAll",
         cardName: "Quantity Above All",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+2 <VictoryPoints/> for up to 4 <Item/> that costs <Coin/><Coin/><Coin/> or more.</div>,
         points: 0,
@@ -1048,7 +1048,7 @@ export const EXPEDITIONS = Object.freeze({
     belongsToTheMuseum: {
         id: "belongsToTheMuseum",
         cardName: "Belongs to the Museum",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+2 <VictoryPoints/> for each <Artifact/> that costs <Explore/><Explore/><Explore/> or more.</div>,
         points: 0,
@@ -1056,7 +1056,7 @@ export const EXPEDITIONS = Object.freeze({
     guardedTreasure: {
         id: "guardedTreasure",
         cardName: "Guarded Treasure",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each guarded <Artifact/>.</div>,
         points: 4,
@@ -1064,7 +1064,7 @@ export const EXPEDITIONS = Object.freeze({
     checkMyResults: {
         id: "checkMyResults",
         cardName: "Check My Results",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each step you progressed with your 2nd book.</div>,
         points: 2,
@@ -1072,7 +1072,7 @@ export const EXPEDITIONS = Object.freeze({
     holyGrail: {
         id: "holyGrail",
         cardName: "Holy Grail!",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+7 <VictoryPoints/> if you own <Treasure/></div>,
         points: 0,
@@ -1080,7 +1080,7 @@ export const EXPEDITIONS = Object.freeze({
     powerfulDestruction: {
         id: "powerfulDestruction",
         cardName: "Powerful destruction",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each <Item/> or <Artifact/> that you own which has <DestroyCard/> ability.</div>,
         points: 4,
@@ -1088,7 +1088,7 @@ export const EXPEDITIONS = Object.freeze({
     animalLover: {
         id: "animalLover",
         cardName: "Animal Lover",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each animal in you deck.</div>,
         points: 2,
@@ -1096,7 +1096,7 @@ export const EXPEDITIONS = Object.freeze({
     teamWork: {
         id: "teamWork",
         cardName: "Team Work",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+3 <VictoryPoints/> for each assistant you gained.</div>,
         points: 1,
@@ -1104,7 +1104,7 @@ export const EXPEDITIONS = Object.freeze({
     tradingKnowledge: {
         id: "tradingKnowledge",
         cardName: "Trading Knowledge",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each <Shiny/> that you placed in the first 3 rows.</div>,
         points: 4,
@@ -1112,7 +1112,7 @@ export const EXPEDITIONS = Object.freeze({
     touchTheSkies: {
         id: "touchTheSkies",
         cardName: "Touch the Skies",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
         effectsText:
             <div className="effectsText">+1 <VictoryPoints/> for each <Blimp/> generated by your cards of assistants.</div>,
         points: 1,
@@ -1132,8 +1132,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainExplore],
         discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={bigIconsStyle}><Text/><Coin/><Explore/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
+        discoveryTextRow: <div><Text/><Coin/><Explore/></div>,
+        discoveryTextRow2: <div><Coin/><Coin/></div>,
         lockText: <div style={lockEffectsStyle}><Weapon/><Jewel/></div>,
         cost: null,
         points: 2
@@ -1149,8 +1149,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainText],
         discoveryText2: <div style={columnStyle}><Explore/><Text/></div>,
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
-        discoveryTextRow: <div style={bigIconsStyle}><Coin/><Text/><Text/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Explore/><Text/></div>,
+        discoveryTextRow: <div><Coin/><Text/><Text/></div>,
+        discoveryTextRow2: <div><Explore/><Text/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 1
@@ -1166,8 +1166,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainText],
         discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={bigIconsStyle}><Weapon/><Text/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
+        discoveryTextRow: <div><Weapon/><Text/></div>,
+        discoveryTextRow2: <div><Coin/><Coin/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/><Discard/></div>,
         cost: null,
         points: 2
@@ -1183,8 +1183,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainExplore, EFFECT.gainWeapon],
         discoveryText2: <div style={columnStyle}><Coin/><Text/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainText],
-        discoveryTextRow: <div style={bigIconsStyle}><Explore/><Weapon/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Text/></div>,
+        discoveryTextRow: <div><Explore/><Weapon/></div>,
+        discoveryTextRow2: <div><Coin/><Text/></div>,
         lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
         cost: null,
         points: 2
@@ -1200,8 +1200,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
         discoveryText2: <div style={columnStyle}><Weapon/></div>,
         discoveryEffect2: [EFFECT.gainWeapon],
-        discoveryTextRow: <div style={bigIconsStyle}><Explore/><Text/><Text/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Weapon/></div>,
+        discoveryTextRow: <div><Explore/><Text/><Text/></div>,
+        discoveryTextRow2: <div><Weapon/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
@@ -1217,8 +1217,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.destroyCard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
         discoveryText2: <div style={columnStyle}><Explore/><Explore/></div>,
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainExplore],
-        discoveryTextRow: <div style={bigIconsStyle}><Explore/><Text/><Text/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Explore/><Explore/></div>,
+        discoveryTextRow: <div><Explore/><Text/><Text/></div>,
+        discoveryTextRow2: <div><Explore/><Explore/></div>,
         lockText: <div style={lockEffectsStyle}><Explore/><Explore/></div>,
         cost: null,
         points: 1
@@ -1234,8 +1234,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainJewel],
         discoveryText2: <div style={columnStyle}><Coin/><Text/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainText],
-        discoveryTextRow: <div style={bigIconsStyle}><Jewel/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Text/></div>,
+        discoveryTextRow: <div><Jewel/></div>,
+        discoveryTextRow2: <div><Coin/><Text/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
@@ -1251,8 +1251,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainText, EFFECT.gainWeapon],
         discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={bigIconsStyle}><Text/><Weapon/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
+        discoveryTextRow: <div><Text/><Weapon/></div>,
+        discoveryTextRow2: <div><Coin/><Coin/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: -1
@@ -1268,8 +1268,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainCoin, EFFECT.gainWeapon],
         discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={bigIconsStyle}><Coin/><Weapon/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
+        discoveryTextRow: <div><Coin/><Weapon/></div>,
+        discoveryTextRow2: <div><Coin/><Coin/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/><Discard/></div>,
         cost: null,
         points: 2
@@ -1286,8 +1286,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainJewel],
         discoveryText2: <div style={columnStyle}><Explore/><Text/></div>,
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
-        discoveryTextRow: <div style={bigIconsStyle}><Jewel/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Explore/><Text/></div>,
+        discoveryTextRow: <div><Jewel/></div>,
+        discoveryTextRow2: <div><Explore/><Text/></div>,
         lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
         cost: null,
         points: 2
@@ -1303,8 +1303,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainJewel],
         discoveryText2: <div style={columnStyle}><Coin/><Explore/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainExplore],
-        discoveryTextRow: <div style={bigIconsStyle}><Jewel/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Explore/></div>,
+        discoveryTextRow: <div><Jewel/></div>,
+        discoveryTextRow2: <div><Coin/><Explore/></div>,
         lockText: <div style={lockEffectsStyle}><Coin/></div>,
         cost: null,
         points: 1
@@ -1320,8 +1320,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainCoin, EFFECT.gainWeapon],
         discoveryText2: <div style={columnStyle}><Weapon/></div>,
         discoveryEffect2: [EFFECT.gainWeapon],
-        discoveryTextRow: <div style={bigIconsStyle}><Coin/><Weapon/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Weapon/></div>,
+        discoveryTextRow: <div><Coin/><Weapon/></div>,
+        discoveryTextRow2: <div><Weapon/></div>,
         lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
         cost: null,
         points: 2
@@ -1337,8 +1337,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
         discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={bigIconsStyle}><Text/><Text/><Text/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
+        discoveryTextRow: <div><Text/><Text/><Text/></div>,
+        discoveryTextRow2: <div><Coin/><Coin/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
@@ -1354,8 +1354,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainExplore],
         discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={bigIconsStyle}><Explore/><Weapon/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
+        discoveryTextRow: <div><Explore/><Weapon/></div>,
+        discoveryTextRow2: <div><Coin/><Coin/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 1
@@ -1371,8 +1371,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainCoin],
         discoveryText2: <div style={columnStyle}><Explore/><Text/></div>,
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
-        discoveryTextRow: <div style={bigIconsStyle}><Coin/><Weapon/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Explore/><Text/></div>,
+        discoveryTextRow: <div><Coin/><Weapon/></div>,
+        discoveryTextRow2: <div><Explore/><Text/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
@@ -1388,8 +1388,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore],
         discoveryText2: <div style={columnStyle}><Text/><Text/></div>,
         discoveryEffect2: [EFFECT.gainText, EFFECT.gainText],
-        discoveryTextRow: <div style={bigIconsStyle}><Coin/><Coin/><Explore/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Text/><Text/></div>,
+        discoveryTextRow: <div><Coin/><Coin/><Explore/></div>,
+        discoveryTextRow2: <div><Text/><Text/></div>,
         lockText: <div style={lockEffectsStyle}><Text/><Weapon/></div>,
         cost: null,
         points: 2
@@ -1405,8 +1405,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryText2: <div style={columnStyle}><Weapon/></div>,
         discoveryEffect2: [EFFECT.gainWeapon],
-        discoveryTextRow: <div style={bigIconsStyle}><Coin/><Coin/><Coin/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Weapon/></div>,
+        discoveryTextRow: <div><Coin/><Coin/><Coin/></div>,
+        discoveryTextRow2: <div><Weapon/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
@@ -1422,8 +1422,8 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect: [EFFECT.gainJewel],
         discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={bigIconsStyle}><Jewel/></div>,
-        discoveryTextRow2: <div style={bigIconsStyle}><Coin/><Coin/></div>,
+        discoveryTextRow: <div><Jewel/></div>,
+        discoveryTextRow2: <div><Coin/><Coin/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2

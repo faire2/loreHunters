@@ -28,6 +28,7 @@ export const Controls = (props) => {
         <div style={containerStyle}>
             <ButtonGroup aria-label="Control buttons">
                 {/*<button className="btn-primary" onClick={() => playerStateContext.nextPlayer()}>next player</button>*/}
+                {}
                 {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
                 {destroyEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
                 {/*<button className="btn-primary" onClick={() => restartGame()}>restart game</button>*/}

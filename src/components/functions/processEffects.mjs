@@ -8,7 +8,7 @@ import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
 import React from "react";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
-                               originalLocations, setRewardsModalData) {
+                               originalLocations) {
     console.log("Processing effects");
     console.log(effects);
     let tPlayerState = cloneDeep(originalPlayersState);

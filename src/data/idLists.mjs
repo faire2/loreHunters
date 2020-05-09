@@ -34,7 +34,7 @@ export const CARD_TYPE = Object.freeze({
     artifact: "artifact",
     basic: "basic",
     guardian: "guardian",
-    expedition: "expedition"
+    goalCard: "expedition"
 });
 
 export const INCOME_LEVEL = Object.freeze({
@@ -447,79 +447,79 @@ export const GUARDIAN_IDs = Object.freeze({
 export const EXPEDITIONS_IDs = Object.freeze({
     hiddenGems: {
         id: "hiddenGems",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     secretPaths: {
         id: "secretPaths",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     rareFinds: {
         id: "rareFinds",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     fullyEquipped: {
         id: "fullyEquipped",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     trophyHunter: {
         id: "trophyHunter",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     trustedGear: {
         id: "trustedGear",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     collector: {
         id: "collector",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     cartographer: {
         id: "cartographer",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     fearless: {
         id: "fearless",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     beyondBasics: {
         id: "beyondBasics",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     quantityAboveAll: {
         id: "quantityAboveAll",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     belongsToTheMuseum: {
         id: "belongsToTheMuseum",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     guardedTreasure: {
         id: "guardedTreasure",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     checkMyResults: {
         id: "checkMyResults",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     holyGrail: {
         id: "holyGrail",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     powerfulDestruction: {
         id: "powerfulDestruction",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     animalLover: {
         id: "animalLover",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     teamWork: {
         id: "teamWork",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
     touchTheSkies: {
         id: "touchTheSkies",
-        type: CARD_TYPE.expedition,
+        type: CARD_TYPE.goalCard,
     },
 
 });
@@ -733,3 +733,9 @@ export const TRANSMISSIONS = Object.freeze({
 
 export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id, ARTIFACT_IDs.flameJewel.id,
     ARTIFACT_IDs.inscribedBlade.id];
+
+export const REWARD_TYPE = Object.freeze({
+   card: "card",
+   incomeToken: "income token",
+   effectsArr: "array of effects"
+});

@@ -50,7 +50,7 @@ export default function Card(props) {
     } else if (cardType === CARD_TYPE.guardian) {
         cardTemplate = GUARDIANS[props.card.id]
         cardBackground = guardianBgr;
-    } else if (cardType === CARD_TYPE.expedition) {
+    } else if (cardType === CARD_TYPE.goalCard) {
         cardTemplate = EXPEDITIONS[props.card.id];
         cardBackground = expeditionBgr;
     } else {
@@ -68,16 +68,16 @@ export default function Card(props) {
     for (let i = 0; i < card.transportAmount; i++) {
         switch (card.transport) {
             case CARD_TRANSPORT.walk:
-                transport.push(<Walk/>)
+                transport.push(<Walk/>);
                 break;
             case CARD_TRANSPORT.jeep:
-                transport.push(<Jeep/>)
+                transport.push(<Jeep/>);
                 break;
             case CARD_TRANSPORT.ship:
-                transport.push(<Ship/>)
+                transport.push(<Ship/>);
                 break;
             case CARD_TRANSPORT.plane:
-                transport.push(<Blimp/>)
+                transport.push(<Blimp/>);
                 break;
             default:
                 console.log("Unable to propcess card transport type in Card.js: " + card.id + ", " + card.transport);
@@ -103,7 +103,7 @@ export default function Card(props) {
                             lockText.push(<Discard/>);
                             break;
                         case (EFFECT.lockCoin):
-                            lockText.push(<Coin/>)
+                            lockText.push(<Coin/>);
                             break;
                         case (EFFECT.lockExplore):
                             lockText.push(<Explore/>);

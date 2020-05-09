@@ -20,11 +20,10 @@ import {
     CARD_STATE,
     CARD_TYPE,
     CARDS_ACTIONLESS,
-    INCOME_LEVEL,
-    INCOME_STATE,
     LOCATION_IDs,
     LOCATION_LEVEL,
     LOCATION_STATE,
+    REWARD_TYPE,
     TRANSMISSIONS
 } from "./data/idLists";
 import {socket} from "./server/socketConnection";
@@ -33,10 +32,8 @@ import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {getPositionInLocationLine, occupyLocation} from "./components/locations/locationFunctions";
 import {GUARDIANS} from "./data/cards";
 import {getIsRewardDue, processLegend} from "./components/legends/legendsFunctions";
-import ChooseLegendRewardModal from "./components/legends/ChooseLegendRewardModal";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
-import {handleIncomes} from "./server/serverFunctions";
 import {processUptrade} from "./components/resources/resourcesFunctions";
 import {handleGuardianArrival, processIncomeTile} from "./components/functions/processEffects";
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
@@ -67,31 +64,13 @@ function GameBoard(props) {
     }
     const [playerStates, setPlayerStates] = useState(emptyPlayerStates);
 
-    // rewards are an array with objects describing values: {effects: ..., effectsText: ...}
+    // rewards are an array with objects describing values: {type: ..., data: [{effects: ..., effectsText: ...}, ...]
+    const [rewardsModalData, setRewardsModalData] = useState({type: REWARD_TYPE.card, data: []});
     const [showRewardsModal, setShowRewardsModal] = useState(false);
-    const [rewardsModalData, setRewardsModalData] = useState([]);
-    const [showChooseExpeditionModal, setShowChooseExpeditionModal] = useState(false);
-    const [chooseExpeditionModalData, setChooseExpeditionModalData] = useState([]);
     const [isModalActive, setIsModalActive] = useState(false);
 
     const [extendBottomPanel, setExtendBottomPanel] = useState(false);
     useEffect(() => {
-
-        /*socket.on(TRANSMISSIONS.getStates, states => {
-            console.log("received initial states from server");
-            console.log(states);
-
-
-            setPlayerState(states.playerState);
-            setPlayerStates(states.playerStates);
-            setStore(states.store);
-            setLocations(states.locations);
-            setLegends(states.legends);
-            setRound(states.round);
-            setIsActivePlayer(states.isActivePlayer);
-            setPreviousPlayer(states.previousPlayer);
-        });*/
-
         socket.on(TRANSMISSIONS.stateUpdate, states => {
             console.log("received states from server");
             console.log(states);
@@ -115,11 +94,11 @@ function GameBoard(props) {
         if (playerState.firstTurn && isActivePlayer) {
             let tStore = store;
             playerState.firstTurn = false;
-            const expeditionsArr = [tStore.expeditions[0], tStore.expeditions[1]];
+            setRewardsModalData({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
             tStore.expeditions.splice(0, 2);
             setStore(tStore);
-            setChooseExpeditionModalData(expeditionsArr);
-            setShowChooseExpeditionModal(true);
+            setShowRewardsModal(true);
+            setIsModalActive(true);
         }}, [isActivePlayer]);
 
     useEffect(() => {
@@ -128,10 +107,6 @@ function GameBoard(props) {
             document.removeEventListener('keydown', handleKeyPress);
         };
     });
-
-   /* useEffect(() => {
-        socket.emit(TRANSMISSIONS.sendGameStates, {username: props.location.data.username, room: props.);
-    })*/
 
     function handleKeyPress(e) {
         if (e.keyCode === 32) {
@@ -239,8 +214,8 @@ function GameBoard(props) {
                                 const guardianResults = handleGuardianArrival(tPlayerState, cloneDeep(store), round);
                                 setStore(guardianResults.tStore);
                                 setPlayerState(guardianResults.tPlayerState);
-                                setRewardsModalData([{effects: location.effects, effectsText: location.effectsImage},
-                                    {effects: guardianEffects, effectsText: guardianText}]);
+                                setRewardsModalData({type: REWARD_TYPE.effectsArr, data: [{effects: location.effects, effectsText: location.effectsImage},
+                                        {effects: guardianEffects, effectsText: guardianText}]});
                                 setShowRewardsModal(true);
                                 setIsModalActive(true);
                             } else {
@@ -283,14 +258,12 @@ function GameBoard(props) {
         }
     }
 
-    /** HANDLE MODAL EXPLORE **/
-    function handleLocationExploredReward(effects) {
-        const effectsResult = processEffects(null, null, cloneDeep(playerState), effects,
-            null, cloneDeep(store), null, cloneDeep(locations));
-        /* costs are only coins and explore => we only need to update playerState */
-        setPlayerState(effectsResult.tPlayerState);
-        setLocations(effectsResult.tLocations);
-        setStore(effectsResult.tStore);
+    /** HANDLE REWARD MODAL **/
+    function handleReward(tPlayerState, tStore) {
+        setPlayerState(tPlayerState);
+        setStore(tStore);
+        // todo modal data should be an array, processing of new data should be set here
+        setRewardsModalData({type: REWARD_TYPE.card, data: []});
         setShowRewardsModal(false);
         setIsModalActive(false);
     }
@@ -319,15 +292,15 @@ function GameBoard(props) {
                     if (isRewardDue) {
                         if (columnIndex === 1 || columnIndex === 3) {
                             const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                            setChooseExpeditionModalData(expeditionsArr);
+                            setRewardsModalData({type: REWARD_TYPE.card, data: expeditionsArr});
                         } else if (columnIndex === 0) {
                             const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
-                            setChooseExpeditionModalData(incomeArr);
+                            setRewardsModalData({type: REWARD_TYPE.incomeToken, data: incomeArr});
                         } else if (columnIndex === 2) {
                             const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
-                            setChooseExpeditionModalData(incomeArr);
+                            setRewardsModalData({type: REWARD_TYPE.incomeToken, data: incomeArr});
                         }
-                        setShowChooseExpeditionModal(true);
+                        setShowRewardsModal(true);
                         setIsModalActive(true);
                     }
                 setPlayerState(legendResult.tPlayerState);
@@ -337,33 +310,6 @@ function GameBoard(props) {
                 return legendResult.tLegends;
             }
         }
-    }
-
-    /** HANDLE LEGEND REWARD MODAL **/
-    function handleLegendReward(idElement, isGoalCard, index) {
-        setShowChooseExpeditionModal(false);
-        setIsModalActive(false);
-        setChooseExpeditionModalData([]);
-        let tPlayerState = cloneDeep(playerState);
-        let tStore = cloneDeep(store);
-        if (isGoalCard) {
-            tPlayerState.victoryCards.push(idElement);
-            tStore.expeditions.push(tStore[index]);
-            tStore.expeditions.splice(0, 2);
-        } else {
-            idElement.state = INCOME_STATE.ready;
-            tPlayerState.incomes.push(idElement);
-            if (idElement.level === INCOME_LEVEL.silver) {
-                tStore.incomes1Offer.splice(index, 1, tStore.incomes1Deck[0]);
-                tStore.incomes1Deck.splice(0, 1);
-            } else {
-                tStore.incomes2Offer.splice(index, 1, tStore.incomes1Deck[0]);
-                tStore.incomes2Deck.splice(0, 1);
-            }
-            tPlayerState = handleIncomes(tPlayerState);
-        }
-        setPlayerState(tPlayerState);
-        setStore(tStore);
     }
 
     /** HANDLE ACTIVE EFFECTS **/
@@ -448,7 +394,6 @@ function GameBoard(props) {
     }
 
     /** SET NEXT PLAYER **/
-
     if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive) {
         nextPlayer();
     }
@@ -502,17 +447,14 @@ function GameBoard(props) {
         activeEffects: playerState.activeEffects,
         showModal: showRewardsModal,
         modalData: rewardsModalData,
-        showChooseExpeditionModal: showChooseExpeditionModal,
-        chooseExpeditionModalData: chooseExpeditionModalData,
         round: round,
         numOfPlayers: numOfPlayers,
         handleCardEffect: handleClickOnCardEffect,
         handleCardBuy: handleCardBuy,
         handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
         handleClickOnLocation: handleClickOnLocation,
-        handleLocationExploredReward: handleLocationExploredReward,
+        handleReward: handleReward,
         handleClickOnLegend: handleClickOnLegend,
-        handleExpeditionReward: handleLegendReward,
         handleClickOnIncomeTile: handleClickOnIncomeTile
     };
 
@@ -547,7 +489,6 @@ function GameBoard(props) {
                     <OpponentPlayArea/>
                     <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
                     <ChooseRewardModal/>
-                    <ChooseLegendRewardModal/>
                     <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>

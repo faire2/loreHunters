@@ -96,7 +96,7 @@ export function ScoringPanel(props) {
     };
 
     /* EXPEDITION CARDS */
-    const expeditionCards = playerState.victoryCards.filter(card => card.type === CARD_TYPE.expedition);
+    const expeditionCards = playerState.victoryCards.filter(card => card.type === CARD_TYPE.goalCard);
 
     return (
         <div style={containerStyle}>
