@@ -61,7 +61,7 @@ export function addDiscardToDrawDeck(origPlayerState) {
     console.log("RESHUFFLING...");
     let tPlayerState = cloneDeep(origPlayerState);
     tPlayerState.discardDeck = shuffleArray(tPlayerState.discardDeck);
-    const tDrawDeck = [...tPlayerState.discardDeck];
+    const tDrawDeck = cloneDeep(tPlayerState.discardDeck);
 
     for (let card of tDrawDeck) {
         card.state = CARD_STATE.drawDeck;
