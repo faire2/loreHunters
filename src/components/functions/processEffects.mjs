@@ -161,7 +161,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.coins += 1;
                     break;
 
-                case EFFECT.GainExploreIfFirst:
+                case EFFECT.gainExploreIfFirst:
                     tPlayerState.resources.explore += 1;
                     break;
 
