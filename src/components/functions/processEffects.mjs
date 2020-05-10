@@ -3,9 +3,10 @@ import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
-import {GUARDIAN_IDs, INCOME_STATE} from "../../data/idLists";
+import {GUARDIAN_IDs, INCOME_STATE, REWARD_TYPE} from "../../data/idLists";
 import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
 import React from "react";
+import {Coin} from "../Symbols";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {
@@ -17,6 +18,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
     let processedAllEffects = true;
     let showRewardsModal = false;
+    let rewardsData = {type: REWARD_TYPE.card, data: []};
+    let finishRound = false;
     exitLoopFromSwitch();
 
     // eslint-disable-next-line no-unused-vars
@@ -28,6 +31,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.buyItemWithDiscount3:
                 case EFFECT.defeatGuardian:
                 case EFFECT.drawFromDiscard:
+                case EFFECT.exploreAnyLocationWithDiscount3:
                 case EFFECT.exploreAnyLocationWithDiscount4:
                 case EFFECT.gainArtifact:
                 case EFFECT.gainItem:
@@ -157,6 +161,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
+                case EFFECT.finishRound:
+                    finishRound = true;
+                    break;
+
                 case EFFECT.gainCoinIfFirst:
                     tPlayerState.resources.coins += 1;
                     break;
@@ -191,6 +199,26 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.coins += 1;
                     break;
 
+                case EFFECT.gain2CoinsOrPassAnd3:
+                    showRewardsModal = true;
+                    rewardsData = {type: REWARD_TYPE.effectsArr, data: [
+                        {effects: [EFFECT.gainCoin, EFFECT.gainCoin], effectsText: <div><Coin/><Coin/></div>},
+                        {effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.finishRound], effectsText: <div><Coin/><Coin/><Coin/></div>}
+                        ]};
+                    break;
+
+                case EFFECT.gainCoinAndExploreForGuardians:
+                    let defeatedGuardians = 0;
+                    for (let card of tPlayerState.victoryCards) {
+                        if (card.type === CARD_TYPE.guardian) {
+                            defeatedGuardians += 1;
+                        }
+                    }
+                    defeatedGuardians = defeatedGuardians > 3 ? 3 : defeatedGuardians;
+                    tPlayerState.resources.coins += defeatedGuardians;
+                    tPlayerState.resources.explore += defeatedGuardians;
+                    break;
+
                 case EFFECT.gainCoinsAndJewelForGuardianVP:
                     tActiveEffects.push(effect);
                     /* hand is stored in activeEffects to be retrieved later */
@@ -204,15 +232,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.hand = tempHand;
                     break;
 
-                case EFFECT.gainCoinForLegends:
-                    // todo legends
-                    break;
-
-                case EFFECT.gainCoinsIfLast:
+                /*case EFFECT.gainCoinsIfLast:
                     if (tPlayerState.hand.length === 1) {
                         tPlayerState.resources.coins += 2
                     }
-                    break;
+                    break;*/
 
                 case EFFECT.gainExplore:
                     tPlayerState.resources.explore += 1;
@@ -220,13 +244,13 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainExploreForGuardians:
                     let guardians = 0;
-                    for (const card of tPlayerState.discardDeck) {
+                    for (const card of tPlayerState.victoryCards) {
                         guardians = card.type === CARD_TYPE.guardian ? guardians + 1 : guardians;
                     }
                     for (const card of tPlayerState.activeCards) {
                         guardians = card.type === CARD_TYPE.guardian ? guardians + 1 : guardians;
                     }
-                    guardians = guardians > 4 ? 4 : guardians;
+                    guardians = guardians > 3 ? 3 : guardians;
                     tPlayerState.resources.explore += guardians;
                     break;
 
@@ -388,7 +412,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         tStore: tStore,
         tLocations: tLocations,
         processedAllEffects: processedAllEffects,
-        showRewardsModal: showRewardsModal
+        showRewardsModal: showRewardsModal,
+        rewardsData: rewardsData,
+        finishRound: finishRound,
     };
 }
 

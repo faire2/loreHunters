@@ -41,7 +41,7 @@ export function drawCards(cardsNum, origPlayerState) {
                 cardsNum += 1;
             } else {
                 tPlayerState = addCardToHand(card, tPlayerState);
-                console.log("Card added: " + card.id + ". Card state: " + tPlayerState.hand[tPlayerState.hand.length - 1]);
+                console.log("Card added: " + card.id + ". Card state: " + tPlayerState.hand[tPlayerState.hand.length - 1].state);
             }
             drawDeck.splice(0, 1);
             tPlayerState.drawDeck = drawDeck;

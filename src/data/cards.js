@@ -40,16 +40,16 @@ import airPlaneImg from "../img/cardImages/items/airPlane.png"
 import goldPanImg from "../img/cardImages/items/goldPan.png"
 import trowelImg from "../img/cardImages/items/trowel.png"
 import pickaxeImg from "../img/cardImages/items/pickaxe.png"
-/*import beerMugImg from "../img/cardImages/items/beerMug.png"*/
+import beerMugImg from "../img/cardImages/items/beerMug.png"
 import journalImg from "../img/cardImages/items/journal.png"
 import parrotImg from "../img/cardImages/items/parrot.png"
-/*import pocketWatchImg from "../img/cardImages/items/pocketWatch.png"*/
+import pocketWatchImg from "../img/cardImages/items/pocketWatch.png"
 import grapplingHookImg from "../img/cardImages/items/grapplingHook.png"
 import camouflagePaintImg from "../img/cardImages/items/camouflagePaint.png"
 import tentImg from "../img/cardImages/items/tent.png"
 import fishingRodImg from "../img/cardImages/items/fishingRod.png"
 import compassImg from "../img/cardImages/items/compass.png"
-/*import bowAndArrowsImg from "../img/cardImages/items/bowAndArrows.png"*/
+import bowAndArrowsImg from "../img/cardImages/items/bowAndArrows.png"
 import messengerPidgeonImg from "../img/cardImages/items/pidgeon.png"
 import whipImg from "../img/cardImages/items/whip.png"
 import bookOfMythsImg from "../img/cardImages/items/bookOfMyths.png"
@@ -81,7 +81,7 @@ import ritualDaggerImg from "../img/cardImages/artifacts/ritualDagger.png"
 
 import {EFFECT} from "./effects.mjs";
 import {CARD_TYPE} from "./idLists.mjs";
-import {FreeAction, Treasure} from "../components/Symbols";
+import {FreeAction, Treasure, Uptrade} from "../components/Symbols";
 
 
 export const CARD_TRANSPORT = Object.freeze({
@@ -185,8 +185,8 @@ export const ITEMS = Object.freeze({
         cardName: "Horse",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Draw1Card/><Explore/><Explore/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainExplore, EFFECT.gainExplore],
+        effectsText: <div style={bigIconsStyle}><Draw1Card/><Explore/><Uptrade/></div>,
+        effects: [EFFECT.draw1, EFFECT.gainExplore, EFFECT.uptrade],
         image: horseImg,
         cost: 4,
         points: 1
@@ -261,8 +261,9 @@ export const ITEMS = Object.freeze({
         cardName: "Airplane",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Explore/><Explore/><Explore/></div>,
-        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainExplore],
+        effectsText: <div className="effectsText"><b>Discount:</b> <Explore/><Explore/><Explore/> to discover
+            any location.</div>,
+        effects: [EFFECT.exploreAnyLocationWithDiscount3],
         image: airPlaneImg,
         cost: 4,
         points: 2
@@ -343,17 +344,17 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 1
     },*/
-    /*beerMug: {
+    beerMug: {
         id: "beerMug",
         cardName: "Beer Mug",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> 1 <Coin/> for each <Guardian/> you defeated.</div>,
-        effects: [EFFECT.return],
+        effectsText: <div className="effectsText"><b>Gain:</b> 1 <Coin/><Explore/> for up to 3 <Guardian/> you defeated.</div>,
+        effects: [EFFECT.gainCoinAndExploreForGuardians],
         image: beerMugImg,
-        cost: 2,
+        cost: 3,
         points: 2
-    },*/
+    },
     journal: {
         id: "journal",
         cardName: "Journal",
@@ -384,18 +385,17 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 2
     },
-    /*pocketWatch: {
+    pocketWatch: {
         id: "pocketWatch",
         cardName: "Pocket Watch",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Coin/> and <b>Gain:</b> <Coin/><Coin/> if this was the
-            last card in your hand.</div>,
-        effects: [EFFECT.gainCoin, EFFECT.gainCoinsIfLast],
+        effectsText: <div className="effectsText"><b>Gain:</b> <Coin/><Coin/> or <Coin/><Coin/><Coin/> and <b>pass</b> this round.</div>,
+        effects: [EFFECT.gain2CoinsOrPassAnd3],
         image: pocketWatchImg,
-        cost: 3,
-        points: 2
-    },*/
+        cost: 2,
+        points: 1
+    },
     grapplingHook: {
         id: "grapplingHook",
         cardName: "Grappling Hook",
@@ -468,19 +468,17 @@ export const ITEMS = Object.freeze({
         cost: 4,
         points: 1
     },*/
-    /*bowAndArrows: {
+    bowAndArrows: {
         id: "bowAndArrows",
         cardName: "Bow and Arrows",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for each <Guardian/> in your Play Area and
-            Discard
-            Pile (up to 4).</div>,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for up to 3 <Guardian/> in your Play Area or that you have defeated.</div>,
         effects: [EFFECT.gainExploreForGuardians],
         image: bowAndArrowsImg,
         cost: 2,
         points: 2
-    },*/
+    },
     messengerPidgeon: {
         id: "messengerPidgeon",
         cardName: "Pidgeon",

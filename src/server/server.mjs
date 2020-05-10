@@ -182,6 +182,7 @@ io.on("connection", socket => {
             if (room.states.round < 5) {
                 room = processEndOfRound(room);
             } else {
+                console.log("Sending new round states to all players.");
                 io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
                     playerStates: room.states.playerStates,
                     legends: room.states.legends,
@@ -239,6 +240,7 @@ io.on("connection", socket => {
 
 
     function updateStatesToAll(room) {
+        console.log("Updating states to all players.");
         io.to(room.name).emit(TRANSMISSIONS.stateUpdate, {
             playerStates: room.states.playerStates,
             store: room.states.store,

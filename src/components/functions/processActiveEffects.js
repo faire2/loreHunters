@@ -129,6 +129,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
+        case EFFECT.exploreAnyLocationWithDiscount3:
         case EFFECT.exploreAnyLocationWithDiscount4:
             // effect is processed in location exploration
             break;

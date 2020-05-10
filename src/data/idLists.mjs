@@ -142,10 +142,10 @@ export const ITEM_IDs = Object.freeze({
         id: "banjo",
         type: CARD_TYPE.item,
     },*/
-    /*beerMug: {
+    beerMug: {
         id: "beerMug",
         type: CARD_TYPE.item,
-    },*/
+    },
     journal: {
         id: "journal",
         type: CARD_TYPE.item,
@@ -162,10 +162,10 @@ export const ITEM_IDs = Object.freeze({
         id: "boots",
         type: CARD_TYPE.item,
     },
-    /*pocketWatch: {
+    pocketWatch: {
         id: "pocketWatch",
         type: CARD_TYPE.item,
-    },*/
+    },
     grapplingHook: {
         id: "grapplingHook",
         type: CARD_TYPE.item,
@@ -190,10 +190,10 @@ export const ITEM_IDs = Object.freeze({
         id: "flintPistol",
         type: CARD_TYPE.item,
     },*/
-    /*bowAndArrows: {
+    bowAndArrows: {
         id: "bowAndArrows",
         type: CARD_TYPE.item,
-    },*/
+    },
     messengerPidgeon: {
         id: "messengerPidgeon",
         type: CARD_TYPE.item,

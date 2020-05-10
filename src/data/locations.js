@@ -145,7 +145,7 @@ export const LOCATIONS = Object.freeze({
         id: "g21",
         effectsText: <div><Explore/><Explore/><Uptrade/></div>,
         effectsImage: <G21/>,
-        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.uptrade],
+        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
     },
     g22: {

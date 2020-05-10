@@ -68,6 +68,12 @@ function GameBoard(props) {
     const [rewardsModalData, setRewardsModalData] = useState({type: REWARD_TYPE.card, data: []});
     const [showRewardsModal, setShowRewardsModal] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
+    // todo rewrite all occassion to following function:
+    function initiateRewardsModal(rewardsData) {
+        setRewardsModalData(rewardsData);
+        setShowRewardsModal(true);
+        setIsModalActive(true);
+    }
 
     const [extendBottomPanel, setExtendBottomPanel] = useState(false);
     useEffect(() => {
@@ -88,7 +94,7 @@ function GameBoard(props) {
             console.log("Rerouting to scoring page");
             history.push({pathname: "/scoring", data: data})
         })
-    }, [history, initialIndex, playerState.firstTurn, store]);
+    }, []);
 
     useEffect(() => {
         if (playerState.firstTurn && isActivePlayer) {
@@ -146,6 +152,12 @@ function GameBoard(props) {
                 if (tCard.type === CARD_TYPE.artifact && costsAction) {
                     tPlayerState.resources.texts -= 1;
                 }
+
+                /* some card need rewards modal window to choose between possible effects */
+                if (effectsResult.showRewardsModal) {
+                    initiateRewardsModal(effectsResult.rewardsData);
+                }
+
                 setPlayerState(tPlayerState);
                 setStore(tStore);
             }
@@ -163,7 +175,8 @@ function GameBoard(props) {
 
             /* Resolve active effects */
             // explore any location with discount is processed during location exploration
-            if (tPlayerState.activeEffects.length > 0 && tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount4) {
+            if (tPlayerState.activeEffects.length > 0 && (tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount4
+                && tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount3)) {
                 const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
                     null, {...store}, tLocations, setRewardsModal);
                 console.log("finished processing active effects in location");
@@ -174,23 +187,27 @@ function GameBoard(props) {
                 switch (location.state) {
                     case LOCATION_STATE.unexplored:
                         console.log("Exloring location initialized.");
-                        const exploreAnywhereWithDiscount = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
-                        if (exploreAnywhereWithDiscount) {tPlayerState.activeEffects.splice(0)}
-                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreAnywhereWithDiscount) {
+                        const exploreDiscount3 = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount3;
+                        const exploreDiscount4 = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
+                        if (exploreDiscount3 || exploreDiscount4) {tPlayerState.activeEffects.splice(0)}
+                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreDiscount3 || exploreDiscount4) {
                             const resources = tPlayerState.resources;
 
                             let exploreCost = location.exploreCost.explore;
-                            if (exploreAnywhereWithDiscount) {
+                            if (exploreDiscount3) {
+                                exploreCost = exploreCost < 4 ? 0 : exploreCost - 3;
+                            }
+                            if (exploreDiscount4) {
                                 exploreCost = exploreCost < 5 ? 0 : exploreCost - 4;
                             }
                             const coinsCost = location.exploreCost.coins;
                             const enoughResources = resources.explore >= exploreCost && resources.coins >= coinsCost
-                                && (tPlayerState.actions > 0 || exploreAnywhereWithDiscount);
+                                && (tPlayerState.actions > 0 || exploreDiscount3 || exploreDiscount4);
 
                             if (enoughResources) {
                                 resources.coins -= coinsCost;
                                 resources.explore -= exploreCost;
-                                tPlayerState.actions -= exploreAnywhereWithDiscount ? 0 : 1;
+                                tPlayerState.actions -= exploreDiscount4 ? 0 : 1;
 
                                 const locationPosition = getPositionInLocationLine(location, locationLine, locations);
                                 tLocations[locationLine][locationPosition].state = LOCATION_STATE.explored;
@@ -258,14 +275,19 @@ function GameBoard(props) {
         }
     }
 
-    /** HANDLE REWARD MODAL **/
-    function handleReward(tPlayerState, tStore) {
+    /** CLOSE REWARD MODAL **/
+    function closeRewards(tPlayerState, tStore, finishRound) {
         setPlayerState(tPlayerState);
         setStore(tStore);
         // todo modal data should be an array, processing of new data should be set here
         setRewardsModalData({type: REWARD_TYPE.card, data: []});
         setShowRewardsModal(false);
         setIsModalActive(false);
+        if (finishRound) {
+            handleEndRound();
+            // we have to avoid triggering passing round to next player call
+            tPlayerState.activeEffects.push("finishing round");
+        }
     }
 
 
@@ -395,6 +417,7 @@ function GameBoard(props) {
 
     /** SET NEXT PLAYER **/
     if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive) {
+        console.log("next player ");
         nextPlayer();
     }
 
@@ -453,9 +476,9 @@ function GameBoard(props) {
         handleCardBuy: handleCardBuy,
         handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
         handleClickOnLocation: handleClickOnLocation,
-        handleReward: handleReward,
+        handleReward: closeRewards,
         handleClickOnLegend: handleClickOnLegend,
-        handleClickOnIncomeTile: handleClickOnIncomeTile
+        handleClickOnIncomeTile: handleClickOnIncomeTile,
     };
 
     const playerStateContextValues = {

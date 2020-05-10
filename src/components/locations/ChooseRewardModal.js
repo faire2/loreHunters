@@ -7,6 +7,7 @@ import {cloneDeep} from "lodash";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {processEffects} from "../functions/processEffects";
 import {handleIncomes} from "../../server/serverFunctions";
+import {socket} from "../../server/socketConnection";
 
 
 export default function ChooseRewardModal() {
@@ -45,6 +46,7 @@ export default function ChooseRewardModal() {
 
     function handleClickOnReward(reward, index) {
         let effects = [];
+        let finishRound = false;
         switch (rewardType) {
             case REWARD_TYPE.card:
                 if (reward.type === CARD_TYPE.goalCard) {
@@ -66,10 +68,10 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.effectsArr:
                 effects = rewardType === REWARD_TYPE.incomeToken ? reward.effects : reward.effects;
-                debugger
                 const effectsResult = processEffects(null, null, tPlayerState, effects, null, null, null, null);
                 if (effectsResult.processedAllEffects) {
                 tPlayerState = effectsResult.tPlayerState;
+                finishRound = effectsResult.finishRound;
                 } else {
                     console.log("Effects could not be processed in handleClickOnReward");
                     console.log(reward);
@@ -79,7 +81,7 @@ export default function ChooseRewardModal() {
                 console.log("Element type could not be identified at getElement: ");
                 console.log(rewardType);
         }
-        boardStateContext.handleReward(tPlayerState, tStore);
+        boardStateContext.handleReward(tPlayerState, tStore, finishRound);
     }
 
     return (

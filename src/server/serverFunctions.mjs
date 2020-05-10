@@ -245,7 +245,6 @@ export function updateRoomState(room, playerIndex, states) {
     let tPlayerState = states.playerState;
     tPlayerState = resetTransport(tPlayerState);
     room.states.playerStates.splice(playerIndex, 1, tPlayerState);
-    console.log("playerstate transport reset: " + room.states.playerStates[playerIndex]);
     room.states.store = states.store;
     room.states.locations = states.locations;
     room.states.legends = states.legends;
