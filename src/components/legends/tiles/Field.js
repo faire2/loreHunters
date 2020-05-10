@@ -22,9 +22,12 @@ export const Field = (props) => {
     let effectsTextArr = props.field.effectsText;
     let effectsArr = props.field.effects;
     if ((usage > 0 && numOfPlayers < 4) || (numOfPlayers === 4 && usage > 1)) {
-        if (effectsArr[0] === EFFECT.gainExploreIfFirst || effectsArr[0] === EFFECT.gainCoinIfFirst || effectsArr[0]
-            === EFFECT.gainCoinOrExploreIfFirst) {
+        if (effectsArr[0] === EFFECT.gainExploreIfFirst || effectsArr[0] === EFFECT.gainCoinIfFirst) {
             effectsTextArr.splice(0, 1);
+            effectsArr.splice(0, 1);
+        }
+        if (effectsArr[0] === EFFECT.gainCoinOrExploreIfFirst) {
+            effectsTextArr.splice(0, 3);
             effectsArr.splice(0, 1);
         }
     }

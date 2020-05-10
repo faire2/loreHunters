@@ -325,6 +325,10 @@ function GameBoard(props) {
                         setShowRewardsModal(true);
                         setIsModalActive(true);
                     }
+                /* some card need rewards modal window to choose between possible effects */
+                if (legendResult.showRewardsModal) {
+                    initiateRewardsModal(legendResult.rewardsData);
+                }
                 setPlayerState(legendResult.tPlayerState);
                 setLocations(legendResult.tLocations);
                 setLegends(legendResult.tLegends);

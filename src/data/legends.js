@@ -51,7 +51,7 @@ export const Legends2 = Object.freeze({
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.gainExploreIfFirst, EFFECT.gainCoinIfFirst],
+                    effects: [EFFECT.gainCoinOrExploreIfFirst],
                     effectsText: [<Explore/>, "|", <Coin/>],
                     cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon],
                     costText: [<Text/>, <Text/>, <Weapon/>],

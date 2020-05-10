@@ -42,9 +42,9 @@ export const emptyPlayerState = Object.freeze({
     resources: {
         coins: 2,
         explore: 0,
-        texts: 0,
-        weapons: 0,
-        jewels: 0,
+        texts: 10,
+        weapons: 10,
+        jewels: 10,
         shinies: 0,
         walk: 0,
         jeep: 0,
@@ -95,9 +95,9 @@ export default function getInitialPlayerStates(numOfPlayers) {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        const testCard0 = {...ITEM_IDs.beerMug};
+        /*const testCard0 = {...ITEM_IDs.beerMug};
         testCard0.state = CARD_STATE.drawDeck;
-        drawDeck.splice(0, 0, testCard0);
+        drawDeck.splice(0, 0, testCard0);*/
 
         /*const testCard = {...ARTIFACT_IDs.portalStone};
         testCard.state = CARD_STATE.inHand;

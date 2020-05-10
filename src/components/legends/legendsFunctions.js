@@ -143,7 +143,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
                                 if (position.fieldIndex === prevPositions[fieldIndex]) {
                                     correctToken = true
                                 }
-                                break
+                                break;
                             default:
                                 console.log("Unable to process field size in handleClickOnLegend: " + field.size);
                         }
@@ -165,7 +165,8 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
             }
             legends[legendIndex].positions[playerIndex] = positions;
             effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
-            return {tPlayerState: effectsResult.tPlayerState, tLegends: legends, tStore: store, tLocations: locations, positions: positions}
+            return {tPlayerState: effectsResult.tPlayerState, tLegends: legends, tStore: store, tLocations: locations,
+                positions: positions, rewardsData: effectsResult.rewardsData, showRewardsModal: effectsResult.showRewardsModal}
         }
     }
     return false

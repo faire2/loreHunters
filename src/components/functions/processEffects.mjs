@@ -6,7 +6,7 @@ import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs, INCOME_STATE, REWARD_TYPE} from "../../data/idLists";
 import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
 import React from "react";
-import {Coin} from "../Symbols";
+import {Coin, Explore} from "../Symbols";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {
@@ -174,8 +174,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainCoinOrExploreIfFirst:
-                    /*setRewardsModalData([{effects: EFFECT.gainCoin, effectsText: <Coin/>}, {effects: EFFECT.gainExplore, effectsText: <Explore/>}]);
-                    showRewardsModal = true;*/
+                    rewardsData = ({type: REWARD_TYPE.effectsArr, data: [{effects: [EFFECT.gainCoin], effectsText: <Coin/>},
+                            {effects: [EFFECT.gainExplore], effectsText: <Explore/>}]});
+                    showRewardsModal = true;
                     break;
 
                 case EFFECT.gainDiscoveryBonus:
