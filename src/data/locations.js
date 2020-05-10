@@ -3,7 +3,7 @@ import {
     Arrow,
     Artifact,
     Blimp,
-    Coin,
+    Coin, DefeatedGuardian,
     DestroyCard,
     Discard,
     Draw1Card,
@@ -193,8 +193,8 @@ export const LOCATIONS = Object.freeze({
     g32: {
         id: "g32",
         effectsText: <div><Weapon/><Uptrade/></div>,
-        effectsImage: <G32/>,
-        effects: [EFFECT.gainCoin, EFFECT.defeatGuardian],
+        effectsImage: <DefeatedGuardian/>,
+        effects: [EFFECT.defeatGuardian],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
     },
     g33: {

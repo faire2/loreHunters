@@ -72,15 +72,17 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.defeatGuardian:
-            if (tCard.type === CARD_TYPE.guardian) {
-                let lockEffects = gainLockedResourceBack(tCard.locked, []);
+            if (tCard !== null && tCard.type === CARD_TYPE.guardian) {
                 tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
-                tPlayerState = removeCard(tCard, tPlayerState);
                 tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
-                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, lockEffects,
-                    null, tStore, null, null, null);
-                tPlayerState = effectsResult.tPlayerState;
-                tStore = effectsResult.tStore;
+                tPlayerState = removeCard(tCard, tPlayerState);
+                if (tCard.state === CARD_STATE.active) {
+                    let lockEffects = gainLockedResourceBack(tCard.locked, []);
+                    const effectsResult = processEffects(tCard, cardIndex, tPlayerState, lockEffects,
+                        null, tStore, null, null, null);
+                    tPlayerState = effectsResult.tPlayerState;
+                    tStore = effectsResult.tStore;
+                }
                 tPlayerState.activeEffects.splice(0, 1);
             }
             break;

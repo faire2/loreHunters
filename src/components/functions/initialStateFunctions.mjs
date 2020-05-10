@@ -42,9 +42,9 @@ export const emptyPlayerState = Object.freeze({
     resources: {
         coins: 2,
         explore: 0,
-        texts: 10,
-        weapons: 10,
-        jewels: 10,
+        texts: 0,
+        weapons: 0,
+        jewels: 0,
         shinies: 0,
         walk: 0,
         jeep: 0,
@@ -103,9 +103,9 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 
-        /*const testCard = {...ARTIFACT_IDs.portalStone};
-        testCard.state = CARD_STATE.inHand;
-        hand.splice(0, 0, testCard);*/
+        /*const testCard = {...GUARDIAN_IDs.energyLeech};
+        testCard.state = CARD_STATE.discard;
+        playerState.discardDeck.splice(0, 0, testCard);*/
 
         /*for (let key in ITEM_IDs) {
             let card = {...ITEM_IDs[key]};
@@ -268,6 +268,8 @@ export function getInitialLocations(numOfPlayers) {
 
     /* there are is a specific spatial configuration for every player number variation: */
     let line1 = level1;
+    /*let line1.push(locations.g32);
+    line1[5].state = LOCATION_STATE.explored;*/
     let line2 = [];
     let line3 = [];
     let line4 = [];
