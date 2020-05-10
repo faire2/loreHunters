@@ -156,6 +156,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         tPlayerState.discardDeck.push(GUARDIAN_IDs[tCard.id]);
                         tPlayerState.activeCards.splice(cardIndex, 1);
                         tPlayerState.hand.push(ITEM_IDs.fear);
+                        tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
                     }
                     break;
 

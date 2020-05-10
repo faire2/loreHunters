@@ -31,6 +31,7 @@ export default function ChooseRewardModal() {
         fontSize: "6vw",
         display: "flex",
         flexFlow: "row",
+        color: "grey"
     };
 
     function getElement(reward) {
@@ -96,7 +97,6 @@ export default function ChooseRewardModal() {
         }
         boardStateContext.handleReward(tPlayerState, tStore, finishRound);
     }
-
     return (
         <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null}>
             <Modal.Header>
@@ -107,7 +107,7 @@ export default function ChooseRewardModal() {
                     {rewards.data.map((reward, i) =>
                         <div style={rewardStyle} onClick={() => handleClickOnReward(reward, i)} key={i}>
                             {getElement(reward)}
-                            {i < rewards.length ? "|" : ""}
+                            {i < rewards.data.length - 1 && rewardType === REWARD_TYPE.effectsArr ? "|" : ""}
                         </div>
                     )}
                 </div>
