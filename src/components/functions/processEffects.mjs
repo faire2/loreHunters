@@ -206,7 +206,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         ]};
                     break;
 
-                case EFFECT.gainCoinAndExploreForGuardians:
+                case EFFECT.gainCoinAndExploresForGuardians:
                     let defeatedGuardians = 0;
                     for (let card of tPlayerState.victoryCards) {
                         if (card.type === CARD_TYPE.guardian) {
@@ -214,7 +214,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         }
                     }
                     defeatedGuardians = defeatedGuardians > 3 ? 3 : defeatedGuardians;
-                    tPlayerState.resources.coins += defeatedGuardians;
+                    tPlayerState.resources.coins += 1;
                     tPlayerState.resources.explore += defeatedGuardians;
                     break;
 

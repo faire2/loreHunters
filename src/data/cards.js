@@ -350,7 +350,7 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
         effectsText: <div className="effectsText"><b>Gain:</b> 1 <Coin/><Explore/> for up to 3 <Guardian/> you defeated.</div>,
-        effects: [EFFECT.gainCoinAndExploreForGuardians],
+        effects: [EFFECT.gainCoinAndExploresForGuardians],
         image: beerMugImg,
         cost: 3,
         points: 2
