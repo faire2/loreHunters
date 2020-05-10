@@ -106,31 +106,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             tPlayerState.activeEffects.splice(0, 1);
             break;
 
-        case EFFECT.drawFromDrawDeckOrDiscard:
-            if (tCard !== null && (tCard.state === CARD_STATE.drawDeck || tCard.state === CARD_STATE.discard)) {
-                /* we have the actual hand stored in active effects */
-                tPlayerState.hand = tPlayerState.activeEffects[1];
-                tPlayerState.drawDeck = shuffleArray(tPlayerState.drawDeck);
-                tPlayerState.hand.push(getIdCard(tCard));
-                tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
-                tPlayerState.activeEffects.splice(0, 2);
-                if (tCard.state === CARD_STATE.drawDeck)
-                    for (let i = 0; i < tPlayerState.drawDeck.length; i++) {
-                        if (tPlayerState.drawDeck[i].id === tCard.id) {
-                            tPlayerState.drawDeck.splice(i, 1);
-                            break;
-                        }
-                    } else if (tCard.state === CARD_STATE.discard) {
-                    for (let i = 0; i < tPlayerState.discardDeck.length; i++) {
-                        if (tPlayerState.discardDeck[i].id === tCard.id) {
-                            tPlayerState.discardDeck.splice(i, 1);
-                            break;
-                        }
-                    }
-                }
-            }
-            break;
-
         case EFFECT.exploreAnyLocationWithDiscount3:
         case EFFECT.exploreAnyLocationWithDiscount4:
             // effect is processed in location exploration

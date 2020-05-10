@@ -135,10 +135,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.drawFromDrawDeckOrDiscard:
-                    tActiveEffects.push(effect);
-                    /* hand is stored in activeEffects to be retrieved later */
-                    tActiveEffects.splice(1, 0, tPlayerState.hand);
-                    tPlayerState.hand = [...tPlayerState.drawDeck, ...tPlayerState.discardDeck];
+                    rewardsData = {type: REWARD_TYPE.card, data: [...tPlayerState.discardDeck, ...tPlayerState.drawDeck]}
+                    showRewardsModal = true;
                     break;
 
                 case EFFECT.draw2ForGuardian:

@@ -95,9 +95,9 @@ export default function getInitialPlayerStates(numOfPlayers) {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard0 = {...ITEM_IDs.beerMug};
+        const testCard0 = {...ARTIFACT_IDs.ringOfLight};
         testCard0.state = CARD_STATE.drawDeck;
-        drawDeck.splice(0, 0, testCard0);*/
+        drawDeck.splice(0, 0, testCard0);
 
         /*const testCard = {...ARTIFACT_IDs.portalStone};
         testCard.state = CARD_STATE.inHand;

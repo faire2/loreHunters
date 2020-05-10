@@ -1,13 +1,13 @@
 import React, {useContext} from "react";
 import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
-import {CARD_TYPE, INCOME_LEVEL, INCOME_STATE, REWARD_TYPE} from "../../data/idLists";
+import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, REWARD_TYPE} from "../../data/idLists";
 import Card from "../cards/Card";
 import {cloneDeep} from "lodash";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {processEffects} from "../functions/processEffects";
 import {handleIncomes} from "../../server/serverFunctions";
-import {socket} from "../../server/socketConnection";
+import {removeCard} from "../functions/cardManipulationFuntions";
 
 
 export default function ChooseRewardModal() {
@@ -19,7 +19,15 @@ export default function ChooseRewardModal() {
     let tPlayerState = cloneDeep(boardStateContext.playerState);
     let tStore = cloneDeep(boardStateContext.store);
 
-    const fontSizeStyle = {
+    const containerStyle = {
+        display: "flex",
+        flexFlow: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center"
+    };
+
+    const rewardStyle = {
         fontSize: "6vw",
         display: "flex",
         flexFlow: "row",
@@ -52,6 +60,11 @@ export default function ChooseRewardModal() {
                 if (reward.type === CARD_TYPE.goalCard) {
                     tPlayerState.victoryCards.push(reward);
                     tStore.expeditions.splice(index, 1);
+                } else {
+                    // all effects send reward card to hand
+                    reward.state = CARD_STATE.inHand;
+                    tPlayerState = removeCard(reward, tPlayerState);
+                    tPlayerState.hand.push(reward);
                 }
                 break;
             case REWARD_TYPE.incomeToken:
@@ -70,8 +83,8 @@ export default function ChooseRewardModal() {
                 effects = rewardType === REWARD_TYPE.incomeToken ? reward.effects : reward.effects;
                 const effectsResult = processEffects(null, null, tPlayerState, effects, null, null, null, null);
                 if (effectsResult.processedAllEffects) {
-                tPlayerState = effectsResult.tPlayerState;
-                finishRound = effectsResult.finishRound;
+                    tPlayerState = effectsResult.tPlayerState;
+                    finishRound = effectsResult.finishRound;
                 } else {
                     console.log("Effects could not be processed in handleClickOnReward");
                     console.log(reward);
@@ -87,13 +100,14 @@ export default function ChooseRewardModal() {
     return (
         <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null}>
             <Modal.Header>
-                <Modal.Title>Choose reward for exploring location</Modal.Title>
+                <Modal.Title>Choose your boon</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className="text-center">
+                <div style={containerStyle}>
                     {rewards.data.map((reward, i) =>
-                        <div style={fontSizeStyle} onClick={() => handleClickOnReward(reward, i)} key={i}>
+                        <div style={rewardStyle} onClick={() => handleClickOnReward(reward, i)} key={i}>
                             {getElement(reward)}
+                            {i < rewards.length ? "|" : ""}
                         </div>
                     )}
                 </div>
