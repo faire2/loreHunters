@@ -100,11 +100,9 @@ function GameBoard(props) {
         if (playerState.firstTurn && isActivePlayer) {
             let tStore = store;
             playerState.firstTurn = false;
-            setRewardsModalData({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
             tStore.expeditions.splice(0, 2);
             setStore(tStore);
-            setShowRewardsModal(true);
-            setIsModalActive(true);
+            initiateRewardsModal({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
         }}, [isActivePlayer]);
 
     useEffect(() => {
@@ -231,10 +229,8 @@ function GameBoard(props) {
                                 const guardianResults = handleGuardianArrival(tPlayerState, cloneDeep(store), round);
                                 setStore(guardianResults.tStore);
                                 setPlayerState(guardianResults.tPlayerState);
-                                setRewardsModalData({type: REWARD_TYPE.effectsArr, data: [{effects: location.effects, effectsText: location.effectsImage},
-                                        {effects: guardianEffects, effectsText: guardianText}]});
-                                setShowRewardsModal(true);
-                                setIsModalActive(true);
+                                initiateRewardsModal({type: REWARD_TYPE.effectsArr, data: [{effects: location.effects, effectsText: location.effectsImage},
+                                        {effects: guardianEffects, effectsText: guardianText}]})
                             } else {
                                 console.log("Not enough resources to explore location.");
                             }
@@ -314,16 +310,14 @@ function GameBoard(props) {
                     if (isRewardDue) {
                         if (columnIndex === 1 || columnIndex === 3) {
                             const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                            setRewardsModalData({type: REWARD_TYPE.card, data: expeditionsArr});
+                            initiateRewardsModal({type: REWARD_TYPE.card, data: expeditionsArr});
                         } else if (columnIndex === 0) {
                             const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
-                            setRewardsModalData({type: REWARD_TYPE.incomeToken, data: incomeArr});
+                            initiateRewardsModal({type: REWARD_TYPE.incomeToken, data: incomeArr});
                         } else if (columnIndex === 2) {
                             const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
-                            setRewardsModalData({type: REWARD_TYPE.incomeToken, data: incomeArr});
+                            initiateRewardsModal({type: REWARD_TYPE.incomeToken, data: incomeArr});
                         }
-                        setShowRewardsModal(true);
-                        setIsModalActive(true);
                     }
                 /* some card need rewards modal window to choose between possible effects */
                 if (legendResult.showRewardsModal) {
