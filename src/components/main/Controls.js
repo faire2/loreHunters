@@ -7,7 +7,7 @@ export const Controls = (props) => {
     const playerStateContext = useContext(PlayerStateContext);
     const isActivePlayer = playerStateContext.isActivePlayer;
     const activeEffect = playerStateContext.playerState.activeEffects[0];
-    const destroyEffect = activeEffect !== EFFECT.discard;
+    const notDiscardEffect = activeEffect !== EFFECT.discard;
 
     /*function restartGame() {
         socket.emit(TRANSMISSIONS.newGame, {})
@@ -30,7 +30,7 @@ export const Controls = (props) => {
                 {/*<button className="btn-primary" onClick={() => playerStateContext.nextPlayer()}>next player</button>*/}
                 {}
                 {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
-                {destroyEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
+                {notDiscardEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
                 {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.undo()}>undo</button>}
                 {/*<button className="btn-primary" onClick={() => restartGame()}>restart game</button>*/}
                 {/*<button className="btn-primary"
