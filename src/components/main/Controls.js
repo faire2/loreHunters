@@ -7,8 +7,7 @@ export const Controls = (props) => {
     const playerStateContext = useContext(PlayerStateContext);
     const isActivePlayer = playerStateContext.isActivePlayer;
     const activeEffect = playerStateContext.playerState.activeEffects[0];
-    const destroyEffect = activeEffect === EFFECT.destroyCard || activeEffect === EFFECT.defeatGuardian || activeEffect
-        === EFFECT.uptrade;
+    const destroyEffect = activeEffect !== EFFECT.discard;
 
     /*function restartGame() {
         socket.emit(TRANSMISSIONS.newGame, {})

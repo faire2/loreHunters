@@ -148,6 +148,7 @@ io.on("connection", socket => {
 
     /** RESET TURN **/
     socket.on(TRANSMISSIONS.resetTurn, roomName => {
+        console.log("resetting turn");
         const room = getRoom(roomName, gameRooms);
         socket.emit(TRANSMISSIONS.stateUpdate, {
             playerStates: room.states.playerStates,
