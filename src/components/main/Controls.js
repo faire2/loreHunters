@@ -6,8 +6,9 @@ import {EFFECT} from "../../data/effects";
 export const Controls = (props) => {
     const playerStateContext = useContext(PlayerStateContext);
     const isActivePlayer = playerStateContext.isActivePlayer;
-    const destroyEffect = playerStateContext.playerState.activeEffects[0] === EFFECT.destroyCard
-        || playerStateContext.playerState.activeEffects[0] === EFFECT.defeatGuardian;
+    const activeEffect = playerStateContext.playerState.activeEffects[0];
+    const destroyEffect = activeEffect === EFFECT.destroyCard || activeEffect === EFFECT.defeatGuardian || activeEffect
+        === EFFECT.uptrade;
 
     /*function restartGame() {
         socket.emit(TRANSMISSIONS.newGame, {})
@@ -31,6 +32,7 @@ export const Controls = (props) => {
                 {}
                 {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
                 {destroyEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
+                <button className="btn-primary" onClick={() => playerStateContext.()}>undo</button>
                 {/*<button className="btn-primary" onClick={() => restartGame()}>restart game</button>*/}
                 {/*<button className="btn-primary"
                         onClick={()  => history.push({

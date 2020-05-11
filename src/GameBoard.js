@@ -413,6 +413,7 @@ function GameBoard(props) {
         }
     }
 
+    /** CANCEL EFFECTS **/
     function cancelEffects() {
         let tPlayerState = cloneDeep(playerState);
         tPlayerState.activeEffects = [];
