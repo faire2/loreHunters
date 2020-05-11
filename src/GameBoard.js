@@ -326,7 +326,7 @@ function GameBoard(props) {
                 // first four columns award extra rewards when non-first player's tokens reach them
                     const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
                     if (isRewardDue) {
-                        if (columnIndex === 1 || columnIndex === 3) {
+                        if (columnIndex === 1) {
                             const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
                             rewardsData.push({type: REWARD_TYPE.card, data: expeditionsArr});
                         } else if (columnIndex === 0) {
