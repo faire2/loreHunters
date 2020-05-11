@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
 import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, REWARD_TYPE} from "../../data/idLists";
@@ -15,7 +15,7 @@ export default function ChooseRewardModal() {
 
     const showModal = boardStateContext.showModal;
     const rewards = boardStateContext.modalData;
-    const rewardType = rewards.type;
+    const rewardType = rewards.length > 0 ? rewards[0].type : null;
     let tPlayerState = cloneDeep(boardStateContext.playerState);
     let tStore = cloneDeep(boardStateContext.store);
 
@@ -24,14 +24,16 @@ export default function ChooseRewardModal() {
         flexFlow: "row",
         justifyContent: "center",
         alignItems: "center",
-        textAlign: "center"
+        textAlign: "center",
     };
 
     const rewardStyle = {
         fontSize: "6vw",
         display: "flex",
         flexFlow: "row",
-        color: "grey"
+        alignItems: "center",
+        color: "grey",
+        height: "7vw",
     };
 
     function getElement(reward) {
@@ -45,6 +47,8 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.effectsArr:
                 element = reward.effectsText;
+                break;
+            case null:
                 break;
             default:
                 console.log("Element type could not be identified at getElement: ");
@@ -95,7 +99,8 @@ export default function ChooseRewardModal() {
                 console.log("Element type could not be identified at getElement: ");
                 console.log(rewardType);
         }
-        boardStateContext.handleReward(tPlayerState, tStore, finishRound);
+        const moreRewardsToProcess = rewards.length > 1;
+        boardStateContext.handleReward(tPlayerState, tStore, finishRound, moreRewardsToProcess);
     }
     return (
         <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null}>
@@ -104,10 +109,10 @@ export default function ChooseRewardModal() {
             </Modal.Header>
             <Modal.Body>
                 <div style={containerStyle}>
-                    {rewards.data.map((reward, i) =>
+                    {rewards.length > 0 && rewards[0].data.map((reward, i) =>
                         <div style={rewardStyle} onClick={() => handleClickOnReward(reward, i)} key={i}>
                             {getElement(reward)}
-                            {i < rewards.data.length - 1 && rewardType === REWARD_TYPE.effectsArr ? "|" : ""}
+                            {i < rewards[0].data.length - 1 && rewardType === REWARD_TYPE.effectsArr ? "|" : ""}
                         </div>
                     )}
                 </div>

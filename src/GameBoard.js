@@ -41,6 +41,7 @@ import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
 
 function GameBoard(props) {
+    console.log("** render **");
     const history = useHistory();
     if (!props.location.data) {
         history.push({pathname: "/", data: {}});
@@ -65,14 +66,46 @@ function GameBoard(props) {
     const [playerStates, setPlayerStates] = useState(emptyPlayerStates);
 
     // rewards are an array with objects describing values: {type: ..., data: [{effects: ..., effectsText: ...}, ...]
-    const [rewardsModalData, setRewardsModalData] = useState({type: REWARD_TYPE.card, data: []});
+    const [rewardsModalData, setRewardsModalData] = useState([]);
     const [showRewardsModal, setShowRewardsModal] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
-    // todo rewrite all occassion to following function:
+
+    /** INITIATE REWARDS MODAL **/
     function initiateRewardsModal(rewardsData) {
-        setRewardsModalData(rewardsData);
+        console.log("Rewards data: ");
+        console.log(rewardsData);
+        let tRewardsModalData = cloneDeep(rewardsModalData);
+        // rewards can come as a reward object or as an array of reward objects
+        if (Array.isArray(rewardsData)) {
+            for (let reward of rewardsData) {
+                tRewardsModalData.push(reward);
+            }
+        } else {
+            tRewardsModalData.push(rewardsData);
+        }
+        setRewardsModalData(tRewardsModalData);
         setShowRewardsModal(true);
         setIsModalActive(true);
+    }
+
+    /** PROCESS REWARD MODAL **/
+    function handleRewards(tPlayerState, tStore, finishRound, moreRewardsToProcess) {
+        setPlayerState(tPlayerState);
+        setStore(tStore);
+        if (!moreRewardsToProcess) {
+            setRewardsModalData([]);
+            setShowRewardsModal(false);
+            setIsModalActive(false);
+        } else {
+            const tRewardsModalData = cloneDeep(rewardsModalData);
+            tRewardsModalData.splice(0, 1);
+            setRewardsModalData(tRewardsModalData);
+        }
+        if (finishRound) {
+            handleEndRound();
+            // we have to avoid triggering passing round to next player call
+            tPlayerState.activeEffects.push("finishing round");
+        }
     }
 
     const [extendBottomPanel, setExtendBottomPanel] = useState(false);
@@ -100,9 +133,9 @@ function GameBoard(props) {
         if (playerState.firstTurn && isActivePlayer) {
             let tStore = store;
             playerState.firstTurn = false;
+            initiateRewardsModal({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
             tStore.expeditions.splice(0, 2);
             setStore(tStore);
-            initiateRewardsModal({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
         }}, [isActivePlayer]);
 
     useEffect(() => {
@@ -271,22 +304,6 @@ function GameBoard(props) {
         }
     }
 
-    /** CLOSE REWARD MODAL **/
-    function closeRewards(tPlayerState, tStore, finishRound) {
-        setPlayerState(tPlayerState);
-        setStore(tStore);
-        // todo modal data should be an array, processing of new data should be set here
-        setRewardsModalData({type: REWARD_TYPE.card, data: []});
-        setShowRewardsModal(false);
-        setIsModalActive(false);
-        if (finishRound) {
-            handleEndRound();
-            // we have to avoid triggering passing round to next player call
-            tPlayerState.activeEffects.push("finishing round");
-        }
-    }
-
-
     /** HANDLE BONUS **/
     function handleClickOnBonusAction(effects) {
         if (isActivePlayer) {
@@ -305,23 +322,27 @@ function GameBoard(props) {
                 cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
             if (legendResult) {
                 const tStore = legendResult.tStore;
+                const rewardsData = [];
                 // first four columns award extra rewards when non-first player's tokens reach them
                     const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
                     if (isRewardDue) {
                         if (columnIndex === 1 || columnIndex === 3) {
                             const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                            initiateRewardsModal({type: REWARD_TYPE.card, data: expeditionsArr});
+                            rewardsData.push({type: REWARD_TYPE.card, data: expeditionsArr});
                         } else if (columnIndex === 0) {
                             const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
-                            initiateRewardsModal({type: REWARD_TYPE.incomeToken, data: incomeArr});
+                            rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
                         } else if (columnIndex === 2) {
                             const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
-                            initiateRewardsModal({type: REWARD_TYPE.incomeToken, data: incomeArr});
+                            rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
                         }
                     }
                 /* some card need rewards modal window to choose between possible effects */
                 if (legendResult.showRewardsModal) {
-                    initiateRewardsModal(legendResult.rewardsData);
+                    rewardsData.push(legendResult.rewardsData);
+                }
+                if (rewardsData.length > 0) {
+                    initiateRewardsModal(rewardsData);
                 }
                 setPlayerState(legendResult.tPlayerState);
                 setLocations(legendResult.tLocations);
@@ -480,7 +501,7 @@ function GameBoard(props) {
         handleCardBuy: handleCardBuy,
         handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
         handleClickOnLocation: handleClickOnLocation,
-        handleReward: closeRewards,
+        handleReward: handleRewards,
         handleClickOnLegend: handleClickOnLegend,
         handleClickOnIncomeTile: handleClickOnIncomeTile,
     };
