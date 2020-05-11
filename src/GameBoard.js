@@ -39,6 +39,7 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
+import {ACTION_TYPE, addLogEntry} from "./components/main/Logger";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -136,7 +137,8 @@ function GameBoard(props) {
             initiateRewardsModal({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
             tStore.expeditions.splice(0, 2);
             setStore(tStore);
-        }}, [isActivePlayer]);
+        }
+    }, [isActivePlayer]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyPress);
@@ -191,6 +193,8 @@ function GameBoard(props) {
 
                 setPlayerState(tPlayerState);
                 setStore(tStore);
+                addLogEntry(tPlayerState, costsAction ? ACTION_TYPE.playsCard : ACTION_TYPE.playsCardWithoutAction,
+                    tCard.id, null);
             }
         } else {
             console.log("Card action could not be processed - player has no actions.");
@@ -220,7 +224,9 @@ function GameBoard(props) {
                         console.log("Exloring location initialized.");
                         const exploreDiscount3 = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount3;
                         const exploreDiscount4 = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
-                        if (exploreDiscount3 || exploreDiscount4) {tPlayerState.activeEffects.splice(0)}
+                        if (exploreDiscount3 || exploreDiscount4) {
+                            tPlayerState.activeEffects.splice(0)
+                        }
                         if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreDiscount3 || exploreDiscount4) {
                             const resources = tPlayerState.resources;
 
@@ -262,8 +268,13 @@ function GameBoard(props) {
                                 const guardianResults = handleGuardianArrival(tPlayerState, cloneDeep(store), round);
                                 setStore(guardianResults.tStore);
                                 setPlayerState(guardianResults.tPlayerState);
-                                initiateRewardsModal({type: REWARD_TYPE.effectsArr, data: [{effects: location.effects, effectsText: location.effectsImage},
-                                        {effects: guardianEffects, effectsText: guardianText}]})
+                                initiateRewardsModal({
+                                    type: REWARD_TYPE.effectsArr,
+                                    data: [{effects: location.effects, effectsText: location.effectsImage},
+                                        {effects: guardianEffects, effectsText: guardianText}]
+                                });
+                                addLogEntry(tPlayerState, ACTION_TYPE.exploresLocation, location.id,
+                                    {explore: exploreCost, coins: coinsCost});
                             } else {
                                 console.log("Not enough resources to explore location.");
                             }
@@ -285,6 +296,7 @@ function GameBoard(props) {
                                 setPlayerState(tPlayerState);
                                 let tLocations = occupyLocation(cloneDeep(locations), location.id, locationLine, tPlayerState.playerIndex);
                                 setLocations(tLocations);
+                                addLogEntry(tPlayerState, ACTION_TYPE.activatesLocation, location.id, effects)
                             } else {
                                 console.log("Some effects were not processed. Location could not be used.");
                             }
@@ -312,6 +324,7 @@ function GameBoard(props) {
             setPlayerState(effectProcessResults.tPlayerState);
             setStore(effectProcessResults.tStore);
             setLocations(effectProcessResults.tLocations);
+            addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
         }
     }
 
@@ -324,19 +337,19 @@ function GameBoard(props) {
                 const tStore = legendResult.tStore;
                 const rewardsData = [];
                 // first four columns award extra rewards when non-first player's tokens reach them
-                    const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
-                    if (isRewardDue) {
-                        if (columnIndex === 1) {
-                            const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                            rewardsData.push({type: REWARD_TYPE.card, data: expeditionsArr});
-                        } else if (columnIndex === 0) {
-                            const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
-                            rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
-                        } else if (columnIndex === 2) {
-                            const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
-                            rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
-                        }
+                const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
+                if (isRewardDue) {
+                    if (columnIndex === 1) {
+                        const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
+                        rewardsData.push({type: REWARD_TYPE.card, data: expeditionsArr});
+                    } else if (columnIndex === 0) {
+                        const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
+                        rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
+                    } else if (columnIndex === 2) {
+                        const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
+                        rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
                     }
+                }
                 /* some card need rewards modal window to choose between possible effects */
                 if (legendResult.showRewardsModal) {
                     rewardsData.push(legendResult.rewardsData);
@@ -379,8 +392,8 @@ function GameBoard(props) {
                 tPlayerState.activeEffects.splice(0, 1);
                 setPlayerState(processUptrade(tPlayerState, resource));
             } else if (playerState.activeEffects[0] === EFFECT.progressWithTextsOrWeapon
-                && (resource === RESOURCES.TEXTS || resource === RESOURCES.WEAPONS)) {
-                if (resource === RESOURCES.TEXTS) {
+                && (resource === RESOURCES.texts || resource === RESOURCES.weapons)) {
+                if (resource === RESOURCES.texts) {
                     tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithTexts);
                 } else {
                     tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithWeapon);
@@ -392,7 +405,9 @@ function GameBoard(props) {
 
     /** HANDLE CLICK ON INCOME TILE **/
     function handleClickOnIncomeTile(effects, incomeId) {
-        setPlayerState(processIncomeTile(effects, incomeId, cloneDeep(playerState)))
+        const tPlayerState = processIncomeTile(effects, incomeId, cloneDeep(playerState));
+        setPlayerState(tPlayerState);
+        addLogEntry(tPlayerState, ACTION_TYPE.usesAssistant, incomeId, effects);
     }
 
     /** HANDLE CLICK ON RELIC **/
@@ -405,6 +420,7 @@ function GameBoard(props) {
             tPlayersState.relics[effectIndex] = false;
             tPlayersState.resources.shinies -= 1;
             setPlayerState(effectsResult.tPlayerState);
+            addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, effects);
         }
     }
 
@@ -442,6 +458,7 @@ function GameBoard(props) {
 
     /** SET NEXT PLAYER **/
     if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive) {
+        addLogEntry(playerState, ACTION_TYPE.endOfTurn, null, null);
         console.log("next player ");
         nextPlayer();
     }
@@ -469,6 +486,7 @@ function GameBoard(props) {
     /** END OF ROUND **/
     function handleEndRound() {
         if (isActivePlayer) {
+            addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
             console.log("finishing round");
             socket.emit(TRANSMISSIONS.finishedRound, {
                 roomName: initialRoom.name,
@@ -476,7 +494,7 @@ function GameBoard(props) {
                 store: store,
                 locations: locations,
                 legends: legends
-            })
+            });
         }
     }
 

@@ -114,27 +114,27 @@ const Resources = (props) => {
     return (
         <div style={containerStyle}>
             <div style={firstColumnFieldStyle}>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.COINS)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.coins)}>
                     <Coin/>
                     {resources.coins}
                 </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.EXPLORE)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.explores)}>
                     <Explore/>
                     {resources.explore}
                 </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.TEXTS)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.texts)}>
                     <Text/>
                     {resources.texts}
                 </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.WEAPONS)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.weapons)}>
                     <Weapon/>
                     {resources.weapons}
                 </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.JEWELS)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.jewels)}>
                     <Jewel/>
                     {resources.jewels}
                 </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.RELICS)}>
+                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.relics)}>
                     <Shiny/>
                     {resources.shinies}
                 </div>
@@ -172,10 +172,14 @@ const Resources = (props) => {
 };
 
 export const RESOURCES = Object.freeze({
-    COINS: "coins",
-    EXPLORE: "explore",
-    TEXTS: "texts",
-    WEAPONS: "weapons",
-    JEWELS: "jewels",
-    RELICS: "relics",
+    coins: "coins",
+    explores: "explore",
+    texts: "texts",
+    weapons: "weapons",
+    jewels: "jewels",
+    relics: "relics",
+    walk: "walk",
+    jeep: "jeep",
+    ship: "ship",
+    blimp: "blimp",
 });

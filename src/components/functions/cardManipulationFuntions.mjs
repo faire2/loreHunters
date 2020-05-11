@@ -2,6 +2,7 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, EXPEDITIONS_IDs, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
 import {shuffleArray} from "./initialStateFunctions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
+import {ACTION_TYPE, addLogEntry} from "../main/Logger";
 
 export function addCardToHand(card, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);
@@ -201,6 +202,7 @@ export function activateGuardianAndLockEffects(tPlayerState, guardians, lockEffe
                     console.log("Cannot process lock effect in drawCards: " + lockEffects[i]);
             }
         }
+        addLogEntry(tPlayerState, ACTION_TYPE.guardianComes, guardians[i].id, null);
     }
     return tPlayerState
 }

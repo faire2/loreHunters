@@ -2,6 +2,7 @@ import {EFFECT} from "../../data/effects.mjs";
 import {addCardToStore, getIdCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
+import {ACTION_TYPE, addLogEntry} from "../main/Logger";
 
 export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStore, tLocations) {
     const activeEffect = tPlayerState.activeEffects[0];
@@ -67,6 +68,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
 
         tPlayerState.resources.coins -= card.cost;
         tPlayerState.actions -= 1;
+        addLogEntry(tPlayerState, ACTION_TYPE.buysCard, card.id, {coins: card.cost});
     } else if (card.type === CARD_TYPE.artifact && card.cost <= tPlayerState.resources.explore) {
         if (activeEffect === EFFECT.revealArtifactBuyWithDiscount) {
             tStore.artifactsOffer.splice(tStore.artifactsOffer.length - 1);
@@ -88,6 +90,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         tPlayerState = effectsResult.tPlayerState;
 
         if (card.isGuarded) {processGuardian = true}
+        addLogEntry(tPlayerState, ACTION_TYPE.buysCard, card.id, {explore: card.cost});
     } else {
         console.log("Card could not be bought: ");
         console.log(card);
