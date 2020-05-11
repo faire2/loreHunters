@@ -18,8 +18,8 @@ export function ScoringPanel(props) {
     const playerState = playerStates[playerIndex];
     useEffect(() => {
         if (!props.location.data) {
-        socket.emit(TRANSMISSIONS.sendScoringStates, {});
-        console.log("emitting");
+            socket.emit(TRANSMISSIONS.sendScoringStates, {});
+            console.log("emitting");
         }
 
         socket.on(TRANSMISSIONS.scoringStates, states => {
@@ -61,15 +61,23 @@ export function ScoringPanel(props) {
 
     /* Legends2 */
     let legendPoints = 0;
+    // only second and following tokens count
+    let beyond2 = -1;
     if (legends) {
         for (let i = 0; i < legends.length; i++) {
             const victoryPoints = Legends2[legends[i].id].victoryPoints;
             for (const position of legends[i].positions[playerState.playerIndex]) {
                 if (position.columnIndex !== null) {
                     legendPoints += victoryPoints[position.columnIndex];
+                    if (position.columnIndex > 2) {
+                        beyond2 += 1;
+                    }
                 }
             }
         }
+    }
+    if (beyond2 > 0) {
+        legendPoints += (5 * beyond2);
     }
 
     /* RELICS */
@@ -119,7 +127,7 @@ export function ScoringPanel(props) {
             <div style={rowStyle}>
                 <Shiny/>:{relicsPoints}
             </div>
-            Total: {itemPoints + artifactPoints + undefeatedGuardianPoints + defeatedGuardianPoints + legendPoints  + relicsPoints}
+            Total: {itemPoints + artifactPoints + undefeatedGuardianPoints + defeatedGuardianPoints + legendPoints + relicsPoints}
             <div>
             </div>
             {expeditionCards.map((card, i) =>

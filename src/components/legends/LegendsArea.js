@@ -4,6 +4,7 @@ import {Legend} from "./Legend";
 import {IncomeTile} from "./tiles/IncomeTile";
 import goal from "../../img/cardBackgrounds/Goal.png"
 import {INCOME_SIZE} from "../../data/idLists";
+import {VictoryPoints} from "../Symbols";
 
 export function LegendsArea() {
     const boardStateContext = useContext(BoardStateContext);
@@ -63,7 +64,10 @@ export function LegendsArea() {
                     <IncomeTile income={income} size={INCOME_SIZE.small}/>
                 </div>
             )}
-            <div style={{position: "absolute", marginLeft:"17vw"}}>{explorePlaceholder}</div>
+            <div style={{position: "absolute", marginLeft: "18.5vw", fontSize: "3vw", marginTop: "-1.3vw"}}><VictoryPoints/></div>
+            <div style={{position: "absolute", marginLeft: "18.5vw", fontSize: "1.8vw", color: "white"}}>
+                +5
+            </div>
         </div>
     )
 }
