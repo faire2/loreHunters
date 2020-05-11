@@ -420,6 +420,11 @@ function GameBoard(props) {
         setPlayerState(tPlayerState);
     }
 
+    /** UNDO / RESET TURN **/
+    function undo() {
+        socket.emit(TRANSMISSIONS.resetTurn, initialRoom.name);
+    }
+
     /** SET NEXT PLAYER **/
     if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive) {
         console.log("next player ");
@@ -498,6 +503,7 @@ function GameBoard(props) {
         handleClickOnResource: handleClickOnResource,
         handleClickOnRelic: handleClickOnRelic,
         cancelEffects: cancelEffects,
+        undo: undo,
     };
 
     return (

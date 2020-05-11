@@ -32,7 +32,7 @@ export const Controls = (props) => {
                 {}
                 {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
                 {destroyEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
-                <button className="btn-primary" onClick={() => playerStateContext.()}>undo</button>
+                {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.undo()}>undo</button>}
                 {/*<button className="btn-primary" onClick={() => restartGame()}>restart game</button>*/}
                 {/*<button className="btn-primary"
                         onClick={()  => history.push({

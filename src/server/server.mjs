@@ -146,6 +146,20 @@ io.on("connection", socket => {
     });
 
 
+    /** RESET TURN **/
+    socket.on(TRANSMISSIONS.resetTurn, roomName => {
+        const room = getRoom(roomName, gameRooms);
+        socket.emit(TRANSMISSIONS.stateUpdate, {
+            playerStates: room.states.playerStates,
+            store: room.states.store,
+            locations: room.states.locations,
+            round: room.states.round,
+            legends: room.states.legends,
+            activePlayer: room.states.activePlayer,
+            previousPlayer: room.states.previousPlayer,
+        })
+    });
+
     /** NEXT PLAYER **/
     socket.on(TRANSMISSIONS.nextPlayer, states => {
         let room = getRoom(states.roomName, gameRooms);
@@ -217,7 +231,7 @@ io.on("connection", socket => {
         io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms, socketRooms: io.sockets.adapter.rooms});
     });
 
-    /** USERNAME CHAGNES **/
+    /** USERNAME CHANGE **/
     socket.on(TRANSMISSIONS.usernameChanged, data => {
         console.log("Changing username");
         const changeResult = changeFormerUsername(data.formerUsername, data.newUsername, users, gameRooms);
