@@ -63,8 +63,8 @@ export const Legends2 = Object.freeze({
                 {
                     effects: [EFFECT.uptrade],
                     effectsText: [<Uptrade/>],
-                    cost: [EFFECT.loseText, EFFECT.loseJewel],
-                    costText: [<Text/>, <Jewel/>],
+                    cost: [EFFECT.loseWeapon, EFFECT.loseJewel],
+                    costText: [<Weapon/>, <Jewel/>],
                     size: FIELD_SIZE["3"],
                 },
             ],
