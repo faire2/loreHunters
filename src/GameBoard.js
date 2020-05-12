@@ -40,7 +40,7 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {addLogEntry, gameLog, setInitialGameLog} from "./components/main/logger";
+import {addLogEntry, gameLog, setGameLog} from "./components/main/logger";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -110,6 +110,7 @@ function GameBoard(props) {
         }
     }
 
+    /** USE EFFECTS **/
     const [extendBottomPanel, setExtendBottomPanel] = useState(false);
     useEffect(() => {
         socket.on(TRANSMISSIONS.stateUpdate, states => {
@@ -123,7 +124,7 @@ function GameBoard(props) {
             setRound(states.round);
             setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
-            gameLog = states.gameLog;
+            setGameLog(states.gameLog);
         });
 
         socket.on(TRANSMISSIONS.scoringStates, data => {
@@ -150,7 +151,7 @@ function GameBoard(props) {
     });
     
     useEffect(() => {
-        setInitialGameLog(initialStates.gameLog);
+        setGameLog(initialStates.gameLog);
         console.log("game log updated with initial data");
     }, []);
 

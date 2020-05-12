@@ -1,10 +1,4 @@
-export function Logger() {
-    // action - cost - endresult
-}
-
-export var gameLog = [
-
-];
+export var gameLog = [];
 
 export function addLogEntry(playerState, actionType, id, cost) {
     if (!playerState || !actionType) {
@@ -16,10 +10,10 @@ export function addLogEntry(playerState, actionType, id, cost) {
     }
 }
 
-export function setInitialGameLog(initialLog){
-    if (initialLog) {
-        gameLog = initialLog;
+export function setGameLog(serverLog){
+    if (serverLog) {
+        gameLog = serverLog;
     } else {
-        console.log("Unable to set initial log in setInitialLog: " + initialLog);
+        console.log("Unable to set initial log in setInitialLog: " + serverLog);
     }
 }
