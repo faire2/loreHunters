@@ -30,7 +30,11 @@ import {
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
-import {getPositionInLocationLine, occupyLocation} from "./components/locations/locationFunctions";
+import {
+    getPositionInLocationLine,
+    occupyLocation,
+    processExplorationDiscount
+} from "./components/locations/locationFunctions";
 import {GUARDIANS} from "./data/cards";
 import {getIsRewardDue, processLegend} from "./components/legends/legendsFunctions";
 import {RelicsArea} from "./components/relics/RelicsArea";
@@ -210,7 +214,7 @@ function GameBoard(props) {
     }
 
     /** LOCATION EFFECTS **/
-    function handleClickOnLocation(effects, location, locationLine) {
+    function handleClickOnLocation(effects, exploreCostEffects, location, locationLine) {
         if (isActivePlayer) {
             console.log("Clicked on location " + location.id);
             let tPlayerState = cloneDeep(playerState);
@@ -230,29 +234,20 @@ function GameBoard(props) {
                 switch (location.state) {
                     case LOCATION_STATE.unexplored:
                         console.log("Exloring location initialized.");
-                        const exploreDiscount3 = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount3;
-                        const exploreDiscount4 = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
-                        if (exploreDiscount3 || exploreDiscount4) {
+                        const exploreDiscount = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount3
+                            ||playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
+                        if (exploreDiscount) {
                             tPlayerState.activeEffects.splice(0)
                         }
-                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreDiscount3 || exploreDiscount4) {
-                            const resources = tPlayerState.resources;
-
-                            let exploreCost = location.exploreCost.explore;
-                            if (exploreDiscount3) {
-                                exploreCost = exploreCost < 4 ? 0 : exploreCost - 3;
+                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreDiscount) {
+                            if (exploreDiscount) {
+                                exploreCostEffects = processExplorationDiscount(playerState.activeEffects[0], exploreCostEffects)
                             }
-                            if (exploreDiscount4) {
-                                exploreCost = exploreCost < 5 ? 0 : exploreCost - 4;
-                            }
-                            const coinsCost = location.exploreCost.coins;
-                            const enoughResources = resources.explore >= exploreCost && resources.coins >= coinsCost
-                                && (tPlayerState.actions > 0 || exploreDiscount3 || exploreDiscount4);
-
-                            if (enoughResources) {
-                                resources.coins -= coinsCost;
-                                resources.explore -= exploreCost;
-                                tPlayerState.actions -= exploreDiscount4 ? 0 : 1;
+                            const explorationCostResult = processEffects(null, null, tPlayerState, exploreCostEffects,
+                                null, null, location, null);
+                            if (explorationCostResult.processedAllEffects) {
+                                tPlayerState = explorationCostResult.tPlayerState;
+                                tPlayerState.actions -= exploreDiscount ? 0 : 1;
 
                                 const locationPosition = getPositionInLocationLine(location, locationLine, locations);
                                 tLocations[locationLine][locationPosition].state = LOCATION_STATE.explored;
@@ -282,7 +277,7 @@ function GameBoard(props) {
                                         {effects: guardianEffects, effectsText: guardianText}]
                                 });
                                 addLogEntry(tPlayerState, ACTION_TYPE.exploresLocation, location.id,
-                                    {explore: exploreCost, coins: coinsCost});
+                                    exploreCostEffects);
                             } else {
                                 console.log("Not enough resources to explore location.");
                             }

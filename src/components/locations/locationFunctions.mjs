@@ -232,3 +232,18 @@ export function occupyLocation(tLocations, locationId, locationLine, playerIndex
     return tLocations;
 }
 
+export function processExplorationDiscount(discount, explorationCostEffects) {
+    let tExplorationEffects = [];
+    let exploreDiscount = 3;
+    let transportDiscount = discount === EFFECT.exploreAnyLocationWithDiscount4 ? 1 : 0;
+    for (let effect of explorationCostEffects) {
+        if (effect === EFFECT.loseExplore && exploreDiscount > 0) {
+            exploreDiscount -= 1;
+        } else if (effect === EFFECT.loseJeep || effect === EFFECT.loseShip) {
+            transportDiscount -= 1;
+        } else {
+            tExplorationEffects.push(effect);
+        }
+    }
+    return tExplorationEffects;
+}

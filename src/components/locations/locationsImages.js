@@ -32,14 +32,11 @@ import bgrG3 from "../../img/locations/bgr-g3.png"
 import bgrB2 from "../../img/locations/bgr-b2.png"
 import bgrB3 from "../../img/locations/bgr-b3.png"
 
-import bgrG2Unexplored from "../../img/locations/bgr-g2-back.png";
-import bgrG3Unexplored from "../../img/locations/bgr-g3-back.png";
-import bgrB2Unexplored from "../../img/locations/bgr-b2-back.png";
-import bgrB3Unexplored from "../../img/locations/bgr-b3-back.png";
+import bgrBrownUnexplored from "../../img/locations/unexp-bgr-b.png";
+import bgrGreenUnexplored from "../../img/locations/unexp-bgr-g.png";
 
-export const LocationTemplate = (props) => <img src={locationTemplateImage} alt={"generic location template"} style={props.style}/>;
-export const EffectTemplate = (props) => <img src={locationEffectTemplate} alt={"generic location template"} style={props.style}/>;
-export const LongestEffect = (props) => <img src={longestEffectTemplate} alt={"generic location template"} style={props.style}/>;
+import level2Symbol from "../../img/locations/l2.png"
+import level3Symbol from "../../img/locations/l3.png"
 
 const effectStyle = {
   height: "1em",
@@ -80,7 +77,8 @@ export const BgrGreen2  = () => <img src={bgrG2} alt={"basic location background
 export const BgrGreen3  = () => <img src={bgrG3} alt={"basic location background"} style={backgroundStyle}/>;export const BgrBrown2  = () => <img src={bgrB2} alt={"basic location background"} style={backgroundStyle}/>;
 export const BgrBrown3  = () => <img src={bgrB3} alt={"basic location background"} style={backgroundStyle}/>;
 
-export const BgrGreen2Unexplored  = () => <img src={bgrG2Unexplored} alt={"basic location background"} style={backgroundStyle}/>;
-export const BgrGreen3Unexplored  = () => <img src={bgrG3Unexplored} alt={"basic location background"} style={backgroundStyle}/>;
-export const BgrBrown2Unexplored  = () => <img src={bgrB2Unexplored} alt={"basic location background"} style={backgroundStyle}/>;
-export const BgrBrown3Unexplored  = () => <img src={bgrB3Unexplored} alt={"basic location background"} style={backgroundStyle}/>;
+export const BgrBrownUnexplored = () => <img src={bgrBrownUnexplored} alt={"basic location background"} style={backgroundStyle}/>;
+export const BgrGreenUnexplored = () => <img src={bgrGreenUnexplored} alt={"basic location background"} style={backgroundStyle}/>;
+
+export const Level2Symbol = () => <img src={level2Symbol} alt={"location level 2 symbol"} style={effectStyle}/>;
+export const Level3Symbol = () => <img src={level3Symbol} alt={"location level 3 symbol"} style={effectStyle}/>;
