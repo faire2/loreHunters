@@ -87,30 +87,30 @@ export const LOCATIONS = Object.freeze({
     },
     b21: {
         id: "b21",
-        effectsText: <div><Discard/><Arrow/><Text/><Text/><Weapon/></div>,
+        effectsText: <div><Text/><Text/><Text/></div>,
         effectsImage: <B21/>,
-        effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainWeapon],
+        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
     b22: {
         id: "b22",
-        effectsText: <div><Discard/><Arrow/><Text/><Jewel/></div>,
+        effectsText: <div><Coin/><Text/><Draw1Card/></div>,
         effectsImage: <B22/>,
-        effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainJewel],
+        effects: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.draw1],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
     b23: {
         id: "b23",
-        effectsText: <div><Text/><Text/><DestroyCard/></div>,
+        effectsText: <div><Weapon/><DestroyCard/></div>,
         effectsImage: <B23/>,
-        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.destroyCard],
+        effects: [EFFECT.gainWeapon, EFFECT.destroyCard],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
     b24: {
         id: "b24",
-        effectsText: <div><Text/><Weapon/></div>,
+        effectsText: <div><Discard/><Arrow/><Text/><Text/><Weapon/></div>,
         effectsImage: <B24/>,
-        effects: [EFFECT.gainText, EFFECT.gainWeapon],
+        effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
     b25: {
@@ -120,9 +120,16 @@ export const LOCATIONS = Object.freeze({
         effects: [EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
+    b26: {
+        id: "b26",
+        effectsText: <div><Coin/><Coin/><Explore/></div>,
+        effectsImage: <B31/>,
+        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore],
+        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
+    },
     b31: {
         id: "b31",
-        effectsText: <div><Discard/><Arrow/><Text/><Weapon/><Weapon/></div>,
+        effectsText: <div><Discard/><Arrow/><Text/><Text/><Weapon/><Weapon/></div>,
         effectsImage: <B31/>,
         effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
@@ -141,11 +148,18 @@ export const LOCATIONS = Object.freeze({
         effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
     },
+    b34: {
+        id: "b34",
+        effectsText: <div><Coin/><Coin/><Text/><Text/><Text/></div>,
+        effectsImage: <B33/>,
+        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
+        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
+    },
     g21: {
         id: "g21",
-        effectsText: <div><Explore/><Explore/><Uptrade/></div>,
-        effectsImage: <G21/>,
-        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
+        effectsText: <div><Item/></div>,
+        effectsImage: <G23/>,
+        effects: [EFFECT.gainItem],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
     },
     g22: {
@@ -157,51 +171,58 @@ export const LOCATIONS = Object.freeze({
     },
     g23: {
         id: "g23",
-        effectsText: <div><Item/></div>,
+        effectsText: <div><Weapon/><Draw1Card/></div>,
         effectsImage: <G23/>,
-        effects: [EFFECT.gainItem],
+        effects: [EFFECT.gainWeapon, EFFECT.draw1],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
     },
     g24: {
         id: "g24",
-        effectsText: <div><Coin/><Weapon/></div>,
+        effectsText: <div><Discard/>:<Text/><Jewel/></div>,
         effectsImage: <G24/>,
-        effects: [EFFECT.gainWeapon, EFFECT.draw1],
+        effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
     },
     g25: {
         id: "g25",
-        effectsText: <div><Discard/>:<Weapon/><Weapon/></div>,
+        effectsText: <div><Text/><Text/><DestroyCard/></div>,
         effectsImage: <G25/>,
-        effects: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.draw1],
+        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.destroyCard],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
     },
     g26: {
         id: "g26",
-        effectsText: <div><Coin/><Draw1Card/> from discard </div>,
+        effectsText: <div><Text/><Weapon/></div>,
         effectsImage: <G26/>,
-        effects: [EFFECT.gainWeapon, EFFECT.destroyCard],
+        effects: [EFFECT.gainText, EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
     },
     g31: {
         id: "g31",
-        effectsText: <div><Text/><Text/><Text/></div>,
+        effectsText: <div><Text/><Jewel/><Draw1Card/></div>,
         effectsImage: <G31/>,
         effects: [EFFECT.gainText, EFFECT.gainJewel, EFFECT.draw1],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
     },
     g32: {
         id: "g32",
-        effectsText: <div><Weapon/><Uptrade/></div>,
+        effectsText: <div><DefeatedGuardian/></div>,
         effectsImage: <DefeatedGuardian/>,
         effects: [EFFECT.defeatGuardian],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
     },
     g33: {
         id: "g33",
-        effectsText: <div><Coin/></div>,
+        effectsText: <div><Explore/><Coin/><Jewel/></div>,
         effectsImage: <G33/>,
-        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainJewel],
+        effects: [EFFECT.gainExplore, EFFECT.gainCoin, EFFECT.gainJewel],
+        useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
+    },
+    g34: {
+        id: "g34",
+        effectsText: <div><Coin/><Weapon/><Weapon/></div>,
+        effectsImage: <G33/>,
+        effects: [EFFECT.gainCoin, EFFECT.gainWeapon, EFFECT.gainWeapon],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2}
     },
 });

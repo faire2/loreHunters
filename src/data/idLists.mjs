@@ -576,6 +576,11 @@ export const LOCATION_IDs = Object.freeze({
         type: LOCATION_TYPE.brown,
         level: LOCATION_LEVEL["2"],
     },
+    b26: {
+        id: "b26",
+        type: LOCATION_TYPE.brown,
+        level: LOCATION_LEVEL["2"],
+    },
     b31: {
         id: "b31",
         type: LOCATION_TYPE.brown,
@@ -633,6 +638,11 @@ export const LOCATION_IDs = Object.freeze({
     },
     g33: {
         id: "g33",
+        type: LOCATION_TYPE.green,
+        level: LOCATION_LEVEL["3"],
+    },
+    g34: {
+        id: "g34",
         type: LOCATION_TYPE.green,
         level: LOCATION_LEVEL["3"],
     },

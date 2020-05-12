@@ -128,7 +128,7 @@ export default function Location(props) {
             {location.state === LOCATION_STATE.unexplored && <div style={levelSymbolStyle}>{levelSymbol}</div>}
             {location.state === LOCATION_STATE.unexplored ? locationUnexploredBackground : locationBackground}
             <div style={effectsStyle}>
-                {location.state === LOCATION_STATE.unexplored ? exploreCostText : location.effectsImage}
+                {location.state === LOCATION_STATE.unexplored ? exploreCostText : location.effectsText}
             </div>
             {props.idLocation.state === LOCATION_STATE.occupied &&
             <AdventurerToken color={GLOBAL_VARS.playerColors[props.idLocation.owner]} style={adventurerStyle}/>}
