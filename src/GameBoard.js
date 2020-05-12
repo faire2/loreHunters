@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import cloneDeep from 'lodash/cloneDeep';
@@ -40,7 +40,7 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {addLogEntry} from "./components/main/logger";
+import {addLogEntry, gameLog, setInitialGameLog} from "./components/main/logger";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -123,6 +123,7 @@ function GameBoard(props) {
             setRound(states.round);
             setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
+            gameLog = states.gameLog;
         });
 
         socket.on(TRANSMISSIONS.scoringStates, data => {
@@ -147,6 +148,11 @@ function GameBoard(props) {
             document.removeEventListener('keydown', handleKeyPress);
         };
     });
+    
+    useEffect(() => {
+        setInitialGameLog(initialStates.gameLog);
+        console.log("game log updated with initial data");
+    }, []);
 
     function handleKeyPress(e) {
         if (e.keyCode === 32) {
@@ -478,7 +484,8 @@ function GameBoard(props) {
                 playerState: tPlayerState,
                 store: store,
                 locations: locations,
-                legends: legends
+                legends: legends,
+                gameLog: gameLog,
             });
             setPlayerState(tPlayerState);
         }
@@ -494,7 +501,8 @@ function GameBoard(props) {
                 playerState: playerState,
                 store: store,
                 locations: locations,
-                legends: legends
+                legends: legends,
+                gameLog: gameLog
             });
         }
     }

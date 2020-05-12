@@ -2,8 +2,8 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, EXPEDITIONS_IDs, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
 import {shuffleArray} from "./initialStateFunctions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
-import {addLogEntry} from "../main/logger.mjs";
 import {ACTION_TYPE} from "../../data/idLists.mjs";
+import {addLogEntry} from "../main/logger.mjs";
 
 export function addCardToHand(card, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);

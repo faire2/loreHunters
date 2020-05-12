@@ -33,24 +33,6 @@ let gameRooms = [];
 
 const io = socketIO(server);
 io.on("connection", socket => {
-    /* players = addPlayer(players, socket.id);
-     if (players.includes(socket.id)) {
-         console.log("New client connected: " + socket.id + " | [" + players + "]");
-         socket.emit(TRANSMISSIONS.getStates, {
-             playerState: playerStates[players.indexOf(socket.id)],
-             store: store,
-             locations: locations,
-             round: round,
-             legends: legends,
-             activePlayer: activePlayer,
-             previousPlayer: previousPlayer,
-             isActivePlayer: players.indexOf(socket.id) === activePlayer,
-             playerStates: playerStates,
-         });
-         console.log("Emitted initial playerstate to player no. " + players.indexOf(socket.id));
-     } else {
-         console.log("Socket connection refused: " + socket.id);
-     }*/
 
     /** HAND SHAKE **/
     socket.on(TRANSMISSIONS.handShake, username => {
@@ -159,6 +141,7 @@ io.on("connection", socket => {
             legends: room.states.legends,
             activePlayer: room.states.activePlayer,
             previousPlayer: room.states.previousPlayer,
+            gameLog: room.states.gameLog,
         })
     });
 
@@ -265,6 +248,7 @@ io.on("connection", socket => {
             legends: room.states.legends,
             activePlayer: room.states.activePlayer,
             previousPlayer: room.states.previousPlayer,
+            gameLog: room.states.gameLog,
         })
     }
 
@@ -283,4 +267,4 @@ app.get('/*', function (req, res) {
     res.sendFile(path.join(__dirname, '../../build', 'index.html'))
 });
 
-server.listen(port, () => console.log(`Listening on port ${port}`))
+server.listen(port, () => console.log(`Listening on port ${port}`));
