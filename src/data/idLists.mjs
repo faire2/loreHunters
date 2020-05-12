@@ -740,3 +740,18 @@ export const REWARD_TYPE = Object.freeze({
    incomeToken: "income token",
    effectsArr: "array of effects"
 });
+
+export const ACTION_TYPE = Object.freeze({
+    activatesLocation: "activates a location",
+    buysCard: "buys a card",
+    finishesRound: "finishes round",
+    endOfTurn: "ends turn",
+    exploresLocation: "explores location",
+    guardianComes: "guardian encountered",
+    placesRelic: "places a relic",
+    playsCard: "plays a card",
+    playsCardWithoutAction: "plays a card without spending action",
+    researches: "researches a legend",
+    usesAssistant: "uses assistant / income",
+    usesBonusAction: "uses a bonus action",
+});

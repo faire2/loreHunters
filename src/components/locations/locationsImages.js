@@ -77,8 +77,7 @@ const backgroundStyle = {
 export const BgrBasic  = () => <img src={bgr1} alt={"basic location background"} style={backgroundStyle}/>;
 export const BgrBasicDouble  = () => <img src={bgr1Double} alt={"basic location background"} style={backgroundStyle}/>;
 export const BgrGreen2  = () => <img src={bgrG2} alt={"basic location background"} style={backgroundStyle}/>;
-export const BgrGreen3  = () => <img src={bgrG3} alt={"basic location background"} style={backgroundStyle}/>;
-export const BgrBrown2  = () => <img src={bgrB2} alt={"basic location background"} style={backgroundStyle}/>;
+export const BgrGreen3  = () => <img src={bgrG3} alt={"basic location background"} style={backgroundStyle}/>;export const BgrBrown2  = () => <img src={bgrB2} alt={"basic location background"} style={backgroundStyle}/>;
 export const BgrBrown3  = () => <img src={bgrB3} alt={"basic location background"} style={backgroundStyle}/>;
 
 export const BgrGreen2Unexplored  = () => <img src={bgrG2Unexplored} alt={"basic location background"} style={backgroundStyle}/>;

@@ -7,7 +7,7 @@ import {GUARDIAN_IDs, INCOME_STATE, REWARD_TYPE} from "../../data/idLists";
 import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin, Explore} from "../Symbols";
-import {ACTION_TYPE, addLogEntry} from "../main/Logger";
+import {ACTION_TYPE, addLogEntry} from "../main/logger";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {

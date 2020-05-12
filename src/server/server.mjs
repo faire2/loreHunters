@@ -80,7 +80,8 @@ io.on("connection", socket => {
                     activePlayer: 0,
                     initialPlayer: 0,
                     previousPlayer: 0,
-                    round: 1
+                    round: 1,
+                    gameLog: [],
                 },
             });
             console.log("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");

@@ -17,6 +17,7 @@ import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/locations/ChooseRewardModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
 import {
+    ACTION_TYPE,
     CARD_STATE,
     CARD_TYPE,
     CARDS_ACTIONLESS,
@@ -39,7 +40,7 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {ACTION_TYPE, addLogEntry} from "./components/main/Logger";
+import {addLogEntry} from "./components/main/logger";
 
 function GameBoard(props) {
     console.log("** render **");
