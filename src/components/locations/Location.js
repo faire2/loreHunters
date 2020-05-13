@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {AdventurerToken, Explore, Jeep, Ship} from "../Symbols";
+import {AdventurerToken, Coin, Explore, Jeep, Ship} from "../Symbols";
 import {BoardStateContext} from "../../Contexts";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
 import {GLOBAL_VARS} from "../functions/initialStateFunctions";
