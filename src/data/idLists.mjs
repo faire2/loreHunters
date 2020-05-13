@@ -289,10 +289,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "warMask",
         type: CARD_TYPE.artifact,
     },
-    ringOfLight: {
+    /*ringOfLight: {
         id: "ringOfLight",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     beastKiller: {
         id: "beastKiller",
         type: CARD_TYPE.artifact,
