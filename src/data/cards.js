@@ -1368,7 +1368,7 @@ export const GUARDIANS = Object.freeze({
         cardName: "Swarming Spiders",
         type: CARD_TYPE.guardian,
         effectsText:
-            <div style={bigIconsStyle}><Walk/></div>,
+            <div style={bigIconsStyle}><Walk/><Walk/></div>,
         effects: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
         discoveryText: <div style={columnStyle}><Coin/><Weapon/></div>,
         discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainCoin],
