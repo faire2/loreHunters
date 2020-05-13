@@ -183,7 +183,7 @@ export const LOCATIONS = Object.freeze({
     },
     g24: {
         id: "g24",
-        effectsText: <div style={rowStyle}><Discard/>:<Text/><Jewel/></div>,
+        effectsText: <div style={rowStyle}><Discard/><Arrow/><Text/><Jewel/></div>,
         effectsImage: <G24/>,
         effects: [EFFECT.discard, EFFECT.gainText, EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1}
