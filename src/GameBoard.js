@@ -273,7 +273,7 @@ function GameBoard(props) {
                                 setPlayerState(guardianResults.tPlayerState);
                                 initiateRewardsModal({
                                     type: REWARD_TYPE.effectsArr,
-                                    data: [{effects: location.effects, effectsText: location.effectsImage},
+                                    data: [{effects: location.effects, effectsText: location.effectsText},
                                         {effects: guardianEffects, effectsText: guardianText}]
                                 });
                                 addLogEntry(tPlayerState, ACTION_TYPE.exploresLocation, location.id,
