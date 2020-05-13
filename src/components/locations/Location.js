@@ -44,13 +44,13 @@ export default function Location(props) {
 
     if (location.type === LOCATION_TYPE.brown) {
         if (location.level === LOCATION_LEVEL["2"]) {
-            exploreCost = [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            exploreCostText = <div style={explorationCostStyle}><Jeep/><Explore/><Explore/><Explore/></div>;
+            exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore];
+            exploreCostText = <div style={explorationCostStyle}><Jeep/><Coin/><Explore/><Explore/></div>;
             locationBackground = <BgrBrown2/>;
             locationUnexploredBackground = <BgrBrownUnexplored/>;
         } else if (location.level === LOCATION_LEVEL["3"]) {
-            exploreCost = [EFFECT.loseJeep, EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            exploreCostText = <div style={explorationCostStyle}><Jeep/><Explore/><Explore/><Explore/><Jeep/></div>;
+            exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+            exploreCostText = <div style={explorationCostStyle}><Jeep/><Coin/><Explore/><Explore/><Explore/></div>;
             locationBackground = <BgrBrown3/>;
             locationUnexploredBackground = <BgrBrownUnexplored/>;
         }
@@ -61,8 +61,8 @@ export default function Location(props) {
             locationBackground = <BgrGreen2/>;
             locationUnexploredBackground = <BgrGreenUnexplored/>;
         } else if (location.level === LOCATION_LEVEL["3"]) {
-            exploreCost = [EFFECT.loseShip, EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            exploreCostText = <div style={explorationCostStyle}><Ship/><Explore/><Explore/><Explore/><Ship/></div>;
+            exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+            exploreCostText = <div style={explorationCostStyle}><Ship/><Explore/><Explore/><Explore/><Explore/></div>;
             locationBackground = <BgrGreen3/>;
             locationUnexploredBackground = <BgrGreenUnexplored/>
         }
