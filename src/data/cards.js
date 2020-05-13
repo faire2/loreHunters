@@ -1369,7 +1369,7 @@ export const GUARDIANS = Object.freeze({
         type: CARD_TYPE.guardian,
         effectsText:
             <div style={bigIconsStyle}><Walk/></div>,
-        effects: [EFFECT.loseWalk, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
         discoveryText: <div style={columnStyle}><Coin/><Weapon/></div>,
         discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainCoin],
         discoveryText2: <div style={columnStyle}><Explore/><Text/></div>,
