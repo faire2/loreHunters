@@ -162,7 +162,7 @@ io.on("connection", socket => {
         for (let playerState of room.states.playerStates) {
             console.log("Has player " + playerState.playerIndex + " finished round?" + playerState.finishedRound);
         }
-        console.log("end of round initiated");
+        console.log("end of round initiated by player: " + playerIndex + "(" + getUserName(socket.id, users) + ")");
         room = updateRoomState(room, playerIndex, states);
         room.states.playerStates[playerIndex].finishedRound = true;
 
