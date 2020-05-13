@@ -127,7 +127,7 @@ export const ITEMS = Object.freeze({
     coin: {
         id: "coin",
         cardName: "Coin",
-        transport: CARD_TRANSPORT.jeep,
+        transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Coin/><FreeAction/></div>,
         effects: [EFFECT.gainCoin],
@@ -137,7 +137,7 @@ export const ITEMS = Object.freeze({
     explore: {
         id: "explore",
         cardName: "Explore",
-        transport: CARD_TRANSPORT.ship,
+        transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Explore/><FreeAction/></div>,
         effects: [EFFECT.gainExplore],
