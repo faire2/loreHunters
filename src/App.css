@@ -33,3 +33,7 @@
 
 .card { transition: transform 0.2s; }
 .card:hover { transform: scale(2,2); z-index: 3!important;}
+
+.customModal {
+  max-width: 75vw
+}

@@ -21,7 +21,7 @@ export default function ChooseRewardModal() {
 
     const containerStyle = {
         display: "flex",
-        flexFlow: "row",
+        flexFlow: "column",
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
@@ -103,7 +103,7 @@ export default function ChooseRewardModal() {
         boardStateContext.handleReward(tPlayerState, tStore, finishRound, moreRewardsToProcess);
     }
     return (
-        <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null}>
+        <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null} dialogClassName={"customModal"}>
             <Modal.Header>
                 <Modal.Title>Choose your boon</Modal.Title>
             </Modal.Header>
@@ -112,7 +112,7 @@ export default function ChooseRewardModal() {
                     {rewards.length > 0 && rewards[0].data.map((reward, i) =>
                         <div style={rewardStyle} onClick={() => handleClickOnReward(reward, i)} key={i}>
                             {getElement(reward)}
-                            {i < rewards[0].data.length - 1 && rewardType === REWARD_TYPE.effectsArr ? "|" : ""}
+                            {/*{i < rewards[0].data.length - 1 && rewardType === REWARD_TYPE.effectsArr ? "|" : ""}*/}
                         </div>
                     )}
                 </div>
