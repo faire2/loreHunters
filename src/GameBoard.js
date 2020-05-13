@@ -134,6 +134,11 @@ function GameBoard(props) {
         socket.on(TRANSMISSIONS.scoringStates, data => {
             console.log("Rerouting to scoring page");
             history.push({pathname: "/scoring", data: data})
+        });
+
+        socket.on("disconnect", reason => {
+            console.log("Client disconnected: " + reason);
+            history.push({pathname: "/", data: {}});
         })
     }, []);
 
@@ -153,7 +158,7 @@ function GameBoard(props) {
             document.removeEventListener('keydown', handleKeyPress);
         };
     });
-    
+
     useEffect(() => {
         setGameLog(initialStates.gameLog);
         console.log("game log updated with initial data");

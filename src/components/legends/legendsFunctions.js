@@ -133,7 +133,6 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
         // if effects were processed (price was paid) place the token
         if (effectsResult.processedAllEffects) {
             addLogEntry(tPlayerState, ACTION_TYPE.researches, {column: columnIndex, field: fieldIndex}, effects)
-            debugger
             if (columnIndex > 0) {
                 for (let position of positions) {
                     if (position.columnIndex === columnIndex - 1) {

@@ -246,8 +246,9 @@ io.on("connection", socket => {
     });
 
     /** DISCONNECT **/
-    socket.on("disconnect", () => {
+    socket.on("disconnect", reason => {
         console.debug("Client " + socket.id + " disconnected.");
+        console.debug("Reason: " + reason);
         const removalResult = removeUser(users, socket.id);
         users = removalResult.users;
         io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms});

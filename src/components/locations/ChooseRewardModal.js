@@ -22,7 +22,6 @@ export default function ChooseRewardModal() {
     if (showModal) {
         console.debug("Rewards modal opened. Rewards:");
         console.debug(rewards);
-        debugger
     }
 
     const containerStyle = {
@@ -53,7 +52,6 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.effectsArr:
                 element = reward.effectsText;
-                debugger
                 break;
             case null:
                 break;
