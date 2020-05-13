@@ -90,7 +90,7 @@ export function LoginPage() {
                 <br/>
                 <CurrentUsers users={users}/>
                 <br/>
-                {cookies.username && <NewRoom/>}
+                {shakedHand && <NewRoom/>}
                 <br/>
                 {roomIsFull && <Alert variant={"warning"}>Room you have tried to join is full</Alert>}
                 {cookies.username && <CurrentRooms rooms={rooms} username={cookies.username}/>}

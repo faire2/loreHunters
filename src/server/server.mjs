@@ -36,13 +36,15 @@ io.on("connection", socket => {
 
     /** HAND SHAKE **/
     socket.on(TRANSMISSIONS.handShake, username => {
-        console.log("* shaking hand with " + username);
-        users = processNewConnection(username, socket.id, users);
-        io.emit(TRANSMISSIONS.currentUsersAndData, {
-            users: users,
-            rooms: gameRooms,
-            socketRooms: io.sockets.adapter.rooms
-        });
+        if (username) {
+            console.log("* shaking hand with " + username);
+            users = processNewConnection(username, socket.id, users);
+            io.emit(TRANSMISSIONS.currentUsersAndData, {
+                users: users,
+                rooms: gameRooms,
+                socketRooms: io.sockets.adapter.rooms
+            });
+        }
     });
 
 
@@ -113,11 +115,6 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.startGame, data => {
         const roomName = data.roomName;
         let room = getRoom(roomName, gameRooms);
-
-        // check that players have joined the socket room
-        for (let player of room.players) {
-            socket.join(roomName);
-        }
 
         io.to(roomName).emit(TRANSMISSIONS.startGame, {room: room});
         console.log("New game data sent to: " + roomName + " [" + room.players + "]");
@@ -211,10 +208,14 @@ io.on("connection", socket => {
         for (let i = 0; i < gameRooms.length; i++) {
             if (gameRooms[i].name === data.roomName) {
                 gameRooms.splice(i, 1);
-                console.log("game room " + data.roomName+ " deleted.");
+                console.log("game room " + data.roomName + " deleted.");
             }
         }
-        io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms, socketRooms: io.sockets.adapter.rooms});
+        io.emit(TRANSMISSIONS.currentUsersAndData, {
+            users: users,
+            rooms: gameRooms,
+            socketRooms: io.sockets.adapter.rooms
+        });
     });
 
     /** USERNAME CHANGE **/
@@ -223,7 +224,11 @@ io.on("connection", socket => {
         const changeResult = changeFormerUsername(data.formerUsername, data.newUsername, users, gameRooms);
         users = changeResult.users;
         gameRooms = changeResult.gamerooms;
-        io.emit(TRANSMISSIONS.currentUsersAndData, {users: users, rooms: gameRooms, socketRooms: io.sockets.adapter.rooms});
+        io.emit(TRANSMISSIONS.currentUsersAndData, {
+            users: users,
+            rooms: gameRooms,
+            socketRooms: io.sockets.adapter.rooms
+        });
     });
 
     /** DISCONNECT **/
