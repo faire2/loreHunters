@@ -1137,9 +1137,9 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={rowStyle}><Text/><Coin/><Explore/></div>,
         discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Weapon/><Jewel/></div>,
+        lockText: <div style={lockEffectsStyle}><Text/></div>,
         cost: null,
-        points: 2
+        points: 1
     },
     forestDragon: {
         id: "forestDragon",
@@ -1171,7 +1171,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={rowStyle}><Weapon/><Text/></div>,
         discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/><Discard/></div>,
+        lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
         points: 2
     },
@@ -1222,7 +1222,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainExplore],
         discoveryTextRow: <div style={rowStyle}><Explore/><Text/><Text/></div>,
         discoveryTextRow2: <div style={rowStyle}><Explore/><Explore/></div>,
-        lockText: <div style={lockEffectsStyle}><Explore/><Explore/></div>,
+        lockText: <div style={lockEffectsStyle}><Coin/></div>,
         cost: null,
         points: 1
     },
@@ -1273,7 +1273,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
         discoveryTextRow: <div style={rowStyle}><Coin/><Weapon/></div>,
         discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/><Discard/></div>,
+        lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
         cost: null,
         points: 2
     },
@@ -1393,7 +1393,7 @@ export const GUARDIANS = Object.freeze({
         discoveryEffect2: [EFFECT.gainText, EFFECT.gainText],
         discoveryTextRow: <div style={rowStyle}><Coin/><Coin/><Explore/></div>,
         discoveryTextRow2: <div style={rowStyle}><Text/><Text/></div>,
-        lockText: <div style={lockEffectsStyle}><Text/><Weapon/></div>,
+        lockText: <div style={lockEffectsStyle}><Jewel/></div>,
         cost: null,
         points: 2
     },
