@@ -130,7 +130,7 @@ export const LOCATIONS = Object.freeze({
         effectsText: <div style={rowStyle}><Coin/><Coin/><Explore/></div>,
         effectsImage: <B31/>,
         effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore],
-        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 2}
+        useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1}
     },
     b31: {
         id: "b31",
