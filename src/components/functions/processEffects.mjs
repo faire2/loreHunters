@@ -165,6 +165,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     finishRound = true;
                     break;
 
+                case EFFECT.gainAction:
+                    tPlayerState.actions += 1;
+                    break;
+
                 case EFFECT.gainCoinIfFirst:
                     tPlayerState.resources.coins += 1;
                     break;

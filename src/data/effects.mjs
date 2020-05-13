@@ -17,6 +17,7 @@ export const EFFECT = Object.freeze({
     exploreAnyLocationWithDiscount4: "explore location with discount of 4 explore",
     escapeGuardian: "escape guardian, get back locked resources and gain a fear to handd",
     finishRound: "finish the round",
+    gainAction: "gain an action",
     gainCoinIfFirst: "first player that reaches this tile of legend gets a coin",
     gainExploreIfFirst: "first player that reaches this tile of legend gets an explore",
     gainCoinOrExploreIfFirst: "gain coin or explore",

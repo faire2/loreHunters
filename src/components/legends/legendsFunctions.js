@@ -34,13 +34,13 @@ export function getIsRewardDue(columnIndex, positions) {
     if (columnIndex === 0) {
         for (let position of positions) {
             if (position.columnIndex === null) {
-                tokensBehind +=1;
+                tokensBehind += 1;
             }
         }
     } else {
         for (let position of positions) {
             if (position.columnIndex < columnIndex || position.columnIndex === null) {
-                tokensBehind +=1;
+                tokensBehind += 1;
             }
         }
     }
@@ -84,12 +84,18 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
         }
         prevPositions.push(tempIndex);
         console.log(prevPositions);
-
         if (field.size === 1) {
             for (let position of positions) {
-                if (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex]) {
-                    canPlaceToken = true;
-                    break;
+                if (jsxLegend.fields[columnIndex][0].size === FIELD_SIZE["2"]) {
+                    if (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1]) {
+                        canPlaceToken = true;
+                        break;
+                    }
+                } else {
+                    if (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex]) {
+                        canPlaceToken = true;
+                        break;
+                    }
                 }
             }
         } else if (field.size === 2) {
@@ -127,6 +133,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
         // if effects were processed (price was paid) place the token
         if (effectsResult.processedAllEffects) {
             addLogEntry(tPlayerState, ACTION_TYPE.researches, {column: columnIndex, field: fieldIndex}, effects)
+            debugger
             if (columnIndex > 0) {
                 for (let position of positions) {
                     if (position.columnIndex === columnIndex - 1) {
@@ -143,8 +150,14 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
                                 }
                             // eslint-disable-next-line no-fallthrough
                             case FIELD_SIZE["1"]:
-                                if (position.fieldIndex === prevPositions[fieldIndex]) {
-                                    correctToken = true
+                                if (jsxLegend.fields[columnIndex][fieldIndex - 1] && jsxLegend.fields[columnIndex][fieldIndex - 1].size === FIELD_SIZE["2"]) {
+                                    if (position.fieldIndex === prevPositions[fieldIndex + 1]) {
+                                        correctToken = true
+                                    }
+                                } else {
+                                    if (position.fieldIndex === prevPositions[fieldIndex]) {
+                                        correctToken = true
+                                    }
                                 }
                                 break;
                             default:
@@ -168,9 +181,19 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
             }
             legends[legendIndex].positions[playerIndex] = positions;
             effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
-            return {tPlayerState: effectsResult.tPlayerState, tLegends: legends, tStore: store, tLocations: locations,
-                positions: positions, rewardsData: effectsResult.rewardsData, showRewardsModal: effectsResult.showRewardsModal}
-        }
+            return {
+                tPlayerState: effectsResult.tPlayerState,
+                tLegends: legends,
+                tStore: store,
+                tLocations: locations,
+                positions: positions,
+                rewardsData: effectsResult.rewardsData,
+                showRewardsModal: effectsResult.showRewardsModal
+            }
+        } else {
+            console.debug("Unable to pay the price to advance in research");}
+    } else {
+        console.debug("Unable to place token in check token columns");
     }
     return false
 }

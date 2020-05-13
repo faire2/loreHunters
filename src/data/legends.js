@@ -126,7 +126,7 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainBlimp, EFFECT.gainBlimp],
+                    effects: [EFFECT.gainBlimp, EFFECT.gainBlimp, EFFECT.gainAction],
                     effectsText: [<Blimp/>, <Blimp/>],
                     cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseJewel],
                     costText: [<Text/>, <Text/>, <Weapon/>, <Jewel/>],

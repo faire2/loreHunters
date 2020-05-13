@@ -131,7 +131,7 @@ io.on("connection", socket => {
 
     /** RESET TURN **/
     socket.on(TRANSMISSIONS.resetTurn, roomName => {
-        console.log("resetting turn");
+        console.log("resetting turn in room: " + roomName + "(" + getUserName(socket.id, users) + ")");
         const room = getRoom(roomName, gameRooms);
         socket.emit(TRANSMISSIONS.stateUpdate, {
             playerStates: room.states.playerStates,
@@ -147,6 +147,7 @@ io.on("connection", socket => {
 
     /** NEXT PLAYER **/
     socket.on(TRANSMISSIONS.nextPlayer, states => {
+        console.log("Passing turn to next player in room: " + states.roomName + "(" + getUserName(socket.id, users) + ")");
         let room = getRoom(states.roomName, gameRooms);
         let playerIndex = room.players.indexOf(getUserName(socket.id, users));
         console.log("PLAYER " + (playerIndex) + " passing action.");
