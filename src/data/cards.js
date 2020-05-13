@@ -706,7 +706,7 @@ export const ARTIFACTS = Object.freeze({
         cost: 3,
         points: 2
     },
-    ringOfLight: {
+    /* ringOfLight: {
         id: "ringOfLight",
         cardName: "Ring of Light",
         transport: CARD_TRANSPORT.plane,
@@ -718,7 +718,7 @@ export const ARTIFACTS = Object.freeze({
         image: ringOfLightImg,
         cost: 3,
         points: 2
-    },
+    }, */ 
     /* golemShem: {
          id: "golemShem",
          cardName: "Golem Shem",
