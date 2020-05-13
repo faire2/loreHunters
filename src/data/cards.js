@@ -349,7 +349,7 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 1
     },*/
-    beerMug: {
+    /*beerMug: {
         id: "beerMug",
         cardName: "Beer Mug",
         transport: CARD_TRANSPORT.ship,
@@ -359,7 +359,7 @@ export const ITEMS = Object.freeze({
         image: beerMugImg,
         cost: 3,
         points: 2
-    },
+    },*/
     journal: {
         id: "journal",
         cardName: "Journal",
@@ -413,7 +413,7 @@ export const ITEMS = Object.freeze({
         cost: 3,
         points: 1
     },
-    camouflagePaint: {
+    /*camouflagePaint: {
         id: "camouflagePaint",
         cardName: "Camouflage Paint",
         transport: CARD_TRANSPORT.jeep,
@@ -424,7 +424,7 @@ export const ITEMS = Object.freeze({
         image: camouflagePaintImg,
         cost: 3,
         points: 1
-    },
+    },*/
     tent: {
         id: "tent",
         cardName: "Tent",
