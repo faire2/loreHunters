@@ -3,7 +3,15 @@ import {EFFECT} from "../../data/effects.mjs";
 import {addCardToDiscardDeck, addCardToHand, getIdCard, removeCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
-import {CARD_STATE, CARD_TYPE, GUARDIAN_IDs, LOCATION_IDs, LOCATION_LEVEL, LOCATION_STATE} from "../../data/idLists";
+import {
+    CARD_STATE,
+    CARD_TYPE,
+    GUARDIAN_IDs,
+    LOCATION_IDs,
+    LOCATION_LEVEL,
+    LOCATION_STATE,
+    REWARD_TYPE
+} from "../../data/idLists";
 import {LOCATION_LINE, shuffleArray} from "./initialStateFunctions";
 import {
     areLinesAdjacent,
@@ -14,10 +22,11 @@ import {
 import {Jewel, Text, Weapon} from "../Symbols";
 import {gainLockedResourceBack} from "./processEffects";
 
-export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, setRewardsModal) {
+export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];
     let processGuardian = false;
-    console.log(tPlayerState.activeEffects);
+    console.debug("Processing active effects: ");
+    console.debug(tPlayerState.activeEffects);
     switch (activeEffect) {
         /* When active effect deals with card in store */
         // todo gain artifact allows to buy multiple artifacts
@@ -168,7 +177,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                         }
                     }
                     tPlayerState.activeEffects.splice(0, 1);
-                    setRewardsModal(rewards);
+                    initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
                 }
             }
             break;
@@ -219,7 +228,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 }
                 if (isAdjacent) {
                     tPlayerState.activeEffects.splice(0, 2);
-                    const result = resolveRelocation(secondLine, secondIndex, tPlayerState, tLocations, tStore)
+                    const result = resolveRelocation(secondLine, secondIndex, tPlayerState, tLocations, tStore);
                     tPlayerState = result.playerState;
                     tLocations = result.locations;
                     tStore = result.store;

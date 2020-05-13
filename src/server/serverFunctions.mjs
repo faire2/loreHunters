@@ -170,6 +170,8 @@ export function getRoom(roomName, rooms) {
             return room;
         }
     }
+    console.error("Room could not be found: " + roomName + ". Rooms:");
+    console.error(rooms);
 }
 
 export function processNewConnection(username, socketId, users) {

@@ -373,7 +373,7 @@ function GameBoard(props) {
     function handleActiveEffectClickOnCard(card, cardIndex) {
         if (isActivePlayer) {
             const effectProcessResults = processActiveEffect(card, cardIndex, null, cloneDeep(playerState),
-                null, {...store}, {...locations}, setRewardsModal);
+                null, {...store}, {...locations}, initiateRewardsModal);
             if (effectProcessResults.processGuardian) {
                 const guardianResult = handleGuardianArrival(effectProcessResults.tPlayerState, effectProcessResults.tStore,
                     round);
