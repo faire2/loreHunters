@@ -14,7 +14,7 @@ import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
-import ChooseRewardModal from "./components/locations/ChooseRewardModal";
+import ChooseRewardModal from "./components/main/ChooseRewardModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
 import {
     ACTION_TYPE,
