@@ -249,6 +249,7 @@ export const ITEMS = Object.freeze({
         cost: 1,
         points: 1
     },
+
     hotAirBaloon: {
         id: "hotAirBaloon",
         cardName: "Hot Air Baloon",
