@@ -22,15 +22,15 @@ export const FIELD_SIZE = Object.freeze({
 export const Legends2 = Object.freeze({
     legend1: {
         id: "legend1",
-        victoryPoints: [1, 2, 4, 6, 10, 16, 23, 33],
+        victoryPoints: [1, 2, 4, 6, 10, 15, 20, 30],
         fields: [
             /* 1 */
             [
                 {
                     effects: [],
                     effectsText: [],
-                    cost: [EFFECT.loseText, EFFECT.loseWeapon],
-                    costText: [<Text/>, <Weapon/>],
+                    cost: [EFFECT.loseExplore, EFFECT.loseWeapon],
+                    costText: [<Explore/>, <Weapon/>],
                     size: FIELD_SIZE["2"],
                 },
                 {
@@ -72,8 +72,8 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainExploreIfFirst],
-                    effectsText: [<Explore/>],
+                    effects: [EFFECT.gainCoinIfFirst],
+                    effectsText: [<Coin/>],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     costText: [<Text/>,<Jewel/>],
                     size: FIELD_SIZE["1"],
@@ -88,8 +88,8 @@ export const Legends2 = Object.freeze({
                 {
                     effects: [EFFECT.gainExploreIfFirst],
                     effectsText: [<Explore/>],
-                    cost: [EFFECT.loseCoin, EFFECT.loseWeapon],
-                    costText: [<Coin/>, <Weapon/>],
+                    cost: [EFFECT.loseWeapon, EFFECT.loseWeapon],
+                    costText: [<Weapon/>, <Weapon/>],
                     size: FIELD_SIZE["1"],
                 },
             ],
@@ -115,10 +115,10 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainAdventurerForThisRound],
-                    effectsText: [<div style={{width: "1.5vw", margin: "0 auto"}}> <AdventurerToken/> </div>],
-                    cost: [EFFECT.loseText, EFFECT.loseJewel, EFFECT.loseJewel],
-                    costText: [<Text/>, <Jewel/>, <Jewel/>],
+                    effects: [EFFECT.gainCoinIfFirst],
+                    effectsText: [<Coin/>],
+                    cost: [EFFECT.loseWeapon, EFFECT.loseJewel],
+                    costText: [<Weapon/>, <Jewel/>],
                     size: FIELD_SIZE["3"],
                 },
             ],
@@ -126,17 +126,17 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainBlimp, EFFECT.gainBlimp, EFFECT.gainAction],
-                    effectsText: [<Blimp/>, <Blimp/>],
-                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseJewel],
-                    costText: [<Text/>, <Text/>, <Weapon/>, <Jewel/>],
+                    effects: [EFFECT.gainAdventurerForThisRound],
+                    effectsText: [<div style={{width: "1.5vw", margin: "0 auto"}}> <AdventurerToken/> </div>],
+                    cost: [EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseJewel],
+                    costText: [<Text/>, <Weapon/>, <Jewel/>],
                     size: FIELD_SIZE["1"],
                 },
                 {
                     effects: [EFFECT.defeatGuardian],
                     effectsText: [<DefeatedGuardian/>],
-                    cost: [EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseWeapon, EFFECT.loseWeapon],
-                    costText: [<Text/>, <Weapon/>, <Weapon/>, <Weapon/>],
+                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseWeapon],
+                    costText: [<Text/>, <Text/>, <Weapon/>, <Weapon/>],
                     size: FIELD_SIZE["2"],
                 },
             ],
