@@ -355,7 +355,7 @@ export const GUARDIAN_IDs = Object.freeze({
     foxSpirit: {
         id: "foxSpirit",
         type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockWeapon, EFFECT.lockJewel],
+        lockEffects: [EFFECT.lockText],
     },
     forestDragon: {
         id: "forestDragon",
@@ -365,7 +365,7 @@ export const GUARDIAN_IDs = Object.freeze({
     naga: {
         id: "naga",
         type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard, EFFECT.lockCard],
+        lockEffects: [EFFECT.lockCard],
     },
     stoneTitan: {
         id: "stoneTitan",
@@ -380,7 +380,7 @@ export const GUARDIAN_IDs = Object.freeze({
     mountainGuardian: {
         id: "mountainGuardian",
         type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockExplore, EFFECT.lockExplore],
+        lockEffects: [EFFECT.lockCoin],
     },
     gryphon: {
         id: "gryphon",
@@ -395,7 +395,7 @@ export const GUARDIAN_IDs = Object.freeze({
     giantScarab: {
         id: "giantScarab",
         type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard, EFFECT.lockCard],
+        lockEffects: [EFFECT.lockAdventurer],
     },
     swampSnake: {
         id: "swampSnake",
@@ -430,7 +430,7 @@ export const GUARDIAN_IDs = Object.freeze({
     heartOfForest: {
         id: "heartOfForest",
         type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockText, EFFECT.lockWeapon],
+        lockEffects: [EFFECT.lockJewel],
     },
     wyvern: {
         id: "wyvern",
