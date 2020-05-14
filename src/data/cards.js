@@ -266,7 +266,7 @@ export const ITEMS = Object.freeze({
         cardName: "Airplane",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Discount:</b> <Explore/><Explore/><Explore/> to discover
+        effectsText: <div className="effectsText"><b>Discount:</b><Blimp/><Explore/><Explore/> to discover
             any location.</div>,
         effects: [EFFECT.exploreAnyLocationWithDiscount3],
         image: airPlaneImg,

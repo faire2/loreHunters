@@ -234,8 +234,8 @@ export function occupyLocation(tLocations, locationId, locationLine, playerIndex
 
 export function processExplorationDiscount(discount, explorationCostEffects) {
     let tExplorationEffects = [];
-    let exploreDiscount = 3;
-    let transportDiscount = discount === EFFECT.exploreAnyLocationWithDiscount4 ? 1 : 0;
+    let exploreDiscount = discount === EFFECT.exploreAnyLocationWithDiscount4 ? 3 : 2;
+    let transportDiscount = 1;
     for (let effect of explorationCostEffects) {
         if (effect === EFFECT.loseExplore && exploreDiscount > 0) {
             exploreDiscount -= 1;
