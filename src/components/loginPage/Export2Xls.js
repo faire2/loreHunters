@@ -1,8 +1,8 @@
 import React from "react";
-import ExcelFile from "react-export-excel/dist/ExcelPlugin/components/ExcelFile";
-import ExcelSheet from "react-export-excel/dist/ExcelPlugin/elements/ExcelSheet";
-import ExcelColumn from "react-export-excel/dist/ExcelPlugin/elements/ExcelColumn";
 import Button from "react-bootstrap/Button";
+import ExcelFile from "react-data-export/dist/ExcelPlugin/components/ExcelFile";
+import ExcelSheet from "react-data-export/dist/ExcelPlugin/elements/ExcelSheet";
+import ExcelColumn from "react-data-export/dist/ExcelPlugin/elements/ExcelColumn";
 
 export function Export2Xls(props) {
     const origLog = props.gameLog;
