@@ -3,7 +3,6 @@ import ExcelFile from "react-export-excel/dist/ExcelPlugin/components/ExcelFile"
 import ExcelSheet from "react-export-excel/dist/ExcelPlugin/elements/ExcelSheet";
 import ExcelColumn from "react-export-excel/dist/ExcelPlugin/elements/ExcelColumn";
 import Button from "react-bootstrap/Button";
-import {nextPlayer} from "../../server/serverFunctions";
 
 export function Export2Xls(props) {
     const origLog = props.gameLog;
@@ -32,8 +31,8 @@ export function Export2Xls(props) {
         let destroyedCards = getStringifiedArray(playerState.destroyedCards);
         let victoryCards = getStringifiedArray(playerState.victoryCards);
         let incomes = getStringifiedArray(playerState.incomes);
-        let activeCards = getStringifiedArrayg(playerState.activeCards);
-        let activeEffects = tPlayerState.activeEffects.toString();
+        let activeCards = getStringifiedArray(playerState.activeCards);
+        let activeEffects = playerState.activeEffects.toString();
         let points = JSON.stringify(logEntry.points);
 
 
