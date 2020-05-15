@@ -1,4 +1,4 @@
-import {getPoints} from "../scoring/scoringFunctions";
+import {getPoints} from "../scoring/scoringFunctions.mjs";
 
 export var gameLog = [];
 
