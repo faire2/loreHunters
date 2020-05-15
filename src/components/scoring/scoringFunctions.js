@@ -1,6 +1,7 @@
 import {CARD_TYPE} from "../../data/idLists";
 import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
 import {Legends2} from "../../data/legends";
+import {getLegendsForLog} from "../main/logger";
 
 export function getPoints(playerState) {
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
@@ -25,7 +26,8 @@ export function getPoints(playerState) {
         defeatedGuardianPoints += GUARDIANS[card.id].points;
     }
 
-    /* Legends2 */
+    /* Legends */
+    const legends = getLegendsForLog();
     let legendPoints = 0;
     // only second and following tokens count
     let beyond2 = -1;
