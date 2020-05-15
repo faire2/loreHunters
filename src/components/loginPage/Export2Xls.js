@@ -68,26 +68,25 @@ export function Export2Xls(props) {
         <ExcelFile element={<Button variant={"secondary"} size={"sm"}>Export log</Button>}>
             <ExcelSheet data={exportLog} name={"game log"}>
                 <ExcelColumn label="player index" value="playerIndex"/>
-                <ExcelColumn label="# turns"/>
                 <ExcelColumn label="action type" value="actionType"/>
                 <ExcelColumn label="ID" value="elementId"/>
-                <ExcelColumn label="cost" value="cost"/>
+                <ExcelColumn label="gain" value="cost"/>
                 <ExcelColumn label="coins" value="coins"/>
                 <ExcelColumn label="explore" value="explore"/>
                 <ExcelColumn label="texts" value="texts"/>
                 <ExcelColumn label="weapons" value="weapons"/>
                 <ExcelColumn label="jewels" value="jewels"/>
-                <ExcelColumn label="shinies" value="shinies"/>
+                <ExcelColumn label="relics" value="shinies"/>
                 <ExcelColumn label="walk" value="walk"/>
                 <ExcelColumn label="jeep" value="jeep"/>
                 <ExcelColumn label="ship" value="ship"/>
                 <ExcelColumn label="plane" value="plane"/>
                 <ExcelColumn label="hand" value="hand"/>
-                <ExcelColumn label="destroyedCards" value="destroyedCards"/>
                 <ExcelColumn label="victoryCards" value="victoryCards"/>
                 <ExcelColumn label="incomes" value="incomes"/>
                 <ExcelColumn label="activeCards" value="activeCards"/>
                 <ExcelColumn label="activeEffects" value="activeEffects"/>
+                <ExcelColumn label="destroyedCards" value="destroyedCards"/>
             </ExcelSheet>
         </ExcelFile>
     )
