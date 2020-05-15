@@ -1,10 +1,12 @@
+import {getPoints} from "../scoring/scoringFunctions";
+
 export var gameLog = [];
 
 export function addLogEntry(playerState, actionType, id, cost) {
     if (!playerState || !actionType) {
         console.log("Cannot process log entry - player state: " + playerState + ", entry type: " + actionType);
     } else {
-        gameLog.push({playerState: playerState, actionType: actionType, id: id, cost: cost});
+        gameLog.push({playerState: playerState, actionType: actionType, id: id, cost: cost, points: getPoints(playerState)});
         console.log("logged action");
         console.log(gameLog);
     }

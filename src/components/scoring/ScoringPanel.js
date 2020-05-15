@@ -34,10 +34,7 @@ export function ScoringPanel(props) {
     }
 
 
-    console.log("player states:");
-    console.log(playerStates);
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
-    console.log("****************");
     const items = allDeckCards.filter(card => card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic);
     let itemPoints = 0;
     for (let card of items) {

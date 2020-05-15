@@ -34,6 +34,7 @@ export function Export2Xls(props) {
         let incomes = getStringifiedArray(playerState.incomes);
         let activeCards = getStringifiedArrayg(playerState.activeCards);
         let activeEffects = tPlayerState.activeEffects.toString();
+        let points = JSON.stringify(logEntry.points);
 
 
         let exportEntry = {
@@ -58,6 +59,7 @@ export function Export2Xls(props) {
             incomes: incomes,
             activeCards: activeCards,
             activeEffects: activeEffects,
+            points: points,
         };
         exportLog.push(exportEntry);
     }
@@ -88,6 +90,7 @@ export function Export2Xls(props) {
                 <ExcelColumn label="incomes" value="incomes"/>
                 <ExcelColumn label="activeEffects" value="activeEffects"/>
                 <ExcelColumn label="destroyedCards" value="destroyedCards"/>
+                <ExcelColumn label="points" value="points"/>
             </ExcelSheet>
         </ExcelFile>
     )
