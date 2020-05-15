@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import cloneDeep from 'lodash/cloneDeep';
@@ -44,7 +44,7 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {addLogEntry, gameLog, setGameLog} from "./components/main/logger";
+import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -55,6 +55,7 @@ function GameBoard(props) {
     const initialRoom = props.location.data.room;
     const initialStates = props.location.data.room.states;
     const initialIndex = props.location.data.playerIndex;
+    setLogLegends(initialStates.legends);
     const numOfPlayers = initialRoom.numOfPlayers;
 
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
@@ -128,6 +129,7 @@ function GameBoard(props) {
             setRound(states.round);
             setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
+            setLogLegends(initialStates.legends);
             setGameLog(states.gameLog);
         });
 
@@ -369,6 +371,7 @@ function GameBoard(props) {
                 setLocations(legendResult.tLocations);
                 setLegends(legendResult.tLegends);
                 setStore(tStore);
+                setLogLegends(initialStates.legends);
                 return legendResult.tLegends;
             }
         }

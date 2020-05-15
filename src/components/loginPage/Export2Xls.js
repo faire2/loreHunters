@@ -33,7 +33,7 @@ export function Export2Xls(props) {
         let incomes = getStringifiedArray(playerState.incomes);
         let activeCards = getStringifiedArray(playerState.activeCards);
         let activeEffects = playerState.activeEffects.toString();
-        let points = JSON.stringify(logEntry.points);
+        let points = logEntry.points;
 
 
         let exportEntry = {
@@ -58,9 +58,15 @@ export function Export2Xls(props) {
             incomes: incomes,
             activeCards: activeCards,
             activeEffects: activeEffects,
-            points: points,
+            itemPoints: points.itemPoints,
+            artifactPoints: points.artifactPoints,
+            undefeatedGuardianPoints: points.undefeatedGuardianPoints,
+            defeatedGuardianPoints: points.defeatedGuardianPoints,
+            legendPoints: points.legendPoints,
+            relicsPoints: points.relicsPoints
         };
         exportLog.push(exportEntry);
+        debugger
     }
     console.log("Exporting game log:");
     console.log(exportLog);
@@ -89,7 +95,12 @@ export function Export2Xls(props) {
                 <ExcelColumn label="incomes" value="incomes"/>
                 <ExcelColumn label="activeEffects" value="activeEffects"/>
                 <ExcelColumn label="destroyedCards" value="destroyedCards"/>
-                <ExcelColumn label="points" value="points"/>
+                <ExcelColumn label="itemPoints" value="itemPoints"/>
+                <ExcelColumn label="artifactPoints" value="artifactPoints"/>
+                <ExcelColumn label="undefeatedGuardianPoints" value="undefeatedGuardianPoints"/>
+                <ExcelColumn label="defeatedGuardianPoints" value="defeatedGuardianPoints"/>
+                <ExcelColumn label="legendPoints" value="legendPoints"/>
+                <ExcelColumn label="relicsPoints" value="relicsPoints"/>
             </ExcelSheet>
         </ExcelFile>
     )
