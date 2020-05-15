@@ -45,10 +45,10 @@ export default function Card(props) {
         }
         cardTemplate = ITEMS[props.card.id]
     } else if (cardType === CARD_TYPE.artifact) {
-        cardTemplate = ARTIFACTS[props.card.id]
+        cardTemplate = ARTIFACTS[props.card.id];
         cardBackground = artifactBgr;
     } else if (cardType === CARD_TYPE.guardian) {
-        cardTemplate = GUARDIANS[props.card.id]
+        cardTemplate = GUARDIANS[props.card.id];
         cardBackground = guardianBgr;
     } else if (cardType === CARD_TYPE.goalCard) {
         cardTemplate = EXPEDITIONS[props.card.id];

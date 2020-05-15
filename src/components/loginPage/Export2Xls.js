@@ -32,8 +32,8 @@ export function Export2Xls(props) {
         let destroyedCards = getStringifiedArray(playerState.destroyedCards);
         let victoryCards = getStringifiedArray(playerState.victoryCards);
         let incomes = getStringifiedArray(playerState.incomes);
-        let activeCards = getStringifiedArray(playerState.activeCards);
-        let activeEffects = getStringifiedArray(playerState.activeEffects);
+        let activeCards = getStringifiedArrayg(playerState.activeCards);
+        let activeEffects = tPlayerState.activeEffects.toString();
 
 
         let exportEntry = {
