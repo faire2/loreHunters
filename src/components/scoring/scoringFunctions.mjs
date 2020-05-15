@@ -25,7 +25,7 @@ export function getPoints(playerState) {
         defeatedGuardianPoints += GUARDIANS[card.id].points;
     }
 
-    /* Legends2 */
+    /*/!* Legends2 *!/
     let legendPoints = 0;
     // only second and following tokens count
     let beyond2 = -1;
@@ -44,7 +44,7 @@ export function getPoints(playerState) {
     }
     if (beyond2 > 0) {
         legendPoints += (5 * beyond2);
-    }
+    }*/
 
     /* RELICS */
     const relics = playerState.relics;
@@ -56,5 +56,5 @@ export function getPoints(playerState) {
     }
     relicsPoints += playerState.resources.shinies * 4;
     return {itemPoints: itemPoints, artifactPoints: artifactPoints, undefeatedGuardianPoints: undefeatedGuardianPoints,
-        defeatedGuardianPoints: defeatedGuardianPoints, legendPoints: legendPoints, relicsPoints: relicsPoints};
+        defeatedGuardianPoints: defeatedGuardianPoints, /*legendPoints: legendPoints,*/ relicsPoints: relicsPoints};
 }
