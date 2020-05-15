@@ -753,7 +753,8 @@ export const REWARD_TYPE = Object.freeze({
 
 export const ACTION_TYPE = Object.freeze({
     activatesLocation: "activates a location",
-    buysCard: "buys a card",
+    buysItem: "buys an item",
+    buysArtifact: "buys an artifact",
     finishesRound: "finishes round",
     endOfTurn: "ends turn",
     exploresLocation: "explores location",

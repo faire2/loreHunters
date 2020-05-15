@@ -68,7 +68,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
 
         tPlayerState.resources.coins -= card.cost;
         tPlayerState.actions -= 1;
-        addLogEntry(tPlayerState, ACTION_TYPE.buysCard, card.id, {coins: card.cost});
+        addLogEntry(tPlayerState, ACTION_TYPE.buysItem, card.id, {coins: card.cost});
     } else if (card.type === CARD_TYPE.artifact && card.cost <= tPlayerState.resources.explore) {
         if (activeEffect === EFFECT.revealArtifactBuyWithDiscount) {
             tStore.artifactsOffer.splice(tStore.artifactsOffer.length - 1);
@@ -90,7 +90,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         tPlayerState = effectsResult.tPlayerState;
 
         if (card.isGuarded) {processGuardian = true}
-        addLogEntry(tPlayerState, ACTION_TYPE.buysCard, card.id, {explore: card.cost});
+        addLogEntry(tPlayerState, ACTION_TYPE.buysArtifact, card.id, {explore: card.cost});
     } else {
         console.log("Card could not be bought: ");
         console.log(card);
