@@ -12,18 +12,10 @@ export function addLogEntry(playerState, actionType, id, cost) {
     }
 }
 
-export function setGameLog(serverLog) {
+export function setGameLog(serverLog){
     if (serverLog) {
         gameLog = serverLog;
     } else {
         console.log("Unable to set initial log in setInitialLog: " + serverLog);
     }
-}
-
-let legendsForLog = null;
-export function setLegendsForLog(legends) {
-    legendsForLog = legends;
-}
-export function getLegendsForLog(){
-    return legendsForLog;
 }

@@ -44,7 +44,7 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {addLogEntry, gameLog, setGameLog, setLegendsForLog} from "./components/main/logger";
+import {addLogEntry, gameLog, setGameLog} from "./components/main/logger";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -55,7 +55,6 @@ function GameBoard(props) {
     const initialRoom = props.location.data.room;
     const initialStates = props.location.data.room.states;
     const initialIndex = props.location.data.playerIndex;
-    setLegendsForLog(initialStates.legends);
     const numOfPlayers = initialRoom.numOfPlayers;
 
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
@@ -130,7 +129,6 @@ function GameBoard(props) {
             setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
             setGameLog(states.gameLog);
-            setLegendsForLog(states.legends);
         });
 
         socket.on(TRANSMISSIONS.scoringStates, data => {
@@ -371,7 +369,6 @@ function GameBoard(props) {
                 setLocations(legendResult.tLocations);
                 setLegends(legendResult.tLegends);
                 setStore(tStore);
-                setLegendsForLog(legendResult.tLegends);
                 return legendResult.tLegends;
             }
         }
