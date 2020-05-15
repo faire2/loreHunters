@@ -67,24 +67,25 @@ export function Export2Xls(props) {
     return (
         <ExcelFile element={<Button variant={"secondary"} size={"sm"}>Export log</Button>}>
             <ExcelSheet data={exportLog} name={"game log"}>
-                <ExcelColumn label="player index" value="playerIndex"/>
+                <ExcelColumn label="P" value="playerIndex"/>
                 <ExcelColumn label="action type" value="actionType"/>
                 <ExcelColumn label="ID" value="elementId"/>
                 <ExcelColumn label="gain" value="cost"/>
-                <ExcelColumn label="coins" value="coins"/>
-                <ExcelColumn label="explore" value="explore"/>
-                <ExcelColumn label="texts" value="texts"/>
-                <ExcelColumn label="weapons" value="weapons"/>
-                <ExcelColumn label="jewels" value="jewels"/>
-                <ExcelColumn label="relics" value="shinies"/>
+                <ExcelColumn label="C" value="coins"/>
+                <ExcelColumn label="E" value="explore"/>
+                <ExcelColumn label="T" value="texts"/>
+                <ExcelColumn label="W" value="weapons"/>
+                <ExcelColumn label="J" value="jewels"/>
+                <ExcelColumn label="R" value="shinies"/>
                 <ExcelColumn label="walk" value="walk"/>
                 <ExcelColumn label="jeep" value="jeep"/>
                 <ExcelColumn label="ship" value="ship"/>
-                <ExcelColumn label="plane" value="plane"/>
+                <ExcelColumn label="blimp" value="plane"/>
                 <ExcelColumn label="hand" value="hand"/>
+                <ExcelColumn label="activeCards" value="activeCards"/>
+                <ExcelColumn label="discard" value="discard"/>
                 <ExcelColumn label="victoryCards" value="victoryCards"/>
                 <ExcelColumn label="incomes" value="incomes"/>
-                <ExcelColumn label="activeCards" value="activeCards"/>
                 <ExcelColumn label="activeEffects" value="activeEffects"/>
                 <ExcelColumn label="destroyedCards" value="destroyedCards"/>
             </ExcelSheet>
