@@ -44,15 +44,15 @@ export const Legends2 = Object.freeze({
             /* 2 */
             [
                 {
-                    effects: [EFFECT.gainExploreIfFirst],
-                    effectsText: [<Explore/>],
+                    effects: [EFFECT.gainCoinIfFirst],
+                    effectsText: [<Coin/>],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     costText: [<Text/>, <Jewel/>],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.gainCoinOrExploreIfFirst],
-                    effectsText: [<Explore/>, "|", <Coin/>],
+                    effects: [EFFECT.uptrade],
+                    effectsText: [<Uptrade/>],
                     cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon],
                     costText: [<Text/>, <Text/>, <Weapon/>],
                     size: FIELD_SIZE["2"],
@@ -61,10 +61,10 @@ export const Legends2 = Object.freeze({
             /* 3 */
             [
                 {
-                    effects: [EFFECT.uptrade],
-                    effectsText: [<Uptrade/>],
-                    cost: [EFFECT.loseWeapon, EFFECT.loseJewel],
-                    costText: [<Weapon/>, <Jewel/>],
+                    effects: [EFFECT.gainCoinIfFirst],
+                    effectsText: [<Coin/>],
+                    cost: [EFFECT.loseText, EFFECT.loseJewel],
+                    costText: [<Text/>, <Jewel/>],
                     size: FIELD_SIZE["3"],
                 },
             ],
@@ -74,8 +74,8 @@ export const Legends2 = Object.freeze({
                 {
                     effects: [EFFECT.gainCoinIfFirst],
                     effectsText: [<Coin/>],
-                    cost: [EFFECT.loseText, EFFECT.loseJewel],
-                    costText: [<Text/>,<Jewel/>],
+                    cost: [EFFECT.loseExplore, EFFECT.loseJewel],
+                    costText: [<Explore/>,<Jewel/>],
                     size: FIELD_SIZE["1"],
                 },
                 {
@@ -86,8 +86,8 @@ export const Legends2 = Object.freeze({
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.gainExploreIfFirst],
-                    effectsText: [<Explore/>],
+                    effects: [EFFECT.destroyCard],
+                    effectsText: [<DestroyCard/>],
                     cost: [EFFECT.loseWeapon, EFFECT.loseWeapon],
                     costText: [<Weapon/>, <Weapon/>],
                     size: FIELD_SIZE["1"],
@@ -104,10 +104,10 @@ export const Legends2 = Object.freeze({
                     size: FIELD_SIZE["2"],
                 },
                 {
-                    effects: [EFFECT.destroyCard],
-                    effectsText: [<DestroyCard/>],
-                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseJewel],
-                    costText: [<Coin/>, <Text/>, <Jewel/>],
+                    effects: [EFFECT.gainExploreIfFirst],
+                    effectsText: [<Explore/>],
+                    cost: [EFFECT.loseText, EFFECT.loseJewel],
+                    costText: [<Text/>, <Jewel/>],
                     size: FIELD_SIZE["1"],
                 },
             ],
@@ -115,29 +115,36 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainCoinIfFirst],
-                    effectsText: [<Coin/>],
-                    cost: [EFFECT.loseWeapon, EFFECT.loseJewel],
-                    costText: [<Weapon/>, <Jewel/>],
-                    size: FIELD_SIZE["3"],
+                    effects: [EFFECT.gainExploreIfFirst],
+                    effectsText: [<Explore/>],
+                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseText, EFFECT.loseText],
+                    costText: [<Text/>, <Text/>, <Text/>, <Text/>],
+                    size: FIELD_SIZE["1"],
+                },
+                {
+                    effects: [EFFECT.gainAdventurerForThisRound],
+                    effectsText: [<div style={{width: "1.5vw", margin: "0 auto"}}> <AdventurerToken/> </div>],
+                    cost: [EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseWeapon],
+                    costText: [<Text/>, <Weapon/>, <Weapon/>],
+                    size: FIELD_SIZE["2"],
                 },
             ],
             /* 7 */
             [
 
                 {
-                    effects: [EFFECT.gainAdventurerForThisRound],
-                    effectsText: [<div style={{width: "1.5vw", margin: "0 auto"}}> <AdventurerToken/> </div>],
-                    cost: [EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseJewel],
-                    costText: [<Text/>, <Weapon/>, <Jewel/>],
-                    size: FIELD_SIZE["1"],
-                },
-                {
                     effects: [EFFECT.defeatGuardian],
                     effectsText: [<DefeatedGuardian/>],
-                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseWeapon],
-                    costText: [<Text/>, <Text/>, <Weapon/>, <Weapon/>],
+                    cost: [EFFECT.loseText, EFFECT.loseWeapon, EFFECT.loseJewel],
+                    costText: [<Text/>, <Weapon/>, <Jewel/>],
                     size: FIELD_SIZE["2"],
+                },
+                {
+                    effects: [EFFECT.gainExploreIfFirst],
+                    effectsText: [<Explore/>],
+                    cost: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseWeapon],
+                    costText: [<Coin/>, <Coin/>, <Weapon/>],
+                    size: FIELD_SIZE["1"],
                 },
             ],
             /* 8 */
