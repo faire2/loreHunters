@@ -66,7 +66,7 @@ export function LegendsArea() {
             )}
             <div style={{position: "absolute", marginLeft: "18.5vw", fontSize: "3vw", marginTop: "-1.3vw"}}><VictoryPoints/></div>
             <div style={{position: "absolute", marginLeft: "18.5vw", fontSize: "1.8vw", color: "white"}}>
-                +5
+                +4
             </div>
         </div>
     )

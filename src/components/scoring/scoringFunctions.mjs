@@ -45,7 +45,7 @@ export function getPoints(playerState) {
         }
     }
     if (beyond2 > 0) {
-        legendPoints += (5 * beyond2);
+        legendPoints += (4 * beyond2);
     }
 
     /* RELICS */
