@@ -58,6 +58,7 @@ export const emptyPlayerState = Object.freeze({
     color: null,
     destroyedCards: [],
     discardDeck: [],
+    discoveredLostCity: false,
     drawDeck: [],
     firstTurn: true,
     finishedRound: false,
@@ -200,6 +201,7 @@ export function getInitialLocations(numOfPlayers) {
     let level3Green = [];
     let level2Brown = [];
     let level3Brown = [];
+    let level3LostCity = [];
 
     let level2Max;
     let level3Max;
@@ -251,6 +253,10 @@ export function getInitialLocations(numOfPlayers) {
                     if (level3Green.length < level3Max) {
                         level3Green.push(location);
                     }
+                } else if (location.type === LOCATION_TYPE.lostCity) {
+                    if (level3LostCity.length < 1) {
+                        level3LostCity.push(location);
+                    }
                 } else {
                     console.log("Unable to process location type in getInitialLocations: ");
                     console.log(location);
@@ -278,17 +284,17 @@ export function getInitialLocations(numOfPlayers) {
         case 1:
         case 2:
             line2 = [...level2Green, ...level2Brown];
-            line3 = [...level3Green, ...level3Brown];
+            line3 = [...level3Green, ...level3Brown, ...level3LostCity];
             break;
         case 3:
             line2 = [level2Green[0], level2Green[1], level2Brown[0], level2Brown[1]];
             line3 = [level3Green[0], level2Green[2], level2Brown[2], level3Brown[0]];
-            line4 = [level3Green[1], "empty", level3Brown[1]];
+            line4 = [level3Green[1], "empty", level3Brown[1], level3LostCity[0]];
             break;
         case 4:
             line2 = [level2Green[0], level2Green[1], level2Brown[0], level2Brown[1]];
             line3 = [level2Green[2], level2Green[3], level2Brown[2], level2Brown[3]];
-            line4 = [level3Green[0], level3Green[1], level3Brown[0], level3Brown[1]];
+            line4 = [level3Green[0], level3Green[1], level3Brown[0], level3Brown[1], level3LostCity[0]];
             break;
         default:
             console.log("Unable to process number of players in getInitialLocations: " + numOfPlayers);

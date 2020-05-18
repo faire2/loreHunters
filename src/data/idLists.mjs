@@ -16,6 +16,7 @@ export const LOCATION_TYPE = Object.freeze({
     basic: "basic location",
     green: "green location",
     brown: "brown location",
+    lostCity: "lost city",
 });
 
 export const CARD_STATE = Object.freeze({
@@ -646,6 +647,11 @@ export const LOCATION_IDs = Object.freeze({
         type: LOCATION_TYPE.green,
         level: LOCATION_LEVEL["3"],
     },
+    lc1: {
+        id: "lc1",
+        type: LOCATION_TYPE.lostCity,
+        level: LOCATION_LEVEL["3"],
+    }
 });
 
 export const LEGEND_IDS = Object.freeze({

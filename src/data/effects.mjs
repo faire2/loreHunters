@@ -7,6 +7,8 @@ export const EFFECT = Object.freeze({
     destroyCard: "pick a card to destroy",
     destroyThisCard: "destroy this card",
     destroyThisCardToDefeatAGuardan: "destroy this card to defeat a guardian",
+    discoverLostCity: "discover lost city",
+    hasDiscoveredLostCity: "player has discovered lost city",
     draw1: "draw a card",
     draw2: "draws 2 cards", // todo item change to draw1
     draw2ForGuardian: "draw 2 cards if you have a guardian in hand",

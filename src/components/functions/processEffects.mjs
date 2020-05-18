@@ -3,7 +3,7 @@ import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
-import {GUARDIAN_IDs, INCOME_STATE, REWARD_TYPE} from "../../data/idLists";
+import {GUARDIAN_IDs, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "../../data/idLists";
 import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin, Explore} from "../Symbols";
@@ -124,6 +124,28 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     if (tCard.state === CARD_STATE.inHand) {
                         tPlayerState = removeCard(tCard, tPlayerState);
                         tActiveEffects.push(EFFECT.defeatGuardian);
+                    }
+                    break;
+
+                    // if a player reaches lost city during research of a legend, we set that location state accordingly
+                case EFFECT.discoverLostCity:
+                    if (!tPlayerState.discoveredLostCity) {
+                        tPlayerState.discoveredLostCity = true;
+                        for (let locationLineKey of Object.keys(originalLocations)) {
+                            for (let location of originalLocations[locationLineKey]) {
+                                if (location.type === LOCATION_TYPE.lostCity && location.state === LOCATION_STATE.unexplored) {
+                                    location.state = LOCATION_STATE.explored;
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+                //if player has not discovered lost city we will return negative state
+                    case EFFECT.hasDiscoveredLostCity:
+                    if (!tPlayerState.placeholder) {
+                        processedAllEffects = false;
+                        return;
                     }
                     break;
 

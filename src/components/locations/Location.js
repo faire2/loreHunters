@@ -9,7 +9,7 @@ import {
     BgrBrown2,
     BgrBrown3, BgrBrownUnexplored,
     BgrGreen2,
-    BgrGreen3, BgrGreenUnexplored, Level2Symbol, Level3Symbol,
+    BgrGreen3, BgrGreenUnexplored, BgrLostCity, Level2Symbol, Level3Symbol,
 } from "./locationsImages";
 import {EFFECT} from "../../data/effects";
 
@@ -73,7 +73,13 @@ export default function Location(props) {
         } else {
             locationBackground = <BgrBasic/>
         }
-    } else {
+    } else if (location.type === LOCATION_TYPE.lostCity) {
+        locationBackground = <BgrLostCity/>;
+        locationUnexploredBackground = <BgrBrownUnexplored/>
+        exploreCost = [EFFECT.hasDiscoveredLostCity];
+        exploreCostText = [];
+    }
+    else {
         console.log("Unable to process location level or type in Location.js: " + location.id + " / " + location.type + " / " + location.level)
     }
     location.exploreCost = exploreCost;

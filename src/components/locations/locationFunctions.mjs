@@ -96,7 +96,7 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
 export function isLocationAdjancentToAdventurer(location, locationLine, locations, playerState) {
     const playerIndex = playerState.playerIndex;
     const locationPosition = getPositionInLocationLine(location, locationLine, locations);
-    const locationData = {locationPosition: locationPosition, locationLine: locationLine, locations: locations}
+    const locationData = {locationPosition: locationPosition, locationLine: locationLine, locations: locations};
     const isFirst = locationPosition === 0;
     const isLast = locationPosition + 1 === locations[locationLine].length;
     return checkOwnLine(locationData, playerIndex, isFirst, isLast) || checkPreviousLine(locationData, playerIndex, isFirst, isLast)

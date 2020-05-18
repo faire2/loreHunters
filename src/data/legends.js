@@ -151,7 +151,7 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainPlaceholder],
+                    effects: [EFFECT.discoverLostCity],
                     effectsText: [<Treasure/>],
                     cost: [EFFECT.loseJewel, EFFECT.loseJewel],
                     costText: [<Jewel/>, <Jewel/>],

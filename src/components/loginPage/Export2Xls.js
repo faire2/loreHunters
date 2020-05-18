@@ -66,7 +66,6 @@ export function Export2Xls(props) {
             relicsPoints: points.relicsPoints
         };
         exportLog.push(exportEntry);
-        debugger
     }
     console.log("Exporting game log:");
     console.log(exportLog);

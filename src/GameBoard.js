@@ -23,7 +23,7 @@ import {
     CARDS_ACTIONLESS,
     LOCATION_IDs,
     LOCATION_LEVEL,
-    LOCATION_STATE,
+    LOCATION_STATE, LOCATION_TYPE,
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./data/idLists";
@@ -241,6 +241,10 @@ function GameBoard(props) {
                 switch (location.state) {
                     case LOCATION_STATE.unexplored:
                         console.log("Exloring location initialized.");
+                        if (location.type === LOCATION_TYPE.lostCity) {
+                            // loacation is explored as EFFECT.discoverLocation duering processing of legend research
+                            break;
+                        }
                         const exploreDiscount = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount3
                             ||playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
                         if (exploreDiscount) {
