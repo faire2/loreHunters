@@ -45,6 +45,7 @@ import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
 import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
+import RightSlidingPanel from "./components/main/RightSlidingPanel";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -71,6 +72,25 @@ function GameBoard(props) {
         emptyPlayerStates.push(emptyPlayerState)
     }
     const [playerStates, setPlayerStates] = useState(emptyPlayerStates);
+
+    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
+    const [extendRightPanel, setExtendRightPanel] = useState(false);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyPress);
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        };
+    });
+
+    function handleKeyPress(e) {
+        if (e.keyCode === 32) {
+            setExtendBottomPanel(value => !value);
+        } else if (e.keyCode === 39) {
+            e.preventDefault();
+            setExtendRightPanel(value => !value);
+        }
+    }
 
     // rewards are an array with objects describing values: {type: ..., data: [{effects: ..., effectsText: ...}, ...]
     const [rewardsModalData, setRewardsModalData] = useState([]);
@@ -116,7 +136,6 @@ function GameBoard(props) {
     }
 
     /** USE EFFECTS **/
-    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
     useEffect(() => {
         socket.on(TRANSMISSIONS.stateUpdate, states => {
             console.log("received states from server");
@@ -155,22 +174,10 @@ function GameBoard(props) {
     }, [isActivePlayer]);
 
     useEffect(() => {
-        document.addEventListener('keydown', handleKeyPress);
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    });
-
-    useEffect(() => {
         setGameLog(initialStates.gameLog);
         console.log("game log updated with initial data");
     }, []);
 
-    function handleKeyPress(e) {
-        if (e.keyCode === 32) {
-            setExtendBottomPanel(value => !value)
-        }
-    }
 
     /** CARD EFFECTS **/
     function handleClickOnCardEffect(effects, cardIndex, costsAction, tCard) {
@@ -572,8 +579,9 @@ function GameBoard(props) {
                     <Controls/><br/>
                     <OpponentPlayArea/>
                     <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
-                    <ChooseRewardModal/>
                     <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
+                    <RightSlidingPanel extendPanel={extendRightPanel}/>
+                    <ChooseRewardModal/>
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

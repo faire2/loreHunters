@@ -11,7 +11,7 @@ import Card from "../cards/Card";
 export function ScoringPanel(props) {
     const [playerStates, setPlayerStates] = useState(props.location.data ?
         props.location.data.playerStates : [emptyPlayerState]);
-    const [playerIndex, setPlayerIndex] = useState(0)
+    const [playerIndex, setPlayerIndex] = useState(0);
     const [legends, setLegends] = useState(props.location.data ?
         props.location.data.legends : null);
 
@@ -23,7 +23,7 @@ export function ScoringPanel(props) {
         }
 
         socket.on(TRANSMISSIONS.scoringStates, states => {
-            console.log("received")
+            console.log("received");
             setPlayerStates(states.playerStates);
             setLegends(states.legends);
         });
