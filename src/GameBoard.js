@@ -23,7 +23,8 @@ import {
     CARDS_ACTIONLESS,
     LOCATION_IDs,
     LOCATION_LEVEL,
-    LOCATION_STATE, LOCATION_TYPE,
+    LOCATION_STATE,
+    LOCATION_TYPE,
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./data/idLists";
@@ -44,7 +45,7 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
+import {addLogEntry, gameLog, getLogLegends, setGameLog, setLogLegends} from "./components/main/logger";
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 
 function GameBoard(props) {
@@ -56,7 +57,7 @@ function GameBoard(props) {
     const initialRoom = props.location.data.room;
     const initialStates = props.location.data.room.states;
     const initialIndex = props.location.data.playerIndex;
-    setLogLegends(initialStates.legends);
+    setLogLegends(initialStates.legends, true);
     const numOfPlayers = initialRoom.numOfPlayers;
 
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
@@ -148,7 +149,6 @@ function GameBoard(props) {
             setRound(states.round);
             setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
-            setLogLegends(initialStates.legends);
             setGameLog(states.gameLog);
         });
 
@@ -382,7 +382,12 @@ function GameBoard(props) {
                 setLocations(legendResult.tLocations);
                 setLegends(legendResult.tLegends);
                 setStore(tStore);
-                setLogLegends(initialStates.legends);
+                debugger
+                console.log("setting legends for log: ");
+                console.log(legendResult.tLegends);
+                setLogLegends(legendResult.tLegends, false);
+                console.log("adding log entry");
+                addLogEntry(legendResult.tPlayerState, ACTION_TYPE.researches, {column: columnIndex, field: fieldIndex}, boons);
                 return legendResult.tLegends;
             }
         }

@@ -21,11 +21,14 @@ export function setGameLog(serverLog){
     }
 }
 
-let logLegends = getInitialLegends();
+let logLegends = null;
 
-export function setLogLegends(legends){
+export function setLogLegends(legends, onlyInitial){
     if (legends) {
-        logLegends = legends;
+        if (!onlyInitial || logLegends === null) {
+            logLegends = legends;
+            console.log("legends for log set ");
+        }
     } else {
         console.warn("Legends could not be set: " + legends);
     }

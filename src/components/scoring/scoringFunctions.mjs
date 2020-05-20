@@ -5,6 +5,7 @@ import {getLogLegends} from "../main/logger";
 
 export function getPoints(playerState) {
     const legends = getLogLegends();
+    console.log(legends);
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
     const items = allDeckCards.filter(card => card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic);
     let itemPoints = 0;

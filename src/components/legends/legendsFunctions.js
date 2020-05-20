@@ -2,8 +2,6 @@ import {EFFECT} from "../../data/effects";
 import {FIELD_SIZE, Legends2} from "../../data/legends";
 import {processEffects} from "../functions/processEffects";
 import {cloneDeep} from "lodash";
-import {addLogEntry} from "../main/logger";
-import {ACTION_TYPE} from "../../data/idLists";
 
 export function getDiscountForProgress(effects, activeEffect) {
     if (activeEffect === EFFECT.progressWithTexts) {
@@ -132,7 +130,6 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, boo
 
         // if effects were processed (price was paid) place the token
         if (effectsResult.processedAllEffects) {
-            addLogEntry(tPlayerState, ACTION_TYPE.researches, {column: columnIndex, field: fieldIndex}, effects)
             if (columnIndex > 0) {
                 for (let position of positions) {
                     if (position.columnIndex === columnIndex - 1) {

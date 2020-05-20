@@ -4,8 +4,7 @@ import {socket} from "../../server/socketConnection";
 import {TRANSMISSIONS} from "../../data/idLists";
 import FormControl from "react-bootstrap/FormControl";
 import {NewRoom} from "./NewRoom";
-import Button from "react-bootstrap/Button";
-import {Alert, ButtonGroup} from "react-bootstrap";
+import {Alert} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {Room} from "./Room";
 
@@ -63,7 +62,7 @@ export function LoginPage() {
         });
 
         socket.on(TRANSMISSIONS.currentUsersAndData, data => {
-            console.log(data);
+            console.log("received actual room and users data");
             if (!shakedHand) {
                 setShakedHand(true)
             }
