@@ -736,7 +736,9 @@ export const TRANSMISSIONS = Object.freeze({
     nextPlayer: "nextPlayer",
     sendGameStates: "gameStates",
     sendScoringStates: "send all states",
+    sendStage: "send stage in the pipeline",
     scoringStates: "emitting all states",
+    stage: "stage of the app",
     stateUpdate: "stateUpdate",
     resetTurn: "reset turn - send back data from beginning of the turn",
     roomCreated: "room has been successfully created and player joined it",
@@ -771,4 +773,10 @@ export const ACTION_TYPE = Object.freeze({
     researches: "researches a legend",
     usesAssistant: "uses assistant / income",
     usesBonusAction: "uses a bonus action",
+});
+
+export const PIPELINE_STAGE = Object.freeze({
+   local: "localhost",
+   dev: "arnak-dev",
+   prod: "arnak"
 });

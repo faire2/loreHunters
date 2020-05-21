@@ -4,7 +4,7 @@ import dirname from "es-dirname"
 import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
-import {TRANSMISSIONS} from "../data/idLists.mjs";
+import {PIPELINE_STAGE, TRANSMISSIONS} from "../data/idLists.mjs";
 import {
     changeFormerUsername,
     getRoom,
