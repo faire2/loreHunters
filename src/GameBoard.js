@@ -382,7 +382,6 @@ function GameBoard(props) {
                 setLocations(legendResult.tLocations);
                 setLegends(legendResult.tLegends);
                 setStore(tStore);
-                debugger
                 console.log("setting legends for log: ");
                 console.log(legendResult.tLegends);
                 setLogLegends(legendResult.tLegends, false);
