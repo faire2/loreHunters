@@ -267,12 +267,14 @@ export function nextPlayer(playerIndex, room) {
     return nextPlayerIndex;
 }
 
+// detect app pipeline stage
 export var stage = null;
+console.log("Pipeline stage: " + process.env.stage);
 
 if (process.env.NODE_ENV === "development") {
     stage = PIPELINE_STAGE.local;
 } else if (process.env.stage === "dev") {
     stage = PIPELINE_STAGE.dev;
 } else {
-    stage = PIPELINE_STAGE.local;
+    stage = PIPELINE_STAGE.prod;
 }
