@@ -2,7 +2,7 @@
 import {GLOBAL_VARS} from "../components/functions/initialStateFunctions.mjs";
 import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {CARD_STATE, CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE, PIPELINE_STAGE} from "../data/idLists.mjs";
+import {CARD_STATE, CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE} from "../data/idLists.mjs";
 import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
 
 export function handleIncomes(playerState) {
@@ -265,16 +265,4 @@ export function nextPlayer(playerIndex, room) {
         nextPlayerIndex = nextPlayerIndex + 1 < room.numOfPlayers ? nextPlayerIndex + 1 : 0
     }
     return nextPlayerIndex;
-}
-
-// detect app pipeline stage
-export var stage = null;
-console.log("Pipeline stage: " + process.env.stage);
-
-if (process.env.NODE_ENV === "development") {
-    stage = PIPELINE_STAGE.local;
-} else if (process.env.stage === "dev") {
-    stage = PIPELINE_STAGE.dev;
-} else {
-    stage = PIPELINE_STAGE.prod;
 }

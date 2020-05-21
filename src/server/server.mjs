@@ -4,7 +4,7 @@ import dirname from "es-dirname"
 import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
-import {PIPELINE_STAGE, TRANSMISSIONS} from "../data/idLists.mjs";
+import {TRANSMISSIONS} from "../data/idLists.mjs";
 import {
     changeFormerUsername,
     getRoom,
@@ -46,7 +46,6 @@ io.on("connection", socket => {
             });
         }
     });
-
 
     /** NEW GAME ROOM **/
     socket.on(TRANSMISSIONS.createGame, roomData => {

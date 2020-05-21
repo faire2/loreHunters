@@ -774,9 +774,3 @@ export const ACTION_TYPE = Object.freeze({
     usesAssistant: "uses assistant / income",
     usesBonusAction: "uses a bonus action",
 });
-
-export const PIPELINE_STAGE = Object.freeze({
-   local: "localhost",
-   dev: "arnak-dev",
-   prod: "arnak"
-});
