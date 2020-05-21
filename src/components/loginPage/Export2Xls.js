@@ -83,10 +83,16 @@ export function Export2Xls(props) {
                 <ExcelColumn label="W" value="weapons"/>
                 <ExcelColumn label="J" value="jewels"/>
                 <ExcelColumn label="R" value="shinies"/>
-                <ExcelColumn label="walk" value="walk"/>
-                <ExcelColumn label="jeep" value="jeep"/>
-                <ExcelColumn label="ship" value="ship"/>
-                <ExcelColumn label="blimp" value="plane"/>
+                <ExcelColumn label="B" value="walk"/>
+                <ExcelColumn label="J" value="jeep"/>
+                <ExcelColumn label="S" value="ship"/>
+                <ExcelColumn label="P" value="plane"/>
+                <ExcelColumn label="It" value="itemPoints"/>
+                <ExcelColumn label="Ar" value="artifactPoints"/>
+                <ExcelColumn label="X" value="undefeatedGuardianPoints"/>
+                <ExcelColumn label="Gu" value="defeatedGuardianPoints"/>
+                <ExcelColumn label="Le" value="legendPoints"/>
+                <ExcelColumn label="Re" value="relicsPoints"/>
                 <ExcelColumn label="hand" value="hand"/>
                 <ExcelColumn label="activeCards" value="activeCards"/>
                 <ExcelColumn label="discard" value="discard"/>
@@ -94,12 +100,7 @@ export function Export2Xls(props) {
                 <ExcelColumn label="incomes" value="incomes"/>
                 <ExcelColumn label="activeEffects" value="activeEffects"/>
                 <ExcelColumn label="destroyedCards" value="destroyedCards"/>
-                <ExcelColumn label="itemPoints" value="itemPoints"/>
-                <ExcelColumn label="artifactPoints" value="artifactPoints"/>
-                <ExcelColumn label="undefeatedGuardianPoints" value="undefeatedGuardianPoints"/>
-                <ExcelColumn label="defeatedGuardianPoints" value="defeatedGuardianPoints"/>
-                <ExcelColumn label="legendPoints" value="legendPoints"/>
-                <ExcelColumn label="relicsPoints" value="relicsPoints"/>
+
             </ExcelSheet>
         </ExcelFile>
     )
