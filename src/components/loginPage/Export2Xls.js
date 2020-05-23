@@ -6,7 +6,11 @@ import ExcelColumn from "react-data-export/dist/ExcelPlugin/elements/ExcelColumn
 
 export function Export2Xls(props) {
     const origLog = props.gameLog;
+    const playerNames = props.playerNames;
     let exportLog = [];
+
+    // storing the last points state for each player
+    let endPoints = [];
 
     for (let logEntry of origLog) {
         const playerState = logEntry.playerState;
@@ -35,7 +39,6 @@ export function Export2Xls(props) {
         let activeEffects = playerState.activeEffects.toString();
         let points = logEntry.points;
 
-
         let exportEntry = {
             playerIndex: playerState.playerIndex != null ? playerState.playerIndex : "",
             actionType: logEntry.actionType != null ? logEntry.actionType : "",
@@ -63,15 +66,26 @@ export function Export2Xls(props) {
             undefeatedGuardianPoints: points.undefeatedGuardianPoints,
             defeatedGuardianPoints: points.defeatedGuardianPoints,
             legendPoints: points.legendPoints,
-            relicsPoints: points.relicsPoints
+            relicsPoints: points.relicsPoints,
+            totalPoints: points.itemPoints + points.artifactPoints + points.undefeatedGuardianPoints + points.defeatedGuardianPoints
+                + points.legendPoints + points.relicsPoints,
         };
+        endPoints.splice(exportEntry.playerIndex, 1, exportEntry.totalPoints);
         exportLog.push(exportEntry);
     }
     console.log("Exporting game log:");
     console.log(exportLog);
 
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const date = today.getFullYear().toString().concat("-", today.getDate().toString(), "-", month.toString());
+    const numOfPlayers = playerNames.length;
+    const players = playerNames.join("-");
+    const endPointsString = endPoints.join("-");
+    const filename = date.concat("_", numOfPlayers, "players_Scores", endPointsString, "_players", players);
+
     return (
-        <ExcelFile element={<Button variant={"secondary"} size={"sm"}>Export log</Button>}>
+        <ExcelFile element={<Button variant={"secondary"} size={"sm"}>Export log</Button>} filename={filename}>
             <ExcelSheet data={exportLog} name={"game log"}>
                 <ExcelColumn label="P" value="playerIndex"/>
                 <ExcelColumn label="action type" value="actionType"/>
