@@ -2,12 +2,9 @@ import {CARD_TYPE, ITEM_IDs} from "../../data/idLists";
 import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
 import {Legends2} from "../../data/legends";
 import {getLogLegends} from "../main/logger";
-import {getInitialLegends} from "../functions/initialStateFunctions";
 
 export function getPoints(playerState) {
-    let legends = getLogLegends();
-    console.log("LEGENDS:");
-    console.log(legends[0].positions[0]);
+    const legends = getLogLegends();
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
     const items = allDeckCards.filter(card => (card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic)
         && card.id !== ITEM_IDs.fear.id);
