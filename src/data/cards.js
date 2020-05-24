@@ -1259,7 +1259,7 @@ export const GUARDIANS = Object.freeze({
         discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
         lockText: <div style={lockEffectsStyle}><Discard/></div>,
         cost: null,
-        points: -1
+        points: 1
     },
     giantScarab: {
         id: "giantScarab",
