@@ -63,12 +63,12 @@ export function Export2Xls(props) {
             activeEffects: activeEffects,
             itemPoints: points.itemPoints,
             artifactPoints: points.artifactPoints,
+            fearPoints: points.fearPoints,
             undefeatedGuardianPoints: points.undefeatedGuardianPoints,
             defeatedGuardianPoints: points.defeatedGuardianPoints,
             legendPoints: points.legendPoints,
             relicsPoints: points.relicsPoints,
-            totalPoints: points.itemPoints + points.artifactPoints + points.undefeatedGuardianPoints + points.defeatedGuardianPoints
-                + points.legendPoints + points.relicsPoints,
+            totalPoints: points.totalPoints,
         };
         endPoints.splice(exportEntry.playerIndex, 1, exportEntry.totalPoints);
         exportLog.push(exportEntry);
@@ -108,8 +108,10 @@ export function Export2Xls(props) {
                 <ExcelColumn label="incomes" value="incomes"/>
                 <ExcelColumn label="activeEffects" value="activeEffects"/>
                 <ExcelColumn label="destroyedCards" value="destroyedCards"/>
+                <ExcelColumn label="totalPoints" value="totalPoints"/>
                 <ExcelColumn label="itemPoints" value="itemPoints"/>
                 <ExcelColumn label="artifactPoints" value="artifactPoints"/>
+                <ExcelColumn label="fearPoints" value="fearPoints"/>
                 <ExcelColumn label="undefeatedGuardianPoints" value="undefeatedGuardianPoints"/>
                 <ExcelColumn label="defeatedGuardianPoints" value="defeatedGuardianPoints"/>
                 <ExcelColumn label="legendPoints" value="legendPoints"/>

@@ -1,4 +1,4 @@
-import {CARD_TYPE} from "../../data/idLists";
+import {CARD_TYPE, ITEM_IDs} from "../../data/idLists";
 import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
 import {Legends2} from "../../data/legends";
 import {getLogLegends} from "../main/logger";
@@ -6,7 +6,9 @@ import {getLogLegends} from "../main/logger";
 export function getPoints(playerState) {
     const legends = getLogLegends();
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
-    const items = allDeckCards.filter(card => card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic);
+    const items = allDeckCards.filter(card => (card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic)
+        && card.id !== ITEM_IDs.fear.id);
+
     let itemPoints = 0;
     for (let card of items) {
         itemPoints += ITEMS[card.id].points;
@@ -16,6 +18,12 @@ export function getPoints(playerState) {
     let artifactPoints = 0;
     for (let card of artifacts) {
         artifactPoints += ARTIFACTS[card.id].points;
+    }
+
+    const fears = allDeckCards.filter(card => card.id === ITEM_IDs.fear.id);
+    let fearPoints = 0;
+    for (let card of fears) {
+        fearPoints += ITEMS[card.id].points;
     }
 
     const undefeatedGuardians = allDeckCards.filter(card => card.type === CARD_TYPE.guardian);
@@ -57,6 +65,12 @@ export function getPoints(playerState) {
         }
     }
     relicsPoints += playerState.resources.shinies * 4;
-    return {itemPoints: itemPoints, artifactPoints: artifactPoints, undefeatedGuardianPoints: undefeatedGuardianPoints,
-        defeatedGuardianPoints: defeatedGuardianPoints, legendPoints: legendPoints, relicsPoints: relicsPoints}
+
+    const totalPoints = itemPoints + artifactPoints + fearPoints + undefeatedGuardianPoints + defeatedGuardianPoints +
+        legendPoints + relicsPoints;
+
+    return {items: items, itemPoints: itemPoints, artifacts: artifacts, artifactPoints: artifactPoints, fears: fears,
+        fearPoints: fearPoints, undefeatedGuardians: undefeatedGuardians, undefeatedGuardianPoints: undefeatedGuardianPoints,
+        defeatedGuardians: defeatedGuardians, defeatedGuardianPoints: defeatedGuardianPoints, legendPoints: legendPoints,
+        relicsPoints: relicsPoints, totalPoints: totalPoints}
 }
