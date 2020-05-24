@@ -38,6 +38,37 @@ export function handleIncomes(playerState) {
     return playerState;
 }
 
+export function handleIncome(playerState, income) {
+    for (let effect of income.effects) {
+        switch (effect) {
+            case EFFECT.draw1:
+            case EFFECT.buyWithDiscount1:
+            case EFFECT.gainBlimp:
+            case EFFECT.uptrade:
+                break;
+            case EFFECT.gainAdventurerForThisRound:
+                playerState.availableAdventurers += 1;
+                break;
+            case EFFECT.gainCoin:
+                playerState.resources.coins += 1;
+                break;
+            case EFFECT.gainExplore:
+                playerState.resources.explore += 1;
+                break;
+            case EFFECT.gainText:
+                playerState.resources.texts += 1;
+                break;
+            case EFFECT.gainWeapon:
+                playerState.resources.weapons += 1;
+                break;
+            default:
+                console.log("Unable to process effect in handleIncome: ");
+                console.log(income);
+        }
+    }
+    return playerState;
+}
+
 export function processEndOfRound(room) {
     console.log("processing end of round " + room.states.round);
     let round = room.states.round;

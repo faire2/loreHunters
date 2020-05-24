@@ -6,7 +6,7 @@ import Card from "../cards/Card";
 import {cloneDeep} from "lodash";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {processEffects} from "../functions/processEffects";
-import {handleIncomes} from "../../server/serverFunctions";
+import {handleIncome, handleIncomes} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
 
 
@@ -81,13 +81,21 @@ export default function ChooseRewardModal() {
                 reward.state = INCOME_STATE.ready;
                 tPlayerState.incomes.push(reward);
                 if (reward.level === INCOME_LEVEL.silver) {
-                    tStore.incomes1Offer.splice(index, 1, tStore.incomes1Deck[0]);
-                    tStore.incomes1Deck.splice(0, 1);
+                    if (tStore.incomes1Deck.length > 0) {
+                        tStore.incomes1Offer.splice(index, 1, tStore.incomes1Deck[0]);
+                        tStore.incomes1Deck.splice(0, 1);
+                    } else {
+                        tStore.incomes1Offer.splice(index, 1);
+                    }
                 } else {
-                    tStore.incomes2Offer.splice(index, 1, tStore.incomes1Deck[0]);
-                    tStore.incomes2Deck.splice(0, 1);
+                    if (tStore.incomes2Deck.length > 0) {
+                        tStore.incomes2Offer.splice(index, 1, tStore.incomes2Deck[0]);
+                        tStore.incomes2Deck.splice(0, 1);
+                    } else {
+                        tStore.incomes2Offer.splice(index, 1, 0);
+                    }
                 }
-                tPlayerState = handleIncomes(tPlayerState);
+                tPlayerState = handleIncome(tPlayerState, reward);
                 break;
             case REWARD_TYPE.effectsArr:
                 effects = rewardType === REWARD_TYPE.incomeToken ? reward.effects : reward.effects;
@@ -117,7 +125,6 @@ export default function ChooseRewardModal() {
                     {rewards.length > 0 && rewards[0].data.map((reward, i) =>
                         <div style={rewardStyle} onClick={() => handleClickOnReward(reward, i)} key={i}>
                             {getElement(reward)}
-                            {/*{i < rewards[0].data.length - 1 && rewardType === REWARD_TYPE.effectsArr ? "|" : ""}*/}
                         </div>
                     )}
                 </div>
