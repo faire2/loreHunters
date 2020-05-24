@@ -58,8 +58,8 @@ export const LOCATIONS = Object.freeze({
     },
     5: {
         id: "5",
-        effectsText: <div style={rowStyle}><Explore/><Jewel/></div>,
-        effects: [EFFECT.gainExplore, EFFECT.gainJewel],
+        effectsText: <div style={rowStyle}><Jewel/></div>,
+        effects: [EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.walk, amount: 2}
     },
     b21: {
