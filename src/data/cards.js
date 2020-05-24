@@ -55,6 +55,8 @@ import whipImg from "../img/cardImages/items/whip.png"
 import bookOfMythsImg from "../img/cardImages/items/bookOfMyths.png"
 import bagImg from "../img/cardImages/items/bag.png"
 import flaskImg from "../img/cardImages/items/flask.png"
+import beartrapImg from "../img/cardImages/items/beartrap.png"
+import airmailImg from "../img/cardImages/items/airmail.png"
 /*import floraSamplesImg from "../img/cardImages/items/floraSamples.png"*/
 import boomerangImg from "../img/cardImages/items/boomerang.png"
 import torchImg from "../img/cardImages/items/torch.png"
@@ -147,24 +149,24 @@ export const ITEMS = Object.freeze({
     seaTurtle: {
         id: "seaTurtle",
         cardName: "Sea Turtle",
-        transport: CARD_TRANSPORT.ship,
+        transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Draw1Card/><Ship/></div>,
         effects: [EFFECT.draw1, EFFECT.gainShip],
         image: seaTurtleImg,
         cost: 2,
-        points: 2
+        points: 1
     },
     ostrich: {
         id: "ostrich",
         cardName: "Ostrich",
-        transport: CARD_TRANSPORT.jeep,
+        transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Draw1Card/><Jeep/></div>,
         effects: [EFFECT.draw1, EFFECT.gainJeep],
         image: ostrichImg,
         cost: 2,
-        points: 2
+        points: 1
     },
     /*camel: {
         id: "camel",
@@ -240,17 +242,16 @@ export const ITEMS = Object.freeze({
     },*/
     boots: {
         id: "boots",
-        cardName: "Boots",
+        cardName: "Buckskin Boots",
         transport: CARD_TRANSPORT.walk,
         transportAmount: 2,
-        effectsText: <div style={bigIconsStyle}><Explore/></div>,
-        effects: [EFFECT.gainExplore],
+        effectsText: <div style={bigIconsStyle}><Walk/><Explore/></div>,
+        effects: [EFFECT.gainWalk, EFFECT.gainExplore],
         image: bootsImg,
         cost: 1,
         points: 1
     },
-
-    hotAirBaloon: {
+      hotAirBaloon: {
         id: "hotAirBaloon",
         cardName: "Hot Air Baloon",
         transport: CARD_TRANSPORT.plane,
@@ -285,15 +286,15 @@ export const ITEMS = Object.freeze({
         cost: 1,
         points: 1
     },
-    /*hat: {
+    hat: {
         id: "hat",
         cardName: "Hat",
         transport: CARD_TRANSPORT.ship,
-        effectsText: <div className="effectsText"><Explore/> <Text/></div>,
-        effects: [EFFECT.gainExplore, EFFECT.gainText],
+        effectsText: <div className="effectsText"><Coin/> <Explore/></div>,
+        effects: [EFFECT.gainCoin, EFFECT.gainExplore],
         cost: 1,
         points: 1
-    },*/
+    },
     trowel: {
         id: "trowel",
         cardName: "Trowel",
@@ -370,7 +371,7 @@ export const ITEMS = Object.freeze({
         effects: [EFFECT.gainExploreForRelics],
         image: journalImg,
         cost: 3,
-        points: 2
+        points: 3
     },
     /*lockPick: {
         id: "lockPick",
@@ -437,7 +438,7 @@ export const ITEMS = Object.freeze({
         effects: [EFFECT.activateYourLocation],
         image: tentImg,
         cost: 3,
-        points: 1,
+        points: 2,
     },
     fishingRod: {
         id: "fishingRod",
@@ -485,17 +486,39 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 2
     },
+    bag: {
+        id: "bag",
+        cardName: "Large Backpack",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Coin/> and you may draw any card from your discard pile.</div>,
+        effects: [EFFECT.gainCoin, EFFECT.drawFromDiscard],
+        image: bagImg,
+        cost: 3,
+        points: 1
+    },
     messengerPidgeon: {
         id: "messengerPidgeon",
-        cardName: "Pidgeon",
+        cardName: "Messenger Pidgeon",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Text/> and you may draw a card from discard pile into
-            your hand</div>,
-        effects: [EFFECT.gainText, EFFECT.drawFromDiscard],
+        effectsText: <div className="effectsText"><b>Gain:</b> <Text/><Text/></div>,
+        effects: [EFFECT.gainText, EFFECT.gainText],
         image: messengerPidgeonImg,
-        cost: 3,
+        cost: 2,
         points: 2
+    },
+    airmail: {
+        id: "airmail",
+        cardName: "Airmail",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Item/> to your hand. Then <b>destroy</b> this card.
+        </div>,
+        effects: [EFFECT.gainItemToHand, EFFECT.destroyThisCard],
+        image: airmailImg,
+        cost: 2,
+        points: 1
     },
     whip: {
         id: "whip",
@@ -520,19 +543,7 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 1
     },
-    bag: {
-        id: "bag",
-        cardName: "Bag",
-        transport: CARD_TRANSPORT.ship,
-        transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Item/> to your hand. Then <b>destroy</b> this card.
-        </div>,
-        effects: [EFFECT.gainItemToHand, EFFECT.destroyThisCard],
-        image: bagImg,
-        cost: 2,
-        points: 1
-    },
-    flask: {
+     flask: {
         id: "flask",
         cardName: "Flask",
         transport: CARD_TRANSPORT.ship,
@@ -580,8 +591,8 @@ export const ITEMS = Object.freeze({
         cardName: "Torch",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Coin/><Coin/><DestroyCard/></div>,
-        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.destroyCard],
+        effectsText: <div style={bigIconsStyle}><Coin/><Text/><DestroyCard/></div>,
+        effects: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.destroyCard],
         image: torchImg,
         cost: 3,
         points: 1
@@ -597,7 +608,17 @@ export const ITEMS = Object.freeze({
         cost: 3,
         points: 1
     },
-});
+    beartrap: {
+        id: "beartrap",
+        cardName: "Beat Trap",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Explore/><DestroyCard/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.destroyCard],
+        image: beartrapImg,
+        cost: 1,
+        points: 1
+    },
 
 
 export const ARTIFACTS = Object.freeze({

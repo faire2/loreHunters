@@ -285,7 +285,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     for (let relic of tPlayerState.relics) {
                         if (!relic) {allRelics += 1}
                     }
-                    tPlayerState.resources.explore += allRelics < 4 ? allRelics : 4;
+                    tPlayerState.resources.explore += allRelics > 4 ? allRelics : 4;
                     break;
 
                 case EFFECT.gainFear:
