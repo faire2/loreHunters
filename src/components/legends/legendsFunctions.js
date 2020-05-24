@@ -2,6 +2,8 @@ import {EFFECT} from "../../data/effects";
 import {FIELD_SIZE, Legends2} from "../../data/legends";
 import {processEffects} from "../functions/processEffects";
 import {cloneDeep} from "lodash";
+import {addLogEntry} from "../main/logger";
+import {ACTION_TYPE} from "../../data/idLists";
 
 export function getDiscountForProgress(effects, activeEffect) {
     if (activeEffect === EFFECT.progressWithTexts) {
