@@ -5,7 +5,6 @@ import {getLogLegends} from "../main/logger";
 
 export function getPoints(playerState) {
     const legends = getLogLegends();
-    console.log(legends);
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
     const items = allDeckCards.filter(card => (card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic)
         && card.id !== ITEM_IDs.fear.id);
@@ -70,8 +69,19 @@ export function getPoints(playerState) {
     const totalPoints = itemPoints + artifactPoints + fearPoints + undefeatedGuardianPoints + defeatedGuardianPoints +
         legendPoints + relicsPoints;
 
-    return {items: items, itemPoints: itemPoints, artifacts: artifacts, artifactPoints: artifactPoints, fears: fears,
-        fearPoints: fearPoints, undefeatedGuardians: undefeatedGuardians, undefeatedGuardianPoints: undefeatedGuardianPoints,
-        defeatedGuardians: defeatedGuardians, defeatedGuardianPoints: defeatedGuardianPoints, legendPoints: legendPoints,
-        relicsPoints: relicsPoints, totalPoints: totalPoints}
+    return {
+        items: items,
+        itemPoints: itemPoints,
+        artifacts: artifacts,
+        artifactPoints: artifactPoints,
+        fears: fears,
+        fearPoints: fearPoints,
+        undefeatedGuardians: undefeatedGuardians,
+        undefeatedGuardianPoints: undefeatedGuardianPoints,
+        defeatedGuardians: defeatedGuardians,
+        defeatedGuardianPoints: defeatedGuardianPoints,
+        legendPoints: legendPoints,
+        relicsPoints: relicsPoints,
+        totalPoints: totalPoints
+    }
 }
