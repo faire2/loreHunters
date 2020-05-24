@@ -8,7 +8,7 @@ export function addLogEntry(playerState, actionType, id, cost) {
         console.log("Cannot process log entry - player state: " + playerState + ", entry type: " + actionType);
     } else {
         gameLog.push({playerState: playerState, actionType: actionType, id: id, cost: cost, points: getPoints(playerState)});
-        console.log("logged action");
+        console.log("logged action:" + actionType);
         console.log(gameLog);
     }
 }
@@ -21,14 +21,11 @@ export function setGameLog(serverLog){
     }
 }
 
-let logLegends = null;
+let logLegends = getInitialLegends(4);
 
-export function setLogLegends(legends, onlyInitial){
+export function setLogLegends(legends){
     if (legends) {
-        if (!onlyInitial || logLegends === null) {
-            logLegends = legends;
-            console.log("legends for log set ");
-        }
+        logLegends = legends;
     } else {
         console.warn("Legends could not be set: " + legends);
     }
