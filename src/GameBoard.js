@@ -56,8 +56,10 @@ function GameBoard(props) {
     const initialRoom = props.location.data.room;
     const initialStates = props.location.data.room.states;
     const initialIndex = props.location.data.playerIndex;
-    setLogLegends(initialStates.legends);
     const numOfPlayers = initialRoom.numOfPlayers;
+    useEffect(() => {
+        setLogLegends(initialStates.legends, 0);
+    }, []);
 
     const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
     const [round, setRound] = useState(initialStates.round);
@@ -102,7 +104,7 @@ function GameBoard(props) {
         console.log("Rewards data: ");
         console.log(rewardsData);
         let tRewardsModalData = cloneDeep(rewardsModalData);
-        // rewards can come as a reward object or as an array of reward objects
+        // rewards can come as a reward object or as an array ofa reward objects
         if (Array.isArray(rewardsData)) {
             for (let reward of rewardsData) {
                 tRewardsModalData.push(reward);
@@ -148,7 +150,7 @@ function GameBoard(props) {
             setRound(states.round);
             setIsActivePlayer(states.activePlayer === initialIndex);
             setPreviousPlayer(states.previousPlayer);
-            setLogLegends(initialStates.legends);
+            setLogLegends(states.legends, 1);
             setGameLog(states.gameLog);
         });
 
@@ -253,7 +255,7 @@ function GameBoard(props) {
                             break;
                         }
                         const exploreDiscount = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount3
-                            ||playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
+                            || playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
                         if (exploreDiscount) {
                             tPlayerState.activeEffects.splice(0)
                         }
@@ -382,7 +384,7 @@ function GameBoard(props) {
                 setLocations(legendResult.tLocations);
                 setLegends(legendResult.tLegends);
                 setStore(tStore);
-                setLogLegends(initialStates.legends);
+                setLogLegends(legendResult.tLegends, 2);
                 return legendResult.tLegends;
             }
         }
