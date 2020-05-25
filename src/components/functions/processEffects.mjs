@@ -8,6 +8,7 @@ import {activateGuardianAndLockEffects, addCardToDiscardDeck} from "./cardManipu
 import React from "react";
 import {Coin, Explore} from "../Symbols";
 import {ACTION_TYPE, addLogEntry} from "../main/logger";
+import {LOCATIONS} from "../../data/locations";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {
@@ -135,6 +136,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             for (let location of originalLocations[locationLineKey]) {
                                 if (location.type === LOCATION_TYPE.lostCity && location.state === LOCATION_STATE.unexplored) {
                                     location.state = LOCATION_STATE.explored;
+                                    // the lost city is activated too
+                                    const cityEffects = LOCATIONS[location.id].effects;
+                                    const cityResults = processEffects(null, null, tPlayerState, cityEffects,
+                                        null, null, null, null);
+                                    tPlayerState = cityResults.tPlayerState;
                                 }
                             }
                         }
@@ -309,7 +315,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.plane += 1;
                     break;
 
-                case EFFECT.gainShiny:
+                case EFFECT.gainRelic:
                     tPlayerState.resources.shinies += 1;
                     break;
 
