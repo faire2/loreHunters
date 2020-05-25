@@ -3,6 +3,7 @@ import {
     AdventurerIcon,
     Arrow,
     Artifact,
+    Blimp,
     Coin,
     DefeatedGuardian,
     DestroyCard,
@@ -19,7 +20,6 @@ import {
     LocationL1,
     LocationL2,
     LocationL3,
-    Blimp,
     Shiny,
     Ship,
     Text,
@@ -40,12 +40,12 @@ import airPlaneImg from "../img/cardImages/items/airPlane.png"
 import goldPanImg from "../img/cardImages/items/goldPan.png"
 import trowelImg from "../img/cardImages/items/trowel.png"
 import pickaxeImg from "../img/cardImages/items/pickaxe.png"
-import beerMugImg from "../img/cardImages/items/beerMug.png"
+/*import beerMugImg from "../img/cardImages/items/beerMug.png"*/
 import journalImg from "../img/cardImages/items/journal.png"
 import parrotImg from "../img/cardImages/items/parrot.png"
 import pocketWatchImg from "../img/cardImages/items/pocketWatch.png"
 import grapplingHookImg from "../img/cardImages/items/grapplingHook.png"
-import camouflagePaintImg from "../img/cardImages/items/camouflagePaint.png"
+/*import camouflagePaintImg from "../img/cardImages/items/camouflagePaint.png"*/
 import tentImg from "../img/cardImages/items/tent.png"
 import fishingRodImg from "../img/cardImages/items/fishingRod.png"
 import compassImg from "../img/cardImages/items/compass.png"
@@ -61,7 +61,6 @@ import airmailImg from "../img/cardImages/items/airmail.png"
 import boomerangImg from "../img/cardImages/items/boomerang.png"
 import torchImg from "../img/cardImages/items/torch.png"
 import machetteImg from "../img/cardImages/items/machete.png"
-
 /*import mirrorShardImg from "../img/cardImages/artifacts/mirrorShard.png"*/
 import portalStoneImg from "../img/cardImages/artifacts/portalStone.png"
 import pathFinderStaffImg from "../img/cardImages/artifacts/pathFinderStaff.png"
@@ -69,7 +68,6 @@ import cursedTreasureImg from "../img/cardImages/artifacts/cursedTreasure.png"
 import darkKnowledgeImg from "../img/cardImages/artifacts/darkKnowledge.png"
 import baneBanisherImg from "../img/cardImages/artifacts/blade.png"
 import warMaskImg from "../img/cardImages/artifacts/warMask.png"
-import ringOfLightImg from "../img/cardImages/artifacts/ringOfLight.png"
 import beastKillerImg from "../img/cardImages/artifacts/beastKiller.png"
 import flameJewelImg from "../img/cardImages/artifacts/flameJewel.png"
 import inscribedBladeImg from "../img/cardImages/artifacts/inscribedBlade.png"
@@ -78,7 +76,6 @@ import transmutationImg from "../img/cardImages/artifacts/transmutation.png"
 /*import owlEyesImg from "../img/cardImages/artifacts/owlEyes.png"*/
 import goldenMaskImg from "../img/cardImages/artifacts/goledMask.png"
 import ritualDaggerImg from "../img/cardImages/artifacts/ritualDagger.png"
-
 
 
 import {EFFECT} from "./effects.mjs";
@@ -251,7 +248,7 @@ export const ITEMS = Object.freeze({
         cost: 1,
         points: 1
     },
-      hotAirBaloon: {
+    hotAirBaloon: {
         id: "hotAirBaloon",
         cardName: "Hot Air Baloon",
         transport: CARD_TRANSPORT.plane,
@@ -397,7 +394,8 @@ export const ITEMS = Object.freeze({
         cardName: "Pocket Watch",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Coin/><Coin/> or <Coin/><Coin/><Coin/> and <b>pass</b> this round.</div>,
+        effectsText: <div className="effectsText"><b>Gain:</b>
+            <Coin/><Coin/> or <Coin/><Coin/><Coin/> and <b>pass</b> this round.</div>,
         effects: [EFFECT.gain2CoinsOrPassAnd3],
         image: pocketWatchImg,
         cost: 2,
@@ -445,8 +443,8 @@ export const ITEMS = Object.freeze({
         cardName: "FishingRod",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Discount:</b> <Coin/><Coin/><Coin/>. Reveal the top card of the Item deck.
-            You may buy any <Item/>.
+        effectsText: <div className="effectsText"><b>Discount:</b> <Coin/><Coin/><Coin/>. Reveal the top card of the
+            Item deck. You may buy any <Item/>.
         </div>,
         effects: [EFFECT.revealItemBuyWithDiscount2],
         image: fishingRodImg,
@@ -480,7 +478,8 @@ export const ITEMS = Object.freeze({
         cardName: "Bow and Arrows",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for up to 3 <Guardian/> in your Play Area or that you have defeated.</div>,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for up to 3 <Guardian/> in your Play Area or
+            that you have defeated.</div>,
         effects: [EFFECT.gainExploreForGuardians],
         image: bowAndArrowsImg,
         cost: 2,
@@ -491,7 +490,8 @@ export const ITEMS = Object.freeze({
         cardName: "Large Backpack",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Coin/> and you may draw any card from your discard pile.</div>,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Coin/> and you may draw any card from your discard pile.
+        </div>,
         effects: [EFFECT.gainCoin, EFFECT.drawFromDiscard],
         image: bagImg,
         cost: 3,
@@ -543,7 +543,7 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 1
     },
-     flask: {
+    flask: {
         id: "flask",
         cardName: "Flask",
         transport: CARD_TRANSPORT.ship,
@@ -572,7 +572,7 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Coin/><Explore/><Draw1Card/><Discard/></div>,
-        effects: [EFFECT.draw1, EFFECT.discard, EFFECT.gainCoin, EFFECT.gainExplore, ],
+        effects: [EFFECT.draw1, EFFECT.discard, EFFECT.gainCoin, EFFECT.gainExplore,],
         image: boomerangImg,
         cost: 2,
         points: 1
@@ -619,7 +619,7 @@ export const ITEMS = Object.freeze({
         cost: 1,
         points: 1
     },
-
+});
 
 export const ARTIFACTS = Object.freeze({
     pathfinderStaff: {
