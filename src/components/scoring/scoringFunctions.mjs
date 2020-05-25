@@ -26,8 +26,8 @@ export function getPoints(playerState) {
         fearPoints += ITEMS[card.id].points;
     }
 
-    const undefeatedGuardians = allDeckCards.filter(card => card.type === CARD_TYPE.guardian);
-    let undefeatedGuardianPoints = 0 - undefeatedGuardians.length;
+    /*const undefeatedGuardians = allDeckCards.filter(card => card.type === CARD_TYPE.guardian);
+    let undefeatedGuardianPoints = 0 - undefeatedGuardians.length;*/
 
     const defeatedGuardians = playerState.destroyedCards.filter(card => card.type === CARD_TYPE.guardian);
     let defeatedGuardianPoints = 0;
@@ -66,7 +66,7 @@ export function getPoints(playerState) {
     }
     relicsPoints += playerState.resources.shinies * 4;
 
-    const totalPoints = itemPoints + artifactPoints + fearPoints + undefeatedGuardianPoints + defeatedGuardianPoints +
+    const totalPoints = itemPoints + artifactPoints + fearPoints /*+ undefeatedGuardianPoints */+ defeatedGuardianPoints +
         legendPoints + relicsPoints;
 
     return {
@@ -76,8 +76,8 @@ export function getPoints(playerState) {
         artifactPoints: artifactPoints,
         fears: fears,
         fearPoints: fearPoints,
-        undefeatedGuardians: undefeatedGuardians,
-        undefeatedGuardianPoints: undefeatedGuardianPoints,
+        /*undefeatedGuardians: undefeatedGuardians,
+        undefeatedGuardianPoints: undefeatedGuardianPoints,*/
         defeatedGuardians: defeatedGuardians,
         defeatedGuardianPoints: defeatedGuardianPoints,
         legendPoints: legendPoints,

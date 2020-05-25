@@ -3,8 +3,6 @@ import {CARD_TYPE, TRANSMISSIONS} from "../../data/idLists";
 import {CardRow} from "../cards/CardRow";
 import {socket} from "../../server/socketConnection";
 import {emptyPlayerState, GLOBAL_VARS} from "../functions/initialStateFunctions";
-import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
-import {Legends2} from "../../data/legends";
 import {AdventurerToken, Artifact, DefeatedGuardian, Fear, Guardian, Item, Shiny} from "../Symbols";
 import Card from "../cards/Card";
 import {getPoints} from "./scoringFunctions";
@@ -13,6 +11,7 @@ export function ScoringPanel(props) {
     const [playerStates, setPlayerStates] = useState(props.location.data ?
         props.location.data.playerStates : [emptyPlayerState]);
     const [playerIndex, setPlayerIndex] = useState(0);
+    //todo remove?
     const [legends, setLegends] = useState(props.location.data ?
         props.location.data.legends : null);
 
@@ -64,9 +63,9 @@ export function ScoringPanel(props) {
             <div style={rowStyle}>
                 <Fear/>:{pointsResult.fearPoints}<CardRow cards={pointsResult.fears}/>
             </div>
-            <div style={rowStyle}>
+            {/*<div style={rowStyle}>
                 <Guardian/>:{pointsResult.undefeatedGuardianPoints}<CardRow cards={pointsResult.undefeatedGuardians}/>
-            </div>
+            </div>*/}
             <div style={rowStyle}>
                 <DefeatedGuardian/>:{pointsResult.defeatedGuardianPoints}<CardRow cards={pointsResult.defeatedGuardians}/>
             </div>
