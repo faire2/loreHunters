@@ -43,9 +43,9 @@ export default function RightSlidingPanel(props) {
             <div style={rowStyle}>
                 <Artifact/>:{points.artifactPoints}
             </div>
-            <div style={rowStyle}>
+            {/*<div style={rowStyle}>
                 <Guardian/>:{points.undefeatedGuardianPoints}
-            </div>
+            </div>*/}
             <div style={rowStyle}>
                 <DefeatedGuardian/>:{points.defeatedGuardianPoints}
             </div>

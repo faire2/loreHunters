@@ -64,7 +64,7 @@ export function Export2Xls(props) {
             itemPoints: points.itemPoints,
             artifactPoints: points.artifactPoints,
             fearPoints: points.fearPoints,
-            undefeatedGuardianPoints: points.undefeatedGuardianPoints,
+            /*undefeatedGuardianPoints: points.undefeatedGuardianPoints,*/
             defeatedGuardianPoints: points.defeatedGuardianPoints,
             legendPoints: points.legendPoints,
             relicsPoints: points.relicsPoints,
@@ -103,7 +103,7 @@ export function Export2Xls(props) {
                 <ExcelColumn label="P" value="plane"/>
                 <ExcelColumn label="It" value="itemPoints"/>
                 <ExcelColumn label="Ar" value="artifactPoints"/>
-                <ExcelColumn label="X" value="undefeatedGuardianPoints"/>
+                {/*<ExcelColumn label="X" value="undefeatedGuardianPoints"/>*/}
                 <ExcelColumn label="Gu" value="defeatedGuardianPoints"/>
                 <ExcelColumn label="Le" value="legendPoints"/>
                 <ExcelColumn label="Re" value="relicsPoints"/>
