@@ -318,7 +318,7 @@ export const ITEMS = Object.freeze({
         id: "spyglass",
         cardName: "Spyglass", transport: CARD_TRANSPORT.ship,
         effectsText: <div className="effectsText">1x: <Explore/> <Explore/> <Arrow/> <Shiny/></div>,
-        effects: [EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.gainShiny],
+        effects: [EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.gainRelic],
         effects2Text: <div className="effectsText"><Jeep/> <Jeep/></div>,
         effects2: [EFFECT.gainJeep, EFFECT.gainJeep],
         cost: 1,
@@ -538,7 +538,7 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
         effectsText: <div className="effectsText"><b>Gain:</b> <Shiny/>. Then <b>destroy</b> this card.</div>,
-        effects: [EFFECT.gainShiny, EFFECT.destroyThisCard],
+        effects: [EFFECT.gainRelic, EFFECT.destroyThisCard],
         image: bookOfMythsImg,
         cost: 2,
         points: 1
