@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
 import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "../../data/idLists";
-import {activateGuardianAndLockEffects} from "./cardManipulationFuntions";
+import {activateGuardianAndLockEffects, addCardToDiscardDeck} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin, Explore} from "../Symbols";
 import {ACTION_TYPE, addLogEntry} from "../main/logger";
@@ -176,10 +176,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.escapeGuardian:
                     if (tCard.type === CARD_TYPE.guardian) {
-                        tPlayerState.discardDeck.push(GUARDIAN_IDs[tCard.id]);
+                        tPlayerState.destroyedCards.push(GUARDIAN_IDs[tCard.id]);
                         tPlayerState.activeCards.splice(cardIndex, 1);
-                        tPlayerState.hand.push(ITEM_IDs.fear);
-                        tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
+                        tPlayerState = addCardToDiscardDeck(cloneDeep(ITEM_IDs.fear), tPlayerState);
                     }
                     break;
 

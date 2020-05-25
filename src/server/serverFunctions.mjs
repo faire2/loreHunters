@@ -112,10 +112,13 @@ export function processEndOfRound(room) {
 
         /* move active cards to discard */
         for (let card of tPlayerState.activeCards) {
+            /* undefeated guardians are removed from the game */
             if (card.type === CARD_TYPE.guardian) {
-                tPlayerState = addCardToDiscardDeck({...ITEM_IDs.fear}, tPlayerState);
+                tPlayerState.destroyedCards.push(card);
+                tPlayerState = addCardToDiscardDeck(cloneDeep(ITEM_IDs.fear), tPlayerState);
+            } else {
+                tPlayerState = addCardToDiscardDeck(card, tPlayerState);
             }
-            tPlayerState = addCardToDiscardDeck(card, tPlayerState);
         }
         tPlayerState.activeCards = [];
 
