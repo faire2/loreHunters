@@ -328,7 +328,7 @@ export default function Card(props) {
             {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle} lockText={lockText}/>}
             <Cost cost={cost} style={costStyle} isGuarded={card.isGuarded}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
-            {/*card.state === undefined && */}<div style={{position: "absolute", bottom: "-0.5vw", fontSize: "0.5vw"}}>{card.state}</div>
+            <div style={{position: "absolute", bottom: "-0.5vw", fontSize: "0.5vw"}}>{card.state}</div>
         </div>
     )
 }
