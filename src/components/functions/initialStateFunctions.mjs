@@ -41,10 +41,10 @@ export const LOCATION_LINE = Object.freeze({
 export const emptyPlayerState = Object.freeze({
     resources: {
         coins: 2,
-        explore: 0,
-        texts: 0,
-        weapons: 0,
-        jewels: 0,
+        explore: 20,
+        texts: 20,
+        weapons: 20,
+        jewels: 20,
         shinies: 0,
         walk: 0,
         jeep: 0,
@@ -77,6 +77,29 @@ export default function getInitialPlayerStates(numOfPlayers) {
 
     for (let i = 0; i < numOfPlayers; i++) {
         let playerState = {...emptyPlayerState};
+
+        // each player has different starting resources
+        switch (i) {
+            case 0:
+                playerState.resources.coins = 2;
+                playerState.resources.explore = 1;
+                break;
+            case 1:
+                playerState.resources.coins = 1;
+                playerState.resources.explore = 2;
+                break;
+            case 2:
+                playerState.resources.coins = 3;
+                playerState.resources.explore = 1;
+                break;
+            case 3:
+                playerState.resources.coins = 2;
+                playerState.resources.explore = 2;
+                break;
+            default:
+                console.log("Cannot process player index in getInitialPlayerStates: " + i);
+        }
+
         playerState.playerIndex = i;
         playerState.color = GLOBAL_VARS.playerColors[i];
 

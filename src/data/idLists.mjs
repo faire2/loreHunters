@@ -115,10 +115,10 @@ export const ITEM_IDs = Object.freeze({
         id: "goldPan",
         type: CARD_TYPE.item,
     },
-    /*hat: {
+    hat: {
         id: "hat",
         type: CARD_TYPE.item,
-    },*/
+    },
     trowel: {
         id: "trowel",
         type: CARD_TYPE.item,
@@ -167,10 +167,10 @@ export const ITEM_IDs = Object.freeze({
         id: "pocketWatch",
         type: CARD_TYPE.item,
     },*/
-    grapplingHook: {
+    /*grapplingHook: {
         id: "grapplingHook",
         type: CARD_TYPE.item,
-    },
+    },*/
     /*camouflagePaint: {
         id: "camouflagePaint",
         type: CARD_TYPE.item,
@@ -233,6 +233,14 @@ export const ITEM_IDs = Object.freeze({
     },
     machete: {
         id: "machete",
+        type: CARD_TYPE.item,
+    },
+    beartrap: {
+        id: "beartrap",
+        type: CARD_TYPE.item,
+    },
+    airmail: {
+        id: "airmail",
         type: CARD_TYPE.item,
     },
 });
