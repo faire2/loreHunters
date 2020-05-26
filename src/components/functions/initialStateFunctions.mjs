@@ -77,6 +77,29 @@ export default function getInitialPlayerStates(numOfPlayers) {
 
     for (let i = 0; i < numOfPlayers; i++) {
         let playerState = {...emptyPlayerState};
+
+        // each player has different starting resources
+        switch (i) {
+            case 0:
+                playerState.resources.coins = 2;
+                playerState.resources.explore = 1;
+                break;
+            case 1:
+                playerState.resources.coins = 1;
+                playerState.resources.explore = 2;
+                break;
+            case 2:
+                playerState.resources.coins = 3;
+                playerState.resources.explore = 1;
+                break;
+            case 3:
+                playerState.resources.coins = 2;
+                playerState.resources.explore = 2;
+                break;
+            default:
+                console.log("Cannot process player index in getInitialPlayerStates: " + i);
+        }
+
         playerState.playerIndex = i;
         playerState.color = GLOBAL_VARS.playerColors[i];
 
