@@ -51,21 +51,24 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.createGame, roomData => {
         //check if the name is existing
         if (!isRoomNameTaken(roomData, gameRooms)) {
+            const states = {
+                playerStates: getInitialPlayerStates(roomData.numOfPlayers),
+                store: getInitialStore(),
+                locations: getInitialLocations(roomData.numOfPlayers),
+                legends: getInitialLegends(roomData.numOfPlayers),
+                activePlayer: 0,
+                initialPlayer: 0,
+                previousPlayer: 0,
+                round: 1,
+                gameLog: [],
+            };
             gameRooms.push({
                 name: roomData.roomName,
                 numOfPlayers: roomData.numOfPlayers,
                 players: [getUserName(socket.id, users)],
-                states: {
-                    playerStates: getInitialPlayerStates(roomData.numOfPlayers),
-                    store: getInitialStore(),
-                    locations: getInitialLocations(roomData.numOfPlayers),
-                    legends: getInitialLegends(roomData.numOfPlayers),
-                    activePlayer: 0,
-                    initialPlayer: 0,
-                    previousPlayer: 0,
-                    round: 1,
-                    gameLog: [],
-                },
+                states: states,
+                previousStates: states,
+                originalStates: states,
             });
             console.debug("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");
             socket.join(roomData.roomName);
@@ -151,6 +154,8 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.nextPlayer, states => {
         console.debug("Passing turn to next player in room: " + states.roomName + "(" + getUserName(socket.id, users) + ")");
         let room = getRoom(states.roomName, gameRooms);
+        room.originalStates = room.previousStates;
+        room.previousStates = room.states;
         if (room) {
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             console.debug("PLAYER " + (playerIndex) + " passing action.");
@@ -198,6 +203,8 @@ io.on("connection", socket => {
             } else {
                 room.states.activePlayer = nextPlayer(playerIndex, room);
             }
+            room.originalStates = room.states;
+            room.previousStates = room.states;
             updateStatesToAll(room);
         } else {
             console.error("Unable to process user - possible disconnection. Socket id: " + socket.id);
