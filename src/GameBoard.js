@@ -45,7 +45,7 @@ import {handleGuardianArrival, processIncomeTile} from "./components/functions/p
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {addLogEntry, gameLog, getLogLegends, setGameLog, setLogLegends} from "./components/main/logger";
+import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 
 function GameBoard(props) {

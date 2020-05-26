@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import ExcelFile from "react-data-export/dist/ExcelPlugin/components/ExcelFile";
 import ExcelSheet from "react-data-export/dist/ExcelPlugin/elements/ExcelSheet";
 import ExcelColumn from "react-data-export/dist/ExcelPlugin/elements/ExcelColumn";
+import {ACTION_TYPE} from "../../data/idLists";
 
 export function Export2Xls(props) {
     const origLog = props.gameLog;
@@ -11,10 +12,13 @@ export function Export2Xls(props) {
 
     // storing the last points state for each player
     let endPoints = [];
+    let turnsInThisRound = 0;
 
-    for (let logEntry of origLog) {
-        const playerState = logEntry.playerState;
+    for (let i = 0; i < origLog.length; i++) {
+        turnsInThisRound += 1;
+        const playerState = origLog[i].playerState;
         const resources = playerState.resources;
+        const logEntry = origLog[i];
 
         let cost = null;
         if (!logEntry.cost) {
@@ -69,7 +73,12 @@ export function Export2Xls(props) {
             legendPoints: points.legendPoints,
             relicsPoints: points.relicsPoints,
             totalPoints: points.totalPoints,
+            turnsInThisRound: turnsInThisRound,
         };
+
+        if (logEntry.actionType === ACTION_TYPE.endOfTurn) {
+            turnsInThisRound = 0;
+        }
         endPoints.splice(exportEntry.playerIndex, 1, exportEntry.totalPoints);
         exportLog.push(exportEntry);
     }
@@ -87,6 +96,7 @@ export function Export2Xls(props) {
     return (
         <ExcelFile element={<Button variant={"secondary"} size={"sm"}>Export log</Button>} filename={filename}>
             <ExcelSheet data={exportLog} name={"game log"}>
+                <ExcelColumn label="Turns" value="turnsInThisRound"/>
                 <ExcelColumn label="P" value="playerIndex"/>
                 <ExcelColumn label="action type" value="actionType"/>
                 <ExcelColumn label="ID" value="elementId"/>
