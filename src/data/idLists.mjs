@@ -749,6 +749,7 @@ export const TRANSMISSIONS = Object.freeze({
     stage: "stage of the app",
     stateUpdate: "stateUpdate",
     resetTurn: "reset turn - send back data from beginning of the turn",
+    revert: "revert turn - send back data from previous beginning of turn",
     roomCreated: "room has been successfully created and player joined it",
     roomIsFull: "join request denied, room is already full",
     roomList: "list of all active rooms",

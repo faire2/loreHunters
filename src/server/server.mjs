@@ -21,6 +21,7 @@ import getInitialPlayerStates, {
     getInitialLocations,
     getInitialStore
 } from "../components/functions/initialStateFunctions.mjs";
+import cloneDeep from "lodash/cloneDeep.js";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -68,7 +69,6 @@ io.on("connection", socket => {
                 players: [getUserName(socket.id, users)],
                 states: states,
                 previousStates: states,
-                originalStates: states,
             });
             console.debug("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");
             socket.join(roomData.roomName);
@@ -107,12 +107,6 @@ io.on("connection", socket => {
         }
     });
 
-    /* NEW GAME * //todo refactor
-    socket.on(TRANSMISSIONS.newGame, () => {
-        console.debug("*** NEW GAME INITIATED ***");
-        newGame();
-    })*/
-
     /** START GAME **/
     socket.on(TRANSMISSIONS.startGame, data => {
         const roomName = data.roomName;
@@ -150,12 +144,25 @@ io.on("connection", socket => {
     }
     });
 
+    /** REVERT TURN **/
+    socket.on(TRANSMISSIONS.revert, roomName => {
+        console.debug("reverting turn in room: " + roomName + "(" + getUserName(socket.id, users) + "|" + socket.id + ")");
+        const room = getRoom(roomName, gameRooms);
+        console.log("room: " + room);
+        if (room) {
+            room.states = cloneDeep(room.previousStates);
+            updateStatesToAll(room);
+        } else {
+            console.error("Room could not be found, turn was not passed.");
+        }
+    });
+
+
     /** NEXT PLAYER **/
     socket.on(TRANSMISSIONS.nextPlayer, states => {
         console.debug("Passing turn to next player in room: " + states.roomName + "(" + getUserName(socket.id, users) + ")");
         let room = getRoom(states.roomName, gameRooms);
-        room.originalStates = room.previousStates;
-        room.previousStates = room.states;
+        room.previousStates = cloneDeep(room.states);
         if (room) {
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             console.debug("PLAYER " + (playerIndex) + " passing action.");
@@ -170,6 +177,7 @@ io.on("connection", socket => {
     /** End of round**/
     socket.on(TRANSMISSIONS.finishedRound, states => {
         let room = getRoom(states.roomName, gameRooms);
+        room.previousStates = cloneDeep(room.state);
         let playerIndex = room.players.indexOf(getUserName(socket.id, users));
         for (let playerState of room.states.playerStates) {
             console.debug("Has player " + playerState.playerIndex + " finished round?" + playerState.finishedRound);
@@ -203,7 +211,6 @@ io.on("connection", socket => {
             } else {
                 room.states.activePlayer = nextPlayer(playerIndex, room);
             }
-            room.originalStates = room.states;
             room.previousStates = room.states;
             updateStatesToAll(room);
         } else {

@@ -3,15 +3,11 @@ import {PlayerStateContext} from "../../Contexts";
 import {ButtonGroup} from "react-bootstrap";
 import {EFFECT} from "../../data/effects";
 
-export const Controls = (props) => {
+export const Controls = () => {
     const playerStateContext = useContext(PlayerStateContext);
     const isActivePlayer = playerStateContext.isActivePlayer;
     const activeEffect = playerStateContext.playerState.activeEffects[0];
     const notDiscardEffect = activeEffect !== EFFECT.discard;
-
-    /*function restartGame() {
-        socket.emit(TRANSMISSIONS.newGame, {})
-    }*/
 
     const containerStyle = {
         position: "absolute",
@@ -32,7 +28,7 @@ export const Controls = (props) => {
                 {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
                 {notDiscardEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
                 {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.undo()}>undo</button>}
-                {/*<button className="btn-primary" onClick={() => restartGame()}>restart game</button>*/}
+                {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.revert()}>revert</button>}
                 {/*<button className="btn-primary"
                         onClick={()  => history.push({
                             pathname: "/scoring",

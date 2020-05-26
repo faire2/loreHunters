@@ -481,6 +481,12 @@ function GameBoard(props) {
         socket.emit(TRANSMISSIONS.resetTurn, initialRoom.name);
     }
 
+    /** REVERT TO PREVIOUS TURN **/
+    function revert() {
+        debugger
+        socket.emit(TRANSMISSIONS.revert, initialRoom.name)
+    }
+
     /** SET NEXT PLAYER **/
     if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive) {
         addLogEntry(playerState, ACTION_TYPE.endOfTurn, null, null);
@@ -564,6 +570,7 @@ function GameBoard(props) {
         handleClickOnRelic: handleClickOnRelic,
         cancelEffects: cancelEffects,
         undo: undo,
+        revert: revert,
     };
 
     return (
