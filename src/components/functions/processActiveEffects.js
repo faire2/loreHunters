@@ -244,7 +244,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.moveAdvToEmptyLocation:
             if (tLocation !== null && tLocation.state === LOCATION_STATE.explored && tLocation.id !== tPlayerState.activeEffects[1]
                 && tLocation.level !== LOCATION_LEVEL["3"]) {
-                tPlayerState.availableAdventurers -= 1;
                 /* we have to remove original location id from the activeAffects array */
                 tPlayerState.activeEffects.splice(0, 2);
                 let line = tLocation.line;
