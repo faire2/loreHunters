@@ -163,10 +163,10 @@ export const ITEM_IDs = Object.freeze({
         id: "boots",
         type: CARD_TYPE.item,
     },
-     /*pocketWatch: {
+     pocketWatch: {
         id: "pocketWatch",
         type: CARD_TYPE.item,
-    },*/
+    },
     /*grapplingHook: {
         id: "grapplingHook",
         type: CARD_TYPE.item,

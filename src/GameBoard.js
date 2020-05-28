@@ -119,10 +119,8 @@ function GameBoard(props) {
     }
 
     /** PROCESS REWARD MODAL **/
-    function handleRewards(tPlayerState, tStore, finishRound, moreRewardsToProcess) {
-        setPlayerState(tPlayerState);
-        setStore(tStore);
-        if (!moreRewardsToProcess) {
+    function handleRewards(tPlayerState, tStore, moreRewardsToProcess) {
+        if (!moreRewardsToProcess || tPlayerState.finishedRound) {
             setRewardsModalData([]);
             setShowRewardsModal(false);
             setIsModalActive(false);
@@ -131,11 +129,22 @@ function GameBoard(props) {
             tRewardsModalData.splice(0, 1);
             setRewardsModalData(tRewardsModalData);
         }
-        if (finishRound) {
-            handleEndRound();
-            // we have to avoid triggering passing round to next player call
-            tPlayerState.activeEffects.push("finishing round");
+        //if an effect finished player's turn, end the turn
+        if (tPlayerState.finishedRound) {
+            addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
+            console.log("finishing round");
+            socket.emit(TRANSMISSIONS.finishedRound, {
+                roomName: initialRoom.name,
+                playerState: tPlayerState,
+                store: tStore,
+                locations: locations,
+                legends: legends,
+                gameLog: gameLog
+            });
         }
+
+        setPlayerState(tPlayerState);
+        setStore(tStore);
     }
 
     /** USE EFFECTS **/
@@ -483,12 +492,12 @@ function GameBoard(props) {
 
     /** REVERT TO PREVIOUS TURN **/
     function revert() {
-        debugger
         socket.emit(TRANSMISSIONS.revert, initialRoom.name)
     }
 
     /** SET NEXT PLAYER **/
-    if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive) {
+    if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive
+            && !playerState.finishedRound) {
         addLogEntry(playerState, ACTION_TYPE.endOfTurn, null, null);
         console.log("next player ");
         nextPlayer();
@@ -512,10 +521,14 @@ function GameBoard(props) {
                 gameLog: gameLog,
             });
             setPlayerState(tPlayerState);
+        } else {
+            let tPlayerState = cloneDeep(playerState);
+            tPlayerState.finishedRound = false;
+            setPlayerState(tPlayerState);
+            handleEndRound();
         }
     }
 
-    /** END OF ROUND **/
     function handleEndRound() {
         if (isActivePlayer) {
             addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);

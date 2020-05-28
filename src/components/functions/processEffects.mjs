@@ -21,7 +21,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let processedAllEffects = true;
     let showRewardsModal = false;
     let rewardsData = {type: REWARD_TYPE.card, data: []};
-    let finishRound = false;
     exitLoopFromSwitch();
 
     // eslint-disable-next-line no-unused-vars
@@ -189,7 +188,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.finishRound:
-                    finishRound = true;
+                    tPlayerState.finishedRound = true;
                     break;
 
                 case EFFECT.gainAction:
@@ -446,7 +445,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         processedAllEffects: processedAllEffects,
         showRewardsModal: showRewardsModal,
         rewardsData: rewardsData,
-        finishRound: finishRound,
     };
 }
 
