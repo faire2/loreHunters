@@ -481,6 +481,16 @@ function GameBoard(props) {
     /** CANCEL EFFECTS **/
     function cancelEffects() {
         let tPlayerState = cloneDeep(playerState);
+        if (tPlayerState.activeEffects[0] === EFFECT.revealItemBuyWithDiscount2) {
+            const tStore = cloneDeep(store);
+            tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
+            setStore(tStore);
+        }
+        if (tPlayerState.activeEffects[0] === EFFECT.revealArtifactBuyWithDiscount) {
+            const tStore = cloneDeep(store);
+            tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
+            setStore(tStore);
+        }
         tPlayerState.activeEffects = [];
         setPlayerState(tPlayerState);
     }
