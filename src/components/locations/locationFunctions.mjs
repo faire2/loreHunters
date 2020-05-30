@@ -174,7 +174,19 @@ function checkNextLine(locationData, playerIndex, isFirst, isLast) {
     const locations = locationData.locations;
     const line = locationData.locationLine;
     const position = locationData.locationPosition;
-    if (line === LOCATION_LINE.line2) {
+
+    if (line === LOCATION_LINE.line1) {
+        if (!isFirst) {
+            if (checkOwner(locations, LOCATION_LINE.line2, position - 1, playerIndex)) {
+                return true;
+            }
+        }
+        if (!isLast) {
+            if (checkOwner(locations, LOCATION_LINE.line2, position, playerIndex)) {
+                return true;
+            }
+        }
+    } else if (line === LOCATION_LINE.line2) {
         if (checkOwner(locations, LOCATION_LINE.line3, position, playerIndex)) {
             return true;
         }
@@ -193,7 +205,7 @@ function checkNextLine(locationData, playerIndex, isFirst, isLast) {
             }
         }
     } else {
-        console.log("Unable to process line in checkPreviousLine: " + line);
+        console.log("Unable to process line in checkNextLine: " + line);
     }
     return false;
 }

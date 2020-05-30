@@ -123,7 +123,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*/
 
-        /*const testCard = {...ITEM_IDs.grapplingHook};
+        /*const testCard = {...ITEM_IDs.compass};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 

@@ -113,7 +113,7 @@ export default function ChooseRewardModal() {
                 console.log(rewardType);
         }
         const moreRewardsToProcess = rewards.length > 1;
-        boardStateContext.handleReward(tPlayerState, tStore, finishRound, moreRewardsToProcess);
+        boardStateContext.handleReward(tPlayerState, tStore, moreRewardsToProcess);
     }
     return (
         <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null} dialogClassName={"customModal"}>
