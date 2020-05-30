@@ -7,6 +7,7 @@ import cors from "cors"
 import {TRANSMISSIONS} from "../data/idLists.mjs";
 import {
     changeFormerUsername,
+    getPlayerIndex,
     getRoom,
     getUserName,
     isRoomNameTaken,
@@ -52,16 +53,19 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.createGame, roomData => {
         //check if the name is existing
         if (!isRoomNameTaken(roomData, gameRooms)) {
+            const numOfPlayers = roomData.numOfPlayers;
             const states = {
-                playerStates: getInitialPlayerStates(roomData.numOfPlayers),
+                numOfPlayers: numOfPlayers,
+                playerStates: getInitialPlayerStates(numOfPlayers),
                 store: getInitialStore(),
-                locations: getInitialLocations(roomData.numOfPlayers),
-                legends: getInitialLegends(roomData.numOfPlayers),
+                locations: getInitialLocations(numOfPlayers),
+                legends: getInitialLegends(numOfPlayers),
                 activePlayer: 0,
                 initialPlayer: 0,
                 previousPlayer: 0,
                 round: 1,
                 gameLog: [],
+                roomName: roomData.roomName,
             };
             gameRooms.push({
                 name: roomData.roomName,
@@ -117,11 +121,32 @@ io.on("connection", socket => {
         console.debug("New game data sent to: " + roomName + " [" + room.players + "]");
     });
 
-    /** SEND INITIAL GAME STATES **/
-    socket.on(TRANSMISSIONS.sendGameStates, username => {
-        console.debug("Game states required by user: " + username);
+    /** SEND GAME STATES **/
+    socket.on(TRANSMISSIONS.sendGameStates, data => {
+        const room = getRoom(data.roomName, gameRooms);
+        if (room) {
+            const userName = room.players[data.playerIndex];
+            console.debug("* shaking hand with " + userName);
+            users = processNewConnection(userName, socket.id, users);
+            socket.join(data.roomName);
+            console.debug("Game states required for room: " + room.name + " by user " + getUserName(socket.id,
+                users));
+            socket.emit(TRANSMISSIONS.stateUpdate, {
+                playerStates: room.states.playerStates,
+                store: room.states.store,
+                locations: room.states.locations,
+                round: room.states.round,
+                legends: room.states.legends,
+                activePlayer: room.states.activePlayer,
+                previousPlayer: room.states.previousPlayer,
+                gameLog: room.states.gameLog,
+                playerIndex: data.playerIndex,
+                numOfPlayers: room.states.numOfPlayers,
+            })
+        } else {
+            console.error("Couldn't find room during requested status update:" + data.roomName);
+        }
     });
-
 
     /** RESET TURN **/
     socket.on(TRANSMISSIONS.resetTurn, roomName => {
@@ -138,10 +163,12 @@ io.on("connection", socket => {
                 activePlayer: room.states.activePlayer,
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
+                playerIndex: getPlayerIndex(socket.id, users, room),
+                numOfPlayers: room.states.numOfPlayers,
             })
         } else {
-        console.error("Room could not be found, turn was not passed.");
-    }
+            console.error("Room could not be found, turn was not passed.");
+        }
     });
 
     /** REVERT TURN **/
@@ -283,6 +310,8 @@ io.on("connection", socket => {
             activePlayer: room.states.activePlayer,
             previousPlayer: room.states.previousPlayer,
             gameLog: room.states.gameLog,
+            playerIndex: getPlayerIndex(socket.id, users, room),
+            numOfPlayers: room.states.numOfPlayers,
         })
     }
 

@@ -300,3 +300,16 @@ export function nextPlayer(playerIndex, room) {
     }
     return nextPlayerIndex;
 }
+
+export function getPlayerIndex(socketId, users, room) {
+    const userName = getUserName(socketId, users);
+    const playersArr = room.players;
+    if (playersArr.includes(userName)) {
+        return playersArr.indexOf(userName);
+    } else {
+        console.error("Unable to determine playerIndex.")
+        console.log(socketId);
+        console.log(userName);
+        console.log(room);
+    }
+}

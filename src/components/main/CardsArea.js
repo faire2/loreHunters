@@ -3,14 +3,15 @@ import {Hand} from "../cards/Hand";
 import {PlayerStateContext} from "../../Contexts";
 import {DrawDeck} from "../cards/DrawDeck";
 import {CardRow, cardRowStyle, sideTextStyle} from "../cards/CardRow";
+import {emptyPlayerState} from "../functions/initialStateFunctions";
 
 export default function CardsArea() {
     const playerStateContext = useContext(PlayerStateContext);
-    const playerState = playerStateContext.playerState;
+    const playerState = playerStateContext.playerState ? playerStateContext.playerState : emptyPlayerState;
 
     const containerStyle = {
         width: "45vw",
-    }
+    };
 
     return (
         <div style={containerStyle}>
@@ -19,7 +20,7 @@ export default function CardsArea() {
 
                 <Hand/>
                 <div style={sideTextStyle}>DRAW DECK</div>
-                <DrawDeck cards={playerStateContext.playerState.drawDeck}/>
+                <DrawDeck cards={playerState.drawDeck}/>
             </div>
         </div>
     )

@@ -8,7 +8,6 @@ import {BoardStateContext, PlayerStateContext} from "./Contexts";
 import ResourcesArea, {RESOURCES} from "./components/resources/ResourcesArea";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
-import {emptyPlayerState} from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects.mjs";
 import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
@@ -21,6 +20,7 @@ import {
     CARD_STATE,
     CARD_TYPE,
     CARDS_ACTIONLESS,
+    LCL_STORAGE,
     LOCATION_IDs,
     LOCATION_LEVEL,
     LOCATION_STATE,
@@ -47,44 +47,95 @@ import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
 import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
+import Spinner from "react-bootstrap/Spinner";
 
 function GameBoard(props) {
     console.log("** render **");
+    /** GAME STATES **/
+    const [roomName, setRoomName] = useState(null);
+    const [playerIndex, setPlayerIndex] = useState(null);
+    const [playerState, setPlayerState] = useState(null);
+    const [playerStates, setPlayerStates] = useState(null);
+    const [legends, setLegends] = useState(null);
+    const [locations, setLocations] = useState(null);
+    const [store, setStore] = useState(null);
+    const [round, setRound] = useState(null);
+    const [previousPlayer, setPreviousPlayer] = useState(null);
+    const [isActivePlayer, setIsActivePlayer] = useState(null);
+    const [numOfPlayers, setNumOfPlayers] = useState(null);
+    const [statesLoading, setStatesLoading] = useState(true);
     const history = useHistory();
-    if (!props.location.data) {
-        history.push({pathname: "/", data: {}});
-    }
-    const initialRoom = props.location.data.room;
-    const initialStates = props.location.data.room.states;
-    const initialIndex = props.location.data.playerIndex;
-    const numOfPlayers = initialRoom.numOfPlayers;
-    useEffect(() => {
-        setLogLegends(initialStates.legends, 0);
-    }, []);
-
-    const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
-    const [round, setRound] = useState(initialStates.round);
-    const [store, setStore] = useState(initialStates.store);
-    const [locations, setLocations] = useState(initialStates.locations);
-    const [legends, setLegends] = useState(initialStates.legends);
-    const [previousPlayer, setPreviousPlayer] = useState(0);
-    const [isActivePlayer, setIsActivePlayer] = useState(initialIndex === initialStates.activePlayer);
-
-    const emptyPlayerStates = [];
-    for (let i = 0; i < numOfPlayers; i++) {
-        emptyPlayerStates.push(emptyPlayerState)
-    }
-    const [playerStates, setPlayerStates] = useState(emptyPlayerStates);
-
-    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
-    const [extendRightPanel, setExtendRightPanel] = useState(false);
 
     useEffect(() => {
-        document.addEventListener('keydown', handleKeyPress);
+        /** TRANSMISSIONS **/
+        socket.on(TRANSMISSIONS.stateUpdate, states => {
+            console.log("received states from server");
+            console.log(states);
+            const playerIndex = states.playerIndex;
+            setPlayerStates(states.playerStates);
+            setPlayerState(states.playerStates[playerIndex]);
+            setStore(states.store);
+            setLocations(states.locations);
+            setLegends(states.legends);
+            setRound(states.round);
+            setIsActivePlayer(states.activePlayer === playerIndex);
+            setPreviousPlayer(states.previousPlayer);
+            setNumOfPlayers(states.numOfPlayers);
+            setLogLegends(states.legends, 1);
+            setGameLog(states.gameLog);
+            setStatesLoading(false);
+        });
+
+        socket.on(TRANSMISSIONS.scoringStates, data => {
+            console.log("Rerouting to scoring page");
+            history.push({pathname: "/scoring", data: data})
+        });
+
+        /** INITIAL SETUP **/
+        if (props.location.data) {
+            console.log("Setting initial game data.");
+            const roomName = props.location.data.room.states.roomName;
+            const states = props.location.data.room.states;
+            const playerIndex = props.location.data.playerIndex;
+            setRoomName(roomName);
+            setPlayerIndex(playerIndex);
+            setPlayerState(states.playerStates[playerIndex]);
+            setLegends(states.legends);
+            setLocations(states.locations);
+            setStore(states.store);
+            setRound(states.round);
+            setPreviousPlayer(states.previousPlayer);
+            setIsActivePlayer(states.activePlayer === playerIndex);
+            setNumOfPlayers(states.numOfPlayers);
+            setStatesLoading(false);
+
+            setLogLegends(states.legends);
+            setGameLog(states.gameLog);
+            console.log("game log updated with initial data");
+            localStorage.setItem(LCL_STORAGE.roomName, roomName);
+            localStorage.setItem(LCL_STORAGE.playerIndex, playerIndex);
+        } else if (localStorage.getItem(LCL_STORAGE.roomName)) {
+            console.log("Requesting for game data after reload");
+            setRoomName(localStorage.getItem(LCL_STORAGE.roomName));
+            const playerIndex = parseInt(localStorage.getItem(LCL_STORAGE.playerIndex), 10);
+            console.log("setting player index to: " + playerIndex);
+            setPlayerIndex(playerIndex);
+            socket.emit(TRANSMISSIONS.sendGameStates, {roomName: localStorage.getItem(LCL_STORAGE.roomName),
+                playerIndex: playerIndex});
+        } else {
+            // else reroute to login page
+            console.log("No game data available, rerouting to login page");
+            history.push({pathname: "/", data: {}});
+        }
+
+        document.addEventListener("keydown", handleKeyPress);
+        /*window.addEventListener("beforeunload", clearLocalStorage);*/
+
         return () => {
-            document.removeEventListener('keydown', handleKeyPress);
+            document.removeEventListener("keydown", handleKeyPress);
+            /*window.removeEventListener("beforeunload", handleKeyPress)*/
         };
-    });
+    }, []);
 
     function handleKeyPress(e) {
         if (e.keyCode === 32) {
@@ -94,6 +145,19 @@ function GameBoard(props) {
             setExtendRightPanel(value => !value);
         }
     }
+
+    useEffect(() => {
+        if (playerState && playerState.firstTurn && isActivePlayer) {
+            let tStore = store;
+            playerState.firstTurn = false;
+            initiateRewardsModal({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
+            tStore.expeditions.splice(0, 2);
+            setStore(tStore);
+        }
+    }, [isActivePlayer]);
+
+    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
+    const [extendRightPanel, setExtendRightPanel] = useState(false);
 
     // rewards are an array with objects describing values: {type: ..., data: [{effects: ..., effectsText: ...}, ...]
     const [rewardsModalData, setRewardsModalData] = useState([]);
@@ -134,7 +198,7 @@ function GameBoard(props) {
             addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
             console.log("finishing round");
             socket.emit(TRANSMISSIONS.finishedRound, {
-                roomName: initialRoom.name,
+                roomName: roomName,
                 playerState: tPlayerState,
                 store: tStore,
                 locations: locations,
@@ -142,54 +206,9 @@ function GameBoard(props) {
                 gameLog: gameLog
             });
         }
-
         setPlayerState(tPlayerState);
         setStore(tStore);
     }
-
-    /** USE EFFECTS **/
-    useEffect(() => {
-        socket.on(TRANSMISSIONS.stateUpdate, states => {
-            console.log("received states from server");
-            console.log(states);
-            setPlayerStates(states.playerStates);
-            setPlayerState(states.playerStates[initialIndex]);
-            setStore(states.store);
-            setLocations(states.locations);
-            setLegends(states.legends);
-            setRound(states.round);
-            setIsActivePlayer(states.activePlayer === initialIndex);
-            setPreviousPlayer(states.previousPlayer);
-            setLogLegends(states.legends, 1);
-            setGameLog(states.gameLog);
-        });
-
-        socket.on(TRANSMISSIONS.scoringStates, data => {
-            console.log("Rerouting to scoring page");
-            history.push({pathname: "/scoring", data: data})
-        });
-
-        socket.on("disconnect", reason => {
-            console.log("Client disconnected: " + reason);
-            history.push({pathname: "/", data: {}});
-        })
-    }, []);
-
-    useEffect(() => {
-        if (playerState.firstTurn && isActivePlayer) {
-            let tStore = store;
-            playerState.firstTurn = false;
-            initiateRewardsModal({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
-            tStore.expeditions.splice(0, 2);
-            setStore(tStore);
-        }
-    }, [isActivePlayer]);
-
-    useEffect(() => {
-        setGameLog(initialStates.gameLog);
-        console.log("game log updated with initial data");
-    }, []);
-
 
     /** CARD EFFECTS **/
     function handleClickOnCardEffect(effects, cardIndex, costsAction, tCard) {
@@ -497,17 +516,17 @@ function GameBoard(props) {
 
     /** UNDO / RESET TURN **/
     function undo() {
-        socket.emit(TRANSMISSIONS.resetTurn, initialRoom.name);
+        socket.emit(TRANSMISSIONS.resetTurn, roomName);
     }
 
     /** REVERT TO PREVIOUS TURN **/
     function revert() {
-        socket.emit(TRANSMISSIONS.revert, initialRoom.name)
+        socket.emit(TRANSMISSIONS.revert, roomName)
     }
 
     /** SET NEXT PLAYER **/
-    if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive
-            && !playerState.finishedRound) {
+    if (playerState && playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive
+        && !playerState.finishedRound) {
         addLogEntry(playerState, ACTION_TYPE.endOfTurn, null, null);
         console.log("next player ");
         nextPlayer();
@@ -523,7 +542,7 @@ function GameBoard(props) {
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
             socket.emit(TRANSMISSIONS.nextPlayer, {
-                roomName: initialRoom.name,
+                roomName: roomName,
                 playerState: tPlayerState,
                 store: store,
                 locations: locations,
@@ -544,7 +563,7 @@ function GameBoard(props) {
             addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
             console.log("finishing round");
             socket.emit(TRANSMISSIONS.finishedRound, {
-                roomName: initialRoom.name,
+                roomName: roomName,
                 playerState: playerState,
                 store: store,
                 locations: locations,
@@ -561,12 +580,11 @@ function GameBoard(props) {
 
     const boardStateContextValues = {
         playerState: playerState,
-        playerIndex: playerState.playerIndex,
+        playerIndex: playerIndex,
         store: store,
         legends: legends,
         setLegends: setLegends,
         locations: locations,
-        activeEffects: playerState.activeEffects,
         showModal: showRewardsModal,
         modalData: rewardsModalData,
         round: round,
@@ -596,25 +614,35 @@ function GameBoard(props) {
         revert: revert,
     };
 
+    const gameBoardElements =
+    <div>
+        <LocationsArea/>
+        <div style={{marginLeft: "3vw"}}>
+            <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
+            <Store/>
+        </div>
+        <CardsArea/>
+        <LegendsArea/>
+        <ResourcesArea/>
+        <RelicsArea/>
+        <Controls/><br/>
+        <OpponentPlayArea/>
+        <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
+        <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
+        <RightSlidingPanel extendPanel={extendRightPanel}/>
+        <ChooseRewardModal/>
+    </div>;
+
+    const spinner =
+        <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100vw", height: "100vh"}}>
+            <Spinner animation="grow" variant="primary" />
+        </div>;
+
     return (
         <div className="App">
             <BoardStateContext.Provider value={boardStateContextValues}>
                 <PlayerStateContext.Provider value={playerStateContextValues}>
-                    <LocationsArea/>
-                    <div style={{marginLeft: "3vw"}}>
-                        <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
-                        <Store/>
-                    </div>
-                    <CardsArea/>
-                    <LegendsArea/>
-                    <ResourcesArea/>
-                    <RelicsArea/>
-                    <Controls/><br/>
-                    <OpponentPlayArea/>
-                    <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
-                    <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
-                    <RightSlidingPanel extendPanel={extendRightPanel}/>
-                    <ChooseRewardModal/>
+                    {statesLoading ? spinner : gameBoardElements}
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

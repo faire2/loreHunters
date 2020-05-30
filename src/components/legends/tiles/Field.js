@@ -111,6 +111,7 @@ export const Field = (props) => {
 
     // if any player's position is equal do this legend position, add his adventurer token
     const adventurersArray = [];
+    debugger
     for (let i = 0; i < numOfPlayers; i++) {
         const playersPositions = positions[i];
         for (let position of playersPositions) {

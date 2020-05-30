@@ -58,7 +58,8 @@ export function LoginPage() {
 
         socket.on(TRANSMISSIONS.startGame, data => {
             let playerIndex = data.room.players.indexOf(cookies.username);
-            history.push({pathname: "/game", data: {username: cookies.username, room: data.room, playerIndex: playerIndex}});
+            history.push({pathname: "/game", data: {username: cookies.username, room: data.room, playerIndex: playerIndex,
+                    }});
         });
 
         socket.on(TRANSMISSIONS.currentUsersAndData, data => {
@@ -94,7 +95,6 @@ export function LoginPage() {
                 <br/>
                 {roomIsFull && <Alert variant={"warning"}>Room you have tried to join is full</Alert>}
                 {cookies.username && <CurrentRooms rooms={rooms} username={cookies.username}/>}
-                {console.log(process.env)}
             </div>
         </CookiesProvider>
     )

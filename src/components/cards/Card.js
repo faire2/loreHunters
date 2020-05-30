@@ -288,7 +288,7 @@ export default function Card(props) {
     function handleClickOnEffect(effects, isTravel) {
         const correctState = card.state === CARD_STATE.inHand || (card.state === CARD_STATE.active
             && card.type === CARD_TYPE.guardian);
-        if (correctState && boardStateContext.activeEffects.length === 0) {
+        if (correctState && boardStateContext.playerState.activeEffects.length === 0) {
             if (cardType === CARD_TYPE.guardian && props.card.locked) {
                 const lockEffects = props.card.locked;
                 effects = gainLockedResourceBack(lockEffects, effects)
@@ -298,7 +298,7 @@ export default function Card(props) {
     }
 
     function handleClickOnCard() {
-        const activeEffects = boardStateContext.activeEffects;
+        const activeEffects = boardStateContext.playerState.activeEffects;
         if (activeEffects.length > 0) {
             boardStateContext.handleActiveEffectClickOnCard(card, props.index);
         } else if (card.state === CARD_STATE.inStore) {

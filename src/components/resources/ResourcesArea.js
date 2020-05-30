@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Coin, Explore, Jeep, Jewel, Blimp, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
-import {GLOBAL_VARS} from "../functions/initialStateFunctions";
+import {emptyPlayerState, GLOBAL_VARS} from "../functions/initialStateFunctions";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {INCOME_SIZE} from "../../data/idLists";
 import {PlayerTabs} from "../scoring/ScoringPanel";
@@ -11,7 +11,7 @@ export default function ResourcesArea(props) {
     const playerStates = playerStateContext.playerStates;
     const ownPlayerState = playerStateContext.playerState;
     const [showPlayerIndex, setShowPlayerIndex] = useState(0);
-    const showPlayerState = playerStates[showPlayerIndex];
+    const showPlayerState = playerStates ? playerStates[showPlayerIndex] : emptyPlayerState;
 
 
     function handleClickOnPlayerTab(index) {

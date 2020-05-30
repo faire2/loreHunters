@@ -163,7 +163,7 @@ export const ITEM_IDs = Object.freeze({
         id: "boots",
         type: CARD_TYPE.item,
     },
-     pocketWatch: {
+    pocketWatch: {
         id: "pocketWatch",
         type: CARD_TYPE.item,
     },
@@ -736,7 +736,6 @@ export const TRANSMISSIONS = Object.freeze({
     currentUsersAndData: "users currently logged in",
     deleteRoom: "delete game room",
     finishedRound: "finishedRound",
-    getStates: "getState",
     gameStates: "game states",
     handShake: "handshake",
     joinGame: "join game",
@@ -763,9 +762,9 @@ export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id, ART
     ARTIFACT_IDs.inscribedBlade.id];
 
 export const REWARD_TYPE = Object.freeze({
-   card: "card",
-   incomeToken: "income token",
-   effectsArr: "array of effects"
+    card: "card",
+    incomeToken: "income token",
+    effectsArr: "array of effects"
 });
 
 export const ACTION_TYPE = Object.freeze({
@@ -782,4 +781,9 @@ export const ACTION_TYPE = Object.freeze({
     researches: "researches a legend",
     usesAssistant: "uses assistant / income",
     usesBonusAction: "uses a bonus action",
+});
+
+export const LCL_STORAGE = Object.freeze({
+    roomName: "game room name",
+    playerIndex: "player index",
 });
