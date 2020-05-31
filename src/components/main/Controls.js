@@ -7,7 +7,7 @@ export const Controls = () => {
     const playerStateContext = useContext(PlayerStateContext);
     const isActivePlayer = playerStateContext.isActivePlayer;
     const activeEffect = playerStateContext.playerState.activeEffects[0];
-    const notDiscardEffect = activeEffect !== EFFECT.discard;
+    const notDiscardEffect = playerStateContext.playerState.activeEffects.length > 0 && activeEffect !== EFFECT.discard;
 
     const containerStyle = {
         position: "absolute",
@@ -23,18 +23,8 @@ export const Controls = () => {
     return (
         <div style={containerStyle}>
             <ButtonGroup aria-label="Control buttons">
-                {/*<button className="btn-primary" onClick={() => playerStateContext.nextPlayer()}>next player</button>*/}
-                {}
                 {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
                 {notDiscardEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
-                {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.undo()}>undo</button>}
-                {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.revert()}>revert</button>}
-                {/*<button className="btn-primary"
-                        onClick={()  => history.push({
-                            pathname: "/scoring",
-                            data: playerStateContext.playerState
-                        })}>scoring
-                </button>*/}
             </ButtonGroup>
             <div style={{display: "flex", flexFlow: "row", justifyContent: "space-evenly", marginLeft: "1vw"}}>
                 {isActivePlayer ? <p>Your turn!&nbsp;</p> : <p>Wait for your turn...</p>}

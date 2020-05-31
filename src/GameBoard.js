@@ -48,6 +48,7 @@ import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
 import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
+import TopSlidingPanel from "./components/main/TopSlidingPanel";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -138,11 +139,14 @@ function GameBoard(props) {
     }, []);
 
     function handleKeyPress(e) {
-        if (e.keyCode === 32) {
+        if (e.keyCode === 32 || e.keyCode === 40) {
             setExtendBottomPanel(value => !value);
         } else if (e.keyCode === 39) {
             e.preventDefault();
             setExtendRightPanel(value => !value);
+        } else if (e.keyCode === 38) {
+            e.preventDefault();
+            setExtendTopPanel(value => !value);
         }
     }
 
@@ -156,8 +160,9 @@ function GameBoard(props) {
         }
     }, [isActivePlayer]);
 
-    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
+    const [extendTopPanel, setExtendTopPanel] = useState(false);
     const [extendRightPanel, setExtendRightPanel] = useState(false);
+    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
 
     // rewards are an array with objects describing values: {type: ..., data: [{effects: ..., effectsText: ...}, ...]
     const [rewardsModalData, setRewardsModalData] = useState([]);
@@ -627,9 +632,10 @@ function GameBoard(props) {
         <RelicsArea/>
         <Controls/><br/>
         <OpponentPlayArea/>
+        <TopSlidingPanel extendPanel={extendTopPanel}/>
         <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
-        <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
         <RightSlidingPanel extendPanel={extendRightPanel}/>
+        <ExtendPanelButton extendPanel={extendBottomPanel}/>
         <ChooseRewardModal/>
     </div>;
 
