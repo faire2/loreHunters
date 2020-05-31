@@ -245,17 +245,31 @@ io.on("connection", socket => {
         }
     });
 
-    /* SEND BACK ALL PLAYER STATES *
-    socket.on(TRANSMISSIONS.sendScoringStates, () => {
-        console.debug("*Sending player states for scoring, length:" + playerStates.length);
-        socket.emit(TRANSMISSIONS.scoringStates, {playerStates: playerStates, legends: legends});
-    })*/
+    /**  SEND BACK SCORING STATES **/
+    socket.on(TRANSMISSIONS.sendScoringStates, (data) => {
+        const room = getRoom(data.roomName, gameRooms);
+        if (room) {
+            const userName = room.players[data.playerIndex];
+            console.debug("* shaking hand with " + userName);
+            users = processNewConnection(userName, socket.id, users);
+            socket.join(data.roomName);
+            console.debug("Scoring states required for room: " + room.name + " by user " + getUserName(socket.id,
+                users));
+            socket.emit(TRANSMISSIONS.scoringStates, {
+                playerStates: room.states.playerStates,
+                legends: room.states.legends,
+            })
+        } else {
+            console.error("Couldn't find room during requested scoring update:" + data.roomName);
+        }
+    });
 
 
     /** JOIN ROOM **/
-    socket.on(TRANSMISSIONS.joinGame, data => {
+    //todo: duplicate?
+    /*socket.on(TRANSMISSIONS.joinGame, data => {
         console.debug(data.roomName);
-    });
+    });*/
 
     /** DELETE ROOM **/
     socket.on(TRANSMISSIONS.deleteRoom, data => {

@@ -26,6 +26,8 @@ let logLegends = getInitialLegends(4);
 export function setLogLegends(legends){
     if (legends) {
         logLegends = legends;
+        console.log("Log legends set:");
+        console.log(legends);
     } else {
         console.warn("Legends could not be set: " + legends);
     }

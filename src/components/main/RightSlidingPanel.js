@@ -55,7 +55,7 @@ export default function RightSlidingPanel(props) {
             <div style={rowStyle}>
                 <Shiny/>:{points.relicsPoints}
             </div>
-            {points.itemPoints + points.artifactPoints + points.undefeatedGuardianPoints + points.defeatedGuardianPoints + points.legendPoints + points.relicsPoints}
+            {points.itemPoints + points.artifactPoints + points.defeatedGuardianPoints + points.legendPoints + points.relicsPoints}
         </div>
     )
 }

@@ -81,7 +81,7 @@ function GameBoard(props) {
             setIsActivePlayer(states.activePlayer === playerIndex);
             setPreviousPlayer(states.previousPlayer);
             setNumOfPlayers(states.numOfPlayers);
-            setLogLegends(states.legends, 1);
+            setLogLegends(states.legends);
             setGameLog(states.gameLog);
             setStatesLoading(false);
         });
@@ -633,16 +633,11 @@ function GameBoard(props) {
         <ChooseRewardModal/>
     </div>;
 
-    const spinner =
-        <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100vw", height: "100vh"}}>
-            <Spinner animation="grow" variant="primary" />
-        </div>;
-
     return (
         <div className="App">
             <BoardStateContext.Provider value={boardStateContextValues}>
                 <PlayerStateContext.Provider value={playerStateContextValues}>
-                    {statesLoading ? spinner : gameBoardElements}
+                    {statesLoading ? StatesSpinner : gameBoardElements}
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>
@@ -650,3 +645,8 @@ function GameBoard(props) {
 }
 
 export default GameBoard;
+
+export const StatesSpinner = () =>
+    <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100vw", height: "100vh"}}>
+        <Spinner animation="grow" variant="primary" />
+    </div>;
