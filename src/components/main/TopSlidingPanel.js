@@ -1,12 +1,6 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {CardRow} from "../cards/CardRow";
-import {getPoints} from "../scoring/scoringFunctions";
-import {AdventurerToken, Artifact, DefeatedGuardian, Guardian, Item, Shiny} from "../Symbols";
-import Card from "../cards/Card";
-import {PlayerTabs} from "../scoring/ScoringPanel";
 import {useHistory} from "react-router-dom";
-import {ButtonGroup} from "react-bootstrap";
 
 export default function TopSlidingPanel(props) {
     const playerStateContext = useContext(PlayerStateContext);
@@ -42,7 +36,7 @@ export default function TopSlidingPanel(props) {
                 <button className="btn-primary"
                         onClick={()  => history.push({
                             pathname: "/scoring",
-                            data: playerStateContext.playerStates
+                            data: {playerStates: playerStateContext.playerStates}
                         })}>scoring
                 </button>
                 {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.undo()}>undo</button>}

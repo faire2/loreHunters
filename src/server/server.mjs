@@ -140,7 +140,6 @@ io.on("connection", socket => {
                 activePlayer: room.states.activePlayer,
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
-                playerIndex: data.playerIndex,
                 numOfPlayers: room.states.numOfPlayers,
             })
         } else {
@@ -163,7 +162,6 @@ io.on("connection", socket => {
                 activePlayer: room.states.activePlayer,
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
-                playerIndex: getPlayerIndex(socket.id, users, room),
                 numOfPlayers: room.states.numOfPlayers,
             })
         } else {
@@ -324,19 +322,10 @@ io.on("connection", socket => {
             activePlayer: room.states.activePlayer,
             previousPlayer: room.states.previousPlayer,
             gameLog: room.states.gameLog,
-            playerIndex: getPlayerIndex(socket.id, users, room),
             numOfPlayers: room.states.numOfPlayers,
         })
     }
 
-    /*function newGame() {
-        playerStates = getInitialPlayerStates();
-        store = getInitialStore();
-        locations = getInitialLocations();
-        legends = getInitialLegends();
-        round = 1;
-        activePlayer = 0;
-    }*/
 });
 
 app.use(express.static(path.join(__dirname, '../../build')));

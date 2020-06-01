@@ -72,14 +72,14 @@ function GameBoard(props) {
         socket.on(TRANSMISSIONS.stateUpdate, states => {
             console.log("received states from server");
             console.log(states);
-            const playerIndex = states.playerIndex;
+            const tPlayerIndex = playerIndex ? playerIndex : parseInt(localStorage.getItem(LCL_STORAGE.playerIndex), 10);;
             setPlayerStates(states.playerStates);
-            setPlayerState(states.playerStates[playerIndex]);
+            setPlayerState(states.playerStates[tPlayerIndex]);
             setStore(states.store);
             setLocations(states.locations);
             setLegends(states.legends);
             setRound(states.round);
-            setIsActivePlayer(states.activePlayer === playerIndex);
+            setIsActivePlayer(states.activePlayer === tPlayerIndex);
             setPreviousPlayer(states.previousPlayer);
             setNumOfPlayers(states.numOfPlayers);
             setLogLegends(states.legends);
