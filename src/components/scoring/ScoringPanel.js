@@ -13,6 +13,7 @@ import {getLogLegends, setLogLegends} from "../main/logger";
 export function ScoringPanel(props) {
     const [playerStates, setPlayerStates] = useState(null);
     const [playerIndex, setPlayerIndex] = useState(0);
+    const [numOfPlayers, setNumOfPlayers] = useState(null);
     const [statesLoading, setStatesLoading] = useState(true);
     const history = useHistory();
 
@@ -22,6 +23,7 @@ export function ScoringPanel(props) {
             // if location data are available, set states...
             const data = props.location.data;
             setPlayerStates(data.playerStates);
+            setNumOfPlayers(data.playerStates.length);
             setStatesLoading(false);
             setLogLegends(getLogLegends());
         } else if (localStorage.getItem(LCL_STORAGE.roomName)) {
@@ -41,6 +43,7 @@ export function ScoringPanel(props) {
             console.log("scoring states received");
             setLogLegends(states.legends);
             setPlayerStates(states.playerStates);
+            setNumOfPlayers(states.playerStates.length);
             setStatesLoading(false);
         });
     }, []);
@@ -70,7 +73,7 @@ export function ScoringPanel(props) {
     if (!statesLoading) {
         return (
             <div style={containerStyle}>
-                <PlayerTabs handleClickOnTab={handleClickOnPlayerTab} width={"25vw"} height={"5vw"}/>
+                <PlayerTabs handleClickOnTab={handleClickOnPlayerTab} width={"25vw"} height={"5vw"} numOfPlayers={numOfPlayers}/>
                 <div style={rowStyle}>
                     <Item/>:{pointsResult.itemPoints}<CardRow cards={pointsResult.items}/>
                 </div>

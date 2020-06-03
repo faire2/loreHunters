@@ -230,6 +230,7 @@ io.on("connection", socket => {
                     console.debug("Sending new round states to all players.");
                     io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
                         playerStates: room.states.playerStates,
+                        numOfPlayers: room.states.numOfPlayers,
                         legends: room.states.legends,
                     })
                 }
