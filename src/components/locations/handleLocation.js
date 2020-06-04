@@ -33,8 +33,12 @@ export function handleLocation(playerState, store, locations, location, location
         switch (location.state) {
             case LOCATION_STATE.unexplored:
                 console.log("Exloring location initialized.");
-                const exploration = handleLocationExploration(playerState, locations, store, location, locationLine, round, initiateRewardsModal);
-                return ({playerState: exploration.playerState, store: exploration.store});
+                const explorationResult = handleLocationExploration(playerState, locations, store, location, locationLine, round, initiateRewardsModal);
+                if (explorationResult) {
+                return ({playerState: explorationResult.playerState, store: explorationResult.store, locations: explorationResult.locations});
+                } else {
+                    return false;
+                }
             case LOCATION_STATE.explored:
                 const travelCheckResults = payForTravelIfPossible(playerState, location);
                 if (travelCheckResults.enoughResources && playerState.actions > 0 && playerState.availableAdventurers > 0) {
@@ -85,7 +89,7 @@ function handleLocationExploration(playerState, locations, store, location, loca
         const explorationCostResult = processEffects(null, null, playerState, exploreCostEffects,
             null, null, location, null);
         if (explorationCostResult.processedAllEffects) {
-            playerState = explorationCostResult.playerState;
+            playerState = explorationCostResult.tPlayerState;
             // if exploration discount active effect is present the action has already been substracted
             playerState.actions -= exploreDiscount ? 0 : 1;
             playerState.resources.shinies += 1;
@@ -111,18 +115,20 @@ function handleLocationExploration(playerState, locations, store, location, loca
             const guardianResults = handleGuardianArrival(playerState, cloneDeep(store), round);
             playerState = guardianResults.tPlayerState;
             store = guardianResults.tStore;
-            initiateRewardsModal({
+            initiateRewardsModal([{
                 type: REWARD_TYPE.effectsArr,
                 data: [{effects: location.effects, effectsText: location.effectsText},
                     {effects: guardianEffects, effectsText: guardianText}]
-            });
+            }]);
             addLogEntry(playerState, ACTION_TYPE.exploresLocation, location.id,
                 exploreCostEffects);
-            return ({playerState: playerState, store: store})
+            return ({playerState: playerState, store: store, locations: locations})
         } else {
             console.log("Not enough resources to explore location.");
+            return false
         }
     } else {
         console.log("Location is not adjacent.");
+        return false
     }
 }
