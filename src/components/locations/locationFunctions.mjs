@@ -1,8 +1,20 @@
 import {LOCATIONS, TRANSPORT_TYPE} from "../../data/locations";
 import {EFFECT} from "../../data/effects";
 import {LOCATION_LINE} from "../functions/initialStateFunctions";
-import {LOCATION_STATE} from "../../data/idLists";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
 import {processEffects} from "../functions/processEffects";
+import {Coin, Explore, Jeep, Ship} from "../Symbols";
+import {
+    BgrBasic,
+    BgrBasicDouble,
+    BgrBrown2,
+    BgrBrown3,
+    BgrBrownUnexplored,
+    BgrGreen2,
+    BgrGreen3,
+    BgrGreenUnexplored, BgrLostCity
+} from "./locationsImages";
+import React from "react";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
@@ -34,7 +46,6 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
                 console.log("Unknown mode of transport for guardian card in payForTravelIfPossible: " + effect);
         }
     }
-
     let enoughResources = false;
 
     switch (transportType) {
@@ -86,7 +97,7 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
             }
             break;
         default:
-            console.log("Unknown transportation type in payForTravelIfPossible: " + transportCost);
+            console.log("Unknown transportation type in payForTravelIfPossible: " + transportType);
             console.log(location);
     }
     console.log("**Travel check - has enough resources for travel? " + enoughResources);
@@ -258,4 +269,31 @@ export function processExplorationDiscount(discount, explorationCostEffects) {
         }
     }
     return tExplorationEffects;
+}
+
+export function getExplorationCost(location, playerState, exploreDiscount) {
+    let exploreCost = null;
+
+    if (location.type === LOCATION_TYPE.brown) {
+        if (location.level === LOCATION_LEVEL["2"]) {
+            exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore];
+        } else if (location.level === LOCATION_LEVEL["3"]) {
+            exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+        }
+    } else if (location.type === LOCATION_TYPE.green) {
+        if (location.level === LOCATION_LEVEL["2"]) {
+            exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+        } else if (location.level === LOCATION_LEVEL["3"]) {
+            exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+        }
+    } else if (location.type === LOCATION_TYPE.basic) {
+        /*exploreCostText = null;*/
+    } else if (location.type === LOCATION_TYPE.lostCity) {
+        exploreCost = [EFFECT.hasDiscoveredLostCity];
+    }
+
+    if (exploreDiscount) {
+        exploreCost = processExplorationDiscount(playerState.activeEffects[0], exploreCost);
+    }
+    return exploreCost;
 }

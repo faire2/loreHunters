@@ -49,6 +49,7 @@ import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
+import {handleLocation} from "./components/locations/handleLocation";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -72,7 +73,8 @@ function GameBoard(props) {
         socket.on(TRANSMISSIONS.stateUpdate, states => {
             console.log("received states from server");
             console.log(states);
-            const tPlayerIndex = playerIndex ? playerIndex : parseInt(localStorage.getItem(LCL_STORAGE.playerIndex), 10);;
+            const tPlayerIndex = playerIndex ? playerIndex : parseInt(localStorage.getItem(LCL_STORAGE.playerIndex), 10);
+            ;
             setPlayerStates(states.playerStates);
             setPlayerState(states.playerStates[tPlayerIndex]);
             setStore(states.store);
@@ -121,8 +123,10 @@ function GameBoard(props) {
             const playerIndex = parseInt(localStorage.getItem(LCL_STORAGE.playerIndex), 10);
             console.log("setting player index to: " + playerIndex);
             setPlayerIndex(playerIndex);
-            socket.emit(TRANSMISSIONS.sendGameStates, {roomName: localStorage.getItem(LCL_STORAGE.roomName),
-                playerIndex: playerIndex});
+            socket.emit(TRANSMISSIONS.sendGameStates, {
+                roomName: localStorage.getItem(LCL_STORAGE.roomName),
+                playerIndex: playerIndex
+            });
         } else {
             // else reroute to login page
             console.log("No game data available, rerouting to login page");
@@ -267,107 +271,17 @@ function GameBoard(props) {
     function handleClickOnLocation(effects, exploreCostEffects, location, locationLine) {
         if (isActivePlayer) {
             console.log("Clicked on location " + location.id);
-            let tPlayerState = cloneDeep(playerState);
-            let tLocations = cloneDeep(locations);
-
-            /* Resolve active effects */
-            // explore any location with discount is processed during location exploration
-            if (tPlayerState.activeEffects.length > 0 && (tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount4
-                && tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount3)) {
-                const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
-                    null, {...store}, tLocations, setRewardsModal);
-                console.log("finished processing active effects in location");
-                setPlayerState(effectResult.tPlayerState);
-                setLocations(effectResult.tLocations);
-                setStore(effectResult.tStore);
-            } else {
-                switch (location.state) {
-                    case LOCATION_STATE.unexplored:
-                        console.log("Exloring location initialized.");
-                        if (location.type === LOCATION_TYPE.lostCity) {
-                            // loacation is explored as EFFECT.discoverLocation duering processing of legend research
-                            break;
-                        }
-                        const exploreDiscount = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount3
-                            || playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
-                        if (exploreDiscount) {
-                            tPlayerState.activeEffects.splice(0)
-                        }
-                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreDiscount) {
-                            if (exploreDiscount) {
-                                exploreCostEffects = processExplorationDiscount(playerState.activeEffects[0], exploreCostEffects)
-                            }
-                            const explorationCostResult = processEffects(null, null, tPlayerState, exploreCostEffects,
-                                null, null, location, null);
-                            if (explorationCostResult.processedAllEffects) {
-                                tPlayerState = explorationCostResult.tPlayerState;
-                                tPlayerState.actions -= exploreDiscount ? 0 : 1;
-
-                                const locationPosition = getPositionInLocationLine(location, locationLine, locations);
-                                tLocations[locationLine][locationPosition].state = LOCATION_STATE.explored;
-
-                                setLocations(tLocations);
-                                // player can choose between effect of location and discovery effect of next guardian
-                                const guardian = GUARDIANS[store.guardians[0].id];
-                                const locationLevel = LOCATION_IDs[location.id].level;
-                                // guardian effects are different when location level is 2 and 3
-                                const guardianText = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryTextRow :
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center"
-                                    }}>{guardian.discoveryTextRow}{guardian.discoveryTextRow2}</div>;
-                                const guardianEffects = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryEffect :
-                                    [...guardian.discoveryEffect, ...guardian.discoveryEffect2];
-
-                                tPlayerState.resources.shinies += 1;
-                                // guardian is moved to player's discard
-                                const guardianResults = handleGuardianArrival(tPlayerState, cloneDeep(store), round);
-                                setStore(guardianResults.tStore);
-                                setPlayerState(guardianResults.tPlayerState);
-                                initiateRewardsModal({
-                                    type: REWARD_TYPE.effectsArr,
-                                    data: [{effects: location.effects, effectsText: location.effectsText},
-                                        {effects: guardianEffects, effectsText: guardianText}]
-                                });
-                                addLogEntry(tPlayerState, ACTION_TYPE.exploresLocation, location.id,
-                                    exploreCostEffects);
-                            } else {
-                                console.log("Not enough resources to explore location.");
-                            }
-                        } else {
-                            console.log("Location is not adjacent.");
-                        }
-                        break;
-                    case
-                    LOCATION_STATE.explored:
-                        const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
-                        if (travelCheckResults.enoughResources && tPlayerState.actions > 0 && tPlayerState.availableAdventurers > 0) {
-                            const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, effects, null,
-                                {...store}, location, {...locations});
-                            if (effectsResult.processedAllEffects) {
-                                console.log("Location effects have been processed.");
-                                tPlayerState = effectsResult.tPlayerState;
-                                tPlayerState.availableAdventurers -= 1;
-                                tPlayerState.actions -= 1;
-                                setPlayerState(tPlayerState);
-                                let tLocations = occupyLocation(cloneDeep(locations), location.id, locationLine, tPlayerState.playerIndex);
-                                setLocations(tLocations);
-                                addLogEntry(tPlayerState, ACTION_TYPE.activatesLocation, location.id, effects)
-                            } else {
-                                console.log("Some effects were not processed. Location could not be used.");
-                            }
-                        } else {
-                            console.log("Location could not be used. Travel possible: " + travelCheckResults.enoughResources);
-                        }
-                        break;
-                    case
-                    LOCATION_STATE.occupied:
-                        console.log("Location is occupied.");
-                        break;
-                    default:
-                        console.log("Unknown tLocation state in handleClickOnLocation: " + location.state);
-                        console.log(location);
+            const locationResult = handleLocation(cloneDeep(playerState), cloneDeep(store), cloneDeep(locations),
+                cloneDeep(location), locationLine, effects, round, setRewardsModal);
+            if (locationResult) {
+                if (locationResult.playerState) {
+                    setPlayerState(locationResult.playerState);
+                }
+                if (locationResult.locations) {
+                    setLocations(locationResult.locations);
+                }
+                if (locationResult.store) {
+                    setStore(locationResult.store);
                 }
             }
         }
@@ -620,24 +534,24 @@ function GameBoard(props) {
     };
 
     const gameBoardElements =
-    <div>
-        <LocationsArea/>
-        <div style={{marginLeft: "3vw"}}>
-            <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
-            <Store/>
-        </div>
-        <CardsArea/>
-        <LegendsArea/>
-        <ResourcesArea/>
-        <RelicsArea/>
-        <Controls/><br/>
-        <OpponentPlayArea/>
-        <TopSlidingPanel extendPanel={extendTopPanel}/>
-        <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
-        <RightSlidingPanel extendPanel={extendRightPanel}/>
-        <ExtendPanelButton extendPanel={extendBottomPanel}/>
-        <ChooseRewardModal/>
-    </div>;
+        <div>
+            <LocationsArea/>
+            <div style={{marginLeft: "3vw"}}>
+                <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
+                <Store/>
+            </div>
+            <CardsArea/>
+            <LegendsArea/>
+            <ResourcesArea/>
+            <RelicsArea/>
+            <Controls/><br/>
+            <OpponentPlayArea/>
+            <TopSlidingPanel extendPanel={extendTopPanel}/>
+            <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
+            <RightSlidingPanel extendPanel={extendRightPanel}/>
+            <ExtendPanelButton extendPanel={extendBottomPanel}/>
+            <ChooseRewardModal/>
+        </div>;
 
     return (
         <div className="App">
@@ -654,5 +568,5 @@ export default GameBoard;
 
 export const StatesSpinner = () =>
     <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100vw", height: "100vh"}}>
-        <Spinner animation="grow" variant="primary" />
+        <Spinner animation="grow" variant="primary"/>
     </div>;

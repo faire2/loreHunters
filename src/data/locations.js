@@ -20,10 +20,10 @@ import {
 import React from "react";
 
 export const TRANSPORT_TYPE = Object.freeze({
-    walk: <Walk />,
-    jeep: <Jeep />,
-    ship: <Ship />,
-    plane: <Blimp />
+    walk: "walk",
+    jeep: "jeep",
+    ship: "ship",
+    plane: "blimp"
 });
 
 const rowStyle = {
