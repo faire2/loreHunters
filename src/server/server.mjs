@@ -4,7 +4,6 @@ import dirname from "es-dirname"
 import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
-import {TRANSMISSIONS} from "../data/idLists.mjs";
 import {
     changeFormerUsername,
     getPlayerIndex,
@@ -21,8 +20,9 @@ import getInitialPlayerStates, {
     getInitialLegends,
     getInitialLocations,
     getInitialStore
-} from "../components/functions/initialStateFunctions.mjs";
+} from "../components/functions/initialStates/initialStateFunctions.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
+import {TRANSMISSIONS} from "../components/functions/lists.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;

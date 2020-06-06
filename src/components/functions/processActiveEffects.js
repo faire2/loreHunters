@@ -4,15 +4,10 @@ import {addCardToDiscardDeck, addCardToHand, getIdCard, removeCard} from "./card
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
 import {
-    CARD_STATE,
-    CARD_TYPE,
     GUARDIAN_IDs,
-    LOCATION_IDs,
-    LOCATION_LEVEL,
-    LOCATION_STATE,
-    REWARD_TYPE
+    LOCATION_IDs
 } from "../../data/idLists";
-import {LOCATION_LINE, shuffleArray} from "./initialStateFunctions";
+import {shuffleArray} from "./initialStates/initialStateFunctions";
 import {
     areLinesAdjacent,
     getLocationIndex,
@@ -21,6 +16,7 @@ import {
 } from "../locations/locationFunctions";
 import {Jewel, Text, Weapon} from "../Symbols";
 import {gainLockedResourceBack} from "./processEffects";
+import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./lists";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];

@@ -16,17 +16,8 @@ import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/main/ChooseRewardModal";
 import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
 import {
-    ACTION_TYPE,
-    CARD_STATE,
-    CARD_TYPE,
     CARDS_ACTIONLESS,
-    LCL_STORAGE,
-    LOCATION_IDs,
-    LOCATION_LEVEL,
-    LOCATION_STATE,
-    LOCATION_TYPE,
-    REWARD_TYPE,
-    TRANSMISSIONS
+    LOCATION_IDs
 } from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
@@ -50,6 +41,13 @@ import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
 import {handleLocation} from "./components/locations/handleLocation";
+import {
+    ACTION_TYPE, CARD_STATE,
+    CARD_TYPE,
+    LCL_STORAGE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE,
+    REWARD_TYPE,
+    TRANSMISSIONS
+} from "./components/functions/lists";
 
 function GameBoard(props) {
     console.log("** render **");

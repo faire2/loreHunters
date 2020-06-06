@@ -1,13 +1,13 @@
 import React, {useContext, useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
-import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, REWARD_TYPE} from "../../data/idLists";
 import Card from "../cards/Card";
 import {cloneDeep} from "lodash";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {processEffects} from "../functions/processEffects";
 import {handleIncome, handleIncomes} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
+import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, REWARD_TYPE} from "../functions/lists";
 
 
 export default function ChooseRewardModal() {

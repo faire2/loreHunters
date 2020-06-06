@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import ExcelFile from "react-data-export/dist/ExcelPlugin/components/ExcelFile";
 import ExcelSheet from "react-data-export/dist/ExcelPlugin/elements/ExcelSheet";
 import ExcelColumn from "react-data-export/dist/ExcelPlugin/elements/ExcelColumn";
-import {ACTION_TYPE} from "../../data/idLists";
+import {ACTION_TYPE} from "../functions/lists";
 
 export function Export2Xls(props) {
     const origLog = props.gameLog;

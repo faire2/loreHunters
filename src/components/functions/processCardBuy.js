@@ -1,8 +1,8 @@
 import {EFFECT} from "../../data/effects.mjs";
 import {addCardToStore, getIdCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
-import {ACTION_TYPE, CARD_STATE, CARD_TYPE} from "../../data/idLists";
 import {addLogEntry} from "../main/logger";
+import {ACTION_TYPE, CARD_STATE, CARD_TYPE} from "./lists";
 
 export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStore, tLocations) {
     const activeEffect = tPlayerState.activeEffects[0];

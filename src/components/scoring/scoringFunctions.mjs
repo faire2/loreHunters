@@ -1,7 +1,8 @@
-import {CARD_TYPE, ITEM_IDs} from "../../data/idLists";
+import {ITEM_IDs} from "../../data/idLists";
 import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
 import {Legends2} from "../../data/legends";
 import {getLogLegends} from "../main/logger";
+import {CARD_TYPE} from "../functions/lists";
 
 export function getPoints(playerState) {
     const legends = getLogLegends();

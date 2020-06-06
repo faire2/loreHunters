@@ -1,39 +1,25 @@
 import {
     ARTIFACT_IDs,
-    CARD_STATE,
-    CARD_TYPE,
     EXPEDITIONS_IDs,
     GUARDIAN_IDs,
     INCOME_IDs,
-    INCOME_LEVEL,
-    INCOME_STATE,
     ITEM_IDs,
     LEGEND_IDS,
-    LOCATION_IDs,
-    LOCATION_LEVEL,
+    LOCATION_IDs
+} from "../../../data/idLists.mjs";
+import cloneDeep from "lodash/cloneDeep.js";
+import {
+    CARD_STATE,
+    CARD_TYPE,
+    INCOME_LEVEL,
+    INCOME_STATE, LOCATION_LEVEL,
+    LOCATION_LINE,
     LOCATION_STATE,
     LOCATION_TYPE
-} from "../../data/idLists.mjs";
-import cloneDeep from "lodash/cloneDeep.js";
+} from "../lists.mjs";
+import {GLOBAL_VARS} from "../../../data/idLists.mjs";
 
-/* GLOBAL VARIABLES */
-export const GLOBAL_VARS = Object.freeze({
-    handSize: 5,
-    initialCards: [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},
-        {...ITEM_IDs.fear}, {...ITEM_IDs.fear}],
-    itemsInStore: 5,
-    artifactsInStore: 1,
-    adventurers: 2,
-    playerColors: ["#ffcc00", "#33cc00", "#0066ff", "#cc0000"],
-    numOfLegendTokens: 3,
-});
 
-export const LOCATION_LINE = Object.freeze({
-    line1: "line1",
-    line2: "line2",
-    line3: "line3",
-    line4: "line4"
-});
 
 
 /* EMPTY PLAYER STATE */

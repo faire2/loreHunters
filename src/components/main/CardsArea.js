@@ -3,7 +3,7 @@ import {Hand} from "../cards/Hand";
 import {PlayerStateContext} from "../../Contexts";
 import {DrawDeck} from "../cards/DrawDeck";
 import {CardRow, cardRowStyle, sideTextStyle} from "../cards/CardRow";
-import {emptyPlayerState} from "../functions/initialStateFunctions";
+import {emptyPlayerState} from "../functions/initialStates/initialStateFunctions";
 
 export default function CardsArea() {
     const playerStateContext = useContext(PlayerStateContext);

@@ -1,7 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
-import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
 import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, GUARDIANS, ITEMS} from "../../data/cards";
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import basicItemBgr from "../../img/cardBackgrounds/basicItemBackground.png"
@@ -26,6 +25,7 @@ import {
 } from "../Symbols";
 import {cloneDeep} from "lodash";
 import {gainLockedResourceBack} from "../functions/processEffects";
+import {CARD_STATE, CARD_TYPE} from "../functions/lists";
 
 export default function Card(props) {
     /* get JSX card */

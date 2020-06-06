@@ -4,9 +4,9 @@ import block2 from "../../../img/legends/blok2.png"
 import block3 from "../../../img/legends/blok3.png"
 import {FIELD_SIZE} from "../../../data/legends"
 import {AdventurerToken} from "../../Symbols";
-import {GLOBAL_VARS} from "../../functions/initialStateFunctions";
 import {BoardStateContext} from "../../../Contexts";
 import {EFFECT} from "../../../data/effects";
+import {GLOBAL_VARS} from "../../../data/idLists";
 
 export const Field = (props) => {
     const columnHeight = props.height;

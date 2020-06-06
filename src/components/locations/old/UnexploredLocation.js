@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../../Contexts";
-import {LOCATION_TYPE} from "../../../data/idLists";
+import {LOCATION_TYPE} from "../../functions/lists";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);

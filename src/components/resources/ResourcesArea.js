@@ -1,10 +1,11 @@
 import React, {useContext, useState} from "react";
 import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Coin, Explore, Jeep, Jewel, Blimp, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
-import {emptyPlayerState, GLOBAL_VARS} from "../functions/initialStateFunctions";
+import {emptyPlayerState} from "../functions/initialStates/initialStateFunctions";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
-import {INCOME_SIZE} from "../../data/idLists";
 import {PlayerTabs} from "../scoring/ScoringPanel";
+import {INCOME_SIZE} from "../functions/lists";
+import {GLOBAL_VARS} from "../../data/idLists";
 
 export default function ResourcesArea(props) {
     const playerStateContext = useContext(PlayerStateContext);

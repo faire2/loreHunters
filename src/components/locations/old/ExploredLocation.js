@@ -1,8 +1,8 @@
 import React, {useContext, useState} from "react";
 import {AdventurerToken} from "../../Symbols";
 import {BoardStateContext} from "../../../Contexts";
-import {LOCATION_STATE, LOCATION_TYPE} from "../../../data/idLists";
-import {GLOBAL_VARS} from "../../functions/initialStateFunctions";
+import {LOCATION_STATE, LOCATION_TYPE} from "../../functions/lists";
+import {GLOBAL_VARS} from "../../../data/idLists";
 
 export default function ExploredLocation(props) {
     const boardStateContext = useContext(BoardStateContext);

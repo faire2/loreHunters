@@ -2,13 +2,14 @@ import {addCardToStore, drawCards, removeCard} from "./cardManipulationFuntions.
 import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
-import {CARD_STATE, CARD_TYPE, ITEM_IDs} from "../../data/idLists.mjs";
-import {GUARDIAN_IDs, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "../../data/idLists";
+import {ITEM_IDs} from "../../data/idLists.mjs";
+import {GUARDIAN_IDs} from "../../data/idLists";
 import {activateGuardianAndLockEffects, addCardToDiscardDeck} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin, Explore} from "../Symbols";
 import {ACTION_TYPE, addLogEntry} from "../main/logger";
 import {LOCATIONS} from "../../data/locations";
+import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "./lists";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {

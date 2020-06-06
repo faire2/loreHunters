@@ -1,9 +1,10 @@
 // insert player into null position or push him to the end
-import {GLOBAL_VARS} from "../components/functions/initialStateFunctions.mjs";
 import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {CARD_STATE, CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE} from "../data/idLists.mjs";
+import {ITEM_IDs} from "../data/idLists.mjs";
 import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
+import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE} from "../components/functions/lists.mjs";
+import {GLOBAL_VARS} from "../data/idLists.mjs";
 
 export function handleIncomes(playerState) {
     for (let income of playerState.incomes) {
@@ -307,7 +308,7 @@ export function getPlayerIndex(socketId, users, room) {
     if (playersArr.includes(userName)) {
         return playersArr.indexOf(userName);
     } else {
-        console.error("Unable to determine playerIndex.")
+        console.error("Unable to determine playerIndex.");
         console.log(socketId);
         console.log(userName);
         console.log(room);

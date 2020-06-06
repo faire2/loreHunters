@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {socket} from "../../server/socketConnection";
-import {TRANSMISSIONS} from "../../data/idLists";
 import FormControl from "react-bootstrap/FormControl";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import {Button} from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
+import {TRANSMISSIONS} from "../functions/lists";
 
 export function NewRoom(props) {
     const [numOfPlayers, setNumOfPlayers] = useState(1);

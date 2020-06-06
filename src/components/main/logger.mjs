@@ -1,4 +1,4 @@
-import {getInitialLegends} from "../functions/initialStateFunctions.mjs";
+import {getInitialLegends} from "../functions/initialStates/initialStateFunctions.mjs";
 import {getPoints} from "../scoring/scoringFunctions.mjs";
 
 export var gameLog = [];

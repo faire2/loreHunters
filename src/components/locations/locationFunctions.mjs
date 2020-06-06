@@ -1,7 +1,5 @@
 import {LOCATIONS, TRANSPORT_TYPE} from "../../data/locations";
 import {EFFECT} from "../../data/effects";
-import {LOCATION_LINE} from "../functions/initialStateFunctions";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
 import {processEffects} from "../functions/processEffects";
 import {Coin, Explore, Jeep, Ship} from "../Symbols";
 import {
@@ -15,6 +13,7 @@ import {
     BgrGreenUnexplored, BgrLostCity
 } from "./locationsImages";
 import React from "react";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../functions/lists";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;

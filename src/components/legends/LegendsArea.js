@@ -3,8 +3,8 @@ import {BoardStateContext} from "../../Contexts";
 import {Legend} from "./Legend";
 import {IncomeTile} from "./tiles/IncomeTile";
 import goal from "../../img/cardBackgrounds/Goal.png"
-import {INCOME_SIZE} from "../../data/idLists";
 import {VictoryPoints} from "../Symbols";
+import {INCOME_SIZE} from "../functions/lists";
 
 export function LegendsArea() {
     const boardStateContext = useContext(BoardStateContext);

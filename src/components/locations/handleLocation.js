@@ -1,12 +1,7 @@
 import {EFFECT} from "../../data/effects";
 import {processActiveEffect} from "../functions/processActiveEffects";
 import {
-    ACTION_TYPE,
-    LOCATION_IDs,
-    LOCATION_LEVEL,
-    LOCATION_STATE,
-    LOCATION_TYPE,
-    REWARD_TYPE
+    LOCATION_IDs
 } from "../../data/idLists";
 import {
     getExplorationCost,
@@ -20,6 +15,7 @@ import {GUARDIANS} from "../../data/cards";
 import {addLogEntry} from "../main/logger";
 import React from "react";
 import {cloneDeep} from "lodash";
+import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "../functions/lists";
 
 export function handleLocation(playerState, store, locations, location, locationLine, effects, round, initiateRewardsModal) {
     // Resolve active effect - exploration discount is processed during exploration itself

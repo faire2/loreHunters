@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {CARD_TYPE, LCL_STORAGE, TRANSMISSIONS} from "../../data/idLists";
 import {CardRow} from "../cards/CardRow";
 import {socket} from "../../server/socketConnection";
-import {emptyPlayerState, GLOBAL_VARS} from "../functions/initialStateFunctions";
+import {emptyPlayerState} from "../functions/initialStates/initialStateFunctions";
 import {AdventurerToken, Artifact, DefeatedGuardian, Fear, Item, Shiny} from "../Symbols";
 import Card from "../cards/Card";
 import {getPoints} from "./scoringFunctions";
 import {useHistory} from "react-router-dom";
 import {StatesSpinner} from "../../GameBoard";
 import {getLogLegends, setLogLegends} from "../main/logger";
+import {CARD_TYPE, LCL_STORAGE, TRANSMISSIONS} from "../functions/lists";
+import {GLOBAL_VARS} from "../../data/idLists";
 
 export function ScoringPanel(props) {
     const [playerStates, setPlayerStates] = useState(null);

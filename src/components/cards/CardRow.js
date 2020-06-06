@@ -1,4 +1,4 @@
-import {shuffleArray} from "../functions/initialStateFunctions";
+import {shuffleArray} from "../functions/initialStates/initialStateFunctions";
 import React from "react";
 import Card from "./Card";
 
