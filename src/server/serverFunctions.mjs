@@ -3,7 +3,7 @@ import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {ITEM_IDs} from "../data/idLists.mjs";
 import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
-import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE} from "../components/functions/lists.mjs";
+import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
 import {GLOBAL_VARS} from "../data/idLists.mjs";
 
 export function handleIncomes(playerState) {

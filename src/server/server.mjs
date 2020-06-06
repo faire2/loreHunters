@@ -6,7 +6,6 @@ import socketIO from "socket.io"
 import cors from "cors"
 import {
     changeFormerUsername,
-    getPlayerIndex,
     getRoom,
     getUserName,
     isRoomNameTaken,
@@ -16,11 +15,9 @@ import {
     removeUser,
     updateRoomState
 } from "./serverFunctions.mjs";
-import {
-    getInitialLocations
-} from "../components/functions/initialStates/initialStateFunctions.mjs";
+import {getInitialLocations} from "../components/functions/initialStates/initialStateFunctions.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {TRANSMISSIONS} from "../components/functions/lists.mjs";
+import {TRANSMISSIONS} from "../components/functions/enums.mjs";
 import getInitialPlayerStates from "../components/functions/initialStates/initialPlayerStates.mjs";
 import {getInitialStore} from "../components/functions/initialStates/initialStore.mjs";
 import {getInitialLegends} from "../components/functions/initialStates/initialLegends.mjs";

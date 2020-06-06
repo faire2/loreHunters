@@ -7,7 +7,7 @@ import {getPoints} from "./scoringFunctions";
 import {useHistory} from "react-router-dom";
 import {StatesSpinner} from "../../GameBoard";
 import {getLogLegends, setLogLegends} from "../main/logger";
-import {CARD_TYPE, LCL_STORAGE, TRANSMISSIONS} from "../functions/lists";
+import {CARD_TYPE, LCL_STORAGE, TRANSMISSIONS} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
 

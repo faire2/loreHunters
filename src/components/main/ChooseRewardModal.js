@@ -7,7 +7,7 @@ import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {processEffects} from "../functions/processEffects";
 import {handleIncome, handleIncomes} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
-import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, REWARD_TYPE} from "../functions/lists";
+import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, REWARD_TYPE} from "../functions/enums";
 
 
 export default function ChooseRewardModal() {

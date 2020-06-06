@@ -1,5 +1,5 @@
 import {EFFECT} from "./effects.mjs";
-import {CARD_TYPE, INCOME_LEVEL, LOCATION_LEVEL, LOCATION_TYPE} from "../components/functions/lists.mjs";
+import {CARD_TYPE, INCOME_LEVEL, LOCATION_LEVEL, LOCATION_TYPE} from "../components/functions/enums.mjs";
 
 export const ITEM_IDs = Object.freeze({
     fear: {

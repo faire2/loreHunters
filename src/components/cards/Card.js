@@ -25,7 +25,7 @@ import {
 } from "../Symbols";
 import {cloneDeep} from "lodash";
 import {gainLockedResourceBack} from "../functions/processEffects";
-import {CARD_STATE, CARD_TYPE} from "../functions/lists";
+import {CARD_STATE, CARD_TYPE} from "../functions/enums";
 
 export default function Card(props) {
     /* get JSX card */

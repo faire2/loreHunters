@@ -47,7 +47,7 @@ import {
     LCL_STORAGE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE,
     REWARD_TYPE,
     TRANSMISSIONS
-} from "./components/functions/lists";
+} from "./components/functions/enums";
 
 function GameBoard(props) {
     console.log("** render **");

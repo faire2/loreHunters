@@ -3,7 +3,7 @@ import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Coin, Explore, Jeep, Jewel, Blimp, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {PlayerTabs} from "../scoring/ScoringPanel";
-import {INCOME_SIZE} from "../functions/lists";
+import {INCOME_SIZE} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
 

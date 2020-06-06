@@ -9,7 +9,7 @@ import React from "react";
 import {Coin, Explore} from "../Symbols";
 import {ACTION_TYPE, addLogEntry} from "../main/logger";
 import {LOCATIONS} from "../../data/locations";
-import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "./lists";
+import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "./enums";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {

@@ -6,7 +6,7 @@ import {NewRoom} from "./NewRoom";
 import {Alert} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {Room} from "./Room";
-import {TRANSMISSIONS} from "../functions/lists";
+import {TRANSMISSIONS} from "../functions/enums";
 
 export function LoginPage() {
     const [cookies, setCookie] = useCookies(["username"]);

@@ -3,7 +3,7 @@ import {ButtonGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import React from "react";
 import {Export2Xls} from "./Export2Xls";
-import {TRANSMISSIONS} from "../functions/lists";
+import {TRANSMISSIONS} from "../functions/enums";
 
 export const Room = (props) => {
     const username = props.username;

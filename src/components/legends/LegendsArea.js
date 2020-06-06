@@ -4,7 +4,7 @@ import {Legend} from "./Legend";
 import {IncomeTile} from "./tiles/IncomeTile";
 import goal from "../../img/cardBackgrounds/Goal.png"
 import {VictoryPoints} from "../Symbols";
-import {INCOME_SIZE} from "../functions/lists";
+import {INCOME_SIZE} from "../functions/enums";
 
 export function LegendsArea() {
     const boardStateContext = useContext(BoardStateContext);

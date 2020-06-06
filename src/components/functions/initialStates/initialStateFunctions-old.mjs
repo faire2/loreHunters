@@ -16,7 +16,7 @@ import {
     LOCATION_LEVEL,
     LOCATION_STATE,
     LOCATION_TYPE
-} from "../lists";
+} from "../enums";
 /*
 
 /!* GLOBAL VARIABLES *!/

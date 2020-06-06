@@ -80,7 +80,7 @@ import ritualDaggerImg from "../img/cardImages/artifacts/ritualDagger.png"
 
 import {EFFECT} from "./effects.mjs";
 import {FreeAction, Treasure, Uptrade} from "../components/Symbols";
-import {CARD_TYPE} from "../components/functions/lists";
+import {CARD_TYPE} from "../components/functions/enums";
 
 
 export const CARD_TRANSPORT = Object.freeze({

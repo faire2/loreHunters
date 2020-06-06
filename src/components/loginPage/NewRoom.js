@@ -5,7 +5,7 @@ import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import {Button} from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
-import {TRANSMISSIONS} from "../functions/lists";
+import {TRANSMISSIONS} from "../functions/enums";
 
 export function NewRoom(props) {
     const [numOfPlayers, setNumOfPlayers] = useState(1);

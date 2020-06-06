@@ -10,7 +10,7 @@ import {
     BgrGreen3, BgrGreenUnexplored, BgrLostCity, Level2Symbol, Level3Symbol,
 } from "./locationsImages";
 import {EFFECT} from "../../data/effects";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../functions/lists";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 
 export default function Location(props) {

@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep.js';
 import {ARTIFACT_IDs, EXPEDITIONS_IDs, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
 import {EFFECT} from "../../data/effects.mjs";
-import {CARD_STATE, CARD_TYPE} from "./lists.mjs";
+import {CARD_STATE, CARD_TYPE} from "./enums.mjs";
 
 export function addCardToHand(card, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);

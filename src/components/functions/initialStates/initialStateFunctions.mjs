@@ -1,5 +1,5 @@
 import {LOCATION_IDs} from "../../../data/idLists.mjs";
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../lists.mjs";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../enums.mjs";
 import {shuffleArray} from "../cardManipulationFuntions.mjs";
 
 

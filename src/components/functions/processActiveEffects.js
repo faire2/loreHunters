@@ -15,7 +15,7 @@ import {
 } from "../locations/locationFunctions";
 import {Jewel, Text, Weapon} from "../Symbols";
 import {gainLockedResourceBack} from "./processEffects";
-import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./lists";
+import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {shuffleArray} from "./cardManipulationFuntions";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {

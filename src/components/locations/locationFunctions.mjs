@@ -13,7 +13,7 @@ import {
     BgrGreenUnexplored, BgrLostCity
 } from "./locationsImages";
 import React from "react";
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../functions/lists";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../functions/enums";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;

@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {AdventurerToken} from "../../Symbols";
 import {BoardStateContext} from "../../../Contexts";
-import {LOCATION_STATE, LOCATION_TYPE} from "../../functions/lists";
+import {LOCATION_STATE, LOCATION_TYPE} from "../../functions/enums";
 import {GLOBAL_VARS} from "../../../data/idLists";
 
 export default function ExploredLocation(props) {

@@ -1,6 +1,6 @@
 /* INITIAL STORE */
 import {ARTIFACT_IDs, EXPEDITIONS_IDs, GLOBAL_VARS, GUARDIAN_IDs, INCOME_IDs, ITEM_IDs} from "../../../data/idLists.mjs";
-import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE} from "../lists.mjs";
+import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 
 export function getInitialStore() {

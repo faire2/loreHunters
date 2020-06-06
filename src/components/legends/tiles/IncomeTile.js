@@ -3,7 +3,7 @@ import silverBgr from "../../../img/incomes/silverBack.png"
 import goldBgr from "../../../img/incomes/goldBack.png"
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../../Contexts";
-import {INCOME_LEVEL, INCOME_SIZE, INCOME_STATE} from "../../functions/lists";
+import {INCOME_LEVEL, INCOME_SIZE, INCOME_STATE} from "../../functions/enums";
 
 export const IncomeTile = (props) => {
     const idIncome = props.income;

@@ -1,6 +1,6 @@
 import {GLOBAL_VARS} from "../../../data/idLists.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {CARD_STATE} from "../lists.mjs";
+import {CARD_STATE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 
 export const emptyPlayerState = Object.freeze({
