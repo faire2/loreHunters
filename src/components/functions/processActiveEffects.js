@@ -7,7 +7,6 @@ import {
     GUARDIAN_IDs,
     LOCATION_IDs
 } from "../../data/idLists";
-import {shuffleArray} from "./initialStates/initialStateFunctions";
 import {
     areLinesAdjacent,
     getLocationIndex,
@@ -17,6 +16,7 @@ import {
 import {Jewel, Text, Weapon} from "../Symbols";
 import {gainLockedResourceBack} from "./processEffects";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./lists";
+import {shuffleArray} from "./cardManipulationFuntions";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];

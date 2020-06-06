@@ -1,6 +1,7 @@
 import {LOCATION_IDs} from "../../../data/idLists.mjs";
-import {LOCATION_LINE, shuffleArray} from "./initialStateFunctions";
+import {LOCATION_LINE} from "./initialStateFunctions";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../lists";
+import {shuffleArray} from "../cardManipulationFuntions";
 
 /* INITIAL LOCATIONS */
 export function getInitialLocations(numOfPlayers) {

@@ -1,6 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep.js';
 import {ARTIFACT_IDs, EXPEDITIONS_IDs, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
-import {shuffleArray} from "./initialStates/initialStateFunctions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "./lists.mjs";
 
@@ -56,6 +55,28 @@ export function drawCards(cardsNum, origPlayerState) {
             console.log("WRONG CARD STATE: " + card.id);
     }
     return tPlayerState;
+}
+
+export function drawInitialCards(deck, cardsToDraw) {
+    const drawCards = [];
+    for (let i = 0; i < cardsToDraw; i++) {
+        const rnPosition = getRandomNumber(deck.length - 1, 1);
+        drawCards.push(deck[rnPosition]);
+        deck.splice(rnPosition, 1);
+    }
+    return {deck: deck, drawCards: drawCards}
+}
+
+function getRandomNumber(size) {
+    return Math.floor(Math.random() * (size)) + 1;
+}
+
+export function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let rand = Math.floor(Math.random() * (i + 1));
+        [array[i], array[rand]] = [array[rand], array[i]];
+    }
+    return array;
 }
 
 export function addDiscardToDrawDeck(origPlayerState) {

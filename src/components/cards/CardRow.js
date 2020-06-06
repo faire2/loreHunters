@@ -1,6 +1,6 @@
-import {shuffleArray} from "../functions/initialStates/initialStateFunctions";
 import React from "react";
 import Card from "./Card";
+import {shuffleArray} from "../functions/cardManipulationFuntions";
 
 export const CardRow = (props) => {
     const cards = !props.randomize ? props.cards : shuffleArray(props.cards);

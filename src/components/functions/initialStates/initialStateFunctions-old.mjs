@@ -17,8 +17,9 @@ import {
     LOCATION_STATE,
     LOCATION_TYPE
 } from "../lists";
+/*
 
-/* GLOBAL VARIABLES */
+/!* GLOBAL VARIABLES *!/
 export const GLOBAL_VARS = Object.freeze({
     handSize: 5,
     initialCards: [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},
@@ -38,7 +39,7 @@ export const LOCATION_LINE = Object.freeze({
 });
 
 
-/* EMPTY PLAYER STATE */
+/!* EMPTY PLAYER STATE *!/
 
 export const emptyPlayerState = Object.freeze({
     resources: {
@@ -73,7 +74,7 @@ export const emptyPlayerState = Object.freeze({
 });
 
 
-/* INITIAL PLAYER STATES */
+/!* INITIAL PLAYER STATES *!/
 export default function getInitialPlayerStates(numOfPlayers) {
     let playerStates = [];
 
@@ -121,19 +122,19 @@ export default function getInitialPlayerStates(numOfPlayers) {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard0 = {...ARTIFACT_IDs.ringOfLight};
+        /!*const testCard0 = {...ARTIFACT_IDs.ringOfLight};
         testCard0.state = CARD_STATE.drawDeck;
-        drawDeck.splice(0, 0, testCard0);*/
+        drawDeck.splice(0, 0, testCard0);*!/
 
-        /*const testCard = {...ITEM_IDs.compass};
+        /!*const testCard = {...ITEM_IDs.compass};
         testCard.state = CARD_STATE.inHand;
-        hand.splice(0, 0, testCard);*/
+        hand.splice(0, 0, testCard);*!/
 
-        /*const testCard = {...GUARDIAN_IDs.energyLeech};
+        /!*const testCard = {...GUARDIAN_IDs.energyLeech};
         testCard.state = CARD_STATE.discard;
-        playerState.discardDeck.splice(0, 0, testCard);*/
+        playerState.discardDeck.splice(0, 0, testCard);*!/
 
-        /*for (let key in ITEM_IDs) {
+        /!*for (let key in ITEM_IDs) {
             let card = {...ITEM_IDs[key]};
             card.state = CARD_STATE.inHand;
             hand.push(card);
@@ -143,7 +144,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
             let card = {...ARTIFACT_IDs[key]};
             card.state = CARD_STATE.inHand;
             hand.push(card);
-        }*/
+        }*!/
 
         playerState.hand = hand;
         playerState.drawDeck = drawDeck;
@@ -153,34 +154,34 @@ export default function getInitialPlayerStates(numOfPlayers) {
 }
 
 
-/* INITIAL STORE */
+/!* INITIAL STORE *!/
 export function getInitialStore() {
-    /* all items, each item is represented only once! */
+    /!* all items, each item is represented only once! *!/
     let items = shuffleArray(Object.keys(ITEM_IDs).map(key => {
         return ITEM_IDs[key];
     }));
     items = items.filter(card => card.type !== CARD_TYPE.basic);
 
-    /* artifacts */
+    /!* artifacts *!/
     let artifacts = shuffleArray(Object.keys(ARTIFACT_IDs).map(key => {
         ARTIFACT_IDs[key].state = CARD_STATE.inStore;
         return ARTIFACT_IDs[key];
     }));
 
-    /* guardians */
+    /!* guardians *!/
     let guardians = [];
     for (let key in GUARDIAN_IDs) {
         guardians.push(GUARDIAN_IDs[key]);
     }
 
-    /* expedition cards */
+    /!* expedition cards *!/
     let expeditions = [];
     for (let key in EXPEDITIONS_IDs) {
         EXPEDITIONS_IDs[key].state = CARD_STATE.victoryCards;
         expeditions.push(EXPEDITIONS_IDs[key]);
     }
 
-    /* incomes */
+    /!* incomes *!/
     let incomes1 = [];
     let incomes2 = [];
     for (let key in INCOME_IDs) {
@@ -215,12 +216,12 @@ export function getInitialStore() {
 }
 
 
-/* INITIAL LOCATIONS */
+/!* INITIAL LOCATIONS *!/
 export function getInitialLocations(numOfPlayers) {
     let locations = LOCATION_IDs;
     const locationKeys = shuffleArray(Object.keys(locations));
 
-    /* we need to get the right number of green and brown locations of each location level according to n of players */
+    /!* we need to get the right number of green and brown locations of each location level according to n of players *!/
     let level1 = [];
     let level2Green = [];
     let level3Green = [];
@@ -292,15 +293,15 @@ export function getInitialLocations(numOfPlayers) {
         }
     }
 
-    /* level 1 locations start explored, other not */
+    /!* level 1 locations start explored, other not *!/
     for (let key in locations) {
         locations[key].state = (locations[key].level === LOCATION_LEVEL["1"]) ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
     }
 
-    /* there are is a specific spatial configuration for every player number variation: */
+    /!* there are is a specific spatial configuration for every player number variation: *!/
     let line1 = level1;
-    /*let line1.push(locations.g32);
-    line1[5].state = LOCATION_STATE.explored;*/
+    /!*let line1.push(locations.g32);
+    line1[5].state = LOCATION_STATE.explored;*!/
     let line2 = [];
     let line3 = [];
     let line4 = [];
@@ -350,7 +351,7 @@ export function getInitialLocations(numOfPlayers) {
     };
 }
 
-/* INITIAL Legends2 */
+/!* INITIAL Legends2 *!/
 export function getInitialLegends(numOfPlayers) {
     const legendsKeys = shuffleArray(Object.keys(LEGEND_IDS));
     const legends = [LEGEND_IDS[legendsKeys[0]]];
@@ -391,4 +392,4 @@ export function shuffleArray(array) {
         [array[i], array[rand]] = [array[rand], array[i]];
     }
     return array;
-}
+}*/
