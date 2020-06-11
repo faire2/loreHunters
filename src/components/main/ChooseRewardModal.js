@@ -7,7 +7,12 @@ import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {processEffects} from "../functions/processEffects";
 import {handleIncome, handleIncomes} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
-import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, REWARD_TYPE} from "../functions/enums";
+import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, LOCATION_STATE, REWARD_TYPE} from "../functions/enums";
+import Location from "../locations/Location";
+import {LOCATIONS} from "../../data/locations";
+import {LOCATION_IDs} from "../../data/idLists";
+import {exploreLocation} from "../locations/handleLocation";
+import {removeExploredLocation} from "../locations/locationFunctions";
 
 
 export default function ChooseRewardModal() {
@@ -18,7 +23,7 @@ export default function ChooseRewardModal() {
     const rewardType = rewards.length > 0 ? rewards[0].type : null;
     let tPlayerState = cloneDeep(boardStateContext.playerState);
     let tStore = cloneDeep(boardStateContext.store);
-
+    let tLocations = cloneDeep(boardStateContext.locations);
     if (showModal) {
         console.debug("Rewards modal opened. Rewards:");
         console.debug(rewards);
@@ -52,6 +57,9 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.effectsArr:
                 element = reward.effectsText;
+                break;
+            case REWARD_TYPE.location:
+                element = <Location location={LOCATIONS[reward.id]} idLocation={reward}/>;
                 break;
             case null:
                 break;
@@ -108,15 +116,34 @@ export default function ChooseRewardModal() {
                     console.log(reward);
                 }
                 break;
+            case REWARD_TYPE.location:
+                const locationPositionsObj = rewards[0].params;
+                const locationId = reward.id;
+                let location = LOCATION_IDs[locationId];
+                location.index = locationPositionsObj.index;
+                location.line = locationPositionsObj.line;
+                location.state = LOCATION_STATE.explored;
+                location.effects = LOCATIONS[locationId].effects;
+                location.effectsText = LOCATIONS[locationId].effectsText;
+                const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location,
+                    boardStateContext.round);
+                if (explorationResult) {
+                    tLocations[locationPositionsObj.line][locationPositionsObj.index] = location;
+                    tPlayerState = explorationResult.playerState;
+                    tLocations = removeExploredLocation(location, explorationResult.locations);
+                    tStore = explorationResult.store;
+                    rewards.push(explorationResult.modalRewardData[0]);
+                }
+                break;
             default:
                 console.log("Element type could not be identified at getElement: ");
                 console.log(rewardType);
         }
         const moreRewardsToProcess = rewards.length > 1;
-        boardStateContext.handleReward(tPlayerState, tStore, moreRewardsToProcess);
+        boardStateContext.handleReward(tPlayerState, tStore, tLocations, moreRewardsToProcess);
     }
     return (
-        <Modal show={showModal} onHide={/* todo RESET STATE TO ORIGINAL*/null} dialogClassName={"customModal"}>
+        <Modal show={showModal} onHide={null} dialogClassName={"customModal"}>
             <Modal.Header>
                 <Modal.Title>Choose your boon</Modal.Title>
             </Modal.Header>

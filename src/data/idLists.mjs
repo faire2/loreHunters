@@ -606,7 +606,22 @@ export const LOCATION_IDs = Object.freeze({
         id: "lc1",
         type: LOCATION_TYPE.lostCity,
         level: LOCATION_LEVEL["3"],
-    }
+    },
+    emptyLocation: {
+        id: "emptyLocation",
+        type: LOCATION_TYPE.emptyBrownLocation,
+        level: LOCATION_LEVEL["2"],
+    },
+    emptyBrownLocation: {
+        id: "emptyBrownLocation",
+        type: LOCATION_TYPE.emptyBrownLocation,
+        level: LOCATION_LEVEL["2"],
+    },
+    emptyGreenLocation: {
+        id: "emptyGreenLocation",
+        type: LOCATION_TYPE.emptyGreenLocation,
+        level: LOCATION_LEVEL["2"],
+    },
 });
 
 export const LEGEND_IDS = Object.freeze({

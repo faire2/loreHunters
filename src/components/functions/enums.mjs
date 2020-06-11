@@ -53,6 +53,8 @@ export const LOCATION_TYPE = Object.freeze({
     green: "green location",
     brown: "brown location",
     lostCity: "lost city",
+    emptyBrownLocation: "empty brown location",
+    emptyGreenLocation: "empty green location",
 });
 
 export const LOCATION_STATE = Object.freeze({
@@ -85,7 +87,8 @@ export const LCL_STORAGE = Object.freeze({
 export const REWARD_TYPE = Object.freeze({
     card: "card",
     incomeToken: "income token",
-    effectsArr: "array of effects"
+    effectsArr: "array of effects",
+    location: "location"
 });
 export const TRANSMISSIONS = Object.freeze({
     createGame: "set up a new game",

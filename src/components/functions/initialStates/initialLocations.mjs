@@ -2,13 +2,13 @@ import {LOCATION_IDs} from "../../../data/idLists.mjs";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../enums.mjs";
 import {shuffleArray} from "../cardManipulationFuntions.mjs";
 import {LOCATION_LINE} from "../enums.mjs";
+import cloneDeep from "lodash/cloneDeep.js";
 
 /* INITIAL LOCATIONS */
 export function getInitialLocations(numOfPlayers) {
     let locations = LOCATION_IDs;
     const locationKeys = shuffleArray(Object.keys(locations));
 
-    /* we need to get the right number of green and brown locations of each location level according to n of players */
     let level1 = [];
     let level2Green = [];
     let level3Green = [];
@@ -16,11 +16,14 @@ export function getInitialLocations(numOfPlayers) {
     let level3Brown = [];
     let level3LostCity = [];
 
+    const lineLocationMaximum = 4;
+
     for (let i = 0; i < locationKeys.length; i++) {
         let location = locations[locationKeys[i]];
-        location.state = LOCATION_STATE.explored;
+        location.state = LOCATION_TYPE.basic === location.type ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
         switch (location.level) {
             case LOCATION_LEVEL["1"]:
+                location.line = LOCATION_LINE.line1;
                 level1.push(location);
                 break;
             case LOCATION_LEVEL["2"]:
@@ -51,20 +54,10 @@ export function getInitialLocations(numOfPlayers) {
     }
 
     const line1 = level1;
-    for (let location of line1) {
-        location.line = LOCATION_LINE.line1;
-    }
-    const line2 = [LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation];
-    for (let location of line2) {
-        location.line = LOCATION_LINE.line2;
-    }
-    const line3 = [LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation];
-    for (let location of line3) {
-        location.line = LOCATION_LINE.line3;
-    }    const line4 = [LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation, LOCATION_IDs.emptyLocation];
-    for (let location of line4) {
-        location.line = LOCATION_LINE.line4;
-    }
+    const line2 = getEmptyLocations(LOCATION_LINE.line2, lineLocationMaximum);
+    const line3 = getEmptyLocations(LOCATION_LINE.line3, lineLocationMaximum);
+    const line4 = getEmptyLocations(LOCATION_LINE.line4, lineLocationMaximum);
+
     return {
         line1: line1,
         line2: line2,
@@ -76,4 +69,21 @@ export function getInitialLocations(numOfPlayers) {
         level3Green: level3Green,
         lostCity: level3LostCity
     };
+}
+
+function getEmptyLocations(locationLine, numberOfLocations) {
+    let greenLocationsArr = [];
+    let brownLocationsArr = [];
+
+    for (let i = 0; i < numberOfLocations / 2; i++) {
+        greenLocationsArr.push(cloneDeep(LOCATION_IDs.emptyGreenLocation));
+        brownLocationsArr.push(cloneDeep(LOCATION_IDs.emptyBrownLocation));
+    }
+    let emptyLocationsArr = [...greenLocationsArr, ...brownLocationsArr];
+    for (let i = 0; i < emptyLocationsArr.length; i++) {
+        emptyLocationsArr[i].index = i;
+        emptyLocationsArr[i].line = locationLine;
+        emptyLocationsArr[i].state = LOCATION_STATE.unexplored;
+    }
+    return emptyLocationsArr;
 }

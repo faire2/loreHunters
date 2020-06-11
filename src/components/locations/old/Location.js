@@ -5,32 +5,32 @@ import {
     BgrBasic,
     BgrBasicDouble,
     BgrBrown2,
-    BgrBrown3, BgrBrownUnexplored, BgrEmpty,
+    BgrBrown3, BgrBrownUnexplored,
     BgrGreen2,
     BgrGreen3, BgrGreenUnexplored, BgrLostCity, Level2Symbol, Level3Symbol,
 } from "./locationsImages";
 import {EFFECT} from "../../data/effects";
 import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
+/*
 
 export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
     const location = props.location;
     location.state = props.idLocation.state;
     location.line = props.idLocation.line;
-    location.index = props.idLocation.index;
     location.owner = props.idLocation.owner;
     location.level = props.idLocation.level;
     location.type = props.idLocation.type;
     location.level = props.idLocation.level;
 
-    /* transport icons for explored location*/
-    /*const transportIcons = [];
+    /!* transport icons for explored location*!/
+    /!*const transportIcons = [];
     for (let i = 0; i < location.useCost.amount; i++) {
         transportIcons.push(<span key={i}>{location.useCost.transportType}</span>)
-    }*/
+    }*!/
 
-    /* explore costs for unexplored location */
+    /!* explore costs for unexplored location *!/
     let exploreCost = null;
     let exploreCostText = null;
     let locationBackground = null;
@@ -68,7 +68,7 @@ export default function Location(props) {
             locationUnexploredBackground = <BgrGreenUnexplored/>
         }
     } else if (location.type === LOCATION_TYPE.basic) {
-        /*exploreCostText = null;*/
+        /!*exploreCostText = null;*!/
         if (location.id === "5") {
             locationBackground = <BgrBasicDouble/>
         } else {
@@ -76,12 +76,12 @@ export default function Location(props) {
         }
     } else if (location.type === LOCATION_TYPE.lostCity) {
         locationBackground = <BgrLostCity/>;
-        locationUnexploredBackground = <BgrBrownUnexplored/>;
+        locationUnexploredBackground = <BgrBrownUnexplored/>
         exploreCost = [EFFECT.hasDiscoveredLostCity];
         exploreCostText = [];
-    } else if (location.type === LOCATION_TYPE.emptyBrownLocation || location.type === LOCATION_TYPE.emptyGreenLocation) {
-        locationBackground = <BgrEmpty/>;
-        locationUnexploredBackground = <BgrEmpty/>;
+    } else if (location.type === LOCATION_TYPE.emptyLocation) {
+        locationBackground = null;
+        locationUnexploredBackground = null;
         exploreCost = [];
         exploreCostText = [];
     }
@@ -94,10 +94,10 @@ export default function Location(props) {
 
     const containerStyle = {
         width: "7vw",
-        height: "4vw",
         position: "relative",
         textAlign: "center",
         marginRight: "0.5vw",
+        backgroundColor: "red"
     };
 
     const levelSymbolStyle = {
@@ -137,7 +137,7 @@ export default function Location(props) {
 
     return (
         <div style={containerStyle}
-             onClick={() => boardStateContext.handleClickOnLocation(location)}>
+             onClick={() => boardStateContext.handleClickOnLocation(location.effects, location.exploreCost, location, props.idLocation.line)}>
             {location.state === LOCATION_STATE.unexplored && <div style={levelSymbolStyle}>{levelSymbol}</div>}
             {location.state === LOCATION_STATE.unexplored ? locationUnexploredBackground : locationBackground}
             <div style={effectsStyle}>
@@ -148,3 +148,4 @@ export default function Location(props) {
         </div>
     )
 }
+*/

@@ -1,12 +1,9 @@
 import React from 'react';
 import {EFFECT} from "../../data/effects.mjs";
-import {addCardToDiscardDeck, addCardToHand, getIdCard, removeCard} from "./cardManipulationFuntions.mjs";
+import {addCardToDiscardDeck, addCardToHand, removeCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
-import {
-    GUARDIAN_IDs,
-    LOCATION_IDs
-} from "../../data/idLists";
+import {GUARDIAN_IDs, LOCATION_IDs} from "../../data/idLists";
 import {
     areLinesAdjacent,
     getLocationIndex,
@@ -16,7 +13,6 @@ import {
 import {Jewel, Text, Weapon} from "../Symbols";
 import {gainLockedResourceBack} from "./processEffects";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./enums";
-import {shuffleArray} from "./cardManipulationFuntions";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];
@@ -145,7 +141,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.gainResourceFromAdjacentLocation:
             if (tLocation.state === LOCATION_STATE.explored) {
-                const isAdjacent = isLocationAdjancentToAdventurer(tLocation, tLocation.line, tLocations, tPlayerState);
+                const isAdjacent = isLocationAdjancentToAdventurer(tLocation, tLocations, tPlayerState);
                 if (isAdjacent) {
                     const rewards = [];
                     for (let effect of tLocation.effects) {

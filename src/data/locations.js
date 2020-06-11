@@ -187,7 +187,25 @@ export const LOCATIONS = Object.freeze({
         effectsText: <div style={rowStyle}><Shiny/></div>,
         effects: [EFFECT.gainRelic],
         useCost: {transportType: TRANSPORT_TYPE.plane, amount: 1}
-    }
+    },
+    emptyLocation: {
+        id: "emptyLocation",
+        effectsText: <div></div>,
+        effects: [],
+        useCost: null,
+    },
+    emptyBrownLocation: {
+        id: "emptyBrownLocation",
+        effectsText: <div></div>,
+        effects: [],
+        useCost: null,
+    },
+    emptyGreenLocation: {
+        id: "emptyGreenLocation",
+        effectsText: <div></div>,
+        effects: [],
+        useCost: null,
+    },
 });
 
 

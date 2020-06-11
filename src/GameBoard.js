@@ -40,7 +40,7 @@ import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
-import {handleLocation} from "./components/locations/handleLocation";
+import {exploreLocation, handleLocation} from "./components/locations/handleLocation";
 import {
     ACTION_TYPE, CARD_STATE,
     CARD_TYPE,
@@ -72,7 +72,6 @@ function GameBoard(props) {
             console.log("received states from server");
             console.log(states);
             const tPlayerIndex = playerIndex ? playerIndex : parseInt(localStorage.getItem(LCL_STORAGE.playerIndex), 10);
-            ;
             setPlayerStates(states.playerStates);
             setPlayerState(states.playerStates[tPlayerIndex]);
             setStore(states.store);
@@ -190,7 +189,7 @@ function GameBoard(props) {
     }
 
     /** PROCESS REWARD MODAL **/
-    function handleRewards(tPlayerState, tStore, moreRewardsToProcess) {
+    function handleRewards(tPlayerState, tStore, tLocations, moreRewardsToProcess) {
         if (!moreRewardsToProcess || tPlayerState.finishedRound) {
             setRewardsModalData([]);
             setShowRewardsModal(false);
@@ -214,6 +213,7 @@ function GameBoard(props) {
             });
         }
         setPlayerState(tPlayerState);
+        setLocations(tLocations);
         setStore(tStore);
     }
 
@@ -266,11 +266,11 @@ function GameBoard(props) {
     }
 
     /** LOCATION EFFECTS **/
-    function handleClickOnLocation(effects, exploreCostEffects, location, locationLine) {
-        if (isActivePlayer) {
+    function handleClickOnLocation(location) {
+        if (isActivePlayer && !showRewardsModal) {
             console.log("Clicked on location " + location.id);
             const locationResult = handleLocation(cloneDeep(playerState), cloneDeep(store), cloneDeep(locations),
-                cloneDeep(location), locationLine, effects, round, setRewardsModal);
+                cloneDeep(location), round, setRewardsModal);
             if (locationResult) {
                 if (locationResult.playerState) {
                     setPlayerState(locationResult.playerState);
@@ -496,16 +496,17 @@ function GameBoard(props) {
     }
 
     const boardStateContextValues = {
+        legends: legends,
+        locations: locations,
+        modalData: rewardsModalData,
+        numOfPlayers: numOfPlayers,
         playerState: playerState,
         playerIndex: playerIndex,
-        store: store,
-        legends: legends,
         setLegends: setLegends,
-        locations: locations,
         showModal: showRewardsModal,
-        modalData: rewardsModalData,
+        setShowRewardsModal: setShowRewardsModal,
+        store: store,
         round: round,
-        numOfPlayers: numOfPlayers,
         handleCardEffect: handleClickOnCardEffect,
         handleCardBuy: handleCardBuy,
         handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
@@ -513,6 +514,7 @@ function GameBoard(props) {
         handleReward: handleRewards,
         handleClickOnLegend: handleClickOnLegend,
         handleClickOnIncomeTile: handleClickOnIncomeTile,
+        initiateRewardsModal: initiateRewardsModal,
     };
 
     const playerStateContextValues = {

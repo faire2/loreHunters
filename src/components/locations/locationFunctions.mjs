@@ -13,7 +13,8 @@ import {
     BgrGreenUnexplored, BgrLostCity
 } from "./locationsImages";
 import React from "react";
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../functions/enums";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "../functions/enums";
+import {LOCATION_IDs} from "../../data/idLists";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
@@ -103,12 +104,11 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     return {enoughResources: enoughResources, tPlayerState: tPlayerState};
 }
 
-export function isLocationAdjancentToAdventurer(location, locationLine, locations, playerState) {
+export function isLocationAdjancentToAdventurer(location, locations, playerState) {
     const playerIndex = playerState.playerIndex;
-    const locationPosition = getPositionInLocationLine(location, locationLine, locations);
-    const locationData = {locationPosition: locationPosition, locationLine: locationLine, locations: locations};
-    const isFirst = locationPosition === 0;
-    const isLast = locationPosition + 1 === locations[locationLine].length;
+    const locationData = {locationIndex: location.index, locationLine: location.line, locations: locations};
+    const isFirst = location.index === 0;
+    const isLast = location.index + 1 === locations[location.line].length;
     return checkOwnLine(locationData, playerIndex, isFirst, isLast) || checkPreviousLine(locationData, playerIndex, isFirst, isLast)
         || checkNextLine(locationData, playerIndex, isFirst, isLast);
 }
@@ -129,16 +129,16 @@ function checkOwner(locations, checkedLine, checkedLocationPosition, playerIndex
 }
 
 function checkOwnLine(locationData, playerIndex, isFirst, isLast) {
-    console.log("*** CHECKING OWN LINE ***");
+    console.log("*** CHECKING OWN LINE " + locationData.locationLine + "***");
     const locations = locationData.locations;
     const line = locationData.locationLine;
     if (!isFirst) {
-        if (checkOwner(locations, line, locationData.locationPosition - 1, playerIndex) === true) {
+        if (checkOwner(locations, line, locationData.locationIndex - 1, playerIndex) === true) {
             return true
         }
     }
     if (!isLast) {
-        if (checkOwner(locations, line, locationData.locationPosition + 1, playerIndex) === true) {
+        if (checkOwner(locations, line, locationData.locationIndex + 1, playerIndex) === true) {
             return true
         }
     }
@@ -146,10 +146,10 @@ function checkOwnLine(locationData, playerIndex, isFirst, isLast) {
 }
 
 function checkPreviousLine(locationData, playerIndex, isFirst, isLast) {
-    console.log("*** CHECKING PREVIOUS LINE ***");
+    console.log("*** CHECKING PREVIOUS LINE " + locationData.locationLine + "***");
     const locations = locationData.locations;
     const line = locationData.locationLine;
-    const position = locationData.locationPosition;
+    const position = locationData.locationIndex;
     if (line === LOCATION_LINE.line2) {
         if (checkOwner(locations, LOCATION_LINE.line1, position, playerIndex)) {
             return true;
@@ -180,10 +180,10 @@ function checkPreviousLine(locationData, playerIndex, isFirst, isLast) {
 }
 
 function checkNextLine(locationData, playerIndex, isFirst, isLast) {
-    console.log("*** CHECKING NEXT LINE ***");
+    console.log("*** CHECKING NEXT LINE " + locationData.locationLine + "***");
     const locations = locationData.locations;
     const line = locationData.locationLine;
-    const position = locationData.locationPosition;
+    const position = locationData.locationIndex;
 
     if (line === LOCATION_LINE.line1) {
         if (!isFirst) {
@@ -270,24 +270,25 @@ export function processExplorationDiscount(discount, explorationCostEffects) {
     return tExplorationEffects;
 }
 
-export function getExplorationCost(location, playerState, exploreDiscount) {
+/*export function getExplorationCost(location, playerState, exploreDiscount) {*/
+export function getExplorationCost(locationType, locationLevel, exploreDiscount, playerState) {
     let exploreCost = null;
 
-    if (location.type === LOCATION_TYPE.brown) {
-        if (location.level === LOCATION_LEVEL["2"]) {
+    if (locationType === LOCATION_TYPE.brown) {
+        if (locationLevel === LOCATION_LEVEL["2"]) {
             exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore];
-        } else if (location.level === LOCATION_LEVEL["3"]) {
+        } else if (locationLevel === LOCATION_LEVEL["3"]) {
             exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
         }
-    } else if (location.type === LOCATION_TYPE.green) {
-        if (location.level === LOCATION_LEVEL["2"]) {
+    } else if (locationType === LOCATION_TYPE.green) {
+        if (locationLevel === LOCATION_LEVEL["2"]) {
             exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-        } else if (location.level === LOCATION_LEVEL["3"]) {
+        } else if (locationLevel === LOCATION_LEVEL["3"]) {
             exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
         }
-    } else if (location.type === LOCATION_TYPE.basic) {
+    } else if (locationType === LOCATION_TYPE.basic) {
         /*exploreCostText = null;*/
-    } else if (location.type === LOCATION_TYPE.lostCity) {
+    } else if (locationType === LOCATION_TYPE.lostCity) {
         exploreCost = [EFFECT.hasDiscoveredLostCity];
     }
 
@@ -295,4 +296,64 @@ export function getExplorationCost(location, playerState, exploreDiscount) {
         exploreCost = processExplorationDiscount(playerState.activeEffects[0], exploreCost);
     }
     return exploreCost;
+}
+
+export function getLocationsForExploration(playerState, locations, exploreDiscount, locationType) {
+    let locationsArr = [];
+    if (locationType === LOCATION_TYPE.emptyBrownLocation) {
+        const brown2CostEffects = getExplorationCost(LOCATION_TYPE.brown, LOCATION_LEVEL["2"], exploreDiscount, playerState);
+        const brown2result = processEffects(null, null, playerState, brown2CostEffects, null,
+            null, null, null);
+        if (brown2result.processedAllEffects) {
+            locationsArr.push(locations.level2Brown[0]);
+            const brown3CostEffects = getExplorationCost(LOCATION_TYPE.brown, LOCATION_LEVEL["3"], exploreDiscount, playerState);
+            const brown3result = processEffects(null, null, playerState, brown3CostEffects, null,
+                null, null, null);
+            if (brown3result.processedAllEffects) {
+                locationsArr.push(locations.level3Brown[0]);
+            }
+        }
+    } else if (locationType === LOCATION_TYPE.emptyGreenLocation) {
+        const green2CostEffects = getExplorationCost(LOCATION_TYPE.green, LOCATION_LEVEL["2"], exploreDiscount, playerState);
+        const green2result = processEffects(null, null, playerState, green2CostEffects, null,
+            null, null, null);
+        if (green2result.processedAllEffects) {
+            locationsArr.push(locations.level2Green[0]);
+            const green3CostEffects = getExplorationCost(LOCATION_TYPE.green, LOCATION_LEVEL["3"], exploreDiscount, playerState);
+            const green3result = processEffects(null, null, playerState, green3CostEffects, null,
+                null, null, null);
+            if (green3result.processedAllEffects) {
+                locationsArr.push(locations.level3Green[0]);
+            }
+        }
+    } else {
+        console.error("Unable to determine type of empty location: " + locationType);
+    }
+    console.log("Returning locations suitable for exploration:");
+    console.log(locationsArr);
+    return locationsArr;
+}
+
+export function removeExploredLocation(location, locations) {
+    if (location.type === LOCATION_TYPE.green) {
+        if (location.level === LOCATION_LEVEL["2"]) {
+            locations.level2Green.splice(0, 1);
+        } else if (location.level === LOCATION_LEVEL["2"]) {
+            locations.level3Green.splice(0, 1);
+        } else {
+            console.error("Unable to determine location level:" + location.level);
+        }
+
+    } else if (location.type === LOCATION_TYPE.brown) {
+        if (location.level === LOCATION_LEVEL["2"]) {
+            locations.level2Brown.splice(0, 1);
+        } else if (location.level === LOCATION_LEVEL["2"]) {
+            locations.level3Brown.splice(0, 1);
+        } else {
+            console.error("Unable to determine location level:" + location.level);
+        }
+    } else {
+        console.error("Unable to determine location type:" + location.type);
+    }
+    return locations;
 }

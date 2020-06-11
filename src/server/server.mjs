@@ -15,12 +15,12 @@ import {
     removeUser,
     updateRoomState
 } from "./serverFunctions.mjs";
-import {getInitialLocations} from "../components/functions/initialStates/initialStateFunctions.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {TRANSMISSIONS} from "../components/functions/enums.mjs";
 import getInitialPlayerStates from "../components/functions/initialStates/initialPlayerStates.mjs";
 import {getInitialStore} from "../components/functions/initialStates/initialStore.mjs";
 import {getInitialLegends} from "../components/functions/initialStates/initialLegends.mjs";
+import {getInitialLocations} from "../components/functions/initialStates/initialLocations.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
