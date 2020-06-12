@@ -229,7 +229,7 @@ function GameBoard(props) {
             isAllowed = !costsAction || tPlayerState.resources.texts > 0
         }
 
-        if (isActivePlayer && (!costsAction || playerState.actions > 0)) {
+        if (isActivePlayer) {
             if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
                 (tCard.type === CARD_TYPE.artifact && isAllowed)) {
                 if (tCard.state === CARD_STATE.inHand || tCard.state === undefined) {
@@ -239,10 +239,6 @@ function GameBoard(props) {
                 }
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
                 tPlayerState = effectsResult.tPlayerState;
-                if (tCard.type !== CARD_TYPE.basic && costsAction && effectsResult.processedAllEffects
-                    && !CARDS_ACTIONLESS.includes(tCard.id)) {
-                    tPlayerState.actions -= 1;
-                }
                 tStore = effectsResult.tStore;
 
                 /* if the card is an artifact and effect is not a transport, pay for the use */

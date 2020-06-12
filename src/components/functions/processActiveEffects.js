@@ -61,6 +61,29 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState.activeEffects.splice(0, 1);
             }
             break;
+        case EFFECT.activateAdjacentLocation:
+            if (tLocation && tLocation.level !== LOCATION_LEVEL["3"] && isLocationAdjancentToAdventurer(tLocation, tLocation.line, tLocations, tPlayerState)) {
+                const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, null,
+                    tStore, tLocation, tLocations, null);
+                tPlayerState = effectsResult.tPlayerState;
+                tLocations = effectsResult.tLocations;
+                tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
+                tStore = effectsResult.tStore;
+                tPlayerState.activeEffects.splice(0, 1);
+            }
+            break;
+
+        case EFFECT.activateEmptyL1Location:
+            if (tLocation && tLocation.level === LOCATION_LEVEL["1"] && tLocation.state === "explored") {
+                const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, null,
+                    tStore, tLocation, tLocations, null);
+                tPlayerState = effectsResult.tPlayerState;
+                tLocations = effectsResult.tLocations;
+                tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
+                tStore = effectsResult.tStore;
+                tPlayerState.activeEffects.splice(0, 1);
+            }
+            break;
 
         case EFFECT.discard:
             if (tCard && tCard.state === CARD_STATE.inHand) {
@@ -141,8 +164,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.gainResourceFromAdjacentLocation:
             if (tLocation.state === LOCATION_STATE.explored) {
-                const isAdjacent = isLocationAdjancentToAdventurer(tLocation, tLocations, tPlayerState);
-                if (isAdjacent) {
+                if (isLocationAdjancentToAdventurer(tLocation, tLocation.line, tLocations, tPlayerState)) {
                     const rewards = [];
                     for (let effect of tLocation.effects) {
                         let alreadyPresent = false;

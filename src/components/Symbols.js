@@ -29,6 +29,7 @@ import victoryPoints from "../img/symbols/VP.png"
 import treasure from "../img/symbols/Treasure.png"
 import freeAction from "../img/symbols/freeAction.png"
 import cardDiscount from "../img/symbols/CardDiscount.png"
+import flash from "../img/symbols/Flash.png"
 
 const responsive = {
     height: "1em",
@@ -63,6 +64,7 @@ export const LocationL3 = (props) => <img src={location3} alt="location of level
 export const VictoryPoints = (props) => <img src={victoryPoints} alt="victory points icon" style={responsive} />;
 export const Treasure = (props) => <img src={treasure} alt="treasure" style={responsive} />;
 export const FreeAction = (props) => <img src={freeAction} alt="treasure" style={responsive} />;
+export const Flash = (props) => <img src={flash} alt="action" style={responsive} />;
 
 export const AdventurerIcon = () =>
     <svg width="15" height="15" viewBox="0 0 99 119">

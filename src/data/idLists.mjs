@@ -1,5 +1,58 @@
 import {EFFECT} from "./effects.mjs";
-import {CARD_TYPE, INCOME_LEVEL, LOCATION_LEVEL, LOCATION_TYPE} from "../components/functions/enums.mjs";
+
+export const LOCATION_LEVEL = Object.freeze({
+    1: "I",
+    2: "II",
+    3: "III"
+});
+
+export const LOCATION_STATE = Object.freeze({
+    unexplored: "unexplored",
+    explored: "explored",
+    occupied: "occupied",
+});
+
+export const LOCATION_TYPE = Object.freeze({
+    basic: "basic location",
+    green: "green location",
+    brown: "brown location",
+    lostCity: "lost city",
+});
+
+export const CARD_STATE = Object.freeze({
+    active: "active card",
+    destroyed: "destroyed card",
+    discard: "card is discarded",
+    drawDeck: "card in draw deck",
+    inHand: "card is in hand",
+    inStore: "card is in store",
+    locked: "locked card",
+    victoryCards: "card is among victory cards",
+});
+
+export const CARD_TYPE = Object.freeze({
+    item: "item",
+    artifact: "artifact",
+    basic: "basic",
+    guardian: "guardian",
+    goalCard: "expedition"
+});
+
+export const INCOME_LEVEL = Object.freeze({
+    silver: "silver level",
+    gold: "gold level",
+});
+
+export const INCOME_STATE = Object.freeze({
+    inStore: "in store",
+    ready: "ready",
+    spent: "spent"
+});
+
+export const INCOME_SIZE = Object.freeze({
+    small: "small",
+    large: "large"
+});
 
 export const ITEM_IDs = Object.freeze({
     fear: {
@@ -38,8 +91,8 @@ export const ITEM_IDs = Object.freeze({
         id: "dog",
         type: CARD_TYPE.item,
     },
-    canoe: {
-        id: "canoe",
+    steamBoat: {
+        id: "steamBoat",
         type: CARD_TYPE.item,
     },
     jeep: {
@@ -90,10 +143,10 @@ export const ITEM_IDs = Object.freeze({
         id: "banjo",
         type: CARD_TYPE.item,
     },*/
-    /*beerMug: {
+    beerMug: {
         id: "beerMug",
         type: CARD_TYPE.item,
-    },*/
+    },
     journal: {
         id: "journal",
         type: CARD_TYPE.item,
@@ -116,6 +169,10 @@ export const ITEM_IDs = Object.freeze({
     },
     grapplingHook: {
         id: "grapplingHook",
+        type: CARD_TYPE.item,
+    },
+    binoculars: {
+        id: "binoculars",
         type: CARD_TYPE.item,
     },
     /*camouflagePaint: {
@@ -166,14 +223,22 @@ export const ITEM_IDs = Object.freeze({
         id: "floraSamples",
         type: CARD_TYPE.item,
     },*/
-    boomerang: {
+    /*boomerang: {
         id: "boomerang",
         type: CARD_TYPE.item,
-    },
+    },*/
     /*beetleMask: {
         id: "beetleMask",
         type: CARD_TYPE.item,
     },*/
+    rope: {
+        id: "rope",
+        type: CARD_TYPE.item,
+    },
+    revolver: {
+        id: "revolver",
+        type: CARD_TYPE.item,
+    },
     torch: {
         id: "torch",
         type: CARD_TYPE.item,
@@ -606,22 +671,7 @@ export const LOCATION_IDs = Object.freeze({
         id: "lc1",
         type: LOCATION_TYPE.lostCity,
         level: LOCATION_LEVEL["3"],
-    },
-    emptyLocation: {
-        id: "emptyLocation",
-        type: LOCATION_TYPE.emptyBrownLocation,
-        level: LOCATION_LEVEL["2"],
-    },
-    emptyBrownLocation: {
-        id: "emptyBrownLocation",
-        type: LOCATION_TYPE.emptyBrownLocation,
-        level: LOCATION_LEVEL["2"],
-    },
-    emptyGreenLocation: {
-        id: "emptyGreenLocation",
-        type: LOCATION_TYPE.emptyGreenLocation,
-        level: LOCATION_LEVEL["2"],
-    },
+    }
 });
 
 export const LEGEND_IDS = Object.freeze({
@@ -698,6 +748,38 @@ export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id, ART
 
 export const INITIAL_CARDS = [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},
     {...ITEM_IDs.fear}, {...ITEM_IDs.fear}];
+export const TRANSMISSIONS = Object.freeze({
+    createGame: "set up a new game",
+    currentUsersAndData: "users currently logged in",
+    deleteRoom: "delete game room",
+    finishedRound: "finishedRound",
+    gameStates: "game states",
+    handShake: "handshake",
+    joinGame: "join game",
+    newGame: "start a new game",
+    nextPlayer: "nextPlayer",
+    sendGameStates: "gameStates",
+    sendScoringStates: "send all states",
+    sendStage: "send stage in the pipeline",
+    scoringStates: "emitting all states",
+    stage: "stage of the app",
+    stateUpdate: "stateUpdate",
+    resetTurn: "reset turn - send back data from beginning of the turn",
+    revert: "revert turn - send back data from previous beginning of turn",
+    roomCreated: "room has been successfully created and player joined it",
+    roomIsFull: "join request denied, room is already full",
+    roomList: "list of all active rooms",
+    roomNameAlreadyExists: "room name already exists and cannot be used",
+    startGame: "open gameboard",
+    testData: "testData",
+    usernameChanged: "usernameChanged",
+});
+
+export const REWARD_TYPE = Object.freeze({
+    card: "card",
+    incomeToken: "income token",
+    effectsArr: "array of effects"
+});
 
 export const GLOBAL_VARS = Object.freeze({
     handSize: 5,

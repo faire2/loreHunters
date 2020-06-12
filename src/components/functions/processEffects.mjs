@@ -7,7 +7,6 @@ import {GUARDIAN_IDs} from "../../data/idLists";
 import {activateGuardianAndLockEffects, addCardToDiscardDeck} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin, Explore} from "../Symbols";
-import {ACTION_TYPE, addLogEntry} from "../main/logger";
 import {LOCATIONS} from "../../data/locations";
 import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "./enums";
 
@@ -48,6 +47,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.uptrade:
                 case EFFECT.useItemOnMarket:
                 case EFFECT.activateYourLocation:
+                case EFFECT.activateAdjacentLocation:
+                case EFFECT.activateEmptyL1Location:
                 case EFFECT.useArtifactOnMarket:
                     tActiveEffects.push(effect);
                     break;
@@ -247,8 +248,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         }
                     }
                     defeatedGuardians = defeatedGuardians > 3 ? 3 : defeatedGuardians;
-                    tPlayerState.resources.coins += 1;
-                    tPlayerState.resources.explore += defeatedGuardians;
+                    tPlayerState.resources.explore += 1;
+                    tPlayerState.resources.coins += defeatedGuardians;
                     break;
 
                 case EFFECT.gainCoinsAndJewelForGuardianVP:
@@ -291,7 +292,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     for (let relic of tPlayerState.relics) {
                         if (!relic) {allRelics += 1}
                     }
-                    tPlayerState.resources.explore += allRelics > 4 ? allRelics : 4;
+                    tPlayerState.resources.explore += allRelics > 3 ? allRelics : 3;
                     break;
 
                 case EFFECT.gainFear:
@@ -333,6 +334,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainWeapon:
                     tPlayerState.resources.weapons += 1;
+                    break;
+
+                case EFFECT.loseAction:
+                    tPlayerState.actions = tPlayerState.actions > 0 ? tPlayerState.actions - 1 : 0;
                     break;
 
                 case EFFECT.loseAdventurer:
