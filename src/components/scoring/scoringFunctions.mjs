@@ -1,6 +1,6 @@
 import {ITEM_IDs} from "../../data/idLists";
 import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
-import {Legends2} from "../../data/legends";
+import {Legends2} from "../../data/legends.mjs";
 import {getLogLegends} from "../main/logger";
 import {CARD_TYPE} from "../functions/enums";
 
@@ -65,7 +65,7 @@ export function getPoints(playerState) {
             relicsPoints += Math.floor(i / 3);
         }
     }
-    relicsPoints += playerState.resources.shinies * 4;
+    relicsPoints += playerState.resources.relics * 4;
 
     const totalPoints = itemPoints + artifactPoints + fearPoints /*+ undefeatedGuardianPoints */+ defeatedGuardianPoints +
         legendPoints + relicsPoints;

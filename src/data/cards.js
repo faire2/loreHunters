@@ -20,7 +20,7 @@ import {
     LocationL1,
     LocationL2,
     LocationL3,
-    Shiny,
+    Relic,
     Ship,
     Text,
     VictoryPoints,
@@ -60,7 +60,6 @@ import flaskImg from "../img/cardImages/items/flask.png"
 import beartrapImg from "../img/cardImages/items/beartrap.png"
 import airmailImg from "../img/cardImages/items/airmail.png"
 /*import floraSamplesImg from "../img/cardImages/items/floraSamples.png"*/
-import boomerangImg from "../img/cardImages/items/boomerang.png"
 import torchImg from "../img/cardImages/items/torch.png"
 import machetteImg from "../img/cardImages/items/machete.png"
 /*import mirrorShardImg from "../img/cardImages/artifacts/mirrorShard.png"*/
@@ -81,8 +80,8 @@ import ritualDaggerImg from "../img/cardImages/artifacts/ritualDagger.png"
 
 
 import {EFFECT} from "./effects.mjs";
-import {CARD_TYPE} from "./idLists.mjs";
 import {Flash, FreeAction, Treasure, Uptrade} from "../components/Symbols";
+import {CARD_TYPE} from "../components/functions/enums";
 
 
 export const CARD_TRANSPORT = Object.freeze({
@@ -356,7 +355,7 @@ export const ITEMS = Object.freeze({
         cardName: "Journal",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for each <Shiny/> you own (up to 3) .</div>,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for each <Relic/> you own (up to 3) .</div>,
         effects: [EFFECT.loseAction, EFFECT.gainExploreForRelics],
         image: journalImg,
         cost: 3,
@@ -515,7 +514,7 @@ export const ITEMS = Object.freeze({
         cardName: "Book of Myths",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Shiny/>. Then <b>destroy</b> this card.</div>,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Relic/>. Then <b>destroy</b> this card.</div>,
         effects: [EFFECT.loseAction, EFFECT.gainRelic, EFFECT.destroyThisCard],
         image: bookOfMythsImg,
         cost: 2,
@@ -1029,7 +1028,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Secret Paths",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+ ?<VictoryPoints/> Score again 2 of  <Shiny/> that you placed</div>,
+            <div className="effectsText">+ ?<VictoryPoints/> Score again 2 of  <Relic/> that you placed</div>,
         points: 0
     },
     rareFinds: {
@@ -1077,7 +1076,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Cartographer",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Shiny/> you own.</div>,
+            <div className="effectsText">+1 <VictoryPoints/> for each <Relic/> you own.</div>,
         points: 3,
     },
     fearless: {
@@ -1165,7 +1164,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Trading Knowledge",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Shiny/> that you placed in the first 3 rows.</div>,
+            <div className="effectsText">+1 <VictoryPoints/> for each <Relic/> that you placed in the first 3 rows.</div>,
         points: 4,
     },
     touchTheSkies: {

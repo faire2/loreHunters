@@ -7,7 +7,6 @@ import {
     LEGEND_IDS,
     LOCATION_IDs
 } from "../../../data/idLists.mjs";
-import cloneDeep from "lodash/cloneDeep.js";
 import {
     CARD_STATE,
     CARD_TYPE,
@@ -126,13 +125,13 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*!/
 
-        /!*const testCard = {...ITEM_IDs.compass};
+        /*const testCard = {...ITEM_IDs.revolver};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*!/
 
-        /!*const testCard = {...GUARDIAN_IDs.energyLeech};
+        /*const testCard1 = {...GUARDIAN_IDs.energyLeech};
         testCard.state = CARD_STATE.discard;
-        playerState.discardDeck.splice(0, 0, testCard);*!/
+        playerState.discardDeck.splice(0, 0, testCard1);*/
 
         /!*for (let key in ITEM_IDs) {
             let card = {...ITEM_IDs[key]};

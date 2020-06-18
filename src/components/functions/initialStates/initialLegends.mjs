@@ -1,10 +1,11 @@
 /* INITIAL Legends2 */
-import {GLOBAL_VARS, LEGEND_IDS} from "../../../data/idLists.mjs";
+import {GLOBAL_VARS,} from "../../../data/idLists.mjs";
 import {shuffleArray} from "../cardManipulationFuntions.mjs";
+import {Legends2} from "../../../data/legends.mjs";
 
 export function getInitialLegends(numOfPlayers) {
-    const legendsKeys = shuffleArray(Object.keys(LEGEND_IDS));
-    const legends = [LEGEND_IDS[legendsKeys[0]]];
+    const legendsKeys = shuffleArray(Object.keys(Legends2));
+    const legends = [Legends2[legendsKeys[0]]];
     for (let legend of legends) {
         legend.positions = [];
         for (let i = 0; i < numOfPlayers; i++) {
@@ -15,9 +16,6 @@ export function getInitialLegends(numOfPlayers) {
             }
             legend.positions.push(playerArr);
         }
-        legend.usage = [];
-        for (let i = 0; i < 8; i++)
-            legend.usage.push([0, 0, 0])
     }
     return legends;
 }

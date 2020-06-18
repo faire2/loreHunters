@@ -52,7 +52,7 @@ export const IncomeTile = (props) => {
                     {state === INCOME_STATE.spent ? "" : jsxIncome.effectsText.map((effect, i) => {
                             const margin = size === INCOME_SIZE.small ?
                                 twoIcons ? (-i * 0.7 + "vw") : (0) :
-                                twoIcons ? (-i * 1.6 + "vw") : (0)
+                                twoIcons ? (-i * 1.6 + "vw") : (0);
                             return (
                                 <div style={{...effectStyle, ...{marginLeft: margin}}} key={i}>
                                     {effect}
@@ -64,4 +64,4 @@ export const IncomeTile = (props) => {
             </div>
         </div>
     )
-}
+};

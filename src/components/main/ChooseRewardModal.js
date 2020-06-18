@@ -1,11 +1,11 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
 import Card from "../cards/Card";
 import {cloneDeep} from "lodash";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {processEffects} from "../functions/processEffects";
-import {handleIncome, handleIncomes} from "../../server/serverFunctions";
+import {handleIncome} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
 import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, LOCATION_STATE, REWARD_TYPE} from "../functions/enums";
 import Location from "../locations/Location";
@@ -13,6 +13,8 @@ import {LOCATIONS} from "../../data/locations";
 import {LOCATION_IDs} from "../../data/idLists";
 import {exploreLocation} from "../locations/handleLocation";
 import {removeExploredLocation} from "../locations/locationFunctions";
+import {replaceFirsUserJointLegendResource} from "../legends/legendsFunctions";
+import {Legends2} from "../../data/legends.mjs";
 
 
 export default function ChooseRewardModal() {
@@ -24,6 +26,8 @@ export default function ChooseRewardModal() {
     let tPlayerState = cloneDeep(boardStateContext.playerState);
     let tStore = cloneDeep(boardStateContext.store);
     let tLocations = cloneDeep(boardStateContext.locations);
+    let tLegends = cloneDeep(boardStateContext.legends);
+    const numOfPlayers = boardStateContext.numOfPlayers;
     if (showModal) {
         console.debug("Rewards modal opened. Rewards:");
         console.debug(rewards);
@@ -55,6 +59,7 @@ export default function ChooseRewardModal() {
             case REWARD_TYPE.incomeToken:
                 element = <IncomeTile income={reward}/>;
                 break;
+            case REWARD_TYPE.legendFieldEffects:
             case REWARD_TYPE.effectsArr:
                 element = reward.effectsText;
                 break;
@@ -106,7 +111,6 @@ export default function ChooseRewardModal() {
                 tPlayerState = handleIncome(tPlayerState, reward);
                 break;
             case REWARD_TYPE.effectsArr:
-                effects = rewardType === REWARD_TYPE.incomeToken ? reward.effects : reward.effects;
                 const effectsResult = processEffects(null, null, tPlayerState, effects, null, null, null, null);
                 if (effectsResult.processedAllEffects) {
                     tPlayerState = effectsResult.tPlayerState;
@@ -114,6 +118,18 @@ export default function ChooseRewardModal() {
                 } else {
                     console.log("Effects could not be processed in handleClickOnReward");
                     console.log(reward);
+                }
+                break;
+            case REWARD_TYPE.legendFieldEffects:
+                const legendEffectsResult = processEffects(null, null, tPlayerState, [reward.effects], null, null, null, null);
+                if (legendEffectsResult.processedAllEffects) {
+                    const fieldPosition = rewards[0].params;
+                    tPlayerState = legendEffectsResult.tPlayerState;
+                    const jsxLegend = Legends2[tLegends[fieldPosition.legendIndex].id];
+                    const field = replaceFirsUserJointLegendResource(reward.effects, jsxLegend.fields[fieldPosition.columnIndex][fieldPosition.fieldIndex],
+                        numOfPlayers);
+                    tLegends[fieldPosition.legendIndex].fields[fieldPosition.columnIndex][fieldPosition.fieldIndex] = field;
+                    console.log(Legends2);
                 }
                 break;
             case REWARD_TYPE.location:
@@ -140,7 +156,7 @@ export default function ChooseRewardModal() {
                 console.log(rewardType);
         }
         const moreRewardsToProcess = rewards.length > 1;
-        boardStateContext.handleReward(tPlayerState, tStore, tLocations, moreRewardsToProcess);
+        boardStateContext.handleReward(tPlayerState, tStore, tLocations, tLegends, moreRewardsToProcess);
     }
     return (
         <Modal show={showModal} onHide={null} dialogClassName={"customModal"}>

@@ -4,7 +4,6 @@ import {LOCATION_IDs} from "../../data/idLists";
 import {
     getExplorationCost,
     getLocationsForExploration,
-    getPositionInLocationLine,
     isLocationAdjancentToAdventurer,
     occupyLocation,
     payForTravelIfPossible
@@ -30,8 +29,8 @@ export function handleLocation(playerState, store, locations, location, round, i
                 const exploreDiscount = hasPlayerExplorationDiscount(playerState);
                 //if user clicked on empty location, give back choice modal with relevant locations
                 if (location.type === LOCATION_TYPE.emptyBrownLocation || location.type === LOCATION_TYPE.emptyGreenLocation) {
-                    console.log("Looking for suitable locations");
                     if (isLocationAdjancentToAdventurer(location, locations, playerState) || exploreDiscount) {
+                        console.log("Looking for suitable locations");
                         let suitableLocations = getLocationsForExploration(playerState, locations, exploreDiscount, location.type);
                         if (suitableLocations && suitableLocations.length > 0) {
                             let locationsForModal = [{
@@ -95,7 +94,7 @@ export function exploreLocation(playerState, locations, store, location, round) 
         playerState = explorationCostResult.tPlayerState;
         // if exploration discount active effect is present the action has already been substracted
         playerState.actions -= exploreDiscount ? 0 : 1;
-        playerState.resources.shinies += 1;
+        playerState.resources.relics += 1;
 
         // mark location as explored
         locations[location.line][location.index].state = LOCATION_STATE.explored;
@@ -119,11 +118,13 @@ export function exploreLocation(playerState, locations, store, location, round) 
         store = guardianResults.tStore;
         addLogEntry(playerState, ACTION_TYPE.exploresLocation, location.id,
             exploreCostEffects);
-        return ({playerState: playerState, store: store, locations: locations, modalRewardData: [{
+        return ({
+            playerState: playerState, store: store, locations: locations, modalRewardData: [{
                 type: REWARD_TYPE.effectsArr,
                 data: [{effects: location.effects, effectsText: location.effectsText},
                     {effects: guardianEffects, effectsText: guardianText}]
-            }]})
+            }]
+        })
     } else {
         console.error("Not enough resources to explore location - inconsistency with location choice!");
         return false

@@ -88,7 +88,8 @@ export const REWARD_TYPE = Object.freeze({
     card: "card",
     incomeToken: "income token",
     effectsArr: "array of effects",
-    location: "location"
+    location: "location",
+    legendFieldEffects: "combined effects of a legend field",
 });
 export const TRANSMISSIONS = Object.freeze({
     createGame: "set up a new game",

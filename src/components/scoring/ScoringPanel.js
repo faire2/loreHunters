@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {CardRow} from "../cards/CardRow";
 import {socket} from "../../server/socketConnection";
-import {AdventurerToken, Artifact, DefeatedGuardian, Fear, Item, Shiny} from "../Symbols";
+import {AdventurerToken, Artifact, DefeatedGuardian, Fear, Item, Relic} from "../Symbols";
 import Card from "../cards/Card";
 import {getPoints} from "./scoringFunctions";
 import {useHistory} from "react-router-dom";
@@ -95,7 +95,7 @@ export function ScoringPanel(props) {
                     <AdventurerToken color={playerState.color} style={{width: "5vw"}}/>:{pointsResult.legendPoints}
                 </div>
                 <div style={rowStyle}>
-                    <Shiny/>:{pointsResult.relicsPoints}
+                    <Relic/>:{pointsResult.relicsPoints}
                 </div>
                 Total: {pointsResult.totalPoints}
                 <div>

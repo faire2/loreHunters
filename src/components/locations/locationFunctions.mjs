@@ -1,20 +1,8 @@
 import {LOCATIONS, TRANSPORT_TYPE} from "../../data/locations";
 import {EFFECT} from "../../data/effects";
 import {processEffects} from "../functions/processEffects";
-import {Coin, Explore, Jeep, Ship} from "../Symbols";
-import {
-    BgrBasic,
-    BgrBasicDouble,
-    BgrBrown2,
-    BgrBrown3,
-    BgrBrownUnexplored,
-    BgrGreen2,
-    BgrGreen3,
-    BgrGreenUnexplored, BgrLostCity
-} from "./locationsImages";
 import React from "react";
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "../functions/enums";
-import {LOCATION_IDs} from "../../data/idLists";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../functions/enums";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
@@ -273,23 +261,24 @@ export function processExplorationDiscount(discount, explorationCostEffects) {
 /*export function getExplorationCost(location, playerState, exploreDiscount) {*/
 export function getExplorationCost(locationType, locationLevel, exploreDiscount, playerState) {
     let exploreCost = null;
+    debugger
 
     if (locationType === LOCATION_TYPE.brown) {
         if (locationLevel === LOCATION_LEVEL["2"]) {
-            exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore];
+            exploreCost = [EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseCoin];
         } else if (locationLevel === LOCATION_LEVEL["3"]) {
-            exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+            exploreCost = [EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseCoin];
         }
     } else if (locationType === LOCATION_TYPE.green) {
         if (locationLevel === LOCATION_LEVEL["2"]) {
-            exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+            exploreCost = [EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
         } else if (locationLevel === LOCATION_LEVEL["3"]) {
-            exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+            exploreCost = [EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
         }
     } else if (locationType === LOCATION_TYPE.basic) {
         /*exploreCostText = null;*/
     } else if (locationType === LOCATION_TYPE.lostCity) {
-        exploreCost = [EFFECT.hasDiscoveredLostCity];
+        exploreCost = [EFFECT.canActivateLostCity];
     }
 
     if (exploreDiscount) {

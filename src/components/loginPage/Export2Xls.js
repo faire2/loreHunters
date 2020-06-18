@@ -53,7 +53,7 @@ export function Export2Xls(props) {
             texts: resources.texts != null ? resources.texts : "",
             weapons: resources.weapons != null ? resources.weapons : "",
             jewels: resources.jewels != null ? resources.jewels : "",
-            shinies: resources.shinies != null ? resources.shinies : "",
+            shinies: resources.relics != null ? resources.relics : "",
             walk: resources.walk != null ? resources.walk : "",
             jeep: resources.jeep != null ? resources.jeep : "",
             ship: resources.ship != null ? resources.ship : "",

@@ -1,10 +1,7 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {CardRow} from "../cards/CardRow";
 import {getPoints} from "../scoring/scoringFunctions";
-import {AdventurerToken, Artifact, DefeatedGuardian, Guardian, Item, Shiny} from "../Symbols";
-import Card from "../cards/Card";
-import {PlayerTabs} from "../scoring/ScoringPanel";
+import {AdventurerToken, Artifact, DefeatedGuardian, Item, Relic} from "../Symbols";
 
 export default function RightSlidingPanel(props) {
     const playerStateContext = useContext(PlayerStateContext);
@@ -53,7 +50,7 @@ export default function RightSlidingPanel(props) {
                 <AdventurerToken color={"black"} style={{width: "3vw"}}/>:{points.legendPoints}
             </div>
             <div style={rowStyle}>
-                <Shiny/>:{points.relicsPoints}
+                <Relic/>:{points.relicsPoints}
             </div>
             {points.itemPoints + points.artifactPoints + points.defeatedGuardianPoints + points.legendPoints + points.relicsPoints}
         </div>

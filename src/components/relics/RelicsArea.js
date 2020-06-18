@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Coin, Draw1Card, Explore, Jewel, Shiny, Text, Weapon} from "../Symbols";
+import {Coin, Draw1Card, Explore, Jewel, Relic, Text, Weapon} from "../Symbols";
 import bgr from "../../img/relics/relicsBackground.png"
 import {PlayerStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
@@ -10,8 +10,8 @@ export function RelicsArea() {
     const playerState = playerStateContext.playerState;
 
     let relicsArr = [];
-    for (let i = 0; i < playerState.resources.shinies; i++) {
-        relicsArr.push(<Shiny/>)
+    for (let i = 0; i < playerState.resources.relics; i++) {
+        relicsArr.push(<Relic/>)
     }
 
     const twoLines = relicsArr.length > 5;
@@ -115,7 +115,7 @@ export function RelicsArea() {
                 const style = effectsText.length === 1 ? fieldStyle1Icon : fieldStyle2Icons
                 return (
                     <div style={style} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
-                        {playerState.relics[i] ? effectsText : <Shiny/>}
+                        {playerState.relics[i] ? effectsText : <Relic/>}
                     </div>
                 )
             }

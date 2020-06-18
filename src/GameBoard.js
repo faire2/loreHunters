@@ -14,21 +14,16 @@ import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/main/ChooseRewardModal";
-import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
-import {
-    CARDS_ACTIONLESS,
-    LOCATION_IDs
-} from "./data/idLists";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {
-    getPositionInLocationLine,
-    occupyLocation,
-    processExplorationDiscount
-} from "./components/locations/locationFunctions";
-import {GUARDIANS} from "./data/cards";
-import {getIsRewardDue, processLegend} from "./components/legends/legendsFunctions";
+    getIsRewardDue,
+    getJointBoons,
+    getLegendFieldBoons,
+    processLegend,
+    removeFirstUserLegendResource
+} from "./components/legends/legendsFunctions";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {processUptrade} from "./components/resources/resourcesFunctions";
@@ -40,11 +35,12 @@ import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
-import {exploreLocation, handleLocation} from "./components/locations/handleLocation";
+import {handleLocation} from "./components/locations/handleLocation";
 import {
-    ACTION_TYPE, CARD_STATE,
+    ACTION_TYPE,
+    CARD_STATE,
     CARD_TYPE,
-    LCL_STORAGE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE,
+    LCL_STORAGE,
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./components/functions/enums";
@@ -189,7 +185,7 @@ function GameBoard(props) {
     }
 
     /** PROCESS REWARD MODAL **/
-    function handleRewards(tPlayerState, tStore, tLocations, moreRewardsToProcess) {
+    function handleRewards(tPlayerState, tStore, tLocations, tLegends, moreRewardsToProcess) {
         if (!moreRewardsToProcess || tPlayerState.finishedRound) {
             setRewardsModalData([]);
             setShowRewardsModal(false);
@@ -214,6 +210,7 @@ function GameBoard(props) {
         }
         setPlayerState(tPlayerState);
         setLocations(tLocations);
+        setLegends(tLegends);
         setStore(tStore);
     }
 
@@ -294,9 +291,14 @@ function GameBoard(props) {
     }
 
     /** HANDLE CLICK ON LEGEND **/
-    function handleClickOnLegend(legendIndex, columnIndex, fieldIndex, boons) {
+    function handleClickOnLegend(legendIndex, columnIndex, fieldIndex) {
         if (isActivePlayer && (playerState.actions > 0 || playerState.activeEffects.length > 0)) {
-            const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, boons,
+            let tLegends = cloneDeep(legends);
+            const field = tLegends[legendIndex].fields[columnIndex][fieldIndex];
+            const boon = getLegendFieldBoons(field, numOfPlayers);
+            const cost = field.cost;
+            // first we process effects to see whether player has enough resources
+            const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, boon.concat(cost),
                 cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
             if (legendResult) {
                 const tStore = legendResult.tStore;
@@ -315,19 +317,30 @@ function GameBoard(props) {
                         rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
                     }
                 }
-                /* some card need rewards modal window to choose between possible effects */
+                // some cards need rewards modal window to choose between possible effects
                 if (legendResult.showRewardsModal) {
                     rewardsData.push(legendResult.rewardsData);
+                }
+                tLegends = legendResult.tLegends;
+                // resources that can only be used once have to be removed now...
+                if (boon.includes(EFFECT.gainCoinIfFirst) || boon.includes(EFFECT.gainExploreIfFirst) || boon.includes(EFFECT.gainMapIfFirst)) {
+                    tLegends[legendIndex].fields[columnIndex][fieldIndex] = removeFirstUserLegendResource(boon, field, numOfPlayers);
+                }
+                // ...but if the resource involves a choice, it is processed in the reward modal
+                if (boon.includes(EFFECT.gainCoinOrExploreIfFirst) || boon.includes(EFFECT.gainExploreOrMapIfFirst)) {
+                    rewardsData.push({
+                        type: REWARD_TYPE.legendFieldEffects, data: getJointBoons(boon),
+                        params: {legendIndex: legendIndex, columnIndex: columnIndex, fieldIndex: fieldIndex}
+                    });
                 }
                 if (rewardsData.length > 0) {
                     initiateRewardsModal(rewardsData);
                 }
                 setPlayerState(legendResult.tPlayerState);
                 setLocations(legendResult.tLocations);
-                setLegends(legendResult.tLegends);
+                setLegends(tLegends);
                 setStore(tStore);
-                setLogLegends(legendResult.tLegends, 2);
-                return legendResult.tLegends;
+                setLogLegends(legendResult.tLegends);
             }
         }
     }
@@ -379,12 +392,12 @@ function GameBoard(props) {
     /** HANDLE CLICK ON RELIC **/
     function handleClickOnRelic(effects, effectIndex) {
         let tPlayersState = cloneDeep(playerState);
-        if (tPlayersState.relics[effectIndex] && tPlayersState.resources.shinies > 0) {
+        if (tPlayersState.relics[effectIndex] && tPlayersState.resources.relics > 0) {
             let effectsResult = processEffects(null, null, tPlayersState, effects, null,
                 cloneDeep(store), null, cloneDeep(locations), null);
             tPlayersState = effectsResult.tPlayerState;
             tPlayersState.relics[effectIndex] = false;
-            tPlayersState.resources.shinies -= 1;
+            tPlayersState.resources.relics -= 1;
             setPlayerState(effectsResult.tPlayerState);
             addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, effects);
         }

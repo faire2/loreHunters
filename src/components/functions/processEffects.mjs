@@ -6,7 +6,7 @@ import {ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs} from "../../data/idLists";
 import {activateGuardianAndLockEffects, addCardToDiscardDeck} from "./cardManipulationFuntions";
 import React from "react";
-import {Coin, Explore} from "../Symbols";
+import {Coin} from "../Symbols";
 import {LOCATIONS} from "../../data/locations";
 import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "./enums";
 
@@ -118,7 +118,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.destroyThisCard:
                     if (tCard !== null) {
-                    tPlayerState = removeCard(tCard, tPlayerState);
+                        tPlayerState = removeCard(tCard, tPlayerState);
                     }
                     break;
 
@@ -129,7 +129,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                    // if a player reaches lost city during research of a legend, we set that location state accordingly
+                // if a player reaches lost city during research of a legend, we set that location state accordingly
                 case EFFECT.discoverLostCity:
                     if (!tPlayerState.discoveredLostCity) {
                         tPlayerState.discoveredLostCity = true;
@@ -149,11 +149,15 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 //if player has not discovered lost city we will return negative state
-                    case EFFECT.hasDiscoveredLostCity:
+                case EFFECT.canActivateLostCity:
                     if (!tPlayerState.placeholder) {
                         processedAllEffects = false;
                         return;
                     }
+                    break;
+
+                case EFFECT.canActivateL3Location:
+                    tPlayerState.canDiscoverL3Locations = true;
                     break;
 
                 case EFFECT.draw1:
@@ -165,7 +169,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.drawFromDrawDeckOrDiscard:
-                    rewardsData = {type: REWARD_TYPE.card, data: [...tPlayerState.discardDeck, ...tPlayerState.drawDeck]}
+                    rewardsData = {
+                        type: REWARD_TYPE.card,
+                        data: [...tPlayerState.discardDeck, ...tPlayerState.drawDeck]
+                    };
                     showRewardsModal = true;
                     break;
 
@@ -205,10 +212,17 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.explore += 1;
                     break;
 
+                case EFFECT.gainMapIfFirst:
+                    tPlayerState.resources.maps += 1;
+                    break;
+
                 case EFFECT.gainCoinOrExploreIfFirst:
-                    rewardsData = ({type: REWARD_TYPE.effectsArr, data: [{effects: [EFFECT.gainCoin], effectsText: <Coin/>},
-                            {effects: [EFFECT.gainExplore], effectsText: <Explore/>}]});
-                    showRewardsModal = true;
+                case EFFECT.gainExploreOrMapIfFirst:
+                    // effects are processed in rewards modal
+                    break;
+
+                case EFFECT.gainMap:
+                    tPlayerState.resources.maps +=1;
                     break;
 
                 case EFFECT.gainDiscoveryBonus:
@@ -234,10 +248,15 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gain2CoinsOrPassAnd3:
                     showRewardsModal = true;
-                    rewardsData = {type: REWARD_TYPE.effectsArr, data: [
-                        {effects: [EFFECT.gainCoin, EFFECT.gainCoin], effectsText: <div><Coin/><Coin/></div>},
-                        {effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.finishRound], effectsText: <div><Coin/><Coin/><Coin/></div>}
-                        ]};
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            {effects: [EFFECT.gainCoin, EFFECT.gainCoin], effectsText: <div><Coin/><Coin/></div>},
+                            {
+                                effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.finishRound],
+                                effectsText: <div><Coin/><Coin/><Coin/></div>
+                            }
+                        ]
+                    };
                     break;
 
                 case EFFECT.gainCoinAndExploresForGuardians:
@@ -290,7 +309,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.gainExploreForRelics:
                     let allRelics = tPlayerState.resources.relics;
                     for (let relic of tPlayerState.relics) {
-                        if (!relic) {allRelics += 1}
+                        if (!relic) {
+                            allRelics += 1
+                        }
                     }
                     tPlayerState.resources.explore += allRelics > 3 ? allRelics : 3;
                     break;
@@ -317,7 +338,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainRelic:
-                    tPlayerState.resources.shinies += 1;
+                    tPlayerState.resources.relics += 1;
                     break;
 
                 case EFFECT.gainShip:
@@ -360,6 +381,15 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.loseExplore:
                     if (tPlayerState.resources.explore > 0) {
                         tPlayerState.resources.explore -= 1;
+                    } else {
+                        processedAllEffects = false;
+                        return;
+                    }
+                    break;
+
+                case EFFECT.loseMap:
+                    if (tPlayerState.resources.maps > 0) {
+                        tPlayerState.resources.maps -= 1;
                     } else {
                         processedAllEffects = false;
                         return;
@@ -526,6 +556,6 @@ export function handleGuardianArrival(tPlayerState, tStore, round) {
         tPlayerState = activateGuardianAndLockEffects(tPlayerState, [tStore.guardians[0]],
             [tStore.guardians[0].lockEffects]);
     }
-        tStore.guardians.splice(0, 1);
+    tStore.guardians.splice(0, 1);
     return {tPlayerState: tPlayerState, tStore: tStore}
 }

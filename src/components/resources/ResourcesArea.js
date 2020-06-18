@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {AdventurerToken, Coin, Explore, Jeep, Jewel, Blimp, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
+import {AdventurerToken, Blimp, Coin, Explore, Jeep, Jewel, Map, Ship, Text, Walk, Weapon} from "../Symbols";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {PlayerTabs} from "../scoring/ScoringPanel";
 import {INCOME_SIZE} from "../functions/enums";
@@ -135,14 +135,15 @@ const Resources = (props) => {
                     <Jewel/>
                     {resources.jewels}
                 </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.relics)}>
-                    <Shiny/>
-                    {resources.shinies}
+                <div>
+                    <Map/>
+                    {resources.maps}
                 </div>
             </div>
             <div style={secondColumnFieldStyle}>
                 {availableAdventurers}
             </div>
+            {/*todo include relics*/}
             <div style={secondColumnFieldStyle}>
                 {walkIcons.map(icon =>
                     icon

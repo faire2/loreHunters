@@ -30,6 +30,9 @@ import treasure from "../img/symbols/Treasure.png"
 import freeAction from "../img/symbols/freeAction.png"
 import cardDiscount from "../img/symbols/CardDiscount.png"
 import flash from "../img/symbols/Flash.png"
+import map from "../img/symbols/Map.png"
+import silverAssistantBgr from "../img/incomes/silverBack.png"
+import goldAssistantBgr from "../img/incomes/goldBack.png"
 
 const responsive = {
     height: "1em",
@@ -51,7 +54,7 @@ export const Text = (props) => <img src={text} alt="gain a text"style={responsiv
 export const Weapon = (props) => <img src={weapon} alt="gain a weapon"style={responsive} />;
 export const Jewel = (props) => <img src={jewel} alt="gain a jewel"style={responsive} />;
 export const Arrow = (props) => <img src={arrow} alt="exchanged for"style={responsive} />;
-export const Shiny = (props) => <img src={shiny} alt="shinies"style={responsive} />;
+export const Relic = (props) => <img src={shiny} alt="shinies" style={responsive} />;
 export const Guardian = (props) => <img src={guardian} alt="guardian"style={responsive} />;
 export const Artifact = (props) => <img src={artifact} alt="artifact"style={responsive} />;
 export const Uptrade = (props) => <img src={uptrade} alt="uptrade"style={responsive} />;
@@ -65,6 +68,9 @@ export const VictoryPoints = (props) => <img src={victoryPoints} alt="victory po
 export const Treasure = (props) => <img src={treasure} alt="treasure" style={responsive} />;
 export const FreeAction = (props) => <img src={freeAction} alt="treasure" style={responsive} />;
 export const Flash = (props) => <img src={flash} alt="action" style={responsive} />;
+export const Map = (props) => <img src={map} alt="map" style={responsive} />;
+export const SilverAssistant = (props) => <img src={silverAssistantBgr} alt="silver assistant background" style={responsive} />;
+export const GoldAssistant = (props) => <img src={goldAssistantBgr} alt="gold assistant background" style={responsive} />;
 
 export const AdventurerIcon = () =>
     <svg width="15" height="15" viewBox="0 0 99 119">

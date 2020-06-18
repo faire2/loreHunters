@@ -1,11 +1,9 @@
 import React from 'react';
-import {Legends2} from "../../data/legends";
 import {Field} from "./tiles/Field";
 import victoryPoints from "../../img/symbols/VP.png";
 
 export function Legend(props) {
-    const idLegend = props.legend;
-    const jsxLegend = Legends2[idLegend.id];
+    const legend = props.legend;
 
     const containerStyle = {
         position: "relative",
@@ -35,12 +33,12 @@ export function Legend(props) {
             {props.points}
         </div>;
 
-    const columns = jsxLegend.fields.map((column, i) =>
+    const columns = legend.fields.map((column, i) =>
         <div style={columnStyle} key={"column" + i}>
-            <VictoryPoints points={jsxLegend.victoryPoints[i]}/>
+            <VictoryPoints points={legend.victoryPoints[i]}/>
             {column.map((field, y) =>
                 <div key={y}>
-                    <Field height={field.size} field={field} positions={idLegend.positions} columnIndex={i} fieldIndex={y}
+                    <Field height={field.size} field={field} positions={legend.positions} columnIndex={i} fieldIndex={y}
                         legendIndex={props.legendIndex}/>
                 </div>
             )}

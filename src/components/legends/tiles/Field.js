@@ -2,11 +2,11 @@ import React, {useContext} from "react";
 import block1 from "../../../img/legends/blok1.png"
 import block2 from "../../../img/legends/blok2.png"
 import block3 from "../../../img/legends/blok3.png"
-import {FIELD_SIZE} from "../../../data/legends"
+import {FIELD_SIZE} from "../../../data/legends.mjs"
 import {AdventurerToken} from "../../Symbols";
 import {BoardStateContext} from "../../../Contexts";
-import {EFFECT} from "../../../data/effects";
 import {GLOBAL_VARS} from "../../../data/idLists";
+import {getJsxElement} from "../../functions/getJsxElement";
 
 export const Field = (props) => {
     const columnHeight = props.height;
@@ -14,23 +14,10 @@ export const Field = (props) => {
     const fieldIndex = props.fieldIndex;
     const positions = props.positions;
     const boardStateContext = useContext(BoardStateContext);
-    const legend = {...boardStateContext.legends[props.legendIndex]};
     const numOfPlayers = boardStateContext.numOfPlayers;
     // how many times has the field been entered and used
-    let usage = legend.usage[columnIndex][fieldIndex];
 
-    let effectsTextArr = props.field.effectsText;
     let effectsArr = props.field.effects;
-    if ((usage > 0 && numOfPlayers < 4) || (numOfPlayers === 4 && usage > 1)) {
-        if (effectsArr[0] === EFFECT.gainExploreIfFirst || effectsArr[0] === EFFECT.gainCoinIfFirst) {
-            effectsTextArr.splice(0, 1);
-            effectsArr.splice(0, 1);
-        }
-        if (effectsArr[0] === EFFECT.gainCoinOrExploreIfFirst) {
-            effectsTextArr.splice(0, 3);
-            effectsArr.splice(0, 1);
-        }
-    }
 
     // set background and element height
     let background = null;
@@ -95,16 +82,18 @@ export const Field = (props) => {
 
     const effectsText =
         <div style={effectsTextStyle}>
-            {effectsTextArr.map((effect, i) =>
-                effect
+            {effectsArr.map((effect, i) =>
+                <div key={i}>
+                    {getJsxElement(effect)}
+                </div>
             )}
         </div>;
 
     const costText =
         <div style={costTextStyle}>
-            {props.field.costText.map((effect, i) =>
+            {props.field.cost.map((effect, i) =>
                 <div style={{marginLeft: "-0.4vw"}} key={i}>
-                    {effect}
+                    {getJsxElement(effect)}
                 </div>
             )}
         </div>;
@@ -121,12 +110,7 @@ export const Field = (props) => {
     }
 
     function handleClickOnField() {
-        let tLegends = boardStateContext.handleClickOnLegend(props.legendIndex, columnIndex, fieldIndex, effectsArr);
-        if (tLegends) {
-            legend.usage[columnIndex][fieldIndex] = usage + 1;
-            tLegends[props.legendIndex].usage[columnIndex][fieldIndex] += 1;
-            boardStateContext.setLegends(tLegends);
-        }
+        boardStateContext.handleClickOnLegend(props.legendIndex, columnIndex, fieldIndex);
     }
 
     return (

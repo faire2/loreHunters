@@ -1,7 +1,6 @@
 import {EFFECT} from "./effects.mjs";
 import {
     Arrow,
-    Blimp,
     Coin,
     DefeatedGuardian,
     DestroyCard,
@@ -9,12 +8,9 @@ import {
     Draw1Card,
     Explore,
     Item,
-    Jeep,
     Jewel,
-    Shiny,
-    Ship,
+    Relic,
     Text,
-    Walk,
     Weapon
 } from "../components/Symbols";
 import React from "react";
@@ -184,7 +180,7 @@ export const LOCATIONS = Object.freeze({
     },
     lc1: {
         id: "lc1",
-        effectsText: <div style={rowStyle}><Shiny/></div>,
+        effectsText: <div style={rowStyle}><Relic/></div>,
         effects: [EFFECT.gainRelic],
         useCost: {transportType: TRANSPORT_TYPE.plane, amount: 1}
     },

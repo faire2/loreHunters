@@ -9,7 +9,7 @@ import {INCOME_SIZE} from "../functions/enums";
 export function LegendsArea() {
     const boardStateContext = useContext(BoardStateContext);
     const legends = boardStateContext.legends;
-    const store = boardStateContext.store
+    const store = boardStateContext.store;
     let incomes1offer;
     let incomes2offer;
     if (store !== null) {
