@@ -9,6 +9,7 @@ import React from "react";
 import {Coin} from "../Symbols";
 import {LOCATIONS} from "../../data/locations";
 import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "./enums";
+import {getAssistantsChoice} from "./incomesFunctions";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {
@@ -222,7 +223,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainMap:
-                    tPlayerState.resources.maps +=1;
+                    tPlayerState.resources.maps += 1;
                     break;
 
                 case EFFECT.gainDiscoveryBonus:
@@ -434,6 +435,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         processedAllEffects = false;
                         return;
                     }
+                    break;
+
+                case EFFECT.gainOrUpgradeAssistant:
+                    rewardsData = {type: REWARD_TYPE.addAssistant, data: getAssistantsChoice(tPlayerState, tStore)}
+                    showRewardsModal = true;
                     break;
 
                 case EFFECT.progress:

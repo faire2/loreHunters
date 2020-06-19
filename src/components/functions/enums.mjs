@@ -85,11 +85,12 @@ export const LCL_STORAGE = Object.freeze({
 });
 
 export const REWARD_TYPE = Object.freeze({
+    addAssistant: "income token",
     card: "card",
-    incomeToken: "income token",
     effectsArr: "array of effects",
-    location: "location",
     legendFieldEffects: "combined effects of a legend field",
+    location: "location",
+    removeAssistant: "remove an assistant",
 });
 export const TRANSMISSIONS = Object.freeze({
     createGame: "set up a new game",

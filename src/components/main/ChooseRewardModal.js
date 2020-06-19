@@ -32,7 +32,6 @@ export default function ChooseRewardModal() {
         console.debug("Rewards modal opened. Rewards:");
         console.debug(rewards);
     }
-
     const containerStyle = {
         display: "flex",
         flexFlow: "column",
@@ -56,7 +55,8 @@ export default function ChooseRewardModal() {
             case (REWARD_TYPE.card):
                 element = <Card card={reward}/>;
                 break;
-            case REWARD_TYPE.incomeToken:
+            case REWARD_TYPE.addAssistant:
+            case REWARD_TYPE.removeAssistant:
                 element = <IncomeTile income={reward}/>;
                 break;
             case REWARD_TYPE.legendFieldEffects:
@@ -90,7 +90,7 @@ export default function ChooseRewardModal() {
                     tPlayerState.hand.push(reward);
                 }
                 break;
-            case REWARD_TYPE.incomeToken:
+            case REWARD_TYPE.addAssistant:
                 reward.state = INCOME_STATE.ready;
                 tPlayerState.incomes.push(reward);
                 if (reward.level === INCOME_LEVEL.silver) {
@@ -102,14 +102,31 @@ export default function ChooseRewardModal() {
                     }
                 } else {
                     if (tStore.incomes2Deck.length > 0) {
-                        tStore.incomes2Offer.splice(index, 1, tStore.incomes2Deck[0]);
+                        tStore.incomes2Offer.splice(index - tStore.incomes1Offer.length, 1, tStore.incomes2Deck[0]);
                         tStore.incomes2Deck.splice(0, 1);
                     } else {
                         tStore.incomes2Offer.splice(index, 1, 0);
                     }
+                    // if gold assistant was gained, we have to remove a silver one he has replaced
+                    let silverAssistants = [];
+                    for (let assistant of tPlayerState.incomes){
+                        if (assistant.level === INCOME_LEVEL.silver) {
+                            silverAssistants.push(assistant);
+                        }
+                    }
+                    rewards.push({type: REWARD_TYPE.removeAssistant, data: silverAssistants});
                 }
                 tPlayerState = handleIncome(tPlayerState, reward);
                 break;
+            case REWARD_TYPE.removeAssistant:
+                let assistantIndex = null;
+                for (let i = 0; i < tPlayerState.incomes.length; i++) {
+                    if (tPlayerState.incomes[i].id === reward.id) {
+                        assistantIndex = i;
+                    }
+                }
+                tPlayerState.incomes.splice(assistantIndex, 1);
+                    break;
             case REWARD_TYPE.effectsArr:
                 const effectsResult = processEffects(null, null, tPlayerState, effects, null, null, null, null);
                 if (effectsResult.processedAllEffects) {

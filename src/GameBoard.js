@@ -44,6 +44,7 @@ import {
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./components/functions/enums";
+import {getAssistantsChoice, hasSilverIncome} from "./components/functions/incomesFunctions";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -309,15 +310,14 @@ function GameBoard(props) {
                     if (columnIndex === 1) {
                         const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
                         rewardsData.push({type: REWARD_TYPE.card, data: expeditionsArr});
-                    } else if (columnIndex === 0) {
-                        const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
-                        rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
-                    } else if (columnIndex === 2) {
-                        const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
-                        rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
+                    } else if (columnIndex === 0 || columnIndex === 2) {
+                        rewardsData.push({
+                            type: REWARD_TYPE.addAssistant,
+                            data: getAssistantsChoice(playerState, store)
+                        });
                     }
                 }
-                // some cards need rewards modal window to choose between possible effects
+               // some cards need rewards modal window to choose between possible effects
                 if (legendResult.showRewardsModal) {
                     rewardsData.push(legendResult.rewardsData);
                 }

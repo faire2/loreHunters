@@ -261,7 +261,6 @@ export function processExplorationDiscount(discount, explorationCostEffects) {
 /*export function getExplorationCost(location, playerState, exploreDiscount) {*/
 export function getExplorationCost(locationType, locationLevel, exploreDiscount, playerState) {
     let exploreCost = null;
-    debugger
 
     if (locationType === LOCATION_TYPE.brown) {
         if (locationLevel === LOCATION_LEVEL["2"]) {
