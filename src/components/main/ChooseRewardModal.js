@@ -9,12 +9,11 @@ import {handleIncome} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
 import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, LOCATION_STATE, REWARD_TYPE} from "../functions/enums";
 import Location from "../locations/Location";
-import {LOCATIONS} from "../../data/locations";
-import {LOCATION_IDs} from "../../data/idLists";
-import {exploreLocation} from "../locations/handleLocation";
-import {removeExploredLocation} from "../locations/locationFunctions";
+import {removeExploredLocation} from "../locations/functions/locationFunctions";
 import {replaceFirsUserJointLegendResource} from "../legends/legendsFunctions";
 import {Legends2} from "../../data/legends.mjs";
+import {exploreLocation} from "../locations/functions/exploreLocation";
+import {Guardians} from "../../data/guardians";
 
 
 export default function ChooseRewardModal() {
@@ -64,7 +63,7 @@ export default function ChooseRewardModal() {
                 element = reward.effectsText;
                 break;
             case REWARD_TYPE.location:
-                element = <Location location={LOCATIONS[reward.id]} idLocation={reward}/>;
+                element = <Location location={reward}/>;
                 break;
             case null:
                 break;
@@ -151,21 +150,24 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.location:
                 const locationPositionsObj = rewards[0].params;
-                const locationId = reward.id;
-                let location = LOCATION_IDs[locationId];
+                let location = reward;
                 location.index = locationPositionsObj.index;
                 location.line = locationPositionsObj.line;
                 location.state = LOCATION_STATE.explored;
-                location.effects = LOCATIONS[locationId].effects;
-                location.effectsText = LOCATIONS[locationId].effectsText;
                 const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location,
                     boardStateContext.round);
                 if (explorationResult) {
+                    tPlayerState.availableAdventurers -= 1;
+                    location.guardian = Guardians[tLocations.guardianKeys[0]];
+                    tLocations.guardianKeys.splice(0, 1);
+                    location.state = LOCATION_STATE.guarded;
                     tLocations[locationPositionsObj.line][locationPositionsObj.index] = location;
                     tPlayerState = explorationResult.playerState;
+                    location.adventurers.push(tPlayerState.playerIndex);
+                    tPlayerState.adventurers -= 1;
                     tLocations = removeExploredLocation(location, explorationResult.locations);
                     tStore = explorationResult.store;
-                    rewards.push(explorationResult.modalRewardData[0]);
+                    /*rewards.push(explorationResult.modalRewardData[0]);*/
                 }
                 break;
             default:

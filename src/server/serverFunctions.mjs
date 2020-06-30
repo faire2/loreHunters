@@ -1,10 +1,9 @@
 // insert player into null position or push him to the end
 import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {ITEM_IDs} from "../data/idLists.mjs";
+import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
 import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
 import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
-import {GLOBAL_VARS} from "../data/idLists.mjs";
 
 export function handleIncomes(playerState) {
     for (let income of playerState.incomes) {
@@ -87,24 +86,28 @@ export function processEndOfRound(room) {
     /* remove adventurers from locations */
     console.log("removing adventurers");
     let tLocations = cloneDeep(room.states.locations);
+    const extraFear = {0: 0, 1: 0, 2: 0, 3: 0};
     for (let key in tLocations) {
         let locationLine = tLocations[key];
         for (let location of locationLine) {
-            if (location.state === LOCATION_STATE.occupied) {
-                location.state = LOCATION_STATE.explored;
-                location.owner = null;
+            /* owner of each adventurer in a guarded location gains a fear */
+            if (location.state === LOCATION_STATE.guarded) {
+                for (let playerId of location.adventurers) {
+                    extraFear[playerId] += 1;
+                }
             }
+            location.adventurers = [];
         }
     }
     room.states.locations = tLocations;
-
-    /* reset player states */
-    let tPlayerStates = [];
 
     /* pass turn to next initial player */
     room.states.initialPlayer = room.states.initialPlayer !== room.players.length - 1 ? room.states.initialPlayer + 1 : 0;
     room.states.activePlayer = room.states.initialPlayer;
     console.log("turn passed to player " + room.states.initialPlayer);
+
+    /* prepare array for updated playerstates */
+    let tPlayerStates = [];
 
     for (let i = 0; i < room.numOfPlayers; i++) {
         console.log("resetting playerState" + i);
@@ -122,6 +125,11 @@ export function processEndOfRound(room) {
             }
         }
         tPlayerState.activeCards = [];
+
+        /* gain fears for adventurers in guarded locations */
+        for (let x = 0; x < extraFear[i]; x++) {
+            tPlayerState.discardDeck.push(cloneDeep(ITEM_IDs.fear));
+        }
 
         /* move cards from hand to discard */
         for (let card of tPlayerState.hand) {

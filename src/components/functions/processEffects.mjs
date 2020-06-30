@@ -1,15 +1,16 @@
 import {addCardToStore, drawCards, removeCard} from "./cardManipulationFuntions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
-import {payForTravelIfPossible} from "../locations/locationFunctions.mjs";
+import {payForTravelIfPossible} from "../locations/functions/locationFunctions.mjs";
 import {ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs} from "../../data/idLists";
 import {activateGuardianAndLockEffects, addCardToDiscardDeck} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin} from "../Symbols";
-import {LOCATIONS} from "../../data/locations";
+import {Locations} from "../../data/locations";
 import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
+import {updateLocations} from "../locations/functions/locationFunctions";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {
@@ -88,7 +89,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         return;
                     }
 
-                case EFFECT.defeatThisGuardian:
+                // this code was for defeating a guardian represented by card
+                /*case EFFECT.defeatThisGuardian:
                     if (tCard) {
                         if (tCard.type === CARD_TYPE.guardian) {
                             tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
@@ -104,6 +106,16 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                         tActiveEffects.splice(0, 3);
                     }
+                    break;*/
+
+                case EFFECT.defeatThisGuardian:
+                    if (location) {
+                        if (location.state === LOCATION_STATE.guarded) {
+                            location.guardian = null;
+                            location.state = LOCATION_STATE.explored;
+                            tLocations = updateLocations(location, tLocations);
+                        } else {console.warn("Location was not guarded!")}
+                    } else {console.log("No location found in the function, unable to defeat guardian.")}
                     break;
 
                 case EFFECT.destroyCard:
@@ -139,7 +151,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                                 if (location.type === LOCATION_TYPE.lostCity && location.state === LOCATION_STATE.unexplored) {
                                     location.state = LOCATION_STATE.explored;
                                     // the lost city is activated too
-                                    const cityEffects = LOCATIONS[location.id].effects;
+                                    const cityEffects = Locations[location.id].effects;
                                     const cityResults = processEffects(null, null, tPlayerState, cityEffects,
                                         null, null, null, null);
                                     tPlayerState = cityResults.tPlayerState;
@@ -424,10 +436,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
+                // higher form of transport can be used to pay for a lower one
                 case EFFECT.loseWalk:
                 case EFFECT.loseJeep:
                 case EFFECT.loseShip:
-                case EFFECT.losePlane:
+                case EFFECT.loseBlimp:
                     const travelResults = payForTravelIfPossible(tPlayerState, null, effect);
                     if (travelResults.enoughResources) {
                         tPlayerState = travelResults.tPlayerState;
@@ -471,7 +484,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     }
 
     if (!processedAllEffects) {
-        console.log("Some effects could not be processed in processEffects");
+        console.log("Some effects could not be processed in processEffects:");
+        console.log(effects);
         return {
             tPlayerState: originalPlayersState,
             tStore: originalStore,

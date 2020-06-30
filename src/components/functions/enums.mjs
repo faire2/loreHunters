@@ -60,7 +60,7 @@ export const LOCATION_TYPE = Object.freeze({
 export const LOCATION_STATE = Object.freeze({
     unexplored: "unexplored",
     explored: "explored",
-    occupied: "occupied",
+    guarded: "guarded",
 });
 
 export const INCOME_LEVEL = Object.freeze({

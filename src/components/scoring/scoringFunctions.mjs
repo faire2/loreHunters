@@ -1,8 +1,9 @@
 import {ITEM_IDs} from "../../data/idLists";
-import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
+import {ARTIFACTS, ITEMS} from "../../data/cards";
 import {Legends2} from "../../data/legends.mjs";
 import {getLogLegends} from "../main/logger";
 import {CARD_TYPE} from "../functions/enums";
+import {Guardians} from "../../data/guardians";
 
 export function getPoints(playerState) {
     const legends = getLogLegends();
@@ -33,7 +34,7 @@ export function getPoints(playerState) {
     const defeatedGuardians = playerState.destroyedCards.filter(card => card.type === CARD_TYPE.guardian);
     let defeatedGuardianPoints = 0;
     for (let card of defeatedGuardians) {
-        defeatedGuardianPoints += GUARDIANS[card.id].points;
+        defeatedGuardianPoints += Guardians[card.id].points;
     }
 
     /* Legends2 */

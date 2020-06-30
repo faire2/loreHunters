@@ -1,13 +1,13 @@
-import {LOCATION_IDs} from "../../../data/idLists.mjs";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../enums.mjs";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../enums.mjs";
 import {shuffleArray} from "../cardManipulationFuntions.mjs";
-import {LOCATION_LINE} from "../enums.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
+import {Locations} from "../../../data/locations.mjs";
+import {Guardians} from "../../../data/guardians.mjs";
 
-/* INITIAL LOCATIONS */
+/* INITIAL Locations */
 export function getInitialLocations(numOfPlayers) {
-    let locations = LOCATION_IDs;
-    const locationKeys = shuffleArray(Object.keys(locations));
+    const locationKeys = shuffleArray(Object.keys(Locations));
+    const guardianKeys = shuffleArray(Object.keys(Guardians));
 
     let level1 = [];
     let level2Green = [];
@@ -19,8 +19,16 @@ export function getInitialLocations(numOfPlayers) {
     const lineLocationMaximum = 4;
 
     for (let i = 0; i < locationKeys.length; i++) {
-        let location = locations[locationKeys[i]];
+        let location = Locations[locationKeys[i]];
         location.state = LOCATION_TYPE.basic === location.type ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
+
+        // slots describe how many players can be using the location at once
+        location.slots = LOCATION_TYPE.basic === location.type ? 2 : 1;
+
+        // every location has array to hold adventurers
+        location.adventurers = [];
+
+        // locations are sorted according to their type
         switch (location.level) {
             case LOCATION_LEVEL["1"]:
                 location.line = LOCATION_LINE.line1;
@@ -67,7 +75,8 @@ export function getInitialLocations(numOfPlayers) {
         level2Green: level2Green,
         level3Brown: level3Brown,
         level3Green: level3Green,
-        lostCity: level3LostCity
+        lostCity: level3LostCity,
+        guardianKeys: guardianKeys
     };
 }
 
@@ -76,8 +85,8 @@ function getEmptyLocations(locationLine, numberOfLocations) {
     let brownLocationsArr = [];
 
     for (let i = 0; i < numberOfLocations / 2; i++) {
-        greenLocationsArr.push(cloneDeep(LOCATION_IDs.emptyGreenLocation));
-        brownLocationsArr.push(cloneDeep(LOCATION_IDs.emptyBrownLocation));
+        greenLocationsArr.push(cloneDeep(Locations.emptyGreenLocation));
+        brownLocationsArr.push(cloneDeep(Locations.emptyBrownLocation));
     }
     let emptyLocationsArr = [...greenLocationsArr, ...brownLocationsArr];
     for (let i = 0; i < emptyLocationsArr.length; i++) {

@@ -11,7 +11,7 @@ export const emptyPlayerState = Object.freeze({
         weapons: 0,
         jewels: 0,
         relics: 0,
-        maps: 1,
+        maps: 2,
         walk: 0,
         jeep: 0,
         ship: 0,

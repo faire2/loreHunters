@@ -12,7 +12,7 @@ import {
     payForTravelIfPossible
 } from "./locationFunctions";
 import {handleGuardianArrival, processEffects} from "../functions/processEffects";
-import {GUARDIANS} from "../../data/cards";
+import {Guardians} from "../../data/cards";
 import {addLogEntry} from "../main/logger";
 import React from "react";
 import {cloneDeep} from "lodash";
@@ -96,7 +96,7 @@ function handleLocationExploration(playerState, locations, store, location, loca
             locations[locationLine][locationPosition].state = LOCATION_STATE.explored;
 
             // player can choose between effect of location and discovery effect of next guardian
-            const guardian = GUARDIANS[store.guardians[0].id];
+            const guardian = Guardians[store.guardians[0].id];
             const locationLevel = LOCATION_IDs[location.id].level;
             // guardian effects are different when location level is 2 and 3
             const guardianText = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryTextRow :

@@ -81,7 +81,7 @@ export const EFFECT = Object.freeze({
     loseWalk: "lose a walk",
     loseJeep: "lose a jeep",
     loseShip: "lose a ship",
-    losePlane: "lose a plane",
+    loseBlimp: "lose a plane",
     markOwnLocation: "mark location for adjacency / non-identity check",
     moveAdvToEmptyLocation: "move deployed adventurer to a different empty tLocation",
     moveAdvToEmptyAdjacentLocation: "move deployed adventurer to an adjacent tLocation",

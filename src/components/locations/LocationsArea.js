@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
-import {LOCATIONS} from "../../data/locations";
 import Location from "./Location";
 import map from "../../img/map.png"
 import {cloneDeep} from "lodash";
@@ -34,7 +33,6 @@ export default function LocationsArea() {
         position: "absolute",
         marginTop: allLinesPresent > 0 ? "0.5vw" : "3vw",
     };
-
     return (
         <div style={container}>
             <div style={verticalCenter}>
@@ -46,8 +44,8 @@ export default function LocationsArea() {
                                 return <div key={"empty" + i} style={empty}></div>
                             } else {
                                 return (
-                                    <div key={"locationLine1-" + i}>
-                                        <Location location={cloneDeep(LOCATIONS[location.id])} idLocation={location}/>
+                                    <div key={"locationLine4-" + i}>
+                                        <Location location={cloneDeep(location)}/>
                                     </div>
                                 )
                             }
@@ -58,16 +56,16 @@ export default function LocationsArea() {
                 <div style={locationStyle} className="d-flex flex-row position-relative">
                     <br/>
                     {locations !== null && locations.line3.map((location, i) =>
-                        <div key={"locationLine1-" + i}>
-                            <Location location={cloneDeep(LOCATIONS[location.id])} idLocation={location}/>
+                        <div key={"locationLine3-" + i}>
+                            <Location location={cloneDeep(location)}/>
                         </div>
                     )}
                 </div>
                 <div style={leftMargin}>
                     <div style={locationStyle} className="d-flex flex-row position-relative">
                         {locations !== null && locations.line2.map((location, i) =>
-                            <div key={"locationLine1-" + i}>
-                                <Location location={cloneDeep(LOCATIONS[location.id])} idLocation={location}/>
+                            <div key={"locationLine2-" + i}>
+                                <Location location={cloneDeep(location)}/>
                             </div>
                         )}
                     </div>
@@ -75,7 +73,7 @@ export default function LocationsArea() {
                 <div style={locationStyle} className="d-flex flex-row position-relative">
                     {locations !== null && locations.line1.map((location, i) =>
                         <div key={"locationLine1-" + i}>
-                            <Location location={cloneDeep(LOCATIONS[location.id])} idLocation={location}/>
+                            <Location location={cloneDeep(location)}/>
                         </div>
                     )}
                 </div>

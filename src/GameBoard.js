@@ -35,7 +35,7 @@ import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
-import {handleLocation} from "./components/locations/handleLocation";
+import {handleLocation} from "./components/locations/functions/handleLocation";
 import {
     ACTION_TYPE,
     CARD_STATE,
@@ -260,11 +260,11 @@ function GameBoard(props) {
     }
 
     /** LOCATION EFFECTS **/
-    function handleClickOnLocation(location) {
+    function handleClickOnLocation(location, resolveGuardian) {
         if (isActivePlayer && !showRewardsModal) {
             console.log("Clicked on location " + location.id);
             const locationResult = handleLocation(cloneDeep(playerState), cloneDeep(store), cloneDeep(locations),
-                cloneDeep(location), round, setRewardsModal);
+                cloneDeep(location), round, setRewardsModal, resolveGuardian);
             if (locationResult) {
                 if (locationResult.playerState) {
                     setPlayerState(locationResult.playerState);

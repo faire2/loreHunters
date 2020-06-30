@@ -1,3 +1,4 @@
+/*
 import {
     ARTIFACT_IDs,
     EXPEDITIONS_IDs,
@@ -16,7 +17,7 @@ import {
     LOCATION_STATE,
     LOCATION_TYPE
 } from "../enums";
-/*
+/!*
 
 /!* GLOBAL VARIABLES *!/
 export const GLOBAL_VARS = Object.freeze({
@@ -125,13 +126,13 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*!/
 
-        /*const testCard = {...ITEM_IDs.revolver};
+        /!*const testCard = {...ITEM_IDs.revolver};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*!/
 
-        /*const testCard1 = {...GUARDIAN_IDs.energyLeech};
+        /!*const testCard1 = {...GUARDIAN_IDs.energyLeech};
         testCard.state = CARD_STATE.discard;
-        playerState.discardDeck.splice(0, 0, testCard1);*/
+        playerState.discardDeck.splice(0, 0, testCard1);*!/
 
         /!*for (let key in ITEM_IDs) {
             let card = {...ITEM_IDs[key]};
@@ -215,7 +216,7 @@ export function getInitialStore() {
 }
 
 
-/!* INITIAL LOCATIONS *!/
+/!* INITIAL Locations *!/
 export function getInitialLocations(numOfPlayers) {
     let locations = LOCATION_IDs;
     const locationKeys = shuffleArray(Object.keys(locations));
@@ -391,4 +392,5 @@ export function shuffleArray(array) {
         [array[i], array[rand]] = [array[rand], array[i]];
     }
     return array;
-}*/
+}*!/
+*/

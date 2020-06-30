@@ -9,7 +9,7 @@ import {
     getLocationIndex,
     isLocationAdjancentToAdventurer,
     resolveRelocation
-} from "../locations/locationFunctions";
+} from "../locations/functions/locationFunctions";
 import {Jewel, Text, Weapon} from "../Symbols";
 import {gainLockedResourceBack} from "./processEffects";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./enums";

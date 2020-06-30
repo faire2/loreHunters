@@ -6,7 +6,7 @@ import {FIELD_SIZE} from "../../../data/legends.mjs"
 import {AdventurerToken} from "../../Symbols";
 import {BoardStateContext} from "../../../Contexts";
 import {GLOBAL_VARS} from "../../../data/idLists";
-import {getJsxElement} from "../../functions/getJsxElement";
+import {getJsxSymbol} from "../../functions/getJsxSymbol";
 
 export const Field = (props) => {
     const columnHeight = props.height;
@@ -84,7 +84,7 @@ export const Field = (props) => {
         <div style={effectsTextStyle}>
             {effectsArr.map((effect, i) =>
                 <div key={i}>
-                    {getJsxElement(effect)}
+                    {getJsxSymbol(effect)}
                 </div>
             )}
         </div>;
@@ -93,7 +93,7 @@ export const Field = (props) => {
         <div style={costTextStyle}>
             {props.field.cost.map((effect, i) =>
                 <div style={{marginLeft: "-0.4vw"}} key={i}>
-                    {getJsxElement(effect)}
+                    {getJsxSymbol(effect)}
                 </div>
             )}
         </div>;

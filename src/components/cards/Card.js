@@ -1,14 +1,13 @@
 import React, {useContext, useState} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
-import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, GUARDIANS, ITEMS} from "../../data/cards";
+import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, ITEMS} from "../../data/cards";
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import basicItemBgr from "../../img/cardBackgrounds/basicItemBackground.png"
 import fearBgr from "../../img/cardBackgrounds/fearBgr.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
-import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
 import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
-import transportHighlight from "../../img/cardBackgrounds/transportHighlight.png"
+import transportHighlight from "../../img/transportHighlight.png"
 import {
     AdventurerIcon,
     Blimp,
@@ -47,9 +46,9 @@ export default function Card(props) {
     } else if (cardType === CARD_TYPE.artifact) {
         cardTemplate = ARTIFACTS[props.card.id];
         cardBackground = artifactBgr;
-    } else if (cardType === CARD_TYPE.guardian) {
+    /*} else if (cardType === CARD_TYPE.guardian) {
         cardTemplate = GUARDIANS[props.card.id];
-        cardBackground = guardianBgr;
+        cardBackground = guardianBgr;*/
     } else if (cardType === CARD_TYPE.goalCard) {
         cardTemplate = EXPEDITIONS[props.card.id];
         cardBackground = expeditionBgr;
