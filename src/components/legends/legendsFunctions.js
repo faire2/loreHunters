@@ -85,7 +85,6 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
             tempIndex = previousColumn[0].size === FIELD_SIZE["2"] ? 1 : 0;
         }
         prevPositions.push(tempIndex);
-        console.log(prevPositions);
         if (field.size === 1) {
             for (let position of positions) {
                 if (jsxLegend.fields[columnIndex][0].size === FIELD_SIZE["2"]) {

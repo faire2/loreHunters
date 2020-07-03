@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import block1 from "../../../img/legends/blok1.png"
 import block2 from "../../../img/legends/blok2.png"
 import block3 from "../../../img/legends/blok3.png"
+import lostCity from "../../../img/legends/lostCity.png"
 import {FIELD_SIZE} from "../../../data/legends.mjs"
 import {AdventurerToken} from "../../Symbols";
 import {BoardStateContext} from "../../../Contexts";
@@ -22,18 +23,27 @@ export const Field = (props) => {
     // set background and element height
     let background = null;
     let height = null;
+    let width = null;
     switch (columnHeight) {
         case FIELD_SIZE["1"]:
             background = block1;
             height = "6vw";
+            width = "5vw";
             break;
         case FIELD_SIZE["2"]:
             background = block2;
             height = "12.5vw";
+            width = "5vw";
             break;
         case FIELD_SIZE["3"]:
             background = block3;
             height = "19vw";
+            width = "5vw";
+            break;
+        case FIELD_SIZE.lostCity:
+            background = lostCity;
+            height = "19vw";
+            width = "13vw";
             break;
         default:
             console.log("Unable to process COLUMN_HEIGHT at Column: " + columnHeight);
@@ -41,11 +51,11 @@ export const Field = (props) => {
 
     const containerStyle = {
         position: "relative",
-        width: "5vw",
+        width: width,
         marginBottom: "0.5vw",
         backgroundImage: `url(${background}`,
         backgroundSize: "100% 100%",
-        height: `${height}`,
+        height: height,
     };
 
     const effectsTextStyle = {

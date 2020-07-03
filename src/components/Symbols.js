@@ -15,7 +15,7 @@ import text from "../img/symbols/T.png"
 import weapon from "../img/symbols/W.png"
 import jewel from "../img/symbols/J.png"
 import arrow from "../img/symbols/A.png"
-import shiny from "../img/symbols/D.png"
+import shiny from "../img/relics/Relic.png"
 import guardian from "../img/symbols/G.png"
 import artifact from "../img/symbols/Artifact.png"
 import uptrade from "../img/symbols/UptradeIcon.png"
@@ -33,6 +33,8 @@ import flash from "../img/symbols/Flash.png"
 import map from "../img/symbols/Map.png"
 import silverAssistantBgr from "../img/incomes/silverBack.png"
 import goldAssistantBgr from "../img/incomes/goldBack.png"
+import silverRelic from "../img/relics/RelicSilver.png"
+import goldRelic from "../img/relics/RelicGold.png"
 
 const responsive = {
     height: "1em",
@@ -71,6 +73,8 @@ export const Flash = (props) => <img src={flash} alt="action" style={responsive}
 export const Map = (props) => <img src={map} alt="map" style={responsive} />;
 export const SilverAssistant = (props) => <img src={silverAssistantBgr} alt="silver assistant background" style={responsive} />;
 export const GoldAssistant = (props) => <img src={goldAssistantBgr} alt="gold assistant background" style={responsive} />;
+export const SilverRelic = (props) => <img src={silverRelic} alt="silver silver relic" style={responsive} />;
+export const GoldRelic = (props) => <img src={goldRelic} alt="gold relic" style={responsive} />;
 
 export const AdventurerIcon = () =>
     <svg width="15" height="15" viewBox="0 0 99 119">

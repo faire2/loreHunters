@@ -1,6 +1,20 @@
 import React, {useContext, useState} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {AdventurerToken, Blimp, Coin, Explore, Jeep, Jewel, Map, Ship, Text, Walk, Weapon} from "../Symbols";
+import {
+    AdventurerToken,
+    Blimp,
+    Coin,
+    Explore,
+    GoldRelic,
+    Jeep,
+    Jewel,
+    Map,
+    Ship,
+    SilverRelic,
+    Text,
+    Walk,
+    Weapon
+} from "../Symbols";
 import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {PlayerTabs} from "../scoring/ScoringPanel";
 import {INCOME_SIZE} from "../functions/enums";
@@ -110,6 +124,14 @@ const Resources = (props) => {
     for (let i = 0; i < resources.plane; i++) {
         blimpIcons.push(<Blimp/>)
     }
+    let silverRelicIcons = [];
+    for (let i = 0; i < resources.silverRelics; i++) {
+        silverRelicIcons.push(<SilverRelic/>)
+    }
+    let goldRelicIcons = [];
+    for (let i = 0; i < resources.goldRelics; i++) {
+        goldRelicIcons.push(<GoldRelic/>)
+    }
 
 
     return (
@@ -143,7 +165,6 @@ const Resources = (props) => {
             <div style={secondColumnFieldStyle}>
                 {availableAdventurers}
             </div>
-            {/*todo include relics*/}
             <div style={secondColumnFieldStyle}>
                 {walkIcons.map(icon =>
                     icon
@@ -161,6 +182,15 @@ const Resources = (props) => {
             </div>
             <div style={secondColumnFieldStyle}>
                 {blimpIcons.map(icon =>
+                    icon
+                )}
+            </div><div style={secondColumnFieldStyle}>
+                {silverRelicIcons.map(icon =>
+                    icon
+                )}
+            </div>
+            <div style={secondColumnFieldStyle}>
+                {goldRelicIcons.map(icon =>
                     icon
                 )}
             </div>

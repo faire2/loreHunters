@@ -27,7 +27,6 @@ import {
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {processUptrade} from "./components/resources/resourcesFunctions";
-import {handleGuardianArrival, processIncomeTile} from "./components/functions/processEffects";
 import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
@@ -45,6 +44,9 @@ import {
     TRANSMISSIONS
 } from "./components/functions/enums";
 import {getAssistantsChoice, hasSilverIncome} from "./components/functions/incomesFunctions";
+import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
+import {processIncomeTile} from "./components/functions/processIncome";
+import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -128,11 +130,9 @@ function GameBoard(props) {
         }
 
         document.addEventListener("keydown", handleKeyPress);
-        /*window.addEventListener("beforeunload", clearLocalStorage);*/
 
         return () => {
             document.removeEventListener("keydown", handleKeyPress);
-            /*window.removeEventListener("beforeunload", handleKeyPress)*/
         };
     }, []);
 
@@ -145,6 +145,9 @@ function GameBoard(props) {
         } else if (e.keyCode === 38) {
             e.preventDefault();
             setExtendTopPanel(value => !value);
+        } else if (e.keyCode === 37) {
+            e.preventDefault();
+            setExtendLeftPanel(value => !value);
         }
     }
 
@@ -158,9 +161,11 @@ function GameBoard(props) {
         }
     }, [isActivePlayer]);
 
+    // extending panels contain controls and information areas
     const [extendTopPanel, setExtendTopPanel] = useState(false);
     const [extendRightPanel, setExtendRightPanel] = useState(false);
     const [extendBottomPanel, setExtendBottomPanel] = useState(false);
+    const [extendLeftPanel, setExtendLeftPanel] = useState(false);
 
     // rewards are an array with objects describing values: {type: ..., data: [{effects: ..., effectsText: ...}, ...]
     const [rewardsModalData, setRewardsModalData] = useState([]);
@@ -317,7 +322,7 @@ function GameBoard(props) {
                         });
                     }
                 }
-               // some cards need rewards modal window to choose between possible effects
+                // some cards need rewards modal window to choose between possible effects
                 if (legendResult.showRewardsModal) {
                     rewardsData.push(legendResult.rewardsData);
                 }
@@ -421,6 +426,12 @@ function GameBoard(props) {
                 setStore(tStore);
             }
         }
+    }
+
+    /** HANDLE LOST CITY **/
+    function handleLostCity(tPlayerstate) {
+        setPlayerState(tPlayerstate);
+        setExtendRightPanel(false);
     }
 
     /** CANCEL EFFECTS **/
@@ -537,6 +548,7 @@ function GameBoard(props) {
         nextPlayer: nextPlayer,
         handleClickOnResource: handleClickOnResource,
         handleClickOnRelic: handleClickOnRelic,
+        handleLostCity: handleLostCity,
         cancelEffects: cancelEffects,
         undo: undo,
         revert: revert,
@@ -558,6 +570,7 @@ function GameBoard(props) {
             <TopSlidingPanel extendPanel={extendTopPanel}/>
             <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
             <RightSlidingPanel extendPanel={extendRightPanel}/>
+            <LeftSlidingPanel extendPanel={extendLeftPanel}/>
             <ExtendPanelButton extendPanel={extendBottomPanel}/>
             <ChooseRewardModal/>
         </div>;

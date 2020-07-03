@@ -4,7 +4,8 @@ import {EFFECT} from "./effects.mjs";
 export const FIELD_SIZE = Object.freeze({
     1: 1,
     2: 2,
-    3: 3
+    3: 3,
+    lostCity: "lost city",
 });
 
 export const Legends2 = Object.freeze({
@@ -108,7 +109,7 @@ export const Legends2 = Object.freeze({
 
                 {
                     effects: [EFFECT.discoverLostCity],
-                    cost: [EFFECT.loseJewel, EFFECT.loseJewel],
+                    cost: [EFFECT.loseText, EFFECT.loseJewel],
                     size: FIELD_SIZE["3"],
                 }
             ]

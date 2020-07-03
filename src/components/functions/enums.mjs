@@ -118,3 +118,9 @@ export const TRANSMISSIONS = Object.freeze({
     testData: "testData",
     usernameChanged: "usernameChanged",
 });
+
+export const BUTTON_STATE = Object.freeze({
+    active: "activated button",
+    normal: "basic button state",
+    inactive: "button cannot be activated"
+}) ;

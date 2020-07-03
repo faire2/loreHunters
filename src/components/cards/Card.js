@@ -23,8 +23,8 @@ import {
     Weapon
 } from "../Symbols";
 import {cloneDeep} from "lodash";
-import {gainLockedResourceBack} from "../functions/processEffects";
 import {CARD_STATE, CARD_TYPE} from "../functions/enums";
+import {gainLockedResourceBack} from "../functions/guardians/gainLockedResourceBack";
 
 export default function Card(props) {
     /* get JSX card */

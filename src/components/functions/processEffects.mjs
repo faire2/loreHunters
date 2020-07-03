@@ -4,11 +4,10 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import {payForTravelIfPossible} from "../locations/functions/locationFunctions.mjs";
 import {ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs} from "../../data/idLists";
-import {activateGuardianAndLockEffects, addCardToDiscardDeck} from "./cardManipulationFuntions";
+import {addCardToDiscardDeck} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin} from "../Symbols";
-import {Locations} from "../../data/locations";
-import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "./enums";
+import {CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
 
@@ -143,8 +142,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 // if a player reaches lost city during research of a legend, we set that location state accordingly
+
                 case EFFECT.discoverLostCity:
-                    if (!tPlayerState.discoveredLostCity) {
+                    /*if (!tPlayerState.discoveredLostCity) {
                         tPlayerState.discoveredLostCity = true;
                         for (let locationLineKey of Object.keys(originalLocations)) {
                             for (let location of originalLocations[locationLineKey]) {
@@ -159,9 +159,11 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             }
                         }
                     }
+                    break;*/
+                    tPlayerState.canActivateLostCity = true;
                     break;
 
-                //if player has not discovered lost city we will return negative state
+                //if player has not discovered lost city we will return negative state - currently redundant
                 case EFFECT.canActivateLostCity:
                     if (!tPlayerState.placeholder) {
                         processedAllEffects = false;
@@ -502,80 +504,4 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         showRewardsModal: showRewardsModal,
         rewardsData: rewardsData,
     };
-}
-
-export function gainLockedResourceBack(lockEffects, effects) {
-    for (let effect of lockEffects) {
-        switch (effect) {
-            case EFFECT.lockAdventurer:
-                effects.push(EFFECT.gainAdventurerForThisRound);
-                break;
-            case EFFECT.lockCard:
-                effects.push(EFFECT.unlockCard);
-                break;
-            case EFFECT.lockCoin:
-                effects.push(EFFECT.gainCoin);
-                break;
-            case EFFECT.lockExplore:
-                effects.push(EFFECT.gainExplore);
-                break;
-            case EFFECT.lockText:
-                effects.push(EFFECT.gainText);
-                break;
-            case EFFECT.lockWeapon:
-                effects.push(EFFECT.gainWeapon);
-                break;
-            case EFFECT.lockJewel:
-                effects.push(EFFECT.gainJewel);
-                break;
-            default:
-                console.log("Unable to process lockEffect in gainLockedResourceBack: " + lockEffects);
-        }
-    }
-    return effects;
-}
-
-export function processIncomeTile(effects, incomeId, playerState) {
-    for (let effect of effects) {
-        switch (effect) {
-            // this effects are handled automatically in end of round
-            case EFFECT.gainAdventurerForThisRound:
-            case EFFECT.gainCoin:
-            case EFFECT.gainExplore:
-            case EFFECT.gainText:
-            case EFFECT.gainWeapon:
-                break;
-            case EFFECT.draw1:
-            case EFFECT.buyWithDiscount1:
-            case EFFECT.gainBlimp:
-            case EFFECT.uptrade:
-                const effectsResult = processEffects(null, null, playerState, [effect], null,
-                    null, null, null, null);
-                playerState = effectsResult.tPlayerState;
-
-                break;
-            default:
-                console.log("Unable to process effect in handleClickOnIncomeTile: ");
-                console.log(effects);
-        }
-    }
-    for (let income of playerState.incomes) {
-        if (income.id === incomeId) {
-            income.state = INCOME_STATE.spent;
-            break;
-        }
-    }
-    return playerState
-}
-
-export function handleGuardianArrival(tPlayerState, tStore, round) {
-    if (round < 5) {
-        tPlayerState.discardDeck.push(tStore.guardians[0]);
-        tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
-    } else {
-        tPlayerState = activateGuardianAndLockEffects(tPlayerState, [tStore.guardians[0]],
-            [tStore.guardians[0].lockEffects]);
-    }
-    tStore.guardians.splice(0, 1);
-    return {tPlayerState: tPlayerState, tStore: tStore}
 }

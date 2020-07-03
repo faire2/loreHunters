@@ -308,7 +308,7 @@ export function getLocationsForExploration(playerState, locations, exploreDiscou
             const brown3CostEffects = getExplorationCost(LOCATION_TYPE.brown, LOCATION_LEVEL["3"], exploreDiscount, playerState);
             const brown3result = processEffects(null, null, playerState, brown3CostEffects, null,
                 null, null, null);
-            if (brown3result.processedAllEffects) {
+            if (brown3result.processedAllEffects && playerState.canDiscoverL3Locations) {
                 locationsArr.push(locations.level3Brown[0]);
             }
         }
@@ -321,7 +321,8 @@ export function getLocationsForExploration(playerState, locations, exploreDiscou
             const green3CostEffects = getExplorationCost(LOCATION_TYPE.green, LOCATION_LEVEL["3"], exploreDiscount, playerState);
             const green3result = processEffects(null, null, playerState, green3CostEffects, null,
                 null, null, null);
-            if (green3result.processedAllEffects) {
+            debugger
+            if (green3result.processedAllEffects && playerState.canDiscoverL3Locations) {
                 locationsArr.push(locations.level3Green[0]);
             }
         }

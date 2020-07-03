@@ -11,8 +11,8 @@ import {
     resolveRelocation
 } from "../locations/functions/locationFunctions";
 import {Jewel, Text, Weapon} from "../Symbols";
-import {gainLockedResourceBack} from "./processEffects";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./enums";
+import {gainLockedResourceBack} from "./guardians/gainLockedResourceBack";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];
