@@ -200,7 +200,7 @@ export const Locations = Object.freeze({
         id: "emptyLocation",
         effects: [],
         useCost: null,
-        type: LOCATION_TYPE.emptyBrownLocation,
+        type: LOCATION_TYPE.emptyLocation,
         level: LOCATION_LEVEL["2"],
     },
     emptyBrownLocation: {

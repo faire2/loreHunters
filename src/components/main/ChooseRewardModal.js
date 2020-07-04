@@ -157,14 +157,16 @@ export default function ChooseRewardModal() {
                 const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location,
                     boardStateContext.round);
                 if (explorationResult) {
-                    tPlayerState.availableAdventurers -= 1;
                     location.guardian = Guardians[tLocations.guardianKeys[0]];
                     tLocations.guardianKeys.splice(0, 1);
                     location.state = LOCATION_STATE.guarded;
                     tLocations[locationPositionsObj.line][locationPositionsObj.index] = location;
                     tPlayerState = explorationResult.playerState;
+                    tPlayerState.availableAdventurers -= 1;
                     location.adventurers.push(tPlayerState.playerIndex);
-                    tPlayerState.adventurers -= 1;
+                    const locationResult = processEffects(null, null, tPlayerState, location.effects,
+                        null, null, null, null);
+                    tPlayerState = locationResult.tPlayerState;
                     tLocations = removeExploredLocation(location, explorationResult.locations);
                     tStore = explorationResult.store;
                     /*rewards.push(explorationResult.modalRewardData[0]);*/

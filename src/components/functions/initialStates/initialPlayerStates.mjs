@@ -13,7 +13,7 @@ export const emptyPlayerState = Object.freeze({
         relics: 0,
         silverRelics: 0,
         goldRelics: 0,
-        maps: 2,
+        maps: 1,
         walk: 0,
         jeep: 0,
         ship: 0,

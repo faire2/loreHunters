@@ -10,10 +10,12 @@ export function getInitialLocations(numOfPlayers) {
     const guardianKeys = shuffleArray(Object.keys(Guardians));
 
     let level1 = [];
-    let level2Green = [];
+    /*let level2Green = [];
     let level3Green = [];
     let level2Brown = [];
-    let level3Brown = [];
+    let level3Brown = [];*/
+    let level2 = [];
+    let level3 = [];
     let level3LostCity = [];
 
     const lineLocationMaximum = 4;
@@ -35,17 +37,18 @@ export function getInitialLocations(numOfPlayers) {
                 level1.push(location);
                 break;
             case LOCATION_LEVEL["2"]:
-                if (location.type === LOCATION_TYPE.brown) {
+                /*if (location.type === LOCATION_TYPE.brown) {
                     level2Brown.push(location);
                 } else if (location.type === LOCATION_TYPE.green) {
                     level2Green.push(location);
                 } else {
                     console.log("Unable to process location type in getInitialLocations: ");
                     console.log(location);
-                }
+                }*/
+                level2.push(location);
                 break;
             case LOCATION_LEVEL["3"]:
-                if (location.type === LOCATION_TYPE.brown) {
+                /*if (location.type === LOCATION_TYPE.brown) {
                     level3Brown.push(location);
                 } else if (location.type === LOCATION_TYPE.green) {
                     level3Green.push(location);
@@ -54,10 +57,11 @@ export function getInitialLocations(numOfPlayers) {
                 } else {
                     console.log("Unable to process location type in getInitialLocations: ");
                     console.log(location);
-                }
+                }*/
+                level3.push(location);
                 break;
             default:
-                console.log("Unable to process location level in getInitialLocations: " + locations[locationKeys[i]]);
+                console.log("Unable to process location level in getInitialLocations: " + Locations[locationKeys[i]]);
         }
     }
 
@@ -71,24 +75,32 @@ export function getInitialLocations(numOfPlayers) {
         line2: line2,
         line3: line3,
         line4: line4,
-        level2Brown: level2Brown,
+        /*level2Brown: level2Brown,
         level2Green: level2Green,
         level3Brown: level3Brown,
-        level3Green: level3Green,
+        level3Green: level3Green,*/
+        level2Locations: level2,
+        level3Locations: level3,
         lostCity: level3LostCity,
         guardianKeys: guardianKeys
     };
 }
 
 function getEmptyLocations(locationLine, numberOfLocations) {
-    let greenLocationsArr = [];
+    /*let greenLocationsArr = [];
     let brownLocationsArr = [];
 
     for (let i = 0; i < numberOfLocations / 2; i++) {
         greenLocationsArr.push(cloneDeep(Locations.emptyGreenLocation));
         brownLocationsArr.push(cloneDeep(Locations.emptyBrownLocation));
     }
-    let emptyLocationsArr = [...greenLocationsArr, ...brownLocationsArr];
+    let emptyLocationsArr = [...greenLocationsArr, ...brownLocationsArr];*/
+
+    let emptyLocationsArr = [];
+    for (let i = 0; i < numberOfLocations; i++) {
+        emptyLocationsArr.push(cloneDeep(Locations.emptyLocation));
+    }
+
     for (let i = 0; i < emptyLocationsArr.length; i++) {
         emptyLocationsArr[i].index = i;
         emptyLocationsArr[i].line = locationLine;

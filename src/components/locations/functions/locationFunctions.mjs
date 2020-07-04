@@ -267,27 +267,37 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
     switch (locationType) {
         case LOCATION_TYPE.brown:
             if (locationLevel === LOCATION_LEVEL["2"]) {
-                exploreCost = [EFFECT.loseJeep, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseJeep, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore];
             } else if (locationLevel === LOCATION_LEVEL["3"]) {
-                exploreCost = [EFFECT.loseJeep, EFFECT.loseJeep, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseJeep, EFFECT.loseJeep, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             }
             break;
         case LOCATION_TYPE.green:
             if (locationLevel === LOCATION_LEVEL["2"]) {
-                exploreCost = [EFFECT.loseShip, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseShip, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore];
             } else if (locationLevel === LOCATION_LEVEL["3"]) {
-                exploreCost = [EFFECT.loseShip, EFFECT.loseShip, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseShip, EFFECT.loseShip, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             }
             break;
-        case LOCATION_TYPE.lostCity:
-            exploreCost = [EFFECT.canActivateLostCity];
+        case LOCATION_TYPE.undetermined:
+            if (locationLevel === LOCATION_LEVEL["2"]) {
+                exploreCost = [EFFECT.loseWalk, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, ];
+            } else if (locationLevel === LOCATION_LEVEL["3"]) {
+                exploreCost = [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+            }
             break;
+            // todo remove - this was used when lost city was a location
+            /*case LOCATION_TYPE.lostCity:
+            exploreCost = [EFFECT.canActivateLostCity];
+            break;*/
         case LOCATION_TYPE.basic:
         case LOCATION_TYPE.emptyBrownLocation:
         case LOCATION_TYPE.emptyGreenLocation:
+        case LOCATION_TYPE.emptyLocation:
             exploreCost = [];
             break;
         default:
+            debugger
         console.warn("Unable to recognize location type.");
     }
 
@@ -298,6 +308,7 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
 }
 
 export function getLocationsForExploration(playerState, locations, exploreDiscount, locationType) {
+    // todo remove empty brown and green location parts if not necessary
     let locationsArr = [];
     if (locationType === LOCATION_TYPE.emptyBrownLocation) {
         const brown2CostEffects = getExplorationCost(LOCATION_TYPE.brown, LOCATION_LEVEL["2"], exploreDiscount, playerState);
@@ -321,9 +332,21 @@ export function getLocationsForExploration(playerState, locations, exploreDiscou
             const green3CostEffects = getExplorationCost(LOCATION_TYPE.green, LOCATION_LEVEL["3"], exploreDiscount, playerState);
             const green3result = processEffects(null, null, playerState, green3CostEffects, null,
                 null, null, null);
-            debugger
-            if (green3result.processedAllEffects && playerState.canDiscoverL3Locations) {
+            if (green3result.processedAllEffects) {
                 locationsArr.push(locations.level3Green[0]);
+            }
+        }
+    } else if (locationType === LOCATION_TYPE.emptyLocation) {
+        const location2Effects = getExplorationCost(LOCATION_TYPE.undetermined, LOCATION_LEVEL["2"], exploreDiscount, playerState);
+        const location2Result = processEffects(null, null, playerState, location2Effects, null,
+            null, null, null);
+        if (location2Result.processedAllEffects) {
+            locationsArr.push(locations.level2Locations[0]);
+            const location3effects = getExplorationCost(LOCATION_TYPE.undetermined, LOCATION_LEVEL["3"], exploreDiscount, playerState);
+            const location3result = processEffects(null, null, playerState, location3effects, null,
+                null, null, null);
+            if (location3result.processedAllEffects) {
+                locationsArr.push(locations.level3Locations[0]);
             }
         }
     } else {
@@ -335,20 +358,20 @@ export function getLocationsForExploration(playerState, locations, exploreDiscou
 }
 
 export function removeExploredLocation(location, locations) {
+    //todo rewrite for unified locatins (location type checking is redundant)
     if (location.type === LOCATION_TYPE.green) {
         if (location.level === LOCATION_LEVEL["2"]) {
-            locations.level2Green.splice(0, 1);
+            locations.level2Locations.splice(0, 1);
         } else if (location.level === LOCATION_LEVEL["3"]) {
-            locations.level3Green.splice(0, 1);
+            locations.level3Locations.splice(0, 1);
         } else {
             console.warn("Unable to determine location level:" + location.level);
         }
-
     } else if (location.type === LOCATION_TYPE.brown) {
         if (location.level === LOCATION_LEVEL["2"]) {
-            locations.level2Brown.splice(0, 1);
+            locations.level2Locations.splice(0, 1);
         } else if (location.level === LOCATION_LEVEL["3"]) {
-            locations.level3Brown.splice(0, 1);
+            locations.level3Locations.splice(0, 1);
         } else {
             console.warn("Unable to determine location level:" + location.level);
         }

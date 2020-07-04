@@ -50,11 +50,13 @@ export const LOCATION_LINE = Object.freeze({
 
 export const LOCATION_TYPE = Object.freeze({
     basic: "basic location",
+    undetermined: "undetermined type of location",
     green: "green location",
     brown: "brown location",
     lostCity: "lost city",
-    emptyBrownLocation: "empty brown location",
-    emptyGreenLocation: "empty green location",
+    /*emptyBrownLocation: "empty brown location",
+    emptyGreenLocation: "empty green location",*/
+    emptyLocation: "empty location",
 });
 
 export const LOCATION_STATE = Object.freeze({

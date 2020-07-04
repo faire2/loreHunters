@@ -71,7 +71,7 @@ export const Legends2 = Object.freeze({
             /* 5 */
             [
                 {
-                    effects: [EFFECT.gainMap, EFFECT.canActivateL3Location],
+                    effects: [EFFECT.gainMap],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     size: FIELD_SIZE["3"],
                 },

@@ -107,7 +107,6 @@ export function LostCity() {
         }
         setChosenEffects([false, false, false]);
         playerStateContext.handleLostCity(tPlayerState);
-        debugger
     }
 
     return (

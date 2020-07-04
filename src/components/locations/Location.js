@@ -32,7 +32,7 @@ export default function Location(props) {
 
     // location background
     if (location.type === LOCATION_TYPE.brown) {
-        locationBackground = <BgeBrownEmpty/>
+        locationBackground = <BgeBrownEmpty/>;
         if (location.level === LOCATION_LEVEL["2"]) {
             locationUnexploredBackground = <BgrBrownUnexplored/>;
         } else if (location.level === LOCATION_LEVEL["3"]) {
@@ -45,6 +45,9 @@ export default function Location(props) {
         } else if (location.level === LOCATION_LEVEL["3"]) {
             locationUnexploredBackground = <BgrGreenUnexplored/>
         }
+    } else if (location.type === LOCATION_TYPE.undetermined) {
+        locationBackground = <BgrEmpty/>;
+        locationUnexploredBackground = <BgrGreenUnexplored/>
     } else if (location.type === LOCATION_TYPE.basic) {
         /*exploreCostText = null;*/
         if (location.id === "5") {
@@ -55,7 +58,8 @@ export default function Location(props) {
     } else if (location.type === LOCATION_TYPE.lostCity) {
         locationBackground = <BgrLostCity/>;
         locationUnexploredBackground = <BgrBrownUnexplored/>;
-    } else if (location.type === LOCATION_TYPE.emptyBrownLocation || location.type === LOCATION_TYPE.emptyGreenLocation) {
+    } else if (location.type === LOCATION_TYPE.emptyBrownLocation || location.type === LOCATION_TYPE.emptyGreenLocation
+            || location.type === LOCATION_TYPE.emptyLocation) {
         locationBackground = <BgrEmpty/>;
         locationUnexploredBackground = <BgrEmpty/>;
     } else {
@@ -64,7 +68,7 @@ export default function Location(props) {
 
     const containerStyle = {
         width: "7vw",
-        height: "4vw",
+        height: "4.2vw",
         position: "relative",
         textAlign: "center",
         marginRight: "0.5vw",

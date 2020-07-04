@@ -41,7 +41,7 @@ export default function LocationsArea() {
                         <br/>
                         {locations !== null && locations.line4.map((location, i) => {
                             if (location === "empty") {
-                                return <div key={"empty" + i} style={empty}></div>
+                                return <div key={"empty" + i} style={empty}/>
                             } else {
                                 return (
                                     <div key={"locationLine4-" + i}>

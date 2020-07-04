@@ -8,7 +8,7 @@ import {
     areLinesAdjacent,
     getLocationIndex,
     isLocationAdjancentToAdventurer,
-    resolveRelocation
+    resolveRelocation, updateLocations
 } from "../locations/functions/locationFunctions";
 import {Jewel, Text, Weapon} from "../Symbols";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./enums";
@@ -96,7 +96,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.defeatGuardian:
-            if (tCard !== null && tCard.type === CARD_TYPE.guardian) {
+            /*if (tCard !== null && tCard.type === CARD_TYPE.guardian) {
                 tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
                 tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
                 tPlayerState = removeCard(tCard, tPlayerState);
@@ -108,7 +108,14 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                     tStore = effectsResult.tStore;
                 }
                 tPlayerState.activeEffects.splice(0, 1);
-            }
+            }*/
+            if (tLocation) {
+                if (tLocation.state === LOCATION_STATE.guarded) {
+                    tLocation.guardian = null;
+                    tLocation.state = LOCATION_STATE.explored;
+                    tLocations = updateLocations(tLocation, tLocations);
+                } else {console.warn("Location was not guarded!")}
+            } else {console.log("No location found in the function, unable to defeat guardian.")}
             break;
 
         case EFFECT.destroyCard:

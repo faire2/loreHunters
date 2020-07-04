@@ -26,8 +26,8 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
             case LOCATION_STATE.unexplored:
                 const exploreDiscount = hasPlayerExplorationDiscount(tPlayerState);
                 //if user clicked on empty location, give back choice modal with relevant locations
-                if (location.type === LOCATION_TYPE.emptyBrownLocation || location.type === LOCATION_TYPE.emptyGreenLocation) {
-                    if (isLocationAdjancentToAdventurer(location, tLocations, tPlayerState) || exploreDiscount) {
+                if (location.type === LOCATION_TYPE.emptyLocation) {
+                    /*if (isLocationAdjancentToAdventurer(location, tLocations, tPlayerState) || exploreDiscount) {*/
                         console.log("Looking for suitable locations");
                         let suitableLocations = getLocationsForExploration(tPlayerState, tLocations, exploreDiscount, location.type);
                         if (suitableLocations && suitableLocations.length > 0) {
@@ -39,9 +39,9 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
                         } else {
                             console.log("No suitable locations available for exploration");
                         }
-                    } else {
+                    /*} else {
                         console.log("Unexplored location is not adjacent. Exploration not started.");
-                    }
+                    }*/
                     //if user clicked on a location in exploration modal, exploration is triggered from there
                 }
                 return false;
