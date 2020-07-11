@@ -8,7 +8,6 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
     let transportType = null;
     let transportCost = null;
-
     // if we have location we check for its cost and free slots
     if (location !== null && location.slots > location.adventurers.length) {
         transportType = location.useCost.transportType;
@@ -260,12 +259,12 @@ export function processExplorationDiscount(discount, explorationCostEffects) {
     return tExplorationEffects;
 }
 
-/*export function getExplorationCost(location, playerState, exploreDiscount) {*/
 export function getExplorationCost(locationType, locationLevel, exploreDiscount, playerState) {
     let exploreCost = null;
 
     switch (locationType) {
         case LOCATION_TYPE.brown:
+        case LOCATION_TYPE.emptyBrownLocation:
             if (locationLevel === LOCATION_LEVEL["2"]) {
                 exploreCost = [EFFECT.loseJeep, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore];
             } else if (locationLevel === LOCATION_LEVEL["3"]) {
@@ -273,6 +272,7 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
             }
             break;
         case LOCATION_TYPE.green:
+        case LOCATION_TYPE.emptyGreenLocation:
             if (locationLevel === LOCATION_LEVEL["2"]) {
                 exploreCost = [EFFECT.loseShip, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore];
             } else if (locationLevel === LOCATION_LEVEL["3"]) {
@@ -291,13 +291,10 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
             exploreCost = [EFFECT.canActivateLostCity];
             break;*/
         case LOCATION_TYPE.basic:
-        case LOCATION_TYPE.emptyBrownLocation:
-        case LOCATION_TYPE.emptyGreenLocation:
         case LOCATION_TYPE.emptyLocation:
             exploreCost = [];
             break;
         default:
-            debugger
         console.warn("Unable to recognize location type.");
     }
 

@@ -1,6 +1,6 @@
 import {getExplorationCost} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
-import {ACTION_TYPE, LOCATION_STATE} from "../../functions/enums";
+import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE} from "../../functions/enums";
 import {addLogEntry} from "../../main/logger";
 import React from "react";
 import {EFFECT} from "../../../data/effects";
@@ -19,7 +19,7 @@ export function exploreLocation(playerState, locations, store, location, round) 
         playerState = explorationCostResult.tPlayerState;
         // if exploration discount active effect is present the action has already been substracted
         playerState.actions -= exploreDiscount ? 0 : 1;
-        playerState.resources.relics += 1;
+        location.level === LOCATION_LEVEL["2"] ? playerState.resources.relics += 1 : playerState.resources.relics += 2;
 
         // mark location as guarded
         locations[location.line][location.index].state = LOCATION_STATE.guarded;

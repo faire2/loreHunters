@@ -6,6 +6,7 @@ import {ACTION_TYPE} from "../functions/enums";
 import {Coin, Explore, Map} from "../Symbols";
 import React from "react";
 import {FIELD_SIZE, Legends2} from "../../data/legends.mjs";
+import {GLOBAL_VARS} from "../../data/idLists";
 
 export function getDiscountForProgress(effects, activeEffect) {
     if (activeEffect === EFFECT.progressWithTexts) {
@@ -31,34 +32,16 @@ export function getDiscountForProgress(effects, activeEffect) {
     }
 }
 
-export function getIsRewardDue(columnIndex, positions) {
-    let tokensBehind = 0;
-    if (columnIndex === 0) {
-        for (let position of positions) {
-            if (position.columnIndex === null) {
-                tokensBehind += 1;
-            }
-        }
-    } else {
-        for (let position of positions) {
-            if (position.columnIndex < columnIndex || position.columnIndex === null) {
-                tokensBehind += 1;
-            }
-        }
-    }
-    // if two tokens are behind, no reward is awarded
-    return tokensBehind < 2;
-}
-
 export function processLegend(legends, legendIndex, columnIndex, fieldIndex, effects, playerState, store, locations) {
-    const jsxLegend = Legends2[legends[legendIndex].id];
-    const field = jsxLegend.fields[columnIndex][fieldIndex];
+    const legend = Legends2[legends[legendIndex].id];
+    const field = legend.fields[columnIndex][fieldIndex];
 
     const playerIndex = playerState.playerIndex;
     const positions = legends[legendIndex].positions[playerIndex];
     const previousColumnIndex = columnIndex - 1;
     let canPlaceToken = false;
     const prevPositions = [];
+    let tokenIndex;
 
     // if first column was clicked we check if the player has any null column position
     if (columnIndex === 0) {
@@ -69,58 +52,61 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
             }
         }
         // if not we check if player has any token in previous column
-    } else if (checkTokenColumns(positions, columnIndex - 1)) {
-        const previousColumn = jsxLegend.fields[columnIndex - 1];
+    } else {
+        tokenIndex = checkTokenColumns(positions, columnIndex - 1)
+        if (tokenIndex) {
+            const previousColumn = legend.fields[columnIndex - 1];
 
-        // prepare positions in previous column as if there were three elements
-        // first index is always 0
-        prevPositions.push(0);
-        // second position can be 0 or 1
-        let tempIndex = previousColumn[0].size === FIELD_SIZE["1"] ? 1 : 0;
-        prevPositions.push(tempIndex);
-        // third position has three possibilities
-        if (previousColumn[0].size === FIELD_SIZE["1"]) {
-            tempIndex = previousColumn[1].size === FIELD_SIZE["1"] ? 2 : 1;
-        } else {
-            tempIndex = previousColumn[0].size === FIELD_SIZE["2"] ? 1 : 0;
-        }
-        prevPositions.push(tempIndex);
-        if (field.size === 1) {
-            for (let position of positions) {
-                if (jsxLegend.fields[columnIndex][0].size === FIELD_SIZE["2"]) {
-                    if (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1]) {
-                        canPlaceToken = true;
-                        break;
-                    }
-                } else {
-                    if (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex]) {
-                        canPlaceToken = true;
-                        break;
+            // prepare positions in previous column as if there were three elements
+            // first index is always 0
+            prevPositions.push(0);
+            // second position can be 0 or 1
+            let tempIndex = previousColumn[0].size === FIELD_SIZE["1"] ? 1 : 0;
+            prevPositions.push(tempIndex);
+            // third position has three possibilities
+            if (previousColumn[0].size === FIELD_SIZE["1"]) {
+                tempIndex = previousColumn[1].size === FIELD_SIZE["1"] ? 2 : 1;
+            } else {
+                tempIndex = previousColumn[0].size === FIELD_SIZE["2"] ? 1 : 0;
+            }
+            prevPositions.push(tempIndex);
+            if (field.size === 1) {
+                for (let position of positions) {
+                    if (legend.fields[columnIndex][0].size === FIELD_SIZE["2"]) {
+                        if (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1]) {
+                            canPlaceToken = true;
+                            break;
+                        }
+                    } else {
+                        if (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex]) {
+                            canPlaceToken = true;
+                            break;
+                        }
                     }
                 }
-            }
-        } else if (field.size === 2) {
-            for (let position of positions) {
-                if ((position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex])
-                    || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1])) {
-                    canPlaceToken = true;
-                    break
+            } else if (field.size === 2) {
+                for (let position of positions) {
+                    if ((position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex])
+                        || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1])) {
+                        canPlaceToken = true;
+                        break
+                    }
                 }
-            }
-        } else if (field.size === 3) {
-            for (let position of positions) {
-                if ((position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex])
-                    || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1])
-                    || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 2])) {
-                    canPlaceToken = true;
-                    break
+            } else if (field.size === 3) {
+                for (let position of positions) {
+                    if ((position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex])
+                        || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 1])
+                        || (position.columnIndex === previousColumnIndex && position.fieldIndex === prevPositions[fieldIndex + 2])) {
+                        canPlaceToken = true;
+                        break
+                    }
                 }
             }
         }
     }
     if (canPlaceToken) {
         const activeEffect = playerState.activeEffects[0];
-        const tPlayerState = cloneDeep(playerState);
+        let tPlayerState = cloneDeep(playerState);
         if (activeEffect === EFFECT.progressWithTexts || activeEffect === EFFECT.progressWithWeapon
             || activeEffect === EFFECT.progressWithJewel) {
             effects = getDiscountForProgress(effects, activeEffect);
@@ -147,7 +133,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
                                 }
                             // eslint-disable-next-line no-fallthrough
                             case FIELD_SIZE["1"]:
-                                if (jsxLegend.fields[columnIndex][fieldIndex - 1] && jsxLegend.fields[columnIndex][fieldIndex - 1].size === FIELD_SIZE["2"]) {
+                                if (legend.fields[columnIndex][fieldIndex - 1] && legend.fields[columnIndex][fieldIndex - 1].size === FIELD_SIZE["2"]) {
                                     if (position.fieldIndex === prevPositions[fieldIndex + 1]) {
                                         correctToken = true
                                     }
@@ -176,6 +162,14 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
                     }
                 }
             }
+
+            // each column has a reward for both first and second token - we have stored token index previously
+            const columnRewards = legend.columnRewards.columnIndex.tokenIndex;
+            const rewardsResult = processEffects(null, null, tPlayerState, columnRewards,
+                null, null, null, null);
+            tPlayerState = rewardsResult.tPlayerState
+
+
             addLogEntry(tPlayerState, ACTION_TYPE.researches, {column: columnIndex, field: fieldIndex}, effects);
             legends[legendIndex].positions[playerIndex] = positions;
             effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
@@ -189,20 +183,30 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
                 showRewardsModal: effectsResult.showRewardsModal
             }
         } else {
-            console.debug("Unable to pay the price to advance in research");}
+            console.debug("Unable to pay the price to advance in research");
+        }
     } else {
         console.debug("Unable to place token in check token columns");
     }
     return false
 }
 
+// returns index of token that is in correct position
 function checkTokenColumns(positions, targetColumn) {
-    for (let position of positions) {
-        if (position.columnIndex === targetColumn) {
-            return true
+    let i;
+    let tokenInTargetColumn = false;
+    for (i = 0; i < GLOBAL_VARS.numOfLegendTokens; i++) {
+        if (positions[i].columnIndex === targetColumn) {
+            tokenInTargetColumn = true;
         }
     }
-    return false
+    if (tokenInTargetColumn) {
+        // if token is not the first one we have to check that the first one is farther up on the legend
+        if (i === 0 || (positions[0].columnIndex > positions[1].columnIndex)) {
+            return i;
+        }
+    }
+    return false;
 }
 
 export function removeFirstUserLegendResource(boon, field, numOfPlayers) {
@@ -289,8 +293,11 @@ export function getJointBoons(boon) {
     if (boon.includes(EFFECT.gainExploreOrMapIfFirst)) {
         return [{effects: EFFECT.gainExplore, effectsText: <Explore/>}, {effects: EFFECT.gainMap, effectsText: <Map/>}];
     } else if (boon.includes(EFFECT.gainCoinOrExploreIfFirst)) {
-            return [{effects: EFFECT.gainCoin, effectsText: <Coin/>}, {effects: EFFECT.gainExplore, effectsText: <Explore/>}];
+        return [{effects: EFFECT.gainCoin, effectsText: <Coin/>}, {
+            effects: EFFECT.gainExplore,
+            effectsText: <Explore/>
+        }];
     } else {
-            console.log("Unable to process joint boons: " + boon);
+        console.log("Unable to process joint boons: " + boon);
     }
 }

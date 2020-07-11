@@ -54,8 +54,8 @@ export const LOCATION_TYPE = Object.freeze({
     green: "green location",
     brown: "brown location",
     lostCity: "lost city",
-    /*emptyBrownLocation: "empty brown location",
-    emptyGreenLocation: "empty green location",*/
+    emptyBrownLocation: "empty brown location",
+    emptyGreenLocation: "empty green location",
     emptyLocation: "empty location",
 });
 
@@ -126,3 +126,10 @@ export const BUTTON_STATE = Object.freeze({
     normal: "basic button state",
     inactive: "button cannot be activated"
 }) ;
+
+export const STYLE = Object.freeze({
+    row: {
+        display: "flex",
+        flexFlow: "row"
+    }
+})

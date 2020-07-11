@@ -11,7 +11,41 @@ export const FIELD_SIZE = Object.freeze({
 export const Legends2 = Object.freeze({
     legend1: {
         id: "legend1",
-        victoryPoints: [1, 2, 4, 6, 10, 15, 20, 25],
+        victoryPoints: [1, 2, 3, 5, 7, 9, 12, 15],
+        columnRewards: [
+            {
+                firstToken: [EFFECT.gainCoin],
+                secondToken: [EFFECT.gainOrUpgradeAssistant],
+            },
+            {
+                firstToken: [EFFECT.destroyCard],
+                secondToken: [EFFECT.gainOrUpgradeAssistant],
+            },
+            {
+                firstToken: [EFFECT.gainMap],
+                secondToken: [EFFECT.draw1],
+            },
+            {
+                firstToken: [EFFECT.gainMap],
+                secondToken: [EFFECT.gainOrUpgradeAssistant],
+            },
+            {
+                firstToken: [EFFECT.gainMap],
+                secondToken: [EFFECT.gainOrUpgradeAssistant],
+            },
+            {
+                firstToken: [EFFECT.draw1],
+                secondToken: [EFFECT.draw1],
+            },
+            {
+                firstToken: [EFFECT.gainCoin, EFFECT.gainMap],
+                secondToken: [EFFECT.gainCoin, EFFECT.destroyCard],
+            },
+            {
+                firstToken: [EFFECT.discoverLostCity, EFFECT.draw1],
+                secondToken: [EFFECT.draw1],
+            }
+        ],
         fields: [
             /* 1 */
             [
@@ -24,7 +58,7 @@ export const Legends2 = Object.freeze({
                     effects: [],
                     cost: [EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
-                }
+                },
             ],
             /* 2 */
             [
@@ -43,7 +77,7 @@ export const Legends2 = Object.freeze({
             [
                 {
                     effects: [EFFECT.gainMap],
-                    cost: [EFFECT.loseText, EFFECT.loseJewel],
+                    cost: [EFFECT.loseExplore, EFFECT.loseText, EFFECT.loseText],
                     size: FIELD_SIZE["3"],
                 },
             ],
@@ -52,19 +86,19 @@ export const Legends2 = Object.freeze({
 
                 {
                     effects: [EFFECT.gainMap],
-                    cost: [EFFECT.loseJewel],
+                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["1"],
                 },
                 {
                     effects: [EFFECT.gainExploreIfFirst],
                     effects3p: [EFFECT.gainExploreIfFirst, EFFECT.gainExploreIfFirst],
-                    cost: [EFFECT.loseCoin, EFFECT.loseWeapon],
+                    cost: [EFFECT.loseText, EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
                 {
                     effects: [EFFECT.gainCoinIfFirst],
                     effects4p: [EFFECT.gainCoinIfFirst, EFFECT.gainCoinIfFirst],
-                    cost: [EFFECT.loseExplore, EFFECT.loseWeapon],
+                    cost: [EFFECT.loseWeapon, EFFECT.loseWeapon],
                     size: FIELD_SIZE["1"],
                 },
             ],
@@ -72,7 +106,7 @@ export const Legends2 = Object.freeze({
             [
                 {
                     effects: [EFFECT.gainMap],
-                    cost: [EFFECT.loseText, EFFECT.loseJewel],
+                    cost: [EFFECT.loseJewel],
                     size: FIELD_SIZE["3"],
                 },
             ],
@@ -95,12 +129,12 @@ export const Legends2 = Object.freeze({
 
                 {
                     effects: [EFFECT.draw1],
-                    cost: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseWeapon],
+                    cost: [EFFECT.loseExplore, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["2"],
                 },
                 {
                     effects: [EFFECT.defeatGuardian],
-                    cost: [EFFECT.loseWeapon, EFFECT.loseWeapon],
+                    cost: [EFFECT.loseText, EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
             ],
@@ -108,10 +142,10 @@ export const Legends2 = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.discoverLostCity],
-                    cost: [EFFECT.loseText, EFFECT.loseJewel],
+                    effects: [],
+                    cost: [EFFECT.loseExplore, EFFECT.loseJewel],
                     size: FIELD_SIZE["3"],
-                }
+                },
             ]
         ]
     }

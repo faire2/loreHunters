@@ -712,5 +712,5 @@ export const GLOBAL_VARS = Object.freeze({
     artifactsInStore: 1,
     adventurers: 2,
     playerColors: ["#ffcc00", "#33cc00", "#0066ff", "#cc0000"],
-    numOfLegendTokens: 3,
+    numOfLegendTokens: 2    ,
 });

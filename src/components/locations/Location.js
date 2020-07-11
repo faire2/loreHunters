@@ -2,8 +2,7 @@ import React, {useContext} from "react";
 import {BoardStateContext} from "../../Contexts";
 import {
     BgeBrownEmpty,
-    BgrBasic,
-    BgrBasicDouble,
+    BgrBasicEmpty,
     BgrBrownUnexplored,
     BgrEmpty,
     BgrGreenEmpty,
@@ -49,12 +48,7 @@ export default function Location(props) {
         locationBackground = <BgrEmpty/>;
         locationUnexploredBackground = <BgrGreenUnexplored/>
     } else if (location.type === LOCATION_TYPE.basic) {
-        /*exploreCostText = null;*/
-        if (location.id === "5") {
-            locationBackground = <BgrBasicDouble/>
-        } else {
-            locationBackground = <BgrBasic/>
-        }
+        locationBackground = <BgrBasicEmpty/>;
     } else if (location.type === LOCATION_TYPE.lostCity) {
         locationBackground = <BgrLostCity/>;
         locationUnexploredBackground = <BgrBrownUnexplored/>;

@@ -9,16 +9,38 @@ export function getInitialLocations(numOfPlayers) {
     const locationKeys = shuffleArray(Object.keys(Locations));
     const guardianKeys = shuffleArray(Object.keys(Guardians));
 
-    let level1 = [];
-    /*let level2Green = [];
+    // find lvl 1 locations to use later
+    let level1locations = [];
+    let level2locations = [];
+    let level3locations = [];
+
+    for (let locationKey of locationKeys) {
+        let location = Locations[locationKey];
+        switch (location.type) {
+            case LOCATION_TYPE.basic:
+                level1locations.push(location);
+                break;
+            case LOCATION_TYPE.green:
+            case LOCATION_TYPE.brown:
+                if (location.level === LOCATION_LEVEL["2"]) {
+                    level2locations.push(location);
+                } else if (location.level === LOCATION_LEVEL["3"]) {
+                    level3locations.push(location);
+                }
+                break;
+            default:
+                console.log("Location not sorted: " + location.id);
+        }
+    }
+
+    /*let level1 = [];
+    let level2Green = [];
     let level3Green = [];
     let level2Brown = [];
     let level3Brown = [];*/
-    let level2 = [];
-    let level3 = [];
     let level3LostCity = [];
 
-    const lineLocationMaximum = 4;
+    /*const lineLocationMaximum = 4;*/
 
     for (let i = 0; i < locationKeys.length; i++) {
         let location = Locations[locationKeys[i]];
@@ -29,46 +51,22 @@ export function getInitialLocations(numOfPlayers) {
 
         // every location has array to hold adventurers
         location.adventurers = [];
-
-        // locations are sorted according to their type
-        switch (location.level) {
-            case LOCATION_LEVEL["1"]:
-                location.line = LOCATION_LINE.line1;
-                level1.push(location);
-                break;
-            case LOCATION_LEVEL["2"]:
-                /*if (location.type === LOCATION_TYPE.brown) {
-                    level2Brown.push(location);
-                } else if (location.type === LOCATION_TYPE.green) {
-                    level2Green.push(location);
-                } else {
-                    console.log("Unable to process location type in getInitialLocations: ");
-                    console.log(location);
-                }*/
-                level2.push(location);
-                break;
-            case LOCATION_LEVEL["3"]:
-                /*if (location.type === LOCATION_TYPE.brown) {
-                    level3Brown.push(location);
-                } else if (location.type === LOCATION_TYPE.green) {
-                    level3Green.push(location);
-                } else if (location.type === LOCATION_TYPE.lostCity) {
-                    level3LostCity.push(location);
-                } else {
-                    console.log("Unable to process location type in getInitialLocations: ");
-                    console.log(location);
-                }*/
-                level3.push(location);
-                break;
-            default:
-                console.log("Unable to process location level in getInitialLocations: " + Locations[locationKeys[i]]);
-        }
     }
 
-    const line1 = level1;
-    const line2 = getEmptyLocations(LOCATION_LINE.line2, lineLocationMaximum);
-    const line3 = getEmptyLocations(LOCATION_LINE.line3, lineLocationMaximum);
-    const line4 = getEmptyLocations(LOCATION_LINE.line4, lineLocationMaximum);
+    let line1 = [cloneDeep(Locations.emptyBrownLocation2), level1locations[0], level1locations[1], level1locations[2],
+        cloneDeep(Locations.emptyGreenLocation2)];
+    line1 = setLocationIndexAndLine(LOCATION_LINE.line1, line1)
+
+    let line2 = [cloneDeep(Locations.emptyBrownLocation2), level1locations[3], level1locations[4], cloneDeep(Locations.emptyGreenLocation2)];
+    line2 = setLocationIndexAndLine(LOCATION_LINE.line2, line2)
+
+    let line3 = [cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyGreenLocation2),
+        cloneDeep(Locations.emptyGreenLocation2)];
+    line3 = setLocationIndexAndLine(LOCATION_LINE.line3, line3)
+
+    let line4 = [cloneDeep(Locations.emptyBrownLocation3), cloneDeep(Locations.emptyBrownLocation3), cloneDeep(Locations.emptyGreenLocation3),
+        cloneDeep(Locations.emptyGreenLocation3)];
+    line4 = setLocationIndexAndLine(LOCATION_LINE.line4, line4)
 
     return {
         line1: line1,
@@ -79,27 +77,28 @@ export function getInitialLocations(numOfPlayers) {
         level2Green: level2Green,
         level3Brown: level3Brown,
         level3Green: level3Green,*/
-        level2Locations: level2,
-        level3Locations: level3,
+        level2Locations: level2locations,
+        level3Locations: level3locations,
         lostCity: level3LostCity,
         guardianKeys: guardianKeys
     };
 }
 
+// generates empty locations for lvl 2 empty locations
 function getEmptyLocations(locationLine, numberOfLocations) {
-    /*let greenLocationsArr = [];
+    let greenLocationsArr = [];
     let brownLocationsArr = [];
 
     for (let i = 0; i < numberOfLocations / 2; i++) {
-        greenLocationsArr.push(cloneDeep(Locations.emptyGreenLocation));
-        brownLocationsArr.push(cloneDeep(Locations.emptyBrownLocation));
+        greenLocationsArr.push(cloneDeep(Locations.emptyGreenLocation2));
+        brownLocationsArr.push(cloneDeep(Locations.emptyBrownLocation2));
     }
-    let emptyLocationsArr = [...greenLocationsArr, ...brownLocationsArr];*/
+    let emptyLocationsArr = [...greenLocationsArr, ...brownLocationsArr];
 
-    let emptyLocationsArr = [];
+    /*let emptyLocationsArr = [];
     for (let i = 0; i < numberOfLocations; i++) {
         emptyLocationsArr.push(cloneDeep(Locations.emptyLocation));
-    }
+    }*/
 
     for (let i = 0; i < emptyLocationsArr.length; i++) {
         emptyLocationsArr[i].index = i;
@@ -107,4 +106,12 @@ function getEmptyLocations(locationLine, numberOfLocations) {
         emptyLocationsArr[i].state = LOCATION_STATE.unexplored;
     }
     return emptyLocationsArr;
+}
+
+function setLocationIndexAndLine(locationLine, locations) {
+    for (let i = 0; i < locations.length; i++) {
+        locations[i].line = locationLine;
+        locations[i].index = i;
+    }
+    return locations
 }

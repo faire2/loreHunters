@@ -13,6 +13,7 @@ export function LostCity() {
     const playerStateContext = useContext(PlayerStateContext);
     const originaPlayerState = playerStateContext.playerState;
     const [chosenEffects, setChosenEffects] = useState([false, false, false]);
+    console.log("Calculating prices for effects in the lost city.");
 
     const prices = [
         [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseText],

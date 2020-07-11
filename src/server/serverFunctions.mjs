@@ -87,9 +87,9 @@ export function processEndOfRound(room) {
     console.log("removing adventurers");
     let tLocations = cloneDeep(room.states.locations);
     const extraFear = {0: 0, 1: 0, 2: 0, 3: 0};
-    for (let key in tLocations) {
-        let locationLine = tLocations[key];
-        for (let location of locationLine) {
+    let locationLines = [tLocations.line1, tLocations.line2, tLocations.line3, tLocations.line4]
+    for (let line of locationLines) {
+        for (let location of line) {
             /* owner of each adventurer in a guarded location gains a fear */
             if (location.state === LOCATION_STATE.guarded) {
                 for (let playerId of location.adventurers) {
@@ -99,6 +99,7 @@ export function processEndOfRound(room) {
             location.adventurers = [];
         }
     }
+
     room.states.locations = tLocations;
 
     /* pass turn to next initial player */

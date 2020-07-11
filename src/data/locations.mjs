@@ -8,11 +8,6 @@ export const TRANSPORT_TYPE = Object.freeze({
     plane: "blimp"
 });
 
-const rowStyle = {
-  display: "flex",
-  flexFlow: "row"
-};
-
 export const Locations = Object.freeze({
     1: {
     id: "1",
@@ -44,7 +39,7 @@ export const Locations = Object.freeze({
     },
     5: {
         id: "5",
-        effects: [EFFECT.gainJewel],
+        effects: [EFFECT.discard, EFFECT.gainJewel],
         useCost: {transportType: TRANSPORT_TYPE.walk, amount: 2},
         type: LOCATION_TYPE.basic,
         level: LOCATION_LEVEL["1"],
@@ -203,19 +198,33 @@ export const Locations = Object.freeze({
         type: LOCATION_TYPE.emptyLocation,
         level: LOCATION_LEVEL["2"],
     },
-    emptyBrownLocation: {
+    emptyBrownLocation2: {
         id: "emptyBrownLocation",
         effects: [],
         useCost: null,
         type: LOCATION_TYPE.emptyBrownLocation,
         level: LOCATION_LEVEL["2"],
     },
-    emptyGreenLocation: {
+    emptyBrownLocation3: {
+        id: "emptyBrownLocation",
+        effects: [],
+        useCost: null,
+        type: LOCATION_TYPE.emptyBrownLocation,
+        level: LOCATION_LEVEL["3"],
+    },
+    emptyGreenLocation2: {
         id: "emptyGreenLocation",
         effects: [],
         useCost: null,
         type: LOCATION_TYPE.emptyGreenLocation,
         level: LOCATION_LEVEL["2"],
+    },
+    emptyGreenLocation3: {
+        id: "emptyGreenLocation",
+        effects: [],
+        useCost: null,
+        type: LOCATION_TYPE.emptyGreenLocation,
+        level: LOCATION_LEVEL["3"],
     },
 });
 

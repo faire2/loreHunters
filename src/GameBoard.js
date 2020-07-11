@@ -18,7 +18,6 @@ import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {
-    getIsRewardDue,
     getJointBoons,
     getLegendFieldBoons,
     processLegend,
@@ -214,7 +213,7 @@ function GameBoard(props) {
                 gameLog: gameLog
             });
         }
-        setPlayerState(tPlayerState);
+        setPlayerState(tPlayerState)
         setLocations(tLocations);
         setLegends(tLegends);
         setStore(tStore);
@@ -309,19 +308,6 @@ function GameBoard(props) {
             if (legendResult) {
                 const tStore = legendResult.tStore;
                 const rewardsData = [];
-                // first four columns award extra rewards when non-first player's tokens reach them
-                const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
-                if (isRewardDue) {
-                    if (columnIndex === 1) {
-                        const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                        rewardsData.push({type: REWARD_TYPE.card, data: expeditionsArr});
-                    } else if (columnIndex === 0 || columnIndex === 2) {
-                        rewardsData.push({
-                            type: REWARD_TYPE.addAssistant,
-                            data: getAssistantsChoice(playerState, store)
-                        });
-                    }
-                }
                 // some cards need rewards modal window to choose between possible effects
                 if (legendResult.showRewardsModal) {
                     rewardsData.push(legendResult.rewardsData);
@@ -579,7 +565,7 @@ function GameBoard(props) {
         <div className="App">
             <BoardStateContext.Provider value={boardStateContextValues}>
                 <PlayerStateContext.Provider value={playerStateContextValues}>
-                    {statesLoading ? StatesSpinner : gameBoardElements}
+                    {statesLoading ? <StatesSpinner/> : gameBoardElements}
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>

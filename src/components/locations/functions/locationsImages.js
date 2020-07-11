@@ -10,6 +10,7 @@ import bgrLC from "../../../img/locations/bgr-lostCity.png"
 import bgrEmpty from "../../../img/locations/bgr-empty.png"
 import greenEmpty from "../../../img/locations/greenEmpty.png"
 import brownEmpty from "../../../img/locations/brownEmpty.png"
+import basicEmpty from "../../../img/locations/bgr-basic-empty.png"
 
 import bgrBrownUnexplored from "../../../img/locations/unexp-bgr-b.png";
 import bgrGreenUnexplored from "../../../img/locations/unexp-bgr-g.png";
@@ -35,8 +36,9 @@ export const BgrBrown2  = () => <img src={bgrB2} alt={"basic location background
 export const BgrBrown3  = () => <img src={bgrB3} alt={"brown location l2 background"} style={backgroundStyle}/>;
 export const BgrLostCity  = () => <img src={bgrLC} alt={"brown location l2 background"} style={backgroundStyle}/>;
 export const BgrEmpty  = () => <img src={bgrEmpty} alt={"empty unexplored location"} style={backgroundStyle}/>;
-export const BgrGreenEmpty  = () => <img src={greenEmpty} alt={"green location"} style={backgroundStyle}/>;
-export const BgeBrownEmpty  = () => <img src={brownEmpty} alt={"brown location"} style={backgroundStyle}/>;
+export const BgrGreenEmpty = () => <img src={greenEmpty} alt={"green location"} style={backgroundStyle}/>;
+export const BgeBrownEmpty = () => <img src={brownEmpty} alt={"brown location"} style={backgroundStyle}/>;
+export const BgrBasicEmpty = () => <img src={basicEmpty} alt={"basic location"} style={backgroundStyle}/>;
 
 export const BgrBrownUnexplored = () => <img src={bgrBrownUnexplored} alt={"brown unexplored location background"} style={backgroundStyle}/>;
 export const BgrGreenUnexplored = () => <img src={bgrGreenUnexplored} alt={"green unexplored  location background"} style={backgroundStyle}/>;

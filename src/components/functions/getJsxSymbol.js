@@ -6,7 +6,7 @@ import {
     Blimp,
     Coin,
     DefeatedGuardian,
-    DestroyCard,
+    DestroyCard, Discard,
     Draw1Card,
     Explore,
     GoldAssistant,
@@ -78,6 +78,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.canActivateL3Location:
             return <LocationL3/>;
         case EFFECT.defeatGuardian:
+        case EFFECT.defeatThisGuardian:
             return <DefeatedGuardian/>;
         case EFFECT.destroyCard:
             return <DestroyCard/>;
@@ -87,6 +88,8 @@ export function getJsxSymbol(effect) {
             return <Draw1Card/>;
         case EFFECT.gainOrUpgradeAssistant:
             return <div><SilverAssistant/><GoldAssistant/></div>;
+        case EFFECT.discard:
+            return <Discard/>
         default:
             console.error("Unable to recognize effect: " + effect);
     }

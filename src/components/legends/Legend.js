@@ -1,6 +1,9 @@
 import React from 'react';
 import {Field} from "./tiles/Field";
 import victoryPoints from "../../img/symbols/VP.png";
+import {getJsxSymbol} from "../functions/getJsxSymbol";
+import {EFFECT} from "../../data/effects";
+import {ColunmRewards} from "./tiles/ColumnRewards";
 
 export function Legend(props) {
     const legend = props.legend;
@@ -39,9 +42,10 @@ export function Legend(props) {
             {column.map((field, y) =>
                 <div key={y}>
                     <Field height={field.size} field={field} positions={legend.positions} columnIndex={i} fieldIndex={y}
-                        legendIndex={props.legendIndex}/>
+                           legendIndex={props.legendIndex}/>
                 </div>
             )}
+            <ColunmRewards columnRewards={legend.columnRewards[i]}/>
         </div>
     );
 
