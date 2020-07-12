@@ -1,18 +1,12 @@
 import {EFFECT} from "../../../data/effects";
 import {processActiveEffect} from "../../functions/processActiveEffects";
-import {
-    getExplorationCost,
-    getLocationsForExploration,
-    isLocationAdjancentToAdventurer,
-    occupyLocation,
-    payForTravelIfPossible, removeExploredLocation
-} from "./locationFunctions";
+import {occupyLocation, payForTravelIfPossible, removeExploredLocation} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
 import {addLogEntry} from "../../main/logger";
 import React from "react";
 import {cloneDeep} from "lodash";
-import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "../../functions/enums";
-import {exploreLocation, hasPlayerExplorationDiscount} from "./exploreLocation";
+import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../functions/enums";
+import {exploreLocation} from "./exploreLocation";
 import {Guardians} from "../../../data/guardians";
 
 export function handleLocation(tPlayerState, tStore, tLocations, location, round, initiateRewardsModal, resolveGuardian) {

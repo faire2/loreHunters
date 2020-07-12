@@ -2,7 +2,7 @@ import {Locations, TRANSPORT_TYPE} from "../../../data/locations";
 import {EFFECT} from "../../../data/effects";
 import {processEffects} from "../../functions/processEffects";
 import React from "react";
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../../functions/enums";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_TYPE} from "../../functions/enums";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
@@ -219,7 +219,7 @@ export function areLinesAdjacent(line1, line2) {
 
 export function resolveRelocation(locationLine, locationIndex, playerState, locations, store) {
     const location = locations[locationLine][locationIndex];
-    location.state = LOCATION_STATE.occupied;
+    location.adventurers.push(playerState.playerIndex);;
     location.owner = playerState.playerIndex;
     const effectsResult = processEffects(null, null, playerState, Locations[location.id].effects,
         null, store, location, locations, null);

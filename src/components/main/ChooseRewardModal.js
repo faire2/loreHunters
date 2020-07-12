@@ -111,6 +111,7 @@ export default function ChooseRewardModal() {
                 } else {
                     tStore.incomes1Offer.splice(index, 1);
                 }
+                tPlayerState = handleIncome(tPlayerState, reward);
                 break;
             case REWARD_TYPE.addAssistant:
                 reward.state = INCOME_STATE.ready;

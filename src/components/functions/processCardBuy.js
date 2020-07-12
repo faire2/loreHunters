@@ -89,7 +89,8 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, null, null, null);
         tPlayerState = effectsResult.tPlayerState;
 
-        if (card.isGuarded) {processGuardian = true}
+        // guardians are currently not cards, but part of location
+        // if (card.isGuarded) {processGuardian = true}
         addLogEntry(tPlayerState, ACTION_TYPE.buysArtifact, card.id, {explore: card.cost});
     } else {
         console.log("Card could not be bought: ");

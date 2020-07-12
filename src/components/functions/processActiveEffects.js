@@ -3,16 +3,16 @@ import {EFFECT} from "../../data/effects.mjs";
 import {addCardToDiscardDeck, addCardToHand, removeCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
-import {GUARDIAN_IDs, LOCATION_IDs} from "../../data/idLists";
+import {LOCATION_IDs} from "../../data/idLists";
 import {
     areLinesAdjacent,
     getLocationIndex,
     isLocationAdjancentToAdventurer,
-    resolveRelocation, updateLocations
+    resolveRelocation,
+    updateLocations
 } from "../locations/functions/locationFunctions";
 import {Jewel, Text, Weapon} from "../Symbols";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./enums";
-import {gainLockedResourceBack} from "./guardians/gainLockedResourceBack";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];
@@ -38,7 +38,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.activateOccupiedLocation:
-            if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied
+            debugger
+            if (tLocation !== null && tLocation.adventurers.length > 0
                 && (tLocation.level !== LOCATION_LEVEL["3"] || tPlayerState.resources.coins > 0)) {
                 let effects = tLocation.effects;
                 if (LOCATION_IDs[tLocation.id].level === LOCATION_LEVEL["3"]) {
@@ -51,7 +52,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.activateYourLocation:
-            if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied && tLocation.owner === tPlayerState.playerIndex) {
+            if (tLocation !== null && tLocation.adventurers.length > 0 && tLocation.owner === tPlayerState.playerIndex) {
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, null,
                     tStore, tLocation, tLocations, null);
                 tPlayerState = effectsResult.tPlayerState;
@@ -204,7 +205,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.return:
-            if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied) {
+            if (tLocation !== null && tLocation.adventurers.length > 0) {
                 tPlayerState.availableAdventurers += 1;
                 tLocation.state = LOCATION_STATE.explored;
                 tPlayerState.activeEffects.splice(0, 1);
@@ -216,7 +217,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.markOwnLocation:
-            if (tLocation !== null && tLocation.state === LOCATION_STATE.occupied) {
+            if (tLocation !== null && tLocation.adventurers.length > 0) {
                 tPlayerState.activeEffects.splice(2, 0, tLocation);
                 tPlayerState.activeEffects.splice(0, 1);
             }
@@ -340,7 +341,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.payToUseOccupiedLocation:
-            if (tLocation.state === LOCATION_STATE.occupied && tPlayerState.resources.coins > 0) {
+            if (tLocation.adventurers.length > 0 && tPlayerState.resources.coins > 0) {
                 const effectsResult = processEffects(null, cardIndex, tPlayerState, tLocation.effects, tPlayerState.activeEffects,
                     tStore, tLocation, tLocations);
                 tPlayerState = effectsResult.tPlayerState;
