@@ -23,7 +23,7 @@ export function RelicsArea() {
         backgroundImage: `url(${bgr}`,
         backgroundSize: "100% 100%",
         position: "absolute",
-        marginTop: "19.5vw",
+        marginTop: "18.5vw",
         marginLeft: "75vw",
         width: "16vw",
         height: "18vw",

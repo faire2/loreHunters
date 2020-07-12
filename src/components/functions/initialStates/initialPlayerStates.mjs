@@ -5,8 +5,8 @@ import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 
 export const emptyPlayerState = Object.freeze({
     resources: {
-        coins: 2,
-        explore: 0,
+        coins: null,
+        explore: null,
         texts: 0,
         weapons: 0,
         jewels: 0,

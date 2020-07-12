@@ -3,18 +3,20 @@ import {EFFECT} from "../../data/effects";
 import {
     AdventurerToken,
     Artifact,
+    AssistantUpgrade,
     Blimp,
     Coin,
     DefeatedGuardian,
-    DestroyCard, Discard,
+    DestroyCard,
+    Discard,
     Draw1Card,
     Explore,
-    GoldAssistant,
     Item,
     Jeep,
     Jewel,
     LocationL3,
     Map,
+    Relic,
     Ship,
     SilverAssistant,
     Text,
@@ -86,10 +88,14 @@ export function getJsxSymbol(effect) {
             return <Treasure/>;
         case EFFECT.draw1:
             return <Draw1Card/>;
+        case EFFECT.gainAssistant:
+            return <SilverAssistant />
         case EFFECT.gainOrUpgradeAssistant:
-            return <div><SilverAssistant/><GoldAssistant/></div>;
+            return <AssistantUpgrade/>;
         case EFFECT.discard:
             return <Discard/>
+        case EFFECT.gainOrUpgradeRelic:
+            return <Relic/>
         default:
             console.error("Unable to recognize effect: " + effect);
     }

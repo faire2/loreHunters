@@ -87,9 +87,11 @@ export const LCL_STORAGE = Object.freeze({
 });
 
 export const REWARD_TYPE = Object.freeze({
-    addAssistant: "income token",
+    addAssistant: "assistant choice or upgrade",
+    upgradeRelic: "relic upgrade",
     card: "card",
     effectsArr: "array of effects",
+    gainAssistant: "assistant choice",
     legendFieldEffects: "combined effects of a legend field",
     location: "location",
     removeAssistant: "remove an assistant",
@@ -133,3 +135,9 @@ export const STYLE = Object.freeze({
         flexFlow: "row"
     }
 })
+
+export const RELIC = {
+    bronze: "bronze relic",
+    silver: "silver relic",
+    golden: "golden relic",
+}

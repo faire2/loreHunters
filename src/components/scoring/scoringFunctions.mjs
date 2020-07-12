@@ -1,6 +1,6 @@
 import {ITEM_IDs} from "../../data/idLists";
 import {ARTIFACTS, ITEMS} from "../../data/cards";
-import {Legends2} from "../../data/legends.mjs";
+import {Legends} from "../../data/legends.mjs";
 import {getLogLegends} from "../main/logger";
 import {CARD_TYPE} from "../functions/enums";
 import {Guardians} from "../../data/guardians";
@@ -43,7 +43,7 @@ export function getPoints(playerState) {
     let beyond2 = -1;
     if (legends) {
         for (let i = 0; i < legends.length; i++) {
-            const victoryPoints = Legends2[legends[i].id].victoryPoints;
+            const victoryPoints = Legends[legends[i].id].victoryPoints;
             for (const position of legends[i].positions[playerState.playerIndex]) {
                 if (position.columnIndex !== null) {
                     legendPoints += victoryPoints[position.columnIndex];

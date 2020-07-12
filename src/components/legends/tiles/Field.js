@@ -4,7 +4,7 @@ import block2 from "../../../img/legends/blok2.png"
 import block3 from "../../../img/legends/blok3.png"
 import lostCity from "../../../img/legends/lostCity.png"
 import {FIELD_SIZE} from "../../../data/legends.mjs"
-import {AdventurerToken} from "../../Symbols";
+import {FirstLegendToken, SecondLegendToken} from "../../Symbols";
 import {BoardStateContext} from "../../../Contexts";
 import {GLOBAL_VARS} from "../../../data/idLists";
 import {getJsxSymbol} from "../../functions/getJsxSymbol";
@@ -112,9 +112,11 @@ export const Field = (props) => {
     const adventurersArray = [];
     for (let i = 0; i < numOfPlayers; i++) {
         const playersPositions = positions[i];
-        for (let position of playersPositions) {
-            if (position.columnIndex === columnIndex && position.fieldIndex === fieldIndex) {
-                adventurersArray.push(<AdventurerToken color={GLOBAL_VARS.playerColors[i]}/>);
+        for (let p = 0; p < GLOBAL_VARS.numOfLegendTokens; p++) {
+            if (playersPositions[p].columnIndex === columnIndex && playersPositions[p].fieldIndex === fieldIndex) {
+                const token = p === 0 ? <FirstLegendToken color={GLOBAL_VARS.playerColors[i]} style={{height: "2vw", width: "2vw"}}/>
+                    : <SecondLegendToken color={GLOBAL_VARS.playerColors[i]} style={{height: "2vw", width: "2vw"}}/>
+                adventurersArray.push(token);
             }
         }
     }

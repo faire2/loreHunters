@@ -36,7 +36,7 @@ export default function ResourcesArea(props) {
     const containerStyle = {
         position: "absolute",
         marginLeft: "46vw",
-        marginTop: "23.5vw",
+        marginTop: "21.5vw",
         fontSize: "1.3vw",
         zIndex: 1,
         top: 0,

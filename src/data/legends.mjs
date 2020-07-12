@@ -8,43 +8,35 @@ export const FIELD_SIZE = Object.freeze({
     lostCity: "lost city",
 });
 
-export const Legends2 = Object.freeze({
+export const Legends = Object.freeze({
     legend1: {
         id: "legend1",
         victoryPoints: [1, 2, 3, 5, 7, 9, 12, 15],
         columnRewards: [
-            {
-                firstToken: [EFFECT.gainCoin],
-                secondToken: [EFFECT.gainOrUpgradeAssistant],
-            },
-            {
-                firstToken: [EFFECT.destroyCard],
-                secondToken: [EFFECT.gainOrUpgradeAssistant],
-            },
-            {
-                firstToken: [EFFECT.gainMap],
-                secondToken: [EFFECT.draw1],
-            },
-            {
-                firstToken: [EFFECT.gainMap],
-                secondToken: [EFFECT.gainOrUpgradeAssistant],
-            },
-            {
-                firstToken: [EFFECT.gainMap],
-                secondToken: [EFFECT.gainOrUpgradeAssistant],
-            },
-            {
-                firstToken: [EFFECT.draw1],
-                secondToken: [EFFECT.draw1],
-            },
-            {
-                firstToken: [EFFECT.gainCoin, EFFECT.gainMap],
-                secondToken: [EFFECT.gainCoin, EFFECT.destroyCard],
-            },
-            {
-                firstToken: [EFFECT.discoverLostCity, EFFECT.draw1],
-                secondToken: [EFFECT.draw1],
-            }
+            [
+                [EFFECT.gainCoin], [EFFECT.gainAssistant],
+            ],
+            [
+                [EFFECT.gainMap], [EFFECT.gainOrUpgradeAssistant],
+            ],
+            [
+                [EFFECT.gainMap], [EFFECT.gainOrUpgradeAssistant],
+            ],
+            [
+                [EFFECT.gainCoin], [EFFECT.gainOrUpgradeAssistant],
+            ],
+            [
+                [EFFECT.gainMap], [EFFECT.gainOrUpgradeRelic],
+            ],
+            [
+                [EFFECT.draw1], [EFFECT.gainOrUpgradeRelic],
+            ],
+            [
+                [EFFECT.gainMap], [EFFECT.gainOrUpgradeRelic],
+            ],
+            [
+                [EFFECT.draw1], [EFFECT.draw1],
+            ]
         ],
         fields: [
             /* 1 */
@@ -106,7 +98,7 @@ export const Legends2 = Object.freeze({
             [
                 {
                     effects: [EFFECT.gainMap],
-                    cost: [EFFECT.loseJewel],
+                    cost: [EFFECT.loseCoin, EFFECT.loseJewel],
                     size: FIELD_SIZE["3"],
                 },
             ],

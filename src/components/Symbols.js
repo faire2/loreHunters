@@ -35,6 +35,7 @@ import silverAssistantBgr from "../img/incomes/silverBack.png"
 import goldAssistantBgr from "../img/incomes/goldBack.png"
 import silverRelic from "../img/relics/RelicSilver.png"
 import goldRelic from "../img/relics/RelicGold.png"
+import assistantUpgrade from "../img/symbols/AssistantUpgrade.png"
 
 const responsive = {
     height: "1em",
@@ -44,37 +45,40 @@ export const Coin = (props) => <img src={coin} alt="gain a coin" style={responsi
 export const Discount = (props) => <img src={cardDiscount} alt="discount" style={responsive}/>;
 export const Explore = (props) => <img src={explore} alt="gain an explore token" style={responsive}/>;
 export const Draw1Card = (props) => <img src={draw1} alt="draw a card" style={responsive}/>;
-export const Draw2Cards = (props) => <img src={draw2} alt="draw two cards"style={responsive} />;
-export const Draw3Cards = (props) => <img src={draw3} alt="draw three cards"style={responsive} />;
-export const Discard = (props) => <img src={discard} alt="discard a cart"style={responsive} />;
-export const DestroyCard = (props) => <img src={destroyCard} alt="destroy a card "style={responsive} />;
+export const Draw2Cards = (props) => <img src={draw2} alt="draw two cards" style={responsive}/>;
+export const Draw3Cards = (props) => <img src={draw3} alt="draw three cards" style={responsive}/>;
+export const Discard = (props) => <img src={discard} alt="discard a cart" style={responsive}/>;
+export const DestroyCard = (props) => <img src={destroyCard} alt="destroy a card " style={responsive}/>;
 export const Walk = (props) => <img src={walk} alt="walk" style={responsive}/>;
 export const Ship = (props) => <img src={ship} alt="go by a ship" style={responsive}/>;
 export const Jeep = (props) => <img src={jeep} alt="go by a jeep" style={responsive}/>;
 export const Blimp = (props) => <img src={plane} alt="go by a plane" style={responsive}/>;
-export const Text = (props) => <img src={text} alt="gain a text"style={responsive} />;
-export const Weapon = (props) => <img src={weapon} alt="gain a weapon"style={responsive} />;
-export const Jewel = (props) => <img src={jewel} alt="gain a jewel"style={responsive} />;
-export const Arrow = (props) => <img src={arrow} alt="exchanged for"style={responsive} />;
-export const Relic = (props) => <img src={shiny} alt="shinies" style={responsive} />;
-export const Guardian = (props) => <img src={guardian} alt="guardian"style={responsive} />;
-export const Artifact = (props) => <img src={artifact} alt="artifact"style={responsive} />;
-export const Uptrade = (props) => <img src={uptrade} alt="uptrade"style={responsive} />;
-export const Item = (props) => <img src={item} alt="item"style={responsive} />;
-export const Fear = (props) => <img src={fear} alt="fear"style={responsive} />;
-export const DefeatedGuardian = (props) => <img src={defeatedGuardian} alt="defeated guardian"style={responsive} />;
-export const LocationL1 = (props) => <img src={location1} alt="location of level 1"style={responsive} />;
-export const LocationL2 = (props) => <img src={location2} alt="location of level 2"style={responsive} />;
-export const LocationL3 = (props) => <img src={location3} alt="location of level 3"style={responsive} />;
-export const VictoryPoints = (props) => <img src={victoryPoints} alt="victory points icon" style={responsive} />;
-export const Treasure = (props) => <img src={treasure} alt="treasure" style={responsive} />;
-export const FreeAction = (props) => <img src={freeAction} alt="treasure" style={responsive} />;
-export const Flash = (props) => <img src={flash} alt="action" style={responsive} />;
-export const Map = (props) => <img src={map} alt="map" style={responsive} />;
-export const SilverAssistant = (props) => <img src={silverAssistantBgr} alt="silver assistant background" style={responsive} />;
-export const GoldAssistant = (props) => <img src={goldAssistantBgr} alt="gold assistant background" style={responsive} />;
-export const SilverRelic = (props) => <img src={silverRelic} alt="silver silver relic" style={responsive} />;
-export const GoldRelic = (props) => <img src={goldRelic} alt="gold relic" style={responsive} />;
+export const Text = (props) => <img src={text} alt="gain a text" style={responsive}/>;
+export const Weapon = (props) => <img src={weapon} alt="gain a weapon" style={responsive}/>;
+export const Jewel = (props) => <img src={jewel} alt="gain a jewel" style={responsive}/>;
+export const Arrow = (props) => <img src={arrow} alt="exchanged for" style={responsive}/>;
+export const Relic = (props) => <img src={shiny} alt="shinies" style={responsive}/>;
+export const Guardian = (props) => <img src={guardian} alt="guardian" style={responsive}/>;
+export const Artifact = (props) => <img src={artifact} alt="artifact" style={responsive}/>;
+export const Uptrade = (props) => <img src={uptrade} alt="uptrade" style={responsive}/>;
+export const Item = (props) => <img src={item} alt="item" style={responsive}/>;
+export const Fear = (props) => <img src={fear} alt="fear" style={responsive}/>;
+export const DefeatedGuardian = (props) => <img src={defeatedGuardian} alt="defeated guardian" style={responsive}/>;
+export const LocationL1 = (props) => <img src={location1} alt="location of level 1" style={responsive}/>;
+export const LocationL2 = (props) => <img src={location2} alt="location of level 2" style={responsive}/>;
+export const LocationL3 = (props) => <img src={location3} alt="location of level 3" style={responsive}/>;
+export const VictoryPoints = (props) => <img src={victoryPoints} alt="victory points icon" style={responsive}/>;
+export const Treasure = (props) => <img src={treasure} alt="treasure" style={responsive}/>;
+export const FreeAction = (props) => <img src={freeAction} alt="treasure" style={responsive}/>;
+export const Flash = (props) => <img src={flash} alt="action" style={responsive}/>;
+export const Map = (props) => <img src={map} alt="map" style={responsive}/>;
+export const SilverAssistant = (props) => <img src={silverAssistantBgr} alt="silver assistant background"
+                                               style={responsive}/>;
+export const GoldAssistant = (props) => <img src={goldAssistantBgr} alt="gold assistant background"
+                                             style={responsive}/>;
+export const SilverRelic = (props) => <img src={silverRelic} alt="silver silver relic" style={responsive}/>;
+export const GoldRelic = (props) => <img src={goldRelic} alt="gold relic" style={responsive}/>;
+export const AssistantUpgrade = (props) => <img src={assistantUpgrade} alt="assistant upgrade" style={responsive}/>;
 
 export const AdventurerIcon = () =>
     <svg width="15" height="15" viewBox="0 0 99 119">
@@ -110,6 +114,35 @@ export const AdventurerToken = (props) => {
     return (
         <div style={props.style}>
             {adventurerSVG}
+        </div>
+    )
+};
+
+export const FirstLegendToken = (props) => {
+    const color = props.color;
+    const tokenSvg =
+        <svg width="80%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-5 70 200 50">
+            <path fill={color}
+                  d="M 81.5 0 L 84.5 0 L 100 11.5 Q 99.3 13.8 101.5 13 L 116 25.5 L 136 48.5 L 160 86.5 L 166 109.5 L 166 136.5 L 162 154.5 L 156 167.5 L 139.5 187 L 126.5 197 L 106.5 206 L 97.5 208 L 68.5 208 Q 36.7 200.8 19 179.5 Q 8.4 167.6 3 150.5 L 0 136.5 L 0 109.5 L 6 86.5 L 20 62.5 L 41 35.5 L 57.5 19 L 81.5 0 Z "/>
+        </svg>
+
+    return (
+        <div style={props.style}>
+            {tokenSvg}
+        </div>
+    )
+};
+export const SecondLegendToken = (props) => {
+    const color = props.color;
+    const tokenSvg =
+        <svg width="80%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="-5 70 200 50">
+            <path fill={color}
+                  d="M 4 0 L 11.5 0 L 26.5 3 L 34.5 3 L 35.5 4 L 43.5 4 L 44.5 5 L 55.5 5 L 56.5 6 L 98.5 7 L 99.5 6 L 115.5 6 L 116.5 5 L 136.5 4 L 137.5 3 L 144.5 3 L 145.5 2 L 165 0 L 163 20.5 L 162 21.5 L 162 28.5 L 161 29.5 L 161 37.5 L 160 38.5 L 160 49.5 L 159 50.5 L 158 99.5 L 159 100.5 L 159 115.5 L 160 116.5 L 161 134.5 L 162 135.5 L 162 142.5 L 163 143.5 L 165 162 L 138.5 159 L 137.5 158 L 118.5 157 L 117.5 156 L 71.5 155 L 70.5 156 L 54.5 156 L 53.5 157 L 33.5 158 L 32.5 159 L 25.5 159 L 24.5 160 L 4 162 L 5 148.5 L 6 147.5 L 6 139.5 L 7 138.5 L 8 115.5 L 9 114.5 L 10 68.5 L 9 67.5 L 8 34.5 L 7 33.5 L 7 24.5 L 6 23.5 L 6 14.5 L 5 13.5 L 4 0 Z "/>
+        </svg>
+
+    return (
+        <div style={props.style}>
+            {tokenSvg}
         </div>
     )
 };

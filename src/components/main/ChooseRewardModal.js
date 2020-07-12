@@ -7,13 +7,22 @@ import {IncomeTile} from "../legends/tiles/IncomeTile";
 import {processEffects} from "../functions/processEffects";
 import {handleIncome} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
-import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE, LOCATION_STATE, REWARD_TYPE} from "../functions/enums";
+import {
+    CARD_STATE,
+    CARD_TYPE,
+    INCOME_LEVEL,
+    INCOME_STATE,
+    LOCATION_STATE,
+    RELIC,
+    REWARD_TYPE
+} from "../functions/enums";
 import Location from "../locations/Location";
 import {removeExploredLocation} from "../locations/functions/locationFunctions";
-import {replaceFirsUserJointLegendResource} from "../legends/legendsFunctions";
-import {Legends2} from "../../data/legends.mjs";
+import {replaceFirsUserJointLegendResource} from "../legends/functions/legendsFunctions";
+import {Legends} from "../../data/legends.mjs";
 import {exploreLocation} from "../locations/functions/exploreLocation";
 import {Guardians} from "../../data/guardians";
+import {Relic, SilverRelic} from "../Symbols";
 
 
 export default function ChooseRewardModal() {
@@ -55,6 +64,7 @@ export default function ChooseRewardModal() {
                 element = <Card card={reward}/>;
                 break;
             case REWARD_TYPE.addAssistant:
+            case REWARD_TYPE.gainAssistant:
             case REWARD_TYPE.removeAssistant:
                 element = <IncomeTile income={reward}/>;
                 break;
@@ -64,6 +74,9 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.location:
                 element = <Location location={reward}/>;
+                break;
+            case REWARD_TYPE.upgradeRelic:
+                element = reward === RELIC.bronze ? <Relic/> : <SilverRelic/>;
                 break;
             case null:
                 break;
@@ -89,6 +102,16 @@ export default function ChooseRewardModal() {
                     tPlayerState.hand.push(reward);
                 }
                 break;
+            case REWARD_TYPE.gainAssistant:
+                reward.state = INCOME_STATE.ready;
+                tPlayerState.incomes.push(reward);
+                if (tStore.incomes1Deck.length > 0) {
+                    tStore.incomes1Offer.splice(index, 1, tStore.incomes1Deck[0]);
+                    tStore.incomes1Deck.splice(0, 1);
+                } else {
+                    tStore.incomes1Offer.splice(index, 1);
+                }
+                break;
             case REWARD_TYPE.addAssistant:
                 reward.state = INCOME_STATE.ready;
                 tPlayerState.incomes.push(reward);
@@ -108,7 +131,7 @@ export default function ChooseRewardModal() {
                     }
                     // if gold assistant was gained, we have to remove a silver one he has replaced
                     let silverAssistants = [];
-                    for (let assistant of tPlayerState.incomes){
+                    for (let assistant of tPlayerState.incomes) {
                         if (assistant.level === INCOME_LEVEL.silver) {
                             silverAssistants.push(assistant);
                         }
@@ -125,7 +148,17 @@ export default function ChooseRewardModal() {
                     }
                 }
                 tPlayerState.incomes.splice(assistantIndex, 1);
-                    break;
+                break;
+            case REWARD_TYPE.upgradeRelic:
+                if (reward === RELIC.bronze) {
+                    tPlayerState.resources.relics += 1;
+                } else if (reward === RELIC.silver) {
+                    tPlayerState.resources.silverRelics += 1;
+                } else {
+                    console.error("Unable to recognize relic type. Upgrade is not possible:")
+                    console.log(reward);
+                }
+                break;
             case REWARD_TYPE.effectsArr:
                 const effectsResult = processEffects(null, null, tPlayerState, effects, null, null, null, null);
                 if (effectsResult.processedAllEffects) {
@@ -141,11 +174,11 @@ export default function ChooseRewardModal() {
                 if (legendEffectsResult.processedAllEffects) {
                     const fieldPosition = rewards[0].params;
                     tPlayerState = legendEffectsResult.tPlayerState;
-                    const jsxLegend = Legends2[tLegends[fieldPosition.legendIndex].id];
+                    const jsxLegend = Legends[tLegends[fieldPosition.legendIndex].id];
                     const field = replaceFirsUserJointLegendResource(reward.effects, jsxLegend.fields[fieldPosition.columnIndex][fieldPosition.fieldIndex],
                         numOfPlayers);
                     tLegends[fieldPosition.legendIndex].fields[fieldPosition.columnIndex][fieldPosition.fieldIndex] = field;
-                    console.log(Legends2);
+                    console.log(Legends);
                 }
                 break;
             case REWARD_TYPE.location:
@@ -179,6 +212,7 @@ export default function ChooseRewardModal() {
         const moreRewardsToProcess = rewards.length > 1;
         boardStateContext.handleReward(tPlayerState, tStore, tLocations, tLegends, moreRewardsToProcess);
     }
+
     return (
         <Modal show={showModal} onHide={null} dialogClassName={"customModal"}>
             <Modal.Header>

@@ -20,9 +20,8 @@ import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {
     getJointBoons,
     getLegendFieldBoons,
-    processLegend,
     removeFirstUserLegendResource
-} from "./components/legends/legendsFunctions";
+} from "./components/legends/functions/legendsFunctions";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {processUptrade} from "./components/resources/resourcesFunctions";
@@ -42,10 +41,11 @@ import {
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./components/functions/enums";
-import {getAssistantsChoice, hasSilverIncome} from "./components/functions/incomesFunctions";
+import {hasSilverIncome} from "./components/functions/incomesFunctions";
 import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
 import {processIncomeTile} from "./components/functions/processIncome";
 import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
+import {processLegend} from "./components/legends/functions/processLegend";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -310,7 +310,13 @@ function GameBoard(props) {
                 const rewardsData = [];
                 // some cards need rewards modal window to choose between possible effects
                 if (legendResult.showRewardsModal) {
-                    rewardsData.push(legendResult.rewardsData);
+                    if (Array.isArray(legendResult.rewardsData)) {
+                        for (let result of legendResult.rewardsData) {
+                            rewardsData.push(result);
+                        }
+                    } else {
+                        rewardsData.push(legendResult.rewardsData);
+                    }
                 }
                 tLegends = legendResult.tLegends;
                 // resources that can only be used once have to be removed now...

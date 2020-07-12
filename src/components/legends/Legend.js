@@ -1,8 +1,6 @@
 import React from 'react';
 import {Field} from "./tiles/Field";
 import victoryPoints from "../../img/symbols/VP.png";
-import {getJsxSymbol} from "../functions/getJsxSymbol";
-import {EFFECT} from "../../data/effects";
 import {ColunmRewards} from "./tiles/ColumnRewards";
 
 export function Legend(props) {

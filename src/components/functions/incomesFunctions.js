@@ -9,11 +9,11 @@ function hasSilverIncome(tPlayerState) {
     return false;
 }
 
-export function getAssistantsChoice(playerState, store) {
+export function getAssistantsChoice(playerState, store, onlySilver) {
     let incomesArr = [];
     incomesArr.push(store.incomes1Offer[0]);
     incomesArr.push(store.incomes1Offer[1]);
-    if (hasSilverIncome(playerState)){
+    if (!onlySilver && hasSilverIncome(playerState)){
         incomesArr.push(store.incomes2Offer[0]);
         incomesArr.push(store.incomes2Offer[1]);
     }

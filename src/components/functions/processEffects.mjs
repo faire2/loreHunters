@@ -10,6 +10,7 @@ import {Coin} from "../Symbols";
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
+import {getRelicsForUpgrade} from "./effectsFunctions/getRelicsForUpgrade";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, toBeRemoved, originalStore, location,
                                originalLocations) {
@@ -452,9 +453,24 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case EFFECT.gainOrUpgradeAssistant:
-                    rewardsData = {type: REWARD_TYPE.addAssistant, data: getAssistantsChoice(tPlayerState, tStore)}
+                case EFFECT.gainAssistant:
+                    rewardsData = {type: REWARD_TYPE.gainAssistant, data: getAssistantsChoice(tPlayerState, tStore, true)}
                     showRewardsModal = true;
+                    break;
+
+                case EFFECT.gainOrUpgradeAssistant:
+                    rewardsData = {type: REWARD_TYPE.addAssistant, data: getAssistantsChoice(tPlayerState, tStore, false)}
+                    showRewardsModal = true;
+                    break;
+
+                case EFFECT.gainOrUpgradeRelic:
+                    if (tPlayerState.resources.relics === 0 && tPlayerState.resources.silverRelics === 0 && tPlayerState.resources.goldRelics === 0) {
+                        //if player has no relics, he gains one
+                        tPlayerState.resources.relics += 1;
+                    } else {
+                        rewardsData = {type: REWARD_TYPE.upgradeRelic, data: getRelicsForUpgrade(tPlayerState)};
+                        showRewardsModal = true;
+                    }
                     break;
 
                 case EFFECT.progress:
