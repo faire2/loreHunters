@@ -1,6 +1,6 @@
 import {EFFECT} from "../../../data/effects";
 import {processActiveEffect} from "../../functions/processActiveEffects";
-import {occupyLocation, payForTravelIfPossible, removeExploredLocation} from "./locationFunctions";
+import {getExploredLocationType, occupyLocation, removeExploredLocation} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
 import {addLogEntry} from "../../main/logger";
 import React from "react";
@@ -8,6 +8,7 @@ import {cloneDeep} from "lodash";
 import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../functions/enums";
 import {exploreLocation} from "./exploreLocation";
 import {Guardians} from "../../../data/guardians";
+import {payForTravelIfPossible} from "./payForTravelIfPossible";
 
 export function handleLocation(tPlayerState, tStore, tLocations, location, round, initiateRewardsModal, resolveGuardian) {
     // Resolve active effect - exploration discount is processed during exploration itself
@@ -45,16 +46,18 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
                         round);
                     if (explorationResult) {
                         let tLocation;
+                        debugger
                         if (location.level === LOCATION_LEVEL["2"]) {
                             tLocation = tLocations.level2Locations[0];
                             tLocations.level2Locations.splice(0,1);
                         } else {
                             tLocation = tLocations.level3Locations[0];
                             tLocations.level3Locations.splice(0,1);
-                        }
+                        };
                         tLocation.guardian = Guardians[tLocations.guardianKeys[0]];
                         tLocations.guardianKeys.splice(0, 1);
                         tLocation.state = LOCATION_STATE.guarded;
+                        tLocation.type = getExploredLocationType(location);
                         tLocations[location.line][location.index] = tLocation;
                         tLocation.line = location.line;
                         tLocation.index = location.index;
