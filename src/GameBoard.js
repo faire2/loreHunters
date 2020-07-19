@@ -36,7 +36,6 @@ import {
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./components/functions/enums";
-import {hasSilverIncome} from "./components/functions/incomesFunctions";
 import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
 import {processIncomeTile} from "./components/functions/processIncome";
 import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
@@ -128,7 +127,7 @@ function GameBoard(props) {
         return () => {
             document.removeEventListener("keydown", handleKeyPress);
         };
-    }, []);
+    }, [history, playerIndex, props.location.data]);
 
     function handleKeyPress(e) {
         if (e.keyCode === 32 || e.keyCode === 40) {
@@ -153,6 +152,7 @@ function GameBoard(props) {
             tStore.expeditions.splice(0, 2);
             setStore(tStore);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isActivePlayer]);
 
     // extending panels contain controls and information areas

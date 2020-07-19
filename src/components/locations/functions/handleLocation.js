@@ -3,7 +3,6 @@ import {processActiveEffect} from "../../functions/processActiveEffects";
 import {getExploredLocationType, occupyLocation, removeExploredLocation} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
 import {addLogEntry} from "../../main/logger";
-import React from "react";
 import {cloneDeep} from "lodash";
 import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../functions/enums";
 import {exploreLocation} from "./exploreLocation";

@@ -1,4 +1,3 @@
-import React from "react";
 import {EFFECT} from "./effects.mjs";
 
 export const FIELD_SIZE = Object.freeze({

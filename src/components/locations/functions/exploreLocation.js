@@ -2,7 +2,6 @@ import {getExplorationCost} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
 import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE} from "../../functions/enums";
 import {addLogEntry} from "../../main/logger";
-import React from "react";
 import {EFFECT} from "../../../data/effects";
 
 export function exploreLocation(playerState, locations, store, location, round) {

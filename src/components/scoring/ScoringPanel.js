@@ -47,7 +47,7 @@ export function ScoringPanel(props) {
             setNumOfPlayers(states.playerStates.length);
             setStatesLoading(false);
         });
-    }, []);
+    }, [history, props.location.data]);
 
     function handleClickOnPlayerTab(index) {
         setPlayerIndex(index);

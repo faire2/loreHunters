@@ -1,9 +1,10 @@
 import React, {useContext} from "react";
-import {Coin, Draw1Card, Explore, Jewel, Relic, Text, Weapon} from "../Symbols";
+import {Relic} from "../Symbols";
 import bgr from "../../img/relics/relicsBackground.png"
 import {PlayerStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects";
 import vpBgr from "../../img/symbols/VP.png";
+import {JsxFromEffects} from "../JsxFromEffects";
 
 export function RelicsArea() {
     const playerStateContext = useContext(PlayerStateContext);
@@ -49,9 +50,9 @@ export function RelicsArea() {
         cursor: "pointer",
     };
 
-    const overLapStyle = {
+    /*const overLapStyle = {
         marginTop: "-1.3vw"
-    };
+    };*/
 
     const relicsStyle = {
         fontSize: !twoLines ? "2.4vw" : "1.8vw",
@@ -91,18 +92,6 @@ export function RelicsArea() {
         [EFFECT.gainExplore],
         [EFFECT.draw1]];
 
-    const effectsTextArr = [
-        [<Jewel/>],
-        [<Jewel/>],
-        [<Coin/>, <div style={overLapStyle}><Weapon/></div>],
-        [<Weapon/>],
-        [<Explore/>, <div style={overLapStyle}><Text/></div>],
-        [<Coin/>, <div style={overLapStyle}><Text/></div>],
-        [<Coin/>],
-        [<Explore/>],
-        [<Draw1Card/>]
-    ];
-
     const victoryPoints = [0, 1, 2, 4];
     const victoryPointsArr = victoryPoints.map((vp, i) =>
         <div style={victoryPointsStyle} key={i}>
@@ -111,11 +100,11 @@ export function RelicsArea() {
     );
 
     const fieldsArr =
-        effectsTextArr.map((effectsText, i) => {
-                const style = effectsText.length === 1 ? fieldStyle1Icon : fieldStyle2Icons
+        effectsArr.map((effect, i) => {
+                const style = effect.length === 1 ? fieldStyle1Icon : fieldStyle2Icons
                 return (
                     <div style={style} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
-                        {playerState.relics[i] ? effectsText : <Relic/>}
+                        {playerState.relics[i] ? <JsxFromEffects effectsArray={effect} fontSize={"2vw"}/> : <Relic/>}
                     </div>
                 )
             }

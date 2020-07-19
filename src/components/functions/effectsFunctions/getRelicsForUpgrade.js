@@ -1,4 +1,3 @@
-import React from "react";
 import {RELIC} from "../enums";
 
 export function getRelicsForUpgrade(playerState) {

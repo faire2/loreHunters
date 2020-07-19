@@ -63,7 +63,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
             tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
         } else {
             tPlayerState.drawDeck.push(getIdCard(card));
-            tPlayerState.drawDeck[tPlayerState.activeCards.length - 1].state = CARD_STATE.drawDeck;
+            tPlayerState.drawDeck[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
         }
 
         tPlayerState.resources.coins -= card.cost;
@@ -81,7 +81,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
             tStore = addCardToStore(card.type, tStore);
         }
         tPlayerState.drawDeck.push(getIdCard(card));
-        tPlayerState.drawDeck[tPlayerState.activeCards.length - 1].state = CARD_STATE.drawDeck;
+        tPlayerState.drawDeck[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
         tPlayerState.resources.explore -= card.cost;
         tPlayerState.actions -= 1;
 

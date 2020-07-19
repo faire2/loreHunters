@@ -89,7 +89,7 @@ export default function ChooseRewardModal() {
 
     function handleClickOnReward(reward, index) {
         let effects = [];
-        let finishRound = false;
+        //let finishRound = false;
         switch (rewardType) {
             case REWARD_TYPE.card:
                 if (reward.type === CARD_TYPE.goalCard) {
@@ -164,7 +164,7 @@ export default function ChooseRewardModal() {
                 const effectsResult = processEffects(null, null, tPlayerState, effects, null, null, null, null);
                 if (effectsResult.processedAllEffects) {
                     tPlayerState = effectsResult.tPlayerState;
-                    finishRound = effectsResult.finishRound;
+                    //finishRound = effectsResult.finishRound;
                 } else {
                     console.log("Effects could not be processed in handleClickOnReward");
                     console.log(reward);
@@ -176,9 +176,9 @@ export default function ChooseRewardModal() {
                     const fieldPosition = rewards[0].params;
                     tPlayerState = legendEffectsResult.tPlayerState;
                     const jsxLegend = Legends[tLegends[fieldPosition.legendIndex].id];
-                    const field = replaceFirsUserJointLegendResource(reward.effects, jsxLegend.fields[fieldPosition.columnIndex][fieldPosition.fieldIndex],
-                        numOfPlayers);
-                    tLegends[fieldPosition.legendIndex].fields[fieldPosition.columnIndex][fieldPosition.fieldIndex] = field;
+                    tLegends[fieldPosition.legendIndex].fields[fieldPosition.columnIndex][fieldPosition.fieldIndex]
+                        = replaceFirsUserJointLegendResource(reward.effects, jsxLegend.fields[fieldPosition.columnIndex]
+                            [fieldPosition.fieldIndex], numOfPlayers);
                     console.log(Legends);
                 }
                 break;

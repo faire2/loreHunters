@@ -96,7 +96,7 @@ const bigIconsStyle = {
     fontSize: "1.2vw",
 };
 
-const lockEffectsStyle = {
+/*const lockEffectsStyle = {
     height: "100%",
     width: "auto"
 };
@@ -111,7 +111,7 @@ const columnStyle = {
 const rowStyle = {
   display: "flex",
   flexFlow: "row",  
-};
+};*/
 
 export const ITEMS = Object.freeze({
     fear: {
@@ -1028,7 +1028,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Secret Paths",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+ ?<VictoryPoints/> Score again 2 of  <Relic/> that you placed</div>,
+            <div className="effectsText">+ ?<VictoryPoints/> Score again 2 of <Relic/> that you placed</div>,
         points: 0
     },
     rareFinds: {

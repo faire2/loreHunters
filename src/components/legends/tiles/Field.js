@@ -8,6 +8,7 @@ import {FirstLegendToken, SecondLegendToken} from "../../Symbols";
 import {BoardStateContext} from "../../../Contexts";
 import {GLOBAL_VARS} from "../../../data/idLists";
 import {getJsxSymbol} from "../../functions/getJsxSymbol";
+import {JsxFromEffects} from "../../JsxFromEffects";
 
 export const Field = (props) => {
     const columnHeight = props.height;
@@ -16,7 +17,6 @@ export const Field = (props) => {
     const positions = props.positions;
     const boardStateContext = useContext(BoardStateContext);
     const numOfPlayers = boardStateContext.numOfPlayers;
-    // how many times has the field been entered and used
 
     let effectsArr = props.field.effects;
     // set background and element height
@@ -58,6 +58,8 @@ export const Field = (props) => {
     };
 
     const effectsTextStyle = {
+        display: "flex",
+        justifyContent: "center",
         fontSize: "2vw",
         marginLeft: "0.3vw",
     };
@@ -88,15 +90,6 @@ export const Field = (props) => {
         alignItems: "center",
         width: "100%"
     };
-
-    /*const effectsText =
-        <div style={effectsTextStyle}>
-            {effectsArr.map((effect, i) =>
-                <div key={i}>
-                    {getJsxSymbol(effect)}
-                </div>
-            )}
-        </div>;*/
 
     const costText =
         <div style={costTextStyle}>
@@ -135,7 +128,7 @@ export const Field = (props) => {
                 )}
             </div>
             <div style={effectsTextStyle}>
-                {getJsxSymbol(effectsArr[0])}
+                <JsxFromEffects effectsArray={effectsArr}/>
             </div>
             {costText}
         </div>

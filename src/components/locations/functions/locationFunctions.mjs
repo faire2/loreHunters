@@ -1,7 +1,6 @@
 import {Locations} from "../../../data/locations";
 import {EFFECT} from "../../../data/effects";
 import {processEffects} from "../../functions/processEffects";
-import React from "react";
 import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_TYPE} from "../../functions/enums";
 
 export function isLocationAdjancentToAdventurer(location, locations, playerState) {
@@ -13,7 +12,7 @@ export function isLocationAdjancentToAdventurer(location, locations, playerState
         || checkNextLine(locationData, playerIndex, isFirst, isLast);
 }
 
-export function getPositionInLocationLine(location, locationLine, locations) {
+/*export function getPositionInLocationLine(location, locationLine, locations) {
     for (let i = 0; i < locations[locationLine].length; i++) {
         if (locations[locationLine][i].id === location.id) {
             return i;
@@ -21,7 +20,7 @@ export function getPositionInLocationLine(location, locationLine, locations) {
     }
     console.log("Unable to find location position in getPositionInLocationLIne, returning -1");
     return -1;
-}
+}*/
 
 function checkOwner(locations, checkedLine, checkedLocationPosition, playerIndex) {
     const checkedLocation = locations[checkedLine][checkedLocationPosition];
@@ -129,7 +128,7 @@ export function areLinesAdjacent(line1, line2) {
 
 export function resolveRelocation(locationLine, locationIndex, playerState, locations, store) {
     const location = locations[locationLine][locationIndex];
-    location.adventurers.push(playerState.playerIndex);;
+    location.adventurers.push(playerState.playerIndex);
     location.owner = playerState.playerIndex;
     const effectsResult = processEffects(null, null, playerState, Locations[location.id].effects,
         null, store, location, locations, null);
@@ -156,6 +155,7 @@ export function occupyLocation(tLocations, locationId, locationLine, playerIndex
 export function processExplorationDiscount(discount, explorationCostEffects) {
     let tExplorationEffects = [];
     let exploreDiscount = discount === EFFECT.exploreAnyLocationWithDiscount4 ? 3 : 2;
+    // eslint-disable-next-line no-unused-vars
     let transportDiscount = 1;
     for (let effect of explorationCostEffects) {
         if (effect === EFFECT.loseExplore && exploreDiscount > 0) {
