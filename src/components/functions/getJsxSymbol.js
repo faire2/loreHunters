@@ -97,6 +97,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainOrUpgradeRelic:
             return <Relic/>
         default:
+            debugger
             console.error("Unable to recognize effect: " + effect);
     }
 

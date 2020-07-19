@@ -1,6 +1,6 @@
 import React from 'react';
 import {EFFECT} from "../../data/effects.mjs";
-import {addCardToDiscardDeck, addCardToHand, removeCard} from "./cardManipulationFuntions.mjs";
+import {addCardToHand, addCardToPlayedCards, removeCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
 import {LOCATION_IDs} from "../../data/idLists";
@@ -87,7 +87,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.discard:
             if (tCard && tCard.state === CARD_STATE.inHand) {
-                tPlayerState = addCardToDiscardDeck(tCard, tPlayerState);
+                tPlayerState = addCardToPlayedCards(tCard, tPlayerState);
                 tPlayerState.hand.splice(cardIndex, 1);
                 const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tPlayerState.activeEffects, tStore, null, null);
                 tPlayerState = effectsResults.tPlayerState;
@@ -119,7 +119,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.destroyCard:
-            if (tCard !== null && (tCard.state === CARD_STATE.inHand || tCard.state === CARD_STATE.discard
+            if (tCard !== null && (tCard.state === CARD_STATE.inHand || tCard.state === CARD_STATE.played
                 || tCard.state === CARD_STATE.active) && tCard.type !== CARD_TYPE.guardian) {
                 tPlayerState = removeCard(tCard, tPlayerState);
                 tCard.state = CARD_STATE.destroyed;
@@ -133,7 +133,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.drawFromDiscard:
             tPlayerState = addCardToHand(tCard, tPlayerState);
-            tPlayerState.discardDeck.splice(cardIndex, 1);
+            tPlayerState.activeCards.splice(cardIndex, 1);
             tPlayerState.activeEffects.splice(0, 1);
             break;
 

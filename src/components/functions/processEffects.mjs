@@ -3,7 +3,7 @@ import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs} from "../../data/idLists";
-import {addCardToDiscardDeck} from "./cardManipulationFuntions";
+import {addCardToPlayedCards} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin} from "../Symbols";
 import {CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
@@ -208,7 +208,7 @@ debugger
                     if (tCard.type === CARD_TYPE.guardian) {
                         tPlayerState.destroyedCards.push(GUARDIAN_IDs[tCard.id]);
                         tPlayerState.activeCards.splice(cardIndex, 1);
-                        tPlayerState = addCardToDiscardDeck(cloneDeep(ITEM_IDs.fear), tPlayerState);
+                        tPlayerState = addCardToPlayedCards(cloneDeep(ITEM_IDs.fear), tPlayerState);
                     }
                     break;
 
@@ -334,7 +334,7 @@ debugger
 
                 case EFFECT.gainFear:
                     tPlayerState.discardDeck.push({...ITEM_IDs.fear});
-                    tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard;
+                    tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.played;
                     break;
 
                 case EFFECT.gainJeep:

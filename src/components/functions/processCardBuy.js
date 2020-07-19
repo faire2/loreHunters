@@ -62,8 +62,8 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
             tPlayerState.hand.push(getIdCard(card));
             tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
         } else {
-            tPlayerState.discardDeck.push(getIdCard(card));
-            tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.discard
+            tPlayerState.activeCards.push(getIdCard(card));
+            tPlayerState.activeCards[tPlayerState.discardDeck.length - 1].state = CARD_STATE.played
         }
 
         tPlayerState.resources.coins -= card.cost;

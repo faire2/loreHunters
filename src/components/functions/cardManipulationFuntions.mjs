@@ -12,13 +12,20 @@ export function addCardToHand(card, origPlayerState) {
     return tPlayerState;
 }
 
-export function addCardToDiscardDeck(card, tPlayersState) {
+export function addCardToPlayedCards(card, tPlayersState) {
+    let idCard = getIdCard(card);
+    idCard.state = CARD_STATE.played;
+    tPlayersState.activeCards.push(idCard);
+    return tPlayersState;
+}
+/*export function addCardToDiscardDeck(card, tPlayersState) {
     let idCard = getIdCard(card);
     idCard.state = CARD_STATE.discard;
     tPlayersState.discardDeck.push(idCard);
     return tPlayersState;
-}
+}*/
 
+//todo remove guardians as they are part of location now
 export function drawCards(cardsNum, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);
     let drawDeck = tPlayerState.drawDeck;
@@ -28,7 +35,7 @@ export function drawCards(cardsNum, origPlayerState) {
     let guardians = [];
     for (let i = 0; i < cardsNum; i++) {
         if (drawDeck.length === 0) {
-            tPlayerState = addDiscardToDrawDeck(tPlayerState);
+            tPlayerState = addActiveCardsToDrawDeck(tPlayerState);
             drawDeck = tPlayerState.drawDeck;
         }
         if (drawDeck.length > 0) {
@@ -79,17 +86,17 @@ export function shuffleArray(array) {
     return array;
 }
 
-export function addDiscardToDrawDeck(origPlayerState) {
+export function addActiveCardsToDrawDeck(origPlayerState) {
     console.log("RESHUFFLING...");
     let tPlayerState = cloneDeep(origPlayerState);
-    tPlayerState.discardDeck = shuffleArray(tPlayerState.discardDeck);
-    const tDrawDeck = cloneDeep(tPlayerState.discardDeck);
+    tPlayerState.activeCards = shuffleArray(tPlayerState.activeCards);
+    const tDrawDeck = cloneDeep(tPlayerState.activeCards);
 
     for (let card of tDrawDeck) {
         card.state = CARD_STATE.drawDeck;
     }
 
-    tPlayerState.discardDeck = [];
+    tPlayerState.activeCards = [];
     tPlayerState.drawDeck = tDrawDeck;
     return tPlayerState;
 }
@@ -121,7 +128,7 @@ export function removeCard(card, tPlayerState) {
         case CARD_STATE.active:
             tPlayerState.activeCards = spliceCardIfFound(card, tPlayerState.activeCards);
             break;
-        case CARD_STATE.discard:
+        case CARD_STATE.played:
             tPlayerState.discardDeck = spliceCardIfFound(card, tPlayerState.discardDeck);
             break;
         case CARD_STATE.drawDeck:

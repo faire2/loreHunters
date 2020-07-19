@@ -2,8 +2,8 @@
 import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
-import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
-import {CARD_STATE, CARD_TYPE, INCOME_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
+import {addCardToPlayedCards, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
+import {INCOME_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
 
 export function handleIncomes(playerState) {
     for (let income of playerState.incomes) {
@@ -115,31 +115,31 @@ export function processEndOfRound(room) {
         let tPlayerState = cloneDeep(room.states.playerStates[i]);
         tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
 
-        /* move active cards to discard */
-        for (let card of tPlayerState.activeCards) {
-            /* undefeated guardians are removed from the game */
+        /* discard active cards */
+        /*for (let card of tPlayerState.activeCards) {
+            /!* undefeated guardians are removed from the game *!/
             if (card.type === CARD_TYPE.guardian) {
                 tPlayerState.destroyedCards.push(card);
-                tPlayerState = addCardToDiscardDeck(cloneDeep(ITEM_IDs.fear), tPlayerState);
+                tPlayerState = addCardToPlayedCards(cloneDeep(ITEM_IDs.fear), tPlayerState);
             } else {
-                tPlayerState = addCardToDiscardDeck(card, tPlayerState);
+                tPlayerState = addCardToPlayedCards(card, tPlayerState);
             }
         }
-        tPlayerState.activeCards = [];
+        tPlayerState.activeCards = [];*/
 
         /* gain fears for adventurers in guarded locations */
         for (let x = 0; x < extraFear[i]; x++) {
-            tPlayerState.discardDeck.push(cloneDeep(ITEM_IDs.fear));
+            tPlayerState.activeCards.push(cloneDeep(ITEM_IDs.fear));
         }
 
-        /* move cards from hand to discard */
+        /* discard cards from hand */
         for (let card of tPlayerState.hand) {
-            tPlayerState = addCardToDiscardDeck(card, tPlayerState);
+            tPlayerState = addCardToPlayedCards(card, tPlayerState);
         }
         tPlayerState.hand = [];
 
         /* in 5th round all guardians come into play */
-        if (round === 4) {
+        /*if (round === 4) { todo can probably be removed
             console.log("ensuring guardians enter play");
             for (let i = 0; i < tPlayerState.discardDeck.length; i++) {
                 if (tPlayerState.discardDeck[i].type === CARD_TYPE.guardian) {
@@ -156,7 +156,7 @@ export function processEndOfRound(room) {
                     tPlayerState.drawDeck.splice(0, 0, tCard);
                 }
             }
-        }
+        }*/
 
         /* draw a new hand */
         tPlayerState = drawCards(5, tPlayerState);

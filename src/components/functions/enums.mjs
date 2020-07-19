@@ -19,7 +19,7 @@ export const ACTION_TYPE = Object.freeze({
 export const CARD_STATE = Object.freeze({
     active: "active card",
     destroyed: "destroyed card",
-    discard: "card is discarded",
+    played: "card is has been played",
     drawDeck: "card in draw deck",
     inHand: "card is in hand",
     inStore: "card is in store",

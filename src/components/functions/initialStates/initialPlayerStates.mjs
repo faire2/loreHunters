@@ -25,7 +25,7 @@ export const emptyPlayerState = Object.freeze({
     availableAdventurers: GLOBAL_VARS.adventurers,
     color: null,
     destroyedCards: [],
-    discardDeck: [],
+    //discardDeck: [], //todo remove if discard remains removed form the game
     canActivateLostCity: false,
     canDiscoverL3Locations: false,
     drawDeck: [],

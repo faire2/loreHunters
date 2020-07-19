@@ -7,7 +7,7 @@ import {Guardians} from "../../data/guardians";
 
 export function getPoints(playerState) {
     const legends = getLogLegends();
-    const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
+    const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards];
     const items = allDeckCards.filter(card => (card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic)
         && card.id !== ITEM_IDs.fear.id);
 

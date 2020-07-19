@@ -35,7 +35,7 @@ export function Export2Xls(props) {
         }
 
         let hand = getStringifiedArray(playerState.hand);
-        let discard = getStringifiedArray(playerState.discardDeck);
+        //let discard = getStringifiedArray(playerState.discardDeck);
         let destroyedCards = getStringifiedArray(playerState.destroyedCards);
         let victoryCards = getStringifiedArray(playerState.victoryCards);
         let incomes = getStringifiedArray(playerState.incomes);
@@ -59,7 +59,7 @@ export function Export2Xls(props) {
             ship: resources.ship != null ? resources.ship : "",
             plane: resources.plane != null ? resources.plane : "",
             hand: hand,
-            discard: discard,
+            //discard: discard,
             destroyedCards: destroyedCards,
             victoryCards: victoryCards,
             incomes: incomes,
@@ -119,7 +119,7 @@ export function Export2Xls(props) {
                 <ExcelColumn label="Re" value="relicsPoints"/>
                 <ExcelColumn label="hand" value="hand"/>
                 <ExcelColumn label="activeCards" value="activeCards"/>
-                <ExcelColumn label="discard" value="discard"/>
+                {/*<ExcelColumn label="discard" value="discard"/>*/}
                 <ExcelColumn label="victoryCards" value="victoryCards"/>
                 <ExcelColumn label="incomes" value="incomes"/>
                 <ExcelColumn label="activeEffects" value="activeEffects"/>
