@@ -8,6 +8,7 @@ import {processEffects} from "../functions/processEffects";
 import {handleIncome} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
 import {
+    ASSISTANT,
     CARD_STATE,
     CARD_TYPE,
     INCOME_LEVEL,
@@ -105,11 +106,20 @@ export default function ChooseRewardModal() {
             case REWARD_TYPE.gainAssistant:
                 reward.state = INCOME_STATE.ready;
                 tPlayerState.incomes.push(reward);
-                if (tStore.incomes1Deck.length > 0) {
-                    tStore.incomes1Offer.splice(index, 1, tStore.incomes1Deck[0]);
-                    tStore.incomes1Deck.splice(0, 1);
-                } else {
-                    tStore.incomes1Offer.splice(index, 1);
+                if (rewards[0].params === ASSISTANT.silver) {
+                    if (tStore.assistantSilverDeck.length > 0) {
+                        tStore.assistantSilverOffer.splice(index, 1, tStore.assistantSilverDeck[0]);
+                        tStore.assistantSilverDeck.splice(0, 1);
+                    } else {
+                        tStore.assistantSilverOffer.splice(index, 1);
+                    }
+                } else if (rewards[0].params === ASSISTANT.gold) {
+                    if (tStore.assistantGoldDeck.length > 0) {
+                        tStore.assistantGoldOffer.splice(index, 1, tStore.assistantGoldDeck[0]);
+                        tStore.assistantGoldDeck.splice(0, 1);
+                    } else {
+                        tStore.assistantGoldOffer.splice(index, 1);
+                    }
                 }
                 tPlayerState = handleIncome(tPlayerState, reward);
                 break;
@@ -117,18 +127,18 @@ export default function ChooseRewardModal() {
                 reward.state = INCOME_STATE.ready;
                 tPlayerState.incomes.push(reward);
                 if (reward.level === INCOME_LEVEL.silver) {
-                    if (tStore.incomes1Deck.length > 0) {
-                        tStore.incomes1Offer.splice(index, 1, tStore.incomes1Deck[0]);
-                        tStore.incomes1Deck.splice(0, 1);
+                    if (tStore.assistantSilverDeck.length > 0) {
+                        tStore.assistantSilverOffer.splice(index, 1, tStore.assistantSilverDeck[0]);
+                        tStore.assistantSilverDeck.splice(0, 1);
                     } else {
-                        tStore.incomes1Offer.splice(index, 1);
+                        tStore.assistantSilverOffer.splice(index, 1);
                     }
                 } else {
-                    if (tStore.incomes2Deck.length > 0) {
-                        tStore.incomes2Offer.splice(index - tStore.incomes1Offer.length, 1, tStore.incomes2Deck[0]);
-                        tStore.incomes2Deck.splice(0, 1);
+                    if (tStore.assistantGoldDeck.length > 0) {
+                        tStore.assistantGoldOffer.splice(index - tStore.assistantSilverOffer.length, 1, tStore.assistantGoldDeck[0]);
+                        tStore.assistantGoldDeck.splice(0, 1);
                     } else {
-                        tStore.incomes2Offer.splice(index, 1, 0);
+                        tStore.assistantGoldOffer.splice(index, 1, 0);
                     }
                     // if gold assistant was gained, we have to remove a silver one he has replaced
                     let silverAssistants = [];

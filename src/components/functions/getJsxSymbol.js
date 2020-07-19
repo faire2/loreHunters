@@ -11,6 +11,7 @@ import {
     Discard,
     Draw1Card,
     Explore,
+    GoldAssistant,
     Item,
     Jeep,
     Jewel,
@@ -88,13 +89,16 @@ export function getJsxSymbol(effect) {
             return <DestroyCard/>;
         case EFFECT.draw1:
             return <Draw1Card/>;
-        case EFFECT.gainAssistant:
-            return <SilverAssistant />
+        case EFFECT.gainSilverAssistant:
+            return <SilverAssistant/>
+        case EFFECT.gainGoldAssistant:
+            return <GoldAssistant/>
         case EFFECT.gainOrUpgradeAssistant:
             return <AssistantUpgrade/>;
         case EFFECT.discard:
             return <Discard/>
         case EFFECT.gainOrUpgradeRelic:
+        case EFFECT.gainBronzeRelic:
             return <Relic/>
         case EFFECT.discoverLostCity:
             return ""

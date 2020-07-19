@@ -99,14 +99,14 @@ const Resources = (props) => {
         display: "flex",
         flexWrap: "wrap",
         width: "7vw",
-        fontSize: "2.9vw"
+        fontSize: "2vw"
     };
 
     const availableAdventurers = [];
     for (let i = 0; i < playerStateContext.playerState.availableAdventurers; i++) {
         availableAdventurers.push(<AdventurerToken key={i}
                                                    color={GLOBAL_VARS.playerColors[playerIndex]}
-                                                   style={{width: "2vw"}}/>)
+                                                   style={{width: "1.8vw"}}/>)
     }
 
     let walkIcons = [];

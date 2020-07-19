@@ -26,6 +26,9 @@ export const EFFECT = Object.freeze({
     gainAdventurerForThisRound: "gain adventurer for this round",
     gainArtifact: "gain an artifact",
     gainArtifactForExplore: "gain artifact for explore", // todo artifacts implement
+    gainSilverAssistant: "gain a new silver assistant",
+    gainGoldAssistant: "gain a gold assistant",
+    gainBronzeRelic: "gain a bronze relic",
     gainBonusFromLegendYouCompleted: "gain a bonus from legend you completed", //todo legends implement
     gainBonusFromUnclaimedLegend: "gain a bonus from an unclaimed, visible legend", //todo legends implement
     gainCoin: "gain a coin",
@@ -53,7 +56,6 @@ export const EFFECT = Object.freeze({
     gainRewardLevel: "gain a level of reward in lost city",
     gainMap: "gain a map",
     gainMapIfFirst: "first player that reaches this tile of legend gets a map",
-    gainAssistant: "gain a new silver assistant",
     gainOrUpgradeAssistant: "gain a new assistant or upgrade one you have",
     gainOrUpgradeRelic: "gain a new relive or upgrade one you have",
     gainPlaceholder: "gain megartifact without a name",

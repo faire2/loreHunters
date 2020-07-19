@@ -6,7 +6,7 @@ import {GUARDIAN_IDs} from "../../data/idLists";
 import {addCardToPlayedCards} from "./cardManipulationFuntions";
 import React from "react";
 import {Coin} from "../Symbols";
-import {CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
+import {ASSISTANT, CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
 import {getRelicsForUpgrade} from "./effectsFunctions/getRelicsForUpgrade";
@@ -115,8 +115,12 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             location.guardian = null;
                             location.state = LOCATION_STATE.explored;
                             tLocations = updateLocations(location, tLocations);
-                        } else {console.warn("Location was not guarded!")}
-                    } else {console.log("No location found in the function, unable to defeat guardian.")}
+                        } else {
+                            console.warn("Location was not guarded!")
+                        }
+                    } else {
+                        console.log("No location found in the function, unable to defeat guardian.")
+                    }
                     break;
 
                 case EFFECT.destroyCard:
@@ -374,6 +378,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.weapons += 1;
                     break;
 
+                case EFFECT.gainBronzeRelic:
+                    tPlayerState.resources.bronzeRelics += 1;
+                    break;
+
                 case EFFECT.loseAction:
                     tPlayerState.actions = tPlayerState.actions > 0 ? tPlayerState.actions - 1 : 0;
                     break;
@@ -454,13 +462,29 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case EFFECT.gainAssistant:
-                    rewardsData = {type: REWARD_TYPE.gainAssistant, data: getAssistantsChoice(tPlayerState, tStore, true)}
+                case EFFECT.gainSilverAssistant:
+                    rewardsData = {
+                        type: REWARD_TYPE.gainAssistant,
+                        data: getAssistantsChoice(tPlayerState, tStore, ASSISTANT.silver),
+                        params: ASSISTANT.silver
+                    }
+                    showRewardsModal = true;
+                    break;
+
+                case EFFECT.gainGoldAssistant:
+                    rewardsData = {
+                        type: REWARD_TYPE.gainAssistant,
+                        data: getAssistantsChoice(tPlayerState, tStore, ASSISTANT.gold),
+                        params: ASSISTANT.gold
+                    }
                     showRewardsModal = true;
                     break;
 
                 case EFFECT.gainOrUpgradeAssistant:
-                    rewardsData = {type: REWARD_TYPE.addAssistant, data: getAssistantsChoice(tPlayerState, tStore, false)}
+                    rewardsData = {
+                        type: REWARD_TYPE.addAssistant,
+                        data: getAssistantsChoice(tPlayerState, tStore, ASSISTANT.upgrade)
+                    }
                     showRewardsModal = true;
                     break;
 

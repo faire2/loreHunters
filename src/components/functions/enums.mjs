@@ -127,17 +127,23 @@ export const BUTTON_STATE = Object.freeze({
     active: "activated button",
     normal: "basic button state",
     inactive: "button cannot be activated"
-}) ;
+});
 
 export const STYLE = Object.freeze({
     row: {
         display: "flex",
         flexFlow: "row"
     }
-})
+});
 
-export const RELIC = {
+export const RELIC = Object.freeze({
     bronze: "bronze relic",
     silver: "silver relic",
     golden: "golden relic",
+});
+
+export const ASSISTANT = {
+   silver: "silver assistant",
+   gold: "gold assistant",
+   upgrade: "upgrade of an assistant",
 }

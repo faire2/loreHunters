@@ -1,5 +1,12 @@
 /* INITIAL STORE */
-import {ARTIFACT_IDs, EXPEDITIONS_IDs, GLOBAL_VARS, GUARDIAN_IDs, INCOME_IDs, ITEM_IDs} from "../../../data/idLists.mjs";
+import {
+    ARTIFACT_IDs,
+    EXPEDITIONS_IDs,
+    GLOBAL_VARS,
+    GUARDIAN_IDs,
+    INCOME_IDs,
+    ITEM_IDs
+} from "../../../data/idLists.mjs";
 import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 
@@ -52,10 +59,10 @@ export function getInitialStore() {
     return {
         artifactsDeck: artifactsSetup.deck,
         artifactsOffer: artifactsSetup.drawCards,
-        incomes1Deck: incomes1Setup.deck,
-        incomes1Offer: incomes1Setup.drawCards,
-        incomes2Deck: incomes2Setup.deck,
-        incomes2Offer: incomes2Setup.drawCards,
+        assistantSilverDeck: incomes1Setup.deck,
+        assistantSilverOffer: incomes1Setup.drawCards,
+        assistantGoldDeck: incomes2Setup.deck,
+        assistantGoldOffer: incomes2Setup.drawCards,
         itemsDeck: itemsSetup.deck,
         itemsOffer: itemsSetup.drawCards,
         expeditions: shuffleArray(expeditions),

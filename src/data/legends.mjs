@@ -13,25 +13,25 @@ export const Legends = Object.freeze({
         victoryPoints: [1, 2, 3, 5, 7, 9, 12, 15],
         columnRewards: [
             [
-                [EFFECT.gainCoin], [EFFECT.gainAssistant],
+                [EFFECT.gainCoin], [EFFECT.gainSilverAssistant],
             ],
             [
-                [EFFECT.gainMap], [EFFECT.gainOrUpgradeAssistant],
+                [EFFECT.gainMap], [EFFECT.gainSilverAssistant],
             ],
             [
-                [EFFECT.gainMap], [EFFECT.gainOrUpgradeAssistant],
+                [EFFECT.gainMap], [EFFECT.gainBronzeRelic],
             ],
             [
-                [EFFECT.gainCoin], [EFFECT.gainOrUpgradeAssistant],
+                [EFFECT.gainCoin], [EFFECT.gainGoldAssistant],
             ],
             [
-                [EFFECT.gainMap], [EFFECT.gainOrUpgradeRelic],
+                [EFFECT.gainMap], [EFFECT.gainGoldAssistant],
             ],
             [
-                [EFFECT.draw1], [EFFECT.gainOrUpgradeRelic],
+                [EFFECT.draw1], [EFFECT.gainBronzeRelic],
             ],
             [
-                [EFFECT.gainMap], [EFFECT.gainOrUpgradeRelic],
+                [EFFECT.gainMap], [EFFECT.gainBronzeRelic],
             ],
             [
                 [EFFECT.gainRewardLevel, EFFECT.discoverLostCity], [EFFECT.draw1],
