@@ -38,6 +38,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.exploreAnyLocationWithDiscount4:
                 case EFFECT.gainArtifact:
                 case EFFECT.gainItem:
+                case EFFECT.gainRewardLevel:
                 case EFFECT.buyWithDiscount1:
                 case EFFECT.gainExpeditionCard:
                 case EFFECT.gainItemToHand:

@@ -17,7 +17,7 @@ export const EFFECT = Object.freeze({
     draw2ForGuardian: "draw 2 cards if you have a guardian in hand",
     drawFromDiscard: "draw a card from your discard pile",
     drawFromDrawDeckOrDiscard: "draw a card from your draw deck or discard",
-    discard: "discard a card", // todo items: should be enforced
+    discard: "discard a card",
     exploreAnyLocationWithDiscount3: "explore location with discount of 3 explore",
     exploreAnyLocationWithDiscount4: "explore location with discount of 4 explore",
     escapeGuardian: "escape guardian, get back locked resources and gain a fear to handd",
@@ -50,6 +50,7 @@ export const EFFECT = Object.freeze({
     gainItemToHand: "gain an item to your hand",
     gainJeep: "travel with a jeep",
     gainJewel: "gain a jewel",
+    gainRewardLevel: "gain a level of reward in lost city",
     gainMap: "gain a map",
     gainMapIfFirst: "first player that reaches this tile of legend gets a map",
     gainAssistant: "gain a new silver assistant",

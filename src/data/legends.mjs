@@ -34,7 +34,7 @@ export const Legends = Object.freeze({
                 [EFFECT.gainMap], [EFFECT.gainOrUpgradeRelic],
             ],
             [
-                [EFFECT.draw1], [EFFECT.draw1],
+                [EFFECT.gainRewardLevel, EFFECT.discoverLostCity], [EFFECT.draw1],
             ]
         ],
         fields: [
@@ -129,7 +129,6 @@ export const Legends = Object.freeze({
             ],
             /* 8 */
             [
-
                 {
                     effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseExplore, EFFECT.loseJewel],

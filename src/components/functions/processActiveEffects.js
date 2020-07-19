@@ -352,6 +352,10 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
+        case EFFECT.gainRewardLevel:
+            // the effect is processed by the lost city itself
+            break;
+
         default:
             console.log("Cannot process active effect " + tPlayerState.activeEffects[0] + " on card: " + tCard.cardName
                 + " with state " + tCard.state);

@@ -77,6 +77,8 @@ export function getJsxSymbol(effect) {
         case EFFECT.revealArtifactBuyWithDiscount:
         case EFFECT.useArtifactOnMarket:
             return <Artifact/>;
+        case EFFECT.gainRewardLevel:
+            return <Treasure/>;
         case EFFECT.canActivateL3Location:
             return <LocationL3/>;
         case EFFECT.defeatGuardian:
@@ -84,8 +86,6 @@ export function getJsxSymbol(effect) {
             return <DefeatedGuardian/>;
         case EFFECT.destroyCard:
             return <DestroyCard/>;
-        case EFFECT.discoverLostCity:
-            return <Treasure/>;
         case EFFECT.draw1:
             return <Draw1Card/>;
         case EFFECT.gainAssistant:
@@ -96,6 +96,8 @@ export function getJsxSymbol(effect) {
             return <Discard/>
         case EFFECT.gainOrUpgradeRelic:
             return <Relic/>
+        case EFFECT.discoverLostCity:
+            return ""
         default:
             console.error("Unable to recognize effect: " + effect);
     }

@@ -9,6 +9,7 @@ import {
     Jeep,
     Jewel,
     Map,
+    Relic,
     Ship,
     SilverRelic,
     Text,
@@ -21,7 +22,7 @@ import {INCOME_SIZE} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
 
-export default function ResourcesArea(props) {
+export default function ResourcesArea() {
     const playerStateContext = useContext(PlayerStateContext);
     const playerStates = playerStateContext.playerStates;
     const ownPlayerState = playerStateContext.playerState;
@@ -124,6 +125,10 @@ const Resources = (props) => {
     for (let i = 0; i < resources.plane; i++) {
         blimpIcons.push(<Blimp/>)
     }
+    let bronzeRelicIcons = [];
+    for (let i = 0; i < resources.bronzeRelics; i++) {
+        bronzeRelicIcons.push(<Relic/>)
+    }
     let silverRelicIcons = [];
     for (let i = 0; i < resources.silverRelics; i++) {
         silverRelicIcons.push(<SilverRelic/>)
@@ -184,7 +189,13 @@ const Resources = (props) => {
                 {blimpIcons.map(icon =>
                     icon
                 )}
-            </div><div style={secondColumnFieldStyle}>
+            </div>
+            <div style={secondColumnFieldStyle}>
+                {bronzeRelicIcons.map(icon =>
+                    icon
+                )}
+            </div>
+            <div style={secondColumnFieldStyle}>
                 {silverRelicIcons.map(icon =>
                     icon
                 )}

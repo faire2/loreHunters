@@ -25,25 +25,27 @@ export function LostCity() {
 
     let tPlayerState = cloneDeep(originaPlayerState);
 
-    // we modify playerState for effects that are currently chosen
-    for (let i = 0; i < 3; i++) {
-        if (chosenEffects[i]) {
-            const priceResult = processEffects(null, null, tPlayerState, prices[i], null,
-                null, null, null);
-            if (priceResult.processedAllEffects) {
-                tPlayerState = priceResult.tPlayerState;
-            } else {
-                console.log("Price could not be paid! Next result will probably not be valid.")
+    if (tPlayerState.canActivateLostCity) {
+        // we modify playerState for effects that are currently chosen
+        for (let i = 0; i < 3; i++) {
+            if (chosenEffects[i]) {
+                const priceResult = processEffects(null, null, tPlayerState, prices[i], null,
+                    null, null, null);
+                if (priceResult.processedAllEffects) {
+                    tPlayerState = priceResult.tPlayerState;
+                } else {
+                    console.log("Price could not be paid! Next result will probably not be valid.")
+                }
+                buttonsStates[i] = BUTTON_STATE.active;
             }
-            buttonsStates[i] = BUTTON_STATE.active;
         }
-    }
 
-    for (let i = 0; i < 3; i++) {
-        if (!chosenEffects[i]) {
-            const priceResult = processEffects(null, null, tPlayerState, prices[i], null,
-                null, null, null);
-            buttonsStates[i] = priceResult.processedAllEffects ? BUTTON_STATE.normal : BUTTON_STATE.inactive;
+        for (let i = 0; i < 3; i++) {
+            if (!chosenEffects[i]) {
+                const priceResult = processEffects(null, null, tPlayerState, prices[i], null,
+                    null, null, null);
+                buttonsStates[i] = priceResult.processedAllEffects ? BUTTON_STATE.normal : BUTTON_STATE.inactive;
+            }
         }
     }
 
@@ -92,9 +94,17 @@ export function LostCity() {
                 rewardLevel += 1
             }
         }
+
+        if (tPlayerState.activeEffects[0] === EFFECT.gainRewardLevel) {
+            tPlayerState.activeEffects.splice(0, 1);
+            if (rewardLevel < 3) {
+                rewardLevel += 1;
+            }
+        }
+
         switch (rewardLevel) {
             case 1:
-                tPlayerState.resources.relics += 1;
+                tPlayerState.resources.bronzeRelics += 1;
                 break;
             case 2:
                 tPlayerState.resources.silverRelics += 1;
