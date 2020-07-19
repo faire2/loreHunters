@@ -46,14 +46,13 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
                         round);
                     if (explorationResult) {
                         let tLocation;
-                        debugger
                         if (location.level === LOCATION_LEVEL["2"]) {
                             tLocation = tLocations.level2Locations[0];
                             tLocations.level2Locations.splice(0,1);
                         } else {
                             tLocation = tLocations.level3Locations[0];
                             tLocations.level3Locations.splice(0,1);
-                        };
+                        }
                         tLocation.guardian = Guardians[tLocations.guardianKeys[0]];
                         tLocations.guardianKeys.splice(0, 1);
                         tLocation.state = LOCATION_STATE.guarded;

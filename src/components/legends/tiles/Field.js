@@ -19,7 +19,6 @@ export const Field = (props) => {
     // how many times has the field been entered and used
 
     let effectsArr = props.field.effects;
-
     // set background and element height
     let background = null;
     let height = null;
@@ -90,14 +89,14 @@ export const Field = (props) => {
         width: "100%"
     };
 
-    const effectsText =
+    /*const effectsText =
         <div style={effectsTextStyle}>
             {effectsArr.map((effect, i) =>
                 <div key={i}>
                     {getJsxSymbol(effect)}
                 </div>
             )}
-        </div>;
+        </div>;*/
 
     const costText =
         <div style={costTextStyle}>
@@ -114,7 +113,8 @@ export const Field = (props) => {
         const playersPositions = positions[i];
         for (let p = 0; p < GLOBAL_VARS.numOfLegendTokens; p++) {
             if (playersPositions[p].columnIndex === columnIndex && playersPositions[p].fieldIndex === fieldIndex) {
-                const token = p === 0 ? <FirstLegendToken color={GLOBAL_VARS.playerColors[i]} style={{height: "2vw", width: "2vw"}}/>
+                const token = p === 0 ?
+                    <FirstLegendToken color={GLOBAL_VARS.playerColors[i]} style={{height: "2vw", width: "2vw"}}/>
                     : <SecondLegendToken color={GLOBAL_VARS.playerColors[i]} style={{height: "2vw", width: "2vw"}}/>
                 adventurersArray.push(token);
             }
@@ -134,7 +134,9 @@ export const Field = (props) => {
                     </div>
                 )}
             </div>
-            {effectsText}
+            <div style={effectsTextStyle}>
+                {getJsxSymbol(effectsArr[0])}
+            </div>
             {costText}
         </div>
     )

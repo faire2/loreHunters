@@ -17,11 +17,6 @@ import ChooseRewardModal from "./components/main/ChooseRewardModal";
 import {socket} from "./server/socketConnection";
 import {BonusActions} from "./components/bonuses/BonusActions";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
-import {
-    getJointBoons,
-    getLegendFieldBoons,
-    removeFirstUserLegendResource
-} from "./components/legends/functions/legendsFunctions";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {processUptrade} from "./components/resources/resourcesFunctions";
@@ -300,10 +295,13 @@ function GameBoard(props) {
         if (isActivePlayer && (playerState.actions > 0 || playerState.activeEffects.length > 0)) {
             let tLegends = cloneDeep(legends);
             const field = tLegends[legendIndex].fields[columnIndex][fieldIndex];
-            const boon = getLegendFieldBoons(field, numOfPlayers);
-            const cost = field.cost;
+            const boon = field.effects[0];
+            const effects = [...field.cost];
+            if (boon) {
+                effects.push(boon);
+            }
             // first we process effects to see whether player has enough resources
-            const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, boon.concat(cost),
+            const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, effects,
                 cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
             if (legendResult) {
                 const tStore = legendResult.tStore;
@@ -319,7 +317,9 @@ function GameBoard(props) {
                     }
                 }
                 tLegends = legendResult.tLegends;
-                // resources that can only be used once have to be removed now...
+
+                // all rewards are one time now = todo remove
+                /*// resources that can only be used once have to be removed now...
                 if (boon.includes(EFFECT.gainCoinIfFirst) || boon.includes(EFFECT.gainExploreIfFirst) || boon.includes(EFFECT.gainMapIfFirst)) {
                     tLegends[legendIndex].fields[columnIndex][fieldIndex] = removeFirstUserLegendResource(boon, field, numOfPlayers);
                 }
@@ -329,7 +329,12 @@ function GameBoard(props) {
                         type: REWARD_TYPE.legendFieldEffects, data: getJointBoons(boon),
                         params: {legendIndex: legendIndex, columnIndex: columnIndex, fieldIndex: fieldIndex}
                     });
+                }*/
+
+                if (boon) {
+                    tLegends[legendIndex].fields[columnIndex][fieldIndex].effects.splice(0, 1);
                 }
+
                 if (rewardsData.length > 0) {
                     initiateRewardsModal(rewardsData);
                 }

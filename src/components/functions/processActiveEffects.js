@@ -38,7 +38,6 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.activateOccupiedLocation:
-            debugger
             if (tLocation !== null && tLocation.adventurers.length > 0
                 && (tLocation.level !== LOCATION_LEVEL["3"] || tPlayerState.resources.coins > 0)) {
                 let effects = tLocation.effects;

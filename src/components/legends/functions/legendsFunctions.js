@@ -110,7 +110,8 @@ export function getBoonReplacement(jointBoon, usedBoon) {
     }
 }
 
-export function getLegendFieldBoons(field, numOfPlayers) {
+// effects are now random and contained in one array = todo remove
+/*export function getLegendFieldBoons(field, numOfPlayers) {
     if (numOfPlayers === 4 && field.effects4p) {
         console.log("Returning legend field boons for 4 players: " + field.effects4p);
         return field.effects4p.effects;
@@ -124,7 +125,7 @@ export function getLegendFieldBoons(field, numOfPlayers) {
         console.log("Returning basic legend field boons: " + field.effects);
         return field.effects;
     }
-}
+}*/
 
 export function getJointBoons(boon) {
     if (boon.includes(EFFECT.gainExploreOrMapIfFirst)) {

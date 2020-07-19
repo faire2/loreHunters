@@ -24,7 +24,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let showRewardsModal = false;
     let rewardsData = {type: REWARD_TYPE.card, data: []};
     exitLoopFromSwitch();
-
+debugger
     // eslint-disable-next-line no-unused-vars
     function exitLoopFromSwitch() {
         for (let effect of effects) {

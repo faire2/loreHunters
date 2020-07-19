@@ -14,9 +14,11 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
             transportType = TRANSPORT_TYPE.ship;
         } else if (location.type === LOCATION_TYPE.brown) {
             transportType = TRANSPORT_TYPE.jeep;
+        } else if (location.type === LOCATION_TYPE.basic) {
+            transportType = TRANSPORT_TYPE.walk;
         } else {console.error("Unable to determine location type: " + location.type)}
 
-        if (location.level === LOCATION_LEVEL["2"]) {
+        if (location.level === LOCATION_LEVEL["2"] || location.level === LOCATION_LEVEL["1"]) {
             transportCost = 1;
         } else if (location.level === LOCATION_LEVEL["3"]) {
             transportCost = 2;

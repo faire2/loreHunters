@@ -42,12 +42,12 @@ export const Legends = Object.freeze({
             /* 1 */
             [
                 {
-                    effects: [],
+                    effectSlots: [0, 0, 0, 0],
                     cost: [EFFECT.loseExplore, EFFECT.loseWeapon],
                     size: FIELD_SIZE["2"],
                 },
                 {
-                    effects: [],
+                    effectSlots: [0, 0, 0, 0],
                     cost: [EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
@@ -55,12 +55,12 @@ export const Legends = Object.freeze({
             /* 2 */
             [
                 {
-                    effects: [EFFECT.gainCoinIfFirst],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.gainExploreOrMapIfFirst],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["2"],
                 },
@@ -68,7 +68,7 @@ export const Legends = Object.freeze({
             /* 3 */
             [
                 {
-                    effects: [EFFECT.gainMap],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseExplore, EFFECT.loseText, EFFECT.loseText],
                     size: FIELD_SIZE["3"],
                 },
@@ -77,19 +77,17 @@ export const Legends = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.gainMap],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.gainExploreIfFirst],
-                    effects3p: [EFFECT.gainExploreIfFirst, EFFECT.gainExploreIfFirst],
+                    effectSlots: [1, 1, 2, 2],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.gainCoinIfFirst],
-                    effects4p: [EFFECT.gainCoinIfFirst, EFFECT.gainCoinIfFirst],
+                    effectSlots: [1, 1, 1, 2],
                     cost: [EFFECT.loseWeapon, EFFECT.loseWeapon],
                     size: FIELD_SIZE["1"],
                 },
@@ -97,7 +95,7 @@ export const Legends = Object.freeze({
             /* 5 */
             [
                 {
-                    effects: [EFFECT.gainMap],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseCoin, EFFECT.loseJewel],
                     size: FIELD_SIZE["3"],
                 },
@@ -106,12 +104,12 @@ export const Legends = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.destroyCard, EFFECT.gainCoinIfFirst],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["1"],
                 },
                 {
-                    effects: [EFFECT.gainOrUpgradeAssistant],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseText],
                     size: FIELD_SIZE["2"],
                 },
@@ -120,12 +118,12 @@ export const Legends = Object.freeze({
             [
 
                 {
-                    effects: [EFFECT.draw1],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseExplore, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["2"],
                 },
                 {
-                    effects: [EFFECT.defeatGuardian],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseText, EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
@@ -134,7 +132,7 @@ export const Legends = Object.freeze({
             [
 
                 {
-                    effects: [],
+                    effectSlots: [1, 1, 1, 1],
                     cost: [EFFECT.loseExplore, EFFECT.loseJewel],
                     size: FIELD_SIZE["3"],
                 },
