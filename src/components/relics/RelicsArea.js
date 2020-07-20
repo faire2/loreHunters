@@ -2,7 +2,6 @@ import React, {useContext} from "react";
 import {Relic} from "../Symbols";
 import bgr from "../../img/relics/relicsBackground.png"
 import {PlayerStateContext} from "../../Contexts";
-import {EFFECT} from "../../data/effects";
 import vpBgr from "../../img/symbols/VP.png";
 import {JsxFromEffects} from "../JsxFromEffects";
 
@@ -46,7 +45,7 @@ export function RelicsArea() {
         width: "26%",
         marginRight: "4.5%",
         marginBottom: "1%",
-        fontSize: "1.8vw",
+        fontSize: "2.8vw",
         cursor: "pointer",
     };
 
@@ -82,15 +81,16 @@ export function RelicsArea() {
     };
 
     const effectsArr = [
-        [EFFECT.gainJewel],
-        [EFFECT.gainJewel],
-        [EFFECT.gainCoin, EFFECT.gainWeapon],
-        [EFFECT.gainWeapon],
-        [EFFECT.gainExplore, EFFECT.gainText],
-        [EFFECT.gainCoin, EFFECT.gainText],
-        [EFFECT.gainCoin],
-        [EFFECT.gainExplore],
-        [EFFECT.draw1]];
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+    ];
 
     const victoryPoints = [0, 1, 2, 4];
     const victoryPointsArr = victoryPoints.map((vp, i) =>
@@ -101,7 +101,7 @@ export function RelicsArea() {
 
     const fieldsArr =
         effectsArr.map((effect, i) => {
-                const style = effect.length === 1 ? fieldStyle1Icon : fieldStyle2Icons
+                const style = effect.length !== 2 ? fieldStyle1Icon : fieldStyle2Icons
                 return (
                     <div style={style} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
                         {playerState.relics[i] ? <JsxFromEffects effectsArray={effect} fontSize={"2vw"}/> : <Relic/>}
@@ -109,7 +109,6 @@ export function RelicsArea() {
                 )
             }
         );
-
 
     return (
         <div style={containerStyle}>

@@ -2,6 +2,7 @@ import React from "react";
 import {EFFECT} from "../../data/effects";
 import {
     AdventurerToken,
+    Arrow,
     Artifact,
     AssistantUpgrade,
     Blimp,
@@ -102,6 +103,8 @@ export function getJsxSymbol(effect) {
             return <Relic/>
         case EFFECT.discoverLostCity:
             return ""
+        case EFFECT.arrow:
+            return <Arrow/>
         default:
             console.error("Unable to recognize effect: " + effect);
     }

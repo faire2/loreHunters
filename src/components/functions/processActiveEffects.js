@@ -11,7 +11,6 @@ import {
     resolveRelocation,
     updateLocations
 } from "../locations/functions/locationFunctions";
-import {Jewel, Text, Weapon} from "../Symbols";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
@@ -185,13 +184,13 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                         if (!alreadyPresent) {
                             switch (effect) {
                                 case EFFECT.gainText:
-                                    rewards.push({effects: [EFFECT.gainText], effectsText: <Text/>});
+                                    rewards.push([EFFECT.gainText]);
                                     break;
                                 case EFFECT.gainWeapon:
-                                    rewards.push({effects: [EFFECT.gainWeapon], effectsText: <Weapon/>});
+                                    rewards.push([EFFECT.gainWeapon]);
                                     break;
                                 case EFFECT.gainJewel:
-                                    rewards.push({effects: [EFFECT.gainJewel], effectsText: <Jewel/>});
+                                    rewards.push([EFFECT.gainJewel]);
                                     break;
                                 default: // do nothing
                             }

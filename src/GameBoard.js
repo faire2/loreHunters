@@ -28,7 +28,14 @@ import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
 import {handleLocation} from "./components/locations/functions/handleLocation";
-import {ACTION_TYPE, CARD_STATE, CARD_TYPE, LCL_STORAGE, TRANSMISSIONS} from "./components/functions/enums";
+import {
+    ACTION_TYPE,
+    CARD_STATE,
+    CARD_TYPE,
+    LCL_STORAGE,
+    REWARD_TYPE,
+    TRANSMISSIONS
+} from "./components/functions/enums";
 import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
 import {processIncomeTile} from "./components/functions/processIncome";
 import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
@@ -387,6 +394,9 @@ function GameBoard(props) {
     /** HANDLE CLICK ON RELIC **/
     function handleClickOnRelic(effects, effectIndex) {
         let tPlayersState = cloneDeep(playerState);
+        const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
+        [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
+        initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
         if (tPlayersState.relics[effectIndex] && tPlayersState.resources.relics > 0) {
             let effectsResult = processEffects(null, null, tPlayersState, effects, null,
                 cloneDeep(store), null, cloneDeep(locations), null);

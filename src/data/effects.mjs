@@ -3,6 +3,7 @@ export const EFFECT = Object.freeze({
     activateYourLocation: "activae a location occupied by you",
     activateAdjacentLocation: "activate a location adjacent to you adventurer",
     activateEmptyL1Location: "activate an empty level 1 location",
+    arrow: "trade resource on the left for resource on the right",
     buyItemWithDiscount3: "buy an item with discount of 3 coins",
     defeatGuardian: "defeat a guardian in play area or discard pile",
     defeatThisGuardian: "defeat this guardian card",

@@ -24,6 +24,7 @@ import {Legends} from "../../data/legends.mjs";
 import {exploreLocation} from "../locations/functions/exploreLocation";
 import {Guardians} from "../../data/guardians";
 import {Relic, SilverRelic} from "../Symbols";
+import {JsxFromEffects} from "../JsxFromEffects";
 
 
 export default function ChooseRewardModal() {
@@ -50,7 +51,7 @@ export default function ChooseRewardModal() {
     };
 
     const rewardStyle = {
-        fontSize: "6vw",
+        fontSize: "4vw",
         display: "flex",
         flexFlow: "row",
         alignItems: "center",
@@ -71,7 +72,7 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.legendFieldEffects:
             case REWARD_TYPE.effectsArr:
-                element = reward.effectsText;
+                element = <JsxFromEffects effectsArray={reward}/>;
                 break;
             case REWARD_TYPE.location:
                 element = <Location location={reward}/>;
@@ -171,7 +172,7 @@ export default function ChooseRewardModal() {
                 }
                 break;
             case REWARD_TYPE.effectsArr:
-                const effectsResult = processEffects(null, null, tPlayerState, effects, null, null, null, null);
+                const effectsResult = processEffects(null, null, tPlayerState, reward, null, null, null, null);
                 if (effectsResult.processedAllEffects) {
                     tPlayerState = effectsResult.tPlayerState;
                     //finishRound = effectsResult.finishRound;

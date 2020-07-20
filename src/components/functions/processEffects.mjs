@@ -5,7 +5,6 @@ import {ITEM_IDs} from "../../data/idLists.mjs";
 import {GUARDIAN_IDs} from "../../data/idLists";
 import {addCardToPlayedCards} from "./cardManipulationFuntions";
 import React from "react";
-import {Coin} from "../Symbols";
 import {ASSISTANT, CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
@@ -271,11 +270,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     showRewardsModal = true;
                     rewardsData = {
                         type: REWARD_TYPE.effectsArr, data: [
-                            {effects: [EFFECT.gainCoin, EFFECT.gainCoin], effectsText: <div><Coin/><Coin/></div>},
-                            {
-                                effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.finishRound],
-                                effectsText: <div><Coin/><Coin/><Coin/></div>
-                            }
+                            [EFFECT.gainCoin, EFFECT.gainCoin],
+                            [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.finishRound]
                         ]
                     };
                     break;
