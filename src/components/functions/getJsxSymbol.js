@@ -12,6 +12,7 @@ import {
     Discard,
     Draw1Card,
     Explore,
+    GainAction,
     GoldAssistant,
     Item,
     Jeep,
@@ -71,12 +72,12 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainItem:
         case EFFECT.buyItemWithDiscount3:
         case EFFECT.gainItemToHand:
-        case EFFECT.revealItemBuyWithDiscount2:
+        case EFFECT.revealItemBuyWithDiscount3:
         case EFFECT.useItemOnMarket:
             return <Item/>;
         case EFFECT.gainArtifact:
         case EFFECT.gainArtifactForExplore:
-        case EFFECT.revealArtifactBuyWithDiscount:
+        case EFFECT.revealArtifactBuyWithDiscount3:
         case EFFECT.useArtifactOnMarket:
             return <Artifact/>;
         case EFFECT.gainRewardLevel:
@@ -101,7 +102,10 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainOrUpgradeRelic:
         case EFFECT.gainBronzeRelic:
             return <Relic/>
+        case EFFECT.gainAction:
+            return <GainAction/>
         case EFFECT.discoverLostCity:
+        case EFFECT.finishRound:
             return ""
         case EFFECT.arrow:
             return <Arrow/>

@@ -2,8 +2,6 @@ import {addCardToStore, drawCards, removeCard} from "./cardManipulationFuntions.
 import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {ITEM_IDs} from "../../data/idLists.mjs";
-import {GUARDIAN_IDs} from "../../data/idLists";
-import {addCardToPlayedCards} from "./cardManipulationFuntions";
 import React from "react";
 import {ASSISTANT, CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
@@ -43,6 +41,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.gainItemToHand:
                 case EFFECT.gainResourceFromAdjacentLocation:
                 case EFFECT.payToUseOccupiedLocation:
+                case EFFECT.placeToBasicLocation:
+                case EFFECT.placeToBrownLocation:
+                case EFFECT.placeToGreenLocation:
                 case EFFECT.progressWithJewel:
                 case EFFECT.progressWithTextsOrWeapon:
                 case EFFECT.removeGuardian:
@@ -50,6 +51,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.useItemOnMarket:
                 case EFFECT.activateYourLocation:
                 case EFFECT.activateAdjacentLocation:
+                case EFFECT.activateEmptyL2Location:
                 case EFFECT.activateEmptyL1Location:
                 case EFFECT.useArtifactOnMarket:
                     tActiveEffects.push(effect);
@@ -188,6 +190,20 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState = drawCards(2, tPlayerState);
                     break;
 
+                case EFFECT.draw3keep1:
+                    const cardsToDraw = tPlayerState.drawDeck.length > 2 ? 3 : tPlayerState.drawDeck.length;
+                    const rewardCards = [];
+                    for (let i = 0; i < cardsToDraw; i++) {
+                        rewardCards.push(tPlayerState.drawDeck[i]);
+                    }
+                    tPlayerState.drawDeck.splice(0, cardsToDraw);
+                    rewardsData = {
+                        type: REWARD_TYPE.card,
+                        data: rewardCards,
+                    };
+                    showRewardsModal = true;
+                    break;
+
                 case EFFECT.drawFromDrawDeckOrDiscard:
                     rewardsData = {
                         type: REWARD_TYPE.card,
@@ -196,7 +212,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     showRewardsModal = true;
                     break;
 
-                case EFFECT.draw2ForGuardian:
+                /*case EFFECT.draw2ForGuardian:
                     let isGuardian = false;
                     for (const card of tPlayerState.hand) {
                         if (card.type === CARD_TYPE.guardian) {
@@ -206,18 +222,19 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     if (isGuardian) {
                         drawCards(2, tPlayerState)
                     }
-                    break;
+                    break;*/
 
-                case EFFECT.escapeGuardian:
+                /*case EFFECT.escapeGuardian:
                     if (tCard.type === CARD_TYPE.guardian) {
                         tPlayerState.destroyedCards.push(GUARDIAN_IDs[tCard.id]);
                         tPlayerState.activeCards.splice(cardIndex, 1);
                         tPlayerState = addCardToPlayedCards(cloneDeep(ITEM_IDs.fear), tPlayerState);
                     }
-                    break;
+                    break;*/
 
                 case EFFECT.finishRound:
                     tPlayerState.finishedRound = true;
+                    debugger
                     break;
 
                 case EFFECT.gainAction:
@@ -245,9 +262,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.maps += 1;
                     break;
 
-                case EFFECT.gainDiscoveryBonus:
+                /*case EFFECT.gainDiscoveryBonus:
                     tActiveEffects.push(effect);
-                    /* hand is stored in activeEffects to be retrieved later */
+                    /!* hand is stored in activeEffects to be retrieved later *!/
                     tActiveEffects.splice(1, 0, tPlayerState.hand);
                     let newHand = [];
                     for (let card of tPlayerState.victoryCards) {
@@ -256,7 +273,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         }
                     }
                     tPlayerState.hand = newHand;
-                    break;
+                    break;*/
 
                 case EFFECT.gainAdventurerForThisRound:
                     tPlayerState.availableAdventurers += 1;
@@ -270,7 +287,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     showRewardsModal = true;
                     rewardsData = {
                         type: REWARD_TYPE.effectsArr, data: [
-                            [EFFECT.gainCoin, EFFECT.gainCoin],
+                            [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainAction],
                             [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.finishRound]
                         ]
                     };
@@ -278,19 +295,17 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainCoinAndExploresForGuardians:
                     let defeatedGuardians = 0;
-                    for (let card of tPlayerState.victoryCards) {
-                        if (card.type === CARD_TYPE.guardian) {
-                            defeatedGuardians += 1;
-                        }
+                    for (let guardian of tPlayerState.defeatedGuardians) {
+                        defeatedGuardians += 1;
                     }
                     defeatedGuardians = defeatedGuardians > 3 ? 3 : defeatedGuardians;
                     tPlayerState.resources.explore += 1;
                     tPlayerState.resources.coins += defeatedGuardians;
                     break;
 
-                case EFFECT.gainCoinsAndJewelForGuardianVP:
+                /*case EFFECT.gainCoinsAndJewelForGuardianVP:
                     tActiveEffects.push(effect);
-                    /* hand is stored in activeEffects to be retrieved later */
+                    /!* hand is stored in activeEffects to be retrieved later *!/
                     tActiveEffects.splice(1, 0, tPlayerState.hand);
                     let tempHand = [];
                     for (let card of tPlayerState.victoryCards) {
@@ -299,7 +314,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         }
                     }
                     tPlayerState.hand = tempHand;
-                    break;
+                    break;*/
 
                 /*case EFFECT.gainCoinsIfLast:
                     if (tPlayerState.hand.length === 1) {
@@ -313,13 +328,13 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainExploreForGuardians:
                     let guardians = 0;
-                    for (const card of tPlayerState.victoryCards) {
-                        guardians = card.type === CARD_TYPE.guardian ? guardians + 1 : guardians;
+                    for (const guardian of tPlayerState.defeatedGuardians) {
+                        guardians += 1;
                     }
-                    for (const card of tPlayerState.activeCards) {
+                    /*for (const card of tPlayerState.activeCards) {
                         guardians = card.type === CARD_TYPE.guardian ? guardians + 1 : guardians;
-                    }
-                    guardians = guardians > 3 ? 3 : guardians;
+                    }*/
+                    guardians = guardians > 4 ? 4 : guardians;
                     tPlayerState.resources.explore += guardians;
                     break;
 
@@ -498,12 +513,12 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     //todo legends;
                     break;
 
-                case EFFECT.revealItemBuyWithDiscount2:
+                case EFFECT.revealItemBuyWithDiscount3:
                     tActiveEffects.push(effect);
                     tStore = addCardToStore(CARD_TYPE.item, tStore);
                     break;
 
-                case EFFECT.revealArtifactBuyWithDiscount:
+                case EFFECT.revealArtifactBuyWithDiscount3:
                     tActiveEffects.push(effect);
                     tStore = addCardToStore(CARD_TYPE.artifact, tStore);
                     break;

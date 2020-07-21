@@ -16,7 +16,7 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
         const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
             null, {...tStore}, tLocations, initiateRewardsModal);
         console.log("finished processing active effects in location");
-        return {playerState: effectResult.playerState, locations: effectResult.locations, store: effectResult.store};
+        return {playerState: effectResult.tPlayerState, locations: effectResult.tLocations, store: effectResult.tStore};
     } else {
         switch (location.state) {
             case LOCATION_STATE.unexplored:

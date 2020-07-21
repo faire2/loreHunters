@@ -10,7 +10,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     let processGuardian = false;
 
     /* Fishing Rod discount effect */
-    if (activeEffect === EFFECT.revealItemBuyWithDiscount2) {
+    if (activeEffect === EFFECT.revealItemBuyWithDiscount3) {
         card.cost = card.cost  >= 3 ? card.cost - 3 : 0;
     }
     
@@ -20,7 +20,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     }
 
     /* Compass effect */
-    if (activeEffect === EFFECT.revealArtifactBuyWithDiscount) {
+    if (activeEffect === EFFECT.revealArtifactBuyWithDiscount3) {
         card.cost = card.cost >= 3 ? card.cost - 3 : 0;
     }
 
@@ -46,7 +46,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     /* we check that we can buy the item */
     if (card.type === CARD_TYPE.item && card.cost <= tPlayerState.resources.coins) {
         /* if we revealed extra item and it was not bought we must discard it */
-        if (activeEffect === EFFECT.revealItemBuyWithDiscount2) {
+        if (activeEffect === EFFECT.revealItemBuyWithDiscount3) {
             tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
             if (cardIndex !== tStore.itemsOffer.length) {
                 tStore.itemsOffer.splice(cardIndex, 1);
@@ -70,7 +70,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         tPlayerState.actions -= 1;
         addLogEntry(tPlayerState, ACTION_TYPE.buysItem, card.id, {coins: card.cost});
     } else if (card.type === CARD_TYPE.artifact && card.cost <= tPlayerState.resources.explore) {
-        if (activeEffect === EFFECT.revealArtifactBuyWithDiscount) {
+        if (activeEffect === EFFECT.revealArtifactBuyWithDiscount3) {
             tStore.artifactsOffer.splice(tStore.artifactsOffer.length - 1);
             if (cardIndex !== tStore.artifactsOffer.length) {
                 tStore.artifactsOffer.splice(cardIndex, 1);
@@ -96,8 +96,8 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         console.log("Card could not be bought: ");
         console.log(card);
     }
-    if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount2
-        || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount ||
+    if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount3
+        || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount3 ||
         activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItem) {
         tPlayerState.activeEffects.splice(0, 1);
     }

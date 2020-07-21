@@ -33,11 +33,11 @@ export const ITEM_IDs = Object.freeze({
     horse: {
         id: "horse",
         type: CARD_TYPE.item,
-    },
+    },/*
     dog: {
         id: "dog",
         type: CARD_TYPE.item,
-    },
+    },*/
     steamBoat: {
         id: "steamBoat",
         type: CARD_TYPE.item,
@@ -50,14 +50,14 @@ export const ITEM_IDs = Object.freeze({
         id: "astrolabe",
         type: CARD_TYPE.item,
     },*/
-    hotAirBaloon: {
+    /*hotAirBaloon: {
         id: "hotAirBaloon",
         type: CARD_TYPE.item,
     },
     airplane: {
         id: "airplane",
         type: CARD_TYPE.item,
-    },
+    },*/
     goldPan: {
         id: "goldPan",
         type: CARD_TYPE.item,
@@ -158,10 +158,10 @@ export const ITEM_IDs = Object.freeze({
         id: "bookOfMyths",
         type: CARD_TYPE.item,
     },
-    bag: {
+    /*bag: {
         id: "bag",
         type: CARD_TYPE.item,
-    },
+    },*/
     flask: {
         id: "flask",
         type: CARD_TYPE.item,
@@ -170,10 +170,10 @@ export const ITEM_IDs = Object.freeze({
         id: "floraSamples",
         type: CARD_TYPE.item,
     },*/
-    /*boomerang: {
+    boomerang: {
         id: "boomerang",
         type: CARD_TYPE.item,
-    },*/
+    },
     /*beetleMask: {
         id: "beetleMask",
         type: CARD_TYPE.item,

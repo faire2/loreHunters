@@ -90,8 +90,6 @@ export default function ChooseRewardModal() {
     }
 
     function handleClickOnReward(reward, index) {
-        let effects = [];
-        //let finishRound = false;
         switch (rewardType) {
             case REWARD_TYPE.card:
                 if (reward.type === CARD_TYPE.goalCard) {
@@ -175,7 +173,6 @@ export default function ChooseRewardModal() {
                 const effectsResult = processEffects(null, null, tPlayerState, reward, null, null, null, null);
                 if (effectsResult.processedAllEffects) {
                     tPlayerState = effectsResult.tPlayerState;
-                    //finishRound = effectsResult.finishRound;
                 } else {
                     console.log("Effects could not be processed in handleClickOnReward");
                     console.log(reward);

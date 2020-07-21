@@ -69,7 +69,7 @@ export const LocationL2 = (props) => <img src={location2} alt="location of level
 export const LocationL3 = (props) => <img src={location3} alt="location of level 3" style={responsive}/>;
 export const VictoryPoints = (props) => <img src={victoryPoints} alt="victory points icon" style={responsive}/>;
 export const Treasure = (props) => <img src={treasure} alt="treasure" style={responsive}/>;
-export const FreeAction = (props) => <img src={freeAction} alt="treasure" style={responsive}/>;
+export const GainAction = (props) => <img src={freeAction} alt="treasure" style={responsive}/>;
 export const Flash = (props) => <img src={flash} alt="action" style={responsive}/>;
 export const Map = (props) => <img src={map} alt="map" style={responsive}/>;
 export const SilverAssistant = (props) => <img src={silverAssistantBgr} alt="silver assistant background"

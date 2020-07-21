@@ -43,6 +43,7 @@ import {processLegend} from "./components/legends/functions/processLegend";
 
 function GameBoard(props) {
     console.log("** render **");
+
     /** GAME STATES **/
     const [roomName, setRoomName] = useState(null);
     const [playerIndex, setPlayerIndex] = useState(null);
@@ -196,6 +197,7 @@ function GameBoard(props) {
             setRewardsModalData(tRewardsModalData);
         }
         //if an effect finished player's turn, end the turn
+        debugger
         if (tPlayerState.finishedRound) {
             addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
             console.log("finishing round");
@@ -221,14 +223,16 @@ function GameBoard(props) {
         console.log("Handling card effects: " + tCard.cardName);
         console.log(effects);
 
-        let isAllowed = false;
+        let hasResourceForArtifact = false;
+        let hasAction = !costsAction || tPlayerState.actions > 0;
         if (tCard.type === CARD_TYPE.artifact) {
-            isAllowed = !costsAction || tPlayerState.resources.texts > 0
+            // artifact can be played for free as a transport or for a text
+            hasResourceForArtifact = !costsAction || tPlayerState.resources.texts > 0;
         }
 
         if (isActivePlayer) {
-            if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
-                (tCard.type === CARD_TYPE.artifact && isAllowed)) {
+            if ((tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
+                (tCard.type === CARD_TYPE.artifact && hasResourceForArtifact)) && hasAction) {
                 if (tCard.state === CARD_STATE.inHand || tCard.state === undefined) {
                     tPlayerState.activeCards.push(tCard);
                     tCard.state = CARD_STATE.active;
@@ -241,6 +245,11 @@ function GameBoard(props) {
                 /* if the card is an artifact and effect is not a transport, pay for the use */
                 if (tCard.type === CARD_TYPE.artifact && costsAction) {
                     tPlayerState.resources.texts -= 1;
+                }
+
+                /* if card use costs an action (= card is not used as a transport) we spend it */
+                if (costsAction) {
+                    tPlayerState.actions -= 1;
                 }
 
                 /* some card need rewards modal window to choose between possible effects */
@@ -437,12 +446,12 @@ function GameBoard(props) {
     /** CANCEL EFFECTS **/
     function cancelEffects() {
         let tPlayerState = cloneDeep(playerState);
-        if (tPlayerState.activeEffects[0] === EFFECT.revealItemBuyWithDiscount2) {
+        if (tPlayerState.activeEffects[0] === EFFECT.revealItemBuyWithDiscount3) {
             const tStore = cloneDeep(store);
             tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
             setStore(tStore);
         }
-        if (tPlayerState.activeEffects[0] === EFFECT.revealArtifactBuyWithDiscount) {
+        if (tPlayerState.activeEffects[0] === EFFECT.revealArtifactBuyWithDiscount3) {
             const tStore = cloneDeep(store);
             tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
             setStore(tStore);
@@ -478,6 +487,7 @@ function GameBoard(props) {
             }
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
+            console.log("** finishing turn **")
             socket.emit(TRANSMISSIONS.nextPlayer, {
                 roomName: roomName,
                 playerState: tPlayerState,
@@ -498,7 +508,7 @@ function GameBoard(props) {
     function handleEndRound() {
         if (isActivePlayer) {
             addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
-            console.log("finishing round");
+            console.log("** finishing round **");
             socket.emit(TRANSMISSIONS.finishedRound, {
                 roomName: roomName,
                 playerState: playerState,

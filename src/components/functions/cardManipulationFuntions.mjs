@@ -34,10 +34,11 @@ export function drawCards(cardsNum, origPlayerState) {
     // guardians are then deployed to active cards area with locked cards
     let guardians = [];
     for (let i = 0; i < cardsNum; i++) {
-        if (drawDeck.length === 0) {
+        // todo if there are no cards to draw the effect is forfeit
+        /*if (drawDeck.length === 0) {
             tPlayerState = addActiveCardsToDrawDeck(tPlayerState);
             drawDeck = tPlayerState.drawDeck;
-        }
+        }*/
         if (drawDeck.length > 0) {
             let card = drawDeck[0];
             // guardians go to play area and another card is drawn to hand
