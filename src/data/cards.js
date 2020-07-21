@@ -398,7 +398,7 @@ export const ITEMS = Object.freeze({
         cardName: "Grappling Hook",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Draw3Cards/></div>,
+        effectsText: <div className="effectsText"><Draw3Cards/>, keep 1 of them</div>,
         effects: [EFFECT.draw3keep1],
         image: grapplingHookImg,
         cost: 2,
@@ -581,7 +581,7 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Coin/><Text/><DestroyCard/></div>,
-        effects: [EFFECT.gainText, EFFECT.destroyCard],
+        effects: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.destroyCard],
         image: torchImg,
         cost: 1,
         points: 1

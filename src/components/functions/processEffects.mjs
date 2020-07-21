@@ -30,6 +30,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.activateOccupiedLocation:
                 case EFFECT.buyItemWithDiscount3:
                 case EFFECT.defeatGuardian:
+                case EFFECT.destroyCard:
                 case EFFECT.drawFromDiscard:
                 case EFFECT.exploreAnyLocationWithDiscount3:
                 case EFFECT.exploreAnyLocationWithDiscount4:
@@ -83,7 +84,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         tActiveEffects.push(effect);
                         tActiveEffects.splice(1, 0, [...tEffects]);
                         // if discard leads to defeat of guardian, we need to remember the card
-                        tActiveEffects.splice(2, 0, {card: tCard, position: cardIndex});
+                        tActiveEffects.splice(2, 0, {location: location});
                         return;
                     } else {
                         processedAllEffects = false;
@@ -113,6 +114,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.defeatThisGuardian:
                     if (location) {
                         if (location.state === LOCATION_STATE.guarded) {
+                            tPlayerState.defeatedGuardians.push(location.guardian.id)
                             location.guardian = null;
                             location.state = LOCATION_STATE.explored;
                             tLocations = updateLocations(location, tLocations);
@@ -124,7 +126,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case EFFECT.destroyCard:
+                /*case EFFECT.destroyCard:
                     let tEffects = [];
                     const effectsIndex = effects.indexOf(EFFECT.destroyCard);
                     for (let i = effectsIndex + 1; i < effects.length; i++) {
@@ -133,7 +135,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tActiveEffects.push(effect);
                     const activeEffectsIndex = tActiveEffects.indexOf(effect);
                     tActiveEffects.splice(activeEffectsIndex + 1, 0, [...tEffects]);
-                    return;
+                    return;*/
 
                 case EFFECT.destroyThisCard:
                     if (tCard !== null) {
@@ -234,7 +236,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.finishRound:
                     tPlayerState.finishedRound = true;
-                    debugger
                     break;
 
                 case EFFECT.gainAction:
@@ -349,8 +350,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainFear:
-                    tPlayerState.discardDeck.push({...ITEM_IDs.fear});
-                    tPlayerState.discardDeck[tPlayerState.discardDeck.length - 1].state = CARD_STATE.played;
+                    tPlayerState.activeCards.push({...ITEM_IDs.fear});
+                    tPlayerState.activeCards[tPlayerState.activeCards.length - 1].state = CARD_STATE.played;
                     break;
 
                 case EFFECT.gainJeep:

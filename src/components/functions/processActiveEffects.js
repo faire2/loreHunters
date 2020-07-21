@@ -57,7 +57,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.activateYourLocation:
-            if (tLocation !== null && tLocation.adventurers.length > 0 && tLocation.owner === tPlayerState.playerIndex) {
+            if (tLocation !== null && tLocation.adventurers.length > 0 && tLocation.adventurers[0] === tPlayerState.playerIndex) {
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, null,
                     tStore, tLocation, tLocations, null);
                 tPlayerState = effectsResult.tPlayerState;
@@ -107,9 +107,14 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             if (tCard && tCard.state === CARD_STATE.inHand) {
                 tPlayerState = addCardToPlayedCards(tCard, tPlayerState);
                 tPlayerState.hand.splice(cardIndex, 1);
-                const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tPlayerState.activeEffects, tStore, null, null);
+                // we might have store location in active effects if discard was part of defeating a guardian
+                if (tPlayerState.activeEffects[2].location) {
+                    tLocation = tPlayerState.activeEffects[2].location;
+                }
+                const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tPlayerState.activeEffects, tStore, tLocation, tLocations);
                 tPlayerState = effectsResults.tPlayerState;
                 tPlayerState.activeEffects = [];
+                tLocations = effectsResults.tLocations;
             }
             break;
 
@@ -144,9 +149,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState = removeCard(tCard, tPlayerState);
                 tCard.state = CARD_STATE.destroyed;
                 tPlayerState.destroyedCards.push(tCard);
-                const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tPlayerState.activeEffects, tStore, null, null);
-                tPlayerState = effectsResults.tPlayerState;
-                tPlayerState.activeEffects.splice(0, 2);
+                tPlayerState.activeEffects.splice(0, 1);
                 break;
             }
             break;

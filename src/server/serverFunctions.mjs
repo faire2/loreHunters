@@ -138,6 +138,10 @@ export function processEndOfRound(room) {
         }
         tPlayerState.hand = [];
 
+        /* played cards go to draw deck*/
+        tPlayerState.drawDeck = [...tPlayerState.drawDeck, ...tPlayerState.activeCards];
+        tPlayerState.activeCards = [];
+
         /* in 5th round all guardians come into play */
         /*if (round === 4) { todo can probably be removed
             console.log("ensuring guardians enter play");

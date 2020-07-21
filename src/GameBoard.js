@@ -197,7 +197,6 @@ function GameBoard(props) {
             setRewardsModalData(tRewardsModalData);
         }
         //if an effect finished player's turn, end the turn
-        debugger
         if (tPlayerState.finishedRound) {
             addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
             console.log("finishing round");

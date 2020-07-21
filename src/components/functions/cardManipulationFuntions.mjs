@@ -18,6 +18,7 @@ export function addCardToPlayedCards(card, tPlayersState) {
     tPlayersState.activeCards.push(idCard);
     return tPlayersState;
 }
+
 /*export function addCardToDiscardDeck(card, tPlayersState) {
     let idCard = getIdCard(card);
     idCard.state = CARD_STATE.discard;
@@ -105,19 +106,19 @@ export function addActiveCardsToDrawDeck(origPlayerState) {
 export function addCardToStore(cardType, store) {
     let tCard = "";
     if (cardType === CARD_TYPE.item) {
-        tCard = store.itemsDeck[0];
         store.itemsDeck.splice(0, 1);
+        tCard = store.itemsDeck[0];
+        tCard.state = CARD_STATE.inStore;
         store.itemsOffer.push(tCard)
     } else if (cardType === CARD_TYPE.artifact) {
-        tCard = store.artifactsDeck[0];
         store.artifactsDeck.splice(0, 1);
+        tCard = store.artifactsDeck[0];
+        tCard.state = CARD_STATE.inStore;
         store.artifactsOffer.push(tCard);
     } else {
         console.log("Unknown card type in addCardToStore: " + cardType);
     }
-    tCard.state = CARD_STATE.inStore;
-    const tStore = cloneDeep(store);
-    return tStore;
+    return cloneDeep(store);
 }
 
 export function removeCard(card, tPlayerState) {
@@ -127,10 +128,8 @@ export function removeCard(card, tPlayerState) {
             tPlayerState.hand = spliceCardIfFound(card, tPlayerState.hand);
             break;
         case CARD_STATE.active:
-            tPlayerState.activeCards = spliceCardIfFound(card, tPlayerState.activeCards);
-            break;
         case CARD_STATE.played:
-            tPlayerState.discardDeck = spliceCardIfFound(card, tPlayerState.discardDeck);
+            tPlayerState.activeCards = spliceCardIfFound(card, tPlayerState.activeCards);
             break;
         case CARD_STATE.drawDeck:
             tPlayerState.drawDeck = spliceCardIfFound(card, tPlayerState.drawDeck);
