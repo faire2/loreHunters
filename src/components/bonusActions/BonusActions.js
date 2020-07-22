@@ -23,7 +23,7 @@ export const BonusActions = (props) => {
                 <Coin/>: <Walk/>
             </div>,
             <div style={bonusStyle}
-                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.gainBlimp])}>
+                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.gainPlane])}>
                 <Coin/><Coin/>: <Blimp/>
             </div>,
             <div style={bonusStyle}
@@ -35,7 +35,7 @@ export const BonusActions = (props) => {
                 <Coin/><Coin/>: <Uptrade/>
             </div>,
             <div style={bonusStyle}
-                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatGuardian])}>
+                 onClick={() => props.handleClickOnBonus([EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatGuardianOnOwnedLocation])}>
                 <Coin/><Coin/><Coin/>: <DefeatedGuardian/></div>
             ];
 

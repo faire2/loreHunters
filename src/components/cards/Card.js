@@ -348,7 +348,7 @@ const CardTop = (props) => {
                 break;
             case CARD_TRANSPORT.plane:
             case CARD_TRANSPORT.artifact:
-                effects.push(EFFECT.gainBlimp);
+                effects.push(EFFECT.gainPlane);
                 break;
             case CARD_TRANSPORT.empty:
             case CARD_TRANSPORT.guardian:

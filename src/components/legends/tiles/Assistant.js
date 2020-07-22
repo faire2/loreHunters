@@ -1,26 +1,26 @@
-import {INCOMES} from "./incomes";
+import {ASSISTANTS} from "./ASSISTANTS";
 import silverBgr from "../../../img/incomes/silverBack.png"
 import goldBgr from "../../../img/incomes/goldBack.png"
 import React, {useContext} from "react";
 import {BoardStateContext} from "../../../Contexts";
-import {INCOME_LEVEL, INCOME_SIZE, INCOME_STATE} from "../../functions/enums";
+import {ASSISTANT_LEVEL, ASSISTANT_STATE, ASSISTANT_TILE_SIZE} from "../../functions/enums";
 
-export const IncomeTile = (props) => {
+export const Assistant = (props) => {
     const idIncome = props.income;
-    const jsxIncome = INCOMES[idIncome.id];
+    const jsxIncome = ASSISTANTS[idIncome.id];
     const effects = idIncome.effects;
     const size = props.size;
     const boardStateContext = useContext(BoardStateContext);
     let state = idIncome.state;
 
-    const bgr = idIncome.level === INCOME_LEVEL.silver ? silverBgr : goldBgr;
+    const bgr = idIncome.level === ASSISTANT_LEVEL.silver ? silverBgr : goldBgr;
     const twoIcons = jsxIncome.effectsText.length > 1;
 
     const containerStyle = {
         backgroundSize: "contain",
-        width: size === INCOME_SIZE.small ? "2.1vw" : "2.8vw",
-        height: size === INCOME_SIZE.small ? "2.25vw" : "3vw",
-        fontSize: twoIcons ? (size === INCOME_SIZE.small ? "1.0vw" : "1.4vw") : (size === INCOME_SIZE.small ? "1.7vw" : "2.2vw"),
+        width: size === ASSISTANT_TILE_SIZE.small ? "2.1vw" : "2.8vw",
+        height: size === ASSISTANT_TILE_SIZE.small ? "2.25vw" : "3vw",
+        fontSize: twoIcons ? (size === ASSISTANT_TILE_SIZE.small ? "1.0vw" : "1.4vw") : (size === ASSISTANT_TILE_SIZE.small ? "1.7vw" : "2.2vw"),
         float: "left",
         position: "relative",
         marginLeft: "0.5vw",
@@ -40,7 +40,7 @@ export const IncomeTile = (props) => {
     };
 
     function handleClick() {
-        if (state === INCOME_STATE.ready) {
+        if (state === ASSISTANT_STATE.ready) {
             boardStateContext.handleClickOnIncomeTile(effects, idIncome.id)
         }
     }
@@ -49,8 +49,8 @@ export const IncomeTile = (props) => {
         <div style={containerStyle} onClick={() => handleClick()}>
             <div style={centerWrapStyle}>
                 <div style={{display: "flex", flexDirection: "row"}}>
-                    {state === INCOME_STATE.spent ? "" : jsxIncome.effectsText.map((effect, i) => {
-                            const margin = size === INCOME_SIZE.small ?
+                    {state === ASSISTANT_STATE.spent ? "" : jsxIncome.effectsText.map((effect, i) => {
+                            const margin = size === ASSISTANT_TILE_SIZE.small ?
                                 twoIcons ? (-i * 0.7 + "vw") : (0) :
                                 twoIcons ? (-i * 1.6 + "vw") : (0);
                             return (

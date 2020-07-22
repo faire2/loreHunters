@@ -1,8 +1,8 @@
 import {EFFECT} from "../../data/effects";
-import {INCOME_STATE} from "./enums";
+import {ASSISTANT_STATE} from "./enums";
 import {processEffects} from "./processEffects";
 
-export function processIncomeTile(effects, incomeId, playerState) {
+export function processAssistantTile(effects, incomeId, playerState) {
     for (let effect of effects) {
         switch (effect) {
             // this effects are handled automatically in end of round
@@ -14,7 +14,7 @@ export function processIncomeTile(effects, incomeId, playerState) {
                 break;
             case EFFECT.draw1:
             case EFFECT.buyWithDiscount1:
-            case EFFECT.gainBlimp:
+            case EFFECT.gainPlane:
             case EFFECT.uptrade:
                 const effectsResult = processEffects(null, null, playerState, [effect], null,
                     null, null, null, null);
@@ -26,9 +26,9 @@ export function processIncomeTile(effects, incomeId, playerState) {
                 console.log(effects);
         }
     }
-    for (let income of playerState.incomes) {
+    for (let income of playerState.assistants) {
         if (income.id === incomeId) {
-            income.state = INCOME_STATE.spent;
+            income.state = ASSISTANT_STATE.spent;
             break;
         }
     }

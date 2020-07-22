@@ -24,17 +24,18 @@ export const emptyPlayerState = Object.freeze({
     activeCards: [],
     activeEffects: [],
     availableAdventurers: GLOBAL_VARS.adventurers,
+    canActivateLostCity: false,
+    canDiscoverL3Locations: false,
     color: null,
     defeatedGuardians: [],
     destroyedCards: [],
     //discardDeck: [], //todo remove if discard remains removed form the game
-    canActivateLostCity: false,
-    canDiscoverL3Locations: false,
     drawDeck: [],
     firstTurn: true,
     finishedRound: false,
-    incomes: [],
+    assistants: [],
     hand: [],
+    longEffects: [],
     playedCards: [],
     playerIndex: null,
     relics: [true, true, true, true, true, true, true, true, true],
@@ -88,7 +89,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard0 = {...ARTIFACT_IDs.ringOfLight};
+        /*const testCard0 = {...ARTIFACT_IDs.magicDoor};
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*/
 

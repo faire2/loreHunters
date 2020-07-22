@@ -1,7 +1,7 @@
-import {AdventurerIcon, Coin, Draw1Card, Explore, Blimp, Text, Uptrade, Weapon, Discount} from "../../Symbols";
+import {AdventurerIcon, Blimp, Coin, Discount, Draw1Card, Explore, Text, Uptrade, Weapon} from "../../Symbols";
 import React from "react";
 
-export const INCOMES = Object.freeze({
+export const ASSISTANTS = Object.freeze({
     adventurerIncome: {
         id: "adventurerIncome",
         effectsText: [<AdventurerIcon/>],

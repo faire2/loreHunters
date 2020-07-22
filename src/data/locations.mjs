@@ -165,7 +165,7 @@ export const Locations = Object.freeze({
     },
     g32: {
         id: "g32",
-        effects: [EFFECT.defeatGuardian],
+        effects: [EFFECT.defeatGuardianOnOwnedLocation],
         ///useCost: {transportType: TRANSPORT_TYPE.ship, amount: 2},
         type: LOCATION_TYPE.undetermined,
         level: LOCATION_LEVEL["3"],

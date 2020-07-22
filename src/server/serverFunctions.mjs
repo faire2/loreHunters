@@ -3,15 +3,15 @@ import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
 import {addCardToPlayedCards, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
-import {INCOME_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
+import {ASSISTANT_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
 
-export function handleIncomes(playerState) {
-    for (let income of playerState.incomes) {
-        for (let effect of income.effects) {
+export function handleAssistants(playerState) {
+    for (let assistant of playerState.assistants) {
+        for (let effect of assistant.effects) {
             switch (effect) {
                 case EFFECT.draw1:
                 case EFFECT.buyWithDiscount1:
-                case EFFECT.gainBlimp:
+                case EFFECT.gainPlane:
                 case EFFECT.uptrade:
                     break;
                 case EFFECT.gainAdventurerForThisRound:
@@ -30,8 +30,8 @@ export function handleIncomes(playerState) {
                     playerState.resources.weapons += 1;
                     break;
                 default:
-                    console.log("Unable to process effect in handleIncomes: ");
-                    console.log(income.effects);
+                    console.log("Unable to process effect in handleAssistants: ");
+                    console.log(assistant.effects);
             }
         }
     }
@@ -43,7 +43,7 @@ export function handleIncome(playerState, income) {
         switch (effect) {
             case EFFECT.draw1:
             case EFFECT.buyWithDiscount1:
-            case EFFECT.gainBlimp:
+            case EFFECT.gainPlane:
             case EFFECT.uptrade:
                 break;
             case EFFECT.gainAdventurerForThisRound:
@@ -128,8 +128,10 @@ export function processEndOfRound(room) {
         tPlayerState.activeCards = [];*/
 
         /* gain fears for adventurers in guarded locations */
-        for (let x = 0; x < extraFear[i]; x++) {
-            tPlayerState.activeCards.push(cloneDeep(ITEM_IDs.fear));
+        if (!tPlayerState.longEffects.includes(EFFECT.protectFromFear)) {
+            for (let x = 0; x < extraFear[i]; x++) {
+                tPlayerState.activeCards.push(cloneDeep(ITEM_IDs.fear));
+            }
         }
 
         /* discard cards from hand */
@@ -166,18 +168,19 @@ export function processEndOfRound(room) {
         tPlayerState = drawCards(5, tPlayerState);
 
         /* handle regular incomes */
-        tPlayerState = handleIncomes(tPlayerState);
+        tPlayerState = handleAssistants(tPlayerState);
 
         /* reset transport resources */
         tPlayerState = resetTransport(tPlayerState);
 
         /* reset income states */
-        for (let income of tPlayerState.incomes) {
-            income.state = INCOME_STATE.ready
+        for (let income of tPlayerState.assistants) {
+            income.state = ASSISTANT_STATE.ready
         }
 
         /* reset active rest of counters */
         tPlayerState.activeEffects = [];
+        tPlayerState.longEffects = [];
         tPlayerState.actions = 1;
         tPlayerState.finishedRound = false;
         tPlayerStates.push(tPlayerState);

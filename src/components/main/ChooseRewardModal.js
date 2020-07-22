@@ -3,16 +3,16 @@ import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
 import Card from "../cards/Card";
 import {cloneDeep} from "lodash";
-import {IncomeTile} from "../legends/tiles/IncomeTile";
+import {Assistant} from "../legends/tiles/Assistant";
 import {processEffects} from "../functions/processEffects";
 import {handleIncome} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
 import {
     ASSISTANT,
+    ASSISTANT_LEVEL,
+    ASSISTANT_STATE,
     CARD_STATE,
     CARD_TYPE,
-    INCOME_LEVEL,
-    INCOME_STATE,
     LOCATION_STATE,
     RELIC,
     REWARD_TYPE
@@ -25,6 +25,7 @@ import {exploreLocation} from "../locations/functions/exploreLocation";
 import {Guardians} from "../../data/guardians";
 import {Relic, SilverRelic} from "../Symbols";
 import {JsxFromEffects} from "../JsxFromEffects";
+import {EFFECT} from "../../data/effects";
 
 
 export default function ChooseRewardModal() {
@@ -68,7 +69,8 @@ export default function ChooseRewardModal() {
             case REWARD_TYPE.addAssistant:
             case REWARD_TYPE.gainAssistant:
             case REWARD_TYPE.removeAssistant:
-                element = <IncomeTile income={reward}/>;
+            case REWARD_TYPE.refreshAssistant:
+                element = <Assistant income={reward}/>;
                 break;
             case REWARD_TYPE.legendFieldEffects:
             case REWARD_TYPE.effectsArr:
@@ -80,6 +82,9 @@ export default function ChooseRewardModal() {
             case REWARD_TYPE.upgradeRelic:
                 element = reward === RELIC.bronze ? <Relic/> : <SilverRelic/>;
                 break;
+            case REWARD_TYPE.guardian:
+                element = <div>{reward}</div>;
+            break;
             case null:
                 break;
             default:
@@ -103,8 +108,8 @@ export default function ChooseRewardModal() {
                 }
                 break;
             case REWARD_TYPE.gainAssistant:
-                reward.state = INCOME_STATE.ready;
-                tPlayerState.incomes.push(reward);
+                reward.state = ASSISTANT_STATE.ready;
+                tPlayerState.assistants.push(reward);
                 if (rewards[0].params === ASSISTANT.silver) {
                     if (tStore.assistantSilverDeck.length > 0) {
                         tStore.assistantSilverOffer.splice(index, 1, tStore.assistantSilverDeck[0]);
@@ -123,9 +128,9 @@ export default function ChooseRewardModal() {
                 tPlayerState = handleIncome(tPlayerState, reward);
                 break;
             case REWARD_TYPE.addAssistant:
-                reward.state = INCOME_STATE.ready;
-                tPlayerState.incomes.push(reward);
-                if (reward.level === INCOME_LEVEL.silver) {
+                reward.state = ASSISTANT_STATE.ready;
+                tPlayerState.assistants.push(reward);
+                if (reward.level === ASSISTANT_LEVEL.silver) {
                     if (tStore.assistantSilverDeck.length > 0) {
                         tStore.assistantSilverOffer.splice(index, 1, tStore.assistantSilverDeck[0]);
                         tStore.assistantSilverDeck.splice(0, 1);
@@ -141,8 +146,8 @@ export default function ChooseRewardModal() {
                     }
                     // if gold assistant was gained, we have to remove a silver one he has replaced
                     let silverAssistants = [];
-                    for (let assistant of tPlayerState.incomes) {
-                        if (assistant.level === INCOME_LEVEL.silver) {
+                    for (let assistant of tPlayerState.assistants) {
+                        if (assistant.level === ASSISTANT_LEVEL.silver) {
                             silverAssistants.push(assistant);
                         }
                     }
@@ -152,12 +157,19 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.removeAssistant:
                 let assistantIndex = null;
-                for (let i = 0; i < tPlayerState.incomes.length; i++) {
-                    if (tPlayerState.incomes[i].id === reward.id) {
+                for (let i = 0; i < tPlayerState.assistants.length; i++) {
+                    if (tPlayerState.assistants[i].id === reward.id) {
                         assistantIndex = i;
                     }
                 }
-                tPlayerState.incomes.splice(assistantIndex, 1);
+                tPlayerState.assistants.splice(assistantIndex, 1);
+                break;
+            case REWARD_TYPE.refreshAssistant:
+                for (let spentAssistant of tPlayerState.assistants) {
+                    if (spentAssistant.id === reward.id) {
+                        spentAssistant.state = ASSISTANT_STATE.ready;
+                    }
+                }
                 break;
             case REWARD_TYPE.upgradeRelic:
                 if (reward === RELIC.bronze) {
@@ -212,6 +224,16 @@ export default function ChooseRewardModal() {
                     tLocations = removeExploredLocation(location, explorationResult.locations);
                     tStore = explorationResult.store;
                     /*rewards.push(explorationResult.modalRewardData[0]);*/
+                }
+                break;
+            case REWARD_TYPE.guardian:
+                tPlayerState.defeatedGuardians = tPlayerState.defeatedGuardians.filter(guardianId => !guardianId);
+                switch (rewards[0].params) {
+                    case EFFECT.gainCoinsAndJewelForGuardian:
+                        tPlayerState.resources.coins += 1;
+                        tPlayerState.resources.jewels += 1;
+                        break;
+                    default: console.error("Unable to determine reward key in guardian reward params!" + rewards[0].params);
                 }
                 break;
             default:

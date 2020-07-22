@@ -3,7 +3,7 @@ import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {ITEM_IDs} from "../../data/idLists.mjs";
 import React from "react";
-import {ASSISTANT, CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
+import {ASSISTANT, ASSISTANT_STATE, CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
 import {getRelicsForUpgrade} from "./effectsFunctions/getRelicsForUpgrade";
@@ -29,7 +29,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
             switch (effect) {
                 case EFFECT.activateOccupiedLocation:
                 case EFFECT.buyItemWithDiscount3:
-                case EFFECT.defeatGuardian:
+                case EFFECT.defeatGuardianOnOwnedLocation:
+                case EFFECT.defeatGuardianOnOwnOrEmptyLocation:
                 case EFFECT.destroyCard:
                 case EFFECT.drawFromDiscard:
                 case EFFECT.exploreAnyLocationWithDiscount3:
@@ -47,7 +48,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.placeToGreenLocation:
                 case EFFECT.progressWithJewel:
                 case EFFECT.progressWithTextsOrWeapon:
+                case EFFECT.progressWithSecondToken:
                 case EFFECT.removeGuardian:
+                case EFFECT.return:
                 case EFFECT.uptrade:
                 case EFFECT.useItemOnMarket:
                 case EFFECT.activateYourLocation:
@@ -58,33 +61,36 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tActiveEffects.push(effect);
                     break;
 
-                case EFFECT.useAdjacentEmptyLocation:
-                    tActiveEffects.push(EFFECT.markOwnLocation);
-                    tActiveEffects.push(effect);
-                    break;
-
                 case EFFECT.moveAdvToEmptyLocation:
                     tActiveEffects.push(EFFECT.removeAdventurer);
                     tActiveEffects.push(EFFECT.moveAdvToEmptyLocation);
                     break;
 
-                case EFFECT.moveAdvToEmptyAdjacentLocation:
+                case EFFECT.moveAdvToL1Location:
                     tActiveEffects.push(EFFECT.removeAdventurer);
-                    tActiveEffects.push(EFFECT.moveAdvToEmptyAdjacentLocation);
+                    tActiveEffects.push(EFFECT.moveAdvToL1Location);
+                    break;
+
+                case EFFECT.activate2dockActions:
+                    // two actions = two effects
+                    tActiveEffects.push(effect);
+                    tActiveEffects.push(effect);
                     break;
 
                 // positive effects hidden behind the discard are stored in activeEffects
                 case EFFECT.discard:
                     if (tPlayerState.hand.length > 0) {
+
                         let tEffects = [];
                         const discardIndex = effects.indexOf(EFFECT.discard);
                         for (let i = discardIndex + 1; i < effects.length; i++) {
                             tEffects.push(effects[i]);
                         }
                         tActiveEffects.push(effect);
-                        tActiveEffects.splice(1, 0, [...tEffects]);
+                        // we store effects behind active effect: discard - and retrieve them later
+                        tActiveEffects.splice(tActiveEffects.length, 0, [...tEffects]);
                         // if discard leads to defeat of guardian, we need to remember the card
-                        tActiveEffects.splice(2, 0, {location: location});
+                        tActiveEffects.splice(tActiveEffects.length, 0, {location: location});
                         return;
                     } else {
                         processedAllEffects = false;
@@ -126,16 +132,16 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                /*case EFFECT.destroyCard:
+                case EFFECT.destroyCardMandatory:
                     let tEffects = [];
-                    const effectsIndex = effects.indexOf(EFFECT.destroyCard);
+                    const effectsIndex = effects.indexOf(EFFECT.destroyCardMandatory);
                     for (let i = effectsIndex + 1; i < effects.length; i++) {
                         tEffects.push(effects[i]);
                     }
                     tActiveEffects.push(effect);
                     const activeEffectsIndex = tActiveEffects.indexOf(effect);
                     tActiveEffects.splice(activeEffectsIndex + 1, 0, [...tEffects]);
-                    return;*/
+                    return;
 
                 case EFFECT.destroyThisCard:
                     if (tCard !== null) {
@@ -146,7 +152,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.destroyThisCardToDefeatAGuardan:
                     if (tCard.state === CARD_STATE.inHand) {
                         tPlayerState = removeCard(tCard, tPlayerState);
-                        tActiveEffects.push(EFFECT.defeatGuardian);
+                        tActiveEffects.push(EFFECT.defeatGuardianOnOwnedLocation);
                     }
                     break;
 
@@ -304,18 +310,17 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.resources.coins += defeatedGuardians;
                     break;
 
-                /*case EFFECT.gainCoinsAndJewelForGuardianVP:
-                    tActiveEffects.push(effect);
-                    /!* hand is stored in activeEffects to be retrieved later *!/
-                    tActiveEffects.splice(1, 0, tPlayerState.hand);
-                    let tempHand = [];
-                    for (let card of tPlayerState.victoryCards) {
-                        if (card.state === CARD_STATE.victoryCards) {
-                            tempHand.push(card);
+                case EFFECT.gainCoinsAndJewelForGuardian:
+                    tPlayerState.resources.coins += 2;
+                    if (tPlayerState.defeatedGuardians.length > 0) {
+                        rewardsData = {
+                            type: REWARD_TYPE.guardian,
+                            data: tPlayerState.defeatedGuardians,
+                            params: effect
                         }
+                        showRewardsModal = true;
+                        break;
                     }
-                    tPlayerState.hand = tempHand;
-                    break;*/
 
                 /*case EFFECT.gainCoinsIfLast:
                     if (tPlayerState.hand.length === 1) {
@@ -366,8 +371,12 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     tPlayerState.placeholder = 1;
                     break;
 
-                case EFFECT.gainBlimp:
+                case EFFECT.gainPlane:
                     tPlayerState.resources.plane += 1;
+                    break;
+
+                case EFFECT.infinitePlanes:
+                    tPlayerState.longEffects.push(effect);
                     break;
 
                 case EFFECT.gainRelic:
@@ -510,21 +519,55 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case EFFECT.progress:
-                    //todo legends;
+                case EFFECT.protectFromFear:
+                    tPlayerState.longEffects.push(effect);
                     break;
 
-                case EFFECT.revealItemBuyWithDiscount3:
+                case EFFECT.refreshAsistant:
+                    const spentAssistants = [];
+                    const assistantClones = cloneDeep(tPlayerState.assistants)
+                    for (let assistant of assistantClones) {
+                        if (assistant.state === ASSISTANT_STATE.spent) {
+                            assistant.state = ASSISTANT_STATE.ready
+                            spentAssistants.push(assistant);
+                        }
+                    }
+                    if (spentAssistants.length > 0) {
+                        rewardsData = {type: REWARD_TYPE.refreshAssistant, data: spentAssistants};
+                        showRewardsModal = true;
+                    } else {
+                        console.log("No spent assistant to refresh");
+                    }
+                    break;
+
+                case
+
+                EFFECT.refreshRelic:
+                    for (let i = 0; i < tPlayerState.relics.length; i++) {
+                        if (tPlayerState.relics[i] === false) {
+                            tPlayerState.relics[i] = true;
+                            break;
+                        }
+                    }
+                    break;
+
+                case
+                EFFECT.revealItemBuyWithDiscount3
+                :
                     tActiveEffects.push(effect);
                     tStore = addCardToStore(CARD_TYPE.item, tStore);
                     break;
 
-                case EFFECT.revealArtifactBuyWithDiscount3:
+                case
+                EFFECT.revealArtifactBuyWithDiscount3
+                :
                     tActiveEffects.push(effect);
                     tStore = addCardToStore(CARD_TYPE.artifact, tStore);
                     break;
 
-                case EFFECT.unlockCard:
+                case
+                EFFECT.unlockCard
+                :
                     let cardToUnlock = tPlayerState.activeCards[cardIndex];
                     cardToUnlock.state = CARD_STATE.inHand;
                     tPlayerState.hand.push(cardToUnlock);

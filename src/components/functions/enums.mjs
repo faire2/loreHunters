@@ -1,5 +1,7 @@
 /* GLOBAL VARIABLES */
 
+import {EFFECT} from "../../data/effects.mjs";
+
 export const ACTION_TYPE = Object.freeze({
     activatesLocation: "activates a location",
     buysItem: "buys an item",
@@ -65,20 +67,20 @@ export const LOCATION_STATE = Object.freeze({
     guarded: "guarded",
 });
 
-export const INCOME_LEVEL = Object.freeze({
+export const ASSISTANT_LEVEL = Object.freeze({
     silver: "silver level",
     gold: "gold level",
 });
 
-export const INCOME_STATE = Object.freeze({
+export const ASSISTANT_TILE_SIZE = Object.freeze({
+    small: "small",
+    large: "large"
+});
+
+export const ASSISTANT_STATE = Object.freeze({
     inStore: "in store",
     ready: "ready",
     spent: "spent"
-});
-
-export const INCOME_SIZE = Object.freeze({
-    small: "small",
-    large: "large"
 });
 
 export const LCL_STORAGE = Object.freeze({
@@ -88,13 +90,15 @@ export const LCL_STORAGE = Object.freeze({
 
 export const REWARD_TYPE = Object.freeze({
     addAssistant: "assistant choice or upgrade",
-    upgradeRelic: "relic upgrade",
     card: "card",
     effectsArr: "array of effects",
     gainAssistant: "assistant choice",
+    guardian: "price for guardian",
     legendFieldEffects: "combined effects of a legend field",
     location: "location",
+    refreshAssistant: "refresh an assistant",
     removeAssistant: "remove an assistant",
+    upgradeRelic: "relic upgrade",
 });
 export const TRANSMISSIONS = Object.freeze({
     createGame: "set up a new game",
@@ -147,3 +151,5 @@ export const ASSISTANT = {
    gold: "gold assistant",
    upgrade: "upgrade of an assistant",
 }
+
+export const TRANSPORT_EFFECTS = [EFFECT.loseWalk, EFFECT.loseBlimp, EFFECT.loseJeep, EFFECT.loseShip];

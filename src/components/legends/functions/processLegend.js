@@ -13,6 +13,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
     const positions = legends[legendIndex].positions[playerIndex];
     const previousColumnIndex = columnIndex - 1;
     let canPlaceToken = false;
+    let isFirstToken = null;
     const prevPositions = [];
     let tokenIndex;
 
@@ -68,6 +69,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
                             }
                         }
                     }
+                    isFirstToken = i === 0;
                 }
             } else if (field.size === 2) {
                 for (let i = 0; i < positions.length; i++) {
@@ -80,6 +82,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
                             console.log("Unable to place token - second token would overtake the first one")
                         }
                     }
+                    isFirstToken = i === 0;
                 }
             } else if (field.size === 3) {
                 for (let i = 0; i < positions.length; i++) {
@@ -93,15 +96,16 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
                             console.log("Unable to place token - second token would overtake the first one")
                         }
                     }
+                    isFirstToken = i === 0;
                 }
             }
         }
     }
     if (canPlaceToken) {
         const activeEffect = tPlayerState.activeEffects[0];
-        if (activeEffect === EFFECT.progressWithTexts || activeEffect === EFFECT.progressWithWeapon
-            || activeEffect === EFFECT.progressWithJewel) {
-            effects = getDiscountForProgress(effects, activeEffect);
+        if ([EFFECT.progressWithTexts, EFFECT.progressWithTextsOrWeapon, EFFECT.progressWithWeapon, EFFECT.progressWithJewel,
+            EFFECT.progressWithSecondToken, EFFECT.progress].includes(activeEffect)) {
+            effects = getDiscountForProgress(effects, activeEffect, isFirstToken);
             tPlayerState.activeEffects.splice(0, 1);
         }
         const rewardsData = []

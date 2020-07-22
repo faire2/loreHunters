@@ -15,7 +15,7 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/main/ChooseRewardModal";
 import {socket} from "./server/socketConnection";
-import {BonusActions} from "./components/bonuses/BonusActions";
+import {BonusActions} from "./components/bonusActions/BonusActions";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
@@ -37,7 +37,7 @@ import {
     TRANSMISSIONS
 } from "./components/functions/enums";
 import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
-import {processIncomeTile} from "./components/functions/processIncome";
+import {processAssistantTile} from "./components/functions/processIncome";
 import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
 import {processLegend} from "./components/legends/functions/processLegend";
 
@@ -289,12 +289,26 @@ function GameBoard(props) {
     /** HANDLE BONUS **/
     function handleClickOnBonusAction(effects) {
         if (isActivePlayer) {
-            const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
-                null, cloneDeep(store), null, cloneDeep(locations));
-            setPlayerState(effectProcessResults.tPlayerState);
-            setStore(effectProcessResults.tStore);
-            setLocations(effectProcessResults.tLocations);
-            addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
+            if (playerState.activeEffects.length > 0) {
+                if (playerState.activeEffects[0] === EFFECT.activate2dockActions) {
+                    effects = effects.filter((effect) => effect !== EFFECT.loseCoin);
+                    const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
+                        null, cloneDeep(store), null, cloneDeep(locations));
+                    let tPlayerState = effectProcessResults.tPlayerState;
+                    tPlayerState.activeEffects.splice(0, 1);
+                    setPlayerState(tPlayerState);
+                    setStore(effectProcessResults.tStore);
+                    setLocations(effectProcessResults.tLocations);
+                    addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
+                }
+            } else {
+                const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
+                    null, cloneDeep(store), null, cloneDeep(locations));
+                setPlayerState(effectProcessResults.tPlayerState);
+                setStore(effectProcessResults.tStore);
+                setLocations(effectProcessResults.tLocations);
+                addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
+            }
         }
     }
 
@@ -378,7 +392,6 @@ function GameBoard(props) {
             const tPlayerState = cloneDeep(playerState);
             console.log("Handling click on resource: " + resource);
             if (playerState.activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
-                tPlayerState.activeEffects.splice(0, 1);
                 setPlayerState(processUptrade(tPlayerState, resource));
             } else if (playerState.activeEffects[0] === EFFECT.progressWithTextsOrWeapon
                 && (resource === RESOURCES.texts || resource === RESOURCES.weapons)) {
@@ -393,8 +406,8 @@ function GameBoard(props) {
     }
 
     /** HANDLE CLICK ON INCOME TILE **/
-    function handleClickOnIncomeTile(effects, incomeId) {
-        const tPlayerState = processIncomeTile(effects, incomeId, cloneDeep(playerState));
+    function handleClickOnAssistantTile(effects, incomeId) {
+        const tPlayerState = processAssistantTile(effects, incomeId, cloneDeep(playerState));
         setPlayerState(tPlayerState);
         addLogEntry(tPlayerState, ACTION_TYPE.usesAssistant, incomeId, effects);
     }
@@ -403,7 +416,7 @@ function GameBoard(props) {
     function handleClickOnRelic(effects, effectIndex) {
         let tPlayersState = cloneDeep(playerState);
         const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
-        [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
+            [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
         initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
         if (tPlayersState.relics[effectIndex] && tPlayersState.resources.relics > 0) {
             let effectsResult = processEffects(null, null, tPlayersState, effects, null,
@@ -455,7 +468,7 @@ function GameBoard(props) {
             tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
             setStore(tStore);
         }
-        tPlayerState.activeEffects = [];
+        tPlayerState.activeEffects.splice(0, 1);
         setPlayerState(tPlayerState);
     }
 
@@ -542,7 +555,7 @@ function GameBoard(props) {
         handleClickOnLocation: handleClickOnLocation,
         handleReward: handleRewards,
         handleClickOnLegend: handleClickOnLegend,
-        handleClickOnIncomeTile: handleClickOnIncomeTile,
+        handleClickOnIncomeTile: handleClickOnAssistantTile,
         initiateRewardsModal: initiateRewardsModal,
     };
 

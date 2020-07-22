@@ -81,7 +81,7 @@ export const GoldRelic = (props) => <img src={goldRelic} alt="gold relic" style=
 export const AssistantUpgrade = (props) => <img src={assistantUpgrade} alt="assistant upgrade" style={responsive}/>;
 
 export const AdventurerIcon = () =>
-    <svg width="15" height="15" viewBox="0 0 99 119">
+    <svg width="5" height="6" viewBox="0 0 99 119">
         <metadata>
             Created by potrace 1.15, written by Peter Selinger 2001-2017
         </metadata>

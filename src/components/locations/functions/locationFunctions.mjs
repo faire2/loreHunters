@@ -1,7 +1,7 @@
 import {Locations} from "../../../data/locations";
 import {EFFECT} from "../../../data/effects";
 import {processEffects} from "../../functions/processEffects";
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_TYPE} from "../../functions/enums";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_TYPE, TRANSPORT_EFFECTS} from "../../functions/enums";
 
 export function isLocationAdjancentToAdventurer(location, locations, playerState) {
     const playerIndex = playerState.playerIndex;
@@ -152,23 +152,6 @@ export function occupyLocation(tLocations, locationId, locationLine, playerIndex
     return tLocations;
 }
 
-export function processExplorationDiscount(discount, explorationCostEffects) {
-    let tExplorationEffects = [];
-    let exploreDiscount = discount === EFFECT.exploreAnyLocationWithDiscount4 ? 3 : 2;
-    // eslint-disable-next-line no-unused-vars
-    let transportDiscount = 1;
-    for (let effect of explorationCostEffects) {
-        if (effect === EFFECT.loseExplore && exploreDiscount > 0) {
-            exploreDiscount -= 1;
-        } else if (effect === EFFECT.loseJeep || effect === EFFECT.loseShip) {
-            transportDiscount -= 1;
-        } else {
-            tExplorationEffects.push(effect);
-        }
-    }
-    return tExplorationEffects;
-}
-
 export function getExplorationCost(locationType, locationLevel, exploreDiscount, playerState) {
     let exploreCost = null;
 
@@ -211,7 +194,30 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
     if (exploreDiscount) {
         exploreCost = processExplorationDiscount(playerState.activeEffects[0], exploreCost);
     }
+
+    if (playerState && playerState.longEffects.includes(EFFECT.infinitePlanes)) {
+        debugger
+        exploreCost = exploreCost.filter(effect => !TRANSPORT_EFFECTS.includes(effect))
+    }
+
     return exploreCost;
+}
+
+export function processExplorationDiscount(discount, explorationCostEffects) {
+    let tExplorationEffects = [];
+    let exploreDiscount = discount === EFFECT.exploreAnyLocationWithDiscount4 ? 3 : 2;
+    // eslint-disable-next-line no-unused-vars
+    let transportDiscount = 1;
+    for (let effect of explorationCostEffects) {
+        if (effect === EFFECT.loseExplore && exploreDiscount > 0) {
+            exploreDiscount -= 1;
+        } else if (effect === EFFECT.loseJeep || effect === EFFECT.loseShip) {
+            transportDiscount -= 1;
+        } else {
+            tExplorationEffects.push(effect);
+        }
+    }
+    return tExplorationEffects;
 }
 
 export function getLocationsForExploration(playerState, locations, exploreDiscount, locationType) {
@@ -301,4 +307,18 @@ export function getExploredLocationType(exploredLocation) {
             return LOCATION_TYPE.green;
         default: console.warn("Unable to determine type of location!" + exploredLocation.type);
     }
+}
+
+export function isPlayerInLocation(tLocation, tPlayerState) {
+    for (let adventurer of tLocation.adventurers) {
+        if (adventurer === tPlayerState.playerIndex){
+            return true;
+        }
+    }
+    return false;
+}
+
+export function removePlayerTokenFromLocation(tLocation, tPlayerState) {
+    tLocation.adventurers = tLocation.adventurers.filter(adventurer => !tPlayerState.playerIndex === adventurer)
+    return tLocation;
 }

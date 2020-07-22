@@ -38,7 +38,7 @@ export function Export2Xls(props) {
         //let discard = getStringifiedArray(playerState.discardDeck);
         let destroyedCards = getStringifiedArray(playerState.destroyedCards);
         let victoryCards = getStringifiedArray(playerState.victoryCards);
-        let incomes = getStringifiedArray(playerState.incomes);
+        let incomes = getStringifiedArray(playerState.assistants);
         let activeCards = getStringifiedArray(playerState.activeCards);
         let activeEffects = playerState.activeEffects.toString();
         let points = logEntry.points;
@@ -62,7 +62,7 @@ export function Export2Xls(props) {
             //discard: discard,
             destroyedCards: destroyedCards,
             victoryCards: victoryCards,
-            incomes: incomes,
+            assistants: incomes,
             activeCards: activeCards,
             activeEffects: activeEffects,
             itemPoints: points.itemPoints,

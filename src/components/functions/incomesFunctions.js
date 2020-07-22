@@ -1,8 +1,8 @@
-import {ASSISTANT, INCOME_LEVEL} from "./enums";
+import {ASSISTANT, ASSISTANT_LEVEL} from "./enums";
 
 function hasSilverIncome(tPlayerState) {
-    for (const income of tPlayerState.incomes) {
-        if (income.level === INCOME_LEVEL.silver) {
+    for (const income of tPlayerState.assistants) {
+        if (income.level === ASSISTANT_LEVEL.silver) {
             return true;
         }
     }

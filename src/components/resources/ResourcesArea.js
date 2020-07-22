@@ -16,9 +16,9 @@ import {
     Walk,
     Weapon
 } from "../Symbols";
-import {IncomeTile} from "../legends/tiles/IncomeTile";
+import {Assistant} from "../legends/tiles/Assistant";
 import {PlayerTabs} from "../scoring/ScoringPanel";
-import {INCOME_SIZE} from "../functions/enums";
+import {ASSISTANT_TILE_SIZE} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
 
@@ -206,8 +206,8 @@ const Resources = (props) => {
                 )}
             </div>
             <div style={secondColumnFieldStyle}>
-                {playerState.incomes.map(income =>
-                    <IncomeTile income={income} size={INCOME_SIZE.large}/>
+                {playerState.assistants.map(income =>
+                    <Assistant income={income} size={ASSISTANT_TILE_SIZE.large}/>
                 )}
             </div>
         </div>

@@ -60,7 +60,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainShip:
         case EFFECT.loseShip:
             return <Ship/>;
-        case EFFECT.gainBlimp:
+        case EFFECT.gainPlane:
         case EFFECT.loseBlimp:
             return <Blimp/>;
         case EFFECT.gainExploreOrMapIfFirst:
@@ -84,7 +84,7 @@ export function getJsxSymbol(effect) {
             return <Treasure/>;
         case EFFECT.canActivateL3Location:
             return <LocationL3/>;
-        case EFFECT.defeatGuardian:
+        case EFFECT.defeatGuardianOnOwnedLocation:
         case EFFECT.defeatThisGuardian:
             return <DefeatedGuardian/>;
         case EFFECT.destroyCard:

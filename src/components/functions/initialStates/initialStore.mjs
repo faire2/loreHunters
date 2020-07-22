@@ -7,7 +7,7 @@ import {
     INCOME_IDs,
     ITEM_IDs
 } from "../../../data/idLists.mjs";
-import {CARD_STATE, CARD_TYPE, INCOME_LEVEL, INCOME_STATE} from "../enums.mjs";
+import {ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 
 export function getInitialStore() {
@@ -40,8 +40,8 @@ export function getInitialStore() {
     let incomes1 = [];
     let incomes2 = [];
     for (let key in INCOME_IDs) {
-        INCOME_IDs[key].state = INCOME_STATE.inStore;
-        if (INCOME_IDs[key].level === INCOME_LEVEL.silver) {
+        INCOME_IDs[key].state = ASSISTANT_STATE.inStore;
+        if (INCOME_IDs[key].level === ASSISTANT_LEVEL.silver) {
             incomes1.push(INCOME_IDs[key]);
         } else {
             incomes2.push(INCOME_IDs[key]);

@@ -3,13 +3,16 @@ import {Coin, Explore, Map} from "../../Symbols";
 import React from "react";
 import {GLOBAL_VARS} from "../../../data/idLists";
 
-export function getDiscountForProgress(effects, activeEffect) {
+export function getDiscountForProgress(effects, activeEffect, isFirstToken) {
     if (activeEffect === EFFECT.progressWithTexts) {
         effects = getFilteredEffects(effects, EFFECT.loseText, 2);
     } else if (activeEffect === EFFECT.progressWithWeapon) {
         effects = getFilteredEffects(effects, EFFECT.loseWeapon, 1);
     } else if (activeEffect === EFFECT.progressWithJewel) {
         effects = getFilteredEffects(effects, EFFECT.loseJewel, 1);
+    } else if (activeEffect === EFFECT.progressWithSecondToken) {
+        effects = effects.filter(effect => ![EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseText, EFFECT.loseWeapon,
+            EFFECT.loseJewel].includes(effect));
     }
     return effects;
 
