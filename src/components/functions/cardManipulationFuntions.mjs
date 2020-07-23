@@ -106,15 +106,15 @@ export function addActiveCardsToDrawDeck(origPlayerState) {
 export function addCardToStore(cardType, store) {
     let tCard = "";
     if (cardType === CARD_TYPE.item) {
-        store.itemsDeck.splice(0, 1);
         tCard = store.itemsDeck[0];
         tCard.state = CARD_STATE.inStore;
         store.itemsOffer.push(tCard)
+        store.itemsDeck.splice(0, 1);
     } else if (cardType === CARD_TYPE.artifact) {
-        store.artifactsDeck.splice(0, 1);
         tCard = store.artifactsDeck[0];
         tCard.state = CARD_STATE.inStore;
         store.artifactsOffer.push(tCard);
+        store.artifactsDeck.splice(0, 1);
     } else {
         console.log("Unknown card type in addCardToStore: " + cardType);
     }

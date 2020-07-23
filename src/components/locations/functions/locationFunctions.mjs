@@ -196,7 +196,6 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
     }
 
     if (playerState && playerState.longEffects.includes(EFFECT.infinitePlanes)) {
-        debugger
         exploreCost = exploreCost.filter(effect => !TRANSPORT_EFFECTS.includes(effect))
     }
 

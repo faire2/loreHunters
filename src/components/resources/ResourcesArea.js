@@ -168,9 +168,6 @@ const Resources = (props) => {
                 </div>
             </div>
             <div style={secondColumnFieldStyle}>
-                {availableAdventurers}
-            </div>
-            <div style={secondColumnFieldStyle}>
                 {walkIcons.map(icon =>
                     icon
                 )}
@@ -209,6 +206,9 @@ const Resources = (props) => {
                 {playerState.assistants.map(income =>
                     <Assistant income={income} size={ASSISTANT_TILE_SIZE.large}/>
                 )}
+            </div>
+            <div style={secondColumnFieldStyle}>
+                {availableAdventurers}
             </div>
         </div>
     )

@@ -20,7 +20,7 @@ import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {processUptrade} from "./components/resources/resourcesFunctions";
-import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
+import {ShowModalButton} from "./components/main/ShowModalButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
 import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
@@ -213,6 +213,12 @@ function GameBoard(props) {
         setLocations(tLocations);
         setLegends(tLegends);
         setStore(tStore);
+    }
+
+    function toggleRewardsModalVisibility(boolean) {
+        if (boolean === true || boolean === false) {
+            setShowRewardsModal(boolean);
+        }
     }
 
     /** CARD EFFECTS **/
@@ -557,6 +563,7 @@ function GameBoard(props) {
         handleClickOnLegend: handleClickOnLegend,
         handleClickOnIncomeTile: handleClickOnAssistantTile,
         initiateRewardsModal: initiateRewardsModal,
+        toggleRewardsModalVisibility: toggleRewardsModalVisibility,
     };
 
     const playerStateContextValues = {
@@ -593,7 +600,7 @@ function GameBoard(props) {
             <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
             <RightSlidingPanel extendPanel={extendRightPanel}/>
             <LeftSlidingPanel extendPanel={extendLeftPanel}/>
-            <ExtendPanelButton extendPanel={extendBottomPanel}/>
+            <ShowModalButton showModal={toggleRewardsModalVisibility}/>
             <ChooseRewardModal/>
         </div>;
 

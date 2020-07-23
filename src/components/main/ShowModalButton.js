@@ -1,12 +1,11 @@
 import React, {useState} from "react";
 
-export const ExtendPanelButton = props => {
+export const ShowModalButton = props => {
     const [buttonOnHover, setButtonOnHover] = useState(false);
-    const [buttonExtended, setButtonExtended] = useState(false)
 
     const sliderButtonStyle = {
         position: "absolute",
-        bottom: !buttonExtended ? 0 : "28vw",
+        bottom: 0,
         right: "3vw",
         backgroundColor: "#74a69f",
         width: 40,
@@ -21,16 +20,11 @@ export const ExtendPanelButton = props => {
         zIndex: 2,
     };
 
-    function handleOnClick() {
-        setButtonExtended(!buttonExtended);
-        props.setExtendPanel(!props.extendPanel);
-    }
-
     return (
         <div>
             <button style={sliderButtonStyle} onMouseEnter={() => setButtonOnHover(!buttonOnHover)}
                     onMouseLeave={() => setButtonOnHover(!buttonOnHover)}
-                    onClick={() => handleOnClick()}/>
+                    onClick={() => props.showModal(true)}/>
         </div>
     )
 }

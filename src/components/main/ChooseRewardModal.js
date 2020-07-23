@@ -245,8 +245,8 @@ export default function ChooseRewardModal() {
     }
 
     return (
-        <Modal show={showModal} onHide={null} dialogClassName={"customModal"}>
-            <Modal.Header>
+        <Modal show={showModal} onHide={() => boardStateContext.toggleRewardsModalVisibility(false)} dialogClassName={"customModal"}>
+            <Modal.Header closeButton>
                 <Modal.Title>Choose your boon</Modal.Title>
             </Modal.Header>
             <Modal.Body>
