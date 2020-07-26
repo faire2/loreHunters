@@ -1,9 +1,11 @@
 import React from "react";
 import Card from "./Card";
 import {shuffleArray} from "../functions/cardManipulationFuntions";
+import {cloneDeep} from "lodash";
 
 export const CardRow = (props) => {
-    const cards = !props.randomize ? props.cards : shuffleArray(props.cards);
+    let cards = cloneDeep(props.cards);
+    cards = !props.randomize ? cards : shuffleArray(cards);
     return (
         <div style={cardRowStyle}>
             <div style={sideTextStyle}>{props.text}</div>
