@@ -18,7 +18,7 @@ export function getInitialLegends(numOfPlayers) {
             }
             legend.positions.push(playerArr);
         }
-        // add random effects to fields
+        // add random effects to fields, as defined by effectSlots in given fields
         let tLegendEffects = [...legendEffects];
         tLegendEffects = shuffleArray(tLegendEffects);
         for (let column of legend.fields) {
@@ -33,8 +33,10 @@ export function getInitialLegends(numOfPlayers) {
             }
         }
     }
+
     return legends;
 }
 
-const legendEffects = [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore,
-    EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainMap, EFFECT.gainMap, EFFECT.draw1, EFFECT.destroyCard];
+const legendEffects = [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore,
+    EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.destroyCard, EFFECT.destroyCard, EFFECT.draw1, EFFECT.draw1,
+    EFFECT.gainText, EFFECT.gainText];

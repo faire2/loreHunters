@@ -592,6 +592,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         }
     }
     tPlayerState.activeEffects = tActiveEffects;
+    console.log("All effects processed");
     return {
         tPlayerState: tPlayerState,
         tStore: tStore,

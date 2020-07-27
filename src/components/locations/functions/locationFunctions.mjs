@@ -159,24 +159,24 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
         case LOCATION_TYPE.brown:
         case LOCATION_TYPE.emptyBrownLocation:
             if (locationLevel === LOCATION_LEVEL["2"]) {
-                exploreCost = [EFFECT.loseJeep, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             } else if (locationLevel === LOCATION_LEVEL["3"]) {
-                exploreCost = [EFFECT.loseJeep, EFFECT.loseJeep, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseJeep, EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             }
             break;
         case LOCATION_TYPE.green:
         case LOCATION_TYPE.emptyGreenLocation:
             if (locationLevel === LOCATION_LEVEL["2"]) {
-                exploreCost = [EFFECT.loseShip, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             } else if (locationLevel === LOCATION_LEVEL["3"]) {
-                exploreCost = [EFFECT.loseShip, EFFECT.loseShip, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseShip, EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             }
             break;
         case LOCATION_TYPE.undetermined:
             if (locationLevel === LOCATION_LEVEL["2"]) {
-                exploreCost = [EFFECT.loseWalk, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, ];
+                exploreCost = [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, ];
             } else if (locationLevel === LOCATION_LEVEL["3"]) {
-                exploreCost = [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseMap, EFFECT.loseMap, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
+                exploreCost = [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             }
             break;
             // todo remove - this was used when lost city was a location
@@ -196,6 +196,7 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
     }
 
     if (playerState && playerState.longEffects.includes(EFFECT.infinitePlanes)) {
+        // noinspection JSObjectNullOrUndefined
         exploreCost = exploreCost.filter(effect => !TRANSPORT_EFFECTS.includes(effect))
     }
 

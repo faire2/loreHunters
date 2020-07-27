@@ -10,31 +10,31 @@ export const FIELD_SIZE = Object.freeze({
 export const Legends = Object.freeze({
     legend1: {
         id: "legend1",
-        victoryPoints: [1, 2, 3, 5, 7, 9, 12, 15],
+        victoryPoints: [1, 2, 3, 5, 7, 9, 12],
         columnRewards: [
             [
                 [EFFECT.gainCoin], [EFFECT.gainSilverAssistant],
             ],
             [
-                [EFFECT.gainMap], [EFFECT.gainSilverAssistant],
+                [EFFECT.gainExplore], [EFFECT.gainSilverAssistant],
             ],
             [
-                [EFFECT.gainMap], [EFFECT.gainBronzeRelic],
+                [EFFECT.gainExplore], [EFFECT.gainBronzeRelic],
             ],
             [
                 [EFFECT.gainCoin], [EFFECT.gainGoldAssistant],
             ],
             [
-                [EFFECT.gainMap], [EFFECT.gainGoldAssistant],
+                [EFFECT.gainExplore], [EFFECT.gainGoldAssistant],
             ],
             [
                 [EFFECT.draw1], [EFFECT.gainBronzeRelic],
             ],
             [
-                [EFFECT.gainMap], [EFFECT.gainBronzeRelic],
+                [EFFECT.gainExplore], [EFFECT.gainBronzeRelic],
             ],
             [
-                [EFFECT.gainRewardLevel, EFFECT.discoverLostCity], [EFFECT.draw1],
+                [EFFECT.gainRewardLevel, EFFECT.discoverLostCity], [EFFECT.gainRewardLevel],
             ]
         ],
         fields: [
@@ -68,7 +68,7 @@ export const Legends = Object.freeze({
             [
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseExplore, EFFECT.loseText, EFFECT.loseText],
+                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText],
                     size: FIELD_SIZE["3"],
                 },
             ],
@@ -118,7 +118,7 @@ export const Legends = Object.freeze({
 
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseExplore, EFFECT.loseText, EFFECT.loseWeapon],
+                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["2"],
                 },
                 {
