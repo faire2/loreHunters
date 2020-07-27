@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {AdventurerToken, Artifact, DefeatedGuardian, Item, Relic} from "../Symbols";
+import {AdventurerToken, Artifact, BronzeRelic, DefeatedGuardian, Item} from "../Symbols";
 import {getPoints} from "../scoring/scoringFunctions";
 
 export default function Left(props) {
@@ -51,7 +51,7 @@ export default function Left(props) {
                 <AdventurerToken color={"black"} style={{width: "1.8vw"}}/>:{points.legendPoints}
             </div>
             <div style={rowStyle}>
-                <Relic/>:{points.relicsPoints}
+                <BronzeRelic/>:{points.relicsPoints}
             </div>
             {points.itemPoints + points.artifactPoints + points.defeatedGuardianPoints + points.legendPoints + points.relicsPoints}
         </div>

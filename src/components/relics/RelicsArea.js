@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import {Relic} from "../Symbols";
+import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import bgr from "../../img/relics/relicsBackground.png"
 import {PlayerStateContext} from "../../Contexts";
 import vpBgr from "../../img/symbols/VP.png";
@@ -10,8 +10,14 @@ export function RelicsArea() {
     const playerState = playerStateContext.playerState;
 
     let relicsArr = [];
-    for (let i = 0; i < playerState.resources.relics; i++) {
-        relicsArr.push(<Relic/>)
+    for (let i = 0; i < playerState.resources.bronzeRelics; i++) {
+        relicsArr.push(<BronzeRelic/>)
+    }
+    for (let i = 0; i < playerState.resources.silverRelics; i++) {
+        relicsArr.push(<SilverRelic/>)
+    }
+    for (let i = 0; i < playerState.resources.goldRelics; i++) {
+        relicsArr.push(<GoldRelic/>)
     }
 
     const twoLines = relicsArr.length > 5;
@@ -104,7 +110,7 @@ export function RelicsArea() {
                 const style = effect.length !== 2 ? fieldStyle1Icon : fieldStyle2Icons
                 return (
                     <div style={style} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
-                        {playerState.relics[i] ? <JsxFromEffects effectsArray={effect} fontSize={"2vw"}/> : <Relic/>}
+                        {playerState.relics[i] ? <JsxFromEffects effectsArray={effect} fontSize={"2vw"}/> : <BronzeRelic/>}
                     </div>
                 )
             }

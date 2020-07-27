@@ -21,8 +21,9 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
         switch (location.state) {
             case LOCATION_STATE.unexplored:
                 //if user clicked on empty location, give back choice modal with relevant locations
-                if (location.type === LOCATION_TYPE.emptyLocation || location.type === LOCATION_TYPE.emptyBrownLocation
-                    || location.type === LOCATION_TYPE.emptyGreenLocation) {
+                const locationsToExplore = [LOCATION_TYPE.emptyLocation, LOCATION_TYPE.emptyBrownLocation
+                    , LOCATION_TYPE.emptyGreenLocation];
+                if (locationsToExplore.includes(location.type) && tPlayerState.availableAdventurers > 0) {
                     // exploration modal with selection of suitable locations to be explored was set here
                     /*if (isLocationAdjancentToAdventurer(location, tLocations, tPlayerState) || exploreDiscount) {
                         let suitableLocations = getLocationsForExploration(tPlayerState, tLocations, exploreDiscount, location.type);
@@ -112,7 +113,8 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
                                 console.log("Some effects were not processed. Location could not be used.");
                             }
                         } else {
-                            console.log("Location could not be used. Travel possible: " + travelCheckResults.enoughResources);
+                            console.log("Location could not be used. Travel possible: " + travelCheckResults.enoughResources
+                            + ". Available adventurers: " + tPlayerState.availableAdventurers);
                         }
                         break;
                     } else {

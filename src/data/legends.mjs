@@ -10,7 +10,11 @@ export const FIELD_SIZE = Object.freeze({
 export const Legends = Object.freeze({
     legend1: {
         id: "legend1",
-        victoryPoints: [1, 2, 3, 5, 7, 9, 12],
+        // victory point for first and second token in a given column
+        victoryPoints: [1, 2, 3, 5, 7, 9, 12, 0],
+        // victory points for reaching lost city, first player gains most
+        lostCityPoints: [15, 14, 13, 12, 12, 12, 12, 12],
+        lostCityPlayers: [],
         columnRewards: [
             [
                 [EFFECT.gainCoin], [EFFECT.gainSilverAssistant],

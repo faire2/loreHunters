@@ -13,7 +13,6 @@ export function LostCity() {
     const playerStateContext = useContext(PlayerStateContext);
     const originaPlayerState = playerStateContext.playerState;
     const [chosenEffects, setChosenEffects] = useState([false, false, false]);
-    console.log("Calculating prices for effects in the lost city.");
 
     const prices = [
         [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseText],
@@ -26,6 +25,7 @@ export function LostCity() {
     let tPlayerState = cloneDeep(originaPlayerState);
 
     if (tPlayerState.canActivateLostCity) {
+        console.log("Calculating prices for effects in the lost city.");
         // we modify playerState for effects that are currently chosen
         for (let i = 0; i < 3; i++) {
             if (chosenEffects[i]) {

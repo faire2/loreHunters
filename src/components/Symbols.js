@@ -41,44 +41,44 @@ const responsive = {
     height: "1em",
 };
 
-export const Coin = (props) => <img src={coin} alt="gain a coin" style={responsive}/>;
-export const Discount = (props) => <img src={cardDiscount} alt="discount" style={responsive}/>;
-export const Explore = (props) => <img src={explore} alt="gain an explore token" style={responsive}/>;
-export const Draw1Card = (props) => <img src={draw1} alt="draw a card" style={responsive}/>;
-export const Draw2Cards = (props) => <img src={draw2} alt="draw two cards" style={responsive}/>;
-export const Draw3Cards = (props) => <img src={draw3} alt="draw three cards" style={responsive}/>;
-export const Discard = (props) => <img src={discard} alt="discard a cart" style={responsive}/>;
-export const DestroyCard = (props) => <img src={destroyCard} alt="destroy a card " style={responsive}/>;
-export const Walk = (props) => <img src={walk} alt="walk" style={responsive}/>;
-export const Ship = (props) => <img src={ship} alt="go by a ship" style={responsive}/>;
-export const Jeep = (props) => <img src={jeep} alt="go by a jeep" style={responsive}/>;
-export const Blimp = (props) => <img src={plane} alt="go by a plane" style={responsive}/>;
-export const Text = (props) => <img src={text} alt="gain a text" style={responsive}/>;
-export const Weapon = (props) => <img src={weapon} alt="gain a weapon" style={responsive}/>;
-export const Jewel = (props) => <img src={jewel} alt="gain a jewel" style={responsive}/>;
-export const Arrow = (props) => <img src={arrow} alt="exchanged for" style={responsive}/>;
-export const Relic = (props) => <img src={shiny} alt="shinies" style={responsive}/>;
-export const Guardian = (props) => <img src={guardian} alt="guardian" style={responsive}/>;
-export const Artifact = (props) => <img src={artifact} alt="artifact" style={responsive}/>;
-export const Uptrade = (props) => <img src={uptrade} alt="uptrade" style={responsive}/>;
-export const Item = (props) => <img src={item} alt="item" style={responsive}/>;
-export const Fear = (props) => <img src={fear} alt="fear" style={responsive}/>;
-export const DefeatedGuardian = (props) => <img src={defeatedGuardian} alt="defeated guardian" style={responsive}/>;
-export const LocationL1 = (props) => <img src={location1} alt="location of level 1" style={responsive}/>;
-export const LocationL2 = (props) => <img src={location2} alt="location of level 2" style={responsive}/>;
-export const LocationL3 = (props) => <img src={location3} alt="location of level 3" style={responsive}/>;
-export const VictoryPoints = (props) => <img src={victoryPoints} alt="victory points icon" style={responsive}/>;
-export const Treasure = (props) => <img src={treasure} alt="treasure" style={responsive}/>;
-export const GainAction = (props) => <img src={freeAction} alt="treasure" style={responsive}/>;
-export const Flash = (props) => <img src={flash} alt="action" style={responsive}/>;
-export const Map = (props) => <img src={map} alt="map" style={responsive}/>;
-export const SilverAssistant = (props) => <img src={silverAssistantBgr} alt="silver assistant background"
+export const Coin = () => <img src={coin} alt="gain a coin" style={responsive}/>;
+export const Discount = () => <img src={cardDiscount} alt="discount" style={responsive}/>;
+export const Explore = () => <img src={explore} alt="gain an explore token" style={responsive}/>;
+export const Draw1Card = () => <img src={draw1} alt="draw a card" style={responsive}/>;
+export const Draw2Cards = () => <img src={draw2} alt="draw two cards" style={responsive}/>;
+export const Draw3Cards = () => <img src={draw3} alt="draw three cards" style={responsive}/>;
+export const Discard = () => <img src={discard} alt="discard a cart" style={responsive}/>;
+export const DestroyCard = () => <img src={destroyCard} alt="destroy a card " style={responsive}/>;
+export const Walk = () => <img src={walk} alt="walk" style={responsive}/>;
+export const Ship = () => <img src={ship} alt="go by a ship" style={responsive}/>;
+export const Jeep = () => <img src={jeep} alt="go by a jeep" style={responsive}/>;
+export const Blimp = () => <img src={plane} alt="go by a plane" style={responsive}/>;
+export const Text = () => <img src={text} alt="gain a text" style={responsive}/>;
+export const Weapon = () => <img src={weapon} alt="gain a weapon" style={responsive}/>;
+export const Jewel = () => <img src={jewel} alt="gain a jewel" style={responsive}/>;
+export const Arrow = () => <img src={arrow} alt="exchanged for" style={responsive}/>;
+export const BronzeRelic = () => <img src={shiny} alt="shinies" style={responsive}/>;
+export const Guardian = () => <img src={guardian} alt="guardian" style={responsive}/>;
+export const Artifact = () => <img src={artifact} alt="artifact" style={responsive}/>;
+export const Uptrade = () => <img src={uptrade} alt="uptrade" style={responsive}/>;
+export const Item = () => <img src={item} alt="item" style={responsive}/>;
+export const Fear = () => <img src={fear} alt="fear" style={responsive}/>;
+export const DefeatedGuardian = () => <img src={defeatedGuardian} alt="defeated guardian" style={responsive}/>;
+export const LocationL1 = () => <img src={location1} alt="location of level 1" style={responsive}/>;
+export const LocationL2 = () => <img src={location2} alt="location of level 2" style={responsive}/>;
+export const LocationL3 = () => <img src={location3} alt="location of level 3" style={responsive}/>;
+export const VictoryPoints = () => <img src={victoryPoints} alt="victory points icon" style={responsive}/>;
+export const Treasure = () => <img src={treasure} alt="treasure" style={responsive}/>;
+export const GainAction = () => <img src={freeAction} alt="treasure" style={responsive}/>;
+export const Flash = () => <img src={flash} alt="action" style={responsive}/>;
+export const Map = () => <img src={map} alt="map" style={responsive}/>;
+export const SilverAssistant = () => <img src={silverAssistantBgr} alt="silver assistant background"
                                                style={responsive}/>;
-export const GoldAssistant = (props) => <img src={goldAssistantBgr} alt="gold assistant background"
+export const GoldAssistant = () => <img src={goldAssistantBgr} alt="gold assistant background"
                                              style={responsive}/>;
-export const SilverRelic = (props) => <img src={silverRelic} alt="silver silver relic" style={responsive}/>;
-export const GoldRelic = (props) => <img src={goldRelic} alt="gold relic" style={responsive}/>;
-export const AssistantUpgrade = (props) => <img src={assistantUpgrade} alt="assistant upgrade" style={responsive}/>;
+export const SilverRelic = () => <img src={silverRelic} alt="silver silver relic" style={responsive}/>;
+export const GoldRelic = () => <img src={goldRelic} alt="gold relic" style={responsive}/>;
+export const AssistantUpgrade = () => <img src={assistantUpgrade} alt="assistant upgrade" style={responsive}/>;
 
 export const AdventurerIcon = () =>
     <svg width="5" height="6" viewBox="0 0 99 119">

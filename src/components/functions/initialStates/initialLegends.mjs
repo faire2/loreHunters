@@ -36,6 +36,9 @@ export function getInitialLegends(numOfPlayers) {
 
     return legends;
 }
+// denotes the selected legend (in case there are later more than one)
+export var selectedLegendId = "legend1";
+export var selectedLegendIndex = 0;
 
 const legendEffects = [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore,
     EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.destroyCard, EFFECT.destroyCard, EFFECT.draw1, EFFECT.draw1,

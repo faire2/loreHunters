@@ -53,7 +53,9 @@ export function Export2Xls(props) {
             texts: resources.texts != null ? resources.texts : "",
             weapons: resources.weapons != null ? resources.weapons : "",
             jewels: resources.jewels != null ? resources.jewels : "",
-            shinies: resources.relics != null ? resources.relics : "",
+            bronzeRelics: resources.bronzeRelics != null ? resources.bronzeRelics : "",
+            silverRelics: resources.silverRelics != null ? resources.silverRelics : "",
+            goldRelics: resources.goldRelics != null ? resources.goldRelics : "",
             walk: resources.walk != null ? resources.walk : "",
             jeep: resources.jeep != null ? resources.jeep : "",
             ship: resources.ship != null ? resources.ship : "",
@@ -68,7 +70,6 @@ export function Export2Xls(props) {
             itemPoints: points.itemPoints,
             artifactPoints: points.artifactPoints,
             fearPoints: points.fearPoints,
-            /*undefeatedGuardianPoints: points.undefeatedGuardianPoints,*/
             defeatedGuardianPoints: points.defeatedGuardianPoints,
             legendPoints: points.legendPoints,
             relicsPoints: points.relicsPoints,
@@ -106,7 +107,9 @@ export function Export2Xls(props) {
                 <ExcelColumn label="T" value="texts"/>
                 <ExcelColumn label="W" value="weapons"/>
                 <ExcelColumn label="J" value="jewels"/>
-                <ExcelColumn label="R" value="shinies"/>
+                <ExcelColumn label="BR" value="bronzeRelics"/>
+                <ExcelColumn label="SR" value="silverRelics"/>
+                <ExcelColumn label="GR" value="goldRelics"/>
                 <ExcelColumn label="B" value="walk"/>
                 <ExcelColumn label="J" value="jeep"/>
                 <ExcelColumn label="S" value="ship"/>

@@ -1,21 +1,6 @@
 import React, {useContext, useState} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {
-    AdventurerToken,
-    Blimp,
-    Coin,
-    Explore,
-    GoldRelic,
-    Jeep,
-    Jewel,
-    Map,
-    Relic,
-    Ship,
-    SilverRelic,
-    Text,
-    Walk,
-    Weapon
-} from "../Symbols";
+import {AdventurerToken, Blimp, Coin, Explore, Jeep, Jewel, Ship, Text, Walk, Weapon} from "../Symbols";
 import {Assistant} from "../legends/tiles/Assistant";
 import {PlayerTabs} from "../scoring/ScoringPanel";
 import {ASSISTANT_TILE_SIZE} from "../functions/enums";
@@ -125,7 +110,7 @@ const Resources = (props) => {
     for (let i = 0; i < resources.plane; i++) {
         blimpIcons.push(<Blimp/>)
     }
-    let bronzeRelicIcons = [];
+    /*let bronzeRelicIcons = [];
     for (let i = 0; i < resources.bronzeRelics; i++) {
         bronzeRelicIcons.push(<Relic/>)
     }
@@ -136,7 +121,7 @@ const Resources = (props) => {
     let goldRelicIcons = [];
     for (let i = 0; i < resources.goldRelics; i++) {
         goldRelicIcons.push(<GoldRelic/>)
-    }
+    }*/
 
 
     return (
@@ -162,10 +147,6 @@ const Resources = (props) => {
                     <Jewel/>
                     {resources.jewels}
                 </div>
-                <div>
-                    <Map/>
-                    {resources.maps}
-                </div>
             </div>
             <div style={secondColumnFieldStyle}>
                 {walkIcons.map(icon =>
@@ -187,7 +168,7 @@ const Resources = (props) => {
                     icon
                 )}
             </div>
-            <div style={secondColumnFieldStyle}>
+            {/*<div style={secondColumnFieldStyle}>
                 {bronzeRelicIcons.map(icon =>
                     icon
                 )}
@@ -201,7 +182,7 @@ const Resources = (props) => {
                 {goldRelicIcons.map(icon =>
                     icon
                 )}
-            </div>
+            </div>*/}
             <div style={secondColumnFieldStyle}>
                 {playerState.assistants.map(income =>
                     <Assistant income={income} size={ASSISTANT_TILE_SIZE.large}/>

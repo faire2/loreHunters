@@ -3,6 +3,7 @@ import {
     AdventurerIcon,
     Arrow,
     Blimp,
+    BronzeRelic,
     Coin,
     DestroyCard,
     Discard,
@@ -12,7 +13,6 @@ import {
     Guardian,
     Jeep,
     Jewel,
-    Relic,
     Ship,
     Text,
     Uptrade,
@@ -78,7 +78,7 @@ export const ITEM_EFFECTS = Object.freeze({
         effectsDescription: <div className="effectsDescription">1x: <Explore/> <Arrow/> <Weapon/> <Text/></div>,
     },
     spyglass: {
-        effectsDescription: <div className="effectsDescription">1x: <Explore/> <Explore/> <Arrow/> <Relic/></div>,
+        effectsDescription: <div className="effectsDescription">1x: <Explore/> <Explore/> <Arrow/> <BronzeRelic/></div>,
         effectsAltDescription: <div className="effectsDescription"><Jeep/> <Jeep/></div>,
     },
     hammock: {
@@ -96,7 +96,7 @@ export const ITEM_EFFECTS = Object.freeze({
             4).</div>,
     },
     journal: {
-        effectsDescription: <div className="effectsDescription">Gain 1 <Explore/> for each <Relic/> (max 4).</div>,
+        effectsDescription: <div className="effectsDescription">Gain 1 <Explore/> for each <BronzeRelic/> (max 4).</div>,
     },
     lockPick: {
         effectsDescription: <div className="effectsDescription"><Discard/> <Arrow/> <Coin/> <Coin/> <Coin/>.</div>,

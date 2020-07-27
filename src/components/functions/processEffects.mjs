@@ -2,7 +2,6 @@ import {addCardToStore, drawCards, removeCard} from "./cardManipulationFuntions.
 import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {ITEM_IDs} from "../../data/idLists.mjs";
-import React from "react";
 import {ASSISTANT, ASSISTANT_STATE, CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
@@ -302,6 +301,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainCoinAndExploresForGuardians:
                     let defeatedGuardians = 0;
+                    // eslint-disable-next-line no-unused-vars
                     for (let guardian of tPlayerState.defeatedGuardians) {
                         defeatedGuardians += 1;
                     }
@@ -321,6 +321,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         showRewardsModal = true;
                         break;
                     }
+                    break;
 
                 /*case EFFECT.gainCoinsIfLast:
                     if (tPlayerState.hand.length === 1) {
@@ -334,6 +335,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainExploreForGuardians:
                     let guardians = 0;
+                    // eslint-disable-next-line no-unused-vars
                     for (const guardian of tPlayerState.defeatedGuardians) {
                         guardians += 1;
                     }
@@ -345,7 +347,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainExploreForRelics:
-                    let allRelics = tPlayerState.resources.relics;
+                    let allRelics = tPlayerState.resources.bronzeRelics + tPlayerState.resources.silverRelics
+                        + tPlayerState.resources.goldRelics;
                     for (let relic of tPlayerState.relics) {
                         if (!relic) {
                             allRelics += 1
@@ -377,10 +380,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.infinitePlanes:
                     tPlayerState.longEffects.push(effect);
-                    break;
-
-                case EFFECT.gainRelic:
-                    tPlayerState.resources.relics += 1;
                     break;
 
                 case EFFECT.gainShip:
@@ -510,9 +509,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainOrUpgradeRelic:
-                    if (tPlayerState.resources.relics === 0 && tPlayerState.resources.silverRelics === 0 && tPlayerState.resources.goldRelics === 0) {
+                    if (tPlayerState.resources.bronzeRelics === 0 && tPlayerState.resources.silverRelics === 0 && tPlayerState.resources.goldRelics === 0) {
                         //if player has no relics, he gains one
-                        tPlayerState.resources.relics += 1;
+                        tPlayerState.resources.bronzeRelics += 1;
                     } else {
                         rewardsData = {type: REWARD_TYPE.upgradeRelic, data: getRelicsForUpgrade(tPlayerState)};
                         showRewardsModal = true;

@@ -23,7 +23,7 @@ import {replaceFirsUserJointLegendResource} from "../legends/functions/legendsFu
 import {Legends} from "../../data/legends.mjs";
 import {exploreLocation} from "../locations/functions/exploreLocation";
 import {Guardians} from "../../data/guardians";
-import {Relic, SilverRelic} from "../Symbols";
+import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import {JsxFromEffects} from "../JsxFromEffects";
 import {EFFECT} from "../../data/effects";
 
@@ -80,7 +80,15 @@ export default function ChooseRewardModal() {
                 element = <Location location={reward}/>;
                 break;
             case REWARD_TYPE.upgradeRelic:
-                element = reward === RELIC.bronze ? <Relic/> : <SilverRelic/>;
+                if (reward === RELIC.bronze) {
+                    element = <BronzeRelic/>;
+                } else if (reward === RELIC.silver) {
+                    element = <SilverRelic/>
+                } else if (reward === RELIC.gold) {
+                    element = <GoldRelic/>
+                } else {
+                    console.error("Unable to determine relic for element in RewardsModal: " + reward)
+                }
                 break;
             case REWARD_TYPE.guardian:
                 element = <div>{reward}</div>;
@@ -173,9 +181,11 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.upgradeRelic:
                 if (reward === RELIC.bronze) {
-                    tPlayerState.resources.relics += 1;
+                    tPlayerState.resources.bronzeRelics += 1;
                 } else if (reward === RELIC.silver) {
                     tPlayerState.resources.silverRelics += 1;
+                } else if (reward === RELIC.gold) {
+                    tPlayerState.resources.goldRelics += 1;
                 } else {
                     console.error("Unable to recognize relic type. Upgrade is not possible:")
                     console.log(reward);

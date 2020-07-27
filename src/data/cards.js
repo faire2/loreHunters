@@ -4,6 +4,7 @@ import {
     Arrow,
     Artifact,
     Blimp,
+    BronzeRelic,
     Coin,
     DefeatedGuardian,
     DestroyCard,
@@ -20,7 +21,6 @@ import {
     LocationL1,
     LocationL2,
     LocationL3,
-    Relic,
     Ship,
     Text,
     VictoryPoints,
@@ -357,7 +357,7 @@ export const ITEMS = Object.freeze({
         cardName: "Journal",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for each <Relic/> you own (up to 3) .</div>,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for each <BronzeRelic/> you own (up to 3) .</div>,
         effects: [EFFECT.gainExploreForRelics],
         image: journalImg,
         cost: 3,
@@ -1023,7 +1023,7 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Fear/><Coin/> and return one of your used <Relic/></div>,
+            <div className="effectsText"><Fear/><Coin/> and return one of your used <BronzeRelic/></div>,
         effects: [EFFECT.gainCoin, EFFECT.gainFear, EFFECT.refreshRelic],
         isGuarded: true,
         image: "",
@@ -1131,7 +1131,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Secret Paths",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+ ?<VictoryPoints/> Score again 2 of <Relic/> that you placed</div>,
+            <div className="effectsText">+ ?<VictoryPoints/> Score again 2 of <BronzeRelic/> that you placed</div>,
         points: 0
     },
     rareFinds: {
@@ -1179,7 +1179,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Cartographer",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Relic/> you own.</div>,
+            <div className="effectsText">+1 <VictoryPoints/> for each <BronzeRelic/> you own.</div>,
         points: 3,
     },
     fearless: {
@@ -1267,7 +1267,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Trading Knowledge",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Relic/> that you placed in the first 3 rows.</div>,
+            <div className="effectsText">+1 <VictoryPoints/> for each <BronzeRelic/> that you placed in the first 3 rows.</div>,
         points: 4,
     },
     touchTheSkies: {

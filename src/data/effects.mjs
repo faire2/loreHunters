@@ -67,7 +67,6 @@ export const EFFECT = Object.freeze({
     gainOrUpgradeRelic: "gain a new relive or upgrade one you have",
     gainPlaceholder: "gain megartifact without a name",
     gainResourceFromAdjacentLocation: "gain one resource that can be obtained from a location adjacent to your Adventurer",
-    gainRelic: "gain a relic",
     gainShip: "travel with a ship",
     gainText: "gain a text",
     gainTextInJungle: "gain a text for each adventurer in a jungle location", //todo items implement

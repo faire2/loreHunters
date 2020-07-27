@@ -424,12 +424,19 @@ function GameBoard(props) {
         const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
             [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
         initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
-        if (tPlayersState.relics[effectIndex] && tPlayersState.resources.relics > 0) {
+        if (tPlayersState.relics[effectIndex] && tPlayersState.resources.bronzeRelics + tPlayersState.resources.silverRelics
+            + tPlayersState.resources.goldRelics  > 0) {
             let effectsResult = processEffects(null, null, tPlayersState, effects, null,
                 cloneDeep(store), null, cloneDeep(locations), null);
             tPlayersState = effectsResult.tPlayerState;
             tPlayersState.relics[effectIndex] = false;
-            tPlayersState.resources.relics -= 1;
+            if (tPlayersState.resources.bronzeRelics > 0) {
+                tPlayersState.resources.bronzeRelics -= 1;
+            } else if (tPlayersState.resources.silverRelics > 0) {
+                tPlayersState.resources.silverRelics -= 1;
+            } else if (tPlayersState.resources.goldRelics > 0) {
+                tPlayersState.resources.goldRelics -= 1;
+            }
             setPlayerState(effectsResult.tPlayerState);
             addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, effects);
         }

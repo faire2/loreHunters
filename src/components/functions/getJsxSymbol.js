@@ -6,6 +6,7 @@ import {
     Artifact,
     AssistantUpgrade,
     Blimp,
+    BronzeRelic,
     Coin,
     DefeatedGuardian,
     DestroyCard,
@@ -19,7 +20,6 @@ import {
     Jewel,
     LocationL3,
     Map,
-    Relic,
     Ship,
     SilverAssistant,
     Text,
@@ -101,7 +101,7 @@ export function getJsxSymbol(effect) {
             return <Discard/>
         case EFFECT.gainOrUpgradeRelic:
         case EFFECT.gainBronzeRelic:
-            return <Relic/>
+            return <BronzeRelic/>
         case EFFECT.gainAction:
             return <GainAction/>
         case EFFECT.discoverLostCity:

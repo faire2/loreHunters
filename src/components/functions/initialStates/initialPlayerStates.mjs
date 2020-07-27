@@ -1,4 +1,4 @@
-import {ARTIFACT_IDs, GLOBAL_VARS} from "../../../data/idLists.mjs";
+import {GLOBAL_VARS} from "../../../data/idLists.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {CARD_STATE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
@@ -14,7 +14,6 @@ export const emptyPlayerState = Object.freeze({
         bronzeRelics: 0,
         silverRelics: 0,
         goldRelics: 0,
-        maps: 1,
         walk: 0,
         jeep: 0,
         ship: 0,
@@ -89,9 +88,9 @@ export default function getInitialPlayerStates(numOfPlayers) {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        const testCard0 = {...ARTIFACT_IDs.boneWhistle};
+        /*const testCard0 = {...ARTIFACT_IDs.boneWhistle};
         testCard0.state = CARD_STATE.drawDeck;
-        drawDeck.splice(0, 0, testCard0);
+        drawDeck.splice(0, 0, testCard0);*/
 
         /*const testCard = {...ITEM_IDs.binoculars};
         testCard.state = CARD_STATE.inHand;
