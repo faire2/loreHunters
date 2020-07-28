@@ -68,7 +68,7 @@ export function getPoints(playerState) {
         }
     }
     if (usedRelics > 0) {
-        const negativeRelicPoints = [1, 1, 2, 3, 4];
+        const negativeRelicPoints = [1, 2, 2, 2, 3];
         relicsPoints -= negativeRelicPoints[usedRelics - 1]
     }
 

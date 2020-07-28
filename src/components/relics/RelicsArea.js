@@ -3,7 +3,7 @@ import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import bgr from "../../img/relics/relicsBackground.png"
 import {PlayerStateContext} from "../../Contexts";
 import vpBgr from "../../img/symbols/VP.png";
-import {JsxFromEffects} from "../JsxFromEffects";
+import {RELIC} from "../functions/enums";
 
 export function RelicsArea() {
     const playerStateContext = useContext(PlayerStateContext);
@@ -92,10 +92,6 @@ export function RelicsArea() {
         [],
         [],
         [],
-        [],
-        [],
-        [],
-        []
     ];
 
     const victoryPoints = [0, 1, 2, 4];
@@ -108,9 +104,9 @@ export function RelicsArea() {
     const fieldsArr =
         effectsArr.map((effect, i) => {
                 const style = effect.length !== 2 ? fieldStyle1Icon : fieldStyle2Icons
-                return (
+            return (
                     <div style={style} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
-                        {playerState.relics[i] ? <JsxFromEffects effectsArray={effect} fontSize={"2vw"}/> : <BronzeRelic/>}
+                        {playerState.relics[i] && getRelic(playerState.relics[i])}
                     </div>
                 )
             }
@@ -131,4 +127,14 @@ export function RelicsArea() {
             </div>
         </div>
     )
+}
+
+function getRelic(relic) {
+    if (relic === RELIC.bronze) {
+        return <BronzeRelic/>
+    } else if (relic === RELIC.silver) {
+        return <SilverRelic/>
+    } else if (relic === RELIC.gold) {
+        return <GoldRelic/>
+    }
 }
