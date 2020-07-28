@@ -37,7 +37,7 @@ export const emptyPlayerState = Object.freeze({
     longEffects: [],
     playedCards: [],
     playerIndex: null,
-    relics: [true, true, true, true, true, true, true, true, true],
+    relics: [null, null, null, null, null],
     victoryCards: [],
 });
 /* INITIAL PLAYER STATES */

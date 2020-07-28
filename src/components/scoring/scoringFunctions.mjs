@@ -1,8 +1,10 @@
 import {ITEM_IDs} from "../../data/idLists";
 import {ARTIFACTS, ITEMS} from "../../data/cards";
 import {getLogLegends} from "../main/logger";
-import {CARD_TYPE} from "../functions/enums";
+import {CARD_TYPE, RELIC} from "../functions/enums";
 import {selectedLegendIndex} from "../functions/initialStates/initialLegends";
+import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
+import React from "react";
 
 export function getPoints(playerState) {
     const legends = getLogLegends();
@@ -60,6 +62,18 @@ export function getPoints(playerState) {
     relicsPoints += playerState.resources.silverRelics * 6;
     relicsPoints += playerState.resources.goldRelics * 9;
 
+    // placed relics
+    let relics = playerState.relics;
+    for (let i = 0; i < relics.length; i++) {
+        if (relics[i] === RELIC.bronze) {
+            relicsPoints += 3;
+        } else if (relics[i] === RELIC.silver) {
+            relicsPoints += 6;
+        } else if (relics[i] === RELIC.gold) {
+            relicsPoints += 9;
+        }
+    }
+
     // negative points for used relics
     let usedRelics = 0;
     for (const relic of playerState.relics) {
@@ -68,7 +82,7 @@ export function getPoints(playerState) {
         }
     }
     if (usedRelics > 0) {
-        const negativeRelicPoints = [1, 1, 2, 3, 4];
+        const negativeRelicPoints = [1, 2, 2, 2, 3];
         relicsPoints -= negativeRelicPoints[usedRelics - 1]
     }
 

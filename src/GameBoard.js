@@ -33,6 +33,7 @@ import {
     CARD_STATE,
     CARD_TYPE,
     LCL_STORAGE,
+    RELIC,
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./components/functions/enums";
@@ -419,23 +420,25 @@ function GameBoard(props) {
     }
 
     /** HANDLE CLICK ON RELIC **/
-    function handleClickOnRelic(effects, effectIndex) {
-        let tPlayersState = cloneDeep(playerState);
-        const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
-            [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
-        initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
-        if (tPlayersState.relics[effectIndex] && tPlayersState.resources.bronzeRelics + tPlayersState.resources.silverRelics
+    function handleClickOnRelic(effects, slotIndex) {
+            let tPlayersState = cloneDeep(playerState);
+        if (!tPlayersState.relics[slotIndex] && tPlayersState.resources.bronzeRelics + tPlayersState.resources.silverRelics
             + tPlayersState.resources.goldRelics  > 0) {
+            const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
+                [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
+            initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
             let effectsResult = processEffects(null, null, tPlayersState, effects, null,
                 cloneDeep(store), null, cloneDeep(locations), null);
             tPlayersState = effectsResult.tPlayerState;
-            tPlayersState.relics[effectIndex] = false;
             if (tPlayersState.resources.bronzeRelics > 0) {
                 tPlayersState.resources.bronzeRelics -= 1;
+                tPlayersState.relics[slotIndex] = RELIC.bronze;
             } else if (tPlayersState.resources.silverRelics > 0) {
                 tPlayersState.resources.silverRelics -= 1;
+                tPlayersState.relics[slotIndex] = RELIC.silver;
             } else if (tPlayersState.resources.goldRelics > 0) {
                 tPlayersState.resources.goldRelics -= 1;
+                tPlayersState.relics[slotIndex] = RELIC.gold;
             }
             setPlayerState(effectsResult.tPlayerState);
             addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, effects);
