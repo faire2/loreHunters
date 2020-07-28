@@ -356,93 +356,78 @@ export const ARTIFACT_IDs = Object.freeze({
 });
 
 export const GUARDIAN_IDs = Object.freeze({
-    foxSpirit: {
-        id: "foxSpirit",
+    beetle: {
+        id: "beetle",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockText],
     },
-    forestDragon: {
-        id: "forestDragon",
+    scorpion: {
+        id: "scorpion",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCard],
     },
-    naga: {
-        id: "naga",
+    spider: {
+        id: "spider",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCard],
     },
-    stoneTitan: {
-        id: "stoneTitan",
+    owl: {
+        id: "owl",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockAdventurer],
     },
-    golem: {
-        id: "golem",
+    tiger: {
+        id: "tiger",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCard],
     },
-    mountainGuardian: {
-        id: "mountainGuardian",
+    frog: {
+        id: "frog",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCoin],
     },
-    gryphon: {
-        id: "gryphon",
+    monkey: {
+        id: "monkey",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCard],
     },
-    whisperingShadow: {
-        id: "whisperingShadow",
+    ants: {
+        id: "ants",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCard],
     },
-    giantScarab: {
-        id: "giantScarab",
+    bat: {
+        id: "bat",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockAdventurer],
     },
-    swampSnake: {
-        id: "swampSnake",
+    lizard: {
+        id: "lizard",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockAdventurer],
     },
-    stealingMonkey: {
-        id: "stealingMonkey",
+    hippo: {
+        id: "hippo",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCoin],
     },
-    hornedHippo: {
-        id: "hornedHippo",
+    bird: {
+        id: "bird",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockAdventurer],
     },
-    lakeMonster: {
-        id: "lakeMonster",
+    hyena: {
+        id: "hyena",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCard],
     },
-    energyLeech: {
-        id: "energyLeech",
+    snake: {
+        id: "snake",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCard],
     },
-    swarmingSpiders: {
-        id: "swarmingSpiders",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
-    },
-    heartOfForest: {
-        id: "heartOfForest",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockJewel],
-    },
-    wyvern: {
-        id: "wyvern",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
-    },
-    crabmanHermit: {
-        id: "crabmanHermit",
+    redbird: {
+        id: "redbird",
         type: CARD_TYPE.guardian,
         lockEffects: [EFFECT.lockCard],
     },
