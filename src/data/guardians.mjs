@@ -2,184 +2,124 @@ import {CARD_TYPE} from "../components/functions/enums.mjs";
 import {EFFECT} from "./effects.mjs";
 
 export const Guardians = Object.freeze({
-    foxSpirit: {
-        id: "foxSpirit",
-        cardName: "Fox Spirit",
+    beetle: {
+        id: "beetle",
+        cardName: "beetle",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainExplore],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
+        effects: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 1
+        points: 5
     },
-    forestDragon: {
-        id: "forestDragon",
-        cardName: "Forest Dragon",
+    scorpion: {
+        id: "scorpion",
+        cardName: "scorpion",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainText],
-        discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
+        effects: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.discard, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 1
+        points: 5
     },
-    naga: {
-        id: "naga",
-        cardName: "Naga",
+    spider: {
+        id: "spider",
+        cardName: "spider",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseCoin, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainText],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
+        effects: [EFFECT.loseWalk, EFFECT.loseWeapon, EFFECT.discard, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
+        points: 5
     },
-    stoneTitan: {
-        id: "stoneTitan",
-        cardName: "Stone Titan",
+    owl: {
+        id: "owl",
+        cardName: "owl",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainExplore, EFFECT.gainWeapon],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainText],
+        effects: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
+        points: 5
     },
-    golem: {
-        id: "golem",
-        cardName: "Golem",
+    tiger: {
+        id: "tiger",
+        cardName: "tiger",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
-        discoveryEffect2: [EFFECT.gainWeapon],
+        effects: [EFFECT.loseCoin, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
+        points: 5
     },
-    mountainGuardian: {
-        id: "mountainGuardian",
-        cardName: "Mountain Guardian",
+    frog: {
+        id: "frog",
+        cardName: "frog",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseBlimp, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.destroyCard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
-        discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainExplore],
+        effects: [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseText, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 1
+        points: 5
     },
-    gryphon: {
-        id: "gryphon",
-        cardName: "Gryphon",
+    monkey: {
+        id: "monkey",
+        cardName: "monkey",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseBlimp, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainJewel],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainText],
+        effects: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
+        points: 5
     },
-    whisperingShadow: {
-        id: "whisperingShadow",
-        cardName: "Whispering Shadow",
+    ants: {
+        id: "ants",
+        cardName: "ants",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainText, EFFECT.gainWeapon],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
+        effects: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 1
+        points: 5
     },
-    giantScarab: {
-        id: "giantScarab",
-        cardName: "Giant Scarab",
+    bat: {
+        id: "bat",
+        cardName: "bat",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainWeapon],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
+        effects: [EFFECT.loseBlimp, EFFECT.loseCoin, EFFECT.discard, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
+        points: 5
     },
-    swampSnake: {
-        id: "swampSnake",
-        cardName: "Swamp snake",
+    lizard: {
+        id: "lizard",
+        cardName: "lizard",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.discard, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainJewel],
-        discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
+        effects: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
+        points: 5
     },
-    stealingMonkey: {
-        id: "stealingMonkey",
-        cardName: "Stealing Monkey",
+    hippo: {
+        id: "hippo",
+        cardName: "hippo",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainJewel],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainExplore],
+        effects: [EFFECT.loseShip, EFFECT.loseShip, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 1
+        points: 5
     },
-    hornedHippo: {
-        id: "hornedHippo",
-        cardName: "Horned Hippo",
+    bird: {
+        id: "bird",
+        cardName: "bird",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainWeapon],
-        discoveryEffect2: [EFFECT.gainWeapon],
+        effects: [EFFECT.loseBlimp, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
+        points: 5
     },
-    lakeMonster: {
-        id: "lakeMonster",
-        cardName: "Lake Monster",
+    hyena: {
+        id: "hyena",
+        cardName: "hyena",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
+        effects: [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseText, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
+        points: 5
     },
-    energyLeech: {
-        id: "energyLeech",
-        cardName: "Energy Leech",
+    snake: {
+        id: "snake",
+        cardName: "snake",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.discard, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainExplore],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
+        effects: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 1
+        points: 5
     },
-    swarmingSpiders: {
-        id: "swarmingSpiders",
-        cardName: "Swarming Spiders",
+    redbird: {
+        id: "redbird",
+        cardName: "redbird",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainCoin],
-        discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
+        effects: [EFFECT.loseCoin, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
         cost: null,
-        points: 2
-    },
-    heartOfForest: {
-        id: "heartOfForest",
-        cardName: "Heart of the Forest",
-        type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseJewel, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore],
-        discoveryEffect2: [EFFECT.gainText, EFFECT.gainText],
-        cost: null,
-        points: 2
-    },
-    wyvern: {
-        id: "wyvern",
-        cardName: "Wyvern",
-        type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseCoin, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryEffect2: [EFFECT.gainWeapon],
-        cost: null,
-        points: 2
-    },
-    crabmanHermit: {
-        id: "crabmanHermit",
-        cardName: "Crabman Hermit",
-        type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
-        discoveryEffect: [EFFECT.gainJewel],
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        cost: null,
-        points: 2
+        points: 5
     },
 });
