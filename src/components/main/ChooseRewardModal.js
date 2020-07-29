@@ -26,6 +26,7 @@ import {Guardians} from "../../data/guardians";
 import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import {JsxFromEffects} from "../JsxFromEffects";
 import {EFFECT} from "../../data/effects";
+import {RelicWithResource} from "../relics/RelicWithResource";
 
 
 export default function ChooseRewardModal() {
@@ -89,6 +90,17 @@ export default function ChooseRewardModal() {
                 } else {
                     console.error("Unable to determine relic for element in RewardsModal: " + reward)
                 }
+                break;
+            case REWARD_TYPE.relicWithEffects:
+                const relicWidth = 4;
+                const fontSize = 2.4;
+                if (rewards[0].params === RELIC.bronze) {
+                    element = <RelicWithResource relicType={RELIC.bronze} effects={reward} width={relicWidth} fontSize={fontSize}/>
+                } else if (rewards[0].params === RELIC.silver) {
+                    element = <RelicWithResource relicType={RELIC.silver} effects={reward} width={relicWidth} fontSize={fontSize}/>
+                } else if (rewards[0].params === RELIC.gold) {
+                    element = <RelicWithResource relicType={RELIC.gold} effects={reward} width={relicWidth} fontSize={fontSize}/>
+                } else {console.error("Unable to determine type of relic with resource in RewardsModal: " + reward)}
                 break;
             case REWARD_TYPE.guardian:
                 element = <div>{reward}</div>;
@@ -190,6 +202,19 @@ export default function ChooseRewardModal() {
                     console.error("Unable to recognize relic type. Upgrade is not possible:")
                     console.log(reward);
                 }
+                break;
+            case REWARD_TYPE.relicWithEffects:
+                const relicEffectsResult = processEffects(null, null, tPlayerState, reward,
+                    null, null, null, null);
+                tPlayerState = relicEffectsResult.tPlayerState;
+                debugger
+                if (rewards[0].params === RELIC.bronze) {
+                    tPlayerState.resources.bronzeRelics += 1;
+                } else if (rewards[0].params === RELIC.silver) {
+                    tPlayerState.resources.silverRelics += 1;
+                } else if (rewards[0].params === RELIC.gold) {
+                    tPlayerState.resources.goldRelics += 1;
+                } else {console.error("Unable to determine type of relic with resource in RewardsModal: " + reward)}
                 break;
             case REWARD_TYPE.effectsArr:
                 const effectsResult = processEffects(null, null, tPlayerState, reward, null, null, null, null);

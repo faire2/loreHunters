@@ -18,7 +18,12 @@ export function exploreLocation(playerState, locations, store, location, round) 
         playerState = explorationCostResult.tPlayerState;
         // if exploration discount active effect is present the action has already been substracted
         playerState.actions -= exploreDiscount ? 0 : 1;
+
+        // gain relic and relic resource
         location.level === LOCATION_LEVEL["2"] ? playerState.resources.bronzeRelics += 1 : playerState.resources.silverRelics += 1;
+        const relicEffectResult = processEffects(null, null, playerState, location.relicEffects,
+            null, null, location, null);
+        playerState = relicEffectResult.tPlayerState;
 
         // mark location as guarded
         locations[location.line][location.index].state = LOCATION_STATE.guarded;

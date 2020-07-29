@@ -20,6 +20,7 @@ import {
     Jewel,
     LocationL3,
     Map,
+    SecondLegendToken,
     Ship,
     SilverAssistant,
     Text,
@@ -68,6 +69,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainCoinOrExploreIfFirst:
             return <div><Coin/><Explore/></div>;
         case EFFECT.gainAdventurerForThisRound:
+        case EFFECT.returnAdventurer:
             return <div style={{width: "1.5vw", margin: "0 auto"}}><AdventurerToken/></div>;
         case EFFECT.gainItem:
         case EFFECT.buyItemWithDiscount3:
@@ -96,6 +98,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainGoldAssistant:
             return <GoldAssistant/>
         case EFFECT.gainOrUpgradeAssistant:
+        case EFFECT.refreshAllAssistants:
             return <AssistantUpgrade/>;
         case EFFECT.discard:
             return <Discard/>
@@ -109,6 +112,8 @@ export function getJsxSymbol(effect) {
             return ""
         case EFFECT.arrow:
             return <Arrow/>
+        case EFFECT.progressWithSecondToken:
+            return <SecondLegendToken/>
         default:
             console.error("Unable to recognize effect: " + effect);
     }

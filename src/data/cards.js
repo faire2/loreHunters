@@ -690,7 +690,7 @@ export const ARTIFACTS = Object.freeze({
             <div className="effectsText"><b>Relocate</b> one of your deployed <AdventurerIcon style={{height: 1, backgroundColor: "black"}}/> to any empty
                 <LocationL1/> or <LocationL2/>.</div>,
         effects: [EFFECT.moveAdvToEmptyLocation],
-        isGuarded: true,
+        isGuarded: false,
         image: portalStoneImg,
         cost: 4,
         points: 2
@@ -703,7 +703,7 @@ export const ARTIFACTS = Object.freeze({
         effectsText:
             <div className="effectsText"><Weapon/> and don't gain <Fear/> from <Guardian/> this round.</div>,
         effects: [EFFECT.gainWeapon, EFFECT.protectFromFear],
-        isGuarded: true,
+        isGuarded: false,
         image: warMaskImg,
         cost: 3,
         points: 1
@@ -716,7 +716,7 @@ export const ARTIFACTS = Object.freeze({
         effectsText:
             <div style={bigIconsStyle}><Draw1Card/><DestroyCard/></div>,
         effects: [EFFECT.draw1, EFFECT.destroyCard],
-        isGuarded: true,
+        isGuarded: false,
         image: warMaskImg,
         cost: 3,
         points: 1
@@ -986,7 +986,7 @@ export const ARTIFACTS = Object.freeze({
             <div className="effectsText"><Coin/><Coin/> and you may remove one of your defeated <Guardian/> from the game
                 to gain <Coin/><Jewel/>.</div>,
         effects: [EFFECT.gainCoinsAndJewelForGuardian],
-        isGuarded: true,
+        isGuarded: false,
         image: ritualDaggerImg,
         cost: 3,
         points: 1
@@ -999,7 +999,7 @@ export const ARTIFACTS = Object.freeze({
         effectsText:
             <div style={bigIconsStyle}><Fear/><Weapon/><Weapon/></div>,
         effects: [EFFECT.gainFear, EFFECT.gainWeapon, EFFECT.gainWeapon],
-        isGuarded: true,
+        isGuarded: false,
         image: "",
         cost: 3,
         points: 1
@@ -1011,8 +1011,8 @@ export const ARTIFACTS = Object.freeze({
         transportAmount: 1,
         effectsText:
             <div className="effectsText">Return <AdventurerIcon/> back home, then <b>destroy</b> this card.</div>,
-        effects: [EFFECT.return, EFFECT.destroyThisCard],
-        isGuarded: true,
+        effects: [EFFECT.returnAdventurer, EFFECT.destroyThisCard],
+        isGuarded: false,
         image: magicDoor,
         cost: 3,
         points: 1
@@ -1025,7 +1025,7 @@ export const ARTIFACTS = Object.freeze({
         effectsText:
             <div className="effectsText"><Fear/><Coin/> and return one of your used <BronzeRelic/></div>,
         effects: [EFFECT.gainCoin, EFFECT.gainFear, EFFECT.refreshRelic],
-        isGuarded: true,
+        isGuarded: false,
         image: "",
         cost: 3,
         points: 1
@@ -1038,7 +1038,7 @@ export const ARTIFACTS = Object.freeze({
         effectsText:
             <div className="effectsText"><b>Refresh</b> your assistant and gain <Coin/></div>,
         effects: [EFFECT.gainCoin, EFFECT.refreshAsistant],
-        isGuarded: true,
+        isGuarded: false,
         image: "",
         cost: 3,
         points: 1
@@ -1051,7 +1051,7 @@ export const ARTIFACTS = Object.freeze({
         effectsText:
             <div className="effectsText">Infinite <Blimp/> to place your <AdventurerIcon/><AdventurerIcon/> this round.</div>,
         effects: [EFFECT.infinitePlanes],
-        isGuarded: true,
+        isGuarded: false,
         image: "",
         cost: 4,
         points: 1
@@ -1076,7 +1076,7 @@ export const ARTIFACTS = Object.freeze({
             <div className="effectsText"><b>Activate</b> any occupied location. If the location is <LocationL3/>,
                 pay <Coin/> first.</div>,
         effects: [EFFECT.activateOccupiedLocation],
-        isGuarded: true,
+        isGuarded: false,
         image: goldenMaskImg,
         cost: 3,
         points: 1

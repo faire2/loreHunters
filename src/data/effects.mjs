@@ -107,13 +107,14 @@ export const EFFECT = Object.freeze({
     progressWithSecondToken: "progress with second token",
     protectFromFear: "do not gain fear from guarded location at the end of round",
     refreshAsistant: "refresh an assistant",
+    refreshAllAssistants: "refresh all assistants",
     refreshRelic: "refresh a used relic",
     removeGuardian: "remove a guardian from play",
     // used with effects moving adventurer to another location as step one effect
     removeAdventurer: "remove adventurer",
     revealArtifactBuyWithDiscount3: "buy an artifact with a discount",
     revealItemBuyWithDiscount3: "buy an item with discount",
-    return: "return adventurer from tLocation",
+    returnAdventurer: "return adventurer from tLocation",
     returnResources: "return locked card", //todo implement
     payToUseOccupiedLocation: "use an occupied location",
     unlockCard: "gain back a locked card",

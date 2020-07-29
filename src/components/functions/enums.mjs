@@ -97,6 +97,7 @@ export const REWARD_TYPE = Object.freeze({
     legendFieldEffects: "combined effects of a legend field",
     location: "location",
     refreshAssistant: "refresh an assistant",
+    relicWithEffects: "relic with effects",
     removeAssistant: "remove an assistant",
     upgradeRelic: "relic upgrade",
 });

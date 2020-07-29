@@ -1,8 +1,9 @@
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE} from "../enums.mjs";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE, RELIC} from "../enums.mjs";
 import {shuffleArray} from "../cardManipulationFuntions.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {Locations} from "../../../data/locations.mjs";
 import {Guardians} from "../../../data/guardians.mjs";
+import {relicEffects} from "../../../data/relicEffects.mjs";
 
 /* INITIAL Locations */
 export function getInitialLocations(numOfPlayers) {
@@ -54,59 +55,43 @@ export function getInitialLocations(numOfPlayers) {
         location.adventurers = [];
     }
 
-    let line1 = [cloneDeep(Locations.emptyBrownLocation2), level1locations[0], level1locations[1], level1locations[2],
-        cloneDeep(Locations.emptyGreenLocation2)];
+    relicEffects.bronze = shuffleArray(relicEffects.bronze);
+    relicEffects.silver = shuffleArray(relicEffects.silver);
+
+    let line1 = [level1locations[0], level1locations[1], level1locations[2], level1locations[3], level1locations[4]];
     line1 = setLocationIndexAndLine(LOCATION_LINE.line1, line1)
 
-    let line2 = [cloneDeep(Locations.emptyBrownLocation2), level1locations[3], level1locations[4], cloneDeep(Locations.emptyGreenLocation2)];
+    let line2 = [cloneDeep(Locations.emptyBrownLocation2),  cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyGreenLocation2),
+        cloneDeep(Locations.emptyGreenLocation2)];
     line2 = setLocationIndexAndLine(LOCATION_LINE.line2, line2)
+    for (let location of line2) {
+        location = setRelicEffects(location, RELIC.bronze);
+    }
 
     let line3 = [cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyGreenLocation2),
         cloneDeep(Locations.emptyGreenLocation2)];
     line3 = setLocationIndexAndLine(LOCATION_LINE.line3, line3)
+    for (let location of line3) {
+        location = setRelicEffects(location, RELIC.bronze);
+    }
 
     let line4 = [cloneDeep(Locations.emptyBrownLocation3), cloneDeep(Locations.emptyBrownLocation3), cloneDeep(Locations.emptyGreenLocation3),
         cloneDeep(Locations.emptyGreenLocation3)];
     line4 = setLocationIndexAndLine(LOCATION_LINE.line4, line4)
+    for (let location of line4) {
+        location = setRelicEffects(location, RELIC.silver);
+    }
 
     return {
         line1: line1,
         line2: line2,
         line3: line3,
         line4: line4,
-        /*level2Brown: level2Brown,
-        level2Green: level2Green,
-        level3Brown: level3Brown,
-        level3Green: level3Green,*/
         level2Locations: level2locations,
         level3Locations: level3locations,
         lostCity: level3LostCity,
         guardianKeys: guardianKeys
     };
-}
-
-// generates empty locations for lvl 2 empty locations
-function getEmptyLocations(locationLine, numberOfLocations) {
-    let greenLocationsArr = [];
-    let brownLocationsArr = [];
-
-    for (let i = 0; i < numberOfLocations / 2; i++) {
-        greenLocationsArr.push(cloneDeep(Locations.emptyGreenLocation2));
-        brownLocationsArr.push(cloneDeep(Locations.emptyBrownLocation2));
-    }
-    let emptyLocationsArr = [...greenLocationsArr, ...brownLocationsArr];
-
-    /*let emptyLocationsArr = [];
-    for (let i = 0; i < numberOfLocations; i++) {
-        emptyLocationsArr.push(cloneDeep(Locations.emptyLocation));
-    }*/
-
-    for (let i = 0; i < emptyLocationsArr.length; i++) {
-        emptyLocationsArr[i].index = i;
-        emptyLocationsArr[i].line = locationLine;
-        emptyLocationsArr[i].state = LOCATION_STATE.unexplored;
-    }
-    return emptyLocationsArr;
 }
 
 function setLocationIndexAndLine(locationLine, locations) {
@@ -115,4 +100,17 @@ function setLocationIndexAndLine(locationLine, locations) {
         locations[i].index = i;
     }
     return locations
+}
+
+function setRelicEffects(location, relicType) {
+    if (relicType === RELIC.bronze) {
+        location.relicEffects = relicEffects.bronze[0];
+        relicEffects.bronze.splice(0, 1);
+    } else if (relicType === RELIC.silver) {
+        location.relicEffects = relicEffects.silver[0];
+        relicEffects.silver.splice(0, 1);
+    } else {
+        console.error("Unable to determine relic type in setRelicEffects: " + relicType);
+    }
+    return location;
 }

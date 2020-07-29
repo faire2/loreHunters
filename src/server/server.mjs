@@ -55,8 +55,9 @@ io.on("connection", socket => {
             const states = {
                 numOfPlayers: numOfPlayers,
                 playerStates: getInitialPlayerStates(numOfPlayers),
-                store: getInitialStore(),
+                /* beware! locations must be initialized before store because of relicEffects! */
                 locations: getInitialLocations(numOfPlayers),
+                store: getInitialStore(),
                 legends: getInitialLegends(numOfPlayers),
                 activePlayer: 0,
                 initialPlayer: 0,

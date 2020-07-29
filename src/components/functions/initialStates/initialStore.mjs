@@ -9,6 +9,7 @@ import {
 } from "../../../data/idLists.mjs";
 import {ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
+import {relicEffects} from "../../../data/relicEffects.mjs";
 
 export function getInitialStore() {
     /* all items, each item is represented only once! */
@@ -48,6 +49,11 @@ export function getInitialStore() {
         }
     }
 
+    /* relics */
+    const bronzeRelicEffects = shuffleArray(relicEffects.bronze);
+    const silverRelicEffects = shuffleArray(relicEffects.silver);
+    const goldRelicEffects = shuffleArray(relicEffects.gold)
+
     let itemsSetup = drawInitialCards(items, GLOBAL_VARS.itemsInStore);
     let artifactsSetup = drawInitialCards(artifacts, GLOBAL_VARS.artifactsInStore);
     let incomes1Setup = drawInitialCards(incomes1, 2);
@@ -67,5 +73,8 @@ export function getInitialStore() {
         itemsOffer: itemsSetup.drawCards,
         expeditions: shuffleArray(expeditions),
         guardians: shuffleArray(guardians),
+        bronzeRelicEffects: bronzeRelicEffects,
+        silverRelicEffects: silverRelicEffects,
+        goldRelicEffects: goldRelicEffects,
     }
 }

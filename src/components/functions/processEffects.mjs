@@ -49,7 +49,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.progressWithTextsOrWeapon:
                 case EFFECT.progressWithSecondToken:
                 case EFFECT.removeGuardian:
-                case EFFECT.return:
+                case EFFECT.returnAdventurer:
                 case EFFECT.uptrade:
                 case EFFECT.useItemOnMarket:
                 case EFFECT.activateYourLocation:
@@ -539,9 +539,13 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case
+                case EFFECT.refreshAllAssistants:
+                    for (let assistant of tPlayerState.assistants) {
+                        assistant.state = ASSISTANT_STATE.ready;
+                    }
+                    break;
 
-                EFFECT.refreshRelic:
+                case EFFECT.refreshRelic:
                     for (let i = 0; i < tPlayerState.relics.length; i++) {
                         if (tPlayerState.relics[i] === false) {
                             tPlayerState.relics[i] = true;

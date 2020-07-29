@@ -5,7 +5,7 @@ import {HexButton} from "../buttons/HexButton";
 import {PlayerStateContext} from "../../Contexts";
 import {processEffects} from "../functions/processEffects";
 import {cloneDeep} from "lodash";
-import {BUTTON_STATE} from "../functions/enums";
+import {BUTTON_STATE, RELIC} from "../functions/enums";
 import Button from "react-bootstrap/Button";
 import lostCity from "../../img/legends/lostCity.png";
 
@@ -102,22 +102,43 @@ export function LostCity() {
             }
         }
 
+        let relicRewards = [];
+        let tStore = cloneDeep(playerStateContext.store);
+        let params;
         switch (rewardLevel) {
             case 1:
-                tPlayerState.resources.bronzeRelics += 1;
+                for (let i = 0; i < 2; i++) {
+                    if (tStore.bronzeRelicEffects.length > 0) {
+                        relicRewards.push(tStore.bronzeRelicEffects[0]);
+                        tStore.bronzeRelicEffects.splice(0, 1);
+                    }
+                }
+                params = RELIC.bronze;
                 break;
             case 2:
-                tPlayerState.resources.silverRelics += 1;
+                for (let i = 0; i < 2; i++) {
+                    if (tStore.silverRelicEffects.length > 0) {
+                        relicRewards.push(tStore.silverRelicEffects[0]);
+                        tStore.silverRelicEffects.splice(0, 1);
+                    }
+                }
+                params = RELIC.silver;
                 break;
             case 3:
-                tPlayerState.resources.goldRelics += 1;
+                for (let i = 0; i < 2; i++) {
+                    if (tStore.goldRelicEffects.length > 0) {
+                        relicRewards.push(tStore.goldRelicEffects[0]);
+                        tStore.goldRelicEffects.splice(0, 1);
+                    }
+                }
+                params = RELIC.gold;
                 break;
             case 0:
             default:
                 console.warn("Unable to process level of reward: " + rewardLevel);
         }
         setChosenEffects([false, false, false]);
-        playerStateContext.handleLostCity(tPlayerState);
+        playerStateContext.handleLostCity(tPlayerState, tStore, relicRewards, params);
     }
 
     return (

@@ -421,9 +421,9 @@ function GameBoard(props) {
 
     /** HANDLE CLICK ON RELIC **/
     function handleClickOnRelic(effects, slotIndex) {
-            let tPlayersState = cloneDeep(playerState);
+        let tPlayersState = cloneDeep(playerState);
         if (!tPlayersState.relics[slotIndex] && tPlayersState.resources.bronzeRelics + tPlayersState.resources.silverRelics
-            + tPlayersState.resources.goldRelics  > 0) {
+            + tPlayersState.resources.goldRelics > 0) {
             const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
                 [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
             initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
@@ -466,8 +466,12 @@ function GameBoard(props) {
     }
 
     /** HANDLE LOST CITY **/
-    function handleLostCity(tPlayerstate) {
+    function handleLostCity(tPlayerstate, tStore, relicRewards, params) {
         setPlayerState(tPlayerstate);
+        setStore(tStore);
+        if (relicRewards.length > 0) {
+            initiateRewardsModal({type: REWARD_TYPE.relicWithEffects, data: relicRewards, params: params});
+        }
         setExtendRightPanel(false);
     }
 
@@ -579,6 +583,7 @@ function GameBoard(props) {
     const playerStateContextValues = {
         playerState: playerState,
         playerStates: playerStates,
+        store: store,
         isActivePlayer: isActivePlayer,
         previousPlayer: previousPlayer,
         round: round,

@@ -260,7 +260,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-        case EFFECT.return:
+        case EFFECT.returnAdventurer:
             if (tLocation !== null && isPlayerInLocation(tLocation, tPlayerState)) {
                 tLocation = removePlayerTokenFromLocation(tLocation, tPlayerState);
                 tLocations = updateLocations(tLocation, tLocations);

@@ -9,12 +9,14 @@ import {
     BgrGreenUnexplored,
     BgrLostCity,
 } from "./functions/locationsImages";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../functions/enums";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE, RELIC} from "../functions/enums";
 import {getExplorationCost} from "./functions/locationFunctions";
 import {ExplorationCost} from "./ExplorationCost";
 import {LocationEffects} from "./LocationEffects";
 import {LocationAdventurers} from "./LocationAdventurers";
 import {LocationGuardian} from "./LocationGuardian";
+import {RelicWithResource} from "../relics/RelicWithResource";
+import styled from "styled-components";
 
 export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
@@ -53,20 +55,12 @@ export default function Location(props) {
         locationBackground = <BgrLostCity/>;
         locationUnexploredBackground = <BgrBrownUnexplored/>;
     } else if (location.type === LOCATION_TYPE.emptyBrownLocation || location.type === LOCATION_TYPE.emptyGreenLocation
-            || location.type === LOCATION_TYPE.emptyLocation) {
+        || location.type === LOCATION_TYPE.emptyLocation) {
         locationBackground = <BgrEmpty/>;
         locationUnexploredBackground = <BgrEmpty/>;
     } else {
         console.log("Unable to process location level or type in Location.js: " + location.id + " / " + location.type + " / " + location.level)
     }
-
-    const containerStyle = {
-        width: "7vw",
-        height: "4.2vw",
-        position: "relative",
-        textAlign: "center",
-        marginRight: "0.5vw",
-    };
 
     /*const levelSymbol = location.level === LOCATION_LEVEL["2"] ? <Level2Symbol/> : <Level3Symbol/>;
     const levelSymbolStyle = {
@@ -79,10 +73,20 @@ export default function Location(props) {
 
     /* explore costs for unexplored location */
     const exploreCost = getExplorationCost(location.type, location.level, false, null);
-
+    console.log(location.id);
+    if (location.state === LOCATION_STATE.unexplored) {
+        console.log("here");
+        console.log(location.relicEffects);
+    }
     return (
-        <div style={containerStyle}
+        <LocationWrapper
              onClick={() => boardStateContext.handleClickOnLocation(location, false)}>
+            {location.state === LOCATION_STATE.unexplored &&
+            <RelicWrapper>
+                <RelicWithResource relicType={location.level === LOCATION_LEVEL["2"] ? RELIC.bronze : RELIC.silver}
+                                   effects={location.relicEffects} fontSize={1.3}/>
+            </RelicWrapper>
+            }
             {/*{location.state === LOCATION_STATE.unexplored && <div style={levelSymbolStyle}>{levelSymbol}</div>}*/}
             {location.state === LOCATION_STATE.unexplored ? locationUnexploredBackground : locationBackground}
             {location.state === LOCATION_STATE.unexplored ? <ExplorationCost exploreCost={exploreCost}/>
@@ -94,6 +98,21 @@ export default function Location(props) {
             </div>
             }
             <LocationAdventurers adventurers={location.adventurers}/>
-        </div>
+        </LocationWrapper>
     )
 }
+
+const RelicWrapper = styled.div`
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
+
+const LocationWrapper = styled.div`
+    width: 7vw;
+    height: 4.2vw;
+    position: relative;
+    text-align: center;
+    margin-right: 0.5vw;
+`;
