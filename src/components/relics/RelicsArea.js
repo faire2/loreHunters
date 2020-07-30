@@ -25,7 +25,7 @@ export function RelicsArea() {
     const containerStyle = {
         top: "3vw",
         paddingLeft: "3.3vw",
-        paddingTop: "0.5%",
+        paddingTop: "1.5%",
         backgroundImage: `url(${bgr}`,
         backgroundSize: "100% 100%",
         position: "absolute",
@@ -41,9 +41,12 @@ export function RelicsArea() {
         height: "1.9vw",
         width: "26%",
         marginRight: "4.5%",
-        marginBottom: "9%",
+        marginBottom: "-10%",
         fontSize: "2.6vw",
         cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
     };
 
     const fieldStyle2Icons = {
@@ -66,7 +69,7 @@ export function RelicsArea() {
         height: "20%",
         flexWrap: "wrap",
         justifyContent: "center",
-        paddingTop: !twoLines ? "0.9vw" : "0.5vw"
+        paddingTop: !twoLines ? "2.9vw" : "2.5vw"
     };
 
     const victoryPointsStyle = {
@@ -81,7 +84,7 @@ export function RelicsArea() {
 
     const victoryPointsContainerStyle = {
         marginLeft: "-17%",
-        marginTop: "7%",
+        bottom: "10%",
         position: "absolute",
         height: "100%",
     };
@@ -103,9 +106,8 @@ export function RelicsArea() {
 
     const fieldsArr =
         effectsArr.map((effect, i) => {
-                const style = effect.length !== 2 ? fieldStyle1Icon : fieldStyle2Icons
             return (
-                    <div style={style} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
+                    <div style={fieldStyle1Icon} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
                         {playerState.relics[i] && getRelic(playerState.relics[i])}
                     </div>
                 )

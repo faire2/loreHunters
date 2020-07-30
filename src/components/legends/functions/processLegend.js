@@ -166,6 +166,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
             // if player reached the lost city, we push him into extra points array
             if (columnIndex === 7) {
                 legend.lostCityPoints.push(playerIndex);
+                debugger
             }
 
             // each column has a reward for both first and second token - we have stored token index previously
