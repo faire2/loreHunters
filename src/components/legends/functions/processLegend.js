@@ -165,7 +165,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
 
             // if player reached the lost city, we push him into extra points array
             if (columnIndex === 7) {
-                legend.lostCityPlayers.push(playerIndex);
+                legends[legendIndex].lostCityPlayers.push(playerIndex);
                 debugger
             }
 
