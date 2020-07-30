@@ -625,6 +625,7 @@ export const ITEMS = Object.freeze({
         id: "hat",
         cardName: "Hat",
         transport: CARD_TRANSPORT.ship,
+        transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Coin/><Explore/><GainAction/></div>,
         effects: [EFFECT.gainCoin, EFFECT.gainExplore, EFFECT.gainAction],
         cost: 1,

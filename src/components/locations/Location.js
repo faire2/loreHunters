@@ -73,11 +73,6 @@ export default function Location(props) {
 
     /* explore costs for unexplored location */
     const exploreCost = getExplorationCost(location.type, location.level, false, null);
-    console.log(location.id);
-    if (location.state === LOCATION_STATE.unexplored) {
-        console.log("here");
-        console.log(location.relicEffects);
-    }
     return (
         <LocationWrapper
              onClick={() => boardStateContext.handleClickOnLocation(location, false)}>

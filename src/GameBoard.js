@@ -493,11 +493,13 @@ function GameBoard(props) {
 
     /** UNDO / RESET TURN **/
     function undo() {
+        setExtendTopPanel(false);
         socket.emit(TRANSMISSIONS.resetTurn, roomName);
     }
 
     /** REVERT TO PREVIOUS TURN **/
     function revert() {
+        setExtendTopPanel(false);
         socket.emit(TRANSMISSIONS.revert, roomName)
     }
 

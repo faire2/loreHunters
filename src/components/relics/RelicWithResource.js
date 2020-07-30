@@ -11,6 +11,9 @@ export const RelicWithResource = props => {
     const width = props.width ? props.width : 2.2;
     const height = width * 1.2;
     const fontSize = props.fontSize ? props.fontSize : "2vw";
+    if (!props.effects) {
+        debugger
+    }
 
     let backGround;
     if (props.relicType === RELIC.bronze) {
