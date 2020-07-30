@@ -15,7 +15,6 @@ import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
 import ChooseRewardModal from "./components/main/ChooseRewardModal";
 import {socket} from "./server/socketConnection";
-import {BonusActions} from "./components/bonusActions/BonusActions";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
@@ -602,7 +601,7 @@ function GameBoard(props) {
         <div>
             <LocationsArea/>
             <div style={{marginLeft: "3vw"}}>
-                <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
+                {/*<BonusActions handleClickOnBonus={handleClickOnBonusAction}/>*/}
                 <Store/>
             </div>
             <CardsArea/>
