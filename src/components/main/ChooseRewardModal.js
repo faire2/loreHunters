@@ -207,7 +207,6 @@ export default function ChooseRewardModal() {
                 const relicEffectsResult = processEffects(null, null, tPlayerState, reward,
                     null, null, null, null);
                 tPlayerState = relicEffectsResult.tPlayerState;
-                debugger
                 if (rewards[0].params === RELIC.bronze) {
                     tPlayerState.resources.bronzeRelics += 1;
                 } else if (rewards[0].params === RELIC.silver) {

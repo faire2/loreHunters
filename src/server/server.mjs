@@ -21,6 +21,7 @@ import getInitialPlayerStates from "../components/functions/initialStates/initia
 import {getInitialStore} from "../components/functions/initialStates/initialStore.mjs";
 import {getInitialLegends} from "../components/functions/initialStates/initialLegends.mjs";
 import {getInitialLocations} from "../components/functions/initialStates/initialLocations.mjs";
+import {relicEffects, resetRelicEffects} from "../data/relicEffects.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -52,6 +53,7 @@ io.on("connection", socket => {
         //check if the name is existing
         if (!isRoomNameTaken(roomData, gameRooms)) {
             const numOfPlayers = roomData.numOfPlayers;
+            var tRelicEffects = cloneDeep(relicEffects);
             const states = {
                 numOfPlayers: numOfPlayers,
                 playerStates: getInitialPlayerStates(numOfPlayers),
@@ -74,6 +76,7 @@ io.on("connection", socket => {
                 previousStates: states,
             });
             console.debug("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");
+            resetRelicEffects();
             socket.join(roomData.roomName);
 
             io.emit(TRANSMISSIONS.currentUsersAndData, {

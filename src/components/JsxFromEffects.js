@@ -8,10 +8,6 @@ export const JsxFromEffects = (props) => {
         flexFlow: "row",
         alignItems: "center"
     };
-    if (props.effectsArray === undefined) {
-        debugger
-    }
-
 
     return (
         <div style={effectsStyle}>
