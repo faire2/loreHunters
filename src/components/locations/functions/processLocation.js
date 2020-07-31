@@ -1,18 +1,22 @@
-import {EFFECT} from "../../../data/effects";
 import {processActiveEffect} from "../../functions/processActiveEffects";
 import {getExploredLocationType, occupyLocation, removeExploredLocation} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
 import {addLogEntry} from "../../main/logger";
 import {cloneDeep} from "lodash";
-import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../functions/enums";
+import {
+    ACTION_TYPE,
+    LOCATION_DISCOUNT_EFFECTS,
+    LOCATION_LEVEL,
+    LOCATION_STATE,
+    LOCATION_TYPE
+} from "../../functions/enums";
 import {exploreLocation} from "./exploreLocation";
 import {Guardians} from "../../../data/guardians";
 import {payForTravelIfPossible} from "./payForTravelIfPossible";
 
-export function handleLocation(tPlayerState, tStore, tLocations, location, round, initiateRewardsModal, resolveGuardian) {
+export function processLocation(tPlayerState, tStore, tLocations, location, initiateRewardsModal, resolveGuardian) {
     // Resolve active effect - exploration discount is processed during exploration itself
-    if (tPlayerState.activeEffects.length > 0 && (tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount4
-        && tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount3)) {
+    if (tPlayerState.activeEffects.length > 0 && (!LOCATION_DISCOUNT_EFFECTS.includes(tPlayerState.activeEffects[0]))) {
         const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
             null, {...tStore}, tLocations, initiateRewardsModal);
         console.log("finished processing active effects in location");
@@ -21,29 +25,9 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
         switch (location.state) {
             case LOCATION_STATE.unexplored:
                 //if user clicked on empty location, give back choice modal with relevant locations
-                const locationsToExplore = [LOCATION_TYPE.emptyLocation, LOCATION_TYPE.emptyBrownLocation
-                    , LOCATION_TYPE.emptyGreenLocation];
+                const locationsToExplore = [LOCATION_TYPE.emptyLocation, LOCATION_TYPE.emptyBrownLocation, LOCATION_TYPE.emptyGreenLocation];
                 if (locationsToExplore.includes(location.type) && tPlayerState.availableAdventurers > 0) {
-                    // exploration modal with selection of suitable locations to be explored was set here
-                    /*if (isLocationAdjancentToAdventurer(location, tLocations, tPlayerState) || exploreDiscount) {
-                        let suitableLocations = getLocationsForExploration(tPlayerState, tLocations, exploreDiscount, location.type);
-                        if (suitableLocations && suitableLocations.length > 0) {
-                            let locationsForModal = [{
-                                type: REWARD_TYPE.location, data: suitableLocations,
-                                params: {line: location.line, index: location.index}
-                            }];
-                        console.log("Looking for suitable locations");
-                            initiateRewardsModal(locationsForModal);
-                        } else {
-                            console.log("No suitable locations available for exploration");
-                        }
-                    } else {
-                        console.log("Unexplored location is not adjacent. Exploration not started.");
-                    }*/
-                    //if user clicked on a location in exploration modal, exploration is triggered from there
-
-                    const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location,
-                        round);
+                    const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location);
                     if (explorationResult) {
                         let tLocation;
                         if (location.level === LOCATION_LEVEL["2"]) {
@@ -63,8 +47,7 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
                         tPlayerState = explorationResult.playerState;
                         tPlayerState.availableAdventurers -= 1;
                         tLocation.adventurers.push(tPlayerState.playerIndex);
-                        const locationResult = processEffects(null, null, tPlayerState, tLocation.effects,
-                            null, null, null, null);
+                        const locationResult = processEffects(null, null, tPlayerState, tLocation.effects, null, null, null);
                         tPlayerState = locationResult.tPlayerState;
                         tLocations = removeExploredLocation(tLocation, explorationResult.locations);
                         tStore = explorationResult.store;
@@ -77,8 +60,7 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
                 // if guardian was clicked player tries to defeat him
                 if (resolveGuardian) {
                     if (location.adventurers.includes(tPlayerState.playerIndex)) {
-                        const effectsResult = processEffects(null, null, tPlayerState, location.guardian.effects,
-                            null, null, location, tLocations);
+                        const effectsResult = processEffects(null, null, tPlayerState, location.guardian.effects, null, location, tLocations);
                         if (effectsResult.processedAllEffects) {
                             // guardian was defeated
                             tPlayerState = effectsResult.tPlayerState;
@@ -97,15 +79,18 @@ export function handleLocation(tPlayerState, tStore, tLocations, location, round
                     //otherwise location effects are processed
                     if (location.slots > location.adventurers.length) {
                         const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
-                        if (travelCheckResults.enoughResources && tPlayerState.actions > 0 && tPlayerState.availableAdventurers > 0) {
+                        if (travelCheckResults.enoughResources && (tPlayerState.actions > 0 || tPlayerState.activeEffects.length > 0)
+                            && tPlayerState.availableAdventurers > 0) {
                             let tPlayerState = travelCheckResults.tPlayerState;
-                            const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, location.effects, null,
-                                {...tStore}, location, {...tLocations});
+                            const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, location.effects, {...tStore}, location, {...tLocations});
                             if (effectsResult.processedAllEffects) {
                                 console.log("Location effects have been processed.");
                                 tPlayerState = effectsResult.tPlayerState;
                                 tPlayerState.availableAdventurers -= 1;
                                 tPlayerState.actions -= 1;
+                                if (LOCATION_DISCOUNT_EFFECTS.includes(tPlayerState.activeEffects[0])) {
+                                    tPlayerState.activeEffects.splice(0, 1);
+                                }
                                 tLocations = occupyLocation(cloneDeep(tLocations), location.id, location.line, tPlayerState.playerIndex);
                                 addLogEntry(tPlayerState, ACTION_TYPE.activatesLocation, location.id, location.effects);
                                 return ({playerState: tPlayerState, locations: tLocations});

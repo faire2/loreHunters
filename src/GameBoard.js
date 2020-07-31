@@ -26,7 +26,7 @@ import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
-import {handleLocation} from "./components/locations/functions/handleLocation";
+import {processLocation} from "./components/locations/functions/processLocation";
 import {
     ACTION_TYPE,
     CARD_STATE,
@@ -243,7 +243,7 @@ function GameBoard(props) {
                     tCard.state = CARD_STATE.active;
                     tPlayerState.hand.splice(cardIndex, 1);
                 }
-                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
+                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, tStore, null, null);
                 tPlayerState = effectsResult.tPlayerState;
                 tStore = effectsResult.tStore;
 
@@ -276,8 +276,7 @@ function GameBoard(props) {
     function handleClickOnLocation(location, resolveGuardian) {
         if (isActivePlayer && !showRewardsModal) {
             console.log("Clicked on location " + location.id);
-            const locationResult = handleLocation(cloneDeep(playerState), cloneDeep(store), cloneDeep(locations),
-                cloneDeep(location), round, setRewardsModal, resolveGuardian);
+            const locationResult = processLocation(cloneDeep(playerState), cloneDeep(store), cloneDeep(locations), cloneDeep(location), setRewardsModal, resolveGuardian);
             if (locationResult) {
                 if (locationResult.playerState) {
                     setPlayerState(locationResult.playerState);
@@ -298,8 +297,7 @@ function GameBoard(props) {
             if (playerState.activeEffects.length > 0) {
                 if (playerState.activeEffects[0] === EFFECT.activate2dockActions) {
                     effects = effects.filter((effect) => effect !== EFFECT.loseCoin);
-                    const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
-                        null, cloneDeep(store), null, cloneDeep(locations));
+                    const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects, cloneDeep(store), null, cloneDeep(locations));
                     let tPlayerState = effectProcessResults.tPlayerState;
                     tPlayerState.activeEffects.splice(0, 1);
                     setPlayerState(tPlayerState);
@@ -308,8 +306,7 @@ function GameBoard(props) {
                     addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
                 }
             } else {
-                const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
-                    null, cloneDeep(store), null, cloneDeep(locations));
+                const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects, cloneDeep(store), null, cloneDeep(locations));
                 setPlayerState(effectProcessResults.tPlayerState);
                 setStore(effectProcessResults.tStore);
                 setLocations(effectProcessResults.tLocations);
@@ -426,8 +423,7 @@ function GameBoard(props) {
             const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
                 [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
             initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
-            let effectsResult = processEffects(null, null, tPlayersState, effects, null,
-                cloneDeep(store), null, cloneDeep(locations), null);
+            let effectsResult = processEffects(null, null, tPlayersState, effects, cloneDeep(store), null, cloneDeep(locations));
             tPlayersState = effectsResult.tPlayerState;
             if (tPlayersState.resources.bronzeRelics > 0) {
                 tPlayersState.resources.bronzeRelics -= 1;

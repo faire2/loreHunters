@@ -16,8 +16,7 @@ export function processAssistantTile(effects, incomeId, playerState) {
             case EFFECT.buyWithDiscount1:
             case EFFECT.gainPlane:
             case EFFECT.uptrade:
-                const effectsResult = processEffects(null, null, playerState, [effect], null,
-                    null, null, null, null);
+                const effectsResult = processEffects(null, null, playerState, [effect], null, null, null);
                 playerState = effectsResult.tPlayerState;
 
                 break;

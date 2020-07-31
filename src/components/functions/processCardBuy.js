@@ -86,7 +86,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         tPlayerState.actions -= 1;
 
         /* the artifact effect applies when artifact is bought */
-        const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, null, null, null);
+        const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, null, null);
         tPlayerState = effectsResult.tPlayerState;
 
         // guardians are currently not cards, but part of location

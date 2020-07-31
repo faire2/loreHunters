@@ -91,10 +91,12 @@ export const LCL_STORAGE = Object.freeze({
 export const REWARD_TYPE = Object.freeze({
     addAssistant: "assistant choice or upgrade",
     card: "card",
+    drawCard: "draw one, discard rest",
     effectsArr: "array of effects",
     gainAssistant: "assistant choice",
     guardian: "price for guardian",
     legendFieldEffects: "combined effects of a legend field",
+    legendColumnEffects: "first token effects of legend columns",
     location: "location",
     refreshAssistant: "refresh an assistant",
     relicWithEffects: "relic with effects",
@@ -154,3 +156,6 @@ export const ASSISTANT = {
 }
 
 export const TRANSPORT_EFFECTS = [EFFECT.loseWalk, EFFECT.loseBlimp, EFFECT.loseJeep, EFFECT.loseShip];
+
+export const LOCATION_DISCOUNT_EFFECTS = [EFFECT.exploreAnyLocationWithDiscount2, EFFECT.exploreAnyLocationWithDiscount3,
+    EFFECT.placeToBasicLocation, EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.placeAnywhere];

@@ -52,6 +52,10 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
         }
     }
     let enoughResources = false;
+    // check for active effect with tranportation discount
+    if ([EFFECT.placeToBasicLocation, EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation].includes(tPlayerState.activeEffects[0])) {
+        transportCost -= 1;
+    }
 
     if (tPlayerState.longEffects.includes(EFFECT.infinitePlanes)) {
         enoughResources = true;

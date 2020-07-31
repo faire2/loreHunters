@@ -36,6 +36,7 @@ import goldAssistantBgr from "../img/incomes/goldBack.png"
 import silverRelic from "../img/relics/RelicSilver.png"
 import goldRelic from "../img/relics/RelicGold.png"
 import assistantUpgrade from "../img/symbols/AssistantUpgrade.png"
+import placeAdventurer from "../img/symbols/PlaceAdventurer.png"
 
 const responsive = {
     height: "1em",
@@ -79,6 +80,7 @@ export const GoldAssistant = () => <img src={goldAssistantBgr} alt="gold assista
 export const SilverRelic = () => <img src={silverRelic} alt="silver silver relic" style={responsive}/>;
 export const GoldRelic = () => <img src={goldRelic} alt="gold relic" style={responsive}/>;
 export const AssistantUpgrade = () => <img src={assistantUpgrade} alt="assistant upgrade" style={responsive}/>;
+export const PlaceAdventurer = () => <img src={placeAdventurer} alt="place an adventurer to a location" style={responsive}/>;
 
 export const AdventurerIcon = () =>
     <svg width="5" height="6" viewBox="0 0 99 119">

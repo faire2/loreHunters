@@ -92,13 +92,13 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*/
 
-        /*const testCard = {...ITEM_IDs.binoculars};
+        /*const testCard = {...ITEM_IDs.dog};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 
         /*const testCard = {...GUARDIAN_IDs.energyLeech};
-        testCard.state = CARD_STATE.discard;
-        playerState.discardDeck.splice(0, 0, testCard);*/
+        testCard.state = CARD_STATE.inHand;
+        hand.splice(0, 0, testCard);*/
 
         /*for (let key in ITEM_IDs) {
             let card = {...ITEM_IDs[key]};

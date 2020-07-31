@@ -20,6 +20,7 @@ import {
     Jewel,
     LocationL3,
     Map,
+    PlaceAdventurer,
     SecondLegendToken,
     Ship,
     SilverAssistant,
@@ -114,6 +115,10 @@ export function getJsxSymbol(effect) {
             return <Arrow/>
         case EFFECT.progressWithSecondToken:
             return <SecondLegendToken/>
+        case EFFECT.placeAnywhere:
+            return <PlaceAdventurer/>
+        case EFFECT.exploreAnyLocationWithDiscount3:
+            return <div><PlaceAdventurer/><Explore/><Explore/><Explore/></div>
         default:
             console.error("Unable to recognize effect: " + effect);
     }

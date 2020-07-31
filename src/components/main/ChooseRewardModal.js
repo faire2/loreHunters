@@ -65,6 +65,7 @@ export default function ChooseRewardModal() {
         let element = null;
         switch (rewardType) {
             case (REWARD_TYPE.card):
+            case (REWARD_TYPE.drawCard):
                 element = <Card card={reward}/>;
                 break;
             case REWARD_TYPE.addAssistant:
@@ -73,8 +74,9 @@ export default function ChooseRewardModal() {
             case REWARD_TYPE.refreshAssistant:
                 element = <Assistant income={reward}/>;
                 break;
-            case REWARD_TYPE.legendFieldEffects:
             case REWARD_TYPE.effectsArr:
+            case REWARD_TYPE.legendFieldEffects:
+            case REWARD_TYPE.legendColumnEffects:
                 element = <JsxFromEffects effectsArray={reward}/>;
                 break;
             case REWARD_TYPE.location:
@@ -115,6 +117,8 @@ export default function ChooseRewardModal() {
     }
 
     function handleClickOnReward(reward, index) {
+        let rewardIndex;
+        let params = rewards[0].params;
         switch (rewardType) {
             case REWARD_TYPE.card:
                 if (reward.type === CARD_TYPE.goalCard) {
@@ -127,17 +131,28 @@ export default function ChooseRewardModal() {
                     tPlayerState.hand.push(reward);
                 }
                 break;
+            case REWARD_TYPE.drawCard:
+                reward.state = CARD_STATE.inHand;
+                let cardsToDiscard = rewards[0].data;
+                rewardIndex = cardsToDiscard.findIndex(card => card.id === reward.id);
+                cardsToDiscard.splice(rewardIndex, 1);
+                for (let card of rewards[0].data) {
+                    tPlayerState = removeCard(card, tPlayerState);
+                }
+                tPlayerState.activeCards = tPlayerState.activeCards.concat(cardsToDiscard);
+                tPlayerState.hand.push(reward);
+                break;
             case REWARD_TYPE.gainAssistant:
                 reward.state = ASSISTANT_STATE.ready;
                 tPlayerState.assistants.push(reward);
-                if (rewards[0].params === ASSISTANT.silver) {
+                if (params === ASSISTANT.silver) {
                     if (tStore.assistantSilverDeck.length > 0) {
                         tStore.assistantSilverOffer.splice(index, 1, tStore.assistantSilverDeck[0]);
                         tStore.assistantSilverDeck.splice(0, 1);
                     } else {
                         tStore.assistantSilverOffer.splice(index, 1);
                     }
-                } else if (rewards[0].params === ASSISTANT.gold) {
+                } else if (params === ASSISTANT.gold) {
                     if (tStore.assistantGoldDeck.length > 0) {
                         tStore.assistantGoldOffer.splice(index, 1, tStore.assistantGoldDeck[0]);
                         tStore.assistantGoldDeck.splice(0, 1);
@@ -204,19 +219,23 @@ export default function ChooseRewardModal() {
                 }
                 break;
             case REWARD_TYPE.relicWithEffects:
-                const relicEffectsResult = processEffects(null, null, tPlayerState, reward,
-                    null, null, null, null);
+                const relicEffectsResult = processEffects(null, null, tPlayerState, reward, null, null, null);
                 tPlayerState = relicEffectsResult.tPlayerState;
-                if (rewards[0].params === RELIC.bronze) {
+                if (params === RELIC.bronze) {
                     tPlayerState.resources.bronzeRelics += 1;
-                } else if (rewards[0].params === RELIC.silver) {
+                } else if (params === RELIC.silver) {
                     tPlayerState.resources.silverRelics += 1;
-                } else if (rewards[0].params === RELIC.gold) {
+                } else if (params === RELIC.gold) {
                     tPlayerState.resources.goldRelics += 1;
                 } else {console.error("Unable to determine type of relic with resource in RewardsModal: " + reward)}
                 break;
             case REWARD_TYPE.effectsArr:
-                const effectsResult = processEffects(null, null, tPlayerState, reward, null, null, null, null);
+                // if we have a card in parameters, we set it
+                let tCard = null;
+                if (params) {
+                    tCard = params;
+                }
+                const effectsResult = processEffects(tCard, null, tPlayerState, reward, null, null, null);
                 if (effectsResult.processedAllEffects) {
                     tPlayerState = effectsResult.tPlayerState;
                 } else {
@@ -224,8 +243,25 @@ export default function ChooseRewardModal() {
                     console.log(reward);
                 }
                 break;
+            case REWARD_TYPE.legendColumnEffects:
+                // first process effects
+                const columnEffectsResult = processEffects(null, null, tPlayerState, reward, null, null, null);
+                if (columnEffectsResult.processedAllEffects) {
+                    tPlayerState = columnEffectsResult.tPlayerState;
+                } else {
+                    console.log("Effects could not be processed in handleClickOnReward");
+                    console.log(reward);
+                }
+                // then if there are still effects to be chosen prepare rewards for second round
+                if (params > 0) {
+                    rewardIndex = rewards[0].data.findIndex(effect => effect === reward);
+                    rewards[0].data.splice(rewardIndex, 1);
+                    rewards[0].params = params - 1;
+                    rewards.push(rewards[0]);
+                }
+                break;
             case REWARD_TYPE.legendFieldEffects:
-                const legendEffectsResult = processEffects(null, null, tPlayerState, [reward.effects], null, null, null, null);
+                const legendEffectsResult = processEffects(null, null, tPlayerState, [reward.effects], null, null, null);
                 if (legendEffectsResult.processedAllEffects) {
                     const fieldPosition = rewards[0].params;
                     tPlayerState = legendEffectsResult.tPlayerState;
@@ -242,8 +278,7 @@ export default function ChooseRewardModal() {
                 location.index = locationPositionsObj.index;
                 location.line = locationPositionsObj.line;
                 location.state = LOCATION_STATE.explored;
-                const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location,
-                    boardStateContext.round);
+                const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location);
                 if (explorationResult) {
                     location.guardian = Guardians[tLocations.guardianKeys[0]];
                     tLocations.guardianKeys.splice(0, 1);
@@ -252,8 +287,7 @@ export default function ChooseRewardModal() {
                     tPlayerState = explorationResult.playerState;
                     tPlayerState.availableAdventurers -= 1;
                     location.adventurers.push(tPlayerState.playerIndex);
-                    const locationResult = processEffects(null, null, tPlayerState, location.effects,
-                        null, null, null, null);
+                    const locationResult = processEffects(null, null, tPlayerState, location.effects, null, null, null);
                     tPlayerState = locationResult.tPlayerState;
                     tLocations = removeExploredLocation(location, explorationResult.locations);
                     tStore = explorationResult.store;

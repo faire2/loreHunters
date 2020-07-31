@@ -18,7 +18,7 @@ import React from "react";
 import {cloneDeep} from "lodash";
 import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE, REWARD_TYPE} from "../functions/enums";
 
-export function handleLocation(playerState, store, locations, location, locationLine, effects, round, initiateRewardsModal) {
+export function processLocation(playerState, store, locations, location, locationLine, effects, round, initiateRewardsModal) {
     // Resolve active effect - exploration discount is processed during exploration itself
     if (playerState.activeEffects.length > 0 && (playerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount4
         && playerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount3)) {

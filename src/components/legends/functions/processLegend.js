@@ -109,8 +109,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
             tPlayerState.activeEffects.splice(0, 1);
         }
         const rewardsData = []
-        let effectsResult = processEffects(null, null, tPlayerState, effects,
-            null, tStore, null, tLocations);
+        let effectsResult = processEffects(null, null, tPlayerState, effects, tStore, null, tLocations);
         if (effectsResult.showRewardsModal) {
             rewardsData.push(effectsResult.rewardsData);
         }
@@ -166,13 +165,11 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
             // if player reached the lost city, we push him into extra points array
             if (columnIndex === 7) {
                 legends[legendIndex].lostCityPlayers.push(playerIndex);
-                debugger
             }
 
             // each column has a reward for both first and second token - we have stored token index previously
             const columnRewards = legend.columnRewards[columnIndex][tokenIndex];
-            const rewardsResult = processEffects(null, null, effectsResult.tPlayerState, columnRewards,
-                null, tStore, null, null);
+            const rewardsResult = processEffects(null, null, effectsResult.tPlayerState, columnRewards, tStore, null, null);
             tPlayerState = rewardsResult.tPlayerState;
             if (rewardsResult.showRewardsModal) {
                 rewardsData.push(rewardsResult.rewardsData);

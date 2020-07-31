@@ -29,8 +29,7 @@ export function LostCity() {
         // we modify playerState for effects that are currently chosen
         for (let i = 0; i < 3; i++) {
             if (chosenEffects[i]) {
-                const priceResult = processEffects(null, null, tPlayerState, prices[i], null,
-                    null, null, null);
+                const priceResult = processEffects(null, null, tPlayerState, prices[i], null, null, null);
                 if (priceResult.processedAllEffects) {
                     tPlayerState = priceResult.tPlayerState;
                 } else {
@@ -42,8 +41,7 @@ export function LostCity() {
 
         for (let i = 0; i < 3; i++) {
             if (!chosenEffects[i]) {
-                const priceResult = processEffects(null, null, tPlayerState, prices[i], null,
-                    null, null, null);
+                const priceResult = processEffects(null, null, tPlayerState, prices[i], null, null, null);
                 buttonsStates[i] = priceResult.processedAllEffects ? BUTTON_STATE.normal : BUTTON_STATE.inactive;
             }
         }
@@ -78,8 +76,7 @@ export function LostCity() {
         if (chosenEffects[i]) {
             tChosenEffects[i] = false
         } else {
-            const priceResult = processEffects(null, null, tPlayerState, prices[i], null,
-                null, null, null);
+            const priceResult = processEffects(null, null, tPlayerState, prices[i], null, null, null);
             if (priceResult.processedAllEffects) {
                 tChosenEffects[i] = true;
             }
