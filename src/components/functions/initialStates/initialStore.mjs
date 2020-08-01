@@ -1,15 +1,9 @@
 /* INITIAL STORE */
-import {
-    ARTIFACT_IDs,
-    EXPEDITIONS_IDs,
-    GLOBAL_VARS,
-    GUARDIAN_IDs,
-    INCOME_IDs,
-    ITEM_IDs
-} from "../../../data/idLists.mjs";
+import {ARTIFACT_IDs, EXPEDITIONS_IDs, GLOBAL_VARS, GUARDIAN_IDs, ITEM_IDs} from "../../../data/idLists.mjs";
 import {ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 import {relicEffects} from "../../../data/relicEffects.mjs";
+import {Assistants} from "../../../data/assistants.mjs";
 
 export function getInitialStore() {
     /* all items, each item is represented only once! */
@@ -37,15 +31,15 @@ export function getInitialStore() {
         expeditions.push(EXPEDITIONS_IDs[key]);
     }
 
-    /* incomes */
+    /* assistants */
     let incomes1 = [];
     let incomes2 = [];
-    for (let key in INCOME_IDs) {
-        INCOME_IDs[key].state = ASSISTANT_STATE.inStore;
-        if (INCOME_IDs[key].level === ASSISTANT_LEVEL.silver) {
-            incomes1.push(INCOME_IDs[key]);
+    for (let key in Assistants) {
+        Assistants[key].state = ASSISTANT_STATE.inStore;
+        if (Assistants[key].level === ASSISTANT_LEVEL.silver) {
+            incomes1.push(Assistants[key]);
         } else {
-            incomes2.push(INCOME_IDs[key]);
+            incomes2.push(Assistants[key]);
         }
     }
 
@@ -76,5 +70,6 @@ export function getInitialStore() {
         bronzeRelicEffects: bronzeRelicEffects,
         silverRelicEffects: silverRelicEffects,
         goldRelicEffects: goldRelicEffects,
+        destroyedCards: [],
     }
 }

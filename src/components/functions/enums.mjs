@@ -91,7 +91,9 @@ export const LCL_STORAGE = Object.freeze({
 export const REWARD_TYPE = Object.freeze({
     addAssistant: "assistant choice or upgrade",
     card: "card",
+    chooseDestroyedCard: "choose a destroyed card",
     drawCard: "draw one, discard rest",
+    drawStackDiscardCard: "draw 1, stack 1, discard the last",
     effectsArr: "array of effects",
     gainAssistant: "assistant choice",
     guardian: "price for guardian",
@@ -101,6 +103,7 @@ export const REWARD_TYPE = Object.freeze({
     refreshAssistant: "refresh an assistant",
     relicWithEffects: "relic with effects",
     removeAssistant: "remove an assistant",
+    stackCardToDrawDeck: "choose which card goes to draw deck",
     upgradeRelic: "relic upgrade",
 });
 export const TRANSMISSIONS = Object.freeze({
@@ -155,7 +158,12 @@ export const ASSISTANT = {
    upgrade: "upgrade of an assistant",
 }
 
+export const AUTOMATIC_ASSISTANT_IDS = ["adventurerIncome", "coinIncome", "exploreIncome", "exploreAndCoinIncome",
+    "coinAndTextIncome", "textIncome", "weaponIncome", "planeIncome", "twoPlanesIncome"];
+
 export const TRANSPORT_EFFECTS = [EFFECT.loseWalk, EFFECT.loseBlimp, EFFECT.loseJeep, EFFECT.loseShip];
 
 export const LOCATION_DISCOUNT_EFFECTS = [EFFECT.exploreAnyLocationWithDiscount2, EFFECT.exploreAnyLocationWithDiscount3,
     EFFECT.placeToBasicLocation, EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.placeAnywhere];
+
+export const CANCELLABLE_EFFECTS = [EFFECT.destroyCard, EFFECT.uptrade, EFFECT.gainItemOfValue];

@@ -43,6 +43,11 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         card.cost = 0;
     }
 
+    /* gain 2 items for 1 destroyed */
+    if (card.type === CARD_TYPE.item && card.cost <= tPlayerState.activeEffects[1]) {
+        card.cost = 0;
+    }
+
     /* we check that we can buy the item */
     if (card.type === CARD_TYPE.item && card.cost <= tPlayerState.resources.coins) {
         /* if we revealed extra item and it was not bought we must discard it */
@@ -100,6 +105,9 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount3 ||
         activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItem) {
         tPlayerState.activeEffects.splice(0, 1);
+    }
+    if (activeEffect === EFFECT.gainItemOfValue) {
+        tPlayerState.activeEffects.splice(0, 2);
     }
     return {tPlayerState: tPlayerState, tStore: tStore, processGuardian: processGuardian}
 }

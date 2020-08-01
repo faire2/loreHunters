@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
-import ResourcesArea, {RESOURCES} from "./components/resources/ResourcesArea";
+import ResourcesArea from "./components/resources/ResourcesArea";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
 import {processEffects} from "./components/functions/processEffects.mjs";
@@ -13,7 +13,7 @@ import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
-import ChooseRewardModal from "./components/main/ChooseRewardModal";
+import ChooseRewardModal from "./components/rewardsModal/ChooseRewardModal";
 import {socket} from "./server/socketConnection";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {RelicsArea} from "./components/relics/RelicsArea";
@@ -225,6 +225,7 @@ function GameBoard(props) {
     function handleClickOnCardEffect(effects, cardIndex, costsAction, tCard) {
         let tPlayerState = cloneDeep(playerState);
         let tStore = cloneDeep(store);
+        let tLocations = cloneDeep(locations);
         console.log("Handling card effects: " + tCard.cardName);
         console.log(effects);
 
@@ -243,8 +244,9 @@ function GameBoard(props) {
                     tCard.state = CARD_STATE.active;
                     tPlayerState.hand.splice(cardIndex, 1);
                 }
-                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, tStore, null, null);
+                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, tStore, null, tLocations);
                 tPlayerState = effectsResult.tPlayerState;
+                tLocations = effectsResult.tLocations;
                 tStore = effectsResult.tStore;
 
                 /* if the card is an artifact and effect is not a transport, pay for the use */
@@ -262,7 +264,18 @@ function GameBoard(props) {
                     initiateRewardsModal(effectsResult.rewardsData);
                 }
 
+                /* terrible hack */
+                if (tPlayerState.activeEffects[0] === EFFECT.resolveAdditionalEffects) {
+                    const effectsResult = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1],
+                        tStore, null, tLocations);
+                    tPlayerState = effectsResult.tPlayerState;
+                    tLocations = effectsResult.tLocations;
+                    tStore = effectsResult.tStore;
+                    tPlayerState.activeEffects.splice(0, 2);
+                }
+
                 setPlayerState(tPlayerState);
+                setLocations(tLocations);
                 setStore(tStore);
                 addLogEntry(tPlayerState, costsAction ? ACTION_TYPE.playsCard : ACTION_TYPE.playsCardWithoutAction,
                     tCard.id, null);
@@ -291,7 +304,7 @@ function GameBoard(props) {
         }
     }
 
-    /** HANDLE BONUS **/
+    /*/!** HANDLE BONUS **!/
     function handleClickOnBonusAction(effects) {
         if (isActivePlayer) {
             if (playerState.activeEffects.length > 0) {
@@ -313,7 +326,7 @@ function GameBoard(props) {
                 addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
             }
         }
-    }
+    }*/
 
     /** HANDLE CLICK ON LEGEND **/
     function handleClickOnLegend(legendIndex, columnIndex, fieldIndex) {
@@ -396,14 +409,6 @@ function GameBoard(props) {
             console.log("Handling click on resource: " + resource);
             if (playerState.activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
                 setPlayerState(processUptrade(tPlayerState, resource));
-            } else if (playerState.activeEffects[0] === EFFECT.progressWithTextsOrWeapon
-                && (resource === RESOURCES.texts || resource === RESOURCES.weapons)) {
-                if (resource === RESOURCES.texts) {
-                    tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithTexts);
-                } else {
-                    tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithWeapon);
-                }
-                setPlayerState(tPlayerState);
             }
         }
     }

@@ -121,7 +121,7 @@ export function addCardToStore(cardType, store) {
     return cloneDeep(store);
 }
 
-export function removeCard(card, tPlayerState) {
+export function removeCard(card, tPlayerState, tStore) {
     console.log("removing card : " + card.name);
     switch (card.state) {
         case CARD_STATE.inHand:
@@ -139,7 +139,7 @@ export function removeCard(card, tPlayerState) {
         default:
             console.log("Cannot remove card " + card.id + ", state: " + card.state);
     }
-    tPlayerState.destroyedCards.push(getIdCard(card));
+    tStore.destroyedCards.push(getIdCard(card));
     return tPlayerState;
 }
 

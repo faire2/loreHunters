@@ -1,7 +1,7 @@
 import {Locations} from "../../../data/locations";
 import {EFFECT} from "../../../data/effects";
 import {processEffects} from "../../functions/processEffects";
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_TYPE, TRANSPORT_EFFECTS} from "../../functions/enums";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_TYPE} from "../../functions/enums";
 import {getExplorationDiscount} from "./getExplorationDiscount";
 
 export function isLocationAdjancentToAdventurer(location, locations, playerState) {
@@ -193,11 +193,6 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
 
     if (exploreDiscount) {
         exploreCost = getExplorationDiscount(playerState.activeEffects[0], exploreCost);
-    }
-
-    if (playerState && playerState.longEffects.includes(EFFECT.infinitePlanes)) {
-        // noinspection JSObjectNullOrUndefined
-        exploreCost = exploreCost.filter(effect => !TRANSPORT_EFFECTS.includes(effect))
     }
 
     return exploreCost;

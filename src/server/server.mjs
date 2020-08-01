@@ -265,13 +265,6 @@ io.on("connection", socket => {
         }
     });
 
-
-    /** JOIN ROOM **/
-    //todo: duplicate?
-    /*socket.on(TRANSMISSIONS.joinGame, data => {
-        console.debug(data.roomName);
-    });*/
-
     /** DELETE ROOM **/
     socket.on(TRANSMISSIONS.deleteRoom, data => {
         for (let i = 0; i < gameRooms.length; i++) {

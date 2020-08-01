@@ -185,7 +185,7 @@ const Resources = (props) => {
             </div>*/}
             <div style={secondColumnFieldStyle}>
                 {playerState.assistants.map(income =>
-                    <Assistant income={income} size={ASSISTANT_TILE_SIZE.large}/>
+                    <Assistant income={income} size={ASSISTANT_TILE_SIZE.small}/>
                 )}
             </div>
             <div style={secondColumnFieldStyle}>

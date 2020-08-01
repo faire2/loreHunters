@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
 import {PlayerStateContext} from "../../Contexts";
 import {ButtonGroup} from "react-bootstrap";
-import {EFFECT} from "../../data/effects";
+import {CANCELLABLE_EFFECTS} from "../functions/enums";
 
 export const Controls = () => {
     const playerStateContext = useContext(PlayerStateContext);
     const isActivePlayer = playerStateContext.isActivePlayer;
     const activeEffect = playerStateContext.playerState.activeEffects[0];
-    const notDiscardEffect = playerStateContext.playerState.activeEffects.length > 0 && activeEffect !== EFFECT.discard;
+    const notDiscardEffect = playerStateContext.playerState.activeEffects.length > 0 && CANCELLABLE_EFFECTS.includes(activeEffect);
 
     const containerStyle = {
         position: "absolute",

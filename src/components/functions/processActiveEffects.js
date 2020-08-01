@@ -1,5 +1,5 @@
-import React from 'react';
 import {EFFECT} from "../../data/effects.mjs";
+import React from 'react';
 import {addCardToPlayedCards, removeCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
@@ -12,6 +12,8 @@ import {
     updateLocations
 } from "../locations/functions/locationFunctions";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_STATE, REWARD_TYPE} from "./enums";
+import {getIdCard} from "../cards/getIdCard";
+import {spliceCardIfFound} from "./cardManipulationFuntions";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
     const activeEffect = tPlayerState.activeEffects[0];
@@ -23,6 +25,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.buyItemWithDiscount3:
         case EFFECT.buyWithDiscount1:
         case EFFECT.gainItem:
+        case EFFECT.gainItemOfValue:
         case EFFECT.gainItemToHand:
         case EFFECT.gainArtifact:
         case EFFECT.gainArtifactForExplore:
@@ -72,6 +75,18 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
+        case EFFECT.activateL1Location:
+            if (tLocation && tLocation.level === LOCATION_LEVEL["1"]) {
+                const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
+
+                tPlayerState = effectsResult.tPlayerState;
+                tLocations = effectsResult.tLocations;
+                tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
+                tStore = effectsResult.tStore;
+                tPlayerState.activeEffects.splice(0, 1);
+            }
+            break;
+
         case EFFECT.activateEmptyL1Location:
             if (tLocation && tLocation.level === LOCATION_LEVEL["1"] && tLocation.adventurers.length === 0) {
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
@@ -105,10 +120,9 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState.hand.splice(cardIndex, 1);
                 // we might have stored location in active effects if discard was part of defeating a guardian
                 // otherwise this effect is null
-                debugger
                 if (tPlayerState.activeEffects[2].location) {
                 }
-                    tLocation = tPlayerState.activeEffects[2].location;
+                tLocation = tPlayerState.activeEffects[2].location;
                 tPlayerState.activeEffects.splice(2, 1);
                 const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tStore, tLocation, tLocations);
                 tPlayerState = effectsResults.tPlayerState;
@@ -166,24 +180,53 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.destroyCard:
             if (tCard !== null && (tCard.state === CARD_STATE.inHand || tCard.state === CARD_STATE.played
                 || tCard.state === CARD_STATE.active) && tCard.type !== CARD_TYPE.guardian) {
-                tPlayerState = removeCard(tCard, tPlayerState);
+                tPlayerState = removeCard(tCard, tPlayerState, tStore);
                 tCard.state = CARD_STATE.destroyed;
-                tPlayerState.destroyedCards.push(tCard);
+                tStore.destroyedCards.push(tCard);
                 tPlayerState.activeEffects.splice(0, 1);
                 break;
+            }
+            break;
+
+        case EFFECT.destroyCardInStore:
+            if (tCard !== null && tCard.state === CARD_STATE.inStore) {
+                tStore.destroyedCards.push(getIdCard(tCard.id));
+                if (tCard.type === CARD_TYPE.item) {
+                    tStore.itemsOffer = spliceCardIfFound(tCard, tStore.itemsOffer);
+                    tStore.itemsOffer.push(tStore.itemsDeck[0]);
+                    tStore.itemsDeck.splice(0, 1);
+                } else if (tCard.type === CARD_TYPE.artifact) {
+                    tStore.artifactsOffer = spliceCardIfFound(tCard, tStore.artifactsOffer);
+                    tStore.artifactsOffer.push(tStore.artifactsDeck[0]);
+                    tStore.artifactsDeck.splice(0, 1);
+                } else { console.error("Unable to find card type to remove card in EFFECT.destroyCardInStore: " + tCard)
+                }
+                tPlayerState.activeEffects.splice(0, 1);
             }
             break;
 
         case EFFECT.destroyCardMandatory:
             if (tCard !== null && (tCard.state === CARD_STATE.inHand || tCard.state === CARD_STATE.played
                 || tCard.state === CARD_STATE.active) && tCard.type !== CARD_TYPE.guardian) {
-                tPlayerState = removeCard(tCard, tPlayerState);
+                tPlayerState = removeCard(tCard, tPlayerState, tStore);
                 tCard.state = CARD_STATE.destroyed;
-                tPlayerState.destroyedCards.push(tCard);
+                tStore.destroyedCards.push(tCard);
                 const effectsResult = processEffects(tCard, cardIndex, tPlayerState, tPlayerState.activeEffects[1], null, null, null);
                 tPlayerState = effectsResult.tPlayerState;
                 tPlayerState.activeEffects.splice(0, 2);
                 break;
+            }
+            break;
+
+        case EFFECT.gain2ItemsFor1Exiled:
+            if (tCard && tCard.type === CARD_TYPE.item && tCard.cost > 0) {
+                tPlayerState.activeEffects.splice(0, 1);
+                tPlayerState = removeCard(tCard, tPlayerState, tStore);
+                // we have to store maximum value of item to be gained
+                tPlayerState.activeEffects.push(EFFECT.gainItemOfValue);
+                tPlayerState.activeEffects.push(tCard.cost);
+                tPlayerState.activeEffects.push(EFFECT.gainItemOfValue);
+                tPlayerState.activeEffects.push(tCard.cost);
             }
             break;
 
@@ -279,41 +322,50 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-
         case EFFECT.moveAdvToL1Location:
             if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level === LOCATION_LEVEL["1"]
                 && tLocation.adventurers.length < tLocation.slots && tLocation.id !== tPlayerState.activeEffects[1]) {
-                /*let isAdjacent = false;
-                const firstLine = tPlayerState.activeEffects[1].firstLocationLine;
-                const firstIndex = tPlayerState.activeEffects[1].firstLocationIndex;
-                const secondLine = tLocation.line;
-                let secondIndex = getLocationIndex(tLocations[secondLine], tLocation.id);
-                // both locations are in same line
-                if (firstLine === tLocation.line) {
-                    if (Math.abs(firstIndex - secondIndex) === 1) {
-                        isAdjacent = true;
-                    }
-                    // check that locations are in adjacent lines
-                } else if (areLinesAdjacent(firstLine, secondLine)) {
-                    const difference = firstIndex - secondIndex;
-                    if (firstLine === LOCATION_LINE.line1 || firstLine === LOCATION_LINE.line3) {
-                        if (difference === 1 || difference === 0) {
-                            isAdjacent = true;
-                        }
-                    } else if (firstLine === LOCATION_LINE.line2 || firstLine === LOCATION_LINE.line4) {
-                        if (difference === -1 || difference === 0) {
-                            isAdjacent = true
-                        }
-                    }
-                }
-                if (isAdjacent) {
-                    tPlayerState.activeEffects.splice(0, 2);*/
                 tPlayerState.activeEffects.splice(0, 2);
                 const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);
                 tPlayerState = result.playerState;
                 tLocations = result.locations;
                 tStore = result.store;
-                /*}*/
+            }
+            break;
+
+        case EFFECT.moveAdvToL1L2Location:
+            if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level !== LOCATION_LEVEL["3"]
+                && tLocation.adventurers.length < tLocation.slots && tLocation.id !== tPlayerState.activeEffects[1]) {
+                tPlayerState.activeEffects.splice(0, 2);
+                const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);
+                tPlayerState = result.playerState;
+                tLocations = result.locations;
+                tStore = result.store;
+            }
+            break;
+
+        case EFFECT.moveGuardianOut:
+            if (tLocation && isPlayerInLocation(tLocation, tPlayerState)) {
+                tPlayerState.activeEffects.splice(0, 1);
+                tPlayerState.activeEffects.push(EFFECT.moveGuardianIn);
+                tPlayerState.activeEffects.push(tLocation.guardian);
+                tLocation.guardian = null;
+                tLocation.state = LOCATION_STATE.explored;
+                tLocations = updateLocations(tLocation, tLocations);
+            }
+            break;
+
+        case EFFECT.moveGuardianIn:
+            if (tLocation && tLocation.level !== LOCATION_LEVEL["3"] && tLocation.state === LOCATION_STATE.explored &&
+                tLocation.adventurers.length === 0) {
+                tLocation.guardian = tPlayerState.activeEffects[1];
+                tLocation.state = LOCATION_STATE.guarded;
+                tPlayerState.activeEffects.splice(0, 2);
+                const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);
+                tPlayerState = result.playerState;
+                tLocations = result.locations;
+                tStore = result.store;
+                tLocations = updateLocations(tLocation, tLocations);
             }
             break;
 
@@ -328,6 +380,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.progressWithJewel:
         case EFFECT.progressWithSecondToken:
+        case EFFECT.progressWithTexts:
+        case EFFECT.progressWithWeapon:
             // is processed in the legend itself
             break;
 

@@ -11,6 +11,7 @@ import {
     DefeatedGuardian,
     DestroyCard,
     Discard,
+    Discount,
     Draw1Card,
     Explore,
     GainAction,
@@ -26,6 +27,7 @@ import {
     SilverAssistant,
     Text,
     Treasure,
+    Uptrade,
     Walk,
     Weapon
 } from "../Symbols";
@@ -46,10 +48,13 @@ export function getJsxSymbol(effect) {
             return <Map/>;
         case EFFECT.gainWeapon:
         case EFFECT.loseWeapon:
+        case EFFECT.progressWithWeapon:
             return <Weapon/>;
         case EFFECT.gainText:
         case EFFECT.loseText:
             return <Text/>;
+        case EFFECT.progressWithTexts:
+            return <div><Text/><Text/></div>
         case EFFECT.gainJewel:
         case EFFECT.loseJewel:
             return <Jewel/>;
@@ -119,6 +124,10 @@ export function getJsxSymbol(effect) {
             return <PlaceAdventurer/>
         case EFFECT.exploreAnyLocationWithDiscount3:
             return <div><PlaceAdventurer/><Explore/><Explore/><Explore/></div>
+        case EFFECT.uptrade:
+            return <Uptrade/>
+        case EFFECT.buyWithDiscount1:
+            return <Discount/>
         default:
             console.error("Unable to recognize effect: " + effect);
     }

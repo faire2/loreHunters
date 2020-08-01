@@ -22,14 +22,8 @@ export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
     const location = props.location;
 
-    /* transport icons for explored location*/
-    /*const transportIcons = [];
-    for (let i = 0; i < location.useCost.amount; i++) {
-        transportIcons.push(<span key={i}>{location.useCost.transportType}</span>)
-    }*/
     let locationBackground = null;
     let locationUnexploredBackground = null;
-
 
     // location background
     if (location.type === LOCATION_TYPE.brown) {

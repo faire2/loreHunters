@@ -1,5 +1,5 @@
 import {EFFECT} from "./effects.mjs";
-import {ASSISTANT_LEVEL, CARD_TYPE, LOCATION_LEVEL, LOCATION_TYPE} from "../components/functions/enums.mjs";
+import {CARD_TYPE, LOCATION_LEVEL, LOCATION_TYPE} from "../components/functions/enums.mjs";
 
 export const ITEM_IDs = Object.freeze({
     fear: {
@@ -98,10 +98,6 @@ export const ITEM_IDs = Object.freeze({
         id: "journal",
         type: CARD_TYPE.item,
     },
-    /*lockPick: {
-        id: "lockPick",
-        type: CARD_TYPE.item,
-    },*/
     parrot: {
         id: "parrot",
         type: CARD_TYPE.item,
@@ -210,6 +206,10 @@ export const ITEM_IDs = Object.freeze({
         id: "handLens",
         type: CARD_TYPE.item,
     },
+    philologyBook: {
+        id: "philologyBook",
+        type: CARD_TYPE.item,
+    },
 });
 
 export const ARTIFACT_IDs = Object.freeze({
@@ -229,10 +229,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "mirrorShard",
         type: CARD_TYPE.artifact,
     },*/
-    portalStone: {
+    /*portalStone: {
         id: "portalStone",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     pathfinderStaff: {
         id: "pathfinderStaff",
         type: CARD_TYPE.artifact,
@@ -252,11 +252,11 @@ export const ARTIFACT_IDs = Object.freeze({
     darkKnowledge: {
         id: "darkKnowledge",
         type: CARD_TYPE.artifact,
-    },
+    },/*
     baneBanisher: {
         id: "baneBanisher",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     /*goldenMask: {
         id: "goldenMask",
         type: CARD_TYPE.artifact,
@@ -265,14 +265,14 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "warMask",
         type: CARD_TYPE.artifact,
     },
-    anotherWarmask: {
-        id: "anotherWarmask",
+    jewelryBox: {
+        id: "jewelryBox",
         type: CARD_TYPE.artifact,
     },
-    /*ringOfLight: {
-        id: "ringOfLight",
+    earRingOfLight: {
+        id: "earRingOfLight",
         type: CARD_TYPE.artifact,
-    },*/
+    },
     beastKiller: {
         id: "beastKiller",
         type: CARD_TYPE.artifact,
@@ -281,36 +281,32 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "seaNecklace",
         type: CARD_TYPE.artifact,
     },
-    forbiddenScrolls: {
+    /*forbiddenScrolls: {
         id: "forbiddenScrolls",
         type: CARD_TYPE.artifact,
-    },
-    fragileBlade: {
+    },*/
+    /*fragileBlade: {
         id: "fragileBlade",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     ritualDagger: {
         id: "ritualDagger",
         type: CARD_TYPE.artifact,
     },
-    fearsomeBlades: {
-        id: "fearsomeBlades",
+    huntingArrows: {
+        id: "huntingArrows",
         type: CARD_TYPE.artifact,
     },
-    magicDoor: {
-        id: "magicDoor",
+    decoratedHorn: {
+        id: "decoratedHorn",
         type: CARD_TYPE.artifact,
     },
-    boneWhistle: {
-        id: "boneWhistle",
+    trophySkull: {
+        id: "trophySkull",
         type: CARD_TYPE.artifact,
     },
-    ancientWine: {
-        id: "ancientWine",
-        type: CARD_TYPE.artifact,
-    },
-    windPassage: {
-        id: "windPassage",
+    birdFlute: {
+        id: "birdFlute",
         type: CARD_TYPE.artifact,
     },
     flameJewel: {
@@ -329,20 +325,12 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "drinkingHorn",
         type: CARD_TYPE.artifact,
     },*/
-    ancientCipher: {
-        id: "ancientCipher",
-        type: CARD_TYPE.artifact,
-    },
-    transmutation: {
-        id: "transmutation",
+    mortar: {
+        id: "mortar",
         type: CARD_TYPE.artifact,
     },
     owlEyes: {
         id: "owlEyes",
-        type: CARD_TYPE.artifact,
-    },
-    goldenMask: {
-        id: "goldenMask",
         type: CARD_TYPE.artifact,
     },
     /*ritualDagger: {
@@ -357,10 +345,55 @@ export const ARTIFACT_IDs = Object.freeze({
          id: "keysToAllDoors",
          type: CARD_TYPE.artifact,
      },
-     giantEgg: {
-         id: "giantEgg",
-         type: CARD_TYPE.artifact,
      },*/
+    unknown1: {
+        id: "unknown1",
+        type: CARD_TYPE.artifact,
+    },
+    unknown2: {
+        id: "unknown2",
+        type: CARD_TYPE.artifact,
+    },
+    cauldron: {
+        id: "cauldron",
+        type: CARD_TYPE.artifact,
+    },
+    ornateHammer: {
+        id: "ornateHammer",
+        type: CARD_TYPE.artifact,
+    },
+    boneRattle: {
+        id: "boneRattle",
+        type: CARD_TYPE.artifact,
+    },
+    sacredDrum: {
+        id: "sacredDrum",
+        type: CARD_TYPE.artifact,
+    },
+    snakeBracelet: {
+        id: "snakeBracelet",
+        type: CARD_TYPE.artifact,
+    },
+    giantEgg: {
+        id: "giantEgg",
+        type: CARD_TYPE.artifact,
+    },
+    earRingOfDarkness: {
+        id: "earRingOfDarkness",
+        type: CARD_TYPE.artifact,
+    },
+    unknown3: {
+        id: "unknown3",
+        type: CARD_TYPE.artifact,
+    },
+    jewelDice: {
+        id: "jewelDice",
+        type: CARD_TYPE.artifact,
+    },
+    hairPin: {
+        id: "hairPin",
+        type: CARD_TYPE.artifact,
+    },
 });
 
 export const GUARDIAN_IDs = Object.freeze({
@@ -662,69 +695,6 @@ export const LOCATION_IDs = Object.freeze({
         id: "emptyGreenLocation",
         type: LOCATION_TYPE.emptyGreenLocation,
         level: LOCATION_LEVEL["2"],
-    },
-});
-
-export const INCOME_IDs = Object.freeze({
-    adventurerIncome: {
-        id: "adventurerIncome",
-        effects: [EFFECT.gainAdventurerForThisRound],
-        level: ASSISTANT_LEVEL.gold
-    },
-    drawCardIncome: {
-        id: "drawCardIncome",
-        effects: [EFFECT.draw1],
-        level: ASSISTANT_LEVEL.gold
-    },
-    coinIncome: {
-        id: "coinIncome",
-        effects: [EFFECT.gainCoin],
-        level: ASSISTANT_LEVEL.silver,
-    },
-    exploreIncome: {
-        id: "exploreIncome",
-        effects: [EFFECT.gainExplore],
-        level: ASSISTANT_LEVEL.silver,
-    },
-    discountedBuyIncome: {
-        id: "discountedBuyIncome",
-        effects: [EFFECT.buyWithDiscount1],
-        level: ASSISTANT_LEVEL.silver,
-    },
-    exploreAndCoinIncome: {
-        id: "exploreAndCoinIncome",
-        effects: [EFFECT.gainExplore, EFFECT.gainCoin],
-        level: ASSISTANT_LEVEL.gold
-    },
-    coinAndTextIncome: {
-        id: "coinAndTextIncome",
-        effects: [EFFECT.gainCoin, EFFECT.gainText],
-        level: ASSISTANT_LEVEL.gold
-    },
-    textIncome: {
-        id: "textIncome",
-        effects: [EFFECT.gainText],
-        level: ASSISTANT_LEVEL.silver,
-    },
-    uptradeIncome: {
-        id: "uptradeIncome",
-        effects: [EFFECT.uptrade],
-        level: ASSISTANT_LEVEL.silver,
-    },
-    weaponIncome: {
-        id: "weaponIncome",
-        effects: [EFFECT.gainWeapon],
-        level: ASSISTANT_LEVEL.gold
-    },
-    planeIncome: {
-        id: "planeIncome",
-        effects: [EFFECT.gainPlane],
-        level: ASSISTANT_LEVEL.silver
-    },
-    twoPlanesIncome: {
-        id: "twoPlanesIncome",
-        effects: [EFFECT.gainPlane, EFFECT.gainPlane],
-        level: ASSISTANT_LEVEL.gold
     },
 });
 

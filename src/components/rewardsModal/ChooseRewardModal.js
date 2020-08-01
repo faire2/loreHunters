@@ -1,9 +1,7 @@
 import React, {useContext} from "react";
 import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
-import Card from "../cards/Card";
 import {cloneDeep} from "lodash";
-import {Assistant} from "../legends/tiles/Assistant";
 import {processEffects} from "../functions/processEffects";
 import {handleIncome} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
@@ -11,22 +9,17 @@ import {
     ASSISTANT,
     ASSISTANT_LEVEL,
     ASSISTANT_STATE,
+    AUTOMATIC_ASSISTANT_IDS,
     CARD_STATE,
     CARD_TYPE,
-    LOCATION_STATE,
     RELIC,
     REWARD_TYPE
 } from "../functions/enums";
-import Location from "../locations/Location";
-import {removeExploredLocation} from "../locations/functions/locationFunctions";
 import {replaceFirsUserJointLegendResource} from "../legends/functions/legendsFunctions";
 import {Legends} from "../../data/legends.mjs";
-import {exploreLocation} from "../locations/functions/exploreLocation";
-import {Guardians} from "../../data/guardians";
-import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
-import {JsxFromEffects} from "../JsxFromEffects";
 import {EFFECT} from "../../data/effects";
-import {RelicWithResource} from "../relics/RelicWithResource";
+import {getRewardElement} from "./getRewardElement";
+import {getIdCard} from "../cards/getIdCard";
 
 
 export default function ChooseRewardModal() {
@@ -61,63 +54,9 @@ export default function ChooseRewardModal() {
         height: "7vw",
     };
 
-    function getElement(reward) {
-        let element = null;
-        switch (rewardType) {
-            case (REWARD_TYPE.card):
-            case (REWARD_TYPE.drawCard):
-                element = <Card card={reward}/>;
-                break;
-            case REWARD_TYPE.addAssistant:
-            case REWARD_TYPE.gainAssistant:
-            case REWARD_TYPE.removeAssistant:
-            case REWARD_TYPE.refreshAssistant:
-                element = <Assistant income={reward}/>;
-                break;
-            case REWARD_TYPE.effectsArr:
-            case REWARD_TYPE.legendFieldEffects:
-            case REWARD_TYPE.legendColumnEffects:
-                element = <JsxFromEffects effectsArray={reward}/>;
-                break;
-            case REWARD_TYPE.location:
-                element = <Location location={reward}/>;
-                break;
-            case REWARD_TYPE.upgradeRelic:
-                if (reward === RELIC.bronze) {
-                    element = <BronzeRelic/>;
-                } else if (reward === RELIC.silver) {
-                    element = <SilverRelic/>
-                } else if (reward === RELIC.gold) {
-                    element = <GoldRelic/>
-                } else {
-                    console.error("Unable to determine relic for element in RewardsModal: " + reward)
-                }
-                break;
-            case REWARD_TYPE.relicWithEffects:
-                const relicWidth = 4;
-                const fontSize = 2.4;
-                if (rewards[0].params === RELIC.bronze) {
-                    element = <RelicWithResource relicType={RELIC.bronze} effects={reward} width={relicWidth} fontSize={fontSize}/>
-                } else if (rewards[0].params === RELIC.silver) {
-                    element = <RelicWithResource relicType={RELIC.silver} effects={reward} width={relicWidth} fontSize={fontSize}/>
-                } else if (rewards[0].params === RELIC.gold) {
-                    element = <RelicWithResource relicType={RELIC.gold} effects={reward} width={relicWidth} fontSize={fontSize}/>
-                } else {console.error("Unable to determine type of relic with resource in RewardsModal: " + reward)}
-                break;
-            case REWARD_TYPE.guardian:
-                element = <div>{reward}</div>;
-            break;
-            case null:
-                break;
-            default:
-                console.log("Element type could not be identified at getElement: ");
-                console.log(rewardType);
-        }
-        return element;
-    }
-
     function handleClickOnReward(reward, index) {
         let rewardIndex;
+        let cards;
         let params = rewards[0].params;
         switch (rewardType) {
             case REWARD_TYPE.card:
@@ -127,7 +66,7 @@ export default function ChooseRewardModal() {
                 } else {
                     // all effects send reward card to hand
                     reward.state = CARD_STATE.inHand;
-                    tPlayerState = removeCard(reward, tPlayerState);
+                    tPlayerState = removeCard(reward, tPlayerState, tStore);
                     tPlayerState.hand.push(reward);
                 }
                 break;
@@ -137,10 +76,45 @@ export default function ChooseRewardModal() {
                 rewardIndex = cardsToDiscard.findIndex(card => card.id === reward.id);
                 cardsToDiscard.splice(rewardIndex, 1);
                 for (let card of rewards[0].data) {
-                    tPlayerState = removeCard(card, tPlayerState);
+                    tPlayerState = removeCard(card, tPlayerState, tStore);
                 }
                 tPlayerState.activeCards = tPlayerState.activeCards.concat(cardsToDiscard);
                 tPlayerState.hand.push(reward);
+                break;
+            case REWARD_TYPE.drawStackDiscardCard:
+                cards = rewards[0].data;
+                // we remove the cards from draw deck
+                tPlayerState.drawDeck.splice(0, cards.length);
+                // first we choose a card to hand
+                rewardIndex = cards.findIndex(card => card.id === reward.id);
+                cards.splice(rewardIndex, 1);
+                reward.state = CARD_STATE.inHand;
+                tPlayerState.hand.push(reward);
+                // copy remaining cards for new modal
+                if (cards.length > 0) {
+                    rewards.push({type: REWARD_TYPE.stackCardToDrawDeck, data: rewards[0].data});
+                }
+                break;
+            case REWARD_TYPE.stackCardToDrawDeck:
+                // then we choose one that goes to top of drawDeck
+                cards = rewards[0].data;
+                rewardIndex = cards.findIndex(card => card.id === reward.id);
+                // reward goes to draw deck
+                reward.state = CARD_STATE.drawDeck;
+                tPlayerState.drawDeck.splice(0, 0, reward);
+                if (cards.length > 1) {
+                    // the remaining card goes to active cards
+                    cards.splice(rewardIndex, 1);
+                    let cardToDiscard = rewards[0].data[0];
+                    cardToDiscard.state = CARD_STATE.active;
+                    tPlayerState.activeCards.push(cardToDiscard)
+                }
+                break;
+            case REWARD_TYPE.chooseDestroyedCard:
+                tPlayerState.drawDeck.push(getIdCard(reward.id));
+                tPlayerState.drawDeck[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
+                rewardIndex = tStore.destroyedCards.findIndex(card => card.id === reward.id);
+                tStore.destroyedCards.splice(rewardIndex, 1);
                 break;
             case REWARD_TYPE.gainAssistant:
                 reward.state = ASSISTANT_STATE.ready;
@@ -160,7 +134,11 @@ export default function ChooseRewardModal() {
                         tStore.assistantGoldOffer.splice(index, 1);
                     }
                 }
+                // some rewards are handled automatically and set to spent state
                 tPlayerState = handleIncome(tPlayerState, reward);
+                if (AUTOMATIC_ASSISTANT_IDS.includes(reward.id)) {
+                    reward.state = ASSISTANT_STATE.spent;
+                }
                 break;
             case REWARD_TYPE.addAssistant:
                 reward.state = ASSISTANT_STATE.ready;
@@ -204,6 +182,11 @@ export default function ChooseRewardModal() {
                     if (spentAssistant.id === reward.id) {
                         spentAssistant.state = ASSISTANT_STATE.ready;
                     }
+                    // if the refreshed assistant is automatic, we immediately use it
+                    if (AUTOMATIC_ASSISTANT_IDS.includes(spentAssistant.id)) {
+                        tPlayerState = handleIncome(tPlayerState, spentAssistant);
+                        spentAssistant.state = ASSISTANT_STATE.spent;
+                    }
                 }
                 break;
             case REWARD_TYPE.upgradeRelic:
@@ -227,7 +210,9 @@ export default function ChooseRewardModal() {
                     tPlayerState.resources.silverRelics += 1;
                 } else if (params === RELIC.gold) {
                     tPlayerState.resources.goldRelics += 1;
-                } else {console.error("Unable to determine type of relic with resource in RewardsModal: " + reward)}
+                } else {
+                    console.error("Unable to determine type of relic with resource in RewardsModal: " + reward)
+                }
                 break;
             case REWARD_TYPE.effectsArr:
                 // if we have a card in parameters, we set it
@@ -268,31 +253,19 @@ export default function ChooseRewardModal() {
                     const jsxLegend = Legends[tLegends[fieldPosition.legendIndex].id];
                     tLegends[fieldPosition.legendIndex].fields[fieldPosition.columnIndex][fieldPosition.fieldIndex]
                         = replaceFirsUserJointLegendResource(reward.effects, jsxLegend.fields[fieldPosition.columnIndex]
-                            [fieldPosition.fieldIndex], numOfPlayers);
+                        [fieldPosition.fieldIndex], numOfPlayers);
                     console.log(Legends);
                 }
                 break;
             case REWARD_TYPE.location:
-                const locationPositionsObj = rewards[0].params;
                 let location = reward;
-                location.index = locationPositionsObj.index;
-                location.line = locationPositionsObj.line;
-                location.state = LOCATION_STATE.explored;
-                const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location);
-                if (explorationResult) {
-                    location.guardian = Guardians[tLocations.guardianKeys[0]];
-                    tLocations.guardianKeys.splice(0, 1);
-                    location.state = LOCATION_STATE.guarded;
-                    tLocations[locationPositionsObj.line][locationPositionsObj.index] = location;
-                    tPlayerState = explorationResult.playerState;
-                    tPlayerState.availableAdventurers -= 1;
-                    location.adventurers.push(tPlayerState.playerIndex);
-                    const locationResult = processEffects(null, null, tPlayerState, location.effects, null, null, null);
+                const locationResult = processEffects(null, null, tPlayerState, location.effects, tStore, location, tLocations);
+                if (locationResult) {
                     tPlayerState = locationResult.tPlayerState;
-                    tLocations = removeExploredLocation(location, explorationResult.locations);
-                    tStore = explorationResult.store;
-                    /*rewards.push(explorationResult.modalRewardData[0]);*/
+                    tLocations = locationResult.tLocations;
+                    tStore = locationResult.tStore;
                 }
+
                 break;
             case REWARD_TYPE.guardian:
                 tPlayerState.defeatedGuardians = tPlayerState.defeatedGuardians.filter(guardianId => !guardianId);
@@ -301,7 +274,8 @@ export default function ChooseRewardModal() {
                         tPlayerState.resources.coins += 1;
                         tPlayerState.resources.jewels += 1;
                         break;
-                    default: console.error("Unable to determine reward key in guardian reward params!" + rewards[0].params);
+                    default:
+                        console.error("Unable to determine reward key in guardian reward params!" + rewards[0].params);
                 }
                 break;
             default:
@@ -313,7 +287,8 @@ export default function ChooseRewardModal() {
     }
 
     return (
-        <Modal show={showModal} onHide={() => boardStateContext.toggleRewardsModalVisibility(false)} dialogClassName={"customModal"}>
+        <Modal show={showModal} onHide={() => boardStateContext.toggleRewardsModalVisibility(false)}
+               dialogClassName={"customModal"}>
             <Modal.Header closeButton>
                 <Modal.Title>Choose your boon</Modal.Title>
             </Modal.Header>
@@ -321,7 +296,7 @@ export default function ChooseRewardModal() {
                 <div style={containerStyle}>
                     {rewards.length > 0 && rewards[0].data.map((reward, i) =>
                         <div style={rewardStyle} onClick={() => handleClickOnReward(reward, i)} key={i}>
-                            {getElement(reward)}
+                            {getRewardElement(reward, rewardType, rewards)}
                         </div>
                     )}
                 </div>

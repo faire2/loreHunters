@@ -56,6 +56,9 @@ export default function Card(props) {
         console.log("Unable to process card type in Card.js: " + cardType);
         console.log(props.card.id);
     }
+    if (!cardTemplate) {
+        debugger
+    }
 
     // prevents merge of two cards with same id
     let card = cloneDeep(cardTemplate);
@@ -229,9 +232,9 @@ export default function Card(props) {
 
     //todo fontSize is set in cards.js, should be moved here
     const effectsStyle = {
-        width: "95%",
+        width: "91%",
         marginTop: !isGuardian ? "55%" : "59%",
-        marginLeft: !isGuardian ? 0 : "32%",
+        marginLeft: !isGuardian ? "0.3vw" : "32%",
         fontSize: "0.46vw",
         textAlign: !isGuardian ? "center" : "left",
         position: "absolute",

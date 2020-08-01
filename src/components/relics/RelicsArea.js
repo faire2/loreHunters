@@ -124,9 +124,9 @@ export function RelicsArea() {
                     </div>
                 )}
             </div>
-            <div style={victoryPointsContainerStyle}>
+            {/*<div style={victoryPointsContainerStyle}>
                 {victoryPointsArr}
-            </div>
+            </div>*/}
         </div>
     )
 }

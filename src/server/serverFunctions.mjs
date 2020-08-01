@@ -3,7 +3,7 @@ import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
 import {addCardToPlayedCards, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
-import {ASSISTANT_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
+import {ASSISTANT_STATE, AUTOMATIC_ASSISTANT_IDS, LOCATION_STATE} from "../components/functions/enums.mjs";
 
 export function handleAssistants(playerState) {
     for (let assistant of playerState.assistants) {
@@ -34,17 +34,23 @@ export function handleAssistants(playerState) {
                     console.log(assistant.effects);
             }
         }
+        // automatic assistants were used and must be marked
+        if (AUTOMATIC_ASSISTANT_IDS.includes(assistant.id)) {
+            assistant.state = ASSISTANT_STATE.spent;
+        }
     }
     return playerState;
 }
 
+// currently only run from rewards modal on gain / refresh assistants
 export function handleIncome(playerState, income) {
     for (let effect of income.effects) {
         switch (effect) {
+            // these effects must be triggered by the player
             case EFFECT.draw1:
             case EFFECT.buyWithDiscount1:
-            case EFFECT.gainPlane:
             case EFFECT.uptrade:
+            case EFFECT.gainPlane:
                 break;
             case EFFECT.gainAdventurerForThisRound:
                 playerState.availableAdventurers += 1;
@@ -144,39 +150,20 @@ export function processEndOfRound(room) {
         tPlayerState.drawDeck = [...tPlayerState.drawDeck, ...tPlayerState.activeCards];
         tPlayerState.activeCards = [];
 
-        /* in 5th round all guardians come into play */
-        /*if (round === 4) { todo can probably be removed
-            console.log("ensuring guardians enter play");
-            for (let i = 0; i < tPlayerState.discardDeck.length; i++) {
-                if (tPlayerState.discardDeck[i].type === CARD_TYPE.guardian) {
-                    tPlayerState.discardDeck[i].state = CARD_STATE.drawDeck;
-                    tPlayerState.drawDeck.push(tPlayerState.discardDeck[i]);
-                    tPlayerState.discardDeck.splice(i, 1);
-                }
-            }
-
-            for (let i = 1; i < tPlayerState.drawDeck.length; i++) {
-                if (tPlayerState.drawDeck[i].type === CARD_TYPE.guardian) {
-                    let tCard = tPlayerState.drawDeck[i];
-                    tPlayerState.drawDeck.splice(i, 1);
-                    tPlayerState.drawDeck.splice(0, 0, tCard);
-                }
-            }
-        }*/
-
         /* draw a new hand */
         tPlayerState = drawCards(5, tPlayerState);
-
-        /* handle regular incomes */
-        tPlayerState = handleAssistants(tPlayerState);
-
-        /* reset transport resources */
-        tPlayerState = resetTransport(tPlayerState);
 
         /* reset income states */
         for (let income of tPlayerState.assistants) {
             income.state = ASSISTANT_STATE.ready
         }
+
+        /* automatic assistants are handled here for beginning of next round */
+        tPlayerState = handleAssistants(tPlayerState);
+
+        /* reset transport resources */
+        tPlayerState = resetTransport(tPlayerState);
+
 
         /* reset active rest of counters */
         tPlayerState.activeEffects = [];

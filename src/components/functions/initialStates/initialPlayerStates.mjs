@@ -27,7 +27,6 @@ export const emptyPlayerState = Object.freeze({
     canDiscoverL3Locations: false,
     color: null,
     defeatedGuardians: [],
-    destroyedCards: [],
     //discardDeck: [], //todo remove if discard remains removed form the game
     drawDeck: [],
     firstTurn: true,
@@ -88,11 +87,11 @@ export default function getInitialPlayerStates(numOfPlayers) {
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }
-        /*const testCard0 = {...ARTIFACT_IDs.boneWhistle};
+        /*const testCard0 = {...ARTIFACT_IDs.hairPin};
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*/
 
-        /*const testCard = {...ITEM_IDs.dog};
+        /*const testCard = {...ITEM_IDs.philologyBook};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 
