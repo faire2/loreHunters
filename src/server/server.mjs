@@ -189,8 +189,8 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.nextPlayer, states => {
         console.debug("Passing turn to next player in room: " + states.roomName + "(" + getUserName(socket.id, users) + ")");
         let room = getRoom(states.roomName, gameRooms);
-        room.previousStates = cloneDeep(room.states);
         if (room) {
+            room.previousStates = cloneDeep(room.states);
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             console.debug("PLAYER " + (playerIndex) + " passing action.");
             room = updateRoomState(room, playerIndex, states);

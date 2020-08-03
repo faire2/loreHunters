@@ -24,6 +24,7 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
     } else {
         switch (location.state) {
             case LOCATION_STATE.unexplored:
+                debugger
                 //if user clicked on empty location, give back choice modal with relevant locations
                 const locationsToExplore = [LOCATION_TYPE.emptyLocation, LOCATION_TYPE.emptyBrownLocation, LOCATION_TYPE.emptyGreenLocation];
                 if (locationsToExplore.includes(location.type) && tPlayerState.availableAdventurers > 0) {

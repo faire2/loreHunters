@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components/dist/styled-components.js"
 
 export const DivRow = styled.div`
    display: flex;
