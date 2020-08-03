@@ -18,7 +18,6 @@ import {getRelicsForUpgrade} from "./effectsFunctions/getRelicsForUpgrade";
 import {payForTravelIfPossible} from "../locations/functions/payForTravelIfPossible";
 import {getLogLegends} from "../main/logger";
 import {getIdCard} from "../cards/getIdCard";
-import {handleAssistants} from "../../server/serverFunctions";
 import {shuffleArray} from "./cardManipulationFuntions";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, originalStore, location, originalLocations) {
@@ -415,7 +414,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             allRelics += 1
                         }
                     }
-                    debugger
                     tPlayerState.resources.explore += allRelics > 3 ? 3 : allRelics;
                     break;
 
@@ -458,6 +456,38 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainWeapon:
                     tPlayerState.resources.weapons += 1;
+                    break;
+
+                case EFFECT.gainWeaponOrJewel:
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr,
+                        data: [[EFFECT.gainWeapon], [EFFECT.gainJewel]],
+                    };
+                    showRewardsModal = true;
+                    break;
+
+                case EFFECT.gainPlaneOrCoin:
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr,
+                        data: [[EFFECT.gainPlane], [EFFECT.gainCoin]],
+                    };
+                    showRewardsModal = true;
+                    break;
+
+                case EFFECT.gainJeepOrCoin:
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr,
+                        data: [[EFFECT.gainJeep], [EFFECT.gainCoin]],
+                    };
+                    showRewardsModal = true;
+                    break;
+
+                case EFFECT.gainShipOrCoin:
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr,
+                        data: [[EFFECT.gainShip], [EFFECT.gainCoin]],
+                    };
+                    showRewardsModal = true;
                     break;
 
                 case EFFECT.gainBronzeRelic:
@@ -585,9 +615,9 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     showRewardsModal = true;
                     break;
 
-                case EFFECT.gainOrUpgradeAssistant:
+                case EFFECT.upgradeAssistant:
                     rewardsData = {
-                        type: REWARD_TYPE.addAssistant,
+                        type: REWARD_TYPE.upgradeAssistant,
                         data: getAssistantsChoice(tPlayerState, tStore, ASSISTANT.upgrade)
                     }
                     showRewardsModal = true;
@@ -647,7 +677,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.refreshAllAssistants:
                     // process automatic incomes
-                    tPlayerState = handleAssistants(tPlayerState);
+                    /*tPlayerState = handleAssistants(tPlayerState);*/
                     // refresh all assistants
                     for (let assistant of tPlayerState.assistants) {
                         assistant.state = ASSISTANT_STATE.ready;

@@ -27,14 +27,13 @@ const EffectsWrapper = styled.div`
     background: ${props => props.overlay ? "rgba(0,0,0,0.4)" : "none"};
     border-radius: 3vw;
     height: 90%;
-    width: 100%;
 `;
 
 const MarginWrapper = styled.div`
+position: relative;
     width: 100%;
     height: 100%;
-    margin-left: ${props => (props.index * 3)}%;
-    position: absolute;
+    margin-left: -${props => (props.index * 10)}%;
     left: 0;
     top: -12%
 `;

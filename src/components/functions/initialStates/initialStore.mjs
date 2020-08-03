@@ -4,6 +4,7 @@ import {ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE} from "../enums.
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 import {relicEffects} from "../../../data/relicEffects.mjs";
 import {Assistants} from "../../../data/assistants.mjs";
+import cloneDeep from 'lodash/cloneDeep.js';
 
 export function getInitialStore() {
     /* all items, each item is represented only once! */
@@ -32,15 +33,12 @@ export function getInitialStore() {
     }
 
     /* assistants */
-    let incomes1 = [];
-    let incomes2 = [];
+    let assistants = [];
     for (let key in Assistants) {
         Assistants[key].state = ASSISTANT_STATE.inStore;
-        if (Assistants[key].level === ASSISTANT_LEVEL.silver) {
-            incomes1.push(Assistants[key]);
-        } else {
-            incomes2.push(Assistants[key]);
-        }
+        Assistants[key].level = ASSISTANT_LEVEL.silver;
+        assistants.push(cloneDeep(Assistants[key]))
+
     }
 
     /* relics */
@@ -50,8 +48,7 @@ export function getInitialStore() {
 
     let itemsSetup = drawInitialCards(items, GLOBAL_VARS.itemsInStore);
     let artifactsSetup = drawInitialCards(artifacts, GLOBAL_VARS.artifactsInStore);
-    let incomes1Setup = drawInitialCards(incomes1, 2);
-    let incomes2Setup = drawInitialCards(incomes2, 2)
+    let assistantsSetup = drawInitialCards(assistants, 2);
 
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;
@@ -59,10 +56,8 @@ export function getInitialStore() {
     return {
         artifactsDeck: artifactsSetup.deck,
         artifactsOffer: artifactsSetup.drawCards,
-        assistantSilverDeck: incomes1Setup.deck,
-        assistantSilverOffer: incomes1Setup.drawCards,
-        assistantGoldDeck: incomes2Setup.deck,
-        assistantGoldOffer: incomes2Setup.drawCards,
+        assistantsDeck: assistantsSetup.deck,
+        assistantsOffer: assistantsSetup.drawCards,
         itemsDeck: itemsSetup.deck,
         itemsOffer: itemsSetup.drawCards,
         expeditions: shuffleArray(expeditions),

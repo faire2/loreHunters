@@ -1,6 +1,7 @@
 /* GLOBAL VARIABLES */
 
 import {EFFECT} from "../../data/effects.mjs";
+import styled from "styled-components/dist/styled-components";
 
 export const ACTION_TYPE = Object.freeze({
     activatesLocation: "activates a location",
@@ -89,7 +90,7 @@ export const LCL_STORAGE = Object.freeze({
 });
 
 export const REWARD_TYPE = Object.freeze({
-    addAssistant: "assistant choice or upgrade",
+    upgradeAssistant: "assistant choice or upgrade",
     card: "card",
     chooseDestroyedCard: "choose a destroyed card",
     drawCard: "draw one, discard rest",
@@ -158,8 +159,21 @@ export const ASSISTANT = {
    upgrade: "upgrade of an assistant",
 }
 
-export const AUTOMATIC_ASSISTANT_IDS = ["adventurerIncome", "coinIncome", "exploreIncome", "exploreAndCoinIncome",
-    "coinAndTextIncome", "textIncome", "weaponIncome", "planeIncome", "twoPlanesIncome"];
+export const DivRow = styled.div`
+   display: flex;
+   flex-flow: row;
+   align-items: flex-end;
+   color: black;
+   cursor: default;
+`;
+
+export const DivColumn = styled.div`
+   display: flex;
+   flex-flow: column;
+`;
+
+export const AUTOMATIC_ASSISTANT_EFFECTS = [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainExplore,
+    ];
 
 export const TRANSPORT_EFFECTS = [EFFECT.loseWalk, EFFECT.loseBlimp, EFFECT.loseJeep, EFFECT.loseShip];
 

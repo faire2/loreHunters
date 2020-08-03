@@ -28,23 +28,24 @@ const Container = styled.div`
 
 
 export const Assistant = (props) => {
-    const income = props.income;
+    const assistant = props.income;
     const size = props.size;
     const boardStateContext = useContext(BoardStateContext);
-    let state = income.state;
+    let state = assistant.state;
+    let effects = assistant.level === ASSISTANT_LEVEL.silver ? assistant.silverEffects : assistant.goldEffects;
 
-    const bgr = income.level === ASSISTANT_LEVEL.silver ? silverBgr : goldBgr;
+    const bgr = assistant.level === ASSISTANT_LEVEL.silver ? silverBgr : goldBgr;
 
     function handleClick() {
         if (state === ASSISTANT_STATE.ready) {
-            boardStateContext.handleClickOnIncomeTile(income.effects, income.id, income.state)
+            boardStateContext.handleClickOnAssistantTile(effects, assistant.id, assistant.state)
         }
     }
 
     return (
         <Container small={size === ASSISTANT_TILE_SIZE.small} bgr={bgr} onClick={() => handleClick()}>
             <Center>
-                <AssistantEffects state={income.state} effects={income.effects}/>
+                <AssistantEffects state={assistant.state} effects={effects}/>
             </Center>
         </Container>
     )

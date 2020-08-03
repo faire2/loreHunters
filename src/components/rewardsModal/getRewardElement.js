@@ -16,7 +16,7 @@ export function getRewardElement(reward, rewardType, rewards) {
         case REWARD_TYPE.stackCardToDrawDeck:
             element = <Card card={reward}/>;
             break;
-        case REWARD_TYPE.addAssistant:
+        case REWARD_TYPE.upgradeAssistant:
         case REWARD_TYPE.gainAssistant:
         case REWARD_TYPE.removeAssistant:
         case REWARD_TYPE.refreshAssistant:

@@ -3,9 +3,9 @@ import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
 import {addCardToPlayedCards, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
-import {ASSISTANT_STATE, AUTOMATIC_ASSISTANT_IDS, LOCATION_STATE} from "../components/functions/enums.mjs";
+import {ASSISTANT_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
 
-export function handleAssistants(playerState) {
+/*export function handleAssistants(playerState) {
     for (let assistant of playerState.assistants) {
         for (let effect of assistant.effects) {
             switch (effect) {
@@ -35,45 +35,23 @@ export function handleAssistants(playerState) {
             }
         }
         // automatic assistants were used and must be marked
-        if (AUTOMATIC_ASSISTANT_IDS.includes(assistant.id)) {
+        if (AUTOMATIC_ASSISTANT_EFFECTS.includes(assistant.id)) {
             assistant.state = ASSISTANT_STATE.spent;
         }
     }
     return playerState;
-}
+}*/
 
 // currently only run from rewards modal on gain / refresh assistants
-export function handleIncome(playerState, income) {
-    for (let effect of income.effects) {
-        switch (effect) {
-            // these effects must be triggered by the player
-            case EFFECT.draw1:
-            case EFFECT.buyWithDiscount1:
-            case EFFECT.uptrade:
-            case EFFECT.gainPlane:
-                break;
-            case EFFECT.gainAdventurerForThisRound:
-                playerState.availableAdventurers += 1;
-                break;
-            case EFFECT.gainCoin:
-                playerState.resources.coins += 1;
-                break;
-            case EFFECT.gainExplore:
-                playerState.resources.explore += 1;
-                break;
-            case EFFECT.gainText:
-                playerState.resources.texts += 1;
-                break;
-            case EFFECT.gainWeapon:
-                playerState.resources.weapons += 1;
-                break;
-            default:
-                console.log("Unable to process effect in handleIncome: ");
-                console.log(income);
-        }
+/*export function handleIncome(playerState, assistant) {
+    const effects = assistant.level === ASSISTANT_LEVEL.silver ? assistant.silverEffects : assistant.goldEffects;
+    const assistantResult = processEffects(null, null, playerState, effects, null, null,
+        null)
+    if (assistantResult.processedAllEffects) {
+        playerState = assistantResult.tPlayerState;
     }
     return playerState;
-}
+}*/
 
 export function processEndOfRound(room) {
     console.log("processing end of round " + room.states.round);
@@ -153,13 +131,13 @@ export function processEndOfRound(room) {
         /* draw a new hand */
         tPlayerState = drawCards(5, tPlayerState);
 
-        /* reset income states */
-        for (let income of tPlayerState.assistants) {
-            income.state = ASSISTANT_STATE.ready
+        /* reset assistant states */
+        for (let assistant of tPlayerState.assistants) {
+            assistant.state = ASSISTANT_STATE.ready
         }
 
         /* automatic assistants are handled here for beginning of next round */
-        tPlayerState = handleAssistants(tPlayerState);
+        /*tPlayerState = handleAssistants(tPlayerState);*/
 
         /* reset transport resources */
         tPlayerState = resetTransport(tPlayerState);

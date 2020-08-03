@@ -29,6 +29,7 @@ import TopSlidingPanel from "./components/main/TopSlidingPanel";
 import {processLocation} from "./components/locations/functions/processLocation";
 import {
     ACTION_TYPE,
+    ASSISTANT_STATE,
     CARD_STATE,
     CARD_TYPE,
     LCL_STORAGE,
@@ -37,7 +38,6 @@ import {
     TRANSMISSIONS
 } from "./components/functions/enums";
 import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
-import {processAssistantTile} from "./components/functions/processIncome";
 import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
 import {processLegend} from "./components/legends/functions/processLegend";
 
@@ -415,9 +415,25 @@ function GameBoard(props) {
 
     /** HANDLE CLICK ON INCOME TILE **/
     function handleClickOnAssistantTile(effects, incomeId) {
-        const tPlayerState = processAssistantTile(effects, incomeId, cloneDeep(playerState));
-        setPlayerState(tPlayerState);
-        addLogEntry(tPlayerState, ACTION_TYPE.usesAssistant, incomeId, effects);
+        const assistantResult = processEffects(null, null, cloneDeep(playerState), effects, cloneDeep(store), null, cloneDeep(locations));
+        if (assistantResult.processedAllEffects) {
+            let tPlayerState = assistantResult.tPlayerState;
+
+            // set assistan to spent state
+            for (let asssistant of tPlayerState.assistants) {
+                if (asssistant.id === incomeId) {
+                    asssistant.state = ASSISTANT_STATE.spent
+                }
+            }
+
+            setPlayerState(tPlayerState);
+            setLocations(assistantResult.tLocations);
+            setStore(assistantResult.tStore);
+            if (assistantResult.showRewardsModal) {
+                initiateRewardsModal(assistantResult.rewardsData);
+            }
+            addLogEntry(tPlayerState, ACTION_TYPE.usesAssistant, incomeId, effects);
+        }
     }
 
     /** HANDLE CLICK ON RELIC **/
@@ -577,7 +593,7 @@ function GameBoard(props) {
         handleClickOnLocation: handleClickOnLocation,
         handleReward: handleRewards,
         handleClickOnLegend: handleClickOnLegend,
-        handleClickOnIncomeTile: handleClickOnAssistantTile,
+        handleClickOnAssistantTile: handleClickOnAssistantTile,
         initiateRewardsModal: initiateRewardsModal,
         toggleRewardsModalVisibility: toggleRewardsModalVisibility,
     };

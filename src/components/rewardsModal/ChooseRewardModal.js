@@ -3,13 +3,11 @@ import Modal from "react-bootstrap/Modal";
 import {BoardStateContext} from "../../Contexts";
 import {cloneDeep} from "lodash";
 import {processEffects} from "../functions/processEffects";
-import {handleIncome} from "../../server/serverFunctions";
 import {removeCard} from "../functions/cardManipulationFuntions";
 import {
     ASSISTANT,
     ASSISTANT_LEVEL,
     ASSISTANT_STATE,
-    AUTOMATIC_ASSISTANT_IDS,
     CARD_STATE,
     CARD_TYPE,
     RELIC,
@@ -120,53 +118,39 @@ export default function ChooseRewardModal() {
                 reward.state = ASSISTANT_STATE.ready;
                 tPlayerState.assistants.push(reward);
                 if (params === ASSISTANT.silver) {
-                    if (tStore.assistantSilverDeck.length > 0) {
-                        tStore.assistantSilverOffer.splice(index, 1, tStore.assistantSilverDeck[0]);
-                        tStore.assistantSilverDeck.splice(0, 1);
+                    if (tStore.assistantsDeck.length > 0) {
+                        tStore.assistantsOffer.splice(index, 1, tStore.assistantsDeck[0]);
+                        tStore.assistantsDeck.splice(0, 1);
                     } else {
-                        tStore.assistantSilverOffer.splice(index, 1);
+                        tStore.assistantsOffer.splice(index, 1);
                     }
-                } else if (params === ASSISTANT.gold) {
-                    if (tStore.assistantGoldDeck.length > 0) {
-                        tStore.assistantGoldOffer.splice(index, 1, tStore.assistantGoldDeck[0]);
-                        tStore.assistantGoldDeck.splice(0, 1);
+                } /*else if (params === ASSISTANT.gold) {
+                    if (tStore.assistantsDeck.length > 0) {
+                        tStore.assistantsOffer.splice(index, 1, tStore.assistantsDeck[0]);
+                        tStore.assistantsDeck.splice(0, 1);
                     } else {
-                        tStore.assistantGoldOffer.splice(index, 1);
+                        tStore.assistantsOffer.splice(index, 1);
                     }
-                }
+                }*/
+
                 // some rewards are handled automatically and set to spent state
-                tPlayerState = handleIncome(tPlayerState, reward);
-                if (AUTOMATIC_ASSISTANT_IDS.includes(reward.id)) {
+                /*let allEffectsAutomatic = true;
+                for (let effect of reward.silverEffects) {
+                    if (!AUTOMATIC_ASSISTANT_EFFECTS.includes(effect)) {
+                        allEffectsAutomatic = false;
+                    }
+                }
+                if (allEffectsAutomatic) {
+                    tPlayerState = handleIncome(tPlayerState, reward);
                     reward.state = ASSISTANT_STATE.spent;
-                }
+                }*/
                 break;
-            case REWARD_TYPE.addAssistant:
-                reward.state = ASSISTANT_STATE.ready;
-                tPlayerState.assistants.push(reward);
-                if (reward.level === ASSISTANT_LEVEL.silver) {
-                    if (tStore.assistantSilverDeck.length > 0) {
-                        tStore.assistantSilverOffer.splice(index, 1, tStore.assistantSilverDeck[0]);
-                        tStore.assistantSilverDeck.splice(0, 1);
-                    } else {
-                        tStore.assistantSilverOffer.splice(index, 1);
+            case REWARD_TYPE.upgradeAssistant:
+                for (let assistant of tPlayerState.assistants) {
+                    if (reward.id === assistant.id) {
+                        assistant.level = ASSISTANT_LEVEL.gold;
                     }
-                } else {
-                    if (tStore.assistantGoldDeck.length > 0) {
-                        tStore.assistantGoldOffer.splice(index - tStore.assistantSilverOffer.length, 1, tStore.assistantGoldDeck[0]);
-                        tStore.assistantGoldDeck.splice(0, 1);
-                    } else {
-                        tStore.assistantGoldOffer.splice(index, 1, 0);
-                    }
-                    // if gold assistant was gained, we have to remove a silver one he has replaced
-                    let silverAssistants = [];
-                    for (let assistant of tPlayerState.assistants) {
-                        if (assistant.level === ASSISTANT_LEVEL.silver) {
-                            silverAssistants.push(assistant);
-                        }
-                    }
-                    rewards.push({type: REWARD_TYPE.removeAssistant, data: silverAssistants});
                 }
-                tPlayerState = handleIncome(tPlayerState, reward);
                 break;
             case REWARD_TYPE.removeAssistant:
                 let assistantIndex = null;
@@ -183,10 +167,10 @@ export default function ChooseRewardModal() {
                         spentAssistant.state = ASSISTANT_STATE.ready;
                     }
                     // if the refreshed assistant is automatic, we immediately use it
-                    if (AUTOMATIC_ASSISTANT_IDS.includes(spentAssistant.id)) {
+                    /*if (AUTOMATIC_ASSISTANT_EFFECTS.includes(spentAssistant.id)) {
                         tPlayerState = handleIncome(tPlayerState, spentAssistant);
                         spentAssistant.state = ASSISTANT_STATE.spent;
-                    }
+                    }*/
                 }
                 break;
             case REWARD_TYPE.upgradeRelic:

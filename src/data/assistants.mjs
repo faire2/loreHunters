@@ -1,65 +1,54 @@
 import {EFFECT} from "./effects.mjs";
-import {ASSISTANT_LEVEL} from "../components/functions/enums.mjs";
 
 export const Assistants = Object.freeze({
-    adventurerIncome: {
-        id: "adventurerIncome",
-        effects: [EFFECT.gainAdventurerForThisRound],
-        level: ASSISTANT_LEVEL.gold
+    goldDigger: {
+        id: "goldDigger",
+        silverEffects: [EFFECT.gainCoin],
+        goldEffects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
     },
-    drawCardIncome: {
-        id: "drawCardIncome",
-        effects: [EFFECT.draw1],
-        level: ASSISTANT_LEVEL.gold
+    professor: {
+        id: "professor",
+        silverEffects: [EFFECT.gainText],
+        goldEffects: [EFFECT.gainText, EFFECT.gainText],
     },
-    coinIncome: {
-        id: "coinIncome",
-        effects: [EFFECT.gainCoin],
-        level: ASSISTANT_LEVEL.silver,
+    hunter: {
+        id: "hunter",
+        silverEffects: [EFFECT.loseWalk, EFFECT.arrow, EFFECT.gainWeapon],
+        goldEffects: [EFFECT.gainWeapon],
     },
-    exploreIncome: {
-        id: "exploreIncome",
-        effects: [EFFECT.gainExplore],
-        level: ASSISTANT_LEVEL.silver,
+    smuggler: {
+        id: "smuggler",
+        silverEffects: [EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainWeapon],
+        goldEffects: [EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainWeaponOrJewel],
     },
-    discountedBuyIncome: {
-        id: "discountedBuyIncome",
-        effects: [EFFECT.buyWithDiscount1],
-        level: ASSISTANT_LEVEL.silver,
+    bodyGuard: {
+        id: "bodyGuard",
+        silverEffects: [EFFECT.destroyCard],
+        goldEffects: [EFFECT.destroyCard, EFFECT.gainExplore],
     },
-    exploreAndCoinIncome: {
-        id: "exploreAndCoinIncome",
-        effects: [EFFECT.gainExplore, EFFECT.gainCoin],
-        level: ASSISTANT_LEVEL.gold
+    chef: {
+        id: "chef",
+        silverEffects: [EFFECT.discard, EFFECT.arrow, EFFECT.draw1],
+        goldEffects: [EFFECT.draw1],
     },
-    coinAndTextIncome: {
-        id: "coinAndTextIncome",
-        effects: [EFFECT.gainCoin, EFFECT.gainText],
-        level: ASSISTANT_LEVEL.gold
+    pilot: {
+        id: "pilot",
+        silverEffects: [EFFECT.gainPlaneOrCoin],
+        goldEffects: [EFFECT.gainPlane, EFFECT.gainCoin],
     },
-    textIncome: {
-        id: "textIncome",
-        effects: [EFFECT.gainText],
-        level: ASSISTANT_LEVEL.silver,
+    cartographer: {
+        id: "cartographer",
+        silverEffects: [EFFECT.gainJeepOrCoin],
+        goldEffects: [EFFECT.gainPlane, EFFECT.gainCoin],
     },
-    uptradeIncome: {
-        id: "uptradeIncome",
-        effects: [EFFECT.uptrade],
-        level: ASSISTANT_LEVEL.silver,
+    seaman: {
+        id: "seaman",
+        silverEffects: [EFFECT.gainShipOrCoin],
+        goldEffects: [EFFECT.gainPlane, EFFECT.gainCoin],
     },
-    weaponIncome: {
-        id: "weaponIncome",
-        effects: [EFFECT.gainWeapon],
-        level: ASSISTANT_LEVEL.gold
+    trader: {
+        id: "trader",
+        silverEffects: [EFFECT.buyWithDiscount1],
+        goldEffects: [EFFECT.buyWithDiscount1, EFFECT.buyWithDiscount1],
     },
-    planeIncome: {
-        id: "planeIncome",
-        effects: [EFFECT.gainPlane],
-        level: ASSISTANT_LEVEL.silver
-    },
-    twoPlanesIncome: {
-        id: "twoPlanesIncome",
-        effects: [EFFECT.gainPlane, EFFECT.gainPlane],
-        level: ASSISTANT_LEVEL.gold
-    },
-})
+});

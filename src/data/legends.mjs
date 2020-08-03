@@ -26,10 +26,10 @@ export const Legends = Object.freeze({
                 [EFFECT.gainExplore], [EFFECT.gainBronzeRelic],
             ],
             [
-                [EFFECT.gainCoin], [EFFECT.gainGoldAssistant],
+                [EFFECT.gainCoin], [EFFECT.upgradeAssistant],
             ],
             [
-                [EFFECT.gainExplore], [EFFECT.gainGoldAssistant],
+                [EFFECT.gainExplore], [EFFECT.upgradeAssistant],
             ],
             [
                 [EFFECT.draw1], [EFFECT.gainBronzeRelic],

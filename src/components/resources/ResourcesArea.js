@@ -3,7 +3,7 @@ import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Blimp, Coin, Explore, Jeep, Jewel, Ship, Text, Walk, Weapon} from "../Symbols";
 import {Assistant} from "../legends/tiles/Assistant";
 import {PlayerTabs} from "../scoring/ScoringPanel";
-import {ASSISTANT_TILE_SIZE} from "../functions/enums";
+import {ASSISTANT_TILE_SIZE, DivColumn} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
 
@@ -184,12 +184,14 @@ const Resources = (props) => {
                 )}
             </div>*/}
             <div style={secondColumnFieldStyle}>
+                {availableAdventurers}
+            </div>
+            <div style={secondColumnFieldStyle}>
+                <DivColumn>
                 {playerState.assistants.map(income =>
                     <Assistant income={income} size={ASSISTANT_TILE_SIZE.small}/>
                 )}
-            </div>
-            <div style={secondColumnFieldStyle}>
-                {availableAdventurers}
+                </DivColumn>
             </div>
         </div>
     )
