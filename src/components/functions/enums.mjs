@@ -1,7 +1,6 @@
 /* GLOBAL VARIABLES */
 
 import {EFFECT} from "../../data/effects.mjs";
-import styled from "styled-components/dist/styled-components";
 
 export const ACTION_TYPE = Object.freeze({
     activatesLocation: "activates a location",
@@ -154,23 +153,10 @@ export const RELIC = Object.freeze({
 });
 
 export const ASSISTANT = {
-   silver: "silver assistant",
-   gold: "gold assistant",
-   upgrade: "upgrade of an assistant",
+    silver: "silver assistant",
+    gold: "gold assistant",
+    upgrade: "upgrade of an assistant",
 }
-
-export const DivRow = styled.div`
-   display: flex;
-   flex-flow: row;
-   align-items: flex-end;
-   color: black;
-   cursor: default;
-`;
-
-export const DivColumn = styled.div`
-   display: flex;
-   flex-flow: column;
-`;
 
 export const AUTOMATIC_ASSISTANT_EFFECTS = [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainExplore,
     ];

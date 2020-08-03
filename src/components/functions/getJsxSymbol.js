@@ -31,7 +31,7 @@ import {
     Walk,
     Weapon
 } from "../Symbols";
-import {DivRow} from "./enums";
+import {DivRow} from "./styles";
 
 export function getJsxSymbol(effect) {
     switch (effect) {

@@ -3,9 +3,10 @@ import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Blimp, Coin, Explore, Jeep, Jewel, Ship, Text, Walk, Weapon} from "../Symbols";
 import {Assistant} from "../legends/tiles/Assistant";
 import {PlayerTabs} from "../scoring/ScoringPanel";
-import {ASSISTANT_TILE_SIZE, DivColumn} from "../functions/enums";
+import {ASSISTANT_TILE_SIZE} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
+import {DivColumn} from "../functions/styles";
 
 export default function ResourcesArea() {
     const playerStateContext = useContext(PlayerStateContext);
