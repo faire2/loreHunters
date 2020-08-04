@@ -85,8 +85,8 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
             tStore.artifactsOffer.splice(cardIndex, 1);
             tStore = addCardToStore(card.type, tStore);
         }
-        tPlayerState.drawDeck.push(getIdCard(card));
-        tPlayerState.drawDeck[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
+        tPlayerState.activeCards.push(getIdCard(card));
+        tPlayerState.activeCards[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
         tPlayerState.resources.explore -= card.cost;
         tPlayerState.actions -= 1;
 
