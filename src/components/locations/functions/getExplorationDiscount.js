@@ -13,7 +13,7 @@ export function getExplorationDiscount(discount, explorationCostEffects) {
     for (let effect of explorationCostEffects) {
         if (effect === EFFECT.loseExplore && exploreDiscount > 0) {
             exploreDiscount -= 1;
-        } else if (effect === EFFECT.loseJeep || effect === EFFECT.loseShip) {
+        } else if (transportDiscount > 0 && (effect === EFFECT.loseJeep || effect === EFFECT.loseShip)) {
             transportDiscount -= 1;
         } else {
             tExplorationEffects.push(effect);

@@ -1,4 +1,4 @@
-import {GLOBAL_VARS} from "../../../data/idLists.mjs";
+import {ARTIFACT_IDs, GLOBAL_VARS, ITEM_IDs} from "../../../data/idLists.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {CARD_STATE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";

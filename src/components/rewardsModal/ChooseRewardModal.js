@@ -204,7 +204,7 @@ export default function ChooseRewardModal() {
                 if (params) {
                     tCard = params;
                 }
-                const effectsResult = processEffects(tCard, null, tPlayerState, reward, null, null, null);
+                const effectsResult = processEffects(tCard, null, tPlayerState, reward, tStore, null, null);
                 if (effectsResult.processedAllEffects) {
                     tPlayerState = effectsResult.tPlayerState;
                 } else {
