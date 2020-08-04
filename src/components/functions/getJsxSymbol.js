@@ -31,7 +31,7 @@ import {
     Walk,
     Weapon
 } from "../Symbols";
-import {DivRow} from "./styles";
+import {DivRow, ResearchTokenWrapper} from "./styles";
 
 export function getJsxSymbol(effect) {
     switch (effect) {
@@ -120,7 +120,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.arrow:
             return <Arrow/>
         case EFFECT.progressWithSecondToken:
-            return <SecondLegendToken/>
+            return <ResearchTokenWrapper><SecondLegendToken/></ResearchTokenWrapper>
         case EFFECT.placeAnywhere:
             return <PlaceAdventurer/>
         case EFFECT.exploreAnyLocationWithDiscount3:

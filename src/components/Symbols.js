@@ -37,6 +37,7 @@ import silverRelic from "../img/relics/RelicSilver.png"
 import goldRelic from "../img/relics/RelicGold.png"
 import assistantUpgrade from "../img/symbols/AssistantUpgrade.png"
 import placeAdventurer from "../img/symbols/PlaceAdventurer.png"
+import {ResearchTokenWrapper} from "./functions/styles";
 
 const responsive = {
     height: "1em",
@@ -129,9 +130,9 @@ export const FirstLegendToken = (props) => {
         </svg>
 
     return (
-        <div style={props.style}>
+        <ResearchTokenWrapper>
             {tokenSvg}
-        </div>
+        </ResearchTokenWrapper>
     )
 };
 export const SecondLegendToken = (props) => {
@@ -143,8 +144,8 @@ export const SecondLegendToken = (props) => {
         </svg>
 
     return (
-        <div style={props.style}>
+        <ResearchTokenWrapper>
             {tokenSvg}
-        </div>
+        </ResearchTokenWrapper>
     )
 };

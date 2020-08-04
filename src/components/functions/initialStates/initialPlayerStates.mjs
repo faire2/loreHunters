@@ -1,4 +1,4 @@
-import {ARTIFACT_IDs, GLOBAL_VARS, ITEM_IDs} from "../../../data/idLists.mjs";
+import {GLOBAL_VARS} from "../../../data/idLists.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {CARD_STATE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
@@ -91,7 +91,7 @@ export default function getInitialPlayerStates(numOfPlayers) {
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*/
 
-        /*const testCard = {...ITEM_IDs.philologyBook};
+     /*   const testCard = {...ITEM_IDs.handLens};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 
