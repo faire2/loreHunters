@@ -294,7 +294,7 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 2,
         effectsText: <div className="effectsText"><PlaceAdventurer/> with a <b>discount</b> of <Blimp/>, plus a discount
-            of <Explore/><Explore/> if discoveringa new location.</div>,
+            of <Explore/><Explore/> if discovering a new location.</div>,
         effects: [EFFECT.exploreAnyLocationWithDiscount2],
         image: airPlaneImg,
         cost: 4,

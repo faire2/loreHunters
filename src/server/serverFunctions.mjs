@@ -256,7 +256,7 @@ export function changeFormerUsername(formerUsername, newUsername, users, gameroo
 }
 
 export function updateRoomState(room, playerIndex, states) {
-    room.states.previousPlayer = playerIndex;
+    room.states.previousPlayer = playerIndex >= 0 ? playerIndex : 0;
     console.log("previous player: " + room.states.previousPlayer);
     room.states.activePlayer = nextPlayer(playerIndex, room);
     console.log("active player: " + room.states.activePlayer);

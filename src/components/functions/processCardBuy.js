@@ -86,13 +86,20 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
             tStore = addCardToStore(card.type, tStore);
         }
         tPlayerState.activeCards.push(getIdCard(card));
-        tPlayerState.activeCards[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
+        tPlayerState.activeCards[tPlayerState.activeCards.length - 1].state = CARD_STATE.drawDeck;
         tPlayerState.resources.explore -= card.cost;
         tPlayerState.actions -= 1;
 
         /* the artifact effect applies when artifact is bought */
-        const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, null, null);
+        const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, tStore, null, tLocations);
         tPlayerState = effectsResult.tPlayerState;
+        if (tPlayerState.activeEffects[0] === EFFECT.resolveAdditionalEffects) {
+            const effectsResult = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1],
+                tStore, null, tLocations);
+            tPlayerState = effectsResult.tPlayerState;
+            tStore = effectsResult.tStore;
+            tPlayerState.activeEffects.splice(0, 2);
+        }
 
         // guardians are currently not cards, but part of location
         // if (card.isGuarded) {processGuardian = true}
