@@ -185,10 +185,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case EFFECT.destroyItemToGain2:
-                    if (tCard && tCard.cost > 0)
-                    break;
-
                 // if a player reaches lost city during research of a legend, we set that location state accordingly
                 case EFFECT.discoverLostCity:
                     tPlayerState.canActivateLostCity = true;
@@ -204,7 +200,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 //if player has not discovered lost city we will return negative state - currently redundant
                 case EFFECT.canActivateLostCity:
-                    if (!tPlayerState.placeholder) {
+                    if (!tPlayerState.placeholder) {;
                         processedAllEffects = false;
                         return;
                     }

@@ -1,6 +1,7 @@
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
 import {LostCity} from "../legends/LostCity";
+import {ToastArea} from "../toasts/ToastArea";
 
 export default function RightSlidingPanel(props) {
     const playerStateContext = useContext(PlayerStateContext);
@@ -22,6 +23,7 @@ export default function RightSlidingPanel(props) {
     return (
         <div style={slideStyle}>
             <LostCity/>
+            <ToastArea/>
         </div>
     )
 }

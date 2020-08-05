@@ -177,7 +177,7 @@ export function processLegend(legends, legendIndex, columnIndex, fieldIndex, eff
 
             addLogEntry(tPlayerState, ACTION_TYPE.researches, {column: columnIndex, field: fieldIndex}, effects);
             legends[legendIndex].positions[playerIndex] = positions;
-            effectsResult.tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
+            tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
             return {
                 tPlayerState: tPlayerState,
                 tLegends: legends,

@@ -167,6 +167,12 @@ function GameBoard(props) {
     const [showRewardsModal, setShowRewardsModal] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
 
+    // toasts for feedback messages
+    const [toastMessages, setToastMessages] = useState([]);
+    function addToastMessage(message) {
+        setToastMessages(oldMessages => [...oldMessages, message]);
+    }
+
     /** INITIATE REWARDS MODAL **/
     function initiateRewardsModal(rewardsData) {
         console.log("Rewards data: ");
@@ -596,6 +602,8 @@ function GameBoard(props) {
         handleClickOnAssistantTile: handleClickOnAssistantTile,
         initiateRewardsModal: initiateRewardsModal,
         toggleRewardsModalVisibility: toggleRewardsModalVisibility,
+        toastMessages: toastMessages,
+        setToastMessages: setToastMessages,
     };
 
     const playerStateContextValues = {

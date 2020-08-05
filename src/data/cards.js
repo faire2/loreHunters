@@ -774,7 +774,7 @@ export const ARTIFACTS = Object.freeze({
         transportAmount: 1,
         effectsText:
             <div style={bigIconsStyle}><DestroyCard/><Weapon/></div>,
-        effects: [EFFECT.destroyCard, EFFECT.gainWeapon],
+        effects: [EFFECT.destroyCardMandatory, EFFECT.gainWeapon],
         isGuarded: false,
         image: baneBanisherImg,
         cost: 4,
