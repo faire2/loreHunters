@@ -25,6 +25,7 @@ export const Controls = () => {
             <ButtonGroup aria-label="Control buttons">
                 {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
                 {notDiscardEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
+                <button className="btn-primary" onClick={() => playerStateContext.getPlaneFor2Coins()}>plane</button>
             </ButtonGroup>
             <div style={{display: "flex", flexFlow: "row", justifyContent: "space-evenly", marginLeft: "1vw"}}>
                 {isActivePlayer ? <p>Your turn!&nbsp;</p> : <p>Wait for your turn...</p>}

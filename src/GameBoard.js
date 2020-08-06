@@ -534,6 +534,16 @@ function GameBoard(props) {
         nextPlayer();
     }
 
+    /** TEMPORARY PLANE FOR TWO COINS **/
+    function getPlaneFor2Coins() {
+        if (playerState.resources.coins > 1) {
+            const tPlayerState = cloneDeep(playerState);
+            tPlayerState.resources.coins -= 2;
+            tPlayerState.resources.plane += 1;
+            setPlayerState(tPlayerState);
+        }
+    }
+
     function nextPlayer() {
         if (isActivePlayer) {
             let tPlayerState = cloneDeep(playerState);
@@ -622,6 +632,7 @@ function GameBoard(props) {
         cancelEffects: cancelEffects,
         undo: undo,
         revert: revert,
+        getPlaneFor2Coins: getPlaneFor2Coins,
     };
 
     const gameBoardElements =
