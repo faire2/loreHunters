@@ -83,8 +83,8 @@ function getRelic(relic) {
 
 const RelicsContainer = styled.div`
     position: absolute;
-    top: 25.5vw;
-    margin-left: 75vw;
+    top: 21vw;
+    left: 75vw;
     width: 16vw;
     height: 10vw;
     display: flex;

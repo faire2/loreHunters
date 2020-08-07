@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Blimp, Coin, Explore, Jeep, Jewel, Ship, Text, Walk, Weapon} from "../Symbols";
-import {Assistant} from "../legends/tiles/Assistant";
+import {Assistant} from "../assistantsChoice/Assistant";
 import {PlayerTabs} from "../scoring/ScoringPanel";
 import {ASSISTANT_TILE_SIZE} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
@@ -23,10 +23,9 @@ export default function ResourcesArea() {
     const containerStyle = {
         position: "absolute",
         marginLeft: "46vw",
-        marginTop: "21.5vw",
+        top: "22.5vw",
         fontSize: "1.3vw",
         zIndex: 1,
-        top: 0,
         height: "13.5vw",
         width: "27.5vw",
     };
@@ -190,7 +189,7 @@ const Resources = (props) => {
             <div style={secondColumnFieldStyle}>
                 <DivColumn>
                 {playerState.assistants.map(income =>
-                    <Assistant income={income} size={ASSISTANT_TILE_SIZE.small}/>
+                    <Assistant assistant={income} size={ASSISTANT_TILE_SIZE.small}/>
                 )}
                 </DivColumn>
             </div>

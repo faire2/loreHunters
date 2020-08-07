@@ -10,13 +10,13 @@ export default function Store() {
     const items = store !== null && store.itemsOffer.map((card, i) =>
             <div key={"item" + i} >
                 <Card card={card} index={i}/>
-            </div> )
+            </div> );
 
     const artifacts = store !== null && store.artifactsOffer.map((card, i) =>
         <div key={"artifact" + i} >
             <Card card={card} index={i}/>
         </div>
-    )
+    );
 
     const leftMargin = storeContext.round * 6.8 + "vw"
     const staffStyle = {
@@ -25,9 +25,9 @@ export default function Store() {
         marginTop: "-2vw",
         position: "absolute",
         marginLeft: leftMargin,
-        left: "1.7vw",
+        left: "2.7vw",
         zIndex: 2
-    }
+    };
 
     return (
         <div className="d-flex flex-row">

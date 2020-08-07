@@ -40,6 +40,7 @@ import {
 import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
 import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
 import {processLegend} from "./components/legends/functions/processLegend";
+import {AssistantsArea} from "./components/assistantsChoice/AssistantsArea";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -623,13 +624,14 @@ function GameBoard(props) {
     const gameBoardElements =
         <div>
             <LocationsArea/>
-            <div style={{marginLeft: "3vw"}}>
+            <div style={{marginLeft: "4vw"}}>
                 {/*<BonusActions handleClickOnBonus={handleClickOnBonusAction}/>*/}
                 <Store/>
             </div>
             <CardsArea/>
             <LegendsArea/>
             <ResourcesArea/>
+            <AssistantsArea />
             <RelicsArea/>
             <Controls/><br/>
             <OpponentPlayArea/>

@@ -1,8 +1,8 @@
 import React from "react";
-import {JsxFromEffects} from "../../JsxFromEffects";
-import {STYLE} from "../../functions/enums";
-import firstTokenBgr from "../../../img/legends/token_first.png"
-import secondTokenBgr from "../../../img/legends/token_second.png"
+import {JsxFromEffects} from "../JsxFromEffects";
+import {STYLE} from "../functions/enums";
+import firstTokenBgr from "../../img/legends/token_first.png"
+import secondTokenBgr from "../../img/legends/token_second.png"
 
 
 export const ColunmRewards = (props) => {
