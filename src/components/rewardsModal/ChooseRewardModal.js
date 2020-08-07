@@ -69,7 +69,6 @@ export default function ChooseRewardModal() {
                 }
                 break;
             case REWARD_TYPE.drawCard:
-                reward.state = CARD_STATE.inHand;
                 let cardsToDiscard = rewards[0].data;
                 rewardIndex = cardsToDiscard.findIndex(card => card.id === reward.id);
                 cardsToDiscard.splice(rewardIndex, 1);
@@ -77,6 +76,7 @@ export default function ChooseRewardModal() {
                     tPlayerState = removeCard(card, tPlayerState, tStore);
                 }
                 tPlayerState.activeCards = tPlayerState.activeCards.concat(cardsToDiscard);
+                reward.state = CARD_STATE.inHand;
                 tPlayerState.hand.push(reward);
                 break;
             case REWARD_TYPE.drawStackDiscardCard:
@@ -207,6 +207,9 @@ export default function ChooseRewardModal() {
                 const effectsResult = processEffects(tCard, null, tPlayerState, reward, tStore, null, null);
                 if (effectsResult.processedAllEffects) {
                     tPlayerState = effectsResult.tPlayerState;
+                    if (effectsResult.showRewardsModal) {
+                        rewards.push(effectsResult.rewardsData);
+                    }
                 } else {
                     console.log("Effects could not be processed in handleClickOnReward");
                     console.log(reward);

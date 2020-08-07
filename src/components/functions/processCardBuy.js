@@ -13,6 +13,11 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     if (activeEffect === EFFECT.revealItemBuyWithDiscount3) {
         card.cost = card.cost  >= 3 ? card.cost - 3 : 0;
     }
+
+    /* Bone hairpin effect */
+    if (activeEffect === EFFECT.revealItemBuyWithDiscount3) {
+        card.cost = card.cost  >= 2 ? card.cost - 2 : 0;
+    }
     
     /* Amulet of Charm effect */
     if (activeEffect === EFFECT.buyItemWithDiscount3) {

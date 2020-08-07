@@ -374,10 +374,6 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "snakeBracelet",
         type: CARD_TYPE.artifact,
     },
-    giantEgg: {
-        id: "giantEgg",
-        type: CARD_TYPE.artifact,
-    },
     earRingOfDarkness: {
         id: "earRingOfDarkness",
         type: CARD_TYPE.artifact,
@@ -386,14 +382,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "unknown3",
         type: CARD_TYPE.artifact,
     },
-    jewelDice: {
+    /*jewelDice: {
         id: "jewelDice",
         type: CARD_TYPE.artifact,
-    },
-    hairPin: {
-        id: "hairPin",
-        type: CARD_TYPE.artifact,
-    },
+    },*/
     preciousLock: {
         id: "preciousLock",
         type: CARD_TYPE.artifact,
@@ -404,6 +396,34 @@ export const ARTIFACT_IDs = Object.freeze({
     },
     coconutFlask: {
         id: "coconutFlask",
+        type: CARD_TYPE.artifact,
+    },
+    ancientWine: {
+        id: "ancientWine",
+        type: CARD_TYPE.artifact,
+    },
+    mirrorBowl: {
+        id: "mirrorBowl",
+        type: CARD_TYPE.artifact,
+    },
+    guradiansCrown: {
+        id: "guradiansCrown",
+        type: CARD_TYPE.artifact,
+    },
+    boneHairpin: {
+        id: "boneHairpin",
+        type: CARD_TYPE.artifact,
+    },
+    sandals: {
+        id: "sandals",
+        type: CARD_TYPE.artifact,
+    },
+    guidingStone: {
+        id: "guidingStone",
+        type: CARD_TYPE.artifact,
+    },
+    guidingSkull: {
+        id: "guidingSkull",
         type: CARD_TYPE.artifact,
     },
 });

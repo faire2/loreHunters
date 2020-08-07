@@ -13,6 +13,7 @@ import {
 import {exploreLocation} from "./exploreLocation";
 import {Guardians} from "../../../data/guardians";
 import {payForTravelIfPossible} from "./payForTravelIfPossible";
+import {EFFECT} from "../../../data/effects";
 
 export function processLocation(tPlayerState, tStore, tLocations, location, initiateRewardsModal, resolveGuardian) {
     // Resolve active effect - exploration discount is processed during exploration itself

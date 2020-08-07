@@ -164,6 +164,6 @@ export const AUTOMATIC_ASSISTANT_EFFECTS = [EFFECT.gainCoin, EFFECT.gainText, EF
 export const TRANSPORT_EFFECTS = [EFFECT.loseWalk, EFFECT.loseBlimp, EFFECT.loseJeep, EFFECT.loseShip];
 
 export const LOCATION_DISCOUNT_EFFECTS = [EFFECT.exploreAnyLocationWithDiscount2, EFFECT.exploreAnyLocationWithDiscount3,
-    EFFECT.placeToBasicLocation, EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.placeAnywhere];
+    EFFECT.placeToBasicLocationDiscount2, EFFECT.placeToBasicLocationActivateTwice, EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.placeAnywhere];
 
-export const CANCELLABLE_EFFECTS = [EFFECT.destroyCard, EFFECT.uptrade, EFFECT.gainItemOfValue];
+export const CANCELLABLE_EFFECTS = [EFFECT.destroyCard, EFFECT.uptrade, EFFECT.gainItemOfValue, EFFECT.activateThisLocationAgain];

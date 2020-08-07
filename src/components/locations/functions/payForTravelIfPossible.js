@@ -53,15 +53,23 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     }
     let enoughResources = false;
     // check for active effect with tranportation discount
-    if ([EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.exploreAnyLocationWithDiscount3].includes(tPlayerState.activeEffects[0])) {
+    if ([EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.exploreAnyLocationWithDiscount3, EFFECT.placeToBasicLocationActivateTwice
+        ].includes(tPlayerState.activeEffects[0])) {
         transportCost -= 1;
-    } else if ([EFFECT.placeToBasicLocation].includes(tPlayerState.activeEffects[0])) {
+    } else if ([EFFECT.placeToBasicLocationDiscount2].includes(tPlayerState.activeEffects[0])) {
         transportCost -= 2;
     }
 
     if (tPlayerState.longEffects.includes(EFFECT.infinitePlanes)) {
         transportType = TRANSPORT_TYPE.walk;
     }
+
+    // in case we have to allow player to activate the same location again
+    if (tPlayerState.activeEffects[0] === EFFECT.placeToBasicLocationActivateTwice) {
+        tPlayerState.activeEffects.push(EFFECT.activateThisLocationAgain);
+        tPlayerState.activeEffects.push(location.id);
+    }
+
     switch (transportType) {
         case TRANSPORT_TYPE.walk:
             if (resources.walk + resources.jeep + resources.ship + resources.plane >= transportCost) {

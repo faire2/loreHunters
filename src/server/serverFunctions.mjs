@@ -4,6 +4,7 @@ import cloneDeep from "lodash/cloneDeep.js";
 import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
 import {addCardToPlayedCards, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
 import {ASSISTANT_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
+import {CARD_STATE} from "../components/functions/enums.mjs";
 
 /*export function handleAssistants(playerState) {
     for (let assistant of playerState.assistants) {
@@ -126,6 +127,9 @@ export function processEndOfRound(room) {
 
         /* played cards go to draw deck*/
         tPlayerState.drawDeck = [...tPlayerState.drawDeck, ...tPlayerState.activeCards];
+        for (let card of tPlayerState.drawDeck) {
+            card.state = CARD_STATE.drawDeck;
+        }
         tPlayerState.activeCards = [];
 
         /* draw a new hand */

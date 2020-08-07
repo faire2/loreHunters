@@ -1,5 +1,4 @@
 import {EFFECT} from "../../data/effects.mjs";
-import React from 'react';
 import {addCardToPlayedCards, removeCard} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {processCardBuy} from "./processCardBuy";
@@ -22,6 +21,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
     console.debug(tPlayerState.activeEffects);
     switch (activeEffect) {
         /* When active effect deals with card in store */
+        case EFFECT.buyItemWithDiscount2:
         case EFFECT.buyItemWithDiscount3:
         case EFFECT.buyWithDiscount1:
         case EFFECT.gainItemToTop:
@@ -119,6 +119,20 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
                 tStore = effectsResult.tStore;
                 tPlayerState.activeEffects.splice(0, 1);
+            }
+            break;
+
+        case EFFECT.activateThisLocationAgain:
+            if (tLocation) {
+                // we must have stored location id in the active effects
+                if (tLocation.id === tPlayerState.activeEffects[1]) {
+                    const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
+                    tPlayerState = effectsResult.tPlayerState;
+                    tLocations = effectsResult.tLocations;
+                    tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
+                    tStore = effectsResult.tStore;
+                    tPlayerState.activeEffects.splice(0, 2);
+                }
             }
             break;
 
@@ -314,12 +328,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             }
             break;
 
-        case EFFECT.markOwnLocation:
-            if (tLocation !== null && tLocation.adventurers.length > 0) {
-                tPlayerState.activeEffects.splice(2, 0, tLocation);
-                tPlayerState.activeEffects.splice(0, 1);
-            }
-            break;
+        /*case EFFECT.markLocation:
+            break;*/
 
         /* checks if the clicked location is not the same as the location from which the adv. was removed earlier */
         case EFFECT.moveAdvToEmptyLocation:
@@ -336,7 +346,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.moveAdvToL1Location:
             if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level === LOCATION_LEVEL["1"]
-                && tLocation.adventurers.length < tLocation.slots && tLocation.id !== tPlayerState.activeEffects[1]) {
+                && `tLocation.adventurers.length < tLocation.slots `&& tLocation.id !== tPlayerState.activeEffects[1]) {
                 tPlayerState.activeEffects.splice(0, 2);
                 const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);
                 tPlayerState = result.playerState;
@@ -384,7 +394,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.exploreAnyLocationWithDiscount2:
         case EFFECT.exploreAnyLocationWithDiscount3:
         case EFFECT.placeAnywhere:
-        case EFFECT.placeToBasicLocation:
+        case EFFECT.placeToBasicLocationActivateTwice:
+        case EFFECT.placeToBasicLocationDiscount2:
         case EFFECT.placeToBrownLocation:
         case EFFECT.placeToGreenLocation:
             // effect is processed in location exploration

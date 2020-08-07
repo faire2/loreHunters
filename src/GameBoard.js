@@ -169,6 +169,7 @@ function GameBoard(props) {
 
     // toasts for feedback messages
     const [toastMessages, setToastMessages] = useState([]);
+
     function addToastMessage(message) {
         setToastMessages(oldMessages => [...oldMessages, message]);
     }
@@ -510,7 +511,11 @@ function GameBoard(props) {
             tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
             setStore(tStore);
         }
-        tPlayerState.activeEffects.splice(0, 1);
+        if (tPlayerState.activeEffects[0] === EFFECT.activateThisLocationAgain) {
+            tPlayerState.activeEffects.splice(0, 2)
+        } else {
+            tPlayerState.activeEffects.splice(0, 1);
+        }
         setPlayerState(tPlayerState);
     }
 
