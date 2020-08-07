@@ -156,7 +156,7 @@ export const ASSISTANT = {
     silver: "silver assistant",
     gold: "gold assistant",
     upgrade: "upgrade of an assistant",
-}
+};
 
 export const AUTOMATIC_ASSISTANT_EFFECTS = [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainExplore,
     ];
@@ -167,3 +167,7 @@ export const LOCATION_DISCOUNT_EFFECTS = [EFFECT.exploreAnyLocationWithDiscount2
     EFFECT.placeToBasicLocation, EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.placeAnywhere];
 
 export const CANCELLABLE_EFFECTS = [EFFECT.destroyCard, EFFECT.uptrade, EFFECT.gainItemOfValue];
+
+export const pointsForUnusedRelics = [
+    [1], [2], [2], [3],
+];

@@ -1,7 +1,7 @@
 import {ITEM_IDs} from "../../data/idLists";
 import {ARTIFACTS, ITEMS} from "../../data/cards";
 import {getLogLegends} from "../main/logger";
-import {CARD_TYPE, RELIC} from "../functions/enums";
+import {CARD_TYPE, pointsForUnusedRelics, RELIC} from "../functions/enums";
 import {selectedLegendIndex} from "../functions/initialStates/initialLegends";
 import React from "react";
 
@@ -74,15 +74,10 @@ export function getPoints(playerState) {
     }
 
     // negative points for used relics
-    let usedRelics = 0;
-    for (const relic of playerState.relics) {
-        if (!relic) {
-            usedRelics += 1;
+    for (let i = 0; i < pointsForUnusedRelics.length; i++) {
+        if (playerState.relics[i] === null) {
+            relicsPoints += parseInt(pointsForUnusedRelics[i]);
         }
-    }
-    if (usedRelics > 0) {
-        const negativeRelicPoints = [1, 2, 2, 2, 3];
-        relicsPoints -= negativeRelicPoints[usedRelics - 1]
     }
 
     const totalPoints = itemPoints + artifactPoints + fearPoints + defeatedGuardianPoints +

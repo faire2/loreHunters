@@ -443,15 +443,13 @@ function GameBoard(props) {
     }
 
     /** HANDLE CLICK ON RELIC **/
-    function handleClickOnRelic(effects, slotIndex) {
+    function handleClickOnRelic(slotIndex) {
         let tPlayersState = cloneDeep(playerState);
         if (!tPlayersState.relics[slotIndex] && tPlayersState.resources.bronzeRelics + tPlayersState.resources.silverRelics
             + tPlayersState.resources.goldRelics > 0) {
             const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
                 [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
             initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
-            let effectsResult = processEffects(null, null, tPlayersState, effects, cloneDeep(store), null, cloneDeep(locations));
-            tPlayersState = effectsResult.tPlayerState;
             if (tPlayersState.resources.bronzeRelics > 0) {
                 tPlayersState.resources.bronzeRelics -= 1;
                 tPlayersState.relics[slotIndex] = RELIC.bronze;
@@ -462,8 +460,8 @@ function GameBoard(props) {
                 tPlayersState.resources.goldRelics -= 1;
                 tPlayersState.relics[slotIndex] = RELIC.gold;
             }
-            setPlayerState(effectsResult.tPlayerState);
-            addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, effects);
+            setPlayerState(tPlayersState);
+            addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, "undetermined");
         }
     }
 
