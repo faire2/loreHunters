@@ -346,8 +346,8 @@ export const ARTIFACT_IDs = Object.freeze({
          type: CARD_TYPE.artifact,
      },
      },*/
-    unknown1: {
-        id: "unknown1",
+    sunDial: {
+        id: "sunDial",
         type: CARD_TYPE.artifact,
     },
     unknown2: {
@@ -392,6 +392,18 @@ export const ARTIFACT_IDs = Object.freeze({
     },
     hairPin: {
         id: "hairPin",
+        type: CARD_TYPE.artifact,
+    },
+    preciousLock: {
+        id: "preciousLock",
+        type: CARD_TYPE.artifact,
+    },
+    tradersSatchel: {
+        id: "tradersSatchel",
+        type: CARD_TYPE.artifact,
+    },
+    coconutFlask: {
+        id: "coconutFlask",
         type: CARD_TYPE.artifact,
     },
 });

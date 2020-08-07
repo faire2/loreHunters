@@ -116,7 +116,7 @@ export const Locations = Object.freeze({
     },
     g21: {
         id: "g21",
-        effects: [EFFECT.gainItem],
+        effects: [EFFECT.gainItemToTop],
         //useCost: {transportType: TRANSPORT_TYPE.ship, amount: 1},
         type: LOCATION_TYPE.undetermined,
         level: LOCATION_LEVEL["2"],

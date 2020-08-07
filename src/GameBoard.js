@@ -270,7 +270,7 @@ function GameBoard(props) {
                     initiateRewardsModal(effectsResult.rewardsData);
                 }
 
-                /* terrible hack */
+                /* terrible hack for resolving of another set of effects */
                 if (tPlayerState.activeEffects[0] === EFFECT.resolveAdditionalEffects) {
                     const effectsResult = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1],
                         tStore, null, tLocations);

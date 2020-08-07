@@ -78,7 +78,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainAdventurerForThisRound:
         case EFFECT.returnAdventurer:
             return <div style={{width: "1.5vw", margin: "0 auto"}}><AdventurerToken/></div>;
-        case EFFECT.gainItem:
+        case EFFECT.gainItemToTop:
         case EFFECT.buyItemWithDiscount3:
         case EFFECT.gainItemToHand:
         case EFFECT.revealItemBuyWithDiscount3:

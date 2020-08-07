@@ -24,7 +24,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         /* When active effect deals with card in store */
         case EFFECT.buyItemWithDiscount3:
         case EFFECT.buyWithDiscount1:
-        case EFFECT.gainItem:
+        case EFFECT.gainItemToTop:
         case EFFECT.gainItemOfValue:
         case EFFECT.gainItemToHand:
         case EFFECT.gainArtifact:
@@ -77,6 +77,18 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.activateL1Location:
             if (tLocation && tLocation.level === LOCATION_LEVEL["1"]) {
+                const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
+
+                tPlayerState = effectsResult.tPlayerState;
+                tLocations = effectsResult.tLocations;
+                tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
+                tStore = effectsResult.tStore;
+                tPlayerState.activeEffects.splice(0, 1);
+            }
+            break;
+
+        case EFFECT.activateL2Location:
+            if (tLocation && tLocation.level === LOCATION_LEVEL["2"]) {
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
 
                 tPlayerState = effectsResult.tPlayerState;

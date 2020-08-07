@@ -48,7 +48,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.exploreAnyLocationWithDiscount2:
                 case EFFECT.exploreAnyLocationWithDiscount3:
                 case EFFECT.gainArtifact:
-                case EFFECT.gainItem:
+                case EFFECT.gainItemToTop:
                 case EFFECT.gainItemOfValue:
                 case EFFECT.gainRewardLevel:
                 case EFFECT.gain2ItemsFor1Exiled:
@@ -74,6 +74,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.activateAdjacentLocation:
                 case EFFECT.activateEmptyL2Location:
                 case EFFECT.activateEmptyL1Location:
+                case EFFECT.activateL1Location:
+                case EFFECT.activateL2Location:
                 case EFFECT.useArtifactOnMarket:
                     tActiveEffects.push(effect);
                     break;
@@ -200,7 +202,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 //if player has not discovered lost city we will return negative state - currently redundant
                 case EFFECT.canActivateLostCity:
-                    if (!tPlayerState.placeholder) {;
+                    if (!tPlayerState.placeholder) {
+                        ;
                         processedAllEffects = false;
                         return;
                     }
@@ -355,6 +358,16 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     };
                     break;
 
+                case EFFECT.gain2TextsOrPassAndJewel:
+                    showRewardsModal = true;
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            [EFFECT.gainText, EFFECT.gainText],
+                            [EFFECT.gainJewel, EFFECT.finishRound]
+                        ]
+                    };
+                    break;
+
                 case EFFECT.gainCoinAndExploresForGuardians:
                     let defeatedGuardians = 0;
                     // eslint-disable-next-line no-unused-vars
@@ -495,16 +508,18 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     const legend = getLogLegends()[0];
                     const columnIndex = legend.positions[tPlayerState.playerIndex][0].columnIndex;
                     const rewardEffects = [];
-                    for (let i = 0; i < columnIndex + 1; i++) {
-                        rewardEffects.push(legend.columnRewards[i][0]);
+                    if (columnIndex != null) {
+                        for (let i = 0; i < columnIndex + 1; i++) {
+                            rewardEffects.push(legend.columnRewards[i][0]);
+                        }
+                        rewardsData = {
+                            type: REWARD_TYPE.legendColumnEffects,
+                            data: rewardEffects,
+                            params: 1,
+                        };
+                        showRewardsModal = true;
+                        break;
                     }
-                    rewardsData = {
-                        type: REWARD_TYPE.legendColumnEffects,
-                        data: rewardEffects,
-                        params: 1,
-                    };
-                    showRewardsModal = true;
-                    break;
 
                 case EFFECT.gainRandomGoldRelicEffect:
                     let goldRelicEffects = shuffleArray(cloneDeep(tStore.goldRelicEffects));
@@ -694,6 +709,33 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             }
                             tPlayerState.relics[i] = null;
                             break;
+                        }
+                    }
+                    break;
+
+                case EFFECT.returnAllAdventurers:
+                    for (let location of tLocations.line1) {
+                        // if location includes player's adventurer's, remove them
+                        if (location.adventurers.includes(tPlayerState.playerIndex)) {
+                            location.adventurers.splice(location.adventurers.findIndex(number => number === tPlayerState.playerIndex), 1);
+                        }
+                    }
+                    for (let location of tLocations.line2) {
+                        // if location includes player's adventurer's, remove them
+                        if (location.adventurers.includes(tPlayerState.playerIndex)){
+                            location.adventurers.splice(location.adventurers.findIndex(number => number === tPlayerState.playerIndex), 1);
+                        }
+                    }
+                    for (let location of tLocations.line3) {
+                        // if location includes player's adventurer's, remove them
+                        if (location.adventurers.includes(tPlayerState.playerIndex)){
+                            location.adventurers.splice(location.adventurers.findIndex(number => number === tPlayerState.playerIndex), 1);
+                        }
+                    }
+                    for (let location of tLocations.line4) {
+                        // if location includes player's adventurer's, remove them
+                        if (location.adventurers.includes(tPlayerState.playerIndex)) {
+                            location.adventurers.splice(location.adventurers.findIndex(number => number === tPlayerState.playerIndex), 1);
                         }
                     }
                     break;

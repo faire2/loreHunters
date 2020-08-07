@@ -39,7 +39,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         card.cost = 0;
     }
 
-    if (activeEffect === EFFECT.gainItem && card.type === CARD_TYPE.item) {
+    if (activeEffect === EFFECT.gainItemToTop && card.type === CARD_TYPE.item) {
         card.cost = 0;
     }
 
@@ -66,6 +66,9 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
         if (activeEffect === EFFECT.gainItemToHand) {
             tPlayerState.hand.push(getIdCard(card));
             tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
+        } else if (activeEffect === EFFECT.gainItemToTop) {
+            tPlayerState.drawDeck.splice(0, 0, getIdCard(card));
+            tPlayerState.drawDeck[0].state = CARD_STATE.drawDeck;
         } else {
             tPlayerState.drawDeck.push(getIdCard(card));
             tPlayerState.drawDeck[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
@@ -110,7 +113,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     }
     if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount3
         || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount3 ||
-        activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItem) {
+        activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItemToTop) {
         tPlayerState.activeEffects.splice(0, 1);
     }
     if (activeEffect === EFFECT.gainItemOfValue) {
