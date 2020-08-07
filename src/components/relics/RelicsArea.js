@@ -3,8 +3,10 @@ import styled from "styled-components";
 import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import victoryPoints from "../../img/symbols/VP.png"
 import {PlayerStateContext} from "../../Contexts";
-import {RELIC} from "../functions/enums";
+import {RELIC, relicRewards} from "../functions/enums";
 import {pointsForUnusedRelics} from "../functions/enums";
+import {relicEffects} from "../../data/relicEffects";
+import {JsxFromEffects} from "../JsxFromEffects";
 
 export function RelicsArea() {
     const playerStateContext = useContext(PlayerStateContext);
@@ -47,6 +49,11 @@ export function RelicsArea() {
 
     return (
         <RelicsContainer length={relicsArr.length}>
+            <RelicEffects>
+                {relicRewards.map((effects, i) =>
+                        <JsxFromEffects effectsArray={effects} fontSize={"1.3vw"} key={i}/>
+                )}
+            </RelicEffects>
             <RelivWrapper>
                 {relicSlots}
             </RelivWrapper>
@@ -121,4 +128,11 @@ const UnspentRelics = styled.div`
     justify-content: center;
     line-height: 0;
     margin-left: 0.7vw;
+`;
+
+const RelicEffects = styled.div`
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    width: 100%;
 `;

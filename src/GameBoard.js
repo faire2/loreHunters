@@ -33,7 +33,7 @@ import {
     CARD_STATE,
     CARD_TYPE,
     LCL_STORAGE,
-    RELIC,
+    RELIC, relicRewards,
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./components/functions/enums";
@@ -447,9 +447,7 @@ function GameBoard(props) {
         let tPlayersState = cloneDeep(playerState);
         if (!tPlayersState.relics[slotIndex] && tPlayersState.resources.bronzeRelics + tPlayersState.resources.silverRelics
             + tPlayersState.resources.goldRelics > 0) {
-            const rewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
-                [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
-            initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: rewards}]);
+            initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: relicRewards}]);
             if (tPlayersState.resources.bronzeRelics > 0) {
                 tPlayersState.resources.bronzeRelics -= 1;
                 tPlayersState.relics[slotIndex] = RELIC.bronze;

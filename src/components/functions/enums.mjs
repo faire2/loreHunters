@@ -171,3 +171,6 @@ export const CANCELLABLE_EFFECTS = [EFFECT.destroyCard, EFFECT.uptrade, EFFECT.g
 export const pointsForUnusedRelics = [
     [1], [2], [2], [3],
 ];
+
+export const relicRewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
+    [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
