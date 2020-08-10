@@ -110,6 +110,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         type: REWARD_TYPE.effectsArr,
                         data: [tLocations.level2Locations[0].effects],
                     };
+                    debugger
                     tLocations.level2Locations.push(tLocations.level2Locations[0]);
                     tLocations.level2Locations.splice(0, 1);
                     showRewardsModal = true;

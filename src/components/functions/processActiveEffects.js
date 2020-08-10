@@ -32,11 +32,14 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.revealArtifactBuyWithDiscount3:
         case EFFECT.revealItemBuyWithDiscount3:
             if (tCard) {
-                const buyResults = processCardBuy(tCard, cardIndex, tPlayerState, tPlayerState.activeEffects, tStore, tLocations);
+                const buyResults = processCardBuy(tCard, cardIndex, tPlayerState, tStore, tLocations);
                 tPlayerState = buyResults.tPlayerState;
                 tStore = buyResults.tStore;
                 tPlayerState.activeEffects = buyResults.tPlayerState.activeEffects;
                 processGuardian = buyResults.processGuardian;
+                if (buyResults.showRewardsModal) {
+                    initiateRewardsModal(buyResults.rewardsData);
+                }
                 break;
             }
             break;

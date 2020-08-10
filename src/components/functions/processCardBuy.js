@@ -4,10 +4,12 @@ import {processEffects} from "./processEffects.mjs";
 import {addLogEntry} from "../main/logger";
 import {ACTION_TYPE, CARD_STATE, CARD_TYPE} from "./enums";
 
-export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStore, tLocations) {
+export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations) {
     const activeEffect = tPlayerState.activeEffects[0];
     // if artifact comes with guardian, we need to process it
     let processGuardian = false;
+    let showRewardsModal = false;
+    let rewardsData = null;
 
     /* Fishing Rod discount effect */
     if (activeEffect === EFFECT.revealItemBuyWithDiscount3) {
@@ -108,6 +110,10 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
             tStore = effectsResult.tStore;
             tPlayerState.activeEffects.splice(0, 2);
         }
+        if (effectsResult.showRewardsModal) {
+            showRewardsModal = true;
+            rewardsData = effectsResult.rewardsData
+        }
 
         // guardians are currently not cards, but part of location
         // if (card.isGuarded) {processGuardian = true}
@@ -124,5 +130,5 @@ export function processCardBuy(card, cardIndex, tPlayerState, toBeRemoved, tStor
     if (activeEffect === EFFECT.gainItemOfValue) {
         tPlayerState.activeEffects.splice(0, 2);
     }
-    return {tPlayerState: tPlayerState, tStore: tStore, processGuardian: processGuardian}
+    return {tPlayerState: tPlayerState, tStore: tStore, processGuardian: processGuardian, showRewardsModal, rewardsData}
 }

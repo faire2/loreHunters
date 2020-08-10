@@ -421,7 +421,7 @@ function GameBoard(props) {
         }
     }
 
-    /** HANDLE CLICK ON INCOME TILE **/
+    /** HANDLE CLICK ON ASSISTANT **/
     function handleClickOnAssistantTile(effects, incomeId) {
         const assistantResult = processEffects(null, null, cloneDeep(playerState), effects, cloneDeep(store), null, cloneDeep(locations));
         if (assistantResult.processedAllEffects) {
@@ -470,14 +470,16 @@ function GameBoard(props) {
         if (isActivePlayer) {
             console.log("Buying card: " + card.cardName + " with effect: " + card.effects);
             if (playerState.actions > 0) {
-                const buyResult = processCardBuy(card, cardIndex, cloneDeep(playerState), null,
-                    cloneDeep(store), round);
+                const buyResult = processCardBuy(card, cardIndex, cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
                 let tPlayerState = buyResult.tPlayerState;
                 let tStore = buyResult.tStore;
                 if (buyResult.processGuardian) {
                     const guardianResult = handleGuardianArrival(tPlayerState, tStore, round);
                     tPlayerState = guardianResult.tPlayerState;
                     tStore = guardianResult.tStore;
+                }
+                if (buyResult.showRewardsModal) {
+                    initiateRewardsModal(buyResult.rewardsData);
                 }
                 setPlayerState(cloneDeep(tPlayerState));
                 setStore(tStore);

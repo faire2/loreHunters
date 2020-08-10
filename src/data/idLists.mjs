@@ -350,10 +350,6 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "sunDial",
         type: CARD_TYPE.artifact,
     },
-    unknown2: {
-        id: "unknown2",
-        type: CARD_TYPE.artifact,
-    },
     cauldron: {
         id: "cauldron",
         type: CARD_TYPE.artifact,
@@ -376,10 +372,6 @@ export const ARTIFACT_IDs = Object.freeze({
     },
     earRingOfDarkness: {
         id: "earRingOfDarkness",
-        type: CARD_TYPE.artifact,
-    },
-    unknown3: {
-        id: "unknown3",
         type: CARD_TYPE.artifact,
     },
     /*jewelDice: {
