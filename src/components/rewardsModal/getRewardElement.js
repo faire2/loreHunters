@@ -1,6 +1,6 @@
 import {ASSISTANT_TILE_SIZE, RELIC, REWARD_TYPE} from "../functions/enums";
 import Card from "../cards/Card";
-import {Assistant} from "../legends/tiles/Assistant";
+import {Assistant} from "../assistantsChoice/Assistant";
 import {JsxFromEffects} from "../JsxFromEffects";
 import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import {RelicWithResource} from "../relics/RelicWithResource";
@@ -20,7 +20,7 @@ export function getRewardElement(reward, rewardType, rewards) {
         case REWARD_TYPE.gainAssistant:
         case REWARD_TYPE.removeAssistant:
         case REWARD_TYPE.refreshAssistant:
-            element = <Assistant income={reward} size={ASSISTANT_TILE_SIZE.large}/>;
+            element = <Assistant assistant={reward} size={ASSISTANT_TILE_SIZE.large}/>;
             break;
         case REWARD_TYPE.effectsArr:
         case REWARD_TYPE.legendFieldEffects:

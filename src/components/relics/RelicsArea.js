@@ -1,9 +1,12 @@
 import React, {useContext} from "react";
+import styled from "styled-components";
 import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
-import bgr from "../../img/relics/relicsBackground.png"
+import victoryPoints from "../../img/symbols/VP.png"
 import {PlayerStateContext} from "../../Contexts";
-import vpBgr from "../../img/symbols/VP.png";
-import {RELIC} from "../functions/enums";
+import {RELIC, relicRewards} from "../functions/enums";
+import {pointsForUnusedRelics} from "../functions/enums";
+import {relicEffects} from "../../data/relicEffects";
+import {JsxFromEffects} from "../JsxFromEffects";
 
 export function RelicsArea() {
     const playerStateContext = useContext(PlayerStateContext);
@@ -22,112 +25,49 @@ export function RelicsArea() {
 
     const twoLines = relicsArr.length > 5;
 
-    const containerStyle = {
-        top: "3vw",
-        paddingLeft: "3.3vw",
-        paddingTop: "1.5%",
-        backgroundImage: `url(${bgr}`,
-        backgroundSize: "100% 100%",
-        position: "absolute",
-        marginTop: "18.5vw",
-        marginLeft: "75vw",
-        width: "16vw",
-        height: "18vw",
-        display: "flex",
-        flexWrap: "wrap",
-    };
-
-    const fieldStyle1Icon = {
-        height: "1.9vw",
-        width: "26%",
-        marginRight: "4.5%",
-        marginBottom: "-10%",
-        fontSize: "2.6vw",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-    };
-
-    const fieldStyle2Icons = {
-        height: "1.9vw",
-        width: "26%",
-        marginRight: "4.5%",
-        marginBottom: "1%",
-        fontSize: "2.8vw",
-        cursor: "pointer",
-    };
-
-    /*const overLapStyle = {
-        marginTop: "-1.3vw"
-    };*/
-
-    const relicsStyle = {
-        fontSize: !twoLines ? "2.4vw" : "1.8vw",
-        display: "flex",
-        width: "80%",
-        height: "20%",
-        flexWrap: "wrap",
-        justifyContent: "center",
-        paddingTop: !twoLines ? "2.9vw" : "2.5vw"
-    };
-
     const victoryPointsStyle = {
         marginBottom: "110%",
         backgroundSize: "100% 100%",
-        backgroundImage: `url(${vpBgr}`,
         width: "2vw",
         height: "2vw",
         color: "white",
         fontSize: "1.2vw"
     };
 
-    const victoryPointsContainerStyle = {
-        marginLeft: "-17%",
-        bottom: "10%",
-        position: "absolute",
-        height: "100%",
-    };
-
-    const effectsArr = [
-        [],
-        [],
-        [],
-        [],
-        [],
-    ];
-
-    const victoryPoints = [0, 1, 2, 4];
-    const victoryPointsArr = victoryPoints.map((vp, i) =>
-        <div style={victoryPointsStyle} key={i}>
-            {vp}
-        </div>
-    );
-
-    const fieldsArr =
-        effectsArr.map((effect, i) => {
+    const pointsForFields = [1, 2, 2, 3];
+    const relicSlots =
+        pointsForUnusedRelics.map((points, i) => {
             return (
-                    <div style={fieldStyle1Icon} key={i} onClick={() => playerStateContext.handleClickOnRelic(effectsArr[i], i)}>
-                        {playerState.relics[i] && getRelic(playerState.relics[i])}
-                    </div>
+                    <RelicSlot key={i} free={playerState.relics[i]} onClick={() => playerStateContext.handleClickOnRelic(i)}>
+                        {playerState.relics[i] ? getRelic(playerState.relics[i])
+                        : pointsForUnusedRelics[i]}
+
+                    </RelicSlot>
                 )
             }
         );
 
     return (
-        <div style={containerStyle}>
-            {fieldsArr}
-            <div style={relicsStyle}>
+        <RelicsContainer length={relicsArr.length}>
+            <RelicEffects>
+                {relicRewards.map((effects, i) =>
+                        <JsxFromEffects effectsArray={effects} fontSize={"1.3vw"} key={i}/>
+                )}
+            </RelicEffects>
+            <RelivWrapper>
+                {relicSlots}
+            </RelivWrapper>
+            <UnspentRelics>
                 {relicsArr.map((icon, i) =>
                     <div key={i}>
                         {icon}
                     </div>
                 )}
-            </div>
+            </UnspentRelics>
             {/*<div style={victoryPointsContainerStyle}>
                 {victoryPointsArr}
             </div>*/}
-        </div>
+        </RelicsContainer>
     )
 }
 
@@ -140,3 +80,59 @@ function getRelic(relic) {
         return <GoldRelic/>
     }
 }
+
+const RelicsContainer = styled.div`
+    position: absolute;
+    top: 21vw;
+    left: 75vw;
+    width: 16vw;
+    height: 10vw;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 1vw;
+`;
+
+const RelivWrapper = styled.div`
+    background-color: rgba(0,0,0,0.18);
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    justify-content: space-evenly;
+    border-radius: 0.5vw;
+    margin-bottom: 0.5vw;
+    padding: 0.3vw;
+`;
+
+const RelicSlot = styled.div`
+    display: flex;
+    font-size: ${props => props.free ? "3vw" : "2vw"};
+    height: 3.5vw;
+    width: 3.2vw;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.2vw;
+    color: rgb(255,255,255);
+    background-image: url(${props => props.free ? "" : victoryPoints});
+    background-size: contain;
+`;
+
+const UnspentRelics = styled.div`
+    width: 90%;
+    height: 5vw;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    font-size: 3vw;
+    justify-content: center;
+    line-height: 0;
+    margin-left: 0.7vw;
+`;
+
+const RelicEffects = styled.div`
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    width: 100%;
+`;

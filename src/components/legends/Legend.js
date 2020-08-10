@@ -1,7 +1,7 @@
 import React from 'react';
 import {Field} from "./tiles/Field";
 import victoryPoints from "../../img/symbols/VP.png";
-import {ColunmRewards} from "./tiles/ColumnRewards";
+import {ColunmRewards} from "../assistantsChoice/ColumnRewards";
 
 export function Legend(props) {
     const legend = props.legend;

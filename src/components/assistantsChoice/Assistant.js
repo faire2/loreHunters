@@ -1,9 +1,9 @@
-import silverBgr from "../../../img/incomes/silverBack.png"
-import goldBgr from "../../../img/incomes/goldBack.png"
+import silverBgr from "../../img/incomes/silverBack.png"
+import goldBgr from "../../img/incomes/goldBack.png"
 import React, {useContext} from "react";
-import {BoardStateContext} from "../../../Contexts";
-import {ASSISTANT_LEVEL, ASSISTANT_STATE, ASSISTANT_TILE_SIZE} from "../../functions/enums";
-import {AssistantEffects} from "./AssistantEffects";
+import {BoardStateContext} from "../../Contexts";
+import {ASSISTANT_LEVEL, ASSISTANT_STATE, ASSISTANT_TILE_SIZE} from "../functions/enums";
+import {AssistantEffects} from "../legends/tiles/AssistantEffects";
 import styled from "styled-components";
 
 const Center = styled.div`
@@ -28,7 +28,7 @@ const Container = styled.div`
 
 
 export const Assistant = (props) => {
-    const assistant = props.income;
+    const assistant = props.assistant;
     const size = props.size;
     const boardStateContext = useContext(BoardStateContext);
     let state = assistant.state;
