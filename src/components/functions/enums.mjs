@@ -161,7 +161,7 @@ export const ASSISTANT = {
 export const AUTOMATIC_ASSISTANT_EFFECTS = [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainExplore,
     ];
 
-export const TRANSPORT_EFFECTS = [EFFECT.loseWalk, EFFECT.loseBlimp, EFFECT.loseJeep, EFFECT.loseShip];
+export const TRANSPORT_EFFECTS = [EFFECT.loseWalk, EFFECT.losePlane, EFFECT.loseJeep, EFFECT.loseShip];
 
 export const LOCATION_DISCOUNT_EFFECTS = [EFFECT.exploreAnyLocationWithDiscount2, EFFECT.exploreAnyLocationWithDiscount3,
     EFFECT.placeToBasicLocationDiscount2, EFFECT.placeToBasicLocationActivateTwice, EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation,

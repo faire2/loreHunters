@@ -35,6 +35,9 @@ export function exploreLocation(playerState, locations, store, location) {
             }]*/
         })
     } else {
+        if (explorationCostResult.failedEffect) {
+            return {failedEffect: explorationCostResult.failedEffect}
+        }
         console.error("Not enough resources to explore location - inconsistency with location choice!");
         return false
     }

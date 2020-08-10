@@ -69,7 +69,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.loseShip:
             return <Ship/>;
         case EFFECT.gainPlane:
-        case EFFECT.loseBlimp:
+        case EFFECT.losePlane:
             return <Blimp/>;
         case EFFECT.gainExploreOrMapIfFirst:
             return <DivRow><Explore/><Map/></DivRow>;

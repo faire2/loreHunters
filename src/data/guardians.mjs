@@ -70,7 +70,7 @@ export const Guardians = Object.freeze({
         id: "bat",
         cardName: "bat",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseBlimp, EFFECT.loseCoin, EFFECT.discard, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.losePlane, EFFECT.loseCoin, EFFECT.discard, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -94,7 +94,7 @@ export const Guardians = Object.freeze({
         id: "bird",
         cardName: "bird",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseBlimp, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.losePlane, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },

@@ -30,6 +30,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
     let processedAllEffects = true;
     let showRewardsModal = false;
     let rewardsData = {type: REWARD_TYPE.card, data: []};
+    // used to store failed effect
+    let lastEffect = null;
     exitLoopFromSwitch();
 
     // eslint-disable-next-line no-unused-vars
@@ -38,6 +40,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
             let cardsToDraw;
             let rewardsArr = [];
             console.log("Resolving effect: " + effect);
+            lastEffect = effect;
             switch (effect) {
                 case EFFECT.activateOccupiedLocation:
                 case EFFECT.buyItemWithDiscount3:
@@ -110,7 +113,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         type: REWARD_TYPE.effectsArr,
                         data: [tLocations.level2Locations[0].effects],
                     };
-                    debugger
                     tLocations.level2Locations.push(tLocations.level2Locations[0]);
                     tLocations.level2Locations.splice(0, 1);
                     showRewardsModal = true;
@@ -640,7 +642,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.loseWalk:
                 case EFFECT.loseJeep:
                 case EFFECT.loseShip:
-                case EFFECT.loseBlimp:
+                case EFFECT.losePlane:
                     const travelResults = payForTravelIfPossible(tPlayerState, null, effect);
                     if (travelResults.enoughResources) {
                         tPlayerState = travelResults.tPlayerState;
@@ -655,7 +657,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         type: REWARD_TYPE.gainAssistant,
                         data: getAssistantsChoice(tPlayerState, tStore, ASSISTANT.silver),
                         params: ASSISTANT.silver
-                    }
+                    };
                     showRewardsModal = true;
                     break;
 
@@ -848,7 +850,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
             tPlayerState: originalPlayersState,
             tStore: originalStore,
             tLocations: originalLocations,
-            processedAllEffects: processedAllEffects
+            processedAllEffects: processedAllEffects,
+            failedEffect: lastEffect,
         }
     }
     tPlayerState.activeEffects = tActiveEffects;

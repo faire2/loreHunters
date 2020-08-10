@@ -41,6 +41,7 @@ import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
 import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
 import {processLegend} from "./components/legends/functions/processLegend";
 import {AssistantsArea} from "./components/assistantsChoice/AssistantsArea";
+import {getFailedEffectFeedback} from "./data/getFailedEffectFeedback";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -173,6 +174,7 @@ function GameBoard(props) {
 
     function addToastMessage(message) {
         setToastMessages(oldMessages => [...oldMessages, message]);
+        setExtendRightPanel(true);
     }
 
     /** INITIATE REWARDS MODAL **/
@@ -242,6 +244,9 @@ function GameBoard(props) {
         if (tCard.type === CARD_TYPE.artifact) {
             // artifact can be played for free as a transport or for a text
             hasResourceForArtifact = !costsAction || tPlayerState.resources.texts > 0;
+            if (!hasResourceForArtifact && tCard.type === CARD_TYPE.artifact) {
+                addToastMessage("Cannot play artifact - no text available!");
+            }
         }
 
         if (isActivePlayer) {
@@ -256,6 +261,11 @@ function GameBoard(props) {
                 tPlayerState = effectsResult.tPlayerState;
                 tLocations = effectsResult.tLocations;
                 tStore = effectsResult.tStore;
+
+                /* if effects could not be processed we prepare feedback */
+                if (!effectsResult.processedAllEffects) {
+                    addToastMessage(getFailedEffectFeedback(effectsResult.failedEffect));
+                }
 
                 /* if the card is an artifact and effect is not a transport, pay for the use */
                 if (tCard.type === CARD_TYPE.artifact && costsAction) {
@@ -298,7 +308,7 @@ function GameBoard(props) {
         if (isActivePlayer && !showRewardsModal) {
             console.log("Clicked on location " + location.id);
             const locationResult = processLocation(cloneDeep(playerState), cloneDeep(store), cloneDeep(locations), cloneDeep(location), setRewardsModal, resolveGuardian);
-            if (locationResult) {
+            if (!locationResult.failedTravel) {
                 if (locationResult.playerState) {
                     setPlayerState(locationResult.playerState);
                 }
@@ -308,6 +318,8 @@ function GameBoard(props) {
                 if (locationResult.store) {
                     setStore(locationResult.store);
                 }
+            } else {
+                addToastMessage("Not enough resources to use the location!")
             }
         }
     }
@@ -618,6 +630,7 @@ function GameBoard(props) {
         toggleRewardsModalVisibility: toggleRewardsModalVisibility,
         toastMessages: toastMessages,
         setToastMessages: setToastMessages,
+        setExtendRightPanel: setExtendRightPanel,
     };
 
     const playerStateContextValues = {

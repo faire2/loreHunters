@@ -43,7 +43,7 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
                 transportType = TRANSPORT_TYPE.ship;
                 transportCost = 1;
                 break;
-            case EFFECT.loseBlimp:
+            case EFFECT.losePlane:
                 transportType = TRANSPORT_TYPE.plane;
                 transportCost = 1;
                 break;

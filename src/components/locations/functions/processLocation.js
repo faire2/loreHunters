@@ -13,7 +13,6 @@ import {
 import {exploreLocation} from "./exploreLocation";
 import {Guardians} from "../../../data/guardians";
 import {payForTravelIfPossible} from "./payForTravelIfPossible";
-import {EFFECT} from "../../../data/effects";
 
 export function processLocation(tPlayerState, tStore, tLocations, location, initiateRewardsModal, resolveGuardian) {
     // Resolve active effect - exploration discount is processed during exploration itself
@@ -29,7 +28,7 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                 const locationsToExplore = [LOCATION_TYPE.emptyLocation, LOCATION_TYPE.emptyBrownLocation, LOCATION_TYPE.emptyGreenLocation];
                 if (locationsToExplore.includes(location.type) && tPlayerState.availableAdventurers > 0) {
                     const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location);
-                    if (explorationResult) {
+                    if (!explorationResult.failedEffect) {
                         let tLocation;
                         if (location.level === LOCATION_LEVEL["2"]) {
                             tLocation = tLocations.level2Locations[0];
@@ -53,6 +52,8 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                         tLocations = removeExploredLocation(tLocation, explorationResult.locations);
                         tStore = explorationResult.store;
                         return {playerState: tPlayerState, locations: tLocations, store: tStore}
+                    } else {
+                        return ({failedTravel: true});
                     }
                 }
                 return false;
@@ -80,6 +81,9 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                     //otherwise location effects are processed
                     if (location.slots > location.adventurers.length) {
                         const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
+                        if (!travelCheckResults.enoughResources) {
+                            return ({failedTravel: true});
+                        }
                         if (travelCheckResults.enoughResources && (tPlayerState.actions > 0 || tPlayerState.activeEffects.length > 0)
                             && tPlayerState.availableAdventurers > 0) {
                             let tPlayerState = travelCheckResults.tPlayerState;
