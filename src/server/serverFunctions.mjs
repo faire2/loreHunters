@@ -3,8 +3,7 @@ import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
 import {addCardToPlayedCards, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
-import {ASSISTANT_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
-import {CARD_STATE} from "../components/functions/enums.mjs";
+import {ASSISTANT_STATE, CARD_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
 
 /*export function handleAssistants(playerState) {
     for (let assistant of playerState.assistants) {
@@ -63,8 +62,9 @@ export function processEndOfRound(room) {
     let tStore = cloneDeep(room.states.store);
     if (tStore.itemsOffer.length > 0) {
         tStore.itemsOffer.splice(0, 1);
-        tStore.artifactsOffer.push(tStore.artifactsDeck[0]);
-        tStore.artifactsDeck.splice(0, 1);
+        tStore.artifactsOffer.splice(tStore.artifactsOffer.length - 1, 1, tStore.artifactsDeck[0]);
+        tStore.artifactsOffer.push(tStore.artifactsDeck[1]);
+        tStore.artifactsDeck.splice(0, 2);
     }
     room.states.store = tStore;
 
