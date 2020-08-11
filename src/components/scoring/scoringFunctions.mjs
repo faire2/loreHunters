@@ -2,7 +2,6 @@ import {ITEM_IDs} from "../../data/idLists";
 import {getLogLegends} from "../main/logger";
 import {CARD_TYPE, pointsForUnusedRelics, RELIC} from "../functions/enums";
 import {selectedLegendIndex} from "../functions/initialStates/initialLegends";
-import React from "react";
 import {ARTIFACTS, ITEMS} from "../../data/cards";
 
 export function getPoints(playerState) {
@@ -42,11 +41,8 @@ export function getPoints(playerState) {
     const legend = legends[selectedLegendIndex];
     const victoryPoints = legend.victoryPoints;
     // points for columns any of tokens reached
-    for (const position of legend.positions[playerIndex]) {
-        if (position.columnIndex !== null) {
-            legendPoints += victoryPoints[position.columnIndex];
-        }
-    }
+    legendPoints += victoryPoints.firstToken[legend.positions[playerIndex][0].columnIndex]
+    legendPoints += victoryPoints.secondToken[legend.positions[playerIndex][1].columnIndex]
     // points for position in the lost city
     const lostCityPlayerPositions = legend.lostCityPlayers;
     for (let i = 0; i < lostCityPlayerPositions.length; i++) {

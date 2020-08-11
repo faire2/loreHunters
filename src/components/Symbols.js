@@ -69,7 +69,7 @@ export const DefeatedGuardian = () => <img src={defeatedGuardian} alt="defeated 
 export const LocationL1 = () => <img src={location1} alt="location of level 1" style={responsive}/>;
 export const LocationL2 = () => <img src={location2} alt="location of level 2" style={responsive}/>;
 export const LocationL3 = () => <img src={location3} alt="location of level 3" style={responsive}/>;
-export const VictoryPoints = () => <img src={victoryPoints} alt="victory points icon" style={responsive}/>;
+export const VictoryPointsBgr = () => <img src={victoryPoints} alt="victory points icon" style={responsive}/>;
 export const Treasure = () => <img src={treasure} alt="treasure" style={responsive}/>;
 export const GainAction = () => <img src={freeAction} alt="treasure" style={responsive}/>;
 export const Flash = () => <img src={flash} alt="action" style={responsive}/>;
