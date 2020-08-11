@@ -39,8 +39,6 @@ export default function TopSlidingPanel(props) {
                             data: {playerStates: playerStateContext.playerStates}
                         })}>scoring
                 </button>
-                {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.undo()}>undo</button>}
-                {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.revert()}>revert</button>}
             </div>
         </div>
     )
