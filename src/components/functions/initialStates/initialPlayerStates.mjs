@@ -48,18 +48,18 @@ export default function getInitialPlayerStates(numOfPlayers) {
         switch (i) {
             case 0:
                 playerState.resources.coins = 2;
-                playerState.resources.explore = 1;
+                playerState.resources.explore = 0;
                 break;
             case 1:
                 playerState.resources.coins = 1;
-                playerState.resources.explore = 2;
+                playerState.resources.explore = 1;
                 break;
             case 2:
-                playerState.resources.coins = 3;
+                playerState.resources.coins = 2;
                 playerState.resources.explore = 1;
                 break;
             case 3:
-                playerState.resources.coins = 2;
+                playerState.resources.coins = 1;
                 playerState.resources.explore = 2;
                 break;
             default:
