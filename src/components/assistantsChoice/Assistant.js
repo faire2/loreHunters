@@ -21,6 +21,7 @@ const Container = styled.div`
     font-size: ${props => props.small ? "1.6vw" : "4vw"};
     float: left;
     position: relative;
+    justify-content: center;
     margin-left: 0.5vw;
     background-image: url(${props => props.bgr});
 `;

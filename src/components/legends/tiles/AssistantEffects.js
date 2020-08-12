@@ -24,9 +24,9 @@ export const AssistantEffects = props => {
 const EffectsWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    justify-content: center;
     background: ${props => props.overlay ? "rgba(0,0,0,0.5)" : "none"};
     border-radius: 3vw;
-    width: 2vw;
     height: 90%;
 `;
 
