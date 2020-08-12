@@ -2,43 +2,12 @@ import {CARD_TYPE} from "../components/functions/enums.mjs";
 import {EFFECT} from "./effects.mjs";
 
 export const Guardians = Object.freeze({
-    beetle: {
-        id: "beetle",
-        cardName: "beetle",
+    snake: {
+        id: "snake",
+        cardName: "snake",
         type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        cost: null,
-        points: 5
-    },
-    scorpion: {
-        id: "scorpion",
-        cardName: "scorpion",
-        type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.discard, EFFECT.defeatThisGuardian],
-        cost: null,
-        points: 5
-    },
-    spider: {
-        id: "spider",
-        cardName: "spider",
-        type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseWalk, EFFECT.loseWeapon, EFFECT.discard, EFFECT.defeatThisGuardian],
-        cost: null,
-        points: 5
-    },
-    owl: {
-        id: "owl",
-        cardName: "owl",
-        type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
-        cost: null,
-        points: 5
-    },
-    tiger: {
-        id: "tiger",
-        cardName: "tiger",
-        type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseCoin, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseExplore, EFFECT.loseCoin, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.gainShip],
         cost: null,
         points: 5
     },
@@ -46,15 +15,71 @@ export const Guardians = Object.freeze({
         id: "frog",
         cardName: "frog",
         type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseJeep, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.gainShip],
         cost: null,
         points: 5
     },
-    monkey: {
-        id: "monkey",
-        cardName: "monkey",
+    tiger: {
+        id: "tiger",
+        cardName: "tiger",
         type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.gainShip],
+        cost: null,
+        points: 5
+    },
+    hyena: {
+        id: "hyena",
+        cardName: "hyena",
+        type: CARD_TYPE.guardian,
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseCoin, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.gainJeep],
+        cost: null,
+        points: 5
+    },
+    beetle: {
+        id: "beetle",
+        cardName: "beetle",
+        type: CARD_TYPE.guardian,
+        defeatCost: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.gainJeep],
+        cost: null,
+        points: 5
+    },
+    hippo: {
+        id: "hippo",
+        cardName: "hippo",
+        type: CARD_TYPE.guardian,
+        defeatCost: [EFFECT.loseShip, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.gainJeep],
+        cost: null,
+        points: 5
+    },
+    redbird: {
+        id: "redbird",
+        cardName: "redbird",
+        type: CARD_TYPE.guardian,
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.gainPlane],
+        cost: null,
+        points: 5
+    },
+    owl: {
+        id: "owl",
+        cardName: "owl",
+        type: CARD_TYPE.guardian,
+        defeatCost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.gainPlane],
+        cost: null,
+        points: 5
+    },
+    spider: {
+        id: "spider",
+        cardName: "spider",
+        type: CARD_TYPE.guardian,
+        defeatCost: [EFFECT.discard, EFFECT.loseCoin, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.destroyCard],
         cost: null,
         points: 5
     },
@@ -62,15 +87,17 @@ export const Guardians = Object.freeze({
         id: "ants",
         cardName: "ants",
         type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.destroyCard],
         cost: null,
         points: 5
     },
-    bat: {
-        id: "bat",
-        cardName: "bat",
+    vulture: {
+        id: "vulture",
+        cardName: "vulture",
         type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.losePlane, EFFECT.loseCoin, EFFECT.discard, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.losePlane, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.destroyCard],
         cost: null,
         points: 5
     },
@@ -79,46 +106,34 @@ export const Guardians = Object.freeze({
         cardName: "lizard",
         type: CARD_TYPE.guardian,
         defeatCost: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.draw1],
         cost: null,
         points: 5
     },
-    hippo: {
-        id: "hippo",
-        cardName: "hippo",
+    scorpion: {
+        id: "scorpion",
+        cardName: "scorpion",
         type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseShip, EFFECT.loseShip, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.discard, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.draw1],
         cost: null,
         points: 5
     },
-    bird: {
-        id: "bird",
-        cardName: "bird",
+    monkey: {
+        id: "monkey",
+        cardName: "monkey",
+        type: CARD_TYPE.guardian,
+        defeatCost: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainExplore, EFFECT.gainExplore],
+        cost: null,
+        points: 5
+    },
+    bat: {
+        id: "bat",
+        cardName: "bat",
         type: CARD_TYPE.guardian,
         defeatCost: [EFFECT.losePlane, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        cost: null,
-        points: 5
-    },
-    hyena: {
-        id: "hyena",
-        cardName: "hyena",
-        type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseText, EFFECT.defeatThisGuardian],
-        cost: null,
-        points: 5
-    },
-    snake: {
-        id: "snake",
-        cardName: "snake",
-        type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        cost: null,
-        points: 5
-    },
-    redbird: {
-        id: "redbird",
-        cardName: "redbird",
-        type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.loseCoin, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        effects: [EFFECT.loseText, EFFECT.arrow, EFFECT.gainWeapon],
         cost: null,
         points: 5
     },

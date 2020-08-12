@@ -22,7 +22,7 @@ export default function LocationsArea() {
     };
 
     const leftMargin = {
-        marginLeft: "3.8vw",
+        marginLeft: "3.2vw",
     };
 
     const empty = {
@@ -81,3 +81,4 @@ export default function LocationsArea() {
         </div>
     )
 }
+

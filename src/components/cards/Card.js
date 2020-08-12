@@ -1,12 +1,11 @@
 import React, {useContext, useState} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
-import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, ITEMS} from "../../data/cards";
+import {ARTIFACTS, CARD_TRANSPORT, ITEMS} from "../../data/cards";
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import basicItemBgr from "../../img/cardBackgrounds/basicItemBackground.png"
 import fearBgr from "../../img/cardBackgrounds/fearBgr.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
-import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
 import transportHighlight from "../../img/transportHighlight.png"
 import {
     AdventurerIcon,
@@ -49,9 +48,6 @@ export default function Card(props) {
     /*} else if (cardType === CARD_TYPE.guardian) {
         cardTemplate = GUARDIANS[props.card.id];
         cardBackground = guardianBgr;*/
-    } else if (cardType === CARD_TYPE.goalCard) {
-        cardTemplate = EXPEDITIONS[props.card.id];
-        cardBackground = expeditionBgr;
     } else {
         console.log("Unable to process card type in Card.js: " + cardType);
         console.log(props.card.id);

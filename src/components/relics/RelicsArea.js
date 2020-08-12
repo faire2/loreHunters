@@ -3,9 +3,7 @@ import styled from "styled-components";
 import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import victoryPoints from "../../img/symbols/VP.png"
 import {PlayerStateContext} from "../../Contexts";
-import {RELIC, relicRewards} from "../functions/enums";
-import {pointsForUnusedRelics} from "../functions/enums";
-import {relicEffects} from "../../data/relicEffects";
+import {pointsForUnusedRelics, RELIC, relicRewards} from "../functions/enums";
 import {JsxFromEffects} from "../JsxFromEffects";
 
 export function RelicsArea() {
@@ -23,18 +21,6 @@ export function RelicsArea() {
         relicsArr.push(<GoldRelic/>)
     }
 
-    const twoLines = relicsArr.length > 5;
-
-    const victoryPointsStyle = {
-        marginBottom: "110%",
-        backgroundSize: "100% 100%",
-        width: "2vw",
-        height: "2vw",
-        color: "white",
-        fontSize: "1.2vw"
-    };
-
-    const pointsForFields = [1, 2, 2, 3];
     const relicSlots =
         pointsForUnusedRelics.map((points, i) => {
             return (
@@ -49,24 +35,26 @@ export function RelicsArea() {
 
     return (
         <RelicsContainer length={relicsArr.length}>
-            <RelicEffects>
-                {relicRewards.map((effects, i) =>
+            <SideText>
+                RELICS
+            </SideText>
+            <Wrapper>
+                <RelicEffects>
+                    {relicRewards.map((effects, i) =>
                         <JsxFromEffects effectsArray={effects} fontSize={"1.3vw"} key={i}/>
-                )}
-            </RelicEffects>
-            <RelivWrapper>
-                {relicSlots}
-            </RelivWrapper>
-            <UnspentRelics>
-                {relicsArr.map((icon, i) =>
-                    <div key={i}>
-                        {icon}
-                    </div>
-                )}
-            </UnspentRelics>
-            {/*<div style={victoryPointsContainerStyle}>
-                {victoryPointsArr}
-            </div>*/}
+                    )}
+                </RelicEffects>
+                <RelicWrapper>
+                    {relicSlots}
+                </RelicWrapper>
+                <UnspentRelics>
+                    {relicsArr.map((icon, i) =>
+                        <div key={i}>
+                            {icon}
+                        </div>
+                    )}
+                </UnspentRelics>
+            </Wrapper>
         </RelicsContainer>
     )
 }
@@ -87,13 +75,22 @@ const RelicsContainer = styled.div`
     left: 75vw;
     width: 16vw;
     height: 10vw;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
     padding: 1vw;
 `;
 
-const RelivWrapper = styled.div`
+const Wrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+`;
+
+const SideText = styled.div`
+    position: absolute;
+    writing-mode: vertical-rl;
+    margin: 3vw 0  0 -1.3vw;
+`;
+
+const RelicWrapper = styled.div`
     background-color: rgba(0,0,0,0.18);
     display: flex;
     flex-flow: row;

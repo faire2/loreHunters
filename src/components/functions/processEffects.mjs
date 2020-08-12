@@ -182,7 +182,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.defeatThisGuardian:
                     if (location) {
                         if (location.state === LOCATION_STATE.guarded) {
-                            tPlayerState.defeatedGuardians.push(location.guardian.id)
+                            tPlayerState.defeatedGuardians.push(location.guardian.id);
                             location.guardian = null;
                             location.state = LOCATION_STATE.explored;
                             tLocations = updateLocations(location, tLocations);
@@ -251,10 +251,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         processedAllEffects = false;
                         return;
                     }
-                    break;
-
-                case EFFECT.canActivateL3Location:
-                    tPlayerState.canDiscoverL3Locations = true;
                     break;
 
                 case EFFECT.draw1:
@@ -430,7 +426,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             type: REWARD_TYPE.guardian,
                             data: tPlayerState.defeatedGuardians,
                             params: effect
-                        }
+                        };
                         showRewardsModal = true;
                         break;
                     }
@@ -562,8 +558,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             params: 1,
                         };
                         showRewardsModal = true;
-                        break;
                     }
+                    break;
 
                 case EFFECT.gainRandomGoldRelicEffect:
                     let goldRelicEffects = shuffleArray(cloneDeep(tStore.goldRelicEffects));
@@ -666,7 +662,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         type: REWARD_TYPE.gainAssistant,
                         data: getAssistantsChoice(tPlayerState, tStore, ASSISTANT.gold),
                         params: ASSISTANT.gold
-                    }
+                    };
                     showRewardsModal = true;
                     break;
 
@@ -674,7 +670,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     rewardsData = {
                         type: REWARD_TYPE.upgradeAssistant,
                         data: getAssistantsChoice(tPlayerState, tStore, ASSISTANT.upgrade)
-                    }
+                    };
                     showRewardsModal = true;
                     break;
 
@@ -692,7 +688,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     rewardsData = {
                         type: REWARD_TYPE.effectsArr,
                         data: [[EFFECT.progressWithTexts], [EFFECT.progressWithWeapon]],
-                    }
+                    };
                     showRewardsModal = true;
                     break;
 
@@ -744,10 +740,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.refreshAllAsistants:
                     const spentAssistants = [];
-                    const assistantClones = cloneDeep(tPlayerState.assistants)
+                    const assistantClones = cloneDeep(tPlayerState.assistants);
                     for (let assistant of assistantClones) {
                         if (assistant.state === ASSISTANT_STATE.spent) {
-                            assistant.state = ASSISTANT_STATE.ready
+                            assistant.state = ASSISTANT_STATE.ready;
                             spentAssistants.push(assistant);
                         }
                     }
@@ -814,26 +810,27 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case
-                EFFECT.revealItemBuyWithDiscount3
-                :
+                EFFECT.revealItemBuyWithDiscount3:
                     tActiveEffects.push(effect);
                     tStore = addCardToStore(CARD_TYPE.item, tStore);
                     break;
 
                 case
-                EFFECT.revealArtifactBuyWithDiscount3
-                :
+                EFFECT.revealArtifactBuyWithDiscount3:
                     tActiveEffects.push(effect);
                     tStore = addCardToStore(CARD_TYPE.artifact, tStore);
                     break;
 
                 case
-                EFFECT.unlockCard
-                :
+                EFFECT.unlockCard:
                     let cardToUnlock = tPlayerState.activeCards[cardIndex];
                     cardToUnlock.state = CARD_STATE.inHand;
                     tPlayerState.hand.push(cardToUnlock);
                     tPlayerState.activeCards.splice(cardIndex, 1);
+                    break;
+
+                case EFFECT.arrow:
+                    // effect only exists for graphical purpose
                     break;
 
                 default:

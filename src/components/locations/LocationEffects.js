@@ -1,28 +1,26 @@
-import {getJsxSymbol} from "../functions/getJsxSymbol";
 import React from "react";
+import styled from "styled-components"
+import {getJsxSymbol} from "../functions/getJsxSymbol";
 
 export const LocationEffects = (props) => {
-const effectsTextStyle = {
-    top: "2.2vw",
-    height: "2vw",
-    fontSize: "1.4vw",
-    right: 0,
-    left: 0,
-    margin: "auto",
-    position: "absolute",
-    zIndex: 2,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-};
-
 /* effects text for explored location */
    return (
-    <div style={effectsTextStyle}>
+    <Effects>
         {props.effects.map((effect, i) =>
             <div key={i}>
                 {getJsxSymbol(effect)}
             </div>
         )}
-    </div>
+    </Effects>
 )};
+
+const Effects = styled.div`
+    position: absolute;
+    width: 100%;
+    font-size: 1.2vw;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    bottom: 0;
+    margin-bottom: 0.3vw;
+`;

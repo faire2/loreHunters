@@ -42,6 +42,7 @@ import {handleGuardianArrival} from "./components/functions/guardians/handleGuar
 import {processLegend} from "./components/legends/functions/processLegend";
 import {AssistantsArea} from "./components/assistantsChoice/AssistantsArea";
 import {getFailedEffectFeedback} from "./data/getFailedEffectFeedback";
+import {GuardianRewards} from "./components/guardianRewards/GuardianRewards";
 
 function GameBoard(props) {
     console.log("** render **");
@@ -219,7 +220,7 @@ function GameBoard(props) {
                 gameLog: gameLog
             });
         }
-        setPlayerState(tPlayerState)
+        setPlayerState(tPlayerState);
         setLocations(tLocations);
         setLegends(tLegends);
         setStore(tStore);
@@ -569,7 +570,7 @@ function GameBoard(props) {
             }
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
-            console.log("** finishing turn **")
+            console.log("** finishing turn **");
             socket.emit(TRANSMISSIONS.nextPlayer, {
                 roomName: roomName,
                 playerState: tPlayerState,
@@ -635,6 +636,7 @@ function GameBoard(props) {
 
     const playerStateContextValues = {
         playerState: playerState,
+        setPlayerState: setPlayerState,
         playerStates: playerStates,
         store: store,
         isActivePlayer: isActivePlayer,
@@ -662,8 +664,9 @@ function GameBoard(props) {
             <CardsArea/>
             <LegendsArea/>
             <ResourcesArea/>
-            <AssistantsArea />
+            <AssistantsArea/>
             <RelicsArea/>
+            <GuardianRewards />
             <Controls/><br/>
             <OpponentPlayArea/>
             <TopSlidingPanel extendPanel={extendTopPanel}/>

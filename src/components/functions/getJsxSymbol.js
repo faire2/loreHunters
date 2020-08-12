@@ -43,10 +43,6 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainCoinIfFirst:
         case EFFECT.loseCoin:
             return <Coin/>;
-        case EFFECT.gainMap:
-        case EFFECT.gainMapIfFirst:
-        case EFFECT.loseMap:
-            return <Map/>;
         case EFFECT.gainWeapon:
         case EFFECT.loseWeapon:
         case EFFECT.progressWithWeapon:
@@ -55,7 +51,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.loseText:
             return <Text/>;
         case EFFECT.progressWithTexts:
-            return <DivRow><Text/><Text/></DivRow>
+            return <DivRow><Text/><Text/></DivRow>;
         case EFFECT.gainJewel:
         case EFFECT.loseJewel:
             return <Jewel/>;
@@ -101,42 +97,42 @@ export function getJsxSymbol(effect) {
         case EFFECT.draw1:
             return <Draw1Card/>;
         case EFFECT.gainSilverAssistant:
-            return <SilverAssistant/>
+            return <SilverAssistant/>;
         case EFFECT.gainGoldAssistant:
         case EFFECT.upgradeAssistant:
-            return <GoldAssistant/>
-        case EFFECT.refreshAllAssistants:
+            return <GoldAssistant/>;
+        case EFFECT.refreshAllAsistants:
             return <AssistantUpgrade/>;
         case EFFECT.discard:
-            return <Discard/>
+            return <Discard/>;
         case EFFECT.gainOrUpgradeRelic:
         case EFFECT.gainBronzeRelic:
-            return <BronzeRelic/>
+            return <BronzeRelic/>;
         case EFFECT.gainAction:
-            return <GainAction/>
+            return <GainAction/>;
         case EFFECT.discoverLostCity:
         case EFFECT.finishRound:
-            return ""
+            return "";
         case EFFECT.arrow:
-            return <Arrow/>
+            return <Arrow/>;
         case EFFECT.progressWithSecondToken:
-            return <ResearchTokenWrapper><SecondLegendToken/></ResearchTokenWrapper>
+            return <ResearchTokenWrapper><SecondLegendToken/></ResearchTokenWrapper>;
         case EFFECT.placeAnywhere:
-            return <PlaceAdventurer/>
+            return <PlaceAdventurer/>;
         case EFFECT.exploreAnyLocationWithDiscount3:
-            return <DivRow><PlaceAdventurer/><Explore/><Explore/><Explore/></DivRow>
+            return <DivRow><PlaceAdventurer/><Explore/><Explore/><Explore/></DivRow>;
         case EFFECT.uptrade:
-            return <Uptrade/>
+            return <Uptrade/>;
         case EFFECT.buyWithDiscount1:
-            return <Discount/>
+            return <Discount/>;
         case EFFECT.gainWeaponOrJewel:
-            return <DivRow><Weapon/>/<Jewel/></DivRow>
+            return <DivRow><Weapon/>|<Jewel/></DivRow>;
         case EFFECT.gainPlaneOrCoin:
-            return <DivRow><Blimp/>/<Coin/></DivRow>
+            return <DivRow><Blimp/>|<Coin/></DivRow>;
         case EFFECT.gainShipOrCoin:
-            return <DivRow><Ship/>/<Coin/></DivRow>
+            return <DivRow><Ship/>|<Coin/></DivRow>;
         case EFFECT.gainJeepOrCoin:
-            return <DivRow><Jeep/>/<Coin/></DivRow>
+            return <DivRow><Jeep/>|<Coin/></DivRow>;
         default:
             console.error("Unable to recognize effect in getJsxEffect: " + effect);
     }

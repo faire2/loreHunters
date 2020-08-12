@@ -6,6 +6,18 @@ export const JsxFromEffects = (props) => {
     return (
         <EffectsWrapper fontSize={props.fontSize}>
             {props.effectsArray.map((effect, i) =>
+                <div key={i}>
+                    {getJsxSymbol(effect)}
+                </div>
+            )}
+        </EffectsWrapper>
+    )
+};
+
+export const OverlappingJsxFromEffects = (props) => {
+    return (
+        <EffectsWrapper fontSize={props.fontSize}>
+            {props.effectsArray.map((effect, i) =>
                 <Effect i={i} key={i}>
                     {getJsxSymbol(effect)}
                 </Effect>
@@ -22,5 +34,5 @@ const EffectsWrapper = styled.div`
 `;
 
 const Effect = styled.div`
-    margin-left: ${props => props.i > 0 ? (props.i * - 0.1) - 0.7 + "vw" : 0};
+    margin-left: ${props => props.i > 0 ? (props.i * - 0.07) - 0.4 + "vw" : 0};
 `;

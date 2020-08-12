@@ -15,7 +15,7 @@ export const CardRow = (props) => {
                 </div>)}
         </div>
     )
-}
+};
 
 export const cardRowStyle = {
     marginTop: "0.5vw",
@@ -25,8 +25,8 @@ export const cardRowStyle = {
     flexFlow: "row",
     minHeight: "9vw",
     flexWrap: "wrap",
-}
+};
 
 export const sideTextStyle = {
     writingMode: "vertical-rl",
-}
+};

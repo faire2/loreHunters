@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {JsxFromEffects} from "../JsxFromEffects";
+import {OverlappingJsxFromEffects} from "../JsxFromEffects";
 import firstTokenBgr from "../../img/legends/token_first.png"
 import secondTokenBgr from "../../img/legends/token_second.png"
 import {VictoryPointsContainer} from "../VictoryPointsContainer";
@@ -13,13 +13,13 @@ export const ColunmRewards = (props) => {
                 <VictoryPointsWrapper>
                     <VictoryPointsContainer size={1} fontSize={0.8} points={props.firstTokenPoints}/>
                 </VictoryPointsWrapper>
-                <JsxFromEffects effectsArray={props.columnRewards[0]} fontSize={"1.3vw"}/>
+                <OverlappingJsxFromEffects effectsArray={props.columnRewards[0]} fontSize={"1.3vw"}/>
             </Token>
             <Token isFirstToken={false}>
                 <VictoryPointsWrapper>
                     <VictoryPointsContainer size={1} fontSize={0.8} points={props.secondTokenPoints}/>
                 </VictoryPointsWrapper>
-                <JsxFromEffects effectsArray={props.columnRewards[1]} fontSize={"1.3vw"}/>
+                <OverlappingJsxFromEffects effectsArray={props.columnRewards[1]} fontSize={"1.3vw"}/>
             </Token>
         </ColumnRewardContainer>
     )

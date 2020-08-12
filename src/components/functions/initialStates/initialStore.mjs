@@ -1,10 +1,11 @@
 /* INITIAL STORE */
-import {ARTIFACT_IDs, EXPEDITIONS_IDs, GLOBAL_VARS, GUARDIAN_IDs, ITEM_IDs} from "../../../data/idLists.mjs";
+import {ARTIFACT_IDs, GLOBAL_VARS, ITEM_IDs} from "../../../data/idLists.mjs";
 import {ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 import {relicEffects} from "../../../data/relicEffects.mjs";
 import {Assistants} from "../../../data/assistants.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
+import {Guardians} from "../../../data/guardians.mjs";
 
 export function getInitialStore() {
     /* all items, each item is represented only once! */
@@ -21,15 +22,8 @@ export function getInitialStore() {
 
     /* guardians */
     let guardians = [];
-    for (let key in GUARDIAN_IDs) {
-        guardians.push(GUARDIAN_IDs[key]);
-    }
-
-    /* expedition cards */
-    let expeditions = [];
-    for (let key in EXPEDITIONS_IDs) {
-        EXPEDITIONS_IDs[key].state = CARD_STATE.victoryCards;
-        expeditions.push(EXPEDITIONS_IDs[key]);
+    for (let key in Guardians) {
+        guardians.push(Guardians[key]);
     }
 
     /* assistants */
@@ -44,7 +38,7 @@ export function getInitialStore() {
     /* relics */
     const bronzeRelicEffects = shuffleArray(relicEffects.bronze);
     const silverRelicEffects = shuffleArray(relicEffects.silver);
-    const goldRelicEffects = shuffleArray(relicEffects.gold)
+    const goldRelicEffects = shuffleArray(relicEffects.gold);
 
     let itemsSetup = drawInitialCards(items, GLOBAL_VARS.itemsInStore);
     let artifactsSetup = drawInitialCards(artifacts, GLOBAL_VARS.artifactsInStore);
@@ -60,7 +54,6 @@ export function getInitialStore() {
         assistantsOffer: assistantsSetup.drawCards,
         itemsDeck: itemsSetup.deck,
         itemsOffer: itemsSetup.drawCards,
-        expeditions: shuffleArray(expeditions),
         guardians: shuffleArray(guardians),
         bronzeRelicEffects: bronzeRelicEffects,
         silverRelicEffects: silverRelicEffects,

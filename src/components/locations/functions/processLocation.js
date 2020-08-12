@@ -62,10 +62,13 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                 // if guardian was clicked player tries to defeat him
                 if (resolveGuardian) {
                     if (location.adventurers.includes(tPlayerState.playerIndex)) {
-                        const effectsResult = processEffects(null, null, tPlayerState, location.guardian.effects, null, location, tLocations);
+                        const guardianReward = location.guardian.effects;
+                        const effectsResult = processEffects(null, null, tPlayerState, location.guardian.defeatCost, null, location, tLocations);
                         if (effectsResult.processedAllEffects) {
                             // guardian was defeated
                             tPlayerState = effectsResult.tPlayerState;
+                            tPlayerState.actions -= 1;
+                            tPlayerState.guardianRewards.push(guardianReward);
                             tLocations = effectsResult.tLocations;
                             return ({playerState: tPlayerState, locations: tLocations});
                         } else {

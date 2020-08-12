@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/cloneDeep.js';
-import {ARTIFACT_IDs, EXPEDITIONS_IDs, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
+import {ARTIFACT_IDs, ITEM_IDs} from "../../data/idLists.mjs";
 import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "./enums.mjs";
 
@@ -108,7 +108,7 @@ export function addCardToStore(cardType, store) {
     if (cardType === CARD_TYPE.item) {
         tCard = store.itemsDeck[0];
         tCard.state = CARD_STATE.inStore;
-        store.itemsOffer.push(tCard)
+        store.itemsOffer.push(tCard);
         store.itemsDeck.splice(0, 1);
     } else if (cardType === CARD_TYPE.artifact) {
         tCard = store.artifactsDeck[0];
@@ -149,10 +149,6 @@ export function getIdCard(jsxCard) {
         return ITEM_IDs[cardId]
     } else if (ARTIFACT_IDs[cardId]) {
         return ARTIFACT_IDs[cardId]
-    } else if (GUARDIAN_IDs[cardId]) {
-        return GUARDIAN_IDs[cardId]
-    } else if (EXPEDITIONS_IDs[cardId]) {
-        return EXPEDITIONS_IDs[cardId]
     } else {
         console.log("Unhable to get IdCard for: " + jsxCard.id);
     }

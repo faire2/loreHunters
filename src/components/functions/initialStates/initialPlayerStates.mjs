@@ -1,4 +1,4 @@
-import {ARTIFACT_IDs, GLOBAL_VARS} from "../../../data/idLists.mjs";
+import {GLOBAL_VARS} from "../../../data/idLists.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {CARD_STATE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
@@ -24,17 +24,15 @@ export const emptyPlayerState = Object.freeze({
     activeEffects: [],
     availableAdventurers: GLOBAL_VARS.adventurers,
     canActivateLostCity: false,
-    canDiscoverL3Locations: false,
     color: null,
     defeatedGuardians: [],
-    //discardDeck: [], //todo remove if discard remains removed form the game
     drawDeck: [],
     firstTurn: true,
     finishedRound: false,
     assistants: [],
     hand: [],
     longEffects: [],
-    playedCards: [],
+    guardianRewards: [],
     playerIndex: null,
     relics: [null, null, null, null, null],
     victoryCards: [],
