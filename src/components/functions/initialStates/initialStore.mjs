@@ -32,7 +32,6 @@ export function getInitialStore() {
         Assistants[key].state = ASSISTANT_STATE.inStore;
         Assistants[key].level = ASSISTANT_LEVEL.silver;
         assistants.push(cloneDeep(Assistants[key]))
-
     }
 
     /* relics */
@@ -42,7 +41,7 @@ export function getInitialStore() {
 
     let itemsSetup = drawInitialCards(items, GLOBAL_VARS.itemsInStore);
     let artifactsSetup = drawInitialCards(artifacts, GLOBAL_VARS.artifactsInStore);
-    let assistantsSetup = drawInitialCards(assistants, 2);
+    let assistantsSetup = drawInitialCards(assistants, 3);
 
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;

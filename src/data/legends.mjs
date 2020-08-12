@@ -13,8 +13,8 @@ export const Legends = Object.freeze({
         // victory point for first and second token in a given column
         // last column is resolved in next property
         victoryPoints: {
-            firstToken: [0, 2, 4, 6, 9, 12, 15, "?"],
-            secondToken: [1, 1, 2, 4, 7, 9, 11, "?"],
+            firstToken: [0, 2, 4, 6, 9, 12, 15, 0],
+            secondToken: [1, 1, 2, 4, 7, 9, 11, 0],
         },
         // victory points for reaching lost city, first player gains most
         lostCityPoints: [15, 14, 13, 12, 12, 12, 12, 12],

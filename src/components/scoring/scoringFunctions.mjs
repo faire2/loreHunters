@@ -41,8 +41,8 @@ export function getPoints(playerState) {
     const legend = legends[selectedLegendIndex];
     const victoryPoints = legend.victoryPoints;
     // points for columns any of tokens reached
-    legendPoints += victoryPoints.firstToken[legend.positions[playerIndex][0].columnIndex]
-    legendPoints += victoryPoints.secondToken[legend.positions[playerIndex][1].columnIndex]
+    legendPoints += victoryPoints.firstToken[legend.positions[playerIndex][0].columnIndex];
+    legendPoints += parseInt(victoryPoints.secondToken[legend.positions[playerIndex][1].columnIndex], 10);
     // points for position in the lost city
     const lostCityPlayerPositions = legend.lostCityPlayers;
     for (let i = 0; i < lostCityPlayerPositions.length; i++) {

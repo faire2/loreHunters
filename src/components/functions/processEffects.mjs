@@ -738,7 +738,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case EFFECT.refreshAllAsistants:
+                case EFFECT.refreshAllAssistants:
                     const spentAssistants = [];
                     const assistantClones = cloneDeep(tPlayerState.assistants);
                     for (let assistant of assistantClones) {

@@ -33,7 +33,8 @@ import {
     CARD_STATE,
     CARD_TYPE,
     LCL_STORAGE,
-    RELIC, relicRewards,
+    RELIC,
+    relicRewards,
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./components/functions/enums";
@@ -657,14 +658,13 @@ function GameBoard(props) {
     const gameBoardElements =
         <div>
             <LocationsArea/>
+            <AssistantsArea/>
             <div style={{marginLeft: "4vw"}}>
-                {/*<BonusActions handleClickOnBonus={handleClickOnBonusAction}/>*/}
                 <Store/>
             </div>
             <CardsArea/>
             <LegendsArea/>
             <ResourcesArea/>
-            <AssistantsArea/>
             <RelicsArea/>
             <GuardianRewards />
             <Controls/><br/>

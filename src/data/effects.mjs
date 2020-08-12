@@ -127,7 +127,7 @@ export const EFFECT = Object.freeze({
     progressWithSecondToken: "progress with second token",
     protectFromFear: "do not gain fear from guarded location at the end of round",
     replaceItemsInStore: "replace items in store",
-    refreshAllAsistants: "refresh an assistant",
+    refreshAllAssistants: "refresh an assistant",
     refreshSilverAssistant: "refresh a silver assistant",
     refreshAnyAssistant: "refresh any spent assistant",
     refreshRelic: "refresh a used relic",
