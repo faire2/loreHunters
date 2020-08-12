@@ -790,7 +790,7 @@ export const ARTIFACTS = Object.freeze({
         transportAmount: 1,
         effectsText:
             <div style={bigIconsStyle}><DestroyCard/><Arrow/><Coin/><Coin/></div>,
-        effects: [EFFECT.destroyCard, EFFECT.gainCoin, EFFECT.gainCoin],
+        effects: [EFFECT.destroyCardMandatory, EFFECT.gainCoin, EFFECT.gainCoin],
         isGuarded: false,
         image: transmutationImg,
         cost: 3,
