@@ -13,8 +13,8 @@ export const Legends = Object.freeze({
         // victory point for first and second token in a given column
         // last column is resolved in next property
         victoryPoints: {
-            firstToken: [0, 1, 2, 4, 7, 9, 11, "?"],
-            secondToken: [1, 2, 4, 6, 9, 12, 15, "?"],
+            firstToken: [0, 2, 4, 6, 9, 12, 15, "?"],
+            secondToken: [1, 1, 2, 4, 7, 9, 11, "?"],
         },
         // victory points for reaching lost city, first player gains most
         lostCityPoints: [15, 14, 13, 12, 12, 12, 12, 12],
@@ -27,19 +27,19 @@ export const Legends = Object.freeze({
                 [EFFECT.gainExplore], [EFFECT.gainSilverAssistant],
             ],
             [
-                [EFFECT.gainExplore], [EFFECT.gainBronzeRelic],
-            ],
-            [
-                [EFFECT.gainCoin], [EFFECT.upgradeAssistant],
+                [EFFECT.gainExplore], [EFFECT.upgradeAssistant],
             ],
             [
                 [EFFECT.gainExplore], [EFFECT.upgradeAssistant],
             ],
             [
-                [EFFECT.draw1], [EFFECT.gainBronzeRelic],
+                [EFFECT.gainExplore], [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainExplore],
             ],
             [
-                [EFFECT.gainExplore], [EFFECT.gainBronzeRelic],
+                [EFFECT.draw1], [EFFECT.gainArtifact],
+            ],
+            [
+                [EFFECT.gainExplore], [EFFECT.defeatGuardianOnOwnedLocation],
             ],
             [
                 [EFFECT.gainRewardLevel, EFFECT.discoverLostCity], [EFFECT.gainRewardLevel],
@@ -112,12 +112,12 @@ export const Legends = Object.freeze({
 
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseText, EFFECT.loseWeapon],
+                    cost: [EFFECT.loseExplore, EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseText],
+                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["2"],
                 },
             ],

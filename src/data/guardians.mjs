@@ -6,7 +6,7 @@ export const Guardians = Object.freeze({
         id: "beetle",
         cardName: "beetle",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -14,7 +14,7 @@ export const Guardians = Object.freeze({
         id: "scorpion",
         cardName: "scorpion",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.discard, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.discard, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -22,7 +22,7 @@ export const Guardians = Object.freeze({
         id: "spider",
         cardName: "spider",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseWeapon, EFFECT.discard, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseWeapon, EFFECT.discard, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -30,7 +30,7 @@ export const Guardians = Object.freeze({
         id: "owl",
         cardName: "owl",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -38,7 +38,7 @@ export const Guardians = Object.freeze({
         id: "tiger",
         cardName: "tiger",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseCoin, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseCoin, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -46,7 +46,7 @@ export const Guardians = Object.freeze({
         id: "frog",
         cardName: "frog",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseText, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -54,7 +54,7 @@ export const Guardians = Object.freeze({
         id: "monkey",
         cardName: "monkey",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -62,7 +62,7 @@ export const Guardians = Object.freeze({
         id: "ants",
         cardName: "ants",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -70,7 +70,7 @@ export const Guardians = Object.freeze({
         id: "bat",
         cardName: "bat",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.losePlane, EFFECT.loseCoin, EFFECT.discard, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.losePlane, EFFECT.loseCoin, EFFECT.discard, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -78,7 +78,7 @@ export const Guardians = Object.freeze({
         id: "lizard",
         cardName: "lizard",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -86,7 +86,7 @@ export const Guardians = Object.freeze({
         id: "hippo",
         cardName: "hippo",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseShip, EFFECT.loseShip, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseShip, EFFECT.loseShip, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -94,7 +94,7 @@ export const Guardians = Object.freeze({
         id: "bird",
         cardName: "bird",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.losePlane, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.losePlane, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -102,7 +102,7 @@ export const Guardians = Object.freeze({
         id: "hyena",
         cardName: "hyena",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseText, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseText, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -110,7 +110,7 @@ export const Guardians = Object.freeze({
         id: "snake",
         cardName: "snake",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },
@@ -118,7 +118,7 @@ export const Guardians = Object.freeze({
         id: "redbird",
         cardName: "redbird",
         type: CARD_TYPE.guardian,
-        effects: [EFFECT.loseCoin, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.loseCoin, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
         cost: null,
         points: 5
     },

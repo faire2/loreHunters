@@ -31,7 +31,7 @@ export const LocationGuardian = (props) => {
                 <img src={GuardianTemplate} alt={{guardianId}} style={imageStyle}/>
             </div>
             <div style={effectsStyle}>
-                {guardian.effects.map((effect, i) =>
+                {guardian.defeatCost.map((effect, i) =>
                     <div key={i}>
                         {getJsxSymbol(effect)}
                     </div>

@@ -15,7 +15,7 @@ export function LostCity() {
     const [chosenEffects, setChosenEffects] = useState([false, false, false]);
 
     const prices = [
-        [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseText],
+        [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText],
         [EFFECT.loseExplore, EFFECT.loseWeapon],
         [EFFECT.loseJewel]
     ];
