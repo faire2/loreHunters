@@ -13,12 +13,8 @@ export function getAssistantsChoice(playerState, store, choiceType) {
     let assistantsArr = [];
     // for silver assistants check that store has them
     if (choiceType === ASSISTANT.silver) {
-            if (store.assistantsOffer.length > 0) {
-                assistantsArr.push(store.assistantsOffer[0]);
-            }
-        if (store.assistantsOffer.length > 1) {
-            assistantsArr.push(store.assistantsOffer[1]);
-        }
+        for (let i = 0; i < store.assistantsOffer.length; i++)
+            assistantsArr.push(store.assistantsOffer[i]);
     }
     // gold assistants can only be gained as upgrade of silver ones
     if (choiceType === ASSISTANT.upgrade && hasSilverIncome(playerState)) {

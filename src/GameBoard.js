@@ -34,7 +34,6 @@ import {
     CARD_TYPE,
     LCL_STORAGE,
     RELIC,
-    relicRewards,
     REWARD_TYPE,
     TRANSMISSIONS
 } from "./components/functions/enums";
@@ -44,6 +43,7 @@ import {processLegend} from "./components/legends/functions/processLegend";
 import {AssistantsArea} from "./components/assistantsChoice/AssistantsArea";
 import {getFailedEffectFeedback} from "./data/getFailedEffectFeedback";
 import {GuardianRewards} from "./components/guardianRewards/GuardianRewards";
+import {relicRewards} from "./components/functions/constants";
 
 function GameBoard(props) {
     console.log("** render **");

@@ -3,8 +3,9 @@ import styled from "styled-components";
 import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import victoryPoints from "../../img/symbols/VP.png"
 import {PlayerStateContext} from "../../Contexts";
-import {pointsForUnusedRelics, RELIC, relicRewards} from "../functions/enums";
+import {RELIC} from "../functions/enums";
 import {JsxFromEffects} from "../JsxFromEffects";
+import {pointsForUnusedRelics, relicRewards} from "../functions/constants";
 
 export function RelicsArea() {
     const playerStateContext = useContext(PlayerStateContext);

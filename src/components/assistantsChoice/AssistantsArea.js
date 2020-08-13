@@ -9,9 +9,9 @@ export const AssistantsArea = () => {
     const assistantsOffer = boardStateContext.store.assistantsOffer;
     return (
         <Assistants>
-            {assistantsOffer[0] && <Assistant size={ASSISTANT_TILE_SIZE.small} assistant={assistantsOffer[0]}/>}
-            {assistantsOffer[1] && <Assistant size={ASSISTANT_TILE_SIZE.small} assistant={assistantsOffer[1]}/>}
-            {assistantsOffer[2] && <Assistant size={ASSISTANT_TILE_SIZE.small} assistant={assistantsOffer[2]}/>}
+            {assistantsOffer.map((assistant, i) =>
+                <Assistant size={ASSISTANT_TILE_SIZE.small} assistant={assistantsOffer[i]}/>
+            )}
         </Assistants>
     )
 };

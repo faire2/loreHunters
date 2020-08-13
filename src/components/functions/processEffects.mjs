@@ -134,10 +134,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.activateLesserAssistantFromOffer:
-                    for (let i = 0; i < 2; i++) {
-                        if (tStore.assistantsOffer[i]) {
-                            rewardsArr.push(tStore.assistantsOffer[i].silverEffects);
-                        }
+                    for (let assistant of tStore.assistantsOffer) {
+                        rewardsArr.push(assistant.silverEffects);
                     }
                     rewardsData = {
                         type: REWARD_TYPE.effectsArr,

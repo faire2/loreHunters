@@ -1,7 +1,8 @@
 import {getExplorationCost} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
-import {ACTION_TYPE, LOCATION_DISCOUNT_EFFECTS, LOCATION_LEVEL, LOCATION_STATE} from "../../functions/enums";
+import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE} from "../../functions/enums";
 import {addLogEntry} from "../../main/logger";
+import {LOCATION_DISCOUNT_EFFECTS} from "../../functions/constants";
 
 export function exploreLocation(playerState, locations, store, location) {
     const exploreDiscount = hasPlayerExplorationDiscount(playerState);

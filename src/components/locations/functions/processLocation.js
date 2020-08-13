@@ -3,16 +3,11 @@ import {getExploredLocationType, occupyLocation, removeExploredLocation} from ".
 import {processEffects} from "../../functions/processEffects";
 import {addLogEntry} from "../../main/logger";
 import {cloneDeep} from "lodash";
-import {
-    ACTION_TYPE,
-    LOCATION_DISCOUNT_EFFECTS,
-    LOCATION_LEVEL,
-    LOCATION_STATE,
-    LOCATION_TYPE
-} from "../../functions/enums";
+import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../functions/enums";
 import {exploreLocation} from "./exploreLocation";
 import {Guardians} from "../../../data/guardians";
 import {payForTravelIfPossible} from "./payForTravelIfPossible";
+import {LOCATION_DISCOUNT_EFFECTS} from "../../functions/constants";
 
 export function processLocation(tPlayerState, tStore, tLocations, location, initiateRewardsModal, resolveGuardian) {
     // Resolve active effect - exploration discount is processed during exploration itself

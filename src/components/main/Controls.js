@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {PlayerStateContext} from "../../Contexts";
 import {ButtonGroup} from "react-bootstrap";
-import {CANCELLABLE_EFFECTS} from "../functions/enums";
+import {CANCELLABLE_EFFECTS} from "../functions/constants";
 
 export const Controls = () => {
     const playerStateContext = useContext(PlayerStateContext);

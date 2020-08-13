@@ -1,8 +1,9 @@
 import {ITEM_IDs} from "../../data/idLists";
 import {getLogLegends} from "../main/logger";
-import {CARD_TYPE, pointsForUnusedRelics, RELIC} from "../functions/enums";
+import {CARD_TYPE, RELIC} from "../functions/enums";
 import {selectedLegendIndex} from "../functions/initialStates/initialLegends";
 import {ARTIFACTS, ITEMS} from "../../data/cards";
+import {pointsForUnusedRelics} from "../functions/constants";
 
 export function getPoints(playerState) {
     const legends = getLogLegends();

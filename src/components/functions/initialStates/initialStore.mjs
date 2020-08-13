@@ -6,6 +6,7 @@ import {relicEffects} from "../../../data/relicEffects.mjs";
 import {Assistants} from "../../../data/assistants.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {Guardians} from "../../../data/guardians.mjs";
+import {silverAssistantsOfferNumber} from "../constants";
 
 export function getInitialStore() {
     /* all items, each item is represented only once! */
@@ -41,7 +42,7 @@ export function getInitialStore() {
 
     let itemsSetup = drawInitialCards(items, GLOBAL_VARS.itemsInStore);
     let artifactsSetup = drawInitialCards(artifacts, GLOBAL_VARS.artifactsInStore);
-    let assistantsSetup = drawInitialCards(assistants, 3);
+    let assistantsSetup = drawInitialCards(assistants, silverAssistantsOfferNumber);
 
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;
