@@ -1,10 +1,9 @@
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_STATE, LOCATION_TYPE, RELIC} from "../enums.mjs";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_SLOTS, LOCATION_STATE, LOCATION_TYPE, RELIC} from "../enums.mjs";
 import {shuffleArray} from "../cardManipulationFuntions.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {Locations} from "../../../data/locations.mjs";
 import {Guardians} from "../../../data/guardians.mjs";
 import {relicEffects} from "../../../data/relicEffects.mjs";
-import {LOCATION_SLOTS} from "../enums";
 
 /* INITIAL Locations */
 export function getInitialLocations(numOfPlayers) {
