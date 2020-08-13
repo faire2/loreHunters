@@ -6,7 +6,7 @@ import {relicEffects} from "../../../data/relicEffects.mjs";
 import {Assistants} from "../../../data/assistants.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {Guardians} from "../../../data/guardians.mjs";
-import {silverAssistantsOfferNumber} from "../constants";
+import {silverAssistantsOfferNumber} from "../constants.mjs";
 
 export function getInitialStore() {
     /* all items, each item is represented only once! */

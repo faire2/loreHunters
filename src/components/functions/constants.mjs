@@ -1,4 +1,4 @@
-import {EFFECT} from "../../data/effects";
+import {EFFECT} from "../../data/effects.mjs";
 
 export const silverAssistantsOfferNumber = 3;
 
