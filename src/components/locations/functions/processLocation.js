@@ -82,7 +82,7 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                     }
                 } else {
                     //otherwise location effects are processed
-                    if (location.slots > location.adventurers.length) {
+                    if (location.slots.length > location.adventurers.length) {
                         const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
                         if (!travelCheckResults.enoughResources) {
                             return ({failedTravel: true});

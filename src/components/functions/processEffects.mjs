@@ -147,10 +147,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.activateStrongerAssistantFromOffer:
-                    for (let i = 0; i < 2; i++) {
-                        if (tStore.assistantsOffer[i]) {
-                            rewardsArr.push(tStore.assistantsOffer[i].goldEffects);
-                        }
+                    for (let assistant of tStore.assistantsOffer) {
+                        rewardsArr.push(assistant.goldEffects);
                     }
                     rewardsData = {
                         type: REWARD_TYPE.effectsArr,

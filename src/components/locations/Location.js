@@ -41,7 +41,7 @@ export default function Location(props) {
         }
     } else if (location.type === LOCATION_TYPE.basic) {
         locationBackground = basicBgr;
-        travelCost = [EFFECT.loseWalk];
+        travelCost = [location.slots];
     } else {
         console.log("Unable to process location level or type in Location.js: " + location.id + " / " + location.type + " / " + location.level)
     }

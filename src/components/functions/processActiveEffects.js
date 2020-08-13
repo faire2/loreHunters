@@ -349,7 +349,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.moveAdvToL1Location:
             if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level === LOCATION_LEVEL["1"]
-                && `tLocation.adventurers.length < tLocation.slots `&& tLocation.id !== tPlayerState.activeEffects[1]) {
+                && tLocation.adventurers.length < tLocation.slots.length && tLocation.id !== tPlayerState.activeEffects[1]) {
                 tPlayerState.activeEffects.splice(0, 2);
                 const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);
                 tPlayerState = result.playerState;
@@ -360,7 +360,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.moveAdvToL1L2Location:
             if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level !== LOCATION_LEVEL["3"]
-                && tLocation.adventurers.length < tLocation.slots && tLocation.id !== tPlayerState.activeEffects[1]) {
+                && tLocation.adventurers.length < tLocation.slots.length && tLocation.id !== tPlayerState.activeEffects[1]) {
                 tPlayerState.activeEffects.splice(0, 2);
                 const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);
                 tPlayerState = result.playerState;

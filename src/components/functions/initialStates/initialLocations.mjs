@@ -43,12 +43,18 @@ export function getInitialLocations(numOfPlayers) {
         [LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both],
     ];
 
+    let basicLocationNumber = 0;
     for (let i = 0; i < locationKeys.length; i++) {
         let location = Locations[locationKeys[i]];
         location.state = LOCATION_TYPE.basic === location.type ? LOCATION_STATE.explored : LOCATION_STATE.unexplored;
 
         // slots describe how many players can be using the location at once
-        location.slots = LOCATION_TYPE.basic === location.type ? 2 : 1;
+        if (location.type !== LOCATION_TYPE.basic) {
+            location.slots = [LOCATION_SLOTS.single];
+        } else {
+            location.slots = basicLocationSlots[numOfPlayers][basicLocationNumber];
+            basicLocationNumber += 1;
+        }
 
         // every location has array to hold adventurers
         location.adventurers = [];
@@ -58,25 +64,25 @@ export function getInitialLocations(numOfPlayers) {
     relicEffects.silver = shuffleArray(relicEffects.silver);
 
     let line1 = [level1locations[0], level1locations[1], level1locations[2], level1locations[3], level1locations[4]];
-    line1 = setLocationIndexAndLine(LOCATION_LINE.line1, line1)
+    line1 = setLocationIndexAndLine(LOCATION_LINE.line1, line1);
 
     let line2 = [cloneDeep(Locations.emptyBrownLocation2),  cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyGreenLocation2),
         cloneDeep(Locations.emptyGreenLocation2)];
-    line2 = setLocationIndexAndLine(LOCATION_LINE.line2, line2)
+    line2 = setLocationIndexAndLine(LOCATION_LINE.line2, line2);
     for (let location of line2) {
         location = setRelicEffects(location, RELIC.bronze);
     }
 
     let line3 = [cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyGreenLocation2),
         cloneDeep(Locations.emptyGreenLocation2)];
-    line3 = setLocationIndexAndLine(LOCATION_LINE.line3, line3)
+    line3 = setLocationIndexAndLine(LOCATION_LINE.line3, line3);
     for (let location of line3) {
         location = setRelicEffects(location, RELIC.bronze);
     }
 
     let line4 = [cloneDeep(Locations.emptyBrownLocation3), cloneDeep(Locations.emptyBrownLocation3), cloneDeep(Locations.emptyGreenLocation3),
         cloneDeep(Locations.emptyGreenLocation3)];
-    line4 = setLocationIndexAndLine(LOCATION_LINE.line4, line4)
+    line4 = setLocationIndexAndLine(LOCATION_LINE.line4, line4);
     for (let location of line4) {
         location = setRelicEffects(location, RELIC.silver);
     }

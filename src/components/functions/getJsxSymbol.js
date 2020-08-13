@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components"
 import {EFFECT} from "../../data/effects";
 import {
     AdventurerToken,
@@ -32,6 +33,7 @@ import {
     Weapon
 } from "../Symbols";
 import {DivRow, ResearchTokenWrapper} from "./styles";
+import {LOCATION_SLOTS} from "./enums";
 
 export function getJsxSymbol(effect) {
     switch (effect) {
@@ -133,8 +135,29 @@ export function getJsxSymbol(effect) {
             return <DivRow><Ship/>|<Coin/></DivRow>;
         case EFFECT.gainJeepOrCoin:
             return <DivRow><Jeep/>|<Coin/></DivRow>;
+        case LOCATION_SLOTS.single:
+            return <Walk/>;
+        case LOCATION_SLOTS.double:
+            return <DoubleBoots><Walk /><Walk/></DoubleBoots>;
+        case LOCATION_SLOTS.both:
+            return <BasicLocationDoubleSlot><Walk /><div style={{width: "5vw"}}/><Walk /><Walk /></BasicLocationDoubleSlot>
         default:
             console.error("Unable to recognize effect in getJsxEffect: " + effect);
     }
 }
+
+const BasicLocationDoubleSlot = styled.div`
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    width: 6.2vw;
+    margin-bottom: 0.1vw;
+`;
+
+const DoubleBoots = styled.div`
+    display: flex;
+    flex-flow: row;
+    margin-left: 4.2vw;
+    margin-bottom: 0.1vw;
+`;
 

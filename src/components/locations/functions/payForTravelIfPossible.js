@@ -1,13 +1,13 @@
 import {EFFECT} from "../../../data/effects";
 import {TRANSPORT_TYPE} from "../../../data/locations";
-import {LOCATION_LEVEL, LOCATION_TYPE} from "../../functions/enums";
+import {LOCATION_LEVEL, LOCATION_SLOTS, LOCATION_TYPE} from "../../functions/enums";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
     let transportType = null;
     let transportCost = null;
 
-    if (location !== null && location.slots > location.adventurers.length) {
+    if (location !== null && location.slots.length > location.adventurers.length) {
         // if we have location we determine travel cost
         if (location.type === LOCATION_TYPE.green) {
             transportType = TRANSPORT_TYPE.ship;
@@ -19,7 +19,21 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
             console.error("Unable to determine location type: " + location.type)
         }
 
-        if (location.level === LOCATION_LEVEL["2"] || location.level === LOCATION_LEVEL["1"]) {
+        if (location.level === LOCATION_LEVEL["1"]) {
+            switch (location.slots) {
+                case LOCATION_SLOTS.single:
+                    transportCost = 1;
+                    break;
+                case LOCATION_SLOTS.double:
+                    transportCost = 2;
+                    break;
+                case LOCATION_SLOTS.both:
+                    transportCost = location.adventurers.length === 0 ? 1 : 2;
+                    break;
+                default:
+                    console.error("Unable to recognize basic location slots type: " + location.slots);
+            }
+        } else if (location.level === LOCATION_LEVEL["2"]) {
             transportCost = 1;
         } else if (location.level === LOCATION_LEVEL["3"]) {
             transportCost = 2;
