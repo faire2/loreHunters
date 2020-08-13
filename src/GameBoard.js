@@ -487,6 +487,7 @@ function GameBoard(props) {
                 const buyResult = processCardBuy(card, cardIndex, cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
                 let tPlayerState = buyResult.tPlayerState;
                 let tStore = buyResult.tStore;
+                let tLocations = buyResult.tLocations;
                 if (buyResult.processGuardian) {
                     const guardianResult = handleGuardianArrival(tPlayerState, tStore, round);
                     tPlayerState = guardianResult.tPlayerState;
@@ -496,6 +497,7 @@ function GameBoard(props) {
                     initiateRewardsModal(buyResult.rewardsData);
                 }
                 setPlayerState(cloneDeep(tPlayerState));
+                setLocations(tLocations);
                 setStore(tStore);
             }
         }

@@ -34,6 +34,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             if (tCard) {
                 const buyResults = processCardBuy(tCard, cardIndex, tPlayerState, tStore, tLocations);
                 tPlayerState = buyResults.tPlayerState;
+                tLocations = buyResults.tLocations;
                 tStore = buyResults.tStore;
                 tPlayerState.activeEffects = buyResults.tPlayerState.activeEffects;
                 processGuardian = buyResults.processGuardian;

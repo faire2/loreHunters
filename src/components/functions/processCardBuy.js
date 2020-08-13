@@ -103,6 +103,8 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
         /* the artifact effect applies when artifact is bought */
         const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, tStore, null, tLocations);
         tPlayerState = effectsResult.tPlayerState;
+        tLocations = effectsResult.tLocations;
+
         if (tPlayerState.activeEffects[0] === EFFECT.resolveAdditionalEffects) {
             const effectsResult = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1],
                 tStore, null, tLocations);
@@ -130,5 +132,5 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
     if (activeEffect === EFFECT.gainItemOfValue) {
         tPlayerState.activeEffects.splice(0, 2);
     }
-    return {tPlayerState: tPlayerState, tStore: tStore, processGuardian: processGuardian, showRewardsModal, rewardsData}
+    return {tPlayerState: tPlayerState, tLocations: tLocations, tStore: tStore, processGuardian: processGuardian, showRewardsModal, rewardsData}
 }
