@@ -228,6 +228,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         const bottomCard = tPlayerState.drawDeck[tPlayerState.drawDeck.length - 1];
                         tPlayerState = removeCard(bottomCard, tPlayerState, tStore);
                         tPlayerState.hand.push(bottomCard);
+                        tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
                     }
                     break;
 
