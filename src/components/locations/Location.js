@@ -12,34 +12,39 @@ import {LocationEffects} from "./LocationEffects";
 import {LocationAdventurers} from "./LocationAdventurers";
 import {LocationGuardian} from "./LocationGuardian";
 import {RelicWithResource} from "../relics/RelicWithResource";
+import {EFFECT} from "../../data/effects";
+import {LocationTravelCost} from "./LocationTravelCost";
 
 export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
     const location = props.location;
 
     let locationBackground = null;
+    let travelCost = [];
 
     // location background
     if (location.state === LOCATION_STATE.unexplored) {
         locationBackground = emptyBgr;
     } else if (location.type === LOCATION_TYPE.brown) {
         locationBackground = brownBgr;
+        if (location.level === LOCATION_LEVEL["2"]) {
+            travelCost = [EFFECT.loseJeep];
+        } else {
+            travelCost = [EFFECT.loseJeep, EFFECT.loseJeep];
+        }
     } else if (location.type === LOCATION_TYPE.green) {
         locationBackground = greenBgr;
+        if (location.level === LOCATION_LEVEL["2"]) {
+            travelCost = [EFFECT.loseShip];
+        } else {
+            travelCost = [EFFECT.loseShip, EFFECT.loseShip];
+        }
     } else if (location.type === LOCATION_TYPE.basic) {
         locationBackground = basicBgr;
+        travelCost = [EFFECT.loseWalk];
     } else {
         console.log("Unable to process location level or type in Location.js: " + location.id + " / " + location.type + " / " + location.level)
     }
-
-    /*const levelSymbol = location.level === LOCATION_LEVEL["2"] ? <Level2Symbol/> : <Level3Symbol/>;
-    const levelSymbolStyle = {
-        position: "absolute",
-        marginTop: "-0.1vw",
-        fontSize: "0.6vw",
-        width: "100%",
-    };
-    */
 
     /* explore costs for unexplored location */
     const exploreCost = getExplorationCost(location.type, location.level, false, null);
@@ -47,21 +52,23 @@ export default function Location(props) {
         <LocationWrapper explored={location.state !== LOCATION_STATE.unexplored} exploredBgr={locationBackground}
              onClick={() => boardStateContext.handleClickOnLocation(location, false)}>
             {location.state === LOCATION_STATE.unexplored &&
-            <RelicWrapper>
-                <RelicWithResource relicType={location.level === LOCATION_LEVEL["2"] ? RELIC.bronze : RELIC.silver}
-                                   effects={location.relicEffects} fontSize={1.3}/>
-            </RelicWrapper>
+                <RelicWrapper>
+                    <RelicWithResource relicType={location.level === LOCATION_LEVEL["2"] ? RELIC.bronze : RELIC.silver}
+                                       effects={location.relicEffects} fontSize={1.3}/>
+                </RelicWrapper>
             }
             {location.guardian && location.state === LOCATION_STATE.guarded &&
-            <div onClick={() => boardStateContext.handleClickOnLocation(location, true)}>
-                <LocationGuardian guardian={location.guardian}/>
-            </div>
+                <div onClick={() => boardStateContext.handleClickOnLocation(location, true)}>
+                    <LocationGuardian guardian={location.guardian}/>
+                </div>
             }
-            {/*{location.state === LOCATION_STATE.unexplored && <div style={levelSymbolStyle}>{levelSymbol}</div>}*/}
+            {(location.state === LOCATION_STATE.explored || location.state === LOCATION_STATE.guarded)
+                && <LocationTravelCost travelCost={travelCost}/>}
+
             {location.state === LOCATION_STATE.unexplored ? <ExplorationCost exploreCost={exploreCost}/>
                 : <LocationEffects effects={location.effects}/>}
 
-            <LocationAdventurers adventurers={location.adventurers}/>
+            <LocationAdventurers adventurers={location.adventurers} locationType={location.type} guarded={location.guardian != null}/>
         </LocationWrapper>
     )
 }

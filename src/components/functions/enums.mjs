@@ -67,6 +67,12 @@ export const LOCATION_STATE = Object.freeze({
     guarded: "guarded",
 });
 
+export const LOCATION_SLOTS = Object.freeze({
+    single: "single adventurer slot",
+    double: "double adventurer slot",
+    both: "both adventurers slots",
+});
+
 export const ASSISTANT_LEVEL = Object.freeze({
     silver: "silver level",
     gold: "gold level",

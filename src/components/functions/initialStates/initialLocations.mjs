@@ -4,6 +4,7 @@ import cloneDeep from "lodash/cloneDeep.js";
 import {Locations} from "../../../data/locations.mjs";
 import {Guardians} from "../../../data/guardians.mjs";
 import {relicEffects} from "../../../data/relicEffects.mjs";
+import {LOCATION_SLOTS} from "../enums";
 
 /* INITIAL Locations */
 export function getInitialLocations(numOfPlayers) {
@@ -35,14 +36,13 @@ export function getInitialLocations(numOfPlayers) {
         }
     }
 
-    /*let level1 = [];
-    let level2Green = [];
-    let level3Green = [];
-    let level2Brown = [];
-    let level3Brown = [];*/
-    let level3LostCity = [];
-
-    /*const lineLocationMaximum = 4;*/
+    // basic location slots are determined by number of players
+    const basicLocationSlots = [
+        [LOCATION_SLOTS.both, LOCATION_SLOTS.double, LOCATION_SLOTS.double, LOCATION_SLOTS.single, LOCATION_SLOTS.single],
+        [LOCATION_SLOTS.both, LOCATION_SLOTS.double, LOCATION_SLOTS.double, LOCATION_SLOTS.single, LOCATION_SLOTS.single],
+        [LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.double, LOCATION_SLOTS.single],
+        [LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both],
+    ];
 
     for (let i = 0; i < locationKeys.length; i++) {
         let location = Locations[locationKeys[i]];
@@ -89,7 +89,6 @@ export function getInitialLocations(numOfPlayers) {
         line4: line4,
         level2Locations: level2locations,
         level3Locations: level3locations,
-        lostCity: level3LostCity,
         guardianKeys: guardianKeys
     };
 }
