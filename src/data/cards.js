@@ -284,7 +284,7 @@ export const ITEMS = Object.freeze({
             plus a a discount of <Explore/><Explore/> if discovering a new site.</div>,
         effects: [EFFECT.exploreAnyLocationWithDiscount2, EFFECT.destroyThisCard], //pozor na update efektu, je vyhodnocen v sekci pro explore lokaci
         image: hotAirBalloonImg,
-        cost: 2,
+        cost: 1,
         points: 1
     },
     airplane: {

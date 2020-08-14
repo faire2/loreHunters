@@ -189,6 +189,10 @@ export const ITEM_IDs = Object.freeze({
         id: "machete",
         type: CARD_TYPE.item,
     },
+     axe: {
+            id: "axe",
+            type: CARD_TYPE.item,
+        },
     beartrap: {
         id: "beartrap",
         type: CARD_TYPE.item,
