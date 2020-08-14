@@ -4,12 +4,12 @@ export const Assistants = Object.freeze({
     goldDigger: {
         id: "goldDigger",
         silverEffects: [EFFECT.gainCoin],
-        goldEffects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
+        goldEffects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore],
     },
     professor: {
         id: "professor",
         silverEffects: [EFFECT.gainText],
-        goldEffects: [EFFECT.gainText, EFFECT.gainText],
+        goldEffects: [EFFECT.gainExplore, EFFECT.gainText],
     },
     hunter: {
         id: "hunter",
