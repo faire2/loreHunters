@@ -381,10 +381,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "jewelDice",
         type: CARD_TYPE.artifact,
     },*/
-    preciousLock: {
+    /*preciousLock: {
         id: "preciousLock",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     tradersSatchel: {
         id: "tradersSatchel",
         type: CARD_TYPE.artifact,
@@ -397,10 +397,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "ancientWine",
         type: CARD_TYPE.artifact,
     },
-    mirrorBowl: {
+    /*mirrorBowl: {
         id: "mirrorBowl",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     guradiansCrown: {
         id: "guradiansCrown",
         type: CARD_TYPE.artifact,
