@@ -15,6 +15,7 @@ import {
     Discount,
     Draw1Card,
     Explore,
+    Fear,
     GainAction,
     GoldAssistant,
     Item,
@@ -140,7 +141,9 @@ export function getJsxSymbol(effect) {
         case LOCATION_SLOTS.double:
             return <DoubleBoots><Walk /><Walk/></DoubleBoots>;
         case LOCATION_SLOTS.both:
-            return <BasicLocationDoubleSlot><Walk /><div style={{width: "5vw"}}/><Walk /><Walk /></BasicLocationDoubleSlot>
+            return <BasicLocationDoubleSlot><Walk /><div style={{width: "5vw"}}/><Walk /><Walk /></BasicLocationDoubleSlot>;
+        case EFFECT.gainFear:
+            return <Fear/>;
         default:
             console.error("Unable to recognize effect in getJsxEffect: " + effect);
     }

@@ -74,7 +74,15 @@ import magicDoor from "../img/cardImages/artifacts/magicDoor.gif"
 
 
 import {EFFECT} from "./effects.mjs";
-import {FirstLegendToken, Flash, GainAction, PlaceAdventurer, SecondLegendToken, Treasure} from "../components/Symbols";
+import {
+    FirstLegendToken,
+    Flash,
+    GainAction,
+    LocationL3,
+    PlaceAdventurer,
+    SecondLegendToken,
+    Treasure
+} from "../components/Symbols";
 import {CARD_TYPE} from "../components/functions/enums";
 
 
@@ -398,8 +406,8 @@ export const ITEMS = Object.freeze({
         cardName: "Tent",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Activate:</b> site that you currently occupy.
-        </div>,
+        effectsText: <div className="effectsText"><b>Activate:</b> a site you currently occupy. Pay <Explore /><Explore />
+        if it is a <LocationL3 /> site. </div>,
         effects: [EFFECT.activateYourLocation],
         image: tentImg,
         cost: 4,

@@ -59,8 +59,13 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.activateYourLocation:
-            if (tLocation !== null && tLocation.adventurers.length > 0 && tLocation.adventurers[0] === tPlayerState.playerIndex) {
-                const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
+            if (tLocation && tLocation.adventurers.length > 0 && tLocation.adventurers.includes(tPlayerState.playerIndex)) {
+                let tEffects = tLocation.effects;
+                if (tLocation.level === LOCATION_LEVEL["3"]) {
+                    tEffects.splice(0, 0, EFFECT.loseExplore);
+                    tEffects.splice(0, 0, EFFECT.loseExplore);
+                }
+                const effectsResult = processEffects(null, null, tPlayerState, tEffects, tStore, tLocation, tLocations);
                 tPlayerState = effectsResult.tPlayerState;
                 tLocations = effectsResult.tLocations;
                 tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
@@ -68,6 +73,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState.activeEffects.splice(0, 1);
             }
             break;
+
         case EFFECT.activateAdjacentLocation:
             if (tLocation && tLocation.level !== LOCATION_LEVEL["3"] && isLocationAdjancentToAdventurer(tLocation, tLocation.line, tLocations, tPlayerState)) {
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
