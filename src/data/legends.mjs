@@ -13,11 +13,11 @@ export const Legends = Object.freeze({
         // victory point for first and second token in a given column
         // last column is resolved in next property
         victoryPoints: {
-            firstToken: [0, 2, 4, 6, 9, 12, 15, 0],
-            secondToken: [1, 1, 2, 4, 7, 9, 11, 0],
+            firstToken: [1, 2, 4, 6, 9, 12, 16, 0],
+            secondToken: [0, 1, 2, 4, 6, 8, 10, 0],
         },
         // victory points for reaching lost city, first player gains most
-        lostCityPoints: [15, 14, 13, 12, 12, 12, 12, 12],
+        lostCityPoints: [22, 21, 19, 18, 18, 18, 18, 18],
         lostCityPlayers: [],
         columnRewards: [
             [
@@ -76,7 +76,7 @@ export const Legends = Object.freeze({
             [
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText],
+                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["3"],
                 },
             ],
@@ -126,12 +126,12 @@ export const Legends = Object.freeze({
 
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseWeapon],
+                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["2"],
                 },
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseText, EFFECT.loseJewel],
+                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
             ],
@@ -139,7 +139,7 @@ export const Legends = Object.freeze({
             [
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseExplore, EFFECT.loseJewel],
+                    cost: [EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseJewel],
                     size: FIELD_SIZE["3"],
                 },
             ]
