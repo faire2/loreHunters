@@ -405,6 +405,56 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     };
                     break;
 
+                case EFFECT.gain2PlanesOr2Coins:
+                    showRewardsModal = true;
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            [EFFECT.gainCoin, EFFECT.gainCoin],
+                            [EFFECT.gainPlane, EFFECT.gainPlane]
+                        ]
+                    };
+                    break;
+
+                case EFFECT.gainJeepOrExplore:
+                    showRewardsModal = true;
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            [EFFECT.gainJeep],
+                            [EFFECT.gainExplore]
+                        ]
+                    };
+                    break;
+
+                case EFFECT.gainShipOrExplore:
+                    showRewardsModal = true;
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            [EFFECT.gainShip],
+                            [EFFECT.gainExplore]
+                        ]
+                    };
+                    break;
+
+                case EFFECT.gain2JeepsOr2Explores:
+                    showRewardsModal = true;
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            [EFFECT.gainJeep, EFFECT.gainJeep],
+                            [EFFECT.gainExplore, EFFECT.gainExplore]
+                        ]
+                    };
+                    break;
+
+                case EFFECT.gain2ShipsOr2Explores:
+                    showRewardsModal = true;
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            [EFFECT.gainShip, EFFECT.gainShip],
+                            [EFFECT.gainExplore, EFFECT.gainExplore]
+                        ]
+                    };
+                    break;
+
                 case EFFECT.gainCoinAndExploresForGuardians:
                     let defeatedGuardians = 0;
                     // eslint-disable-next-line no-unused-vars

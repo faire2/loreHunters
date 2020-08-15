@@ -149,6 +149,7 @@ export default function ChooseRewardModal() {
                 for (let assistant of tPlayerState.assistants) {
                     if (reward.id === assistant.id) {
                         assistant.level = ASSISTANT_LEVEL.gold;
+                        assistant.state = ASSISTANT_STATE.ready;
                     }
                 }
                 break;
