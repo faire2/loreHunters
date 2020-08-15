@@ -1142,8 +1142,8 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Discard/> to gain the effect of two
-                different <LocationL1/></div>,
+            <div className="effectsText">Lose <Coin/> to gain the effect of two different <LocationL1/>
+            </div>,
         effects: [EFFECT.loseCoin, EFFECT.activate2L1Locations],
         isGuarded: false,
         image: "",

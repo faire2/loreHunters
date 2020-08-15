@@ -28,7 +28,7 @@ export const Assistants = Object.freeze({
     },
     chef: {
         id: "chef",
-        silverEffects: [EFFECT.discard, EFFECT.arrow, EFFECT.draw1],
+        silverEffects: [EFFECT.draw1, EFFECT.discard],
         goldEffects: [EFFECT.draw1],
     },
     pilot: {

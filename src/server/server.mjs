@@ -204,46 +204,49 @@ io.on("connection", socket => {
     /** End of round**/
     socket.on(TRANSMISSIONS.finishedRound, states => {
         let room = getRoom(states.roomName, gameRooms);
-        room.previousStates = cloneDeep(room.state);
-        let playerIndex = room.players.indexOf(getUserName(socket.id, users));
-        for (let playerState of room.states.playerStates) {
-            console.debug("Has player " + playerState.playerIndex + " finished round?" + playerState.finishedRound);
-        }
-        console.debug("end of round initiated by player: " + playerIndex + "(" + getUserName(socket.id, users) + ")");
-        if (playerIndex !== -1) {
-            room = updateRoomState(room, playerIndex, states);
-            room.states.playerStates[playerIndex].finishedRound = true;
+        if (room) {
+            room.previousStates = cloneDeep(room.state);
 
-            let nextPlayerIndex = playerIndex + 1 < room.numOfPlayers ? playerIndex + 1 : 0;
-            let haveAllFinished = true;
-
-            while (playerIndex !== nextPlayerIndex) {
-                if (!room.states.playerStates[nextPlayerIndex].finishedRound) {
-                    haveAllFinished = false;
-                }
-                nextPlayerIndex = nextPlayerIndex + 1 < room.numOfPlayers ? nextPlayerIndex + 1 : 0;
+            let playerIndex = room.players.indexOf(getUserName(socket.id, users));
+            for (let playerState of room.states.playerStates) {
+                console.debug("Has player " + playerState.playerIndex + " finished round?" + playerState.finishedRound);
             }
-            console.debug("have all finished: " + haveAllFinished);
+            console.debug("end of round initiated by player: " + playerIndex + "(" + getUserName(socket.id, users) + ")");
+            if (playerIndex !== -1) {
+                room = updateRoomState(room, playerIndex, states);
+                room.states.playerStates[playerIndex].finishedRound = true;
 
-            if (haveAllFinished) {
-                if (room.states.round < 5) {
-                    room = processEndOfRound(room);
+                let nextPlayerIndex = playerIndex + 1 < room.numOfPlayers ? playerIndex + 1 : 0;
+                let haveAllFinished = true;
+
+                while (playerIndex !== nextPlayerIndex) {
+                    if (!room.states.playerStates[nextPlayerIndex].finishedRound) {
+                        haveAllFinished = false;
+                    }
+                    nextPlayerIndex = nextPlayerIndex + 1 < room.numOfPlayers ? nextPlayerIndex + 1 : 0;
+                }
+                console.debug("have all finished: " + haveAllFinished);
+
+                if (haveAllFinished) {
+                    if (room.states.round < 5) {
+                        room = processEndOfRound(room);
+                    } else {
+                        console.debug("Sending new round states to all players.");
+                        io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
+                            playerStates: room.states.playerStates,
+                            numOfPlayers: room.states.numOfPlayers,
+                            legends: room.states.legends,
+                        })
+                    }
                 } else {
-                    console.debug("Sending new round states to all players.");
-                    io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
-                        playerStates: room.states.playerStates,
-                        numOfPlayers: room.states.numOfPlayers,
-                        legends: room.states.legends,
-                    })
+                    room.states.activePlayer = nextPlayer(playerIndex, room);
                 }
+                room.previousStates = room.states;
+                updateStatesToAll(room);
             } else {
-                room.states.activePlayer = nextPlayer(playerIndex, room);
+                console.error("Unable to process user - possible disconnection. Socket id: " + socket.id);
             }
-            room.previousStates = room.states;
-            updateStatesToAll(room);
-        } else {
-            console.error("Unable to process user - possible disconnection. Socket id: " + socket.id);
-        }
+        } else {console.error("Unable to get room at end of round" + room)}
     });
 
     /**  SEND BACK SCORING STATES **/

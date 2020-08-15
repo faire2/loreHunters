@@ -154,16 +154,20 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             if (tCard && tCard.state === CARD_STATE.inHand) {
                 tPlayerState = addCardToPlayedCards(tCard, tPlayerState);
                 tPlayerState.hand.splice(cardIndex, 1);
-                // we might have stored location in active effects if discard was part of defeating a guardian
-                // otherwise this effect is null
-                if (tPlayerState.activeEffects[2].location) {
+                if (tPlayerState.activeEffects[1]) {
+                    // we might have stored location in active effects if discard was part of defeating a guardian
+                    // otherwise this effect is null
+                    if (tPlayerState.activeEffects[2].location) {
+                        tLocation = tPlayerState.activeEffects[2].location;
+                        tPlayerState.activeEffects.splice(2, 1);
+                    }
+                    const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tStore, tLocation, tLocations);
+                    tPlayerState = effectsResults.tPlayerState;
+                    tPlayerState.activeEffects.splice(0, 2);
+                    tLocations = effectsResults.tLocations;
+                } else {
+                    tPlayerState.activeEffects.splice(0, 1);
                 }
-                tLocation = tPlayerState.activeEffects[2].location;
-                tPlayerState.activeEffects.splice(2, 1);
-                const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tStore, tLocation, tLocations);
-                tPlayerState = effectsResults.tPlayerState;
-                tPlayerState.activeEffects.splice(0, 2);
-                tLocations = effectsResults.tLocations;
             }
             break;
 
@@ -235,7 +239,8 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                     tStore.artifactsOffer = spliceCardIfFound(tCard, tStore.artifactsOffer);
                     tStore.artifactsOffer.push(tStore.artifactsDeck[0]);
                     tStore.artifactsDeck.splice(0, 1);
-                } else { console.error("Unable to find card type to remove card in EFFECT.destroyCardInStore: " + tCard)
+                } else {
+                    console.error("Unable to find card type to remove card in EFFECT.destroyCardInStore: " + tCard)
                 }
                 tPlayerState.activeEffects.splice(0, 1);
             }

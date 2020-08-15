@@ -158,16 +158,19 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 // positive effects hidden behind the discard are stored in activeEffects
                 case EFFECT.discard:
                     if (tPlayerState.hand.length > 0) {
+                        tActiveEffects.push(effect);
                         let tEffects = [];
                         const discardIndex = effects.indexOf(EFFECT.discard);
-                        for (let i = discardIndex + 1; i < effects.length; i++) {
-                            tEffects.push(effects[i]);
+                        // if we have more effects to process, we hide them to active effects
+                        if (discardIndex < effects.length - 1) {
+                            for (let i = discardIndex + 1; i < effects.length; i++) {
+                                tEffects.push(effects[i]);
+                            }
+                            // we store effects behind active effect: discard - and retrieve them later
+                            tActiveEffects.splice(tActiveEffects.length, 0, [...tEffects]);
+                            // if discard leads to defeat of guardian, we need to remember the card
+                            tActiveEffects.splice(tActiveEffects.length, 0, {location: location});
                         }
-                        tActiveEffects.push(effect);
-                        // we store effects behind active effect: discard - and retrieve them later
-                        tActiveEffects.splice(tActiveEffects.length, 0, [...tEffects]);
-                        // if discard leads to defeat of guardian, we need to remember the card
-                        tActiveEffects.splice(tActiveEffects.length, 0, {location: location});
                         return;
                     } else {
                         processedAllEffects = false;
