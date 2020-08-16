@@ -104,6 +104,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
         const effectsResult = processEffects(card, cardIndex, tPlayerState, card.effects, tStore, null, tLocations);
         tPlayerState = effectsResult.tPlayerState;
         tLocations = effectsResult.tLocations;
+        tStore = effectsResult.tStore;
 
         if (tPlayerState.activeEffects[0] === EFFECT.resolveAdditionalEffects) {
             const effectsResult = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1],
