@@ -160,6 +160,9 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                     if (tPlayerState.activeEffects[2].location) {
                         tLocation = tPlayerState.activeEffects[2].location;
                         tPlayerState.activeEffects.splice(2, 1);
+                    } else {
+                        // remove null location
+                        tPlayerState.activeEffects[2] && tPlayerState.activeEffects.splice(2, 1);
                     }
                     const effectsResults = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1], tStore, tLocation, tLocations);
                     tPlayerState = effectsResults.tPlayerState;
