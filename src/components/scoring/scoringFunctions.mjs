@@ -55,8 +55,8 @@ export function getPoints(playerState) {
     /* RELICS */
     let relicsPoints = 0;
     relicsPoints += playerState.resources.bronzeRelics * 3;
-    relicsPoints += playerState.resources.silverRelics * 6;
-    relicsPoints += playerState.resources.goldRelics * 9;
+    relicsPoints += playerState.resources.silverRelics * 7;
+    relicsPoints += playerState.resources.goldRelics * 11;
 
     // placed relics
     let relics = playerState.relics;
