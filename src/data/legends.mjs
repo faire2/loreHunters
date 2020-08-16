@@ -42,7 +42,7 @@ export const Legends = Object.freeze({
                 [EFFECT.gainExplore], [EFFECT.defeatGuardianOnOwnedLocation],
             ],
             [
-                [EFFECT.gainRewardLevel, EFFECT.discoverLostCity], [EFFECT.gainRewardLevel],
+                [EFFECT.destroyCard, EFFECT.discoverLostCity], [EFFECT.destroyCard],
             ]
         ],
         fields: [

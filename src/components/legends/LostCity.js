@@ -104,30 +104,30 @@ export function LostCity() {
         let params;
         switch (rewardLevel) {
             case 1:
-                for (let i = 0; i < 2; i++) {
+                /*for (let i = 0; i < 2; i++) {
                     if (tStore.bronzeRelicEffects.length > 0) {
                         relicRewards.push(tStore.bronzeRelicEffects[0]);
                         tStore.bronzeRelicEffects.splice(0, 1);
                     }
-                }
+                }*/
                 params = RELIC.bronze;
                 break;
             case 2:
-                for (let i = 0; i < 2; i++) {
+                /*for (let i = 0; i < 2; i++) {
                     if (tStore.silverRelicEffects.length > 0) {
                         relicRewards.push(tStore.silverRelicEffects[0]);
                         tStore.silverRelicEffects.splice(0, 1);
                     }
-                }
+                }*/
                 params = RELIC.silver;
                 break;
             case 3:
-                for (let i = 0; i < 2; i++) {
+                /*for (let i = 0; i < 2; i++) {
                     if (tStore.goldRelicEffects.length > 0) {
                         relicRewards.push(tStore.goldRelicEffects[0]);
                         tStore.goldRelicEffects.splice(0, 1);
                     }
-                }
+                }*/
                 params = RELIC.gold;
                 break;
             case 0:

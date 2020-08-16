@@ -507,8 +507,21 @@ function GameBoard(props) {
     function handleLostCity(tPlayerstate, tStore, relicRewards, params) {
         setPlayerState(tPlayerstate);
         setStore(tStore);
-        if (relicRewards.length > 0) {
+        /*if (relicRewards.length > 0) {
             initiateRewardsModal({type: REWARD_TYPE.relicWithEffects, data: relicRewards, params: params});
+        }*/
+        switch (params) {
+            case RELIC.bronze:
+                tPlayerstate.resources.bronzeRelics += 1;
+                break;
+            case RELIC.silver:
+                tPlayerstate.resources.silverRelics += 1;
+                break;
+            case RELIC.gold:
+                tPlayerstate.resources.goldRelics += 1;
+                break;
+            default:
+                console.error("Unable to process relic type in handleLostCity: " + params);
         }
         setExtendRightPanel(false);
     }
