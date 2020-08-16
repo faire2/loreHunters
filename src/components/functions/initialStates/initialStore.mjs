@@ -44,6 +44,10 @@ export function getInitialStore() {
     let artifactsSetup = drawInitialCards(artifacts, GLOBAL_VARS.artifactsInStore);
     let assistantsSetup = drawInitialCards(assistants, silverAssistantsOfferNumber);
 
+    /*let card = ARTIFACT_IDs.ornateHammer;
+    card.state = CARD_STATE.inStore;
+    artifactsSetup.deck.splice(3, 1, card);*/
+
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;
     }

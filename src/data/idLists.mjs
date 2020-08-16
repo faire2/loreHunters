@@ -405,10 +405,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "guradiansCrown",
         type: CARD_TYPE.artifact,
     },
-    boneHairpin: {
+    /*boneHairpin: {
         id: "boneHairpin",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     sandals: {
         id: "sandals",
         type: CARD_TYPE.artifact,

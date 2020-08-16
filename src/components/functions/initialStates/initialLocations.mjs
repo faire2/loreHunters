@@ -37,9 +37,9 @@ export function getInitialLocations(numOfPlayers) {
 
     // basic location slots are determined by number of players
     const basicLocationSlots = [
-        [LOCATION_SLOTS.both, LOCATION_SLOTS.double, LOCATION_SLOTS.double, LOCATION_SLOTS.single, LOCATION_SLOTS.single],
-        [LOCATION_SLOTS.both, LOCATION_SLOTS.double, LOCATION_SLOTS.double, LOCATION_SLOTS.single, LOCATION_SLOTS.single],
-        [LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.double, LOCATION_SLOTS.single],
+        [LOCATION_SLOTS.single, LOCATION_SLOTS.single, LOCATION_SLOTS.single, LOCATION_SLOTS.single, LOCATION_SLOTS.single],
+        [LOCATION_SLOTS.single, LOCATION_SLOTS.single, LOCATION_SLOTS.single, LOCATION_SLOTS.single, LOCATION_SLOTS.single],
+        [LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.single, LOCATION_SLOTS.single, LOCATION_SLOTS.single],
         [LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both, LOCATION_SLOTS.both],
     ];
 
