@@ -126,12 +126,12 @@ export const Legends = Object.freeze({
 
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseText, EFFECT.loseWeapon],
+                    cost: [EFFECT.loseCoin, EFFECT.loseText, EFFECT.loseWeapon],
                     size: FIELD_SIZE["2"],
                 },
                 {
                     effectSlots: [1, 1, 1, 1],
-                    cost: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseJewel],
+                    cost: [EFFECT.loseText, EFFECT.loseJewel],
                     size: FIELD_SIZE["1"],
                 },
             ],

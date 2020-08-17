@@ -1164,7 +1164,7 @@ export const ARTIFACTS = Object.freeze({
     },*/
     ornateHammer: {
         id: "ornateHammer",
-        cardName: "Ornate hammer",
+        cardName: "Ornate Hammer",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
