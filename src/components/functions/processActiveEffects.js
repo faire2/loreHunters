@@ -179,6 +179,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 if (tLocation.state === LOCATION_STATE.guarded && (isPlayerInLocation(tLocation, tPlayerState)
                     || tLocation.adventurers.length === 0)) {
                     tPlayerState.defeatedGuardians.push(tLocation.guardian.id);
+                    tPlayerState.guardianRewards.push(tLocation.guardian.effects);
                     tLocation.guardian = null;
                     tLocation.state = LOCATION_STATE.explored;
                     tLocations = updateLocations(tLocation, tLocations);
@@ -192,22 +193,10 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.defeatGuardianOnOwnedLocation:
-            /*if (tCard !== null && tCard.type === CARD_TYPE.guardian) {
-                tPlayerState.victoryCards.push(GUARDIAN_IDs[tCard.id]);
-                tPlayerState.victoryCards[tPlayerState.victoryCards.length - 1].state = CARD_STATE.victoryCards;
-                tPlayerState = removeCard(tCard, tPlayerState);
-                if (tCard.state === CARD_STATE.active) {
-                    let lockEffects = gainLockedResourceBack(tCard.locked, []);
-                    const effectsResult = processEffects(tCard, cardIndex, tPlayerState, lockEffects,
-                        null, tStore, null, null, null);
-                    tPlayerState = effectsResult.tPlayerState;
-                    tStore = effectsResult.tStore;
-                }
-                tPlayerState.activeEffects.splice(0, 1);
-            }*/
             if (tLocation) {
                 if (tLocation.state === LOCATION_STATE.guarded && tLocation.adventurers[0] === tPlayerState.playerIndex) {
                     tPlayerState.defeatedGuardians.push(tLocation.guardian.id);
+                    tPlayerState.guardianRewards.push(tLocation.guardian.effects);
                     tLocation.guardian = null;
                     tLocation.state = LOCATION_STATE.explored;
                     tLocations = updateLocations(tLocation, tLocations);

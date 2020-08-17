@@ -72,7 +72,6 @@ import beastKillerImg from "../img/cardImages/artifacts/beastKiller.png"
 import flameJewelImg from "../img/cardImages/artifacts/flameJewel.png"
 import inscribedBladeImg from "../img/cardImages/artifacts/inscribedBlade.png"
 import transmutationImg from "../img/cardImages/artifacts/transmutation.png"
-import magicDoor from "../img/cardImages/artifacts/magicDoor.gif"
 
 
 import {EFFECT} from "./effects.mjs";
@@ -623,7 +622,7 @@ export const ITEMS = Object.freeze({
         transportAmount: 1,
         effectsText: <div className="effectsText"><b>Exile</b> this card to <DefeatedGuardian/> on any site that is
             not occupied by another player.</div>,
-        effects: [EFFECT.defeatGuardianOnOwnOrEmptyLocation],
+        effects: [EFFECT.destroyThisCard ,EFFECT.defeatGuardianOnOwnOrEmptyLocation],
         image: beartrapImg,
         cost: 2,
         points: 1
@@ -1144,7 +1143,7 @@ export const ARTIFACTS = Object.freeze({
                 and Refresh him and</div>,
         effects: [EFFECT.exchangeAssistant],
         isGuarded: false,
-        image: magicDoor,
+        image: null,
         cost: 3,
         points: 2
     },
