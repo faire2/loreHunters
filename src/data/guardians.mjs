@@ -114,7 +114,7 @@ export const Guardians = Object.freeze({
         id: "scorpion",
         cardName: "scorpion",
         type: CARD_TYPE.guardian,
-        defeatCost: [EFFECT.discard, EFFECT.loseJewel, EFFECT.defeatThisGuardian],
+        defeatCost: [EFFECT.discard, EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
         effects: [EFFECT.draw1],
         cost: null,
         points: 5
@@ -124,7 +124,7 @@ export const Guardians = Object.freeze({
         cardName: "monkey",
         type: CARD_TYPE.guardian,
         defeatCost: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
-        effects: [EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainExplore, EFFECT.gainExplore],
+        effects: [EFFECT.uptrade],
         cost: null,
         points: 5
     },
@@ -133,7 +133,7 @@ export const Guardians = Object.freeze({
         cardName: "bat",
         type: CARD_TYPE.guardian,
         defeatCost: [EFFECT.losePlane, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        effects: [EFFECT.loseText, EFFECT.arrow, EFFECT.gainWeapon],
+        effects: [EFFECT.destroyCard],
         cost: null,
         points: 5
     },
