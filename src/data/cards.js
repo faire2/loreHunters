@@ -1117,9 +1117,9 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Coin/><Coin/><Explore/><br/><b>Activate</b> the weaker effect of an assistant in the offer.
+            <div className="effectsText"><Coin/><Coin/><br/><b>Activate</b> the weaker effect of an assistant in the offer.
             </div>,
-        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore, EFFECT.activateLesserAssistantFromOffer, EFFECT.gainAction],
+        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.activateLesserAssistantFromOffer, EFFECT.gainAction],
         isGuarded: false,
         image: "",
         cost: 3,
