@@ -67,7 +67,7 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     }
     let enoughResources = false;
     // check for active effect with tranportation discount
-    if ([EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.exploreAnyLocationWithDiscount3, EFFECT.placeToBasicLocationActivateTwice
+    if ([EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.exploreAnyLocationWithDiscount3
         ].includes(tPlayerState.activeEffects[0])) {
         transportCost -= 1;
     } else if ([EFFECT.placeToBasicLocationDiscount2].includes(tPlayerState.activeEffects[0])) {

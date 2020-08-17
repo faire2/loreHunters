@@ -101,6 +101,7 @@ export const REWARD_TYPE = Object.freeze({
     drawCard: "draw one, discard rest",
     drawStackDiscardCard: "draw 1, stack 1, discard the last",
     effectsArr: "array of effects",
+    exchangeAssistant: "exchange an assistant",
     gainAssistant: "assistant choice",
     guardian: "price for guardian",
     legendFieldEffects: "combined effects of a legend field",

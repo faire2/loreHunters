@@ -398,6 +398,16 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     };
                     break;
 
+                case EFFECT.gainCoinExploreOrPassForExtraExplore:
+                    showRewardsModal = true;
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            [EFFECT.gainCoin, EFFECT.gainExplore, EFFECT.gainAction],
+                            [EFFECT.gainCoin, EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.finishRound]
+                        ]
+                    };
+                    break;
+
                 case EFFECT.gain2TextsOrPassAndJewel:
                     showRewardsModal = true;
                     rewardsData = {
@@ -514,6 +524,31 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                         }
                     }
                     tPlayerState.resources.explore += allRelics > 3 ? 3 : allRelics;
+                    break;
+
+                case EFFECT.gainExploreForPlacedAdventurers:
+                    let allAdventurers = 0;
+                    for (let location of tLocations.line1) {
+                        if (location.adventurers.includes(tPlayerState.playerIndex)) {
+                            allAdventurers += 1;
+                        }
+                    }
+                    for (let location of tLocations.line2) {
+                        if (location.adventurers.includes(tPlayerState.playerIndex)) {
+                            allAdventurers += 1;
+                        }
+                    }
+                    for (let location of tLocations.line3) {
+                        if (location.adventurers.includes(tPlayerState.playerIndex)) {
+                            allAdventurers += 1;
+                        }
+                    }
+                    for (let location of tLocations.line4) {
+                        if (location.adventurers.includes(tPlayerState.playerIndex)) {
+                            allAdventurers += 1;
+                        }
+                    }
+                    tPlayerState.resources.explore += allAdventurers;
                     break;
 
                 case EFFECT.gainFear:
@@ -724,6 +759,16 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     showRewardsModal = true;
                     break;
 
+                case EFFECT.exchangeAssistant:
+                    rewardsData = {
+                        type: REWARD_TYPE.removeAssistant,
+                        data: tPlayerState.assistants,
+                        params: REWARD_TYPE.gainAssistant
+                    };
+                    showRewardsModal = true;
+                    break;
+
+
                 case EFFECT.gainOrUpgradeRelic:
                     if (tPlayerState.resources.bronzeRelics === 0 && tPlayerState.resources.silverRelics === 0 && tPlayerState.resources.goldRelics === 0) {
                         //if player has no relics, he gains one
@@ -789,25 +834,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.refreshAllAssistants:
-                    const spentAssistants = [];
-                    const assistantClones = cloneDeep(tPlayerState.assistants);
-                    for (let assistant of assistantClones) {
-                        if (assistant.state === ASSISTANT_STATE.spent) {
-                            assistant.state = ASSISTANT_STATE.ready;
-                            spentAssistants.push(assistant);
-                        }
-                    }
-                    if (spentAssistants.length > 0) {
-                        rewardsData = {type: REWARD_TYPE.refreshAssistant, data: spentAssistants};
-                        showRewardsModal = true;
-                    } else {
-                        console.log("No spent assistant to refresh");
-                    }
-                    break;
-
-                case EFFECT.refreshAllAssistants:
-                    // process automatic incomes
-                    /*tPlayerState = handleAssistants(tPlayerState);*/
                     // refresh all assistants
                     for (let assistant of tPlayerState.assistants) {
                         assistant.state = ASSISTANT_STATE.ready;

@@ -246,7 +246,9 @@ io.on("connection", socket => {
             } else {
                 console.error("Unable to process user - possible disconnection. Socket id: " + socket.id);
             }
-        } else {console.error("Unable to get room at end of round" + room)}
+        } else {
+            console.error("Unable to get room at end of round" + room)
+        }
     });
 
     /**  SEND BACK SCORING STATES **/
@@ -312,17 +314,20 @@ io.on("connection", socket => {
 
     function updateStatesToAll(room) {
         console.debug("Updating states to all players.");
-        io.to(room.name).emit(TRANSMISSIONS.stateUpdate, {
-            playerStates: room.states.playerStates,
-            store: room.states.store,
-            locations: room.states.locations,
-            round: room.states.round,
-            legends: room.states.legends,
-            activePlayer: room.states.activePlayer,
-            previousPlayer: room.states.previousPlayer,
-            gameLog: room.states.gameLog,
-            numOfPlayers: room.states.numOfPlayers,
-        })
+        if (room) {
+            io.to(room.name).emit(TRANSMISSIONS.stateUpdate, {
+                playerStates: room.states.playerStates,
+                store: room.states.store,
+                locations: room.states.locations,
+                round: room.states.round,
+                legends: room.states.legends,
+                activePlayer: room.states.activePlayer,
+                previousPlayer: room.states.previousPlayer,
+                gameLog: room.states.gameLog,
+                numOfPlayers: room.states.numOfPlayers,
+            })
+        } else {
+            console.error("Unable to process room in updatesStatesToAll - probably result of earlier fail, e.g. to revert.");}
     }
 
 });

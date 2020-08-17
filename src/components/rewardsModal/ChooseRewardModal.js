@@ -155,13 +155,40 @@ export default function ChooseRewardModal() {
                 break;
             case REWARD_TYPE.removeAssistant:
                 let assistantIndex = null;
+                let assistant = null;
                 for (let i = 0; i < tPlayerState.assistants.length; i++) {
                     if (tPlayerState.assistants[i].id === reward.id) {
                         assistantIndex = i;
+                        assistant = tPlayerState.assistants[i];
+                        assistant.state = ASSISTANT_STATE.ready;
                     }
                 }
                 tPlayerState.assistants.splice(assistantIndex, 1);
+                // if removing assistant is part of exchanging him, we have to prepare new selection
+                if (rewards[0].params === REWARD_TYPE.gainAssistant) {
+                    let assistants = tStore.assistantsOffer;
+                    for (let assistant of assistants) {
+                        assistant.level = reward.level;
+                    }
+                    // we store assistant in the params to add it into the store later
+                    rewards.push({
+                        type: REWARD_TYPE.exchangeAssistant,
+                        data: assistants,
+                        params: assistant
+                    });
+                }
                 break;
+            case REWARD_TYPE.exchangeAssistant:
+                reward.state = ASSISTANT_STATE.ready;
+                tPlayerState.assistants.push(reward);
+                for (let i = 0; i < tStore.assistantsOffer.length; i++) {
+                    if (reward.id === tStore.assistantsOffer[i].id) {
+                        tStore.assistantsOffer.splice(i, 1, rewards[0].params);
+                    }
+                    tStore.assistantsOffer[i].level = ASSISTANT_LEVEL.silver;
+                }
+                break;
+
             case REWARD_TYPE.refreshAssistant:
                 for (let spentAssistant of tPlayerState.assistants) {
                     if (spentAssistant.id === reward.id) {

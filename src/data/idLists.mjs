@@ -213,6 +213,14 @@ export const ITEM_IDs = Object.freeze({
         id: "philologyBook",
         type: CARD_TYPE.item,
     },
+    wristWatch: {
+        id: "wristWatch",
+        type: CARD_TYPE.item,
+    },
+    theodolite: {
+        id: "theodolite",
+        type: CARD_TYPE.item,
+    },
 });
 
 export const ARTIFACT_IDs = Object.freeze({
@@ -252,10 +260,15 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "cursedTreasure",
         type: CARD_TYPE.artifact,
     },
-    darkKnowledge: {
-        id: "darkKnowledge",
+    serpentsIdol: {
+        id: "serpentsIdol",
         type: CARD_TYPE.artifact,
-    },/*
+    },
+    serpentsGold: {
+        id: "serpentsGold",
+        type: CARD_TYPE.artifact,
+    },
+    /*
     baneBanisher: {
         id: "baneBanisher",
         type: CARD_TYPE.artifact,
@@ -308,12 +321,12 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "trophySkull",
         type: CARD_TYPE.artifact,
     },
-    birdFlute: {
-        id: "birdFlute",
+    guardianOccarina: {
+        id: "guardianOccarina",
         type: CARD_TYPE.artifact,
     },
-    flameJewel: {
-        id: "flameJewel",
+    idolOfAraAnu: {
+        id: "idolOfAraAnu",
         type: CARD_TYPE.artifact,
     },
     inscribedBlade: {
@@ -336,19 +349,6 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "owlEyes",
         type: CARD_TYPE.artifact,
     },
-    /*ritualDagger: {
-        id: "ritualDagger",
-        type: CARD_TYPE.artifact,
-    },*/
-    /* fearlessBlade: {
-         id: "fearlessBlade",
-         type: CARD_TYPE.artifact,
-     },
-     keysToAllDoors: {
-         id: "keysToAllDoors",
-         type: CARD_TYPE.artifact,
-     },
-     },*/
     sunDial: {
         id: "sunDial",
         type: CARD_TYPE.artifact,
@@ -375,6 +375,10 @@ export const ARTIFACT_IDs = Object.freeze({
     },
     earRingOfDarkness: {
         id: "earRingOfDarkness",
+        type: CARD_TYPE.artifact,
+    },
+    stoneJar: {
+        id: "stoneJar",
         type: CARD_TYPE.artifact,
     },
     /*jewelDice: {
@@ -409,12 +413,16 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "boneHairpin",
         type: CARD_TYPE.artifact,
     },*/
-    sandals: {
-        id: "sandals",
+    passageShell: {
+        id: "passageShell",
         type: CARD_TYPE.artifact,
     },
     guidingStone: {
         id: "guidingStone",
+        type: CARD_TYPE.artifact,
+    },
+    runesOfDead: {
+        id: "runesOfDead",
         type: CARD_TYPE.artifact,
     },
     guidingSkull: {
@@ -567,7 +575,7 @@ export const LOCATION_IDs = Object.freeze({
     },
 });
 
-export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id, ARTIFACT_IDs.flameJewel.id,
+export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id,
     ARTIFACT_IDs.inscribedBlade.id];
 
 export const INITIAL_CARDS = [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},

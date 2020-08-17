@@ -16,10 +16,11 @@ export function getRewardElement(reward, rewardType, rewards) {
         case REWARD_TYPE.stackCardToDrawDeck:
             element = <Card card={reward}/>;
             break;
-        case REWARD_TYPE.upgradeAssistant:
+        case REWARD_TYPE.exchangeAssistant:
         case REWARD_TYPE.gainAssistant:
         case REWARD_TYPE.removeAssistant:
         case REWARD_TYPE.refreshAssistant:
+        case REWARD_TYPE.upgradeAssistant:
             element = <Assistant assistant={reward} size={ASSISTANT_TILE_SIZE.large}/>;
             break;
         case REWARD_TYPE.effectsArr:

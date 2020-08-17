@@ -60,6 +60,7 @@ export const EFFECT = Object.freeze({
     gainCoinForGuardians: "gain a coin for each destroyed Guardian (max. 4)",
     gainCoinsAndJewelForGuardian: "gain a jewel and coins for VP of a defeated guardian",
     gain2CoinsOrPassAnd3: "gain 2 coins or pass the round and gain 3",
+    gainCoinExploreOrPassForExtraExplore: "gain coin and explore or pass and gain one more explore",
     gain2TextsOrPassAndJewel: "gain two texts or pass the round and gain a jewel",
     gain2ResearchBonuses: "gain 2 first token research bonuses",
     buyWithDiscount1: "buy an item or artifact with discount of 1",
@@ -69,6 +70,7 @@ export const EFFECT = Object.freeze({
     gainExploreOrMapIfFirst: "gain an explore or a map",
     gainExploreForRelics: "gain an explore for relics (max. 3)",
     gainExploreForGuardians: "gain an explore for each guardian in you play area",
+    gainExploreForPlacedAdventurers: "gain explore + explore for each placed adventurer",
     gainDiscoveryBonus: "gain guardian's discovery bonus",
     gainPlane: "travel with an airplane",
     infinitePlanes: "gain infinite blimps for one round",
@@ -84,6 +86,7 @@ export const EFFECT = Object.freeze({
     gainMap: "gain a map",
     gainMapIfFirst: "first player that reaches this tile of legend gets a map",
     upgradeAssistant: "gain a new assistant or upgrade one you have",
+    exchangeAssistant: "exchange you assistant for one in offer",
     gainOrUpgradeRelic: "gain a new relive or upgrade one you have",
     gainPlaceholder: "gain megartifact without a name",
     gainResourceFromAdjacentLocation: "gain one resource that can be obtained from a location adjacent to your Adventurer",
@@ -140,7 +143,7 @@ export const EFFECT = Object.freeze({
     // used with effects moving adventurer to another location as step one effect
     removeAdventurer: "remove adventurer",
     resolveAdditionalEffects: "resolve additional effects",
-    returnAdventurer: "return adventurer from tLocation",
+    returnAdventurer: "return adventurer from  a location",
     returnAllAdventurers: "return all adventurers from locations",
     returnResources: "return locked card", //todo implement
     revealArtifactBuyWithDiscount3: "buy an artifact with a discount",

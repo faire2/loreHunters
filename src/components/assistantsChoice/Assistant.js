@@ -15,7 +15,8 @@ const Center = styled.div`
 `;
 
 const Container = styled.div`
-    background-size: cover;
+    background-image: url(${props => props.bgr});
+    background-size: 100% 100%;
     width: ${props => props.small ? "2.1vw" : "5vw"};
     height: ${props => props.small ? "2.25vw" : "5.3vw"};
     font-size: ${props => props.small ? "1.6vw" : "4vw"};
@@ -23,7 +24,6 @@ const Container = styled.div`
     position: relative;
     justify-content: center;
     margin-left: 0.5vw;
-    background-image: url(${props => props.bgr});
 `;
 
 

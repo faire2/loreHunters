@@ -28,6 +28,7 @@ const EffectsWrapper = styled.div`
     background: ${props => props.overlay ? "rgba(0,0,0,0.5)" : "none"};
     border-radius: 3vw;
     height: 90%;
+    padding: 0 0.5vw 0.5vw 0.5vw;
 `;
 
 const MarginWrapper = styled.div`
