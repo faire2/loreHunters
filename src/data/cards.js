@@ -127,8 +127,8 @@ export const ITEMS = Object.freeze({
         cost: 0,
         points: -1
     },
-    coin: {
-        id: "coin",
+    coin1: {
+        id: "coin1",
         cardName: "Coin",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
@@ -137,10 +137,30 @@ export const ITEMS = Object.freeze({
         cost: 0,
         points: 0
     },
-    explore: {
-        id: "explore",
+    coin2: {
+        id: "coin2",
+        cardName: "Coin",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Coin/><GainAction/></div>,
+        effects: [EFFECT.gainCoin, EFFECT.gainAction],
+        cost: 0,
+        points: 0
+    },
+    explore1: {
+        id: "explore1",
         cardName: "Explore",
         transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Explore/><GainAction/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainAction],
+        cost: 0,
+        points: 0
+    },
+    explore2: {
+        id: "explore2",
+        cardName: "Explore",
+        transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
         effectsText: <div style={bigIconsStyle}><Explore/><GainAction/></div>,
         effects: [EFFECT.gainExplore, EFFECT.gainAction],
@@ -1028,7 +1048,7 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText">Gain <Text/><Text/><Text/> or <b>pass</b> to gain <Jewel/>
+            <div className="effectsText">Gain <Text/><Text/> or <b>pass</b> to gain <Jewel/>
             </div>,
         effects: [EFFECT.gain2TextsOrPassAndJewel],
         isGuarded: false,

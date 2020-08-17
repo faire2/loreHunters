@@ -10,8 +10,7 @@ const persistentRelicEffects =
             [EFFECT.uptrade], [EFFECT.uptrade], [EFFECT.uptrade],
             [EFFECT.refreshSilverAssistant], [EFFECT.refreshSilverAssistant], [EFFECT.refreshSilverAssistant],
             [EFFECT.destroyCard], [EFFECT.destroyCard], [EFFECT.destroyCard], [EFFECT.destroyCard]],
-        silver: [[EFFECT.gainExplore], [EFFECT.gainExplore], [EFFECT.gainCoin], [EFFECT.gainCoin], [EFFECT.gainText], [EFFECT.gainText],
-            [EFFECT.destroyCard, EFFECT.destroyCard, EFFECT.draw1, EFFECT.draw1]],
+        silver: [[EFFECT.gainExplore], [EFFECT.gainExplore], [EFFECT.gainCoin], [EFFECT.gainCoin], [EFFECT.gainText], [EFFECT.gainText],],
         gold: [[], [], [], [], [], []]
     };
 

@@ -5,12 +5,19 @@ export const ITEM_IDs = Object.freeze({
         id: "fear",
         type: CARD_TYPE.basic,
     },
-    coin: {
-        id: "coin",
+    coin1: {
+        id: "coin1",
         type: CARD_TYPE.basic,
     },
-    explore: {
-        id: "explore",
+    coin2: {
+        id: "coin2",
+        type: CARD_TYPE.basic,
+    },
+    explore1: {
+        id: "explore1",
+        type: CARD_TYPE.basic,
+    },explore2: {
+        id: "explore2",
         type: CARD_TYPE.basic,
     },
     seaTurtle: {
@@ -578,7 +585,7 @@ export const LOCATION_IDs = Object.freeze({
 export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id,
     ARTIFACT_IDs.inscribedBlade.id];
 
-export const INITIAL_CARDS = [{...ITEM_IDs.coin}, {...ITEM_IDs.coin}, {...ITEM_IDs.explore}, {...ITEM_IDs.explore},
+export const INITIAL_CARDS = [{...ITEM_IDs.coin1}, {...ITEM_IDs.coin2}, {...ITEM_IDs.explore1}, {...ITEM_IDs.explore2},
     {...ITEM_IDs.fear}, {...ITEM_IDs.fear}];
 
 export const GLOBAL_VARS = Object.freeze({

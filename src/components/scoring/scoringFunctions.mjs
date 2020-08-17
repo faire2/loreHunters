@@ -64,9 +64,9 @@ export function getPoints(playerState) {
         if (relics[i] === RELIC.bronze) {
             relicsPoints += 3;
         } else if (relics[i] === RELIC.silver) {
-            relicsPoints += 6;
+            relicsPoints += 7;
         } else if (relics[i] === RELIC.gold) {
-            relicsPoints += 9;
+            relicsPoints += 11;
         }
     }
 
