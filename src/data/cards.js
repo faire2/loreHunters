@@ -545,7 +545,7 @@ export const ITEMS = Object.freeze({
         effectsText: <div style={bigIconsStyle}><Explore/><Explore/><DestroyCard/></div>,
         effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.destroyCard],
         image: machetteImg,
-        cost: 3,
+        cost: 4,
         points: 1
     },
     axe: {
@@ -556,8 +556,8 @@ export const ITEMS = Object.freeze({
             effectsText: <div style={bigIconsStyle}><Explore/><DestroyCard/></div>,
             effects: [EFFECT.gainExplore, EFFECT.destroyCard],
             image: null,
-            cost: 1,
-            points: 1
+            cost: 2,
+            points: 2
         },
     /*beetleMask: {
         id: "beetleMask",
