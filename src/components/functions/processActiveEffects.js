@@ -24,7 +24,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
         case EFFECT.buyItemWithDiscount2:
         case EFFECT.buyItemWithDiscount3:
         case EFFECT.buyWithDiscount1:
-        case EFFECT.gainItemToTop:
+        case EFFECT.gainItem:
         case EFFECT.gainItemOfValue:
         case EFFECT.gainItemToHand:
         case EFFECT.gainArtifact:

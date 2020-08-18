@@ -77,7 +77,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainAdventurerForThisRound:
         case EFFECT.returnAdventurer:
             return <div style={{width: "1.5vw", margin: "0 auto"}}><AdventurerToken/></div>;
-        case EFFECT.gainItemToTop:
+        case EFFECT.gainItem:
         case EFFECT.buyItemWithDiscount3:
         case EFFECT.gainItemToHand:
         case EFFECT.revealItemBuyWithDiscount3:
@@ -157,6 +157,8 @@ export function getJsxSymbol(effect) {
             return <BasicLocationDoubleSlot><Walk /><div style={{width: "5vw"}}/><Walk /><Walk /></BasicLocationDoubleSlot>;
         case EFFECT.gainFear:
             return <Fear/>;
+        case EFFECT.gainItemOrExplores:
+            return <DivRow><Item/>|<Explore/><Explore/></DivRow>
         default:
             console.error("Unable to recognize effect in getJsxEffect: " + effect);
     }

@@ -52,7 +52,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.exploreAnyLocationWithDiscount2:
                 case EFFECT.exploreAnyLocationWithDiscount3:
                 case EFFECT.gainArtifact:
-                case EFFECT.gainItemToTop:
+                case EFFECT.gainItem:
                 case EFFECT.gainItemOfValue:
                 case EFFECT.gainRewardLevel:
                 case EFFECT.gain2ItemsFor1Exiled:
@@ -466,6 +466,17 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             [EFFECT.gainCoin, EFFECT.gainExplore]
                         ]
                     };
+                    break;
+
+                case EFFECT.gainItemOrExplores:
+                    showRewardsModal = true;
+                    rewardsData = {
+                        type: REWARD_TYPE.effectsArr, data: [
+                            [EFFECT.gainItem],
+                            [EFFECT.gainExplore, EFFECT.gainExplore]
+                        ]
+                    };
+                    debugger
                     break;
 
                 case EFFECT.gainCoinAndExploresForGuardians:

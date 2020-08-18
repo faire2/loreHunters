@@ -46,7 +46,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
         card.cost = 0;
     }
 
-    if (activeEffect === EFFECT.gainItemToTop && card.type === CARD_TYPE.item) {
+    if (activeEffect === EFFECT.gainItem && card.type === CARD_TYPE.item) {
         card.cost = 0;
     }
 
@@ -75,6 +75,9 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
             tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
         } else if (activeEffect === EFFECT.gainItemToTop) {
             tPlayerState.drawDeck.splice(0, 0, getIdCard(card));
+            tPlayerState.drawDeck[0].state = CARD_STATE.drawDeck;
+        } else if (activeEffect === EFFECT.gainItem) {
+            tPlayerState.drawDeck.push(getIdCard(card));
             tPlayerState.drawDeck[0].state = CARD_STATE.drawDeck;
         } else {
             tPlayerState.drawDeck.push(getIdCard(card));
@@ -127,7 +130,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
     }
     if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount3
         || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount3 ||
-        activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItemToTop) {
+        activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItem) {
         tPlayerState.activeEffects.splice(0, 1);
     }
     if (activeEffect === EFFECT.gainItemOfValue) {
