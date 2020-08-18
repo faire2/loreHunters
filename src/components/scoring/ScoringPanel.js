@@ -1,91 +1,59 @@
 import React, {useEffect, useState} from "react";
-import {CARD_TYPE, TRANSMISSIONS} from "../../data/idLists";
 import {CardRow} from "../cards/CardRow";
 import {socket} from "../../server/socketConnection";
-import {emptyPlayerState, GLOBAL_VARS} from "../functions/initialStateFunctions";
-import {ARTIFACTS, GUARDIANS, ITEMS} from "../../data/cards";
-import {Legends2} from "../../data/legends";
-import {AdventurerToken, Artifact, DefeatedGuardian, Guardian, Item, Shiny} from "../Symbols";
+import {AdventurerToken, Artifact, BronzeRelic, DefeatedGuardian, Fear, Item} from "../Symbols";
 import Card from "../cards/Card";
+import {getPoints} from "./scoringFunctions";
+import {useHistory} from "react-router-dom";
+import {StatesSpinner} from "../../GameBoard";
+import {getLogLegends, setLogLegends} from "../main/logger";
+import {CARD_TYPE, LCL_STORAGE, TRANSMISSIONS} from "../functions/enums";
+import {GLOBAL_VARS} from "../../data/idLists";
+import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
 
 export function ScoringPanel(props) {
-    const [playerStates, setPlayerStates] = useState(props.location.data ?
-        props.location.data.playerStates : [emptyPlayerState]);
-    const [playerIndex, setPlayerIndex] = useState(0)
-    const [legends, setLegends] = useState(props.location.data ?
-        props.location.data.legends : null);
+    const [playerStates, setPlayerStates] = useState(null);
+    const [playerIndex, setPlayerIndex] = useState(0);
+    const [numOfPlayers, setNumOfPlayers] = useState(null);
+    const [statesLoading, setStatesLoading] = useState(true);
+    const history = useHistory();
 
-    const playerState = playerStates[playerIndex];
+    const playerState = playerStates ? playerStates[playerIndex] : emptyPlayerState;
     useEffect(() => {
-        if (!props.location.data) {
-            socket.emit(TRANSMISSIONS.sendScoringStates, {});
-            console.log("emitting");
+        if (props.location.data) {
+            // if location data are available, set states...
+            const data = props.location.data;
+            setPlayerStates(data.playerStates);
+            setNumOfPlayers(data.playerStates.length);
+            setStatesLoading(false);
+            setLogLegends(getLogLegends());
+        } else if (localStorage.getItem(LCL_STORAGE.roomName)) {
+            // ...otherwise check local storage for state id's and request the states from server...
+            const roomName = localStorage.getItem(LCL_STORAGE.roomName);
+            const playerIndex = localStorage.getItem(LCL_STORAGE.playerIndex);
+            setPlayerIndex(parseInt(playerIndex, 10));
+            socket.emit(TRANSMISSIONS.sendScoringStates, {roomName: roomName, playerIndex: playerIndex});
+            console.log("requesting scoring states");
+        } else {
+            // ...else reroute to login page
+            console.log("No game data available, rerouting to login page");
+            history.push({pathname: "/", data: {}});
         }
 
         socket.on(TRANSMISSIONS.scoringStates, states => {
-            console.log("received")
+            console.log("scoring states received");
+            setLogLegends(states.legends);
             setPlayerStates(states.playerStates);
-            setLegends(states.legends);
+            setNumOfPlayers(states.playerStates.length);
+            setStatesLoading(false);
         });
-    }, [props.location.data]);
+    }, [history, props.location.data]);
 
     function handleClickOnPlayerTab(index) {
         setPlayerIndex(index);
     }
 
-
-    const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards, ...playerState.discardDeck];
-    const items = allDeckCards.filter(card => card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic);
-    let itemPoints = 0;
-    for (let card of items) {
-        itemPoints += ITEMS[card.id].points;
-    }
-
-    const artifacts = allDeckCards.filter(card => card.type === CARD_TYPE.artifact);
-    let artifactPoints = 0;
-    for (let card of artifacts) {
-        artifactPoints += ARTIFACTS[card.id].points;
-    }
-
-    const undefeatedGuardians = allDeckCards.filter(card => card.type === CARD_TYPE.guardian);
-    let undefeatedGuardianPoints = 0 - undefeatedGuardians.length;
-
-    const defeatedGuardians = playerState.destroyedCards.filter(card => card.type === CARD_TYPE.guardian);
-    let defeatedGuardianPoints = 0;
-    for (let card of defeatedGuardians) {
-        defeatedGuardianPoints += GUARDIANS[card.id].points;
-    }
-
-    /* Legends2 */
-    let legendPoints = 0;
-    // only second and following tokens count
-    let beyond2 = -1;
-    if (legends) {
-        for (let i = 0; i < legends.length; i++) {
-            const victoryPoints = Legends2[legends[i].id].victoryPoints;
-            for (const position of legends[i].positions[playerState.playerIndex]) {
-                if (position.columnIndex !== null) {
-                    legendPoints += victoryPoints[position.columnIndex];
-                    if (position.columnIndex > 2) {
-                        beyond2 += 1;
-                    }
-                }
-            }
-        }
-    }
-    if (beyond2 > 0) {
-        legendPoints += (5 * beyond2);
-    }
-
-    /* RELICS */
-    const relics = playerState.relics;
-    let relicsPoints = 0;
-    for (let i = 0; i < relics.length; i++) {
-        if (!relics[i]) {
-            relicsPoints += Math.floor(i / 3);
-        }
-    }
-    relicsPoints += playerState.resources.shinies * 4;
+    const pointsResult = playerStates ? getPoints(playerState) : 0;
 
     const containerStyle = {
         textAlign: "center",
@@ -103,37 +71,47 @@ export function ScoringPanel(props) {
     /* EXPEDITION CARDS */
     const expeditionCards = playerState.victoryCards.filter(card => card.type === CARD_TYPE.goalCard);
 
-    return (
-        <div style={containerStyle}>
-            <PlayerTabs handleClickOnTab={handleClickOnPlayerTab} width={"25vw"} height={"5vw"}/>
-            <div style={rowStyle}>
-                <Item/>:{itemPoints}<CardRow cards={items}/>
-            </div>
-            <div style={rowStyle}>
-                <Artifact/>:{artifactPoints}<CardRow cards={artifacts}/>
-            </div>
-            <div style={rowStyle}>
-                <Guardian/>:{undefeatedGuardianPoints}<CardRow cards={undefeatedGuardians}/>
-            </div>
-            <div style={rowStyle}>
-                <DefeatedGuardian/>:{defeatedGuardianPoints}<CardRow cards={defeatedGuardians}/>
-            </div>
-            <div style={rowStyle}>
-                <AdventurerToken color={playerState.color} style={{width: "5vw"}}/>:{legendPoints}
-            </div>
-            <div style={rowStyle}>
-                <Shiny/>:{relicsPoints}
-            </div>
-            Total: {itemPoints + artifactPoints + undefeatedGuardianPoints + defeatedGuardianPoints + legendPoints + relicsPoints}
-            <div>
-            </div>
-            {expeditionCards.map((card, i) =>
-                <div key={i}>
-                    <div style={{marginLeft: "3vw"}}><Card card={card}/></div>
+    if (!statesLoading) {
+        return (
+            <div style={containerStyle}>
+                <PlayerTabs handleClickOnTab={handleClickOnPlayerTab} width={"25vw"} height={"5vw"} numOfPlayers={numOfPlayers}/>
+                <div style={rowStyle}>
+                    <Item/>:{pointsResult.itemPoints}<CardRow cards={pointsResult.items}/>
                 </div>
-            )}
-        </div>
-    )
+                <div style={rowStyle}>
+                    <Artifact/>:{pointsResult.artifactPoints}<CardRow cards={pointsResult.artifacts}/>
+                </div>
+                <div style={rowStyle}>
+                    <Fear/>:{pointsResult.fearPoints}<CardRow cards={pointsResult.fears}/>
+                </div>
+                {/*<div style={rowStyle}>
+                <Guardian/>:{pointsResult.undefeatedGuardianPoints}<CardRow cards={pointsResult.undefeatedGuardians}/>
+            </div>*/}
+                <div style={rowStyle}>
+                    <DefeatedGuardian/>:{pointsResult.defeatedGuardianPoints}{/*<CardRow
+                    cards={pointsResult.defeatedGuardians}/>*/}
+                </div>
+                <div style={rowStyle}>
+                    <AdventurerToken color={playerState.color} style={{width: "5vw"}}/>:{pointsResult.legendPoints}
+                </div>
+                <div style={rowStyle}>
+                    <BronzeRelic/>:{pointsResult.relicsPoints}
+                </div>
+                Total: {pointsResult.totalPoints}
+                <div>
+                </div>
+                {expeditionCards.map((card, i) =>
+                    <div key={i}>
+                        <div style={{marginLeft: "3vw"}}><Card card={card}/></div>
+                    </div>
+                )}
+            </div>
+        )
+    } else {
+        return  (
+            <StatesSpinner/>
+        )
+    }
 }
 
 export const PlayerTabs = (props) => {

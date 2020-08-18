@@ -1,0 +1,17 @@
+import React from "react";
+import styled from "styled-components"
+import vpBgr from "../img/symbols/VP.png"
+
+export const VictoryPoints = (props) =>
+    <VictoryPointsContainer>
+        {props.points}
+    </VictoryPointsContainer>;
+
+const VictoryPointsContainer = styled.div`
+    background-image: ${vpBgr};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2vw;
+    color: #ffffff;
+`;

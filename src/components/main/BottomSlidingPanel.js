@@ -21,7 +21,7 @@ export default function BottomSlidingPanel(props) {
     return (
         <div style={slideStyle}>
             <CardRow cards={playerState.drawDeck} randomize={true} text={"RAND. DRAW DECK"} />
-            <CardRow cards={playerState.discardDeck} randomize={false} text={"DISCARD DECK"} />
+            {/*<CardRow cards={playerState.discardDeck} randomize={false} text={"DISCARD DECK"} />*/}
             <CardRow cards={playerState.victoryCards} randomize={false} text={"VICTORY CARDS"} />
         </div>
     )

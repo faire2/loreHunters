@@ -2,11 +2,13 @@ import React, {useContext} from "react";
 import block1 from "../../../img/legends/blok1.png"
 import block2 from "../../../img/legends/blok2.png"
 import block3 from "../../../img/legends/blok3.png"
-import {FIELD_SIZE} from "../../../data/legends"
-import {AdventurerToken} from "../../Symbols";
-import {GLOBAL_VARS} from "../../functions/initialStateFunctions";
+import lostCity from "../../../img/legends/lostCity.png"
+import {FIELD_SIZE} from "../../../data/legends.mjs"
+import {FirstLegendToken, SecondLegendToken} from "../../Symbols";
 import {BoardStateContext} from "../../../Contexts";
-import {EFFECT} from "../../../data/effects";
+import {GLOBAL_VARS} from "../../../data/idLists";
+import {getJsxSymbol} from "../../functions/getJsxSymbol";
+import {JsxFromEffects} from "../../JsxFromEffects";
 
 export const Field = (props) => {
     const columnHeight = props.height;
@@ -14,39 +16,33 @@ export const Field = (props) => {
     const fieldIndex = props.fieldIndex;
     const positions = props.positions;
     const boardStateContext = useContext(BoardStateContext);
-    const legend = {...boardStateContext.legends[props.legendIndex]};
     const numOfPlayers = boardStateContext.numOfPlayers;
-    // how many times has the field been entered and used
-    let usage = legend.usage[columnIndex][fieldIndex];
 
-    let effectsTextArr = props.field.effectsText;
     let effectsArr = props.field.effects;
-    if ((usage > 0 && numOfPlayers < 4) || (numOfPlayers === 4 && usage > 1)) {
-        if (effectsArr[0] === EFFECT.gainExploreIfFirst || effectsArr[0] === EFFECT.gainCoinIfFirst) {
-            effectsTextArr.splice(0, 1);
-            effectsArr.splice(0, 1);
-        }
-        if (effectsArr[0] === EFFECT.gainCoinOrExploreIfFirst) {
-            effectsTextArr.splice(0, 3);
-            effectsArr.splice(0, 1);
-        }
-    }
-
     // set background and element height
     let background = null;
     let height = null;
+    let width = null;
     switch (columnHeight) {
         case FIELD_SIZE["1"]:
             background = block1;
             height = "6vw";
+            width = "5vw";
             break;
         case FIELD_SIZE["2"]:
             background = block2;
             height = "12.5vw";
+            width = "5vw";
             break;
         case FIELD_SIZE["3"]:
             background = block3;
             height = "19vw";
+            width = "5vw";
+            break;
+        case FIELD_SIZE.lostCity:
+            background = lostCity;
+            height = "19vw";
+            width = "13vw";
             break;
         default:
             console.log("Unable to process COLUMN_HEIGHT at Column: " + columnHeight);
@@ -54,14 +50,16 @@ export const Field = (props) => {
 
     const containerStyle = {
         position: "relative",
-        width: "5vw",
+        width: width,
         marginBottom: "0.5vw",
         backgroundImage: `url(${background}`,
         backgroundSize: "100% 100%",
-        height: `${height}`,
+        height: height,
     };
 
     const effectsTextStyle = {
+        display: "flex",
+        justifyContent: "center",
         fontSize: "2vw",
         marginLeft: "0.3vw",
     };
@@ -93,18 +91,11 @@ export const Field = (props) => {
         width: "100%"
     };
 
-    const effectsText =
-        <div style={effectsTextStyle}>
-            {effectsTextArr.map((effect, i) =>
-                effect
-            )}
-        </div>;
-
     const costText =
         <div style={costTextStyle}>
-            {props.field.costText.map((effect, i) =>
+            {props.field.cost.map((effect, i) =>
                 <div style={{marginLeft: "-0.4vw"}} key={i}>
-                    {effect}
+                    {getJsxSymbol(effect)}
                 </div>
             )}
         </div>;
@@ -113,20 +104,18 @@ export const Field = (props) => {
     const adventurersArray = [];
     for (let i = 0; i < numOfPlayers; i++) {
         const playersPositions = positions[i];
-        for (let position of playersPositions) {
-            if (position.columnIndex === columnIndex && position.fieldIndex === fieldIndex) {
-                adventurersArray.push(<AdventurerToken color={GLOBAL_VARS.playerColors[i]}/>);
+        for (let p = 0; p < GLOBAL_VARS.numOfLegendTokens; p++) {
+            if (playersPositions[p].columnIndex === columnIndex && playersPositions[p].fieldIndex === fieldIndex) {
+                const token = p === 0 ?
+                    <FirstLegendToken color={GLOBAL_VARS.playerColors[i]} style={{height: "2vw", width: "2vw"}}/>
+                    : <SecondLegendToken color={GLOBAL_VARS.playerColors[i]} style={{height: "2vw", width: "2vw"}}/>
+                adventurersArray.push(token);
             }
         }
     }
 
     function handleClickOnField() {
-        let tLegends = boardStateContext.handleClickOnLegend(props.legendIndex, columnIndex, fieldIndex, effectsArr);
-        if (tLegends) {
-            legend.usage[columnIndex][fieldIndex] = usage + 1;
-            tLegends[props.legendIndex].usage[columnIndex][fieldIndex] += 1;
-            boardStateContext.setLegends(tLegends);
-        }
+        boardStateContext.handleClickOnLegend(props.legendIndex, columnIndex, fieldIndex);
     }
 
     return (
@@ -138,7 +127,9 @@ export const Field = (props) => {
                     </div>
                 )}
             </div>
-            {effectsText}
+            <div style={effectsTextStyle}>
+                <JsxFromEffects effectsArray={effectsArr}/>
+            </div>
             {costText}
         </div>
     )

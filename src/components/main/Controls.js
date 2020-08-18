@@ -1,17 +1,13 @@
 import React, {useContext} from 'react';
 import {PlayerStateContext} from "../../Contexts";
 import {ButtonGroup} from "react-bootstrap";
-import {EFFECT} from "../../data/effects";
+import {CANCELLABLE_EFFECTS} from "../functions/constants";
 
-export const Controls = (props) => {
+export const Controls = () => {
     const playerStateContext = useContext(PlayerStateContext);
     const isActivePlayer = playerStateContext.isActivePlayer;
     const activeEffect = playerStateContext.playerState.activeEffects[0];
-    const notDiscardEffect = activeEffect !== EFFECT.discard;
-
-    /*function restartGame() {
-        socket.emit(TRANSMISSIONS.newGame, {})
-    }*/
+    const notDiscardEffect = playerStateContext.playerState.activeEffects.length > 0 && CANCELLABLE_EFFECTS.includes(activeEffect);
 
     const containerStyle = {
         position: "absolute",
@@ -27,18 +23,11 @@ export const Controls = (props) => {
     return (
         <div style={containerStyle}>
             <ButtonGroup aria-label="Control buttons">
-                {/*<button className="btn-primary" onClick={() => playerStateContext.nextPlayer()}>next player</button>*/}
-                {}
-                {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
-                {notDiscardEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
+                <button className="btn-primary" onClick={() => playerStateContext.getPlaneFor2Coins()}>plane</button>
                 {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.undo()}>undo</button>}
-                {/*<button className="btn-primary" onClick={() => restartGame()}>restart game</button>*/}
-                {/*<button className="btn-primary"
-                        onClick={()  => history.push({
-                            pathname: "/scoring",
-                            data: playerStateContext.playerState
-                        })}>scoring
-                </button>*/}
+                {playerStateContext.isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.revert()}>revert</button>}
+                {notDiscardEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
+                {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
             </ButtonGroup>
             <div style={{display: "flex", flexFlow: "row", justifyContent: "space-evenly", marginLeft: "1vw"}}>
                 {isActivePlayer ? <p>Your turn!&nbsp;</p> : <p>Wait for your turn...</p>}

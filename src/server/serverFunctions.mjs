@@ -1,17 +1,17 @@
 // insert player into null position or push him to the end
-import {GLOBAL_VARS} from "../components/functions/initialStateFunctions.mjs";
 import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {CARD_STATE, CARD_TYPE, INCOME_STATE, ITEM_IDs, LOCATION_STATE} from "../data/idLists.mjs";
-import {addCardToDiscardDeck, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
+import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
+import {addCardToPlayedCards, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
+import {ASSISTANT_STATE, CARD_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
 
-export function handleIncomes(playerState) {
-    for (let income of playerState.incomes) {
-        for (let effect of income.effects) {
+/*export function handleAssistants(playerState) {
+    for (let assistant of playerState.assistants) {
+        for (let effect of assistant.effects) {
             switch (effect) {
                 case EFFECT.draw1:
                 case EFFECT.buyWithDiscount1:
-                case EFFECT.gainBlimp:
+                case EFFECT.gainPlane:
                 case EFFECT.uptrade:
                     break;
                 case EFFECT.gainAdventurerForThisRound:
@@ -30,13 +30,28 @@ export function handleIncomes(playerState) {
                     playerState.resources.weapons += 1;
                     break;
                 default:
-                    console.log("Unable to process effect in handleIncomes: ");
-                    console.log(income.effects);
+                    console.log("Unable to process effect in handleAssistants: ");
+                    console.log(assistant.effects);
             }
+        }
+        // automatic assistants were used and must be marked
+        if (AUTOMATIC_ASSISTANT_EFFECTS.includes(assistant.id)) {
+            assistant.state = ASSISTANT_STATE.spent;
         }
     }
     return playerState;
-}
+}*/
+
+// currently only run from rewards modal on gain / refresh assistants
+/*export function handleIncome(playerState, assistant) {
+    const effects = assistant.level === ASSISTANT_LEVEL.silver ? assistant.silverEffects : assistant.goldEffects;
+    const assistantResult = processEffects(null, null, playerState, effects, null, null,
+        null)
+    if (assistantResult.processedAllEffects) {
+        playerState = assistantResult.tPlayerState;
+    }
+    return playerState;
+}*/
 
 export function processEndOfRound(room) {
     console.log("processing end of round " + room.states.round);
@@ -47,89 +62,94 @@ export function processEndOfRound(room) {
     let tStore = cloneDeep(room.states.store);
     if (tStore.itemsOffer.length > 0) {
         tStore.itemsOffer.splice(0, 1);
-        tStore.artifactsOffer.push(tStore.artifactsDeck[0]);
-        tStore.artifactsDeck.splice(0, 1);
+        tStore.artifactsOffer.splice(tStore.artifactsOffer.length - 1, 1, tStore.artifactsDeck[0]);
+        tStore.artifactsOffer.push(tStore.artifactsDeck[1]);
+        tStore.artifactsDeck.splice(0, 2);
     }
     room.states.store = tStore;
 
     /* remove adventurers from locations */
     console.log("removing adventurers");
     let tLocations = cloneDeep(room.states.locations);
-    for (let key in tLocations) {
-        let locationLine = tLocations[key];
-        for (let location of locationLine) {
-            if (location.state === LOCATION_STATE.occupied) {
-                location.state = LOCATION_STATE.explored;
-                location.owner = null;
+    const extraFear = {0: 0, 1: 0, 2: 0, 3: 0};
+    let locationLines = [tLocations.line1, tLocations.line2, tLocations.line3, tLocations.line4]
+    for (let line of locationLines) {
+        for (let location of line) {
+            /* owner of each adventurer in a guarded location gains a fear */
+            if (location.state === LOCATION_STATE.guarded) {
+                for (let playerId of location.adventurers) {
+                    extraFear[playerId] += 1;
+                }
             }
+            location.adventurers = [];
         }
     }
-    room.states.locations = tLocations;
 
-    /* reset player states */
-    let tPlayerStates = [];
+    room.states.locations = tLocations;
 
     /* pass turn to next initial player */
     room.states.initialPlayer = room.states.initialPlayer !== room.players.length - 1 ? room.states.initialPlayer + 1 : 0;
     room.states.activePlayer = room.states.initialPlayer;
     console.log("turn passed to player " + room.states.initialPlayer);
 
+    /* prepare array for updated playerstates */
+    let tPlayerStates = [];
+
     for (let i = 0; i < room.numOfPlayers; i++) {
         console.log("resetting playerState" + i);
         let tPlayerState = cloneDeep(room.states.playerStates[i]);
         tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
 
-        /* move active cards to discard */
-        for (let card of tPlayerState.activeCards) {
+        /* discard active cards */
+        /*for (let card of tPlayerState.activeCards) {
+            /!* undefeated guardians are removed from the game *!/
             if (card.type === CARD_TYPE.guardian) {
-                tPlayerState = addCardToDiscardDeck({...ITEM_IDs.fear}, tPlayerState);
+                tPlayerState.destroyedCards.push(card);
+                tPlayerState = addCardToPlayedCards(cloneDeep(ITEM_IDs.fear), tPlayerState);
+            } else {
+                tPlayerState = addCardToPlayedCards(card, tPlayerState);
             }
-            tPlayerState = addCardToDiscardDeck(card, tPlayerState);
         }
-        tPlayerState.activeCards = [];
+        tPlayerState.activeCards = [];*/
 
-        /* move cards from hand to discard */
+        /* gain fears for adventurers in guarded locations */
+        if (!tPlayerState.longEffects.includes(EFFECT.protectFromFear)) {
+            for (let x = 0; x < extraFear[i]; x++) {
+                tPlayerState.activeCards.push(cloneDeep(ITEM_IDs.fear));
+            }
+        }
+
+        /* discard cards from hand */
         for (let card of tPlayerState.hand) {
-            tPlayerState = addCardToDiscardDeck(card, tPlayerState);
+            tPlayerState = addCardToPlayedCards(card, tPlayerState);
         }
         tPlayerState.hand = [];
 
-        /* in 5th round all guardians come into play */
-        if (round === 4) {
-            console.log("ensuring guardians enter play");
-            for (let i = 0; i < tPlayerState.discardDeck.length; i++) {
-                if (tPlayerState.discardDeck[i].type === CARD_TYPE.guardian) {
-                    tPlayerState.discardDeck[i].state = CARD_STATE.drawDeck;
-                    tPlayerState.drawDeck.push(tPlayerState.discardDeck[i]);
-                    tPlayerState.discardDeck.splice(i, 1);
-                }
-            }
-
-            for (let i = 1; i < tPlayerState.drawDeck.length; i++) {
-                if (tPlayerState.drawDeck[i].type === CARD_TYPE.guardian) {
-                    let tCard = tPlayerState.drawDeck[i];
-                    tPlayerState.drawDeck.splice(i, 1);
-                    tPlayerState.drawDeck.splice(0, 0, tCard);
-                }
-            }
+        /* played cards go to draw deck*/
+        tPlayerState.drawDeck = [...tPlayerState.drawDeck, ...tPlayerState.activeCards];
+        for (let card of tPlayerState.drawDeck) {
+            card.state = CARD_STATE.drawDeck;
         }
+        tPlayerState.activeCards = [];
 
         /* draw a new hand */
         tPlayerState = drawCards(5, tPlayerState);
 
-        /* handle regular incomes */
-        tPlayerState = handleIncomes(tPlayerState);
+        /* reset assistant states */
+        for (let assistant of tPlayerState.assistants) {
+            assistant.state = ASSISTANT_STATE.ready
+        }
+
+        /* automatic assistants are handled here for beginning of next round */
+        /*tPlayerState = handleAssistants(tPlayerState);*/
 
         /* reset transport resources */
         tPlayerState = resetTransport(tPlayerState);
 
-        /* reset income states */
-        for (let income of tPlayerState.incomes) {
-            income.state = INCOME_STATE.ready
-        }
 
         /* reset active rest of counters */
         tPlayerState.activeEffects = [];
+        tPlayerState.longEffects = [];
         tPlayerState.actions = 1;
         tPlayerState.finishedRound = false;
         tPlayerStates.push(tPlayerState);
@@ -240,7 +260,7 @@ export function changeFormerUsername(formerUsername, newUsername, users, gameroo
 }
 
 export function updateRoomState(room, playerIndex, states) {
-    room.states.previousPlayer = playerIndex;
+    room.states.previousPlayer = playerIndex >= 0 ? playerIndex : 0;
     console.log("previous player: " + room.states.previousPlayer);
     room.states.activePlayer = nextPlayer(playerIndex, room);
     console.log("active player: " + room.states.activePlayer);
@@ -265,4 +285,17 @@ export function nextPlayer(playerIndex, room) {
         nextPlayerIndex = nextPlayerIndex + 1 < room.numOfPlayers ? nextPlayerIndex + 1 : 0
     }
     return nextPlayerIndex;
+}
+
+export function getPlayerIndex(socketId, users, room) {
+    const userName = getUserName(socketId, users);
+    const playersArr = room.players;
+    if (playersArr.includes(userName)) {
+        return playersArr.indexOf(userName);
+    } else {
+        console.error("Unable to determine playerIndex.");
+        console.log(socketId);
+        console.log(userName);
+        console.log(room);
+    }
 }

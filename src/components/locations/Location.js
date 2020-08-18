@@ -1,143 +1,91 @@
 import React, {useContext} from "react";
-import {AdventurerToken, Coin, Explore, Jeep, Ship} from "../Symbols";
+import styled from "styled-components";
+import emptyBgr from "../../img/locations/bgr-empty.png"
+import brownBgr from "../../img/locations/brownEmpty.png"
+import greenBgr from "../../img/locations/greenEmpty.png"
+import basicBgr from "../../img/locations/bgr-basic-empty.png"
 import {BoardStateContext} from "../../Contexts";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../data/idLists";
-import {GLOBAL_VARS} from "../functions/initialStateFunctions";
-import {
-    BgrBasic,
-    BgrBasicDouble,
-    BgrBrown2,
-    BgrBrown3, BgrBrownUnexplored,
-    BgrGreen2,
-    BgrGreen3, BgrGreenUnexplored, BgrLostCity, Level2Symbol, Level3Symbol,
-} from "./locationsImages";
+import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE, RELIC} from "../functions/enums";
+import {getExplorationCost} from "./functions/locationFunctions";
+import {ExplorationCost} from "./ExplorationCost";
+import {LocationEffects} from "./LocationEffects";
+import {LocationAdventurers} from "./LocationAdventurers";
+import {LocationGuardian} from "./LocationGuardian";
+import {RelicWithResource} from "../relics/RelicWithResource";
 import {EFFECT} from "../../data/effects";
+import {LocationTravelCost} from "./LocationTravelCost";
 
 export default function Location(props) {
     const boardStateContext = useContext(BoardStateContext);
     const location = props.location;
-    location.state = props.idLocation.state;
-    location.line = props.idLocation.line;
-    location.owner = props.idLocation.owner;
-    location.level = props.idLocation.level;
-    location.type = props.idLocation.type;
-    location.level = props.idLocation.level;
 
-    /* transport icons for explored location*/
-    /*const transportIcons = [];
-    for (let i = 0; i < location.useCost.amount; i++) {
-        transportIcons.push(<span key={i}>{location.useCost.transportType}</span>)
-    }*/
-
-    /* explore costs for unexplored location */
-    let exploreCost = null;
-    let exploreCostText = null;
     let locationBackground = null;
-    let locationUnexploredBackground = null;
+    let travelCost = [];
 
-    const explorationCostStyle = {
-        display: "flex",
-        flexFlow: "row",
-        fontSize: "1.3vw",
-        marginTop: "4vw",
-    };
-
-    if (location.type === LOCATION_TYPE.brown) {
+    // location background
+    if (location.state === LOCATION_STATE.unexplored) {
+        locationBackground = emptyBgr;
+    } else if (location.type === LOCATION_TYPE.brown) {
+        locationBackground = brownBgr;
         if (location.level === LOCATION_LEVEL["2"]) {
-            exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore];
-            exploreCostText = <div style={explorationCostStyle}><Jeep/><Coin/><Explore/><Explore/></div>;
-            locationBackground = <BgrBrown2/>;
-            locationUnexploredBackground = <BgrBrownUnexplored/>;
-        } else if (location.level === LOCATION_LEVEL["3"]) {
-            exploreCost = [EFFECT.loseJeep, EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            exploreCostText = <div style={explorationCostStyle}><Jeep/><Coin/><Explore/><Explore/><Explore/></div>;
-            locationBackground = <BgrBrown3/>;
-            locationUnexploredBackground = <BgrBrownUnexplored/>;
+            travelCost = [EFFECT.loseJeep];
+        } else {
+            travelCost = [EFFECT.loseJeep, EFFECT.loseJeep];
         }
     } else if (location.type === LOCATION_TYPE.green) {
+        locationBackground = greenBgr;
         if (location.level === LOCATION_LEVEL["2"]) {
-            exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            exploreCostText = <div style={explorationCostStyle}><Ship/><Explore/><Explore/><Explore/></div>;
-            locationBackground = <BgrGreen2/>;
-            locationUnexploredBackground = <BgrGreenUnexplored/>;
-        } else if (location.level === LOCATION_LEVEL["3"]) {
-            exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            exploreCostText = <div style={explorationCostStyle}><Ship/><Explore/><Explore/><Explore/><Explore/></div>;
-            locationBackground = <BgrGreen3/>;
-            locationUnexploredBackground = <BgrGreenUnexplored/>
+            travelCost = [EFFECT.loseShip];
+        } else {
+            travelCost = [EFFECT.loseShip, EFFECT.loseShip];
         }
     } else if (location.type === LOCATION_TYPE.basic) {
-        /*exploreCostText = null;*/
-        if (location.id === "5") {
-            locationBackground = <BgrBasicDouble/>
-        } else {
-            locationBackground = <BgrBasic/>
-        }
-    } else if (location.type === LOCATION_TYPE.lostCity) {
-        locationBackground = <BgrLostCity/>;
-        locationUnexploredBackground = <BgrBrownUnexplored/>
-        exploreCost = [EFFECT.hasDiscoveredLostCity];
-        exploreCostText = [];
-    }
-    else {
+        locationBackground = basicBgr;
+        travelCost = [location.slots];
+    } else {
         console.log("Unable to process location level or type in Location.js: " + location.id + " / " + location.type + " / " + location.level)
     }
-    location.exploreCost = exploreCost;
 
-    const levelSymbol = location.level === LOCATION_LEVEL["2"] ? <Level2Symbol/> : <Level3Symbol/>;
-
-    const containerStyle = {
-        width: "7vw",
-        position: "relative",
-        textAlign: "center",
-        marginRight: "0.5vw",
-    };
-
-    const levelSymbolStyle = {
-        position: "absolute",
-        marginTop: "-0.1vw",
-        fontSize: "0.6vw",
-        width: "100%",
-    };
-
-    const effectsStyle = {
-        top: "0.5vw",
-        height: "2vw",
-        fontSize: "1.8vw",
-        right: 0,
-        left: 0,
-        margin: "auto",
-        position: "absolute",
-        cursor: "pointer",
-        zIndex: 2,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-    };
-
-    const adventurerStyle = {
-        width: "1.5vw",
-        top: "2vw",
-        right: 0,
-        left: 0,
-        margin: "auto",
-        position: "absolute",
-        cursor: "pointer",
-        zIndex: 2,
-        display: "inline-block",
-    };
-
-
+    /* explore costs for unexplored location */
+    const exploreCost = getExplorationCost(location.type, location.level, false, null);
     return (
-        <div style={containerStyle}
-             onClick={() => boardStateContext.handleClickOnLocation(location.effects, location.exploreCost, location, props.idLocation.line)}>
-            {location.state === LOCATION_STATE.unexplored && <div style={levelSymbolStyle}>{levelSymbol}</div>}
-            {location.state === LOCATION_STATE.unexplored ? locationUnexploredBackground : locationBackground}
-            <div style={effectsStyle}>
-                {location.state === LOCATION_STATE.unexplored ? exploreCostText : location.effectsText}
-            </div>
-            {props.idLocation.state === LOCATION_STATE.occupied &&
-            <AdventurerToken color={GLOBAL_VARS.playerColors[props.idLocation.owner]} style={adventurerStyle}/>}
-        </div>
+        <LocationWrapper explored={location.state !== LOCATION_STATE.unexplored} exploredBgr={locationBackground}
+             onClick={() => boardStateContext.handleClickOnLocation(location, false)}>
+            {location.state === LOCATION_STATE.unexplored &&
+                <RelicWrapper>
+                    <RelicWithResource relicType={location.level === LOCATION_LEVEL["2"] ? RELIC.bronze : RELIC.silver}
+                                       effects={location.relicEffects} fontSize={1.3}/>
+                </RelicWrapper>
+            }
+            {location.guardian && location.state === LOCATION_STATE.guarded &&
+                <div onClick={() => boardStateContext.handleClickOnLocation(location, true)}>
+                    <LocationGuardian guardian={location.guardian}/>
+                </div>
+            }
+            {(location.state === LOCATION_STATE.explored || location.state === LOCATION_STATE.guarded)
+                && <LocationTravelCost travelCost={travelCost}/>}
+
+            {location.state === LOCATION_STATE.unexplored ? <ExplorationCost exploreCost={exploreCost}/>
+                : <LocationEffects effects={location.effects}/>}
+
+            <LocationAdventurers adventurers={location.adventurers} locationType={location.type} guarded={location.guardian != null}/>
+        </LocationWrapper>
     )
 }
+
+const LocationWrapper = styled.div`
+    width: 6.3vw;
+    height: 4.2vw;
+    position: relative;
+    text-align: center;
+    margin-right: 0.5vw;
+    background-image: url(${props => props.exploredBgr});
+    background-size: contain;
+`;
+
+const RelicWrapper = styled.div`
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;

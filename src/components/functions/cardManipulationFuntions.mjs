@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep.js';
-import {ARTIFACT_IDs, CARD_STATE, CARD_TYPE, EXPEDITIONS_IDs, GUARDIAN_IDs, ITEM_IDs} from "../../data/idLists.mjs";
-import {shuffleArray} from "./initialStateFunctions.mjs";
+import {ARTIFACT_IDs, ITEM_IDs} from "../../data/idLists.mjs";
 import {EFFECT} from "../../data/effects.mjs";
+import {CARD_STATE, CARD_TYPE} from "./enums.mjs";
 
 export function addCardToHand(card, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);
@@ -12,13 +12,21 @@ export function addCardToHand(card, origPlayerState) {
     return tPlayerState;
 }
 
-export function addCardToDiscardDeck(card, tPlayersState) {
+export function addCardToPlayedCards(card, tPlayersState) {
+    let idCard = getIdCard(card);
+    idCard.state = CARD_STATE.played;
+    tPlayersState.activeCards.push(idCard);
+    return tPlayersState;
+}
+
+/*export function addCardToDiscardDeck(card, tPlayersState) {
     let idCard = getIdCard(card);
     idCard.state = CARD_STATE.discard;
     tPlayersState.discardDeck.push(idCard);
     return tPlayersState;
-}
+}*/
 
+//todo remove guardians as they are part of location now
 export function drawCards(cardsNum, origPlayerState) {
     let tPlayerState = cloneDeep(origPlayerState);
     let drawDeck = tPlayerState.drawDeck;
@@ -27,10 +35,11 @@ export function drawCards(cardsNum, origPlayerState) {
     // guardians are then deployed to active cards area with locked cards
     let guardians = [];
     for (let i = 0; i < cardsNum; i++) {
-        if (drawDeck.length === 0) {
-            tPlayerState = addDiscardToDrawDeck(tPlayerState);
+        // todo if there are no cards to draw the effect is forfeit
+        /*if (drawDeck.length === 0) {
+            tPlayerState = addActiveCardsToDrawDeck(tPlayerState);
             drawDeck = tPlayerState.drawDeck;
-        }
+        }*/
         if (drawDeck.length > 0) {
             let card = drawDeck[0];
             // guardians go to play area and another card is drawn to hand
@@ -57,17 +66,39 @@ export function drawCards(cardsNum, origPlayerState) {
     return tPlayerState;
 }
 
-export function addDiscardToDrawDeck(origPlayerState) {
+export function drawInitialCards(deck, cardsToDraw) {
+    const drawCards = [];
+    for (let i = 0; i < cardsToDraw; i++) {
+        const rnPosition = getRandomNumber(deck.length - 1, 1);
+        drawCards.push(deck[rnPosition]);
+        deck.splice(rnPosition, 1);
+    }
+    return {deck: deck, drawCards: drawCards}
+}
+
+function getRandomNumber(size) {
+    return Math.floor(Math.random() * (size)) + 1;
+}
+
+export function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let rand = Math.floor(Math.random() * (i + 1));
+        [array[i], array[rand]] = [array[rand], array[i]];
+    }
+    return array;
+}
+
+export function addActiveCardsToDrawDeck(origPlayerState) {
     console.log("RESHUFFLING...");
     let tPlayerState = cloneDeep(origPlayerState);
-    tPlayerState.discardDeck = shuffleArray(tPlayerState.discardDeck);
-    const tDrawDeck = cloneDeep(tPlayerState.discardDeck);
+    tPlayerState.activeCards = shuffleArray(tPlayerState.activeCards);
+    const tDrawDeck = cloneDeep(tPlayerState.activeCards);
 
     for (let card of tDrawDeck) {
         card.state = CARD_STATE.drawDeck;
     }
 
-    tPlayerState.discardDeck = [];
+    tPlayerState.activeCards = [];
     tPlayerState.drawDeck = tDrawDeck;
     return tPlayerState;
 }
@@ -76,31 +107,29 @@ export function addCardToStore(cardType, store) {
     let tCard = "";
     if (cardType === CARD_TYPE.item) {
         tCard = store.itemsDeck[0];
+        tCard.state = CARD_STATE.inStore;
+        store.itemsOffer.push(tCard);
         store.itemsDeck.splice(0, 1);
-        store.itemsOffer.push(tCard)
     } else if (cardType === CARD_TYPE.artifact) {
         tCard = store.artifactsDeck[0];
-        store.artifactsDeck.splice(0, 1);
+        tCard.state = CARD_STATE.inStore;
         store.artifactsOffer.push(tCard);
+        store.artifactsDeck.splice(0, 1);
     } else {
         console.log("Unknown card type in addCardToStore: " + cardType);
     }
-    tCard.state = CARD_STATE.inStore;
-    const tStore = cloneDeep(store);
-    return tStore;
+    return cloneDeep(store);
 }
 
-export function removeCard(card, tPlayerState) {
+export function removeCard(card, tPlayerState, tStore) {
     console.log("removing card : " + card.name);
     switch (card.state) {
         case CARD_STATE.inHand:
             tPlayerState.hand = spliceCardIfFound(card, tPlayerState.hand);
             break;
         case CARD_STATE.active:
+        case CARD_STATE.played:
             tPlayerState.activeCards = spliceCardIfFound(card, tPlayerState.activeCards);
-            break;
-        case CARD_STATE.discard:
-            tPlayerState.discardDeck = spliceCardIfFound(card, tPlayerState.discardDeck);
             break;
         case CARD_STATE.drawDeck:
             tPlayerState.drawDeck = spliceCardIfFound(card, tPlayerState.drawDeck);
@@ -110,7 +139,7 @@ export function removeCard(card, tPlayerState) {
         default:
             console.log("Cannot remove card " + card.id + ", state: " + card.state);
     }
-    tPlayerState.destroyedCards.push(getIdCard(card));
+    tStore.destroyedCards.push(getIdCard(card));
     return tPlayerState;
 }
 
@@ -120,10 +149,6 @@ export function getIdCard(jsxCard) {
         return ITEM_IDs[cardId]
     } else if (ARTIFACT_IDs[cardId]) {
         return ARTIFACT_IDs[cardId]
-    } else if (GUARDIAN_IDs[cardId]) {
-        return GUARDIAN_IDs[cardId]
-    } else if (EXPEDITIONS_IDs[cardId]) {
-        return EXPEDITIONS_IDs[cardId]
     } else {
         console.log("Unhable to get IdCard for: " + jsxCard.id);
     }

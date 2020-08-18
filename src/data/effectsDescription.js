@@ -2,6 +2,8 @@ import React from "react";
 import {
     AdventurerIcon,
     Arrow,
+    Blimp,
+    BronzeRelic,
     Coin,
     DestroyCard,
     Discard,
@@ -11,8 +13,6 @@ import {
     Guardian,
     Jeep,
     Jewel,
-    Blimp,
-    Shiny,
     Ship,
     Text,
     Uptrade,
@@ -78,7 +78,7 @@ export const ITEM_EFFECTS = Object.freeze({
         effectsDescription: <div className="effectsDescription">1x: <Explore/> <Arrow/> <Weapon/> <Text/></div>,
     },
     spyglass: {
-        effectsDescription: <div className="effectsDescription">1x: <Explore/> <Explore/> <Arrow/> <Shiny/></div>,
+        effectsDescription: <div className="effectsDescription">1x: <Explore/> <Explore/> <Arrow/> <BronzeRelic/></div>,
         effectsAltDescription: <div className="effectsDescription"><Jeep/> <Jeep/></div>,
     },
     hammock: {
@@ -96,7 +96,7 @@ export const ITEM_EFFECTS = Object.freeze({
             4).</div>,
     },
     journal: {
-        effectsDescription: <div className="effectsDescription">Gain 1 <Explore/> for each <Shiny/> (max 4).</div>,
+        effectsDescription: <div className="effectsDescription">Gain 1 <Explore/> for each <BronzeRelic/> (max 4).</div>,
     },
     lockPick: {
         effectsDescription: <div className="effectsDescription"><Discard/> <Arrow/> <Coin/> <Coin/> <Coin/>.</div>,

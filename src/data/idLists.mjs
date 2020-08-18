@@ -1,70 +1,23 @@
-import {EFFECT} from "./effects.mjs";
-
-export const LOCATION_LEVEL = Object.freeze({
-    1: "I",
-    2: "II",
-    3: "III"
-});
-
-export const LOCATION_STATE = Object.freeze({
-    unexplored: "unexplored",
-    explored: "explored",
-    occupied: "occupied",
-});
-
-export const LOCATION_TYPE = Object.freeze({
-    basic: "basic location",
-    green: "green location",
-    brown: "brown location",
-    lostCity: "lost city",
-});
-
-export const CARD_STATE = Object.freeze({
-    active: "active card",
-    destroyed: "destroyed card",
-    discard: "card is discarded",
-    drawDeck: "card in draw deck",
-    inHand: "card is in hand",
-    inStore: "card is in store",
-    locked: "locked card",
-    victoryCards: "card is among victory cards",
-});
-
-export const CARD_TYPE = Object.freeze({
-    item: "item",
-    artifact: "artifact",
-    basic: "basic",
-    guardian: "guardian",
-    goalCard: "expedition"
-});
-
-export const INCOME_LEVEL = Object.freeze({
-    silver: "silver level",
-    gold: "gold level",
-});
-
-export const INCOME_STATE = Object.freeze({
-    inStore: "in store",
-    ready: "ready",
-    spent: "spent"
-});
-
-export const INCOME_SIZE = Object.freeze({
-    small: "small",
-    large: "large"
-});
+import {CARD_TYPE, LOCATION_LEVEL, LOCATION_TYPE} from "../components/functions/enums.mjs";
 
 export const ITEM_IDs = Object.freeze({
     fear: {
         id: "fear",
         type: CARD_TYPE.basic,
     },
-    coin: {
-        id: "coin",
+    coin1: {
+        id: "coin1",
         type: CARD_TYPE.basic,
     },
-    explore: {
-        id: "explore",
+    coin2: {
+        id: "coin2",
+        type: CARD_TYPE.basic,
+    },
+    explore1: {
+        id: "explore1",
+        type: CARD_TYPE.basic,
+    },explore2: {
+        id: "explore2",
         type: CARD_TYPE.basic,
     },
     seaTurtle: {
@@ -91,8 +44,8 @@ export const ITEM_IDs = Object.freeze({
         id: "dog",
         type: CARD_TYPE.item,
     },
-    canoe: {
-        id: "canoe",
+    steamBoat: {
+        id: "steamBoat",
         type: CARD_TYPE.item,
     },
     jeep: {
@@ -107,18 +60,18 @@ export const ITEM_IDs = Object.freeze({
         id: "hotAirBaloon",
         type: CARD_TYPE.item,
     },
-    airplane: {
-        id: "airplane",
-        type: CARD_TYPE.item,
-    },
     goldPan: {
         id: "goldPan",
         type: CARD_TYPE.item,
     },
-    /*hat: {
+    airplane: {
+        id: "airplane",
+        type: CARD_TYPE.item,
+    },
+    hat: {
         id: "hat",
         type: CARD_TYPE.item,
-    },*/
+    },
     trowel: {
         id: "trowel",
         type: CARD_TYPE.item,
@@ -151,10 +104,6 @@ export const ITEM_IDs = Object.freeze({
         id: "journal",
         type: CARD_TYPE.item,
     },
-    /*lockPick: {
-        id: "lockPick",
-        type: CARD_TYPE.item,
-    },*/
     parrot: {
         id: "parrot",
         type: CARD_TYPE.item,
@@ -163,12 +112,16 @@ export const ITEM_IDs = Object.freeze({
         id: "boots",
         type: CARD_TYPE.item,
     },
-     /*pocketWatch: {
+    pocketWatch: {
         id: "pocketWatch",
         type: CARD_TYPE.item,
-    },*/
+    },
     grapplingHook: {
         id: "grapplingHook",
+        type: CARD_TYPE.item,
+    },
+    binoculars: {
+        id: "binoculars",
         type: CARD_TYPE.item,
     },
     /*camouflagePaint: {
@@ -219,20 +172,60 @@ export const ITEM_IDs = Object.freeze({
         id: "floraSamples",
         type: CARD_TYPE.item,
     },*/
-    boomerang: {
+    /*boomerang: {
         id: "boomerang",
         type: CARD_TYPE.item,
-    },
+    },*/
     /*beetleMask: {
         id: "beetleMask",
         type: CARD_TYPE.item,
     },*/
+    rope: {
+        id: "rope",
+        type: CARD_TYPE.item,
+    },
+    revolver: {
+        id: "revolver",
+        type: CARD_TYPE.item,
+    },
     torch: {
         id: "torch",
         type: CARD_TYPE.item,
     },
     machete: {
         id: "machete",
+        type: CARD_TYPE.item,
+    },
+     axe: {
+            id: "axe",
+            type: CARD_TYPE.item,
+        },
+    beartrap: {
+        id: "beartrap",
+        type: CARD_TYPE.item,
+    },
+    airmail: {
+        id: "airmail",
+        type: CARD_TYPE.item,
+    },
+    armyKnife: {
+        id: "armyKnife",
+        type: CARD_TYPE.item,
+    },
+    handLens: {
+        id: "handLens",
+        type: CARD_TYPE.item,
+    },
+    philologyBook: {
+        id: "philologyBook",
+        type: CARD_TYPE.item,
+    },
+    wristWatch: {
+        id: "wristWatch",
+        type: CARD_TYPE.item,
+    },
+    theodolite: {
+        id: "theodolite",
         type: CARD_TYPE.item,
     },
 });
@@ -254,10 +247,10 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "mirrorShard",
         type: CARD_TYPE.artifact,
     },*/
-    portalStone: {
+    /*portalStone: {
         id: "portalStone",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     pathfinderStaff: {
         id: "pathfinderStaff",
         type: CARD_TYPE.artifact,
@@ -274,14 +267,19 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "cursedTreasure",
         type: CARD_TYPE.artifact,
     },
-    darkKnowledge: {
-        id: "darkKnowledge",
+    serpentsIdol: {
+        id: "serpentsIdol",
         type: CARD_TYPE.artifact,
     },
+    serpentsGold: {
+        id: "serpentsGold",
+        type: CARD_TYPE.artifact,
+    },
+    /*
     baneBanisher: {
         id: "baneBanisher",
         type: CARD_TYPE.artifact,
-    },
+    },*/
     /*goldenMask: {
         id: "goldenMask",
         type: CARD_TYPE.artifact,
@@ -290,239 +288,154 @@ export const ARTIFACT_IDs = Object.freeze({
         id: "warMask",
         type: CARD_TYPE.artifact,
     },
-    /*ringOfLight: {
-        id: "ringOfLight",
+    jewelryBox: {
+        id: "jewelryBox",
         type: CARD_TYPE.artifact,
-    },*/
+    },
+    earRingOfLight: {
+        id: "earRingOfLight",
+        type: CARD_TYPE.artifact,
+    },
     beastKiller: {
         id: "beastKiller",
         type: CARD_TYPE.artifact,
     },
-    flameJewel: {
-        id: "flameJewel",
+    seaNecklace: {
+        id: "seaNecklace",
+        type: CARD_TYPE.artifact,
+    },
+    /*forbiddenScrolls: {
+        id: "forbiddenScrolls",
+        type: CARD_TYPE.artifact,
+    },*/
+    /*fragileBlade: {
+        id: "fragileBlade",
+        type: CARD_TYPE.artifact,
+    },*/
+    ritualDagger: {
+        id: "ritualDagger",
+        type: CARD_TYPE.artifact,
+    },
+    huntingArrows: {
+        id: "huntingArrows",
+        type: CARD_TYPE.artifact,
+    },
+    decoratedHorn: {
+        id: "decoratedHorn",
+        type: CARD_TYPE.artifact,
+    },
+    trophySkull: {
+        id: "trophySkull",
+        type: CARD_TYPE.artifact,
+    },
+    guardianOccarina: {
+        id: "guardianOccarina",
+        type: CARD_TYPE.artifact,
+    },
+    idolOfAraAnu: {
+        id: "idolOfAraAnu",
         type: CARD_TYPE.artifact,
     },
     inscribedBlade: {
         id: "inscribedBlade",
         type: CARD_TYPE.artifact,
     },
-    /*amuletOfCharm: {
+    amuletOfCharm: {
         id: "amuletOfCharm",
         type: CARD_TYPE.artifact,
     },
-    drinkingHorn: {
+    /*drinkingHorn: {
         id: "drinkingHorn",
         type: CARD_TYPE.artifact,
     },*/
-    ancientCipher: {
-        id: "ancientCipher",
+    mortar: {
+        id: "mortar",
         type: CARD_TYPE.artifact,
     },
-    transmutation: {
-        id: "transmutation",
-        type: CARD_TYPE.artifact,
-    },
-    /*owlEyes: {
+    owlEyes: {
         id: "owlEyes",
         type: CARD_TYPE.artifact,
-    },*/
-    goldenMask: {
-        id: "goldenMask",
+    },
+    sunDial: {
+        id: "sunDial",
         type: CARD_TYPE.artifact,
     },
-    /*ritualDagger: {
-        id: "ritualDagger",
+    cauldron: {
+        id: "cauldron",
+        type: CARD_TYPE.artifact,
+    },
+    ornateHammer: {
+        id: "ornateHammer",
+        type: CARD_TYPE.artifact,
+    },
+    boneRattle: {
+        id: "boneRattle",
+        type: CARD_TYPE.artifact,
+    },
+    sacredDrum: {
+        id: "sacredDrum",
+        type: CARD_TYPE.artifact,
+    },
+    snakeBracelet: {
+        id: "snakeBracelet",
+        type: CARD_TYPE.artifact,
+    },
+    earRingOfDarkness: {
+        id: "earRingOfDarkness",
+        type: CARD_TYPE.artifact,
+    },
+    stoneJar: {
+        id: "stoneJar",
+        type: CARD_TYPE.artifact,
+    },
+    /*jewelDice: {
+        id: "jewelDice",
         type: CARD_TYPE.artifact,
     },*/
-    /* fearlessBlade: {
-         id: "fearlessBlade",
-         type: CARD_TYPE.artifact,
-     },
-     keysToAllDoors: {
-         id: "keysToAllDoors",
-         type: CARD_TYPE.artifact,
-     },
-     treacherusWhistle: {
-         id: "treacherusWhistle",
-         type: CARD_TYPE.artifact,
-     },
-     giantEgg: {
-         id: "giantEgg",
-         type: CARD_TYPE.artifact,
-     },*/
-});
-
-export const GUARDIAN_IDs = Object.freeze({
-    foxSpirit: {
-        id: "foxSpirit",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockText],
+    /*preciousLock: {
+        id: "preciousLock",
+        type: CARD_TYPE.artifact,
+    },*/
+    tradersSatchel: {
+        id: "tradersSatchel",
+        type: CARD_TYPE.artifact,
     },
-    forestDragon: {
-        id: "forestDragon",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
+    coconutFlask: {
+        id: "coconutFlask",
+        type: CARD_TYPE.artifact,
     },
-    naga: {
-        id: "naga",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
+    ancientWine: {
+        id: "ancientWine",
+        type: CARD_TYPE.artifact,
     },
-    stoneTitan: {
-        id: "stoneTitan",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockAdventurer],
+    /*mirrorBowl: {
+        id: "mirrorBowl",
+        type: CARD_TYPE.artifact,
+    },*/
+    guradiansCrown: {
+        id: "guradiansCrown",
+        type: CARD_TYPE.artifact,
     },
-    golem: {
-        id: "golem",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
+    /*boneHairpin: {
+        id: "boneHairpin",
+        type: CARD_TYPE.artifact,
+    },*/
+    passageShell: {
+        id: "passageShell",
+        type: CARD_TYPE.artifact,
     },
-    mountainGuardian: {
-        id: "mountainGuardian",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCoin],
+    guidingStone: {
+        id: "guidingStone",
+        type: CARD_TYPE.artifact,
     },
-    gryphon: {
-        id: "gryphon",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
+    runesOfDead: {
+        id: "runesOfDead",
+        type: CARD_TYPE.artifact,
     },
-    whisperingShadow: {
-        id: "whisperingShadow",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
+    guidingSkull: {
+        id: "guidingSkull",
+        type: CARD_TYPE.artifact,
     },
-    giantScarab: {
-        id: "giantScarab",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockAdventurer],
-    },
-    swampSnake: {
-        id: "swampSnake",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockAdventurer],
-    },
-    stealingMonkey: {
-        id: "stealingMonkey",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCoin],
-    },
-    hornedHippo: {
-        id: "hornedHippo",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockAdventurer],
-    },
-    lakeMonster: {
-        id: "lakeMonster",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
-    },
-    energyLeech: {
-        id: "energyLeech",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
-    },
-    swarmingSpiders: {
-        id: "swarmingSpiders",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
-    },
-    heartOfForest: {
-        id: "heartOfForest",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockJewel],
-    },
-    wyvern: {
-        id: "wyvern",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
-    },
-    crabmanHermit: {
-        id: "crabmanHermit",
-        type: CARD_TYPE.guardian,
-        lockEffects: [EFFECT.lockCard],
-    },
-});
-
-export const EXPEDITIONS_IDs = Object.freeze({
-    hiddenGems: {
-        id: "hiddenGems",
-        type: CARD_TYPE.goalCard,
-    },
-    secretPaths: {
-        id: "secretPaths",
-        type: CARD_TYPE.goalCard,
-    },
-    rareFinds: {
-        id: "rareFinds",
-        type: CARD_TYPE.goalCard,
-    },
-    fullyEquipped: {
-        id: "fullyEquipped",
-        type: CARD_TYPE.goalCard,
-    },
-    trophyHunter: {
-        id: "trophyHunter",
-        type: CARD_TYPE.goalCard,
-    },
-    trustedGear: {
-        id: "trustedGear",
-        type: CARD_TYPE.goalCard,
-    },
-    collector: {
-        id: "collector",
-        type: CARD_TYPE.goalCard,
-    },
-    cartographer: {
-        id: "cartographer",
-        type: CARD_TYPE.goalCard,
-    },
-    fearless: {
-        id: "fearless",
-        type: CARD_TYPE.goalCard,
-    },
-    beyondBasics: {
-        id: "beyondBasics",
-        type: CARD_TYPE.goalCard,
-    },
-    quantityAboveAll: {
-        id: "quantityAboveAll",
-        type: CARD_TYPE.goalCard,
-    },
-    belongsToTheMuseum: {
-        id: "belongsToTheMuseum",
-        type: CARD_TYPE.goalCard,
-    },
-    guardedTreasure: {
-        id: "guardedTreasure",
-        type: CARD_TYPE.goalCard,
-    },
-    checkMyResults: {
-        id: "checkMyResults",
-        type: CARD_TYPE.goalCard,
-    },
-    holyGrail: {
-        id: "holyGrail",
-        type: CARD_TYPE.goalCard,
-    },
-    powerfulDestruction: {
-        id: "powerfulDestruction",
-        type: CARD_TYPE.goalCard,
-    },
-    animalLover: {
-        id: "animalLover",
-        type: CARD_TYPE.goalCard,
-    },
-    teamWork: {
-        id: "teamWork",
-        type: CARD_TYPE.goalCard,
-    },
-    touchTheSkies: {
-        id: "touchTheSkies",
-        type: CARD_TYPE.goalCard,
-    },
-
 });
 
 /* Generating locations assigns them new key / value: *line*: numberOfLine, in which is the location displayed */
@@ -651,124 +564,36 @@ export const LOCATION_IDs = Object.freeze({
         id: "lc1",
         type: LOCATION_TYPE.lostCity,
         level: LOCATION_LEVEL["3"],
-    }
-});
-
-export const LEGEND_IDS = Object.freeze({
-    legend1: {
-        id: "legend1"
+    },
+    emptyLocation: {
+        id: "emptyLocation",
+        type: LOCATION_TYPE.emptyBrownLocation,
+        level: LOCATION_LEVEL["2"],
+    },
+    emptyBrownLocation: {
+        id: "emptyBrownLocation",
+        type: LOCATION_TYPE.emptyBrownLocation,
+        level: LOCATION_LEVEL["2"],
+    },
+    emptyGreenLocation: {
+        id: "emptyGreenLocation",
+        type: LOCATION_TYPE.emptyGreenLocation,
+        level: LOCATION_LEVEL["2"],
     },
 });
 
-export const INCOME_IDs = Object.freeze({
-    adventurerIncome: {
-        id: "adventurerIncome",
-        effects: [EFFECT.gainAdventurerForThisRound],
-        level: INCOME_LEVEL.gold
-    },
-    drawCardIncome: {
-        id: "drawCardIncome",
-        effects: [EFFECT.draw1],
-        level: INCOME_LEVEL.gold
-    },
-    coinIncome: {
-        id: "coinIncome",
-        effects: [EFFECT.gainCoin],
-        level: INCOME_LEVEL.silver,
-    },
-    exploreIncome: {
-        id: "exploreIncome",
-        effects: [EFFECT.gainExplore],
-        level: INCOME_LEVEL.silver,
-    },
-    discountedBuyIncome: {
-        id: "discountedBuyIncome",
-        effects: [EFFECT.buyWithDiscount1],
-        level: INCOME_LEVEL.silver,
-    },
-    exploreAndCoinIncome: {
-        id: "exploreAndCoinIncome",
-        effects: [EFFECT.gainExplore, EFFECT.gainCoin],
-        level: INCOME_LEVEL.gold
-    },
-    coinAndTextIncome: {
-        id: "coinAndTextIncome",
-        effects: [EFFECT.gainCoin, EFFECT.gainText],
-        level: INCOME_LEVEL.gold
-    },
-    textIncome: {
-        id: "textIncome",
-        effects: [EFFECT.gainText],
-        level: INCOME_LEVEL.silver,
-    },
-    uptradeIncome: {
-        id: "uptradeIncome",
-        effects: [EFFECT.uptrade],
-        level: INCOME_LEVEL.silver,
-    },
-    weaponIncome: {
-        id: "weaponIncome",
-        effects: [EFFECT.gainWeapon],
-        level: INCOME_LEVEL.gold
-    },
-    planeIncome: {
-        id: "planeIncome",
-        effects: [EFFECT.gainBlimp],
-        level: INCOME_LEVEL.silver
-    },
-    twoPlanesIncome: {
-        id: "twoPlanesIncome",
-        effects: [EFFECT.gainBlimp, EFFECT.gainBlimp],
-        level: INCOME_LEVEL.gold
-    },
-});
-
-export const TRANSMISSIONS = Object.freeze({
-    createGame: "set up a new game",
-    currentUsersAndData: "users currently logged in",
-    deleteRoom: "delete game room",
-    finishedRound: "finishedRound",
-    getStates: "getState",
-    gameStates: "game states",
-    handShake: "handshake",
-    joinGame: "join game",
-    newGame: "start a new game",
-    nextPlayer: "nextPlayer",
-    sendGameStates: "gameStates",
-    sendScoringStates: "send all states",
-    scoringStates: "emitting all states",
-    stateUpdate: "stateUpdate",
-    resetTurn: "reset turn - send back data from beginning of the turn",
-    roomCreated: "room has been successfully created and player joined it",
-    roomIsFull: "join request denied, room is already full",
-    roomList: "list of all active rooms",
-    roomNameAlreadyExists: "room name already exists and cannot be used",
-    startGame: "open gameboard",
-    testData: "testData",
-    usernameChanged: "usernameChanged",
-});
-
-export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id, ARTIFACT_IDs.flameJewel.id,
+export const CARDS_ACTIONLESS = [ITEM_IDs.ostrich.id, ITEM_IDs.seaTurtle.id,
     ARTIFACT_IDs.inscribedBlade.id];
 
-export const REWARD_TYPE = Object.freeze({
-   card: "card",
-   incomeToken: "income token",
-   effectsArr: "array of effects"
-});
+export const INITIAL_CARDS = [{...ITEM_IDs.coin1}, {...ITEM_IDs.coin2}, {...ITEM_IDs.explore1}, {...ITEM_IDs.explore2},
+    {...ITEM_IDs.fear}, {...ITEM_IDs.fear}];
 
-export const ACTION_TYPE = Object.freeze({
-    activatesLocation: "activates a location",
-    buysItem: "buys an item",
-    buysArtifact: "buys an artifact",
-    finishesRound: "finishes round",
-    endOfTurn: "ends turn",
-    exploresLocation: "explores location",
-    guardianComes: "guardian encountered",
-    placesRelic: "places a relic",
-    playsCard: "plays a card",
-    playsCardWithoutAction: "plays a card without spending action",
-    researches: "researches a legend",
-    usesAssistant: "uses assistant / income",
-    usesBonusAction: "uses a bonus action",
+export const GLOBAL_VARS = Object.freeze({
+    handSize: 5,
+    initialCards: INITIAL_CARDS,
+    itemsInStore: 5,
+    artifactsInStore: 1,
+    adventurers: 2,
+    playerColors: ["#ffcc00", "#33cc00", "#0066ff", "#cc0000"],
+    numOfLegendTokens: 2    ,
 });

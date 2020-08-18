@@ -4,7 +4,6 @@ import dirname from "es-dirname"
 import express from "express";
 import socketIO from "socket.io"
 import cors from "cors"
-import {TRANSMISSIONS} from "../data/idLists.mjs";
 import {
     changeFormerUsername,
     getRoom,
@@ -16,11 +15,13 @@ import {
     removeUser,
     updateRoomState
 } from "./serverFunctions.mjs";
-import getInitialPlayerStates, {
-    getInitialLegends,
-    getInitialLocations,
-    getInitialStore
-} from "../components/functions/initialStateFunctions.mjs";
+import cloneDeep from "lodash/cloneDeep.js";
+import {TRANSMISSIONS} from "../components/functions/enums.mjs";
+import getInitialPlayerStates from "../components/functions/initialStates/initialPlayerStates.mjs";
+import {getInitialStore} from "../components/functions/initialStates/initialStore.mjs";
+import {getInitialLegends} from "../components/functions/initialStates/initialLegends.mjs";
+import {getInitialLocations} from "../components/functions/initialStates/initialLocations.mjs";
+import {relicEffects, resetRelicEffects} from "../data/relicEffects.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -47,28 +48,35 @@ io.on("connection", socket => {
         }
     });
 
-
     /** NEW GAME ROOM **/
     socket.on(TRANSMISSIONS.createGame, roomData => {
         //check if the name is existing
         if (!isRoomNameTaken(roomData, gameRooms)) {
+            const numOfPlayers = roomData.numOfPlayers;
+            var tRelicEffects = cloneDeep(relicEffects);
+            const states = {
+                numOfPlayers: numOfPlayers,
+                playerStates: getInitialPlayerStates(numOfPlayers),
+                /* beware! locations must be initialized before store because of relicEffects! */
+                locations: getInitialLocations(numOfPlayers),
+                store: getInitialStore(),
+                legends: getInitialLegends(numOfPlayers),
+                activePlayer: 0,
+                initialPlayer: 0,
+                previousPlayer: 0,
+                round: 1,
+                gameLog: [],
+                roomName: roomData.roomName,
+            };
             gameRooms.push({
                 name: roomData.roomName,
                 numOfPlayers: roomData.numOfPlayers,
                 players: [getUserName(socket.id, users)],
-                states: {
-                    playerStates: getInitialPlayerStates(roomData.numOfPlayers),
-                    store: getInitialStore(),
-                    locations: getInitialLocations(roomData.numOfPlayers),
-                    legends: getInitialLegends(roomData.numOfPlayers),
-                    activePlayer: 0,
-                    initialPlayer: 0,
-                    previousPlayer: 0,
-                    round: 1,
-                    gameLog: [],
-                },
+                states: states,
+                previousStates: states,
             });
             console.debug("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");
+            resetRelicEffects();
             socket.join(roomData.roomName);
 
             io.emit(TRANSMISSIONS.currentUsersAndData, {
@@ -105,12 +113,6 @@ io.on("connection", socket => {
         }
     });
 
-    /* NEW GAME * //todo refactor
-    socket.on(TRANSMISSIONS.newGame, () => {
-        console.debug("*** NEW GAME INITIATED ***");
-        newGame();
-    })*/
-
     /** START GAME **/
     socket.on(TRANSMISSIONS.startGame, data => {
         const roomName = data.roomName;
@@ -121,11 +123,31 @@ io.on("connection", socket => {
         console.debug("New game data sent to: " + roomName + " [" + room.players + "]");
     });
 
-    /** SEND INITIAL GAME STATES **/
-    socket.on(TRANSMISSIONS.sendGameStates, username => {
-        console.debug("Game states required by user: " + username);
+    /** SEND GAME STATES **/
+    socket.on(TRANSMISSIONS.sendGameStates, data => {
+        const room = getRoom(data.roomName, gameRooms);
+        if (room) {
+            const userName = room.players[data.playerIndex];
+            console.debug("* shaking hand with " + userName);
+            users = processNewConnection(userName, socket.id, users);
+            socket.join(data.roomName);
+            console.debug("Game states required for room: " + room.name + " by user " + getUserName(socket.id,
+                users));
+            socket.emit(TRANSMISSIONS.stateUpdate, {
+                playerStates: room.states.playerStates,
+                store: room.states.store,
+                locations: room.states.locations,
+                round: room.states.round,
+                legends: room.states.legends,
+                activePlayer: room.states.activePlayer,
+                previousPlayer: room.states.previousPlayer,
+                gameLog: room.states.gameLog,
+                numOfPlayers: room.states.numOfPlayers,
+            })
+        } else {
+            console.error("Couldn't find room during requested status update:" + data.roomName);
+        }
     });
-
 
     /** RESET TURN **/
     socket.on(TRANSMISSIONS.resetTurn, roomName => {
@@ -142,17 +164,33 @@ io.on("connection", socket => {
                 activePlayer: room.states.activePlayer,
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
+                numOfPlayers: room.states.numOfPlayers,
             })
         } else {
-        console.error("Room could not be found, turn was not passed.");
-    }
+            console.error("Room could not be found, turn was not passed.");
+        }
     });
+
+    /** REVERT TURN **/
+    socket.on(TRANSMISSIONS.revert, roomName => {
+        console.debug("reverting turn in room: " + roomName + "(" + getUserName(socket.id, users) + "|" + socket.id + ")");
+        const room = getRoom(roomName, gameRooms);
+        console.log("room: " + room);
+        if (room) {
+            room.states = cloneDeep(room.previousStates);
+            updateStatesToAll(room);
+        } else {
+            console.error("Room could not be found, turn was not passed.");
+        }
+    });
+
 
     /** NEXT PLAYER **/
     socket.on(TRANSMISSIONS.nextPlayer, states => {
         console.debug("Passing turn to next player in room: " + states.roomName + "(" + getUserName(socket.id, users) + ")");
         let room = getRoom(states.roomName, gameRooms);
         if (room) {
+            room.previousStates = cloneDeep(room.states);
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             console.debug("PLAYER " + (playerIndex) + " passing action.");
             room = updateRoomState(room, playerIndex, states);
@@ -166,55 +204,70 @@ io.on("connection", socket => {
     /** End of round**/
     socket.on(TRANSMISSIONS.finishedRound, states => {
         let room = getRoom(states.roomName, gameRooms);
-        let playerIndex = room.players.indexOf(getUserName(socket.id, users));
-        for (let playerState of room.states.playerStates) {
-            console.debug("Has player " + playerState.playerIndex + " finished round?" + playerState.finishedRound);
-        }
-        console.debug("end of round initiated by player: " + playerIndex + "(" + getUserName(socket.id, users) + ")");
-        if (playerIndex !== -1) {
-            room = updateRoomState(room, playerIndex, states);
-            room.states.playerStates[playerIndex].finishedRound = true;
+        if (room) {
+            room.previousStates = cloneDeep(room.state);
 
-            let nextPlayerIndex = playerIndex + 1 < room.numOfPlayers ? playerIndex + 1 : 0;
-            let haveAllFinished = true;
-
-            while (playerIndex !== nextPlayerIndex) {
-                if (!room.states.playerStates[nextPlayerIndex].finishedRound) {
-                    haveAllFinished = false;
-                }
-                nextPlayerIndex = nextPlayerIndex + 1 < room.numOfPlayers ? nextPlayerIndex + 1 : 0;
+            let playerIndex = room.players.indexOf(getUserName(socket.id, users));
+            for (let playerState of room.states.playerStates) {
+                console.debug("Has player " + playerState.playerIndex + " finished round?" + playerState.finishedRound);
             }
-            console.debug("have all finished: " + haveAllFinished);
+            console.debug("end of round initiated by player: " + playerIndex + "(" + getUserName(socket.id, users) + ")");
+            if (playerIndex !== -1) {
+                room = updateRoomState(room, playerIndex, states);
+                room.states.playerStates[playerIndex].finishedRound = true;
 
-            if (haveAllFinished) {
-                if (room.states.round < 5) {
-                    room = processEndOfRound(room);
+                let nextPlayerIndex = playerIndex + 1 < room.numOfPlayers ? playerIndex + 1 : 0;
+                let haveAllFinished = true;
+
+                while (playerIndex !== nextPlayerIndex) {
+                    if (!room.states.playerStates[nextPlayerIndex].finishedRound) {
+                        haveAllFinished = false;
+                    }
+                    nextPlayerIndex = nextPlayerIndex + 1 < room.numOfPlayers ? nextPlayerIndex + 1 : 0;
+                }
+                console.debug("have all finished: " + haveAllFinished);
+
+                if (haveAllFinished) {
+                    if (room.states.round < 5) {
+                        room = processEndOfRound(room);
+                    } else {
+                        console.debug("Sending new round states to all players.");
+                        io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
+                            playerStates: room.states.playerStates,
+                            numOfPlayers: room.states.numOfPlayers,
+                            legends: room.states.legends,
+                        })
+                    }
                 } else {
-                    console.debug("Sending new round states to all players.");
-                    io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
-                        playerStates: room.states.playerStates,
-                        legends: room.states.legends,
-                    })
+                    room.states.activePlayer = nextPlayer(playerIndex, room);
                 }
+                room.previousStates = room.states;
+                updateStatesToAll(room);
             } else {
-                room.states.activePlayer = nextPlayer(playerIndex, room);
+                console.error("Unable to process user - possible disconnection. Socket id: " + socket.id);
             }
-            updateStatesToAll(room);
         } else {
-            console.error("Unable to process user - possible disconnection. Socket id: " + socket.id);
+            console.error("Unable to get room at end of round" + room)
         }
     });
 
-    /* SEND BACK ALL PLAYER STATES *
-    socket.on(TRANSMISSIONS.sendScoringStates, () => {
-        console.debug("*Sending player states for scoring, length:" + playerStates.length);
-        socket.emit(TRANSMISSIONS.scoringStates, {playerStates: playerStates, legends: legends});
-    })*/
-
-
-    /** JOIN ROOM **/
-    socket.on(TRANSMISSIONS.joinGame, data => {
-        console.debug(data.roomName);
+    /**  SEND BACK SCORING STATES **/
+    socket.on(TRANSMISSIONS.sendScoringStates, (data) => {
+        const room = getRoom(data.roomName, gameRooms);
+        if (room) {
+            const userName = room.players[data.playerIndex];
+            console.debug("* shaking hand with " + userName);
+            users = processNewConnection(userName, socket.id, users);
+            socket.join(data.roomName);
+            console.debug("Scoring states required for room: " + room.name + " by user " + getUserName(socket.id,
+                users));
+            socket.emit(TRANSMISSIONS.scoringStates, {
+                playerStates: room.states.playerStates,
+                legends: room.states.legends,
+            })
+        } else {
+            console.error("Couldn't find room during requested scoring update:" + data.roomName);
+        }
     });
 
     /** DELETE ROOM **/
@@ -261,26 +314,22 @@ io.on("connection", socket => {
 
     function updateStatesToAll(room) {
         console.debug("Updating states to all players.");
-        io.to(room.name).emit(TRANSMISSIONS.stateUpdate, {
-            playerStates: room.states.playerStates,
-            store: room.states.store,
-            locations: room.states.locations,
-            round: room.states.round,
-            legends: room.states.legends,
-            activePlayer: room.states.activePlayer,
-            previousPlayer: room.states.previousPlayer,
-            gameLog: room.states.gameLog,
-        })
+        if (room) {
+            io.to(room.name).emit(TRANSMISSIONS.stateUpdate, {
+                playerStates: room.states.playerStates,
+                store: room.states.store,
+                locations: room.states.locations,
+                round: room.states.round,
+                legends: room.states.legends,
+                activePlayer: room.states.activePlayer,
+                previousPlayer: room.states.previousPlayer,
+                gameLog: room.states.gameLog,
+                numOfPlayers: room.states.numOfPlayers,
+            })
+        } else {
+            console.error("Unable to process room in updatesStatesToAll - probably result of earlier fail, e.g. to revert.");}
     }
 
-    /*function newGame() {
-        playerStates = getInitialPlayerStates();
-        store = getInitialStore();
-        locations = getInitialLocations();
-        legends = getInitialLegends();
-        round = 1;
-        activePlayer = 0;
-    }*/
 });
 
 app.use(express.static(path.join(__dirname, '../../build')));

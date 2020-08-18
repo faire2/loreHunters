@@ -1,9 +1,9 @@
 import {socket} from "../../server/socketConnection";
-import {TRANSMISSIONS} from "../../data/idLists";
 import {ButtonGroup} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import React from "react";
 import {Export2Xls} from "./Export2Xls";
+import {TRANSMISSIONS} from "../functions/enums";
 
 export const Room = (props) => {
     const username = props.username;
@@ -42,7 +42,7 @@ export const Room = (props) => {
                 {readyToStart && <Button onClick={() => socket.emit(TRANSMISSIONS.startGame,{roomName: room.name})} variant="secondary" size="sm">Open game</Button>}
                 <Button onClick={() => socket.emit(TRANSMISSIONS.deleteRoom, {roomName: room.name})}
                         variant={"secondary"} size={"sm"}>Delete room</Button>
-                {room.states.gameLog.length > 0 && <Export2Xls gameLog={room.states.gameLog}/>}
+                {room.states.gameLog.length > 0 && <Export2Xls gameLog={room.states.gameLog} playerNames={room.players}/>}
             </ButtonGroup>
         </div>
     )

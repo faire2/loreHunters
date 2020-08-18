@@ -1,17 +1,19 @@
 import React, {useContext, useState} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {AdventurerToken, Coin, Explore, Jeep, Jewel, Blimp, Shiny, Ship, Text, Walk, Weapon} from "../Symbols";
-import {GLOBAL_VARS} from "../functions/initialStateFunctions";
-import {IncomeTile} from "../legends/tiles/IncomeTile";
-import {INCOME_SIZE} from "../../data/idLists";
+import {AdventurerToken, Blimp, Coin, Explore, Jeep, Jewel, Ship, Text, Walk, Weapon} from "../Symbols";
+import {Assistant} from "../assistantsChoice/Assistant";
 import {PlayerTabs} from "../scoring/ScoringPanel";
+import {ASSISTANT_TILE_SIZE} from "../functions/enums";
+import {GLOBAL_VARS} from "../../data/idLists";
+import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
+import {DivColumn} from "../functions/styles";
 
-export default function ResourcesArea(props) {
+export default function ResourcesArea() {
     const playerStateContext = useContext(PlayerStateContext);
     const playerStates = playerStateContext.playerStates;
     const ownPlayerState = playerStateContext.playerState;
     const [showPlayerIndex, setShowPlayerIndex] = useState(0);
-    const showPlayerState = playerStates[showPlayerIndex];
+    const showPlayerState = playerStates ? playerStates[showPlayerIndex] : emptyPlayerState;
 
 
     function handleClickOnPlayerTab(index) {
@@ -21,10 +23,9 @@ export default function ResourcesArea(props) {
     const containerStyle = {
         position: "absolute",
         marginLeft: "46vw",
-        marginTop: "23.5vw",
+        top: "22.5vw",
         fontSize: "1.3vw",
         zIndex: 1,
-        top: 0,
         height: "13.5vw",
         width: "27.5vw",
     };
@@ -83,14 +84,14 @@ const Resources = (props) => {
         display: "flex",
         flexWrap: "wrap",
         width: "7vw",
-        fontSize: "2.9vw"
+        fontSize: "2vw"
     };
 
     const availableAdventurers = [];
     for (let i = 0; i < playerStateContext.playerState.availableAdventurers; i++) {
         availableAdventurers.push(<AdventurerToken key={i}
                                                    color={GLOBAL_VARS.playerColors[playerIndex]}
-                                                   style={{width: "2vw"}}/>)
+                                                   style={{width: "1.8vw"}}/>)
     }
 
     let walkIcons = [];
@@ -109,6 +110,18 @@ const Resources = (props) => {
     for (let i = 0; i < resources.plane; i++) {
         blimpIcons.push(<Blimp/>)
     }
+    /*let bronzeRelicIcons = [];
+    for (let i = 0; i < resources.bronzeRelics; i++) {
+        bronzeRelicIcons.push(<Relic/>)
+    }
+    let silverRelicIcons = [];
+    for (let i = 0; i < resources.silverRelics; i++) {
+        silverRelicIcons.push(<SilverRelic/>)
+    }
+    let goldRelicIcons = [];
+    for (let i = 0; i < resources.goldRelics; i++) {
+        goldRelicIcons.push(<GoldRelic/>)
+    }*/
 
 
     return (
@@ -134,13 +147,6 @@ const Resources = (props) => {
                     <Jewel/>
                     {resources.jewels}
                 </div>
-                <div onClick={() => playerStateContext.handleClickOnResource(RESOURCES.relics)}>
-                    <Shiny/>
-                    {resources.shinies}
-                </div>
-            </div>
-            <div style={secondColumnFieldStyle}>
-                {availableAdventurers}
             </div>
             <div style={secondColumnFieldStyle}>
                 {walkIcons.map(icon =>
@@ -162,10 +168,30 @@ const Resources = (props) => {
                     icon
                 )}
             </div>
-            <div style={secondColumnFieldStyle}>
-                {playerState.incomes.map(income =>
-                    <IncomeTile income={income} size={INCOME_SIZE.large}/>
+            {/*<div style={secondColumnFieldStyle}>
+                {bronzeRelicIcons.map(icon =>
+                    icon
                 )}
+            </div>
+            <div style={secondColumnFieldStyle}>
+                {silverRelicIcons.map(icon =>
+                    icon
+                )}
+            </div>
+            <div style={secondColumnFieldStyle}>
+                {goldRelicIcons.map(icon =>
+                    icon
+                )}
+            </div>*/}
+            <div style={secondColumnFieldStyle}>
+                {availableAdventurers}
+            </div>
+            <div style={secondColumnFieldStyle}>
+                <DivColumn>
+                {playerState.assistants.map(income =>
+                    <Assistant assistant={income} size={ASSISTANT_TILE_SIZE.small}/>
+                )}
+                </DivColumn>
             </div>
         </div>
     )

@@ -1,15 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
-import {CARD_STATE, CARD_TYPE} from "../../data/idLists";
-import {ARTIFACTS, CARD_TRANSPORT, EXPEDITIONS, GUARDIANS, ITEMS} from "../../data/cards";
+import {ARTIFACTS, CARD_TRANSPORT, ITEMS} from "../../data/cards";
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import basicItemBgr from "../../img/cardBackgrounds/basicItemBackground.png"
 import fearBgr from "../../img/cardBackgrounds/fearBgr.png"
 import artifactBgr from "../../img/cardBackgrounds/Artifact.png"
-import guardianBgr from "../../img/cardBackgrounds/Guardian12.png"
-import expeditionBgr from "../../img/cardBackgrounds/ExpeditionGoal.png"
-import transportHighlight from "../../img/cardBackgrounds/transportHighlight.png"
+import transportHighlight from "../../img/transportHighlight.png"
 import {
     AdventurerIcon,
     Blimp,
@@ -25,7 +22,8 @@ import {
     Weapon
 } from "../Symbols";
 import {cloneDeep} from "lodash";
-import {gainLockedResourceBack} from "../functions/processEffects";
+import {CARD_STATE, CARD_TYPE} from "../functions/enums";
+import {gainLockedResourceBack} from "../functions/guardians/gainLockedResourceBack";
 
 export default function Card(props) {
     /* get JSX card */
@@ -47,16 +45,17 @@ export default function Card(props) {
     } else if (cardType === CARD_TYPE.artifact) {
         cardTemplate = ARTIFACTS[props.card.id];
         cardBackground = artifactBgr;
-    } else if (cardType === CARD_TYPE.guardian) {
+    /*} else if (cardType === CARD_TYPE.guardian) {
         cardTemplate = GUARDIANS[props.card.id];
-        cardBackground = guardianBgr;
-    } else if (cardType === CARD_TYPE.goalCard) {
-        cardTemplate = EXPEDITIONS[props.card.id];
-        cardBackground = expeditionBgr;
+        cardBackground = guardianBgr;*/
     } else {
         console.log("Unable to process card type in Card.js: " + cardType);
         console.log(props.card.id);
     }
+    if (!cardTemplate) {
+        debugger
+    }
+
     // prevents merge of two cards with same id
     let card = cloneDeep(cardTemplate);
     card.state = props.card.state;
@@ -229,9 +228,9 @@ export default function Card(props) {
 
     //todo fontSize is set in cards.js, should be moved here
     const effectsStyle = {
-        width: "95%",
-        marginTop: !isGuardian ? "51%" : "59%",
-        marginLeft: !isGuardian ? 0 : "32%",
+        width: "91%",
+        marginTop: !isGuardian ? "55%" : "59%",
+        marginLeft: !isGuardian ? "0.3vw" : "32%",
         fontSize: "0.46vw",
         textAlign: !isGuardian ? "center" : "left",
         position: "absolute",
@@ -288,17 +287,17 @@ export default function Card(props) {
     function handleClickOnEffect(effects, isTravel) {
         const correctState = card.state === CARD_STATE.inHand || (card.state === CARD_STATE.active
             && card.type === CARD_TYPE.guardian);
-        if (correctState && boardStateContext.activeEffects.length === 0) {
+        if (correctState && boardStateContext.playerState.activeEffects.length === 0) {
             if (cardType === CARD_TYPE.guardian && props.card.locked) {
                 const lockEffects = props.card.locked;
                 effects = gainLockedResourceBack(lockEffects, effects)
             }
-            boardStateContext.handleCardEffect(effects, props.index, !(isTravel || cardType === CARD_TYPE.basic), card);
+            boardStateContext.handleCardEffect(effects, props.index, !(isTravel), card);
         }
     }
 
     function handleClickOnCard() {
-        const activeEffects = boardStateContext.activeEffects;
+        const activeEffects = boardStateContext.playerState.activeEffects;
         if (activeEffects.length > 0) {
             boardStateContext.handleActiveEffectClickOnCard(card, props.index);
         } else if (card.state === CARD_STATE.inStore) {
@@ -328,7 +327,6 @@ export default function Card(props) {
             {cardType === CARD_TYPE.guardian && <LockEffects style={lockEffectsStyle} lockText={lockText}/>}
             <Cost cost={cost} style={costStyle} isGuarded={card.isGuarded}/>
             <VictoryPoints points={card.points} style={pointsStyle}/>
-            {/*card.state === undefined && */}<div style={{position: "absolute", bottom: "-0.5vw", fontSize: "0.5vw"}}>{card.state}</div>
         </div>
     )
 }
@@ -349,7 +347,7 @@ const CardTop = (props) => {
                 break;
             case CARD_TRANSPORT.plane:
             case CARD_TRANSPORT.artifact:
-                effects.push(EFFECT.gainBlimp);
+                effects.push(EFFECT.gainPlane);
                 break;
             case CARD_TRANSPORT.empty:
             case CARD_TRANSPORT.guardian:

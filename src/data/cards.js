@@ -3,27 +3,28 @@ import {
     AdventurerIcon,
     Arrow,
     Artifact,
+    AssistantUpgrade,
+    Blimp,
+    BronzeRelic,
     Coin,
     DefeatedGuardian,
     DestroyCard,
     Discard,
     Draw1Card,
     Draw2Cards,
-    Draw3Cards,
     Explore,
     Fear,
+    GoldAssistant,
     Guardian,
     Item,
     Jeep,
     Jewel,
     LocationL1,
     LocationL2,
-    LocationL3,
-    Blimp,
-    Shiny,
     Ship,
     Text,
-    VictoryPoints,
+    Uptrade,
+    VictoryPointsBgr,
     Walk,
     Weapon
 } from "../components/Symbols.js";
@@ -40,12 +41,13 @@ import airPlaneImg from "../img/cardImages/items/airPlane.png"
 import goldPanImg from "../img/cardImages/items/goldPan.png"
 import trowelImg from "../img/cardImages/items/trowel.png"
 import pickaxeImg from "../img/cardImages/items/pickaxe.png"
-import beerMugImg from "../img/cardImages/items/beerMug.png"
 import journalImg from "../img/cardImages/items/journal.png"
 import parrotImg from "../img/cardImages/items/parrot.png"
 import pocketWatchImg from "../img/cardImages/items/pocketWatch.png"
 import grapplingHookImg from "../img/cardImages/items/grapplingHook.png"
-import camouflagePaintImg from "../img/cardImages/items/camouflagePaint.png"
+import binocularsImg from "../img/cardImages/items/binoculars.jpg"
+import revolverImg from "../img/cardImages/items/revolver.jpg"
+/*import camouflagePaintImg from "../img/cardImages/items/camouflagePaint.png"*/
 import tentImg from "../img/cardImages/items/tent.png"
 import fishingRodImg from "../img/cardImages/items/fishingRod.png"
 import compassImg from "../img/cardImages/items/compass.png"
@@ -55,33 +57,34 @@ import whipImg from "../img/cardImages/items/whip.png"
 import bookOfMythsImg from "../img/cardImages/items/bookOfMyths.png"
 import bagImg from "../img/cardImages/items/bag.png"
 import flaskImg from "../img/cardImages/items/flask.png"
+import beartrapImg from "../img/cardImages/items/beartrap.png"
+import airmailImg from "../img/cardImages/items/airmail.png"
 /*import floraSamplesImg from "../img/cardImages/items/floraSamples.png"*/
-import boomerangImg from "../img/cardImages/items/boomerang.png"
 import torchImg from "../img/cardImages/items/torch.png"
 import machetteImg from "../img/cardImages/items/machete.png"
-
 /*import mirrorShardImg from "../img/cardImages/artifacts/mirrorShard.png"*/
-import portalStoneImg from "../img/cardImages/artifacts/portalStone.png"
 import pathFinderStaffImg from "../img/cardImages/artifacts/pathFinderStaff.png"
 import cursedTreasureImg from "../img/cardImages/artifacts/cursedTreasure.png"
 import darkKnowledgeImg from "../img/cardImages/artifacts/darkKnowledge.png"
 import baneBanisherImg from "../img/cardImages/artifacts/blade.png"
 import warMaskImg from "../img/cardImages/artifacts/warMask.png"
-import ringOfLightImg from "../img/cardImages/artifacts/ringOfLight.png"
 import beastKillerImg from "../img/cardImages/artifacts/beastKiller.png"
 import flameJewelImg from "../img/cardImages/artifacts/flameJewel.png"
 import inscribedBladeImg from "../img/cardImages/artifacts/inscribedBlade.png"
-import ancientCipherImg from "../img/cardImages/artifacts/ancientCipher.png"
 import transmutationImg from "../img/cardImages/artifacts/transmutation.png"
-/*import owlEyesImg from "../img/cardImages/artifacts/owlEyes.png"*/
-import goldenMaskImg from "../img/cardImages/artifacts/goledMask.png"
-import ritualDaggerImg from "../img/cardImages/artifacts/ritualDagger.png"
-
 
 
 import {EFFECT} from "./effects.mjs";
-import {CARD_TYPE} from "./idLists.mjs";
-import {FreeAction, Treasure, Uptrade} from "../components/Symbols";
+import {
+    FirstLegendToken,
+    Flash,
+    GainAction,
+    LocationL3,
+    PlaceAdventurer,
+    SecondLegendToken,
+    Treasure
+} from "../components/Symbols";
+import {CARD_TYPE} from "../components/functions/enums";
 
 
 export const CARD_TRANSPORT = Object.freeze({
@@ -93,10 +96,10 @@ export const CARD_TRANSPORT = Object.freeze({
 });
 
 const bigIconsStyle = {
-    fontSize: "1.2vw",
+    fontSize: "1.1vw",
 };
 
-const lockEffectsStyle = {
+/*const lockEffectsStyle = {
     height: "100%",
     width: "auto"
 };
@@ -111,7 +114,7 @@ const columnStyle = {
 const rowStyle = {
   display: "flex",
   flexFlow: "row",  
-};
+};*/
 
 export const ITEMS = Object.freeze({
     fear: {
@@ -120,27 +123,47 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.walk,
         transportAmount: 1,
         effectsText: "",
-        effects: [EFFECT.gainWalk],
+        effects: [EFFECT.gainWalk, EFFECT.gainAction],
         cost: 0,
         points: -1
     },
-    coin: {
-        id: "coin",
+    coin1: {
+        id: "coin1",
         cardName: "Coin",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Coin/><FreeAction/></div>,
-        effects: [EFFECT.gainCoin],
+        effectsText: <div style={bigIconsStyle}><Coin/><GainAction/></div>,
+        effects: [EFFECT.gainCoin, EFFECT.gainAction],
         cost: 0,
         points: 0
     },
-    explore: {
-        id: "explore",
+    coin2: {
+        id: "coin2",
+        cardName: "Coin",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Coin/><GainAction/></div>,
+        effects: [EFFECT.gainCoin, EFFECT.gainAction],
+        cost: 0,
+        points: 0
+    },
+    explore1: {
+        id: "explore1",
         cardName: "Explore",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Explore/><FreeAction/></div>,
-        effects: [EFFECT.gainExplore],
+        effectsText: <div style={bigIconsStyle}><Explore/><GainAction/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainAction],
+        cost: 0,
+        points: 0
+    },
+    explore2: {
+        id: "explore2",
+        cardName: "Explore",
+        transport: CARD_TRANSPORT.ship,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Explore/><GainAction/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainAction],
         cost: 0,
         points: 0
     },
@@ -148,23 +171,25 @@ export const ITEMS = Object.freeze({
         id: "seaTurtle",
         cardName: "Sea Turtle",
         transport: CARD_TRANSPORT.ship,
-        transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Draw1Card/><Ship/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainShip],
+        transportAmount: 2,
+        effectsText: <div className="effectsText"><Draw1Card/><br/><PlaceAdventurer/> with a discount of <Ship/>.
+        </div>,
+        effects: [EFFECT.draw1, EFFECT.placeToGreenLocation],
         image: seaTurtleImg,
-        cost: 2,
-        points: 2
+        cost: 3,
+        points: 1
     },
     ostrich: {
         id: "ostrich",
         cardName: "Ostrich",
         transport: CARD_TRANSPORT.jeep,
-        transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Draw1Card/><Jeep/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainJeep],
+        transportAmount: 2,
+        effectsText: <div className="effectsText"><Draw1Card/><br/><PlaceAdventurer/> with a discount of <Jeep/>.
+        </div>,
+        effects: [EFFECT.draw1, EFFECT.placeToBrownLocation],
         image: ostrichImg,
-        cost: 2,
-        points: 2
+        cost: 3,
+        points: 1
     },
     /*camel: {
         id: "camel",
@@ -178,57 +203,45 @@ export const ITEMS = Object.freeze({
         id: "packDonkey",
         cardName: "Pack Donkey",
         transport: CARD_TRANSPORT.jeep,
-        transportAmount: 1,
+        transportAmount: 2,
         effectsText: <div style={bigIconsStyle}><Draw2Cards/></div>,
         effects: [EFFECT.draw2],
         image: packDonkeyImg,
         cost: 4,
-        points: 2
+        points: 1
     },
     horse: {
         id: "horse",
         cardName: "Horse",
         transport: CARD_TRANSPORT.jeep,
-        transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Draw1Card/><Explore/><Uptrade/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainExplore, EFFECT.uptrade],
+        transportAmount: 2,
+        effectsText: <div style={bigIconsStyle}><Draw1Card/><Coin/><Explore/></div>,
+        effects: [EFFECT.draw1, EFFECT.gainExplore, EFFECT.gainCoin],
         image: horseImg,
         cost: 4,
         points: 1
     },
-    dog: {
-        id: "dog",
-        cardName: "Dog",
-        transport: CARD_TRANSPORT.jeep,
-        transportAmount: 1,
-        //todo it should not be allowed to skip the discard
-        effectsText: <div style={bigIconsStyle}><Draw2Cards/> <Discard/></div>,
-        effects: [EFFECT.draw2, EFFECT.discard],
-        image: dogImg,
-        cost: 2,
-        points: 2
-    },
-    canoe: {
-        id: "canoe",
-        cardName: "Canoe",
+    steamBoat: {
+        id: "steamBoat",
+        cardName: "Steam Boat",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 2,
-        effectsText: <div style={bigIconsStyle}><Explore/><Explore/></div>,
-        effects: [EFFECT.gainExplore, EFFECT.gainExplore],
+        effectsText: <div style={bigIconsStyle}><Explore/><Explore/><GainAction/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainAction],
         image: canoeImg,
-        cost: 2,
-        points: 2
+        cost: 3,
+        points: 3
     },
     jeep: {
         id: "jeep",
-        cardName: "Jeep",
+        cardName: "Automobile",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 2,
-        effectsText: <div style={bigIconsStyle}><Explore/><Explore/></div>,
-        effects: [EFFECT.gainExplore, EFFECT.gainExplore],
+        effectsText: <div style={bigIconsStyle}><Explore/><Explore/><GainAction/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainAction],
         image: jeepImg,
-        cost: 2,
-        points: 1
+        cost: 3,
+        points: 3
     },
     /*astrolabe: {
         id: "astrolabe",
@@ -240,60 +253,27 @@ export const ITEMS = Object.freeze({
     },*/
     boots: {
         id: "boots",
-        cardName: "Boots",
-        transport: CARD_TRANSPORT.walk,
+        cardName: "Sturdy Boots",
+        transport: CARD_TRANSPORT.jeep,
         transportAmount: 2,
-        effectsText: <div style={bigIconsStyle}><Explore/></div>,
-        effects: [EFFECT.gainExplore],
+        effectsText: <div className="effectsText"><Explore/><br/><PlaceAdventurer/> with a discount of <Walk/><Walk/>.
+        </div>,
+        effects: [EFFECT.gainExplore, EFFECT.placeToBasicLocationDiscount2],
         image: bootsImg,
         cost: 1,
         points: 1
-    },
-
-    hotAirBaloon: {
-        id: "hotAirBaloon",
-        cardName: "Hot Air Baloon",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Discount:</b> <Blimp/><Explore/><Explore/><Explore/> to discover
-            any location. Then <b>destroy</b> this card.</div>,
-        effects: [EFFECT.exploreAnyLocationWithDiscount4, EFFECT.destroyThisCard], //pozor na update efektu, je vyhodnocen v sekci pro explore lokaci
-        image: hotAirBalloonImg,
-        cost: 2,
-        points: 1
-    },
-    airplane: {
-        id: "airplane",
-        cardName: "Airplane",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Discount:</b><Blimp/><Explore/><Explore/> to discover
-            any location.</div>,
-        effects: [EFFECT.exploreAnyLocationWithDiscount3],
-        image: airPlaneImg,
-        cost: 4,
-        points: 2
     },
     goldPan: {
         id: "goldPan",
         cardName: "Gold Pan",
         transport: CARD_TRANSPORT.ship,
-        transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Coin/><Coin/></div>,
-        effects: [EFFECT.gainCoin, EFFECT.gainCoin],
+        transportAmount: 2,
+        effectsText: <div style={bigIconsStyle}><Coin/><Coin/><GainAction/></div>,
+        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainAction],
         image: goldPanImg,
         cost: 1,
         points: 1
     },
-    /*hat: {
-        id: "hat",
-        cardName: "Hat",
-        transport: CARD_TRANSPORT.ship,
-        effectsText: <div className="effectsText"><Explore/> <Text/></div>,
-        effects: [EFFECT.gainExplore, EFFECT.gainText],
-        cost: 1,
-        points: 1
-    },*/
     trowel: {
         id: "trowel",
         cardName: "Trowel",
@@ -316,11 +296,35 @@ export const ITEMS = Object.freeze({
         cost: 1,
         points: 1
     },
+    hotAirBaloon: {
+        id: "hotAirBaloon",
+        cardName: "Hot Air Baloon",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><b>Exile</b> this card to <PlaceAdventurer/> with a discount of <Blimp/>.
+            plus a a discount of <Explore/><Explore/><Explore/> if discovering a new site.</div>,
+        effects: [EFFECT.exploreAnyLocationWithDiscount3, EFFECT.destroyThisCard], //pozor na update efektu, je vyhodnocen v sekci pro explore lokaci
+        image: hotAirBalloonImg,
+        cost: 2,
+        points: 1
+    },
+    airplane: {
+        id: "airplane",
+        cardName: "Aeroplane",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 2,
+        effectsText: <div className="effectsText"><PlaceAdventurer/> with a <b>discount</b> of <Blimp/>, plus a discount
+            of <Explore/><Explore/> if discovering a new location.</div>,
+        effects: [EFFECT.exploreAnyLocationWithDiscount2],
+        image: airPlaneImg,
+        cost: 4,
+        points: 3
+    },
     /*spyglass: {
         id: "spyglass",
         cardName: "Spyglass", transport: CARD_TRANSPORT.ship,
         effectsText: <div className="effectsText">1x: <Explore/> <Explore/> <Arrow/> <Shiny/></div>,
-        effects: [EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.gainShiny],
+        effects: [EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.gainRelic],
         effects2Text: <div className="effectsText"><Jeep/> <Jeep/></div>,
         effects2: [EFFECT.gainJeep, EFFECT.gainJeep],
         cost: 1,
@@ -350,36 +354,17 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 1
     },*/
-    /*beerMug: {
-        id: "beerMug",
-        cardName: "Beer Mug",
-        transport: CARD_TRANSPORT.ship,
-        transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> 1 <Coin/><Explore/> for up to 3 <Guardian/> you defeated.</div>,
-        effects: [EFFECT.gainCoinAndExploresForGuardians],
-        image: beerMugImg,
-        cost: 3,
-        points: 2
-    },*/
     journal: {
         id: "journal",
         cardName: "Journal",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for each <Shiny/> you own (up to 4) .</div>,
-        effects: [EFFECT.gainExploreForRelics],
+        effectsText: <div className="effectsText"><b>Exile</b> this card to progress with your <SecondLegendToken/></div>,
+        effects: [EFFECT.destroyThisCard, EFFECT.progressWithSecondToken],
         image: journalImg,
-        cost: 3,
-        points: 2
+        cost: 2,
+        points: 1
     },
-    /*lockPick: {
-        id: "lockPick",
-        cardName: "Lock Pick", transport: CARD_TRANSPORT.ship,
-        effectsText: <div className="effectsText"><Discard/> <Arrow/> <Coin/> <Coin/> <Coin/>.</div>,
-        effects: [EFFECT.discard, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
-        cost: 1,
-        points: 0
-    },*/
     parrot: {
         id: "parrot",
         cardName: "Parrot",
@@ -391,27 +376,38 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 2
     },
-    pocketWatch: {
-        id: "pocketWatch",
-        cardName: "Pocket Watch",
+    wristWatch: {
+        id: "wristWatch",
+        cardName: "Wristwatch",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Coin/><Coin/> or <Coin/><Coin/><Coin/> and <b>pass</b> this round.</div>,
+        effectsText: <div className="effectsText"><b>Gain:</b>
+            <Coin/><Coin/><GainAction/> or <b>Pass</b> to gain <Coin/><Coin/><Coin/>.</div>,
         effects: [EFFECT.gain2CoinsOrPassAnd3],
         image: pocketWatchImg,
-        cost: 2,
+        cost: 1,
         points: 1
     },
-    grapplingHook: {
-        id: "grapplingHook",
-        cardName: "Grappling Hook",
+    armyKnife: {
+        id: "armyKnife",
+        cardName: "Army Knife",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Text/> or <Weapon/> or <Jewel/> that can be obtained
-            from a location adjacent to you <AdventurerIcon/></div>,
-        effects: [EFFECT.gainResourceFromAdjacentLocation],
-        image: grapplingHookImg,
-        cost: 3,
+        effectsText: <div className="effectsText">Draw three cards and keep one. Discard others with no effect.</div>,
+        effects: [EFFECT.draw3keep1],
+        image: "",
+        cost: 2,
+        points: 2
+    },
+    binoculars: {
+        id: "binoculars",
+        cardName: "Binoculars",
+        transport: CARD_TRANSPORT.ship,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><Flash/><b>Activate</b> a <LocationL2/></div>,
+        effects: [EFFECT.activateL2Location],
+        image: binocularsImg,
+        cost: 4,
         points: 1
     },
     /*camouflagePaint: {
@@ -431,38 +427,37 @@ export const ITEMS = Object.freeze({
         cardName: "Tent",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Activate:</b> <LocationL1/> or <LocationL2/> that you already
-            occupy.
-        </div>,
+        effectsText: <div className="effectsText"><b>Activate:</b> a site you currently occupy. Pay <Explore /><Explore />
+        if it is a <LocationL3 /> site. </div>,
         effects: [EFFECT.activateYourLocation],
         image: tentImg,
-        cost: 3,
-        points: 1,
+        cost: 4,
+        points: 2,
     },
     fishingRod: {
         id: "fishingRod",
         cardName: "FishingRod",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Discount:</b> <Coin/><Coin/><Coin/>. Reveal the top card of the Item deck.
-            You may buy any <Item/>.
+        effectsText: <div className="effectsText">Buy <Item/> with discount of <Coin/><Coin/><Coin/>, <b>include</b> the
+            top card of the deck.
         </div>,
-        effects: [EFFECT.revealItemBuyWithDiscount2],
+        effects: [EFFECT.revealItemBuyWithDiscount3],
         image: fishingRodImg,
-        cost: 3,
-        points: 1
+        cost: 2,
+        points: 2
     },
     compass: {
         id: "compass",
-        cardName: "Compass",
+        cardName: "Precision Compass",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><b>Discount:</b> <Explore/><Explore/><Explore/>. Reveal the top card of the
-                Artifact deck.You may buy any <Artifact/>.</div>,
-        effects: [EFFECT.revealArtifactBuyWithDiscount],
+            <div className="effectsText">Buy <Artifact/> with discount of <Explore/><Explore/><Explore/>, <b>include</b>
+                the top card of the deck.</div>,
+        effects: [EFFECT.revealArtifactBuyWithDiscount3],
         image: compassImg,
-        cost: 3,
+        cost: 4,
         points: 1
     },
     /*flintPistol: {
@@ -479,7 +474,8 @@ export const ITEMS = Object.freeze({
         cardName: "Bow and Arrows",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Explore/> for up to 3 <Guardian/> in your Play Area or that you have defeated.</div>,
+        effectsText: <div className="effectsText">Gain <Explore/> for each <Guardian/> you overcame and
+            each <Guardian/> you are confronting, up to 3.</div>,
         effects: [EFFECT.gainExploreForGuardians],
         image: bowAndArrowsImg,
         cost: 2,
@@ -487,15 +483,14 @@ export const ITEMS = Object.freeze({
     },
     messengerPidgeon: {
         id: "messengerPidgeon",
-        cardName: "Pidgeon",
+        cardName: "Carrier Pigeon",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Text/> and you may draw a card from discard pile into
-            your hand</div>,
-        effects: [EFFECT.gainText, EFFECT.drawFromDiscard],
+        effectsText: <div style={bigIconsStyle}><Text/><Text/><GainAction/></div>,
+        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainAction],
         image: messengerPidgeonImg,
-        cost: 3,
-        points: 2
+        cost: 2,
+        points: 1
     },
     whip: {
         id: "whip",
@@ -503,7 +498,7 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><b>Gain:</b> <Artifact/>. Then <b>destroy</b> this card.</div>,
+            <div className="effectsText">Exile this card to gain <Artifact/> for free.</div>,
         effects: [EFFECT.destroyThisCard, EFFECT.gainArtifact],
         image: whipImg,
         cost: 2,
@@ -511,24 +506,23 @@ export const ITEMS = Object.freeze({
     },
     bookOfMyths: {
         id: "bookOfMyths",
-        cardName: "Book of Myths",
+        cardName: "Rough Map",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Shiny/>. Then <b>destroy</b> this card.</div>,
-        effects: [EFFECT.gainShiny, EFFECT.destroyThisCard],
+        effectsText: <div className="effectsText">Exile this card to gain <Explore/><Explore/><Explore/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.destroyThisCard],
         image: bookOfMythsImg,
-        cost: 2,
+        cost: 1,
         points: 1
     },
-    bag: {
-        id: "bag",
-        cardName: "Bag",
-        transport: CARD_TRANSPORT.ship,
+    airmail: {
+        id: "airmail",
+        cardName: "Airdrop",
+        transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Item/> to your hand. Then <b>destroy</b> this card.
-        </div>,
+        effectsText: <div className="effectsText">Exile this card to gain <Item/> for free to your hand.</div>,
         effects: [EFFECT.gainItemToHand, EFFECT.destroyThisCard],
-        image: bagImg,
+        image: airmailImg,
         cost: 2,
         points: 1
     },
@@ -537,35 +531,34 @@ export const ITEMS = Object.freeze({
         cardName: "Flask",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><Draw3Cards/>, then <b>destroy</b> this card.</div>,
+        effectsText: <div className="effectsText">Exile this card to <Draw1Card/><Draw1Card/><Draw1Card/></div>,
         effects: [EFFECT.draw1, EFFECT.draw1, EFFECT.draw1, EFFECT.destroyThisCard],
         image: flaskImg,
         cost: 2,
         points: 1
     },
-    /*floraSamples: {
-        id: "floraSamples",
-        cardName: "Flora Samples",
+    machete: {
+        id: "machete",
+        cardName: "Machete",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div className="effectsText"><b>Gain:</b> <Text/> for each <AdventurerIcon/> in a jungle location.
-        </div>,
-        effects: [EFFECT.gainTextInJungle],
-        image: floraSamplesImg,
-        cost: 1,
-        points: 1
-    },*/
-    boomerang: {
-        id: "boomerang",
-        cardName: "Boomerang",
-        transport: CARD_TRANSPORT.jeep,
-        transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Coin/><Explore/><Draw1Card/><Discard/></div>,
-        effects: [EFFECT.draw1, EFFECT.discard, EFFECT.gainCoin, EFFECT.gainExplore, ],
-        image: boomerangImg,
-        cost: 2,
+        effectsText: <div style={bigIconsStyle}><Explore/><Explore/><DestroyCard/></div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.destroyCard],
+        image: machetteImg,
+        cost: 4,
         points: 1
     },
+    axe: {
+            id: "axe",
+            cardName: "Axe",
+            transport: CARD_TRANSPORT.jeep,
+            transportAmount: 1,
+            effectsText: <div style={bigIconsStyle}><Explore/><DestroyCard/></div>,
+            effects: [EFFECT.gainExplore, EFFECT.destroyCard],
+            image: null,
+            cost: 2,
+            points: 2
+        },
     /*beetleMask: {
         id: "beetleMask",
         cardName: "Beetle Mask", transport: CARD_TRANSPORT.ship,
@@ -580,53 +573,199 @@ export const ITEMS = Object.freeze({
         cardName: "Torch",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Coin/><Coin/><DestroyCard/></div>,
-        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.destroyCard],
+        effectsText: <div style={bigIconsStyle}><Text/><DestroyCard/></div>,
+        effects: [EFFECT.gainText, EFFECT.destroyCard],
         image: torchImg,
+        cost: 1,
+        points: 1
+    },
+    /*floraSamples: {
+        id: "floraSamples",
+        cardName: "Flora Samples",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><b>Gain:</b> <Text/> for each <AdventurerIcon/> in a jungle location.
+        </div>,
+        effects: [EFFECT.gainTextInJungle],
+        image: floraSamplesImg,
+        cost: 1,
+        points: 1
+    },*/
+    bag: {
+        id: "bag",
+        cardName: "Large Backpack",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><Coin/><br/> Draw a card from the bottom of you deck.
+        </div>,
+        effects: [EFFECT.gainCoin, EFFECT.drawFromBottom],
+        image: bagImg,
         cost: 3,
         points: 1
     },
-    machete: {
-        id: "machete",
-        cardName: "Machete",
+    rope: {
+        id: "rope",
+        cardName: "Rope",
+        transport: CARD_TRANSPORT.ship,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Discard/><Arrow/><Draw1Card/><Draw1Card/></div>,
+        effects: [EFFECT.discard, EFFECT.draw2],
+        image: null,
+        cost: 2,
+        points: 1
+    },
+    revolver: {
+        id: "revolver",
+        cardName: "revolver",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effectsText: <div style={bigIconsStyle}><Explore/><Explore/><DestroyCard/></div>,
-        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.destroyCard],
-        image: machetteImg,
+        effectsText: <div className="effectsText"><Explore/><Arrow/><DefeatedGuardian/> on a site you occupy.</div>,
+        effects: [EFFECT.loseExplore, EFFECT.defeatGuardianOnOwnedLocation],
+        image: revolverImg,
+        cost: 4,
+        points: 1
+    },
+    hat: {
+        id: "hat",
+        cardName: "Hat",
+        transport: CARD_TRANSPORT.ship,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Coin/><Explore/><GainAction/></div>,
+        effects: [EFFECT.gainCoin, EFFECT.gainExplore, EFFECT.gainAction],
+        cost: 1,
+        points: 1
+    },
+    beartrap: {
+        id: "beartrap",
+        cardName: "Beat Trap",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><b>Exile</b> this card to <DefeatedGuardian/> on any site that is
+            not occupied by another player.</div>,
+        effects: [EFFECT.destroyThisCard ,EFFECT.defeatGuardianOnOwnOrEmptyLocation],
+        image: beartrapImg,
+        cost: 2,
+        points: 1
+    },
+    grapplingHook: {
+        id: "grapplingHook",
+        cardName: "Grappling Hook",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Discard/><Arrow/><Draw1Card/><DestroyCard/></div>,
+        effects: [EFFECT.discard, EFFECT.draw1, EFFECT.destroyCard],
+        image: grapplingHookImg,
+        cost: 2,
+        points: 2
+    },
+    /*boomerang: {
+        id: "boomerang",
+        cardName: "Boomerang",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div style={bigIconsStyle}><Discard/><Arrow/><Coin/><Explore/><Draw1Card/></div>,
+        effects: [EFFECT.discard, EFFECT.draw1, EFFECT.gainCoin, EFFECT.gainExplore,],
+        image: boomerangImg,
+        cost: 2,
+        points: 1
+    },*/
+    handLens: {
+        id: "handLens",
+        cardName: "Hand Lens",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 1,
+        effectsText: <div className="effectsText">Gain up to two <FirstLegendToken/> bonuses that you have already
+            researched.</div>,
+        effects: [EFFECT.gain2ResearchBonuses],
+        image: "",
+        cost: 2,
+        points: 1
+    },
+    dog: {
+        id: "dog",
+        cardName: "Dog",
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 2,
+        effectsText: <div className="effectsText"><Explore/><br/> <b>Activate</b> an unoccupied <LocationL1/> site.</div>,
+        effects: [EFFECT.gainExplore, EFFECT.activateEmptyL1Location],
+        image: dogImg,
         cost: 3,
         points: 1
+    },
+    /*beerMug: {
+        id: "beerMug",
+        cardName: "Beer Mug",
+        transport: CARD_TRANSPORT.ship,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><b>Gain:</b> 1 <Explore/>. <b>Gain:</b> 1 <Coin/> for up to 3 <Guardian/> you defeated.</div>,
+        effects: [EFFECT.gainCoinAndExploresForGuardians],
+        image: beerMugImg,
+        cost: 3,
+        points: 2
+    },*/
+    philologyBook: {
+        id: "philologyBook",
+        cardName: "Brush",
+        transport: CARD_TRANSPORT.ship,
+        transportAmount: 1,
+        effectsText: <div className="effectsText">Gain <Explore/> for each <BronzeRelic/> you own, up to 3.</div>,
+        effects: [EFFECT.gainExploreForRelics],
+        image: journalImg,
+        cost: 3,
+        points: 3
+    },
+    pocketWatch: {
+        id: "pocketWatch",
+        cardName: "Pocket Watch",
+        transport: CARD_TRANSPORT.ship,
+        transportAmount: 2,
+        effectsText: <div className="effectsText"><b>Gain:</b>
+            <Coin/><Explore/><GainAction/> or <b>Pass</b> to gain <Coin/><Explore/><Explore/>.</div>,
+        effects: [EFFECT.gainCoinExploreOrPassForExtraExplore],
+        image: pocketWatchImg,
+        cost: 3,
+        points: 2
+    },
+    theodolite: {
+        id: "theodolite",
+        cardName: "Theodolite",
+        transport: CARD_TRANSPORT.ship,
+        transportAmount: 1,
+        effectsText: <div className="effectsText"><Explore/> plus <Explore/> for each of your <AdventurerIcon/> already
+            placed on the board.</div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainExploreForPlacedAdventurers],
+        image: null,
+        cost: 4,
+        points: 2
     },
 });
 
-
 export const ARTIFACTS = Object.freeze({
+    seaNecklace: {
+        id: "seaNecklace",
+        cardName: "Pathfinder's sandals",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Relocate a placed <AdventurerIcon/> to a <LocationL1/> and <b>activate</b> it.</div>,
+        effects: [EFFECT.moveAdvToL1Location],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 1
+    },
     pathfinderStaff: {
         id: "pathfinderStaff",
         cardName: "Pathfinder's Staff",
         transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
+        transportAmount: 2,
         effectsText:
-            <div className="effectsText"><b>Relocate</b> your <AdventurerIcon/> to an adjacent
-                empty <LocationL1/> or <LocationL2/>.</div>,
-        effects: [EFFECT.gainBlimp, EFFECT.moveAdvToEmptyAdjacentLocation],
+            <div className="effectsText">Move your placed <AdventurerIcon/> to a <LocationL1/> or <LocationL2/> and <b>activate</b> it.</div>,
+        effects: [EFFECT.moveAdvToL1L2Location],
         isGuarded: false,
         image: pathFinderStaffImg,
-        cost: 3,
+        cost: 4,
         points: 1
-    },
-    warMask: {
-        id: "warMask",
-        cardName: "War Mask",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText:
-            <div style={bigIconsStyle}><Draw1Card/><DestroyCard/></div>,
-        effects: [EFFECT.destroyCard, EFFECT.draw1],
-        isGuarded: true,
-        image: warMaskImg,
-        cost: 2,
-        points: 2
     },
     /*mirrorShard: {
         id: "mirrorShard",
@@ -641,85 +780,134 @@ export const ARTIFACTS = Object.freeze({
         cost: 2,
         points: 2
     },*/
-    portalStone: {
+    /*portalStone: {
         id: "portalStone",
         cardName: "Portal stone",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><b>Relocate</b> one of your deployed <AdventurerIcon/> to any empty
+            <div className="effectsText"><b>Relocate</b> one of your deployed <AdventurerIcon style={{height: 1, backgroundColor: "black"}}/> to any empty
                 <LocationL1/> or <LocationL2/>.</div>,
         effects: [EFFECT.moveAdvToEmptyLocation],
-        isGuarded: true,
+        isGuarded: false,
         image: portalStoneImg,
-        cost: 2,
-        points: 1
-    },
-    darkKnowledge: {
-        id: "darkKnowledge",
-        cardName: "Dark Knowledge",
+        cost: 4,
+        points: 2
+    },*/
+    warMask: {
+        id: "warMask",
+        cardName: "War Mask",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div style={bigIconsStyle}><Fear/><Jewel/></div>,
-        effects: [EFFECT.gainFear, EFFECT.gainJewel],
+            <div className="effectsText"><Weapon/><br/> Don't gain <Fear/> from <Guardian/> this round.</div>,
+        effects: [EFFECT.gainWeapon, EFFECT.protectFromFear],
         isGuarded: false,
-        image: darkKnowledgeImg,
-        cost: 2,
-        points: 2
+        image: warMaskImg,
+        cost: 3,
+        points: 1
     },
-    baneBanisher: {
-        id: "baneBanisher",
-        cardName: "Bane Banisher",
+    jewelryBox: {
+        id: "jewelryBox",
+        cardName: "Treasure Chest",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div style={bigIconsStyle}><Draw1Card/><Coin/></div>,
+        effects: [EFFECT.draw1, EFFECT.gainCoin],
+        isGuarded: false,
+        image: null,
+        cost: 4,
+        points: 3
+    },
+    ritualDagger: {
+        id: "ritualDagger",
+        cardName: "Ritual Dagger",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
             <div style={bigIconsStyle}><DestroyCard/><Weapon/></div>,
-        effects: [EFFECT.destroyCard, EFFECT.gainWeapon],
+        effects: [EFFECT.destroyCardMandatory, EFFECT.gainWeapon],
         isGuarded: false,
         image: baneBanisherImg,
         cost: 4,
         points: 2
     },
-    transmutation: {
-        id: "transmutation",
-        cardName: "Transmutation",
+     earRingOfLight: {
+        id: "earRingOfLight",
+        cardName: "Crystal Earring",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div style={bigIconsStyle}><DestroyCard/><Coin/><Coin/></div>,
-        effects: [EFFECT.destroyCard, EFFECT.gainCoin, EFFECT.gainCoin],
+            <div className="effectsText">Draw up to 3 cards and keep one. You may return one of them to the top of the deck.</div>,
+        effects: [EFFECT.draw3keep1stack1],
         isGuarded: false,
-        image: transmutationImg,
+        image: null,
         cost: 4,
         points: 2
     },
-    cursedTreasure: {
-        id: "cursedTreasure",
-        cardName: "Cursed Treasure",
+    mortar: {
+        id: "mortar",
+        cardName: "Mortar",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Fear/><Coin/><Coin/><Coin/><Coin/></div>,
+            <div style={bigIconsStyle}><DestroyCard/><Arrow/><Coin/><Coin/></div>,
+        effects: [EFFECT.destroyCardMandatory, EFFECT.gainCoin, EFFECT.gainCoin],
+        isGuarded: false,
+        image: transmutationImg,
+        cost: 3,
+        points: 1
+    },
+    cursedTreasure: {
+        id: "cursedTreasure",
+        cardName: "Serpent's Gold",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">You may gain <Fear/> to gain <Coin/><Coin/><Coin/><Coin/></div>,
         effects: [EFFECT.gainFear, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
         isGuarded: false,
         image: cursedTreasureImg,
         cost: 3,
-        points: 2
+        points: 1
     },
-    /* ringOfLight: {
-        id: "ringOfLight",
-        cardName: "Ring of Light",
+    serpentsIdol: {
+        id: "serpentsIdol",
+        cardName: "Serpent's Idol",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Draw1Card/> from you <b>Draw deck</b> or <b>Discard Pile</b></div>,
-        effects: [EFFECT.drawFromDrawDeckOrDiscard],
+            <div className="effectsText">Gain <Fear/> to gain a <Jewel/></div>,
+        effects: [EFFECT.gainFear, EFFECT.gainJewel],
         isGuarded: false,
-        image: ringOfLightImg,
+        image: darkKnowledgeImg,
+        cost: 2,
+        points: 1
+    },
+    serpentsGold: {
+        id: "serpentsGold",
+        cardName: "Serpent's Gold",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Gain <Fear/> to gain <Coin/><Coin/><Coin/><Coin/></div>,
+        effects: [EFFECT.gainFear, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
+        isGuarded: false,
+        image: darkKnowledgeImg,
         cost: 3,
         points: 2
-    }, */ 
+    },
+    amuletOfCharm: {
+        id: "amuletOfCharm",
+        cardName: "Monkey Medallion",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText: <div className="effectsText">Gain <Item/> for free, place it on the top of your deck.</div>,
+        effects: [EFFECT.gainItemToTop],
+        cost: 4,
+        points: 2
+    },
     /* golemShem: {
          id: "golemShem",
          cardName: "Golem Shem",
@@ -786,29 +974,18 @@ export const ARTIFACTS = Object.freeze({
         cost: 4,
         points: 1
     },*/
-    /*ritualDagger: {
-        id: "ritualDagger",
-        cardName: "Ritual Dagger",
+    idolOfAraAnu: {
+        id: "idolOfAraAnu",
+        cardName: "Idol of Ara-Anu",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Discard/> to gain <Jewel/><Jewel/></div>,
-        effects: [EFFECT.discardFor2Jewels],
-        cost: 3,
-        points: 1
-    },*/
-    flameJewel: {
-        id: "flameJewel",
-        cardName: "Flame Jewel",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText:
-            <div className="effectsText"><FreeAction/><b>Discount</b> <Jewel/> to progress in a legend.</div>,
+            <div className="effectsText">Research with a discount of <Jewel/></div>,
         effects: [EFFECT.progressWithJewel],
         isGuarded: false,
         image: flameJewelImg,
         cost: 3,
-        points: 2
+        points: 1
     },
     inscribedBlade: {
         id: "inscribedBlade",
@@ -816,148 +993,394 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><FreeAction/><b>Discount</b> <Text/><Text/> of <Weapon/> to progress in a legend.</div>,
+            <div className="effectsText"><GainAction/><b>Discount</b> <Text/><Text/> of <Weapon/> to progress in a
+                legend.</div>,
         effects: [EFFECT.progressWithTextsOrWeapon],
         isGuarded: false,
         image: inscribedBladeImg,
         cost: 2,
         points: 1
     },
-    beastKiller: {
-        id: "beastKiller",
-        cardName: "Beast Killer",
+    guardianOccarina: {
+        id: "guardianOccarina",
+        cardName: "Guardian's Ocarina",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 2,
+        effectsText:
+            <div className="effectsText">Return a placed <AdventurerIcon/> back to your pool. All your travel icons
+                count as <Blimp/> this  round.
+            </div>,
+        effects: [EFFECT.infinitePlanes, EFFECT.returnAdventurer],
+        isGuarded: false,
+        image: "",
+        cost: 5,
+        points: 2
+    },
+    owlEyes: {
+        id: "owlEyes",
+        cardName: "Bone Hairpin",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div style={bigIconsStyle}><DefeatedGuardian/></div>,
-        effects: [EFFECT.defeatGuardian],
+            <div className="effectsText"><DestroyCard/><br/> Activate a completely unoccupied <LocationL1/>.</div>,
+        effects: [EFFECT.destroyCard, EFFECT.activateEmptyL1Location],
+        isGuarded: false,
+        image: null,
+        cost: 4,
+        points: 2
+    },
+    beastKiller: {
+        id: "beastKiller",
+        cardName: "War Club",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Overcome <Guardian/> on a site that is not occupied by another player.</div>,
+        effects: [EFFECT.defeatGuardianOnOwnOrEmptyLocation],
         isGuarded: false,
         image: beastKillerImg,
         cost: 5,
-        points: 3
-    },
-    /*amuletOfCharm: {
-        id: "amuletOfCharm",
-        cardName: "Amulet of Charm",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText:
-            <div className="effectsText">Buy an item with discount of <Coin/><Coin/><Coin/></div>,
-        effects: [EFFECT.buyItemWithDiscount3],
-        cost: 3,
         points: 2
     },
-    drinkingHorn: {
-        id: "drinkingHorn",
-        cardName: "Drinking Horn",
+    sunDial: {
+        id: "sunDial",
+        cardName: "Sun dial",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><DestroyCard/><Discard/><Draw2Cards/></div>,
-        effects: [EFFECT.removeCard, EFFECT.discardFor2Cards],
-        cost: 2,
-        points: 3
-    },*/
-    ancientCipher: {
-        id: "ancientCipher",
-        cardName: "Ancient Cipher",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText:
-            <div style={bigIconsStyle}><Draw1Card/><Coin/></div>,
-        effects: [EFFECT.draw1, EFFECT.gainCoin],
-        isGuarded: false,
-        image: ancientCipherImg,
-        cost: 2,
-        points: 1
-    },
-    /*owlEyes: {
-        id: "owlEyes",
-        cardName: "Owl Eyes",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText:
-            <div className="effectsText"><b>Gain</b> basic <b>Explore bonus</b> of one of your defeated <Guardian/>.
+            <div className="effectsText">Gain <Text/><Text/> or <b>pass</b> to gain <Jewel/>
             </div>,
-        effects: [EFFECT.gainDiscoveryBonus],
+        effects: [EFFECT.gain2TextsOrPassAndJewel],
         isGuarded: false,
-        image: owlEyesImg,
-        cost: 3,
-        points: 1
-    },*/
-    goldenMask: {
-        id: "goldenMask",
-        cardName: "Golden Mask",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText:
-            <div className="effectsText"><b>Activate</b> any occupied location. If the location is <LocationL3/>,
-                pay <Coin/> first.</div>,
-        effects: [EFFECT.activateOccupiedLocation],
-        isGuarded: true,
-        image: goldenMaskImg,
-        cost: 3,
-        points: 1
-    },
-    ritualDagger: {
-        id: "ritualDagger",
-        cardName: "Ritual Dagger",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText:
-            <div className="effectsText"><b>Gain</b> <Jewel/>. <b>Gain</b> <Coin/> equal to <b>Victory points</b> of one
-                of your defeated <Guardian/>.</div>,
-        effects: [EFFECT.gainCoinsAndJewelForGuardianVP],
-        isGuarded: true,
-        image: ritualDaggerImg,
-        cost: 2,
-        points: 2
-    },
-    /*fearlessBlade: {
-        id: "fearlessBlade",
-        cardName: "Fearless Blade",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effectsText:
-            <div className="effectsText"><DestroyCard/> <Weapon/></div>,
-        effects: [EFFECT.removeCard, EFFECT.gainWeapon],
+        image: "",
         cost: 2,
         points: 1
     },
-    keysToAllDoors: {
-        id: "keysToAllDoors",
-        cardName: "Keys to all Doors",
+    /*preciousLock: {
+        id: "preciousLock",
+        cardName: "Precious lock",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Coin/> <Coin/> <Coin/></div>,
-        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
-        cost: 1,
+            <div style={bigIconsStyle}><Jewel/><Arrow/><Text/><Text/><Weapon/><Weapon/>
+            </div>,
+        effects: [EFFECT.loseJewel, EFFECT.gainText, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainWeapon],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 1
+    },*/
+    tradersSatchel: {
+        id: "tradersSatchel",
+        cardName: "Trader's scales",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div style={bigIconsStyle}><Uptrade/><Coin/><Coin/><Coin/>
+            </div>,
+        effects: [EFFECT.uptrade, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
+        isGuarded: false,
+        image: "",
+        cost: 4,
         points: 1
     },
-    treacherusWhistle: {
-        id: "treacherusWhistle",
-        cardName: "Treacherus Whistle",
+    huntingArrows: {
+        id: "huntingArrows",
+        cardName: "Hunting Arrows",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Draw2Cards/> if a guardian is drawn</div>, //todo replace guardian with an icon
-        effects: [],
-        cost: 1,
+            <div className="effectsText">Gain <Fear/> to gain <Weapon/><Weapon/></div>,
+        effects: [EFFECT.gainFear, EFFECT.gainWeapon, EFFECT.gainWeapon],
+        isGuarded: false,
+        image: "",
+        cost: 4,
+        points: 1
+    },
+    /*unknown2: {
+        id: "unknown2",
+        cardName: "Guiding Stone",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Reveal the top tile of the <LocationL2/> stack, activate it, then put it to the bottom
+            </div>,
+        effects: [EFFECT.activateTopL2Location],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 1
+    },*/
+    coconutFlask: {
+        id: "coconutFlask",
+        cardName: "Coconut flask",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText"><Coin/><Coin/><br/><b>Activate</b> the weaker effect of an assistant in the offer.
+            </div>,
+        effects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.activateLesserAssistantFromOffer, EFFECT.gainAction],
+        isGuarded: false,
+        image: "",
+        cost: 3,
         points: 2
     },
-    giantEgg: {
-        id: "giantEgg",
-        cardName: "Giant Egg",
+    cauldron: {
+        id: "cauldron",
+        cardName: "Redstone Cauldron",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><Text/><Text/> and <Uptrade/></div>, //todo replace guardian with an icon
-        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.uptrade],
-        cost: 1,
+            <div style={bigIconsStyle}><Draw1Card/><DestroyCard/>
+            </div>,
+        effects: [EFFECT.draw1, EFFECT.destroyCard],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 1
+    },
+    ancientWine: {
+        id: "ancientWine",
+        cardName: "Ancient Wine",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText"><Coin/><br/>Use effect of of <GoldAssistant/> available on the supply board.
+            </div>,
+        effects: [EFFECT.gainCoin, EFFECT.activateStrongerAssistantFromOffer, EFFECT.gainAction],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 1
+    },
+    decoratedHorn: {
+        id: "decoratedHorn",
+        cardName: "Decorated Horn",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Exchange your <AssistantUpgrade/> with one available in store, keep his level
+                and Refresh him and</div>,
+        effects: [EFFECT.exchangeAssistant],
+        isGuarded: false,
+        image: null,
+        cost: 3,
+        points: 2
+    },
+    /*mirrorBowl: {
+        id: "mirrorBowl",
+        cardName: "Mirror bowl",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div style={bigIconsStyle}><Explore/><Explore/><Explore/>
+            </div>,
+        effects: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainExplore],
+        isGuarded: false,
+        image: "",
+        cost: 4,
         points: 2
     },*/
-
+    ornateHammer: {
+        id: "ornateHammer",
+        cardName: "Ornate Hammer",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Exile rightmost <Item/> in the card row. Gain any <Item/> from the exile.</div>,
+        effects: [EFFECT.gainDestroyedItem],
+        isGuarded: false,
+        image: "",
+        cost: 4,
+        points: 2
+    },
+    snakeBracelet: {
+        id: "snakeBracelet",
+        cardName: "Star Charts",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Pay <Coin/> to activate two different <LocationL1/>
+            </div>,
+        effects: [EFFECT.loseCoin, EFFECT.activate2L1Locations],
+        isGuarded: false,
+        image: "",
+        cost: 4,
+        points: 2
+    },
+    stoneJar: {
+        id: "stoneJar",
+        cardName: "Stone Jar",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div style={bigIconsStyle}><Draw1Card/>
+            </div>,
+        effects: [EFFECT.draw1],
+        isGuarded: false,
+        image: "",
+        cost: 2,
+        points: 1
+    },
+    /*boneHairpin: {
+        id: "boneHairpin",
+        cardName: "Bone hairpin",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText"><b>Exile</b> <Item/> from the card row and refill it. You may buy <Item/> with
+            a discount <Coin/><Coin/></div>,
+        effects: [EFFECT.replaceItemsInStore, EFFECT.buyItemWithDiscount2],
+        isGuarded: false,
+        image: "",
+        cost: 2,
+        points: 2
+    },*/
+    passageShell: {
+        id: "passageShell",
+        cardName: "Passage shell",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText"><PlaceAdventurer/> on a <LocationL1/> site. You may
+            <b>activate</b> it twice instead of once.</div>,
+        effects: [EFFECT.placeToBasicLocationActivateTwice],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 1
+    },
+    boneRattle: {
+        id: "boneRattle",
+        cardName: "Ceremonial Rattle",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Refresh <AssistantUpgrade/></div>,
+        effects: [EFFECT.refreshAnyAssistant],
+        isGuarded: false,
+        image: "",
+        cost: 2,
+        points: 1
+    },
+    sacredDrum: {
+        id: "sacredDrum",
+        cardName: "Sacred drum",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText"><Discard/><br/>Refresh all of your <AssistantUpgrade/></div>,
+        effects: [EFFECT.discard, EFFECT.refreshAllAssistants],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 1
+    },
+    /*forbiddenScrolls: {
+        id: "forbiddenScrolls",
+        cardName: "Forbidden scrolls",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText"><b>Research</b> for free with your second token, then <b>destroy</b> this card
+            </div>,
+        effects: [EFFECT.destroyThisCard, EFFECT.progressWithSecondToken],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 0
+    },*/
+    trophySkull: {
+        id: "trophySkull",
+        cardName: "Stone Key",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Return a slotted <BronzeRelic/> back to your pool.</div>,
+        effects: [EFFECT.refreshRelic],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 2
+    },
+    earRingOfDarkness: {
+        id: "earRingOfDarkness",
+        cardName: "Obsidian Earring",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Draw up to two cards from the bottom of your deck. Keep one of them and discard the
+            other one with no effect.</div>,
+        effects: [EFFECT.draw2FromBottomKeep1],
+        image: "",
+        cost: 4,
+        points: 2
+    },
+    /*jewelDice: {
+        id: "jewelDice",
+        cardName: "Jewel Dice",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Gain a bonus from a random <GoldRelic/>. Then shuffle the relic back.</div>,
+        effects: [EFFECT.gainRandomGoldRelicEffect],
+        image: "",
+        cost: 4,
+        points: 2
+    },*/
+    guidingStone: {
+        id: "guidingStone",
+        cardName: "Guiding Stone",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Reveal the top tile of the <LocationL2/> stack. Activate it, then put it on the bottom.
+            </div>,
+        effects: [EFFECT.activateTopL2Location],
+        isGuarded: false,
+        image: "",
+        cost: 3,
+        points: 1
+    },
+    guidingSkull: {
+        id: "guidingSkull",
+        cardName: "Guiding Skull",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div className="effectsText">Pay <Explore/> to reveal the top tile of the <LocationL2/> stack. Activate it, then put it on the bottom.
+            </div>,
+        effects: [EFFECT.loseExplore, EFFECT.activateTopL3Location],
+        isGuarded: false,
+        image: "",
+        cost: 4,
+        points: 1
+    },
+    runesOfDead: {
+        id: "runesOfDead",
+        cardName: "Runes of the Dead",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 1,
+        effectsText:
+            <div style={bigIconsStyle}><Fear/><Coin/><Text/><Text/><Text/></div>,
+        effects: [EFFECT.gainFear, EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
+        image: "",
+        cost: 4,
+        points: 1
+    },
+    guradiansCrown: {
+        id: "guradiansCrown",
+        cardName: "Guardian's crown",
+        transport: CARD_TRANSPORT.plane,
+        transportAmount: 2,
+        effectsText:
+            <div className="effectsText">Move <Guardian/> from a site you occupy to any unocuppied
+                <LocationL1/> or <LocationL2/> with no <Guardian/>. Activate the site.</div>,
+        effects: [EFFECT.moveGuardianOut],
+        image: "",
+        cost: 4,
+        points: 2
+    },
 });
 
 export const EXPEDITIONS = Object.freeze({
@@ -966,7 +1389,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Hidden Gems",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Item/> that cost only <Coin/></div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each <Item/> that cost only <Coin/></div>,
         points: 4,
     },
     secretPaths: {
@@ -974,7 +1397,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Secret Paths",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+ ?<VictoryPoints/> Score again 2 of  <Shiny/> that you placed</div>,
+            <div className="effectsText">+ ?<VictoryPointsBgr/> Score again 2 of <BronzeRelic/> that you placed</div>,
         points: 0
     },
     rareFinds: {
@@ -982,7 +1405,8 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Rare Finds",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+ ?<VictoryPoints/> equal to <VictoryPoints/> on one of your <Item/> and one of your <Artifact/>.</div>,
+            <div className="effectsText">+ ?<VictoryPointsBgr/> equal to <VictoryPointsBgr/> on one of your <Item/> and one of
+                your <Artifact/>.</div>,
         points: 2,
     },
     fullyEquipped: {
@@ -990,7 +1414,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Fully Equipped",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+ 1 <VictoryPoints/> for each 2 cards in your deck.</div>,
+            <div className="effectsText">+ 1 <VictoryPointsBgr/> for each 2 cards in your deck.</div>,
         points: 0,
     },
     trophyHunter: {
@@ -998,7 +1422,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Trophy Hunter",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each defeated <Guardian/></div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each defeated <Guardian/></div>,
         points: 3,
     },
     trustedGear: {
@@ -1006,7 +1430,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Trusted Gear",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for up to 7 <Item/> in your deck.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for up to 7 <Item/> in your deck.</div>,
         points: 1,
     },
     collector: {
@@ -1014,7 +1438,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Collector",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for up to 7 <Artifact/> in your deck.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for up to 7 <Artifact/> in your deck.</div>,
         points: 2,
     },
     cartographer: {
@@ -1022,7 +1446,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Cartographer",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Shiny/> you own.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each <BronzeRelic/> you own.</div>,
         points: 3,
     },
     fearless: {
@@ -1030,7 +1454,8 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Fearless",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+6 <VictoryPoints/> if you have no <Fear/> in you deck. +2 <VictoryPoints/> if you have only one.</div>,
+            <div className="effectsText">+6 <VictoryPointsBgr/> if you have no <Fear/> in you deck. +2 <VictoryPointsBgr/> if
+                you have only one.</div>,
         points: 1,
     },
     beyondBasics: {
@@ -1038,7 +1463,8 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Beyond Basics",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+2 <VictoryPoints/> for each Explore and Gold card you destroyed during the game.</div>,
+            <div className="effectsText">+2 <VictoryPointsBgr/> for each Explore and Gold card you destroyed during the
+                game.</div>,
         points: 1,
     },
     quantityAboveAll: {
@@ -1046,7 +1472,8 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Quantity Above All",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+2 <VictoryPoints/> for up to 4 <Item/> that costs <Coin/><Coin/><Coin/> or more.</div>,
+            <div className="effectsText">+2 <VictoryPointsBgr/> for up to 4 <Item/> that costs <Coin/><Coin/><Coin/> or
+                more.</div>,
         points: 0,
     },
     belongsToTheMuseum: {
@@ -1054,7 +1481,8 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Belongs to the Museum",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+2 <VictoryPoints/> for each <Artifact/> that costs <Explore/><Explore/><Explore/> or more.</div>,
+            <div className="effectsText">+2 <VictoryPointsBgr/> for each <Artifact/> that
+                costs <Explore/><Explore/><Explore/> or more.</div>,
         points: 0,
     },
     guardedTreasure: {
@@ -1062,7 +1490,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Guarded Treasure",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each guarded <Artifact/>.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each guarded <Artifact/>.</div>,
         points: 4,
     },
     checkMyResults: {
@@ -1070,7 +1498,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Check My Results",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each step you progressed with your 2nd book.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each step you progressed with your 2nd book.</div>,
         points: 2,
     },
     holyGrail: {
@@ -1078,7 +1506,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Holy Grail!",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+7 <VictoryPoints/> if you own <Treasure/></div>,
+            <div className="effectsText">+7 <VictoryPointsBgr/> if you own <Treasure/></div>,
         points: 0,
     },
     powerfulDestruction: {
@@ -1086,7 +1514,8 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Powerful destruction",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Item/> or <Artifact/> that you own which has <DestroyCard/> ability.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each <Item/> or <Artifact/> that you own which
+                has <DestroyCard/> ability.</div>,
         points: 4,
     },
     animalLover: {
@@ -1094,7 +1523,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Animal Lover",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each animal in you deck.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each animal in you deck.</div>,
         points: 2,
     },
     teamWork: {
@@ -1102,7 +1531,7 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Team Work",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+3 <VictoryPoints/> for each assistant you gained.</div>,
+            <div className="effectsText">+3 <VictoryPointsBgr/> for each assistant you gained.</div>,
         points: 1,
     },
     tradingKnowledge: {
@@ -1110,7 +1539,8 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Trading Knowledge",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Shiny/> that you placed in the first 3 rows.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each <BronzeRelic/> that you placed in the first 3
+                rows.</div>,
         points: 4,
     },
     touchTheSkies: {
@@ -1118,318 +1548,10 @@ export const EXPEDITIONS = Object.freeze({
         cardName: "Touch the Skies",
         type: CARD_TYPE.goalCard,
         effectsText:
-            <div className="effectsText">+1 <VictoryPoints/> for each <Blimp/> generated by your cards of assistants.</div>,
+            <div className="effectsText">+1 <VictoryPointsBgr/> for each <Blimp/> generated by your cards of assistants.
+            </div>,
         points: 1,
     },
 });
 
-/* cost turns to VP when guardian is defeated */
-export const GUARDIANS = Object.freeze({
-    foxSpirit: {
-        id: "foxSpirit",
-        cardName: "Fox Spirit",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Walk/><Text/><Text/></div>,
-        effects: [EFFECT.loseWalk, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Text/><Coin/><Explore/></div>,
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainExplore],
-        discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={rowStyle}><Text/><Coin/><Explore/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Text/></div>,
-        cost: null,
-        points: 1
-    },
-    forestDragon: {
-        id: "forestDragon",
-        cardName: "Forest Dragon",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Walk/><Explore/></div>,
-        effects: [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Coin/><Text/><Text/></div>,
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainText],
-        discoveryText2: <div style={columnStyle}><Explore/><Text/></div>,
-        discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
-        discoveryTextRow: <div style={rowStyle}><Coin/><Text/><Text/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Explore/><Text/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 1
-    },
-    naga: {
-        id: "naga",
-        cardName: "Naga",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Coin/><Weapon/></div>,
-        effects: [EFFECT.loseCoin, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Weapon/><Text/></div>,
-        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainText],
-        discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={rowStyle}><Weapon/><Text/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 2
-    },
-    stoneTitan: {
-        id: "stoneTitan",
-        cardName: "Stone Titan",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Explore/><Weapon/></div>,
-        effects: [EFFECT.loseExplore, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Explore/><Weapon/></div>,
-        discoveryEffect: [EFFECT.gainExplore, EFFECT.gainWeapon],
-        discoveryText2: <div style={columnStyle}><Coin/><Text/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainText],
-        discoveryTextRow: <div style={rowStyle}><Explore/><Weapon/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Text/></div>,
-        lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
-        cost: null,
-        points: 2
-    },
-    golem: {
-        id: "golem",
-        cardName: "Golem",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Jeep/><Explore/></div>,
-        effects: [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Explore/><Text/><Text/></div>,
-        discoveryEffect: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
-        discoveryText2: <div style={columnStyle}><Weapon/></div>,
-        discoveryEffect2: [EFFECT.gainWeapon],
-        discoveryTextRow: <div style={rowStyle}><Explore/><Text/><Text/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Weapon/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 2
-    },
-    mountainGuardian: {
-        id: "mountainGuardian",
-        cardName: "Mountain Guardian",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Blimp/></div>,
-        effects: [EFFECT.losePlane, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Explore/><Text/><Text/></div>,
-        discoveryEffect: [EFFECT.destroyCard, EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
-        discoveryText2: <div style={columnStyle}><Explore/><Explore/></div>,
-        discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainExplore],
-        discoveryTextRow: <div style={rowStyle}><Explore/><Text/><Text/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Explore/><Explore/></div>,
-        lockText: <div style={lockEffectsStyle}><Coin/></div>,
-        cost: null,
-        points: 1
-    },
-    gryphon: {
-        id: "gryphon",
-        cardName: "Gryphon",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Blimp/><Explore/></div>,
-        effects: [EFFECT.losePlane, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Jewel/></div>,
-        discoveryEffect: [EFFECT.gainJewel],
-        discoveryText2: <div style={columnStyle}><Coin/><Text/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainText],
-        discoveryTextRow: <div style={rowStyle}><Jewel/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Text/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 2
-    },
-    whisperingShadow: {
-        id: "whisperingShadow",
-        cardName: "Whispering Shadow",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Text/><Text/></div>,
-        effects: [EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Text/><Weapon/></div>,
-        discoveryEffect: [EFFECT.gainText, EFFECT.gainWeapon],
-        discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={rowStyle}><Text/><Weapon/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: -1
-    },
-    giantScarab: {
-        id: "giantScarab",
-        cardName: "Giant Scarab",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Weapon/></div>,
-        effects: [EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Coin/><Weapon/></div>,
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainWeapon],
-        discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={rowStyle}><Coin/><Weapon/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
-        cost: null,
-        points: 2
-    },
-    swampSnake: {
-        id: "swampSnake",
-        cardName: "Swamp snake",
-        type: CARD_TYPE.guardian,
-        transport: CARD_TRANSPORT.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Walk/><Discard/></div>,
-        effects: [EFFECT.loseWalk, EFFECT.discard, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Jewel/></div>,
-        discoveryEffect: [EFFECT.gainJewel],
-        discoveryText2: <div style={columnStyle}><Explore/><Text/></div>,
-        discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
-        discoveryTextRow: <div style={rowStyle}><Jewel/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Explore/><Text/></div>,
-        lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
-        cost: null,
-        points: 2
-    },
-    stealingMonkey: {
-        id: "stealingMonkey",
-        cardName: "Stealing Monkey",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Coin/><Coin/></div>,
-        effects: [EFFECT.loseCoin, EFFECT.loseCoin, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Jewel/></div>,
-        discoveryEffect: [EFFECT.gainJewel],
-        discoveryText2: <div style={columnStyle}><Coin/><Explore/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainExplore],
-        discoveryTextRow: <div style={rowStyle}><Jewel/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Explore/></div>,
-        lockText: <div style={lockEffectsStyle}><Coin/></div>,
-        cost: null,
-        points: 1
-    },
-    hornedHippo: {
-        id: "hornedHippo",
-        cardName: "Horned Hippo",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Walk/><Weapon/></div>,
-        effects: [EFFECT.loseWalk, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Coin/><Weapon/></div>,
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainWeapon],
-        discoveryText2: <div style={columnStyle}><Weapon/></div>,
-        discoveryEffect2: [EFFECT.gainWeapon],
-        discoveryTextRow: <div style={rowStyle}><Coin/><Weapon/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Weapon/></div>,
-        lockText: <div style={lockEffectsStyle}><AdventurerIcon/></div>,
-        cost: null,
-        points: 2
-    },
-    lakeMonster: {
-        id: "lakeMonster",
-        cardName: "Lake Monster",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Ship/><Explore/></div>,
-        effects: [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Text/><Text/><Text/></div>,
-        discoveryEffect: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainText],
-        discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={rowStyle}><Text/><Text/><Text/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 2
-    },
-    energyLeech: {
-        id: "energyLeech",
-        cardName: "Energy Leech",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Discard/></div>,
-        effects: [EFFECT.discard, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Explore/><Weapon/></div>,
-        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainExplore],
-        discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={rowStyle}><Explore/><Weapon/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 1
-    },
-    swarmingSpiders: {
-        id: "swarmingSpiders",
-        cardName: "Swarming Spiders",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Walk/><Walk/></div>,
-        effects: [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Coin/><Weapon/></div>,
-        discoveryEffect: [EFFECT.gainWeapon, EFFECT.gainCoin],
-        discoveryText2: <div style={columnStyle}><Explore/><Text/></div>,
-        discoveryEffect2: [EFFECT.gainExplore, EFFECT.gainText],
-        discoveryTextRow: <div style={rowStyle}><Coin/><Weapon/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Explore/><Text/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 2
-    },
-    heartOfForest: {
-        id: "heartOfForest",
-        cardName: "Heart of the Forest",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Jewel/></div>,
-        effects: [EFFECT.loseJewel, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Coin/><Coin/><Explore/></div>,
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore],
-        discoveryText2: <div style={columnStyle}><Text/><Text/></div>,
-        discoveryEffect2: [EFFECT.gainText, EFFECT.gainText],
-        discoveryTextRow: <div style={rowStyle}><Coin/><Coin/><Explore/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Text/><Text/></div>,
-        lockText: <div style={lockEffectsStyle}><Jewel/></div>,
-        cost: null,
-        points: 2
-    },
-    wyvern: {
-        id: "wyvern",
-        cardName: "Wyvern",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Coin/><Weapon/></div>,
-        effects: [EFFECT.loseCoin, EFFECT.loseWeapon, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Coin/><Coin/><Coin/></div>,
-        discoveryEffect: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryText2: <div style={columnStyle}><Weapon/></div>,
-        discoveryEffect2: [EFFECT.gainWeapon],
-        discoveryTextRow: <div style={rowStyle}><Coin/><Coin/><Coin/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Weapon/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 2
-    },
-    crabmanHermit: {
-        id: "crabmanHermit",
-        cardName: "Crabman Hermit",
-        type: CARD_TYPE.guardian,
-        effectsText:
-            <div style={bigIconsStyle}><Text/><Text/><Text/></div>,
-        effects: [EFFECT.loseText, EFFECT.loseText, EFFECT.loseText, EFFECT.defeatThisGuardian],
-        discoveryText: <div style={columnStyle}><Jewel/></div>,
-        discoveryEffect: [EFFECT.gainJewel],
-        discoveryText2: <div style={columnStyle}><Coin/><Coin/></div>,
-        discoveryEffect2: [EFFECT.gainCoin, EFFECT.gainCoin],
-        discoveryTextRow: <div style={rowStyle}><Jewel/></div>,
-        discoveryTextRow2: <div style={rowStyle}><Coin/><Coin/></div>,
-        lockText: <div style={lockEffectsStyle}><Discard/></div>,
-        cost: null,
-        points: 2
-    },
-});
+

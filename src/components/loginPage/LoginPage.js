@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {CookiesProvider, useCookies} from "react-cookie"
 import {socket} from "../../server/socketConnection";
-import {TRANSMISSIONS} from "../../data/idLists";
 import FormControl from "react-bootstrap/FormControl";
 import {NewRoom} from "./NewRoom";
-import Button from "react-bootstrap/Button";
-import {Alert, ButtonGroup} from "react-bootstrap";
+import {Alert} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {Room} from "./Room";
+import {TRANSMISSIONS} from "../functions/enums";
 
 export function LoginPage() {
     const [cookies, setCookie] = useCookies(["username"]);
@@ -59,11 +58,12 @@ export function LoginPage() {
 
         socket.on(TRANSMISSIONS.startGame, data => {
             let playerIndex = data.room.players.indexOf(cookies.username);
-            history.push({pathname: "/game", data: {username: cookies.username, room: data.room, playerIndex: playerIndex}});
+            history.push({pathname: "/game", data: {username: cookies.username, room: data.room, playerIndex: playerIndex,
+                    }});
         });
 
         socket.on(TRANSMISSIONS.currentUsersAndData, data => {
-            console.log(data);
+            console.log("received actual room and users data");
             if (!shakedHand) {
                 setShakedHand(true)
             }

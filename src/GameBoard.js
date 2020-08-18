@@ -5,84 +5,186 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import CardsArea from "./components/main/CardsArea";
 import {BoardStateContext, PlayerStateContext} from "./Contexts";
-import ResourcesArea, {RESOURCES} from "./components/resources/ResourcesArea";
+import ResourcesArea from "./components/resources/ResourcesArea";
 import Store from "./components/store/Store";
 import {Controls} from "./components/main/Controls";
-import {emptyPlayerState} from "./components/functions/initialStateFunctions";
 import {processEffects} from "./components/functions/processEffects.mjs";
 import LocationsArea from "./components/locations/LocationsArea";
 import {processActiveEffect} from "./components/functions/processActiveEffects";
 import {processCardBuy} from "./components/functions/processCardBuy";
 import {EFFECT} from "./data/effects.mjs";
-import ChooseRewardModal from "./components/main/ChooseRewardModal";
-import {isLocationAdjancentToAdventurer, payForTravelIfPossible} from "./components/locations/locationFunctions.mjs";
-import {
-    ACTION_TYPE,
-    CARD_STATE,
-    CARD_TYPE,
-    CARDS_ACTIONLESS,
-    LOCATION_IDs,
-    LOCATION_LEVEL,
-    LOCATION_STATE, LOCATION_TYPE,
-    REWARD_TYPE,
-    TRANSMISSIONS
-} from "./data/idLists";
+import ChooseRewardModal from "./components/rewardsModal/ChooseRewardModal";
 import {socket} from "./server/socketConnection";
-import {BonusActions} from "./components/bonuses/BonusActions";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
-import {
-    getPositionInLocationLine,
-    occupyLocation,
-    processExplorationDiscount
-} from "./components/locations/locationFunctions";
-import {GUARDIANS} from "./data/cards";
-import {getIsRewardDue, processLegend} from "./components/legends/legendsFunctions";
 import {RelicsArea} from "./components/relics/RelicsArea";
 import {LegendsArea} from "./components/legends/LegendsArea";
 import {processUptrade} from "./components/resources/resourcesFunctions";
-import {handleGuardianArrival, processIncomeTile} from "./components/functions/processEffects";
-import {ExtendPanelButton} from "./components/main/ExtendPanelButton";
+import {ShowModalButton} from "./components/main/ShowModalButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
 import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
+import RightSlidingPanel from "./components/main/RightSlidingPanel";
+import Spinner from "react-bootstrap/Spinner";
+import TopSlidingPanel from "./components/main/TopSlidingPanel";
+import {processLocation} from "./components/locations/functions/processLocation";
+import {
+    ACTION_TYPE,
+    ASSISTANT_STATE,
+    CARD_STATE,
+    CARD_TYPE,
+    LCL_STORAGE,
+    RELIC,
+    REWARD_TYPE,
+    TRANSMISSIONS
+} from "./components/functions/enums";
+import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
+import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
+import {processLegend} from "./components/legends/functions/processLegend";
+import {AssistantsArea} from "./components/assistantsChoice/AssistantsArea";
+import {getFailedEffectFeedback} from "./data/getFailedEffectFeedback";
+import {GuardianRewards} from "./components/guardianRewards/GuardianRewards";
+import {relicRewards} from "./components/functions/constants";
 
 function GameBoard(props) {
     console.log("** render **");
+
+    /** GAME STATES **/
+    const [roomName, setRoomName] = useState(null);
+    const [playerIndex, setPlayerIndex] = useState(null);
+    const [playerState, setPlayerState] = useState(null);
+    const [playerStates, setPlayerStates] = useState(null);
+    const [legends, setLegends] = useState(null);
+    const [locations, setLocations] = useState(null);
+    const [store, setStore] = useState(null);
+    const [round, setRound] = useState(null);
+    const [previousPlayer, setPreviousPlayer] = useState(null);
+    const [isActivePlayer, setIsActivePlayer] = useState(null);
+    const [numOfPlayers, setNumOfPlayers] = useState(null);
+    const [statesLoading, setStatesLoading] = useState(true);
     const history = useHistory();
-    if (!props.location.data) {
-        history.push({pathname: "/", data: {}});
-    }
-    const initialRoom = props.location.data.room;
-    const initialStates = props.location.data.room.states;
-    const initialIndex = props.location.data.playerIndex;
-    setLogLegends(initialStates.legends);
-    const numOfPlayers = initialRoom.numOfPlayers;
 
-    const [playerState, setPlayerState] = useState(initialStates.playerStates[initialIndex]);
-    const [round, setRound] = useState(initialStates.round);
-    const [store, setStore] = useState(initialStates.store);
-    const [locations, setLocations] = useState(initialStates.locations);
-    const [legends, setLegends] = useState(initialStates.legends);
-    const [previousPlayer, setPreviousPlayer] = useState(0);
-    const [isActivePlayer, setIsActivePlayer] = useState(initialIndex === initialStates.activePlayer);
+    useEffect(() => {
+        /** TRANSMISSIONS **/
+        socket.on(TRANSMISSIONS.stateUpdate, states => {
+            console.log("received states from server");
+            console.log(states);
+            const tPlayerIndex = playerIndex ? playerIndex : parseInt(localStorage.getItem(LCL_STORAGE.playerIndex), 10);
+            setPlayerStates(states.playerStates);
+            setPlayerState(states.playerStates[tPlayerIndex]);
+            setStore(states.store);
+            setLocations(states.locations);
+            setLegends(states.legends);
+            setRound(states.round);
+            setIsActivePlayer(states.activePlayer === tPlayerIndex);
+            setPreviousPlayer(states.previousPlayer);
+            setNumOfPlayers(states.numOfPlayers);
+            setLogLegends(states.legends);
+            setGameLog(states.gameLog);
+            setStatesLoading(false);
+        });
 
-    const emptyPlayerStates = [];
-    for (let i = 0; i < numOfPlayers; i++) {
-        emptyPlayerStates.push(emptyPlayerState)
+        socket.on(TRANSMISSIONS.scoringStates, data => {
+            console.log("Rerouting to scoring page");
+            history.push({pathname: "/scoring", data: data})
+        });
+
+        /** INITIAL SETUP **/
+        if (props.location.data) {
+            console.log("Setting initial game data.");
+            const roomName = props.location.data.room.states.roomName;
+            const states = props.location.data.room.states;
+            const playerIndex = props.location.data.playerIndex;
+            setRoomName(roomName);
+            setPlayerIndex(playerIndex);
+            setPlayerState(states.playerStates[playerIndex]);
+            setLegends(states.legends);
+            setLocations(states.locations);
+            setStore(states.store);
+            setRound(states.round);
+            setPreviousPlayer(states.previousPlayer);
+            setIsActivePlayer(states.activePlayer === playerIndex);
+            setNumOfPlayers(states.numOfPlayers);
+            setStatesLoading(false);
+
+            setLogLegends(states.legends);
+            setGameLog(states.gameLog);
+            console.log("game log updated with initial data");
+            localStorage.setItem(LCL_STORAGE.roomName, roomName);
+            localStorage.setItem(LCL_STORAGE.playerIndex, playerIndex);
+        } else if (localStorage.getItem(LCL_STORAGE.roomName)) {
+            console.log("Requesting for game data after reload");
+            setRoomName(localStorage.getItem(LCL_STORAGE.roomName));
+            const playerIndex = parseInt(localStorage.getItem(LCL_STORAGE.playerIndex), 10);
+            console.log("setting player index to: " + playerIndex);
+            setPlayerIndex(playerIndex);
+            socket.emit(TRANSMISSIONS.sendGameStates, {
+                roomName: localStorage.getItem(LCL_STORAGE.roomName),
+                playerIndex: playerIndex
+            });
+        } else {
+            // else reroute to login page
+            console.log("No game data available, rerouting to login page");
+            history.push({pathname: "/", data: {}});
+        }
+
+        document.addEventListener("keydown", handleKeyPress);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyPress);
+        };
+    }, [history, playerIndex, props.location.data]);
+
+    function handleKeyPress(e) {
+        if (e.keyCode === 32 || e.keyCode === 40) {
+            setExtendBottomPanel(value => !value);
+        } else if (e.keyCode === 39) {
+            e.preventDefault();
+            setExtendRightPanel(value => !value);
+        } else if (e.keyCode === 38) {
+            e.preventDefault();
+            setExtendTopPanel(value => !value);
+        } else if (e.keyCode === 37) {
+            e.preventDefault();
+            setExtendLeftPanel(value => !value);
+        }
     }
-    const [playerStates, setPlayerStates] = useState(emptyPlayerStates);
+
+    /*useEffect(() => {
+        if (playerState && playerState.firstTurn && isActivePlayer) {
+            let tStore = store;
+            playerState.firstTurn = false;
+            initiateRewardsModal({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
+            tStore.expeditions.splice(0, 2);
+            setStore(tStore);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isActivePlayer]);*/
+
+    // extending panels contain controls and information areas
+    const [extendTopPanel, setExtendTopPanel] = useState(false);
+    const [extendRightPanel, setExtendRightPanel] = useState(false);
+    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
+    const [extendLeftPanel, setExtendLeftPanel] = useState(false);
 
     // rewards are an array with objects describing values: {type: ..., data: [{effects: ..., effectsText: ...}, ...]
     const [rewardsModalData, setRewardsModalData] = useState([]);
     const [showRewardsModal, setShowRewardsModal] = useState(false);
     const [isModalActive, setIsModalActive] = useState(false);
 
+    // toasts for feedback messages
+    const [toastMessages, setToastMessages] = useState([]);
+
+    function addToastMessage(message) {
+        setToastMessages(oldMessages => [...oldMessages, message]);
+        setExtendRightPanel(true);
+    }
+
     /** INITIATE REWARDS MODAL **/
     function initiateRewardsModal(rewardsData) {
         console.log("Rewards data: ");
         console.log(rewardsData);
         let tRewardsModalData = cloneDeep(rewardsModalData);
-        // rewards can come as a reward object or as an array of reward objects
+        // rewards can come as a reward object or as an array ofa reward objects
         if (Array.isArray(rewardsData)) {
             for (let reward of rewardsData) {
                 tRewardsModalData.push(reward);
@@ -96,10 +198,8 @@ function GameBoard(props) {
     }
 
     /** PROCESS REWARD MODAL **/
-    function handleRewards(tPlayerState, tStore, finishRound, moreRewardsToProcess) {
-        setPlayerState(tPlayerState);
-        setStore(tStore);
-        if (!moreRewardsToProcess) {
+    function handleRewards(tPlayerState, tStore, tLocations, tLegends, moreRewardsToProcess) {
+        if (!moreRewardsToProcess || tPlayerState.finishedRound) {
             setRewardsModalData([]);
             setShowRewardsModal(false);
             setIsModalActive(false);
@@ -108,67 +208,28 @@ function GameBoard(props) {
             tRewardsModalData.splice(0, 1);
             setRewardsModalData(tRewardsModalData);
         }
-        if (finishRound) {
-            handleEndRound();
-            // we have to avoid triggering passing round to next player call
-            tPlayerState.activeEffects.push("finishing round");
+        //if an effect finished player's turn, end the turn
+        if (tPlayerState.finishedRound) {
+            addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
+            console.log("finishing round");
+            socket.emit(TRANSMISSIONS.finishedRound, {
+                roomName: roomName,
+                playerState: tPlayerState,
+                store: tStore,
+                locations: locations,
+                legends: legends,
+                gameLog: gameLog
+            });
         }
+        setPlayerState(tPlayerState);
+        setLocations(tLocations);
+        setLegends(tLegends);
+        setStore(tStore);
     }
 
-    /** USE EFFECTS **/
-    const [extendBottomPanel, setExtendBottomPanel] = useState(false);
-    useEffect(() => {
-        socket.on(TRANSMISSIONS.stateUpdate, states => {
-            console.log("received states from server");
-            console.log(states);
-            setPlayerStates(states.playerStates);
-            setPlayerState(states.playerStates[initialIndex]);
-            setStore(states.store);
-            setLocations(states.locations);
-            setLegends(states.legends);
-            setRound(states.round);
-            setIsActivePlayer(states.activePlayer === initialIndex);
-            setPreviousPlayer(states.previousPlayer);
-            setLogLegends(initialStates.legends);
-            setGameLog(states.gameLog);
-        });
-
-        socket.on(TRANSMISSIONS.scoringStates, data => {
-            console.log("Rerouting to scoring page");
-            history.push({pathname: "/scoring", data: data})
-        });
-
-        socket.on("disconnect", reason => {
-            console.log("Client disconnected: " + reason);
-            history.push({pathname: "/", data: {}});
-        })
-    }, []);
-
-    useEffect(() => {
-        if (playerState.firstTurn && isActivePlayer) {
-            let tStore = store;
-            playerState.firstTurn = false;
-            initiateRewardsModal({type: REWARD_TYPE.card, data: [tStore.expeditions[0], tStore.expeditions[1]]});
-            tStore.expeditions.splice(0, 2);
-            setStore(tStore);
-        }
-    }, [isActivePlayer]);
-
-    useEffect(() => {
-        document.addEventListener('keydown', handleKeyPress);
-        return () => {
-            document.removeEventListener('keydown', handleKeyPress);
-        };
-    });
-
-    useEffect(() => {
-        setGameLog(initialStates.gameLog);
-        console.log("game log updated with initial data");
-    }, []);
-
-    function handleKeyPress(e) {
-        if (e.keyCode === 32) {
-            setExtendBottomPanel(value => !value)
+    function toggleRewardsModalVisibility(boolean) {
+        if (boolean === true || boolean === false) {
+            setShowRewardsModal(boolean);
         }
     }
 
@@ -176,33 +237,46 @@ function GameBoard(props) {
     function handleClickOnCardEffect(effects, cardIndex, costsAction, tCard) {
         let tPlayerState = cloneDeep(playerState);
         let tStore = cloneDeep(store);
+        let tLocations = cloneDeep(locations);
         console.log("Handling card effects: " + tCard.cardName);
         console.log(effects);
 
-        let isAllowed = false;
+        let hasResourceForArtifact = false;
+        let hasAction = !costsAction || tPlayerState.actions > 0;
         if (tCard.type === CARD_TYPE.artifact) {
-            isAllowed = !costsAction || tPlayerState.resources.texts > 0
+            // artifact can be played for free as a transport or for a text
+            hasResourceForArtifact = !costsAction || tPlayerState.resources.texts > 0;
+            if (!hasResourceForArtifact && tCard.type === CARD_TYPE.artifact) {
+                addToastMessage("Cannot play artifact - no text available!");
+            }
         }
 
-        if (isActivePlayer && (!costsAction || playerState.actions > 0)) {
-            if (tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
-                (tCard.type === CARD_TYPE.artifact && isAllowed)) {
+        if (isActivePlayer) {
+            if ((tCard.type === CARD_TYPE.item || tCard.type === CARD_TYPE.basic || tCard.type === CARD_TYPE.guardian ||
+                (tCard.type === CARD_TYPE.artifact && hasResourceForArtifact)) && hasAction) {
                 if (tCard.state === CARD_STATE.inHand || tCard.state === undefined) {
                     tPlayerState.activeCards.push(tCard);
                     tCard.state = CARD_STATE.active;
                     tPlayerState.hand.splice(cardIndex, 1);
                 }
-                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, null, tStore, null, null);
+                const effectsResult = processEffects(tCard, cardIndex, tPlayerState, effects, tStore, null, tLocations);
                 tPlayerState = effectsResult.tPlayerState;
-                if (tCard.type !== CARD_TYPE.basic && costsAction && effectsResult.processedAllEffects
-                    && !CARDS_ACTIONLESS.includes(tCard.id)) {
-                    tPlayerState.actions -= 1;
-                }
+                tLocations = effectsResult.tLocations;
                 tStore = effectsResult.tStore;
+
+                /* if effects could not be processed we prepare feedback */
+                if (!effectsResult.processedAllEffects) {
+                    addToastMessage(getFailedEffectFeedback(effectsResult.failedEffect));
+                }
 
                 /* if the card is an artifact and effect is not a transport, pay for the use */
                 if (tCard.type === CARD_TYPE.artifact && costsAction) {
                     tPlayerState.resources.texts -= 1;
+                }
+
+                /* if card use costs an action (= card is not used as a transport) we spend it */
+                if (costsAction) {
+                    tPlayerState.actions -= 1;
                 }
 
                 /* some card need rewards modal window to choose between possible effects */
@@ -210,7 +284,18 @@ function GameBoard(props) {
                     initiateRewardsModal(effectsResult.rewardsData);
                 }
 
+                /* terrible hack for resolving of another set of effects */
+                if (tPlayerState.activeEffects[0] === EFFECT.resolveAdditionalEffects) {
+                    const effectsResult = processEffects(null, null, tPlayerState, tPlayerState.activeEffects[1],
+                        tStore, null, tLocations);
+                    tPlayerState = effectsResult.tPlayerState;
+                    tLocations = effectsResult.tLocations;
+                    tStore = effectsResult.tStore;
+                    tPlayerState.activeEffects.splice(0, 2);
+                }
+
                 setPlayerState(tPlayerState);
+                setLocations(tLocations);
                 setStore(tStore);
                 addLogEntry(tPlayerState, costsAction ? ACTION_TYPE.playsCard : ACTION_TYPE.playsCardWithoutAction,
                     tCard.id, null);
@@ -221,162 +306,103 @@ function GameBoard(props) {
     }
 
     /** LOCATION EFFECTS **/
-    function handleClickOnLocation(effects, exploreCostEffects, location, locationLine) {
-        if (isActivePlayer) {
+    function handleClickOnLocation(location, resolveGuardian) {
+        if (isActivePlayer && !showRewardsModal) {
             console.log("Clicked on location " + location.id);
-            let tPlayerState = cloneDeep(playerState);
-            let tLocations = cloneDeep(locations);
-
-            /* Resolve active effects */
-            // explore any location with discount is processed during location exploration
-            if (tPlayerState.activeEffects.length > 0 && (tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount4
-                && tPlayerState.activeEffects[0] !== EFFECT.exploreAnyLocationWithDiscount3)) {
-                const effectResult = processActiveEffect(null, null, {...location}, tPlayerState,
-                    null, {...store}, tLocations, setRewardsModal);
-                console.log("finished processing active effects in location");
-                setPlayerState(effectResult.tPlayerState);
-                setLocations(effectResult.tLocations);
-                setStore(effectResult.tStore);
-            } else {
-                switch (location.state) {
-                    case LOCATION_STATE.unexplored:
-                        console.log("Exloring location initialized.");
-                        if (location.type === LOCATION_TYPE.lostCity) {
-                            // loacation is explored as EFFECT.discoverLocation duering processing of legend research
-                            break;
-                        }
-                        const exploreDiscount = playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount3
-                            ||playerState.activeEffects[0] === EFFECT.exploreAnyLocationWithDiscount4;
-                        if (exploreDiscount) {
-                            tPlayerState.activeEffects.splice(0)
-                        }
-                        if (isLocationAdjancentToAdventurer(location, locationLine, tLocations, tPlayerState) || exploreDiscount) {
-                            if (exploreDiscount) {
-                                exploreCostEffects = processExplorationDiscount(playerState.activeEffects[0], exploreCostEffects)
-                            }
-                            const explorationCostResult = processEffects(null, null, tPlayerState, exploreCostEffects,
-                                null, null, location, null);
-                            if (explorationCostResult.processedAllEffects) {
-                                tPlayerState = explorationCostResult.tPlayerState;
-                                tPlayerState.actions -= exploreDiscount ? 0 : 1;
-
-                                const locationPosition = getPositionInLocationLine(location, locationLine, locations);
-                                tLocations[locationLine][locationPosition].state = LOCATION_STATE.explored;
-
-                                setLocations(tLocations);
-                                // player can choose between effect of location and discovery effect of next guardian
-                                const guardian = GUARDIANS[store.guardians[0].id];
-                                const locationLevel = LOCATION_IDs[location.id].level;
-                                // guardian effects are different when location level is 2 and 3
-                                const guardianText = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryTextRow :
-                                    <div style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center"
-                                    }}>{guardian.discoveryTextRow}{guardian.discoveryTextRow2}</div>;
-                                const guardianEffects = locationLevel === LOCATION_LEVEL["2"] ? guardian.discoveryEffect :
-                                    [...guardian.discoveryEffect, ...guardian.discoveryEffect2];
-
-                                tPlayerState.resources.shinies += 1;
-                                // guardian is moved to player's discard
-                                const guardianResults = handleGuardianArrival(tPlayerState, cloneDeep(store), round);
-                                setStore(guardianResults.tStore);
-                                setPlayerState(guardianResults.tPlayerState);
-                                initiateRewardsModal({
-                                    type: REWARD_TYPE.effectsArr,
-                                    data: [{effects: location.effects, effectsText: location.effectsText},
-                                        {effects: guardianEffects, effectsText: guardianText}]
-                                });
-                                addLogEntry(tPlayerState, ACTION_TYPE.exploresLocation, location.id,
-                                    exploreCostEffects);
-                            } else {
-                                console.log("Not enough resources to explore location.");
-                            }
-                        } else {
-                            console.log("Location is not adjacent.");
-                        }
-                        break;
-                    case
-                    LOCATION_STATE.explored:
-                        const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
-                        if (travelCheckResults.enoughResources && tPlayerState.actions > 0 && tPlayerState.availableAdventurers > 0) {
-                            const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, effects, null,
-                                {...store}, location, {...locations});
-                            if (effectsResult.processedAllEffects) {
-                                console.log("Location effects have been processed.");
-                                tPlayerState = effectsResult.tPlayerState;
-                                tPlayerState.availableAdventurers -= 1;
-                                tPlayerState.actions -= 1;
-                                setPlayerState(tPlayerState);
-                                let tLocations = occupyLocation(cloneDeep(locations), location.id, locationLine, tPlayerState.playerIndex);
-                                setLocations(tLocations);
-                                addLogEntry(tPlayerState, ACTION_TYPE.activatesLocation, location.id, effects)
-                            } else {
-                                console.log("Some effects were not processed. Location could not be used.");
-                            }
-                        } else {
-                            console.log("Location could not be used. Travel possible: " + travelCheckResults.enoughResources);
-                        }
-                        break;
-                    case
-                    LOCATION_STATE.occupied:
-                        console.log("Location is occupied.");
-                        break;
-                    default:
-                        console.log("Unknown tLocation state in handleClickOnLocation: " + location.state);
-                        console.log(location);
+            const locationResult = processLocation(cloneDeep(playerState), cloneDeep(store), cloneDeep(locations), cloneDeep(location), setRewardsModal, resolveGuardian);
+            if (!locationResult.failedTravel) {
+                if (locationResult.playerState) {
+                    setPlayerState(locationResult.playerState);
                 }
+                if (locationResult.locations) {
+                    setLocations(locationResult.locations);
+                }
+                if (locationResult.store) {
+                    setStore(locationResult.store);
+                }
+            } else {
+                addToastMessage("Not enough resources to use the location!")
             }
         }
     }
 
-    /** HANDLE BONUS **/
+    /*/!** HANDLE BONUS **!/
     function handleClickOnBonusAction(effects) {
         if (isActivePlayer) {
-            const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects,
-                null, cloneDeep(store), null, cloneDeep(locations));
-            setPlayerState(effectProcessResults.tPlayerState);
-            setStore(effectProcessResults.tStore);
-            setLocations(effectProcessResults.tLocations);
-            addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
+            if (playerState.activeEffects.length > 0) {
+                if (playerState.activeEffects[0] === EFFECT.activate2dockActions) {
+                    effects = effects.filter((effect) => effect !== EFFECT.loseCoin);
+                    const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects, cloneDeep(store), null, cloneDeep(locations));
+                    let tPlayerState = effectProcessResults.tPlayerState;
+                    tPlayerState.activeEffects.splice(0, 1);
+                    setPlayerState(tPlayerState);
+                    setStore(effectProcessResults.tStore);
+                    setLocations(effectProcessResults.tLocations);
+                    addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
+                }
+            } else {
+                const effectProcessResults = processEffects(null, null, cloneDeep(playerState), effects, cloneDeep(store), null, cloneDeep(locations));
+                setPlayerState(effectProcessResults.tPlayerState);
+                setStore(effectProcessResults.tStore);
+                setLocations(effectProcessResults.tLocations);
+                addLogEntry(playerState, ACTION_TYPE.usesBonusAction, null, effects)
+            }
         }
-    }
+    }*/
 
     /** HANDLE CLICK ON LEGEND **/
-    function handleClickOnLegend(legendIndex, columnIndex, fieldIndex, boons) {
+    function handleClickOnLegend(legendIndex, columnIndex, fieldIndex) {
         if (isActivePlayer && (playerState.actions > 0 || playerState.activeEffects.length > 0)) {
-            const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, boons,
+            let tLegends = cloneDeep(legends);
+            const field = tLegends[legendIndex].fields[columnIndex][fieldIndex];
+            const boon = field.effects[0];
+            const effects = [...field.cost];
+            if (boon) {
+                effects.push(boon);
+            }
+            // first we process effects to see whether player has enough resources
+            const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, effects,
                 cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
             if (legendResult) {
                 const tStore = legendResult.tStore;
                 const rewardsData = [];
-                // first four columns award extra rewards when non-first player's tokens reach them
-                const isRewardDue = getIsRewardDue(columnIndex, legendResult.positions);
-                if (isRewardDue) {
-                    if (columnIndex === 1) {
-                        const expeditionsArr = [store.expeditions[0], store.expeditions[1]];
-                        rewardsData.push({type: REWARD_TYPE.card, data: expeditionsArr});
-                    } else if (columnIndex === 0) {
-                        const incomeArr = [store.incomes1Offer[0], store.incomes1Offer[1]];
-                        rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
-                    } else if (columnIndex === 2) {
-                        const incomeArr = [store.incomes2Offer[0], store.incomes2Offer[1]];
-                        rewardsData.push({type: REWARD_TYPE.incomeToken, data: incomeArr});
+                // some cards need rewards modal window to choose between possible effects
+                if (legendResult.showRewardsModal) {
+                    if (Array.isArray(legendResult.rewardsData)) {
+                        for (let result of legendResult.rewardsData) {
+                            rewardsData.push(result);
+                        }
+                    } else {
+                        rewardsData.push(legendResult.rewardsData);
                     }
                 }
-                /* some card need rewards modal window to choose between possible effects */
-                if (legendResult.showRewardsModal) {
-                    rewardsData.push(legendResult.rewardsData);
+                tLegends = legendResult.tLegends;
+
+                // all rewards are one time now = todo remove
+                /*// resources that can only be used once have to be removed now...
+                if (boon.includes(EFFECT.gainCoinIfFirst) || boon.includes(EFFECT.gainExploreIfFirst) || boon.includes(EFFECT.gainMapIfFirst)) {
+                    tLegends[legendIndex].fields[columnIndex][fieldIndex] = removeFirstUserLegendResource(boon, field, numOfPlayers);
                 }
+                // ...but if the resource involves a choice, it is processed in the reward modal
+                if (boon.includes(EFFECT.gainCoinOrExploreIfFirst) || boon.includes(EFFECT.gainExploreOrMapIfFirst)) {
+                    rewardsData.push({
+                        type: REWARD_TYPE.legendFieldEffects, data: getJointBoons(boon),
+                        params: {legendIndex: legendIndex, columnIndex: columnIndex, fieldIndex: fieldIndex}
+                    });
+                }*/
+
+                if (boon) {
+                    tLegends[legendIndex].fields[columnIndex][fieldIndex].effects.splice(0, 1);
+                }
+
                 if (rewardsData.length > 0) {
                     initiateRewardsModal(rewardsData);
                 }
                 setPlayerState(legendResult.tPlayerState);
                 setLocations(legendResult.tLocations);
-                setLegends(legendResult.tLegends);
+                setLegends(tLegends);
                 setStore(tStore);
-                setLogLegends(initialStates.legends);
-                return legendResult.tLegends;
+                setLogLegends(legendResult.tLegends);
             }
         }
     }
@@ -404,38 +430,52 @@ function GameBoard(props) {
             const tPlayerState = cloneDeep(playerState);
             console.log("Handling click on resource: " + resource);
             if (playerState.activeEffects[0] === EFFECT.uptrade && playerState.resources[resource] > 0) {
-                tPlayerState.activeEffects.splice(0, 1);
                 setPlayerState(processUptrade(tPlayerState, resource));
-            } else if (playerState.activeEffects[0] === EFFECT.progressWithTextsOrWeapon
-                && (resource === RESOURCES.texts || resource === RESOURCES.weapons)) {
-                if (resource === RESOURCES.texts) {
-                    tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithTexts);
-                } else {
-                    tPlayerState.activeEffects.splice(0, 1, EFFECT.progressWithWeapon);
-                }
-                setPlayerState(tPlayerState);
             }
         }
     }
 
-    /** HANDLE CLICK ON INCOME TILE **/
-    function handleClickOnIncomeTile(effects, incomeId) {
-        const tPlayerState = processIncomeTile(effects, incomeId, cloneDeep(playerState));
-        setPlayerState(tPlayerState);
-        addLogEntry(tPlayerState, ACTION_TYPE.usesAssistant, incomeId, effects);
+    /** HANDLE CLICK ON ASSISTANT **/
+    function handleClickOnAssistantTile(effects, incomeId) {
+        const assistantResult = processEffects(null, null, cloneDeep(playerState), effects, cloneDeep(store), null, cloneDeep(locations));
+        if (assistantResult.processedAllEffects) {
+            let tPlayerState = assistantResult.tPlayerState;
+
+            // set assistan to spent state
+            for (let asssistant of tPlayerState.assistants) {
+                if (asssistant.id === incomeId) {
+                    asssistant.state = ASSISTANT_STATE.spent
+                }
+            }
+
+            setPlayerState(tPlayerState);
+            setLocations(assistantResult.tLocations);
+            setStore(assistantResult.tStore);
+            if (assistantResult.showRewardsModal) {
+                initiateRewardsModal(assistantResult.rewardsData);
+            }
+            addLogEntry(tPlayerState, ACTION_TYPE.usesAssistant, incomeId, effects);
+        }
     }
 
     /** HANDLE CLICK ON RELIC **/
-    function handleClickOnRelic(effects, effectIndex) {
+    function handleClickOnRelic(slotIndex) {
         let tPlayersState = cloneDeep(playerState);
-        if (tPlayersState.relics[effectIndex] && tPlayersState.resources.shinies > 0) {
-            let effectsResult = processEffects(null, null, tPlayersState, effects, null,
-                cloneDeep(store), null, cloneDeep(locations), null);
-            tPlayersState = effectsResult.tPlayerState;
-            tPlayersState.relics[effectIndex] = false;
-            tPlayersState.resources.shinies -= 1;
-            setPlayerState(effectsResult.tPlayerState);
-            addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, effects);
+        if (!tPlayersState.relics[slotIndex] && tPlayersState.resources.bronzeRelics + tPlayersState.resources.silverRelics
+            + tPlayersState.resources.goldRelics > 0) {
+            initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: relicRewards}]);
+            if (tPlayersState.resources.bronzeRelics > 0) {
+                tPlayersState.resources.bronzeRelics -= 1;
+                tPlayersState.relics[slotIndex] = RELIC.bronze;
+            } else if (tPlayersState.resources.silverRelics > 0) {
+                tPlayersState.resources.silverRelics -= 1;
+                tPlayersState.relics[slotIndex] = RELIC.silver;
+            } else if (tPlayersState.resources.goldRelics > 0) {
+                tPlayersState.resources.goldRelics -= 1;
+                tPlayersState.relics[slotIndex] = RELIC.gold;
+            }
+            setPlayerState(tPlayersState);
+            addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, "undetermined");
         }
     }
 
@@ -444,38 +484,97 @@ function GameBoard(props) {
         if (isActivePlayer) {
             console.log("Buying card: " + card.cardName + " with effect: " + card.effects);
             if (playerState.actions > 0) {
-                const buyResult = processCardBuy(card, cardIndex, cloneDeep(playerState), null,
-                    cloneDeep(store), round);
+                const buyResult = processCardBuy(card, cardIndex, cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
                 let tPlayerState = buyResult.tPlayerState;
                 let tStore = buyResult.tStore;
+                let tLocations = buyResult.tLocations;
                 if (buyResult.processGuardian) {
                     const guardianResult = handleGuardianArrival(tPlayerState, tStore, round);
                     tPlayerState = guardianResult.tPlayerState;
                     tStore = guardianResult.tStore;
                 }
+                if (buyResult.showRewardsModal) {
+                    initiateRewardsModal(buyResult.rewardsData);
+                }
                 setPlayerState(cloneDeep(tPlayerState));
+                setLocations(tLocations);
                 setStore(tStore);
             }
         }
     }
 
+    /** HANDLE LOST CITY **/
+    function handleLostCity(tPlayerstate, tStore, relicRewards, params) {
+        setPlayerState(tPlayerstate);
+        setStore(tStore);
+        /*if (relicRewards.length > 0) {
+            initiateRewardsModal({type: REWARD_TYPE.relicWithEffects, data: relicRewards, params: params});
+        }*/
+        switch (params) {
+            case RELIC.bronze:
+                tPlayerstate.resources.bronzeRelics += 1;
+                break;
+            case RELIC.silver:
+                tPlayerstate.resources.silverRelics += 1;
+                break;
+            case RELIC.gold:
+                tPlayerstate.resources.goldRelics += 1;
+                break;
+            default:
+                console.error("Unable to process relic type in handleLostCity: " + params);
+        }
+        setExtendRightPanel(false);
+    }
+
     /** CANCEL EFFECTS **/
     function cancelEffects() {
         let tPlayerState = cloneDeep(playerState);
-        tPlayerState.activeEffects = [];
+        if (tPlayerState.activeEffects[0] === EFFECT.revealItemBuyWithDiscount3) {
+            const tStore = cloneDeep(store);
+            tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
+            setStore(tStore);
+        }
+        if (tPlayerState.activeEffects[0] === EFFECT.revealArtifactBuyWithDiscount3) {
+            const tStore = cloneDeep(store);
+            tStore.itemsOffer.splice(tStore.itemsOffer.length - 1);
+            setStore(tStore);
+        }
+        if (tPlayerState.activeEffects[0] === EFFECT.activateThisLocationAgain) {
+            tPlayerState.activeEffects.splice(0, 2)
+        } else {
+            tPlayerState.activeEffects.splice(0, 1);
+        }
         setPlayerState(tPlayerState);
     }
 
     /** UNDO / RESET TURN **/
     function undo() {
-        socket.emit(TRANSMISSIONS.resetTurn, initialRoom.name);
+        setExtendTopPanel(false);
+        socket.emit(TRANSMISSIONS.resetTurn, roomName);
+    }
+
+    /** REVERT TO PREVIOUS TURN **/
+    function revert() {
+        setExtendTopPanel(false);
+        socket.emit(TRANSMISSIONS.revert, roomName)
     }
 
     /** SET NEXT PLAYER **/
-    if (playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive) {
+    if (playerState && playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive
+        && !playerState.finishedRound) {
         addLogEntry(playerState, ACTION_TYPE.endOfTurn, null, null);
         console.log("next player ");
         nextPlayer();
+    }
+
+    /** TEMPORARY PLANE FOR TWO COINS **/
+    function getPlaneFor2Coins() {
+        if (playerState.resources.coins > 1) {
+            const tPlayerState = cloneDeep(playerState);
+            tPlayerState.resources.coins -= 2;
+            tPlayerState.resources.plane += 1;
+            setPlayerState(tPlayerState);
+        }
     }
 
     function nextPlayer() {
@@ -487,8 +586,9 @@ function GameBoard(props) {
             }
             tPlayerState.actions = 1;
             tPlayerState.activeEffects = [];
+            console.log("** finishing turn **");
             socket.emit(TRANSMISSIONS.nextPlayer, {
-                roomName: initialRoom.name,
+                roomName: roomName,
                 playerState: tPlayerState,
                 store: store,
                 locations: locations,
@@ -496,16 +596,20 @@ function GameBoard(props) {
                 gameLog: gameLog,
             });
             setPlayerState(tPlayerState);
+        } else {
+            let tPlayerState = cloneDeep(playerState);
+            tPlayerState.finishedRound = false;
+            setPlayerState(tPlayerState);
+            handleEndRound();
         }
     }
 
-    /** END OF ROUND **/
     function handleEndRound() {
         if (isActivePlayer) {
             addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
-            console.log("finishing round");
+            console.log("** finishing round **");
             socket.emit(TRANSMISSIONS.finishedRound, {
-                roomName: initialRoom.name,
+                roomName: roomName,
                 playerState: playerState,
                 store: store,
                 locations: locations,
@@ -521,29 +625,36 @@ function GameBoard(props) {
     }
 
     const boardStateContextValues = {
-        playerState: playerState,
-        playerIndex: playerState.playerIndex,
-        store: store,
         legends: legends,
-        setLegends: setLegends,
         locations: locations,
-        activeEffects: playerState.activeEffects,
-        showModal: showRewardsModal,
         modalData: rewardsModalData,
-        round: round,
         numOfPlayers: numOfPlayers,
+        playerState: playerState,
+        playerIndex: playerIndex,
+        setLegends: setLegends,
+        showModal: showRewardsModal,
+        setShowRewardsModal: setShowRewardsModal,
+        store: store,
+        round: round,
         handleCardEffect: handleClickOnCardEffect,
         handleCardBuy: handleCardBuy,
         handleActiveEffectClickOnCard: handleActiveEffectClickOnCard,
         handleClickOnLocation: handleClickOnLocation,
         handleReward: handleRewards,
         handleClickOnLegend: handleClickOnLegend,
-        handleClickOnIncomeTile: handleClickOnIncomeTile,
+        handleClickOnAssistantTile: handleClickOnAssistantTile,
+        initiateRewardsModal: initiateRewardsModal,
+        toggleRewardsModalVisibility: toggleRewardsModalVisibility,
+        toastMessages: toastMessages,
+        setToastMessages: setToastMessages,
+        setExtendRightPanel: setExtendRightPanel,
     };
 
     const playerStateContextValues = {
         playerState: playerState,
+        setPlayerState: setPlayerState,
         playerStates: playerStates,
+        store: store,
         isActivePlayer: isActivePlayer,
         previousPlayer: previousPlayer,
         round: round,
@@ -552,28 +663,40 @@ function GameBoard(props) {
         nextPlayer: nextPlayer,
         handleClickOnResource: handleClickOnResource,
         handleClickOnRelic: handleClickOnRelic,
+        handleLostCity: handleLostCity,
         cancelEffects: cancelEffects,
         undo: undo,
+        revert: revert,
+        getPlaneFor2Coins: getPlaneFor2Coins,
     };
+
+    const gameBoardElements =
+        <div>
+            <LocationsArea/>
+            <AssistantsArea/>
+            <div style={{marginLeft: "4vw"}}>
+                <Store/>
+            </div>
+            <CardsArea/>
+            <LegendsArea/>
+            <ResourcesArea/>
+            <RelicsArea/>
+            <GuardianRewards />
+            <Controls/><br/>
+            <OpponentPlayArea/>
+            <TopSlidingPanel extendPanel={extendTopPanel}/>
+            <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
+            <RightSlidingPanel extendPanel={extendRightPanel}/>
+            <LeftSlidingPanel extendPanel={extendLeftPanel}/>
+            <ShowModalButton showModal={toggleRewardsModalVisibility}/>
+            <ChooseRewardModal/>
+        </div>;
 
     return (
         <div className="App">
             <BoardStateContext.Provider value={boardStateContextValues}>
                 <PlayerStateContext.Provider value={playerStateContextValues}>
-                    <LocationsArea/>
-                    <div style={{marginLeft: "3vw"}}>
-                        <BonusActions handleClickOnBonus={handleClickOnBonusAction}/>
-                        <Store/>
-                    </div>
-                    <CardsArea/>
-                    <LegendsArea/>
-                    <ResourcesArea/>
-                    <RelicsArea/>
-                    <Controls/><br/>
-                    <OpponentPlayArea/>
-                    <BottomSlidingPanel extendPanel={extendBottomPanel} setExtendPanel={setExtendBottomPanel}/>
-                    <ChooseRewardModal/>
-                    <ExtendPanelButton setExtendPanel={setExtendBottomPanel} extendPanel={extendBottomPanel}/>
+                    {statesLoading ? <StatesSpinner/> : gameBoardElements}
                 </PlayerStateContext.Provider>
             </BoardStateContext.Provider>
         </div>
@@ -581,3 +704,8 @@ function GameBoard(props) {
 }
 
 export default GameBoard;
+
+export const StatesSpinner = () =>
+    <div style={{display: "flex", alignItems: "center", justifyContent: "center", width: "100vw", height: "100vh"}}>
+        <Spinner animation="grow" variant="primary"/>
+    </div>;
