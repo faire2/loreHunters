@@ -448,22 +448,22 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     };
                     break;
 
-                case EFFECT.gain2JeepsOr2Explores:
+                case EFFECT.gain2JeepsOrCoinExplore:
                     showRewardsModal = true;
                     rewardsData = {
                         type: REWARD_TYPE.effectsArr, data: [
                             [EFFECT.gainJeep, EFFECT.gainJeep],
-                            [EFFECT.gainExplore, EFFECT.gainExplore]
+                            [EFFECT.gainCoin, EFFECT.gainExplore]
                         ]
                     };
                     break;
 
-                case EFFECT.gain2ShipsOr2Explores:
+                case EFFECT.gain2ShipsOrCoinExplore:
                     showRewardsModal = true;
                     rewardsData = {
                         type: REWARD_TYPE.effectsArr, data: [
                             [EFFECT.gainShip, EFFECT.gainShip],
-                            [EFFECT.gainExplore, EFFECT.gainExplore]
+                            [EFFECT.gainCoin, EFFECT.gainExplore]
                         ]
                     };
                     break;

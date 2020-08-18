@@ -39,12 +39,12 @@ export const Assistants = Object.freeze({
     cartographer: {
         id: "cartographer",
         silverEffects: [EFFECT.gainJeepOrExplore],
-        goldEffects: [EFFECT.gain2JeepsOr2Explores],
+        goldEffects: [EFFECT.gain2JeepsOrCoinExplore],
     },
     seaman: {
         id: "seaman",
         silverEffects: [EFFECT.gainShipOrExplore],
-        goldEffects: [EFFECT.gain2ShipsOr2Explores],
+        goldEffects: [EFFECT.gain2ShipsOrCoinExplore],
     },
     trader: {
         id: "trader",
