@@ -3,8 +3,8 @@ import {EFFECT} from "./effects.mjs";
 export const Assistants = Object.freeze({
     goldDigger: {
         id: "goldDigger",
-        silverEffects: [EFFECT.gainCoin],
-        goldEffects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore],
+        silverEffects: [EFFECT.gainCoin, EFFECT.gainCoin],
+        goldEffects: [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
     },
     professor: {
         id: "professor",

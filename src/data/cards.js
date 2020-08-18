@@ -302,10 +302,10 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText: <div className="effectsText"><b>Exile</b> this card to <PlaceAdventurer/> with a discount of <Blimp/>.
-            plus a a discount of <Explore/><Explore/> if discovering a new site.</div>,
-        effects: [EFFECT.exploreAnyLocationWithDiscount2, EFFECT.destroyThisCard], //pozor na update efektu, je vyhodnocen v sekci pro explore lokaci
+            plus a a discount of <Explore/><Explore/><Explore/> if discovering a new site.</div>,
+        effects: [EFFECT.exploreAnyLocationWithDiscount3, EFFECT.destroyThisCard], //pozor na update efektu, je vyhodnocen v sekci pro explore lokaci
         image: hotAirBalloonImg,
-        cost: 3,
+        cost: 2,
         points: 1
     },
     airplane: {
