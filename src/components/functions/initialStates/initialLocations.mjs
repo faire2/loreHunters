@@ -34,6 +34,7 @@ export function getInitialLocations(numOfPlayers) {
                 console.log("Location not sorted: " + location.id);
         }
     }
+    level2locations.splice(0, 0, Locations.l11);
 
     // basic location slots are determined by number of players
     const basicLocationSlots = [

@@ -21,7 +21,10 @@ import getInitialPlayerStates from "../components/functions/initialStates/initia
 import {getInitialStore} from "../components/functions/initialStates/initialStore.mjs";
 import {getInitialLegends} from "../components/functions/initialStates/initialLegends.mjs";
 import {getInitialLocations} from "../components/functions/initialStates/initialLocations.mjs";
-import {relicEffects, resetRelicEffects} from "../data/relicEffects.mjs";
+import {resetRelicEffects} from "../data/relicEffects.mjs";
+import {shuffleArray} from "../components/functions/cardManipulationFuntions";
+import {automatonActions} from "../components/functions/constants";
+import {performAutomatonAction} from "./performAutomatonAction";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -53,7 +56,6 @@ io.on("connection", socket => {
         //check if the name is existing
         if (!isRoomNameTaken(roomData, gameRooms)) {
             const numOfPlayers = roomData.numOfPlayers;
-            var tRelicEffects = cloneDeep(relicEffects);
             const states = {
                 numOfPlayers: numOfPlayers,
                 playerStates: getInitialPlayerStates(numOfPlayers),
@@ -67,6 +69,8 @@ io.on("connection", socket => {
                 round: 1,
                 gameLog: [],
                 roomName: roomData.roomName,
+                automaton: roomData.automaton,
+                automatonActions: shuffleArray(automatonActions)
             };
             gameRooms.push({
                 name: roomData.roomName,
@@ -193,6 +197,9 @@ io.on("connection", socket => {
             room.previousStates = cloneDeep(room.states);
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             console.debug("PLAYER " + (playerIndex) + " passing action.");
+            if (room.states.automaton) {
+                room = performAutomatonAction(room);
+            }
             room = updateRoomState(room, playerIndex, states);
             updateStatesToAll(room);
             console.debug("States updated");

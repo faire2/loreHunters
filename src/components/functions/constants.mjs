@@ -1,4 +1,5 @@
 import {EFFECT} from "../../data/effects.mjs";
+import {AUTOMATON} from "./enums";
 
 export const silverAssistantsOfferNumber = 3;
 
@@ -17,3 +18,6 @@ export const pointsForUnusedRelics = [
 
 export const relicRewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
     [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
+
+export const automatonActions = [AUTOMATON.adventurerCoin, AUTOMATON.adventurerExplore, AUTOMATON.adventurerText, AUTOMATON.adventurerWeapon,
+    AUTOMATON.adventurerJewel, AUTOMATON.exilesInnerCards, AUTOMATON.exilesOuterCards, AUTOMATON.exploresLocation, AUTOMATON.takesLegendBonus];

@@ -46,7 +46,7 @@ export const Locations = Object.freeze({
     },
     l11: {
         id: "l11",
-        effects: [EFFECT.gainItemToTop],
+        effects: [EFFECT.gainItemOrExplores],
         //useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1},
         type: LOCATION_TYPE.undetermined,
         level: LOCATION_LEVEL["2"],
@@ -74,7 +74,7 @@ export const Locations = Object.freeze({
     },
     l15: {
         id: "l15",
-        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainExplore],
+        effects: [EFFECT.gainText, EFFECT.gainText, EFFECT.gainCoin],
         //useCost: {transportType: TRANSPORT_TYPE.jeep, amount: 1},
         type: LOCATION_TYPE.undetermined,
         level: LOCATION_LEVEL["2"],

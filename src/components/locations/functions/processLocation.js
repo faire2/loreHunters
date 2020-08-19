@@ -46,7 +46,8 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                         tPlayerState = locationResult.tPlayerState;
                         tLocations = removeExploredLocation(tLocation, explorationResult.locations);
                         tStore = explorationResult.store;
-                        return {playerState: tPlayerState, locations: tLocations, store: tStore}
+                        return {playerState: tPlayerState, locations: tLocations, store: tStore,
+                            modalData: locationResult.rewardsData};
                     } else {
                         return ({failedTravel: true});
                     }

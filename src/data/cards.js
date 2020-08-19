@@ -904,7 +904,7 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText: <div className="effectsText">Gain <Item/> for free, place it on the top of your deck.</div>,
-        effects: [EFFECT.gainItemToTop],
+        effects: [EFFECT.gainItem],
         cost: 4,
         points: 2
     },

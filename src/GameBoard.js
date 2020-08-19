@@ -320,6 +320,9 @@ function GameBoard(props) {
                 if (locationResult.store) {
                     setStore(locationResult.store);
                 }
+                if (locationResult.modalData) {
+                    initiateRewardsModal(locationResult.modalData);
+                }
             } else {
                 addToastMessage("Not enough resources to use the location!")
             }
