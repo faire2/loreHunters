@@ -1,4 +1,5 @@
 import React from "react";
+import {ResearchTokenWrapper} from "./functions/styles";
 
 import draw1 from "../img/symbols/Card+.png"
 import draw2 from "../img/symbols/Card++.png"
@@ -36,8 +37,13 @@ import goldAssistantBgr from "../img/incomes/goldBack.png"
 import silverRelic from "../img/relics/RelicSilver.png"
 import goldRelic from "../img/relics/RelicGold.png"
 import assistantUpgrade from "../img/symbols/AssistantUpgrade.png"
+import assistantRemoval from "../img/symbols/AssistantRemoval.png"
+import automatonExileInner from "../img/symbols/AutomatonExchangesInnerCards.png"
+import automatonExileOuter from "../img/symbols/AutomatonExchangesOuterCards.png"
+import automatonExploration from "../img/symbols/AutomatonExploresLocation.png"
+import bonusRemoval from "../img/symbols/AutomatonRemovesLegendBonus.png"
+
 import placeAdventurer from "../img/symbols/PlaceAdventurer.png"
-import {ResearchTokenWrapper} from "./functions/styles";
 
 const responsive = {
     height: "1em",
@@ -82,6 +88,11 @@ export const SilverRelic = () => <img src={silverRelic} alt="silver silver relic
 export const GoldRelic = () => <img src={goldRelic} alt="gold relic" style={responsive}/>;
 export const AssistantUpgrade = () => <img src={assistantUpgrade} alt="assistant upgrade" style={responsive}/>;
 export const PlaceAdventurer = () => <img src={placeAdventurer} alt="place an adventurer to a location" style={responsive}/>;
+export const BonusRemoval = () => <img src={bonusRemoval} alt="remove a bonus" style={responsive}/>;
+export const AssistantRemoval = () => <img src={assistantRemoval} alt="remove an assistant" style={responsive}/>;
+export const RemoveInnerCards = () => <img src={automatonExileInner} alt="remove innermost cards from the store" style={responsive}/>;
+export const RemoveOuterCards = () => <img src={automatonExileOuter} alt="remove outermost cards from the store" style={responsive}/>;
+export const AutomatonExploresLocation = () => <img src={automatonExploration} alt="automaton places an adventurer to a location" style={responsive}/>;
 
 export const AdventurerIcon = () =>
     <svg width="5" height="6" viewBox="0 0 99 119">

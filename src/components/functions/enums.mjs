@@ -1,7 +1,5 @@
 /* GLOBAL VARIABLES */
 
-import {EFFECT} from "../../data/effects.mjs";
-
 export const ACTION_TYPE = Object.freeze({
     activatesLocation: "activates a location",
     buysItem: "buys an item",
@@ -165,9 +163,6 @@ export const ASSISTANT = Object.freeze({
     gold: "gold assistant",
     upgrade: "upgrade of an assistant",
 });
-
-export const AUTOMATIC_ASSISTANT_EFFECTS = [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainExplore,
-    ];
 
 export const AUTOMATON = Object.freeze({
     adventurerCoin: "automaton places an adventurer in a coin location",

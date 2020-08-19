@@ -1,5 +1,5 @@
 import {processActiveEffect} from "../../functions/processActiveEffects";
-import {getExploredLocationType, occupyLocation, removeExploredLocation} from "./locationFunctions";
+import {occupyLocation} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
 import {addLogEntry} from "../../main/logger";
 import {cloneDeep} from "lodash";
@@ -8,6 +8,8 @@ import {exploreLocation} from "./exploreLocation";
 import {Guardians} from "../../../data/guardians";
 import {payForTravelIfPossible} from "./payForTravelIfPossible";
 import {LOCATION_DISCOUNT_EFFECTS} from "../../functions/constants";
+import {hasLocationFreeSlots} from "./hasLocationFreeSlots";
+import {getExploredLocationType} from "./getExploredLocationType";
 
 export function processLocation(tPlayerState, tStore, tLocations, location, initiateRewardsModal, resolveGuardian) {
     // Resolve active effect - exploration discount is processed during exploration itself
@@ -44,7 +46,6 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                         tLocation.adventurers.push(tPlayerState.playerIndex);
                         const locationResult = processEffects(null, null, tPlayerState, tLocation.effects, null, null, null);
                         tPlayerState = locationResult.tPlayerState;
-                        tLocations = removeExploredLocation(tLocation, explorationResult.locations);
                         tStore = explorationResult.store;
                         return {playerState: tPlayerState, locations: tLocations, store: tStore,
                             showRewardsModal: locationResult.showRewardsModal, modalData: locationResult.rewardsData};
@@ -78,7 +79,7 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                     }
                 } else {
                     //otherwise location effects are processed
-                    if (location.slots.length > location.adventurers.length) {
+                    if (hasLocationFreeSlots(location)) {
                         const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
                         if (!travelCheckResults.enoughResources) {
                             return ({failedTravel: true});

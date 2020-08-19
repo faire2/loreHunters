@@ -16,7 +16,7 @@ const Icon = styled.svg`
 const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   border: 0;
   clip: rect(0 0 0 0);
-  clippath: inset(50%);
+  clip-path: inset(50%);
   height: 1px;
   margin: -1px;
   overflow: hidden;
@@ -28,8 +28,8 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
 
 const StyledCheckbox = styled.div`
   display: inline-block;
-  width: 2vw;
-  height: 2vw;
+  width: 20px;
+  height: 20px;
   background-color: #4372fa;
   border-radius: 3px;
   transition: all 150ms;

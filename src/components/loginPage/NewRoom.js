@@ -7,6 +7,7 @@ import ToggleButton from "react-bootstrap/ToggleButton";
 import {Button} from "react-bootstrap";
 import Alert from "react-bootstrap/Alert";
 import {TRANSMISSIONS} from "../functions/enums";
+import Checkbox from "../CheckBox/CheckbBox";
 
 export function NewRoom(props) {
     const [numOfPlayers, setNumOfPlayers] = useState(1);
@@ -45,14 +46,14 @@ export function NewRoom(props) {
                         <ToggleButton value={4}>4</ToggleButton>
                     </ToggleButtonGroup>
                 </ControlsItem>
-                {/*<ControlsItem>
+                <ControlsItem>
                     Automaton:
                 </ControlsItem>
                 <ControlsItem>
                     <label>
                         <Checkbox checked={automaton} onChange={() => setAutomaton(!automaton)}/>
                     </label>
-                </ControlsItem>*/}
+                </ControlsItem>
                 {roomName && <Button variant="secondary" onClick={() => setUpGame()}>Create game</Button>}
             </Controls>
         </div>

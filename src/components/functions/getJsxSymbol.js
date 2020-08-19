@@ -5,8 +5,11 @@ import {
     AdventurerToken,
     Arrow,
     Artifact,
+    AssistantRemoval,
     AssistantUpgrade,
+    AutomatonExploresLocation,
     Blimp,
+    BonusRemoval,
     BronzeRelic,
     Coin,
     DefeatedGuardian,
@@ -24,6 +27,8 @@ import {
     LocationL3,
     Map,
     PlaceAdventurer,
+    RemoveInnerCards,
+    RemoveOuterCards,
     SecondLegendToken,
     Ship,
     SilverAssistant,
@@ -33,8 +38,8 @@ import {
     Walk,
     Weapon
 } from "../Symbols";
-import {DivRow, ResearchTokenWrapper} from "./styles";
-import {LOCATION_SLOTS} from "./enums";
+import {DivColumn, DivRow, ResearchTokenWrapper} from "./styles";
+import {AUTOMATON, LOCATION_SLOTS} from "./enums";
 
 export function getJsxSymbol(effect) {
     switch (effect) {
@@ -158,7 +163,25 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainFear:
             return <Fear/>;
         case EFFECT.gainItemOrExplores:
-            return <DivRow><Item/>|<Explore/><Explore/></DivRow>
+            return <DivRow><Item/>|<Explore/><Explore/></DivRow>;
+        case AUTOMATON.exilesInnerCards:
+            return <RemoveInnerCards/>;
+        case AUTOMATON.exilesOuterCards:
+            return <RemoveOuterCards/>;
+        case AUTOMATON.takesLegendBonus:
+            return <DivColumn><BonusRemoval/><AssistantRemoval/></DivColumn>;
+        case AUTOMATON.adventurerCoin:
+            return <DivColumn><PlaceAdventurer/><Coin/></DivColumn>;
+        case AUTOMATON.adventurerExplore:
+            return <DivColumn><PlaceAdventurer/><Explore/></DivColumn>;
+        case AUTOMATON.adventurerText:
+            return <DivColumn><PlaceAdventurer/><Text/></DivColumn>;
+        case AUTOMATON.adventurerWeapon:
+            return <DivColumn><PlaceAdventurer/><Weapon/></DivColumn>;
+        case AUTOMATON.adventurerJewel:
+            return <DivColumn><PlaceAdventurer/><Jewel/></DivColumn>;
+        case AUTOMATON.exploresLocation:
+            return <AutomatonExploresLocation/>;
         default:
             console.error("Unable to recognize effect in getJsxEffect: " + effect);
     }

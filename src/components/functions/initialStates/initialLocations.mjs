@@ -32,7 +32,7 @@ export function getInitialLocations(numOfPlayers) {
                 console.log("Location not sorted: " + location.id);
         }
     }
-    level2locations.splice(0, 0, Locations.l11);
+    /*level2locations.splice(0, 0, Locations.l11);*/
 
     // basic location slots are determined by number of players
     const basicLocationSlots = [
@@ -49,7 +49,7 @@ export function getInitialLocations(numOfPlayers) {
 
         // slots describe how many players can be using the location at once
         if (location.type !== LOCATION_TYPE.basic) {
-            location.slots = [LOCATION_SLOTS.single];
+            location.slots = LOCATION_SLOTS.single;
         } else {
             location.slots = basicLocationSlots[numOfPlayers][basicLocationNumber];
             basicLocationNumber += 1;

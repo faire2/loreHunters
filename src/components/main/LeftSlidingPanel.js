@@ -2,10 +2,12 @@ import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Artifact, BronzeRelic, DefeatedGuardian, Fear, Item} from "../Symbols";
 import {getPoints} from "../scoring/scoringFunctions";
+import {useHistory} from "react-router-dom";
 
 export default function Left(props) {
     const playerStateContext = useContext(PlayerStateContext);
     const playerState = playerStateContext.playerState;
+    const history = useHistory();
     const extendPanel = props.extendPanel;
     const points = getPoints(playerState);
     const totalPoints = points.itemPoints + points.artifactPoints + points.defeatedGuardianPoints + points.legendPoints + points.relicsPoints;
@@ -58,6 +60,12 @@ export default function Left(props) {
                 <BronzeRelic/>:{points.relicsPoints}
             </div>
             {!isNaN(totalPoints) ? totalPoints : 0}
+            <button className="btn-primary" style={{fontSize:"1vw"}}
+                    onClick={()  => history.push({
+                        pathname: "/scoring",
+                        data: {playerStates: playerStateContext.playerStates}
+                    })}>scoring
+            </button>
         </div>
     )
 }

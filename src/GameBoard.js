@@ -57,6 +57,7 @@ function GameBoard(props) {
     const [locations, setLocations] = useState(null);
     const [store, setStore] = useState(null);
     const [round, setRound] = useState(null);
+    const [executedAutomatonActions, setExecutedAutomatonActions] = useState([]);
     const [previousPlayer, setPreviousPlayer] = useState(null);
     const [isActivePlayer, setIsActivePlayer] = useState(null);
     const [numOfPlayers, setNumOfPlayers] = useState(null);
@@ -78,6 +79,7 @@ function GameBoard(props) {
             setIsActivePlayer(states.activePlayer === tPlayerIndex);
             setPreviousPlayer(states.previousPlayer);
             setNumOfPlayers(states.numOfPlayers);
+            setExecutedAutomatonActions(states.executedAutomatonActions);
             setLogLegends(states.legends);
             setGameLog(states.gameLog);
             setStatesLoading(false);
@@ -658,6 +660,7 @@ function GameBoard(props) {
         toastMessages: toastMessages,
         setToastMessages: setToastMessages,
         setExtendRightPanel: setExtendRightPanel,
+        executedAutomatonActions: executedAutomatonActions,
     };
 
     const playerStateContextValues = {

@@ -1,7 +1,7 @@
-import {Locations} from "../../../data/locations";
-import {EFFECT} from "../../../data/effects";
-import {processEffects} from "../../functions/processEffects";
-import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_TYPE} from "../../functions/enums";
+import {Locations} from "../../../data/locations.mjs";
+import {EFFECT} from "../../../data/effects.mjs";
+import {processEffects} from "../../functions/processEffects.mjs";
+import {LOCATION_LEVEL, LOCATION_LINE, LOCATION_TYPE} from "../../functions/enums.mjs";
 import {getExplorationDiscount} from "./getExplorationDiscount";
 
 export function isLocationAdjancentToAdventurer(location, locations, playerState) {
@@ -198,56 +198,6 @@ export function getExplorationCost(locationType, locationLevel, exploreDiscount,
     return exploreCost;
 }
 
-/*export function getLocationsForExploration(playerState, locations, exploreDiscount, locationType) {
-    // todo remove empty brown and green location parts if not necessary
-    let locationsArr = [];
-    if (locationType === LOCATION_TYPE.emptyBrownLocation) {
-        const brown2CostEffects = getExplorationCost(LOCATION_TYPE.brown, LOCATION_LEVEL["2"], exploreDiscount, playerState);
-        const brown2result = processEffects(null, null, playerState, brown2CostEffects, null,
-            null, null, null);
-        if (brown2result.processedAllEffects) {
-            locationsArr.push(locations.level2Brown[0]);
-            const brown3CostEffects = getExplorationCost(LOCATION_TYPE.brown, LOCATION_LEVEL["3"], exploreDiscount, playerState);
-            const brown3result = processEffects(null, null, playerState, brown3CostEffects, null,
-                null, null, null);
-            if (brown3result.processedAllEffects && playerState.canDiscoverL3Locations) {
-                locationsArr.push(locations.level3Brown[0]);
-            }
-        }
-    } else if (locationType === LOCATION_TYPE.emptyGreenLocation) {
-        const green2CostEffects = getExplorationCost(LOCATION_TYPE.green, LOCATION_LEVEL["2"], exploreDiscount, playerState);
-        const green2result = processEffects(null, null, playerState, green2CostEffects, null,
-            null, null, null);
-        if (green2result.processedAllEffects) {
-            locationsArr.push(locations.level2Green[0]);
-            const green3CostEffects = getExplorationCost(LOCATION_TYPE.green, LOCATION_LEVEL["3"], exploreDiscount, playerState);
-            const green3result = processEffects(null, null, playerState, green3CostEffects, null,
-                null, null, null);
-            if (green3result.processedAllEffects) {
-                locationsArr.push(locations.level3Green[0]);
-            }
-        }
-    } else if (locationType === LOCATION_TYPE.emptyLocation) {
-        const location2Effects = getExplorationCost(LOCATION_TYPE.undetermined, LOCATION_LEVEL["2"], exploreDiscount, playerState);
-        const location2Result = processEffects(null, null, playerState, location2Effects, null,
-            null, null, null);
-        if (location2Result.processedAllEffects) {
-            locationsArr.push(locations.level2Locations[0]);
-            const location3effects = getExplorationCost(LOCATION_TYPE.undetermined, LOCATION_LEVEL["3"], exploreDiscount, playerState);
-            const location3result = processEffects(null, null, playerState, location3effects, null,
-                null, null, null);
-            if (location3result.processedAllEffects) {
-                locationsArr.push(locations.level3Locations[0]);
-            }
-        }
-    } else {
-        console.error("Unable to determine type of empty location: " + locationType);
-    }
-    console.log("Returning locations suitable for exploration:");
-    console.log(locationsArr);
-    return locationsArr;
-}*/
-
 export function removeExploredLocation(location, locations) {
     //todo rewrite for unified locatins (location type checking is redundant)
     if (location.type === LOCATION_TYPE.green) {
@@ -275,16 +225,6 @@ export function removeExploredLocation(location, locations) {
 export function updateLocations(location, tLocations) {
     tLocations[location.line][location.index] = location;
     return tLocations;
-}
-
-export function getExploredLocationType(exploredLocation) {
-    switch (exploredLocation.type) {
-        case LOCATION_TYPE.emptyBrownLocation:
-            return LOCATION_TYPE.brown;
-        case LOCATION_TYPE.emptyGreenLocation:
-            return LOCATION_TYPE.green;
-        default: console.warn("Unable to determine type of location!" + exploredLocation.type);
-    }
 }
 
 export function isPlayerInLocation(tLocation, tPlayerState) {

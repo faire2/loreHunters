@@ -24,7 +24,7 @@ import {getInitialLocations} from "../components/functions/initialStates/initial
 import {resetRelicEffects} from "../data/relicEffects.mjs";
 import {shuffleArray} from "../components/functions/cardManipulationFuntions.mjs";
 import {automatonActions} from "../components/functions/constants.mjs";
-import {performAutomatonAction} from "./performAutomatonAction.mjs";
+import {performAutomatonAction} from "../components/automaton/performAutomatonAction.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -69,8 +69,6 @@ io.on("connection", socket => {
                 round: 1,
                 gameLog: [],
                 roomName: roomData.roomName,
-                automaton: roomData.automaton,
-                automatonActions: shuffleArray(automatonActions)
             };
             gameRooms.push({
                 name: roomData.roomName,
@@ -78,6 +76,10 @@ io.on("connection", socket => {
                 players: [getUserName(socket.id, users)],
                 states: states,
                 previousStates: states,
+                automaton: roomData.automaton,
+                automatonActions: cloneDeep(shuffleArray(automatonActions)),
+                executedAutomatonActions: [],
+                previousAutomatonActions: automatonActions,
             });
             console.debug("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");
             resetRelicEffects();
@@ -147,6 +149,7 @@ io.on("connection", socket => {
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
                 numOfPlayers: room.states.numOfPlayers,
+                executedAutomatonActions: room.executedAutomatonActions
             })
         } else {
             console.error("Couldn't find room during requested status update:" + data.roomName);
@@ -182,6 +185,9 @@ io.on("connection", socket => {
         console.log("room: " + room);
         if (room) {
             room.states = cloneDeep(room.previousStates);
+            if (room.automaton) {
+                room.automatonActions = room.previousAutomatonActions;
+            }
             updateStatesToAll(room);
         } else {
             console.error("Room could not be found, turn was not passed.");
@@ -197,9 +203,13 @@ io.on("connection", socket => {
             room.previousStates = cloneDeep(room.states);
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             console.debug("PLAYER " + (playerIndex) + " passing action.");
-            if (room.states.automaton) {
-                room = performAutomatonAction(room);
+            if (room.automaton) {
+                room.previousAutomatonActions = cloneDeep(room.automatonActions);
+                room.executedAutomatonActions.push(room.automatonActions[0]);
+                states = performAutomatonAction(states, room.automatonActions[0], room.states.round);
+                room.automatonActions.splice(0, 1);
             }
+            console.debug("Adventurers check completed")
             room = updateRoomState(room, playerIndex, states);
             updateStatesToAll(room);
             console.debug("States updated");
@@ -237,6 +247,11 @@ io.on("connection", socket => {
                 if (haveAllFinished) {
                     if (room.states.round < 5) {
                         room = processEndOfRound(room);
+                        // replenish automaton actions
+                        if (room.automaton) {
+                            room.automatonActions = cloneDeep(shuffleArray(automatonActions));
+                            room.executedAutomatonActions = [];
+                        }
                     } else {
                         console.debug("Sending new round states to all players.");
                         io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
@@ -332,9 +347,11 @@ io.on("connection", socket => {
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
                 numOfPlayers: room.states.numOfPlayers,
+                executedAutomatonActions: room.executedAutomatonActions,
             })
         } else {
-            console.error("Unable to process room in updatesStatesToAll - probably result of earlier fail, e.g. to revert.");}
+            console.error("Unable to process room in updatesStatesToAll - probably result of earlier fail, e.g. to revert.");
+        }
     }
 
 });

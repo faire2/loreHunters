@@ -1,13 +1,14 @@
 import {EFFECT} from "../../../data/effects";
 import {TRANSPORT_TYPE} from "../../../data/locations";
 import {LOCATION_LEVEL, LOCATION_SLOTS, LOCATION_TYPE} from "../../functions/enums";
+import {hasLocationFreeSlots} from "./hasLocationFreeSlots";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
     let transportType = null;
     let transportCost = null;
 
-    if (location !== null && location.slots.length > location.adventurers.length) {
+    if (location !== null && hasLocationFreeSlots(location)) {
         // if we have location we determine travel cost
         if (location.type === LOCATION_TYPE.green) {
             transportType = TRANSPORT_TYPE.ship;
