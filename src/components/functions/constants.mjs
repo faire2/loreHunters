@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects.mjs";
-import {AUTOMATON} from "./enums";
+import {AUTOMATON} from "./enums.mjs";
 
 export const silverAssistantsOfferNumber = 3;
 

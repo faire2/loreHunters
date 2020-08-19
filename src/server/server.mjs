@@ -22,9 +22,9 @@ import {getInitialStore} from "../components/functions/initialStates/initialStor
 import {getInitialLegends} from "../components/functions/initialStates/initialLegends.mjs";
 import {getInitialLocations} from "../components/functions/initialStates/initialLocations.mjs";
 import {resetRelicEffects} from "../data/relicEffects.mjs";
-import {shuffleArray} from "../components/functions/cardManipulationFuntions";
-import {automatonActions} from "../components/functions/constants";
-import {performAutomatonAction} from "./performAutomatonAction";
+import {shuffleArray} from "../components/functions/cardManipulationFuntions.mjs";
+import {automatonActions} from "../components/functions/constants.mjs";
+import {performAutomatonAction} from "./performAutomatonAction.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
