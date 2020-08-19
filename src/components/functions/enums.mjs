@@ -155,6 +155,7 @@ export const STYLE = Object.freeze({
 
 export const RELIC = Object.freeze({
     bronze: "bronze relic",
+    bronzeDouble: "two bronze relics",
     silver: "silver relic",
     gold: "golden relic",
 });

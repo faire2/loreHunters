@@ -1,4 +1,5 @@
 import React, {useContext, useState} from "react";
+import styled from "styled-components";
 import {EFFECT} from "../../data/effects";
 import {JsxFromEffects} from "../JsxFromEffects";
 import {HexButton} from "../buttons/HexButton";
@@ -6,7 +7,7 @@ import {PlayerStateContext} from "../../Contexts";
 import {processEffects} from "../functions/processEffects";
 import {cloneDeep} from "lodash";
 import {BUTTON_STATE, RELIC} from "../functions/enums";
-import Button from "react-bootstrap/Button";
+import {BronzeRelic, GoldRelic, SilverRelic} from "../Symbols";
 import lostCity from "../../img/legends/lostCity.png";
 
 export function LostCity() {
@@ -21,6 +22,22 @@ export function LostCity() {
     ];
 
     const buttonsStates = [null, null, null];
+    let activeRewards = 0;
+    for (let effect of chosenEffects) {
+        if (effect) {
+            activeRewards += 1;
+        }
+    }
+    let rewardToDisplay = null;
+    if (activeRewards === 1) {
+        rewardToDisplay = <BronzeRelic/>
+    } else if (activeRewards === 2 && chosenEffects[2]) {
+        rewardToDisplay = <SilverRelic/>
+    } else if (activeRewards === 2 && !chosenEffects[2]) {
+        rewardToDisplay = <Rewards><BronzeRelic/><BronzeRelic/></Rewards>
+    } else if (activeRewards === 3) {
+        rewardToDisplay = <GoldRelic/>
+    }
 
     let tPlayerState = cloneDeep(originaPlayerState);
 
@@ -49,27 +66,6 @@ export function LostCity() {
 
     const effectsSize = "2vw";
 
-    const containerStyle = {
-        width: "100%",
-        height: "100%",
-        backgroundSize: "100% 100%",
-        display: "flex",
-        flexFlow: "column",
-        alignItems: "center",
-        backgroundImage: `url(${lostCity}`,
-    };
-
-    const rowsWrapperStyle = {
-        display: "flex",
-        flexFlow: "column",
-        alignItems: "flex-start"
-    };
-
-    const rowStyle = {
-        display: "flex",
-        flexFlow: "row",
-        alignItems: "flex-end",
-    };
 
     function handleButtonOnClick(i) {
         let tChosenEffects = cloneDeep(chosenEffects);
@@ -119,7 +115,12 @@ export function LostCity() {
                         tStore.silverRelicEffects.splice(0, 1);
                     }
                 }*/
-                params = RELIC.silver;
+                // silver relic is only gained when jewel is paid (option 3)
+                if (chosenEffects[2]) {
+                    params = RELIC.silver;
+                } else {
+                    params = RELIC.bronzeDouble;
+                }
                 break;
             case 3:
                 /*for (let i = 0; i < 2; i++) {
@@ -139,27 +140,78 @@ export function LostCity() {
     }
 
     return (
-        <div style={containerStyle}>
-            <Button onClick={() => modifyPlayerStateOnExit()} variant={"primary"} size={"sm"}>
-                Gain rewards
-            </Button>
-            <div style={rowsWrapperStyle}>
-                <div style={rowStyle}>
+        <Container>
+
+            <Wrapper>
+                <Row>
                     {tPlayerState.canActivateLostCity &&
                     <HexButton state={buttonsStates[0]} onClickFunction={handleButtonOnClick} index={0}/>}
                     <JsxFromEffects effectsArray={prices[0]} fontSize={effectsSize}/>
-                </div>
-                <div style={rowStyle}>
+                </Row>
+                <Row>
                     {tPlayerState.canActivateLostCity &&
                     <HexButton state={buttonsStates[1]} onClickFunction={handleButtonOnClick} index={1}/>}
                     <JsxFromEffects effectsArray={prices[1]} fontSize={effectsSize}/>
-                </div>
-                <div style={rowStyle}>
+                </Row>
+                <Row>
                     {tPlayerState.canActivateLostCity &&
                     <HexButton state={buttonsStates[2]} onClickFunction={handleButtonOnClick} index={2}/>}
                     <JsxFromEffects effectsArray={prices[2]} fontSize={effectsSize}/>
-                </div>
-            </div>
-        </div>
+                </Row>
+                <RewardDisplay>
+                    {rewardToDisplay}
+                </RewardDisplay>
+            </Wrapper>
+            {activeRewards > 0 && <RewardButton onClick={() => modifyPlayerStateOnExit()} variant={"primary"} size={"sm"}>
+                Gain rewards
+            </RewardButton>}
+        </Container>
     )
 }
+
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    padding-left: 1.5vw;
+    background-image: url("${lostCity}");
+    background-size: 100% 100%;
+`;
+
+const Wrapper = styled.div`
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start
+`;
+
+const Row = styled.div`
+    display: flex;
+    flex-flow: row;
+    align-items: flex-end;
+`;
+
+const RewardDisplay = styled.div`
+    position: absolute;
+    right: 1vw;
+    top: 2vw;
+`;
+
+const Rewards = styled.div`
+    display: flex;
+    flex-flow: column;
+`;
+
+const RewardButton = styled.div`
+    position: absolute;
+    bottom: -2.4vw;
+    font-size:1.6vw;
+    background-color: rgba(255,255,255,0.61);
+    border-radius: 0.2vw;
+    cursor: pointer;
+    transition: 1.3s;
+    
+    &:hover {
+      background-color: rgba(255,255,255,0.91);
+    }
+`;

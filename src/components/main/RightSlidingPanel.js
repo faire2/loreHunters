@@ -13,7 +13,7 @@ export default function RightSlidingPanel(props) {
         top: 0,
         right: extendPanel ? "0vw" : "-24vw",
         width: "13vw",
-        height: "19vw",
+        height: "15vw",
         zIndex: 10,
         transition: "all .5s cubic-bezier(0, .2, 0, 1)",
         backgroundColor: playerStateContext.playerState.color,

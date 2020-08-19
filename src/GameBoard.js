@@ -517,6 +517,9 @@ function GameBoard(props) {
             case RELIC.bronze:
                 tPlayerstate.resources.bronzeRelics += 1;
                 break;
+            case RELIC.bronzeDouble:
+                tPlayerstate.resources.bronzeRelics += 2;
+                break;
             case RELIC.silver:
                 tPlayerstate.resources.silverRelics += 1;
                 break;
