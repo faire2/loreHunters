@@ -159,12 +159,23 @@ export const RELIC = Object.freeze({
     gold: "golden relic",
 });
 
-export const ASSISTANT = {
+export const ASSISTANT = Object.freeze({
     silver: "silver assistant",
     gold: "gold assistant",
     upgrade: "upgrade of an assistant",
-};
+});
 
 export const AUTOMATIC_ASSISTANT_EFFECTS = [EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainWeapon, EFFECT.gainExplore,
     ];
 
+export const AUTOMATON = Object.freeze({
+    adventurerCoin: "automaton places an adventurer in a coin location",
+    adventurerExplore: "automaton places an adventurer in an explore location",
+    adventurerText: "automaton places an adventurer in a text location",
+    adventurerWeapon: "automaton places an adventurer in a weapon location",
+    adventurerJewel: "automaton places an adventurer in a jewel location",
+    exploresLocation: "automaton explores location from left and top",
+    exilesOuterCards: "automaton exiles outer cards",
+    exilesInnerCards: "automaton exiles inner cards",
+    takesLegendBonus: "takes legend bonus"
+});
