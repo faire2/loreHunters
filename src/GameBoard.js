@@ -320,7 +320,7 @@ function GameBoard(props) {
                 if (locationResult.store) {
                     setStore(locationResult.store);
                 }
-                if (locationResult.modalData) {
+                if (locationResult.showRewardsModal) {
                     initiateRewardsModal(locationResult.modalData);
                 }
             } else {

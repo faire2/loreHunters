@@ -29,11 +29,7 @@ export function exploreLocation(playerState, locations, store, location) {
         addLogEntry(playerState, ACTION_TYPE.exploresLocation, location.id,
             exploreCostEffects);
         return ({
-            playerState: playerState, store: store, locations: locations/*, modalRewardData: [{
-                type: REWARD_TYPE.effectsArr,
-                data: [{effects: location.effects, effectsText: location.effectsText},
-                    {effects: guardianEffects, effectsText: guardianText}]
-            }]*/
+            playerState: playerState, store: store, locations: locations
         })
     } else {
         if (explorationCostResult.failedEffect) {

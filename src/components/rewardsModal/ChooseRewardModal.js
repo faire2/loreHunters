@@ -22,7 +22,6 @@ import {getIdCard} from "../cards/getIdCard";
 
 export default function ChooseRewardModal() {
     const boardStateContext = useContext(BoardStateContext);
-
     const showModal = boardStateContext.showModal;
     const rewards = boardStateContext.modalData;
     const rewardType = rewards.length > 0 ? rewards[0].type : null;
@@ -31,6 +30,7 @@ export default function ChooseRewardModal() {
     let tLocations = cloneDeep(boardStateContext.locations);
     let tLegends = cloneDeep(boardStateContext.legends);
     const numOfPlayers = boardStateContext.numOfPlayers;
+
     if (showModal) {
         console.debug("Rewards modal opened. Rewards:");
         console.debug(rewards);

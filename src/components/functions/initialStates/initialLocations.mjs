@@ -21,8 +21,6 @@ export function getInitialLocations(numOfPlayers) {
             case LOCATION_TYPE.basic:
                 level1locations.push(location);
                 break;
-            /*case LOCATION_TYPE.green:
-            case LOCATION_TYPE.brown:*/
             case LOCATION_TYPE.undetermined:
                 if (location.level === LOCATION_LEVEL["2"]) {
                     level2locations.push(location);
