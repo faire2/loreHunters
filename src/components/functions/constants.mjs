@@ -9,7 +9,7 @@ export const LOCATION_DISCOUNT_EFFECTS = [EFFECT.exploreAnyLocationWithDiscount2
     EFFECT.placeAnywhere, EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.placeAnywhere];
 
 export const CANCELLABLE_EFFECTS = [EFFECT.destroyCard, EFFECT.uptrade, EFFECT.gainItemOfValue, EFFECT.activateThisLocationAgain,
-    ...LOCATION_DISCOUNT_EFFECTS];
+    ...LOCATION_DISCOUNT_EFFECTS, EFFECT.defeatGuardianOnOwnedLocation, EFFECT.defeatGuardianOnOwnOrEmptyLocation];
 
 export const pointsForUnusedRelics = [
     [1], [2], [2], [3],

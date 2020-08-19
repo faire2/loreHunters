@@ -139,15 +139,15 @@ export function getJsxSymbol(effect) {
         case EFFECT.gainJeepOrCoin:
             return <DivRow><Jeep/>|<Coin/></DivRow>;
         case EFFECT.gain2PlanesOr2Coins:
-            return <DivRow><Blimp/><Blimp/>|<Coin/><Coin/></DivRow>
+            return <DivRow><Blimp/><Blimp/>|<Coin/><Coin/></DivRow>;
         case EFFECT.gainJeepOrExplore:
-            return <DivRow><Jeep/>|<Explore/></DivRow>
+            return <DivRow><Jeep/>|<Explore/></DivRow>;
         case EFFECT.gain2JeepsOrCoinExplore:
-            return <DivRow><Jeep/><Jeep/>|<Explore/><Explore/></DivRow>
+            return <DivRow><Jeep/><Jeep/>|<Coin/><Explore/></DivRow>;
         case EFFECT.gainShipOrExplore:
-            return <DivRow><Ship/>|<Explore/></DivRow>
+            return <DivRow><Ship/>|<Explore/></DivRow>;
         case EFFECT.gain2ShipsOrCoinExplore:
-            return <DivRow><Ship/><Ship/>|<Explore/><Explore/></DivRow>
+            return <DivRow><Ship/><Ship/>|<Coin/><Explore/></DivRow>;
         // basic location symbols
         case LOCATION_SLOTS.single:
             return <Walk/>;

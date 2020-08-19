@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {PlayerStateContext} from "../../Contexts";
-import {AdventurerToken, Artifact, BronzeRelic, DefeatedGuardian, Item} from "../Symbols";
+import {AdventurerToken, Artifact, BronzeRelic, DefeatedGuardian, Fear, Item} from "../Symbols";
 import {getPoints} from "../scoring/scoringFunctions";
 
 export default function Left(props) {
@@ -8,6 +8,7 @@ export default function Left(props) {
     const playerState = playerStateContext.playerState;
     const extendPanel = props.extendPanel;
     const points = getPoints(playerState);
+    const totalPoints = points.itemPoints + points.artifactPoints + points.defeatedGuardianPoints + points.legendPoints + points.relicsPoints;
 
 
     const slideStyle = {
@@ -45,15 +46,18 @@ export default function Left(props) {
                 <Guardian/>:{points.undefeatedGuardianPoints}
             </div>*/}
             <div style={rowStyle}>
+                <Fear/>:{points.fearPoints}
+            </div>
+            <div style={rowStyle}>
                 <DefeatedGuardian/>:{points.defeatedGuardianPoints}
             </div>
             <div style={rowStyle}>
-                <AdventurerToken color={"black"} style={{width: "1.8vw"}}/>:{points.legendPoints}
+                <AdventurerToken color={"black"} style={{width: "1.8vw"}}/>:{!isNaN(points.legendPoints) ? points.legendPoints : 0}
             </div>
             <div style={rowStyle}>
                 <BronzeRelic/>:{points.relicsPoints}
             </div>
-            {points.itemPoints + points.artifactPoints + points.defeatedGuardianPoints + points.legendPoints + points.relicsPoints}
+            {!isNaN(totalPoints) ? totalPoints : 0}
         </div>
     )
 }

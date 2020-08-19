@@ -550,12 +550,14 @@ function GameBoard(props) {
     /** UNDO / RESET TURN **/
     function undo() {
         setExtendTopPanel(false);
+        setRewardsModalData([]);
         socket.emit(TRANSMISSIONS.resetTurn, roomName);
     }
 
     /** REVERT TO PREVIOUS TURN **/
     function revert() {
         setExtendTopPanel(false);
+        setRewardsModalData([]);
         socket.emit(TRANSMISSIONS.revert, roomName)
     }
 
@@ -563,6 +565,7 @@ function GameBoard(props) {
     if (playerState && playerState.actions < 1 && playerState.activeEffects.length === 0 && !isModalActive
         && !playerState.finishedRound) {
         addLogEntry(playerState, ACTION_TYPE.endOfTurn, null, null);
+        setRewardsModalData([]);
         console.log("next player ");
         nextPlayer();
     }
@@ -608,6 +611,7 @@ function GameBoard(props) {
         if (isActivePlayer) {
             addLogEntry(playerState, ACTION_TYPE.finishesRound, null, null);
             console.log("** finishing round **");
+            setRewardsModalData([]);
             socket.emit(TRANSMISSIONS.finishedRound, {
                 roomName: roomName,
                 playerState: playerState,
