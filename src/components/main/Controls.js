@@ -29,9 +29,8 @@ export const Controls = () => {
                 {notDiscardEffect && <button className="btn-primary" onClick={() => playerStateContext.cancelEffects()}>cancel effect</button>}
                 {isActivePlayer && <button className="btn-primary" onClick={() => playerStateContext.handleEndRound()}>end of round</button>}
             </ButtonGroup>
-            <div style={{display: "flex", flexFlow: "row", justifyContent: "space-evenly", marginLeft: "1vw"}}>
+            <div style={{display: "flex", flexFlow: "row", justifyContent: "space-evenly", marginLeft: "1vw", flexWrap: "nowrap"}}>
                 {isActivePlayer ? <p>Your turn!&nbsp;</p> : <p>Wait for your turn...</p>}
-                {playerStateContext.playerState.activeEffects.length > 0 && " | " + playerStateContext.playerState.activeEffects[0]}
             </div>
         </div>
     )

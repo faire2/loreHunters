@@ -49,6 +49,10 @@ const responsive = {
     height: "1em",
 };
 
+const responsive2x = {
+    height: "2em",
+}
+
 export const Coin = () => <img src={coin} alt="gain a coin" style={responsive}/>;
 export const Discount = () => <img src={cardDiscount} alt="discount" style={responsive}/>;
 export const Explore = () => <img src={explore} alt="gain an explore token" style={responsive}/>;
@@ -90,8 +94,8 @@ export const AssistantUpgrade = () => <img src={assistantUpgrade} alt="assistant
 export const PlaceAdventurer = () => <img src={placeAdventurer} alt="place an adventurer to a location" style={responsive}/>;
 export const BonusRemoval = () => <img src={bonusRemoval} alt="remove a bonus" style={responsive}/>;
 export const AssistantRemoval = () => <img src={assistantRemoval} alt="remove an assistant" style={responsive}/>;
-export const RemoveInnerCards = () => <img src={automatonExileInner} alt="remove innermost cards from the store" style={responsive}/>;
-export const RemoveOuterCards = () => <img src={automatonExileOuter} alt="remove outermost cards from the store" style={responsive}/>;
+export const RemoveInnerCards = () => <img src={automatonExileInner} alt="remove innermost cards from the store" style={responsive2x}/>;
+export const RemoveOuterCards = () => <img src={automatonExileOuter} alt="remove outermost cards from the store" style={responsive2x}/>;
 export const AutomatonExploresLocation = () => <img src={automatonExploration} alt="automaton places an adventurer to a location" style={responsive}/>;
 
 export const AdventurerIcon = () =>

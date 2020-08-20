@@ -453,8 +453,7 @@ export const ITEMS = Object.freeze({
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText">Buy <Artifact/> with discount of <Explore/><Explore/><Explore/>, <b>include</b>
-                the top card of the deck.</div>,
+            <div className="effectsText">Buy <Artifact/> with discount of <Explore/><Explore/><Explore/>, <b>include</b> the top card of the deck.</div>,
         effects: [EFFECT.revealArtifactBuyWithDiscount3],
         image: compassImg,
         cost: 4,
@@ -1242,8 +1241,7 @@ export const ARTIFACTS = Object.freeze({
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
         effectsText:
-            <div className="effectsText"><PlaceAdventurer/> on a <LocationL1/> site. You may
-            <b>activate</b> it twice instead of once.</div>,
+            <div className="effectsText"><PlaceAdventurer/> on a <LocationL1/> site. You may <b>activate</b> it twice instead of once.</div>,
         effects: [EFFECT.placeToBasicLocationActivateTwice],
         isGuarded: false,
         image: "",

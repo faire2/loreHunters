@@ -156,7 +156,7 @@ io.on("connection", socket => {
         }
     });
 
-    /** RESET TURN **/
+    /** UNDO TURN **/
     socket.on(TRANSMISSIONS.resetTurn, roomName => {
         console.debug("resetting turn in room: " + roomName + "(" + getUserName(socket.id, users) + "|" + socket.id + ")");
         const room = getRoom(roomName, gameRooms);
@@ -172,6 +172,7 @@ io.on("connection", socket => {
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
                 numOfPlayers: room.states.numOfPlayers,
+                executedAutomatonActions: room.executedAutomatonActions,
             })
         } else {
             console.error("Room could not be found, turn was not passed.");
@@ -187,6 +188,7 @@ io.on("connection", socket => {
             room.states = cloneDeep(room.previousStates);
             if (room.automaton) {
                 room.automatonActions = room.previousAutomatonActions;
+                room.states.executedAutomatonActions.pop();
             }
             updateStatesToAll(room);
         } else {

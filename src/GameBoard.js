@@ -681,6 +681,7 @@ function GameBoard(props) {
         undo: undo,
         revert: revert,
         getPlaneFor2Coins: getPlaneFor2Coins,
+        executedAutomatonActions: executedAutomatonActions,
     };
 
     const gameBoardElements =
