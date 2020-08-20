@@ -253,7 +253,7 @@ export default function ChooseRewardModal() {
                     console.log(reward);
                 }
                 // then if there are at least 2 effects to be chosen prepare rest of rewards for second round
-                if (rewards[0].data.length > 1) {
+                if (rewards[0].data.length > 1 && rewards[0].params > 0) {
                     rewardIndex = rewards[0].data.findIndex(effect => effect === reward);
                     rewards[0].data.splice(rewardIndex, 1);
                     rewards[0].params = params - 1;
