@@ -19,7 +19,7 @@ export function exploreLocation(playerState, locations, store, location) {
         playerState.actions -= exploreDiscount ? 0 : 1;
 
         // gain relic and relic resource
-        location.level === LOCATION_LEVEL["2"] ? playerState.resources.bronzeRelics += 1 : playerState.resources.bronzeRelics += 2;
+        location.level === LOCATION_LEVEL["2"] ? playerState.resources.slottableRelics += 1 : playerState.resources.slottableRelics += 2;
 
         // mark location as guarded
         locations[location.line][location.index].state = LOCATION_STATE.guarded;

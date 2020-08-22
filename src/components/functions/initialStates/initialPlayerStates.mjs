@@ -11,6 +11,7 @@ export const emptyPlayerState = Object.freeze({
         weapons: 0,
         jewels: 0,
         relics: 0,
+        slottableRelics: 0,
         bronzeRelics: 0,
         silverRelics: 0,
         goldRelics: 0,

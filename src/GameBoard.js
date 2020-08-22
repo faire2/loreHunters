@@ -466,18 +466,11 @@ function GameBoard(props) {
     /** HANDLE CLICK ON RELIC **/
     function handleClickOnRelic(slotIndex) {
         let tPlayersState = cloneDeep(playerState);
-        if (!tPlayersState.relics[slotIndex] && tPlayersState.resources.bronzeRelics + tPlayersState.resources.silverRelics
-            + tPlayersState.resources.goldRelics > 0) {
+        if (!tPlayersState.relics[slotIndex] && tPlayersState.resources.slottableRelics > 0) {
             initiateRewardsModal([{type: REWARD_TYPE.effectsArr, data: relicRewards}]);
-            if (tPlayersState.resources.bronzeRelics > 0) {
-                tPlayersState.resources.bronzeRelics -= 1;
+            if (tPlayersState.resources.slottableRelics > 0) {
+                tPlayersState.resources.slottableRelics -= 1;
                 tPlayersState.relics[slotIndex] = RELIC.bronze;
-            } else if (tPlayersState.resources.silverRelics > 0) {
-                tPlayersState.resources.silverRelics -= 1;
-                tPlayersState.relics[slotIndex] = RELIC.silver;
-            } else if (tPlayersState.resources.goldRelics > 0) {
-                tPlayersState.resources.goldRelics -= 1;
-                tPlayersState.relics[slotIndex] = RELIC.gold;
             }
             setPlayerState(tPlayersState);
             addLogEntry(tPlayersState, ACTION_TYPE.placesRelic, null, "undetermined");

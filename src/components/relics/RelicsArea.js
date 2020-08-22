@@ -21,6 +21,9 @@ export function RelicsArea() {
     for (let i = 0; i < playerState.resources.goldRelics; i++) {
         relicsArr.push(<GoldRelic/>)
     }
+    for (let i = 0; i < playerState.resources.slottableRelics; i++) {
+        relicsArr.push(<BronzeRelic/>)
+    }
 
     const relicSlots =
         pointsForUnusedRelics.map((points, i) => {
