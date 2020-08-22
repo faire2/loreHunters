@@ -188,7 +188,9 @@ io.on("connection", socket => {
             room.states = cloneDeep(room.previousStates);
             if (room.automaton) {
                 room.automatonActions = room.previousAutomatonActions;
-                room.states.executedAutomatonActions.pop();
+                if (room.states.executedAutomatonActions && room.states.executedAutomatonActions.length > 0) {
+                    room.states.executedAutomatonActions.pop();
+                }
             }
             updateStatesToAll(room);
         } else {
