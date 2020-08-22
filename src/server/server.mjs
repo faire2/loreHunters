@@ -209,8 +209,9 @@ io.on("connection", socket => {
             console.debug("PLAYER " + (playerIndex) + " passing action.");
             if (room.automaton) {
                 room.previousAutomatonActions = cloneDeep(room.automatonActions);
+                states = performAutomatonAction(states, room.automatonActions[0], room.states.round, room.executedAutomatonActions[
+                    room.executedAutomatonActions.length - 1]);
                 room.executedAutomatonActions.push(room.automatonActions[0]);
-                states = performAutomatonAction(states, room.automatonActions[0], room.states.round);
                 room.automatonActions.splice(0, 1);
             }
             console.debug("Adventurers check completed")

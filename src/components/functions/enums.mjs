@@ -175,3 +175,8 @@ export const AUTOMATON = Object.freeze({
     exilesInnerCards: "automaton exiles inner cards",
     takesLegendBonus: "takes legend bonus"
 });
+
+export const DIRECTION = Object.freeze({
+   left: "direction - left",
+   right: "direction - right"
+});

@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects.mjs";
-import {AUTOMATON} from "./enums.mjs";
+import {AUTOMATON, DIRECTION} from "./enums.mjs";
 
 export const silverAssistantsOfferNumber = 3;
 
@@ -19,5 +19,14 @@ export const pointsForUnusedRelics = [
 export const relicRewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
     [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
 
-export const automatonActions = [AUTOMATON.adventurerCoin, AUTOMATON.adventurerExplore, AUTOMATON.adventurerText, AUTOMATON.adventurerWeapon,
-    AUTOMATON.adventurerJewel, AUTOMATON.exilesInnerCards, AUTOMATON.exilesOuterCards, AUTOMATON.exploresLocation, AUTOMATON.takesLegendBonus];
+export const automatonActions = [
+    {action: AUTOMATON.adventurerCoin, direction: DIRECTION.left},
+    {action: AUTOMATON.adventurerExplore, direction: DIRECTION.right},
+    {action: AUTOMATON.adventurerText, direction: DIRECTION.left},
+    {action: AUTOMATON.adventurerWeapon, direction: DIRECTION.right},
+    {action: AUTOMATON.adventurerJewel, direction: DIRECTION.left},
+    {action: AUTOMATON.exilesInnerCards, direction: DIRECTION.right},
+    {action: AUTOMATON.exilesOuterCards, direction: DIRECTION.left},
+    {action: AUTOMATON.exploresLocation, direction: DIRECTION.right},
+    {action: AUTOMATON.takesLegendBonus, direction: DIRECTION.left}
+];
