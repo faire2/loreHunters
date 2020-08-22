@@ -19,9 +19,7 @@ export function exploreLocation(playerState, locations, store, location) {
         playerState.actions -= exploreDiscount ? 0 : 1;
 
         // gain relic and relic resource
-        location.level === LOCATION_LEVEL["2"] ? playerState.resources.bronzeRelics += 1 : playerState.resources.silverRelics += 1;
-        const relicEffectResult = processEffects(null, null, playerState, location.relicEffects, null, location, null);
-        playerState = relicEffectResult.tPlayerState;
+        location.level === LOCATION_LEVEL["2"] ? playerState.resources.bronzeRelics += 1 : playerState.resources.bronzeRelics += 2;
 
         // mark location as guarded
         locations[location.line][location.index].state = LOCATION_STATE.guarded;

@@ -110,6 +110,7 @@ export function getJsxSymbol(effect) {
         case EFFECT.upgradeAssistant:
             return <GoldAssistant/>;
         case EFFECT.refreshAllAssistants:
+        case EFFECT.refreshAnyAssistant:
             return <AssistantUpgrade/>;
         case EFFECT.refreshSilverAssistant:
             return <SilverAssistant/>;

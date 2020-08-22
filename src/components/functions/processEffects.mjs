@@ -476,7 +476,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                             [EFFECT.gainExplore, EFFECT.gainExplore]
                         ]
                     };
-                    debugger
                     break;
 
                 case EFFECT.gainCoinAndExploresForGuardians:
@@ -830,6 +829,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.refreshAnyAssistant:
+                    debugger
                     let assistants = [];
                     for (const assistant of tPlayerState.assistants) {
                         if (assistant.state === ASSISTANT_STATE.spent) {

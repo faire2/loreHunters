@@ -4,12 +4,10 @@ import cloneDeep from "lodash/cloneDeep.js";
 // these are effects that are randomized and placed on individual relics
 const persistentRelicEffects =
     {
-        bronze: [[EFFECT.gainExplore], [EFFECT.gainExplore], [EFFECT.gainExplore],
-            [EFFECT.gainCoin], [EFFECT.gainCoin], [EFFECT.gainCoin],
-            [EFFECT.gainText], [EFFECT.gainText], [EFFECT.gainText],
-            [EFFECT.uptrade], [EFFECT.uptrade], [EFFECT.refreshAnyAssistant], [EFFECT.refreshAnyAssistant],
-            [EFFECT.destroyCard], [EFFECT.destroyCard], [EFFECT.destroyCard]
-        silver: [[EFFECT.gainExplore], [EFFECT.gainExplore], [EFFECT.gainCoin], [EFFECT.gainCoin], [EFFECT.gainText], [EFFECT.gainText],],
+        bronze: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin,
+            EFFECT.gainText, EFFECT.gainText, EFFECT.gainText, EFFECT.uptrade, EFFECT.uptrade, EFFECT.refreshAnyAssistant,
+            EFFECT.refreshAnyAssistant, EFFECT.destroyCard, EFFECT.destroyCard, EFFECT.destroyCard],
+        silver: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainText],
         gold: [[], [], [], [], [], []]
     };
 

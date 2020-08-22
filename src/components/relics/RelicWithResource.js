@@ -6,6 +6,7 @@ import resourceRelicSilver from "../../img/relics/RelicResourceSilver.png"
 import resourceRelicGold from "../../img/relics/RelicResourceGold.png"
 import {RELIC} from "../functions/enums";
 import {JsxFromEffects} from "../JsxFromEffects";
+import {DivRow} from "../functions/styles";
 
 export const RelicWithResource = props => {
     const width = props.width ? props.width : 2.2;
@@ -21,9 +22,13 @@ export const RelicWithResource = props => {
         backGround = resourceRelicGold
     }
     return (
-        <Relic backGround={backGround} height={height + "vw"} width={width + "vw"}>
-            <JsxFromEffects effectsArray={props.effects} fontSize={fontSize + "vw"}/>
-        </Relic>
+        <DivRow>
+            {props.effects.map((effect, i) =>
+                <Relic backGround={backGround} height={height + "vw"} width={width + "vw"} key={i}>
+                    <JsxFromEffects effectsArray={[effect]} fontSize={fontSize + "vw"}/>
+                </Relic>
+            )};
+        </DivRow>
     )
 }
 

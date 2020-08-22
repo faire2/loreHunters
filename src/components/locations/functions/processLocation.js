@@ -34,17 +34,23 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                             tLocation = tLocations.level3Locations[0];
                             tLocations.level3Locations.splice(0,1);
                         }
+                        // add guardian
                         tLocation.guardian = Guardians[tLocations.guardianKeys[0]];
                         tLocations.guardianKeys.splice(0, 1);
+
+                        // location stats
                         tLocation.state = LOCATION_STATE.guarded;
                         tLocation.type = getExploredLocationType(location);
                         tLocations[location.line][location.index] = tLocation;
                         tLocation.line = location.line;
                         tLocation.index = location.index;
+
+                        // process effects
                         tPlayerState = explorationResult.playerState;
                         tPlayerState.availableAdventurers -= 1;
                         tLocation.adventurers.push(tPlayerState.playerIndex);
-                        const locationResult = processEffects(null, null, tPlayerState, tLocation.effects, null, null, null);
+                        const locationResult = processEffects(null, null, tPlayerState,
+                            [...tLocation.effects, ...location.relicEffects], null, null, null);
                         tPlayerState = locationResult.tPlayerState;
                         tStore = explorationResult.store;
                         return {playerState: tPlayerState, locations: tLocations, store: tStore,

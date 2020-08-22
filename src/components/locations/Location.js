@@ -53,7 +53,7 @@ export default function Location(props) {
              onClick={() => boardStateContext.handleClickOnLocation(location, false)}>
             {location.state === LOCATION_STATE.unexplored &&
                 <RelicWrapper>
-                    <RelicWithResource relicType={location.level === LOCATION_LEVEL["2"] ? RELIC.bronze : RELIC.silver}
+                    <RelicWithResource relicType={RELIC.bronze}
                                        effects={location.relicEffects} fontSize={1.3}/>
                 </RelicWrapper>
             }

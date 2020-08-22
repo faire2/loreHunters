@@ -107,11 +107,12 @@ function setLocationIndexAndLine(locationLine, locations) {
 
 function setRelicEffects(location, relicType) {
     if (relicType === RELIC.bronze) {
-        location.relicEffects = relicEffects.bronze[0];
+        // effects are already stored as arrays
+        location.relicEffects = [relicEffects.bronze[0]];
         relicEffects.bronze.splice(0, 1);
     } else if (relicType === RELIC.silver) {
-        location.relicEffects = relicEffects.silver[0];
-        relicEffects.silver.splice(0, 1);
+        location.relicEffects = [relicEffects.bronze[0], relicEffects.bronze[1]];
+        relicEffects.bronze.splice(0, 2);
     } else {
         console.error("Unable to determine relic type in setRelicEffects: " + relicType);
     }
