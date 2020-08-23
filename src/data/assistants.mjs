@@ -9,7 +9,7 @@ export const Assistants = Object.freeze({
     professor: {
         id: "professor",
         silverEffects: [EFFECT.gainText],
-        goldEffects: [EFFECT.gainExplore, EFFECT.gainText],
+        goldEffects: [EFFECT.gainCoin, EFFECT.gainText],
     },
     hunter: {
         id: "hunter",
@@ -48,7 +48,7 @@ export const Assistants = Object.freeze({
     },
     trader: {
         id: "trader",
-        silverEffects: [EFFECT.buyWithDiscount1],
-        goldEffects: [EFFECT.buyWithDiscount1, EFFECT.buyWithDiscount1],
+        silverEffects: [EFFECT.gainExplore],
+        goldEffects: [EFFECT.gainExplore, EFFECT.gainExplore],
     },
 });
