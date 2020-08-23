@@ -527,7 +527,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainExploreForRelics:
                     let allRelics = tPlayerState.resources.bronzeRelics + tPlayerState.resources.silverRelics
-                        + tPlayerState.resources.goldRelics;
+                        + tPlayerState.resources.goldRelics + tPlayerState.slottableRelics;
                     for (let relic of tPlayerState.relics) {
                         if (relic) {
                             allRelics += 1
