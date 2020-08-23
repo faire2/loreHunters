@@ -57,6 +57,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.gainRewardLevel:
                 case EFFECT.gain2ItemsFor1Exiled:
                 case EFFECT.buyWithDiscount1:
+                case EFFECT.buyWithDiscount2:
                 case EFFECT.gainExpeditionCard:
                 case EFFECT.gainItemToHand:
                 case EFFECT.gainResourceFromAdjacentLocation:

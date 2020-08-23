@@ -36,6 +36,10 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
         card.cost -= 1;
     }
 
+    if (activeEffect === EFFECT.buyWithDiscount2) {
+        card.cost -= 2;
+    }
+
     /* Bag effect */
     if (activeEffect === EFFECT.gainItemToHand && card.type === CARD_TYPE.item) {
         card.cost = 0;
@@ -130,7 +134,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
     }
     if (activeEffect === EFFECT.gainItemToHand || activeEffect === EFFECT.revealItemBuyWithDiscount3
         || activeEffect === EFFECT.gainArtifact || activeEffect === EFFECT.revealArtifactBuyWithDiscount3 ||
-        activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItem) {
+        activeEffect === EFFECT.buyWithDiscount1 || activeEffect === EFFECT.gainItem || activeEffect.buyWithDiscount2) {
         tPlayerState.activeEffects.splice(0, 1);
     }
     if (activeEffect === EFFECT.gainItemOfValue) {

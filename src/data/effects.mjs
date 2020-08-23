@@ -65,6 +65,7 @@ export const EFFECT = Object.freeze({
     gain2TextsOrPassAndJewel: "gain two texts or pass the round and gain a jewel",
     gain2ResearchBonuses: "gain 2 first token research bonuses",
     buyWithDiscount1: "buy an item or artifact with discount of 1",
+    buyWithDiscount2: "buy an item or artifact with discount of 2",
     gainExpeditionCard: "gain an expedition card",
     gainExplore: "gain an explore",
     gainExploreIfFirst: "first player that reaches this tile of legend gets an explore",
