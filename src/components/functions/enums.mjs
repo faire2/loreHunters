@@ -101,6 +101,7 @@ export const REWARD_TYPE = Object.freeze({
     effectsArr: "array of effects",
     exchangeAssistant: "exchange an assistant",
     gainAssistant: "assistant choice",
+    gainAssistantFromLegend: "assistant from legend choice",
     guardian: "price for guardian",
     legendFieldEffects: "combined effects of a legend field",
     legendColumnEffects: "first token effects of legend columns",

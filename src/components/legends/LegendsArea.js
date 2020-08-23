@@ -5,6 +5,7 @@ import {Legend} from "./Legend";
 export function LegendArea() {
     const boardStateContext = useContext(BoardStateContext);
     const legend = boardStateContext.legend;
+    const store = boardStateContext.store;
 
     const containerStyle = {
         position: "absolute",
@@ -19,7 +20,7 @@ export function LegendArea() {
 
     return (
         <div style={containerStyle}>
-            <Legend legend={legend}/>
+            <Legend legend={legend} store={store}/>
         </div>
     )
 }

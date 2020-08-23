@@ -8,7 +8,7 @@ import cloneDeep from 'lodash/cloneDeep.js';
 import {Guardians} from "../../../data/guardians.mjs";
 import {silverAssistantsOfferNumber} from "../constants.mjs";
 
-export function getInitialStore() {
+export function getInitialStore(numOfPlayers, assistantsInLegend) {
     /* all items, each item is represented only once! */
     let items = shuffleArray(Object.keys(ITEM_IDs).map(key => {
         return ITEM_IDs[key];
@@ -43,6 +43,10 @@ export function getInitialStore() {
     let itemsSetup = drawInitialCards(items, GLOBAL_VARS.itemsInStore);
     let artifactsSetup = drawInitialCards(artifacts, GLOBAL_VARS.artifactsInStore);
     let assistantsSetup = drawInitialCards(assistants, silverAssistantsOfferNumber);
+    let assistantsInLegendSetup;
+    if (assistantsInLegend) {
+        assistantsInLegendSetup = drawInitialCards(assistants, numOfPlayers + 1);
+    }
 
     /*let card = ARTIFACT_IDs.ornateHammer;
     card.state = CARD_STATE.inStore;
@@ -56,6 +60,8 @@ export function getInitialStore() {
         artifactsOffer: artifactsSetup.drawCards,
         assistantsDeck: assistantsSetup.deck,
         assistantsOffer: assistantsSetup.drawCards,
+        assistantsInLegendOffer: assistantsInLegend ? assistantsInLegendSetup.drawCards : [],
+        assistantsInLegendDeck: assistantsInLegend ? assistantsInLegendSetup.deck : [],
         itemsDeck: itemsSetup.deck,
         itemsOffer: itemsSetup.drawCards,
         guardians: shuffleArray(guardians),

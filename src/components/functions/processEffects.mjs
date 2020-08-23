@@ -761,6 +761,16 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     showRewardsModal = true;
                     break;
 
+                case EFFECT.gainAssistantFromLegend:
+                    debugger
+                    rewardsData = {
+                        type: REWARD_TYPE.gainAssistantFromLegend,
+                        data: [tStore.assistantsInLegendOffer[0], tStore.assistantsInLegendOffer[1]],
+                        params: ASSISTANT.gold
+                    };
+                    showRewardsModal = true;
+                    break;
+
                 case EFFECT.upgradeAssistant:
                     const assistents = getAssistantsChoice(tPlayerState, tStore, ASSISTANT.upgrade);
                     if (assistents.length > 0) {

@@ -123,26 +123,17 @@ export default function ChooseRewardModal() {
                     } else {
                         tStore.assistantsOffer.splice(index, 1);
                     }
-                } /*else if (params === ASSISTANT.gold) {
-                    if (tStore.assistantsDeck.length > 0) {
-                        tStore.assistantsOffer.splice(index, 1, tStore.assistantsDeck[0]);
-                        tStore.assistantsDeck.splice(0, 1);
-                    } else {
-                        tStore.assistantsOffer.splice(index, 1);
-                    }
-                }*/
-
-                // some rewards are handled automatically and set to spent state
-                /*let allEffectsAutomatic = true;
-                for (let effect of reward.silverEffects) {
-                    if (!AUTOMATIC_ASSISTANT_EFFECTS.includes(effect)) {
-                        allEffectsAutomatic = false;
-                    }
                 }
-                if (allEffectsAutomatic) {
-                    tPlayerState = handleIncome(tPlayerState, reward);
-                    reward.state = ASSISTANT_STATE.spent;
-                }*/
+                break;
+            case REWARD_TYPE.gainAssistantFromLegend:
+                reward.state = ASSISTANT_STATE.ready;
+                tPlayerState.assistants.push(reward);
+                if (tStore.assistantsInLegendDeck.length > 0) {
+                    tStore.assistantsInLegendOffer.splice(index, 1, tStore.assistantsInLegendDeck[0]);
+                    tStore.assistantsInLegendDeck.splice(0, 1);
+                } else {
+                    tStore.assistantsInLegendOffer.splice(index, 1);
+                }
                 break;
             case REWARD_TYPE.upgradeAssistant:
                 for (let assistant of tPlayerState.assistants) {

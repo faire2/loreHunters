@@ -168,7 +168,7 @@ export const Legends = Object.freeze({
                 [EFFECT.draw1], [EFFECT.upgradeAssistant],
             ],
             [
-                [], [EFFECT.gainArtifact],
+                [EFFECT.gainAssistantFromLegend], [EFFECT.gainArtifact],
             ],
             [
                 [EFFECT.upgradeAssistant], [EFFECT.refreshAnyAssistant],

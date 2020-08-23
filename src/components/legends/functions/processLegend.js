@@ -18,7 +18,7 @@ export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerS
         // if first column was clicked we check if the player has any null column position
         for (let i = 0; i < positions.length; i++) {
             if (positions[i].columnIndex === null) {
-                canPlaceToken = true;
+                canPlaceToken[i] = true;
                 tokenIndex = i;
                 break;
             }
@@ -139,7 +139,7 @@ export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerS
     // we know have to check that second token is behind
     const isSecondTokenBehind = columnIndex > 0 ? positions[1].columnIndex < positions[0].columnIndex
         : true;
-debugger
+
     if (canPlaceToken.includes(true)) {
         const activeEffect = tPlayerState.activeEffects[0];
         if ([EFFECT.progressWithTexts, EFFECT.progressWithTextsOrWeapon, EFFECT.progressWithWeapon, EFFECT.progressWithJewel,
@@ -152,6 +152,7 @@ debugger
         if (effectsResult.showRewardsModal) {
             rewardsData.push(effectsResult.rewardsData);
         }
+        let tokenPlaced = false;
 
         // if effects were processed (price was paid) place the token
         if (effectsResult.processedAllEffects) {
@@ -190,6 +191,7 @@ debugger
                         if (correctToken && (i === 0 || isSecondTokenBehind)) {
                             positions[i].columnIndex = columnIndex;
                             positions[i].fieldIndex = fieldIndex;
+                            tokenPlaced = true;
                             break;
                         }
                     }
@@ -199,9 +201,14 @@ debugger
                     if (position.columnIndex === null && position.fieldIndex === null) {
                         position.columnIndex = columnIndex;
                         position.fieldIndex = fieldIndex;
+                        tokenPlaced = true;
                         break;
                     }
                 }
+            }
+
+            if (!tokenPlaced) {
+                return false
             }
 
             // if player reached the lost city, we push him into extra points array

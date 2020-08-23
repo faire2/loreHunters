@@ -21,7 +21,7 @@ export function Legend(props) {
             {column.map((field, y) =>
                 <div key={y}>
                     <Field height={field.size} field={field} positions={legend.positions} columnIndex={i} fieldIndex={y}
-                           legendIndex={props.legendIndex}/>
+                           legendIndex={props.legendIndex} store={props.store}/>
                 </div>
             )}
             <ColunmRewards columnRewards={legend.columnRewards[i]} firstTokenPoints={legend.victoryPoints.firstToken[i]}

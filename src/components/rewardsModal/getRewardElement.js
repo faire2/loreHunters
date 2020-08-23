@@ -18,6 +18,7 @@ export function getRewardElement(reward, rewardType, rewards) {
             break;
         case REWARD_TYPE.exchangeAssistant:
         case REWARD_TYPE.gainAssistant:
+        case REWARD_TYPE.gainAssistantFromLegend:
         case REWARD_TYPE.removeAssistant:
         case REWARD_TYPE.refreshAssistant:
         case REWARD_TYPE.upgradeAssistant:

@@ -114,6 +114,8 @@ export function getJsxSymbol(effect) {
             return <AssistantUpgrade/>;
         case EFFECT.refreshSilverAssistant:
             return <SilverAssistant/>;
+        case EFFECT.gainAssistantFromLegend:
+            return <DivRow><SilverAssistant/><SilverAssistant/></DivRow>
         case EFFECT.discard:
             return <Discard/>;
         case EFFECT.gainOrUpgradeRelic:
