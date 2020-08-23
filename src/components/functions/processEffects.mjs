@@ -518,9 +518,29 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     for (const guardian of tPlayerState.defeatedGuardians) {
                         guardians += 1;
                     }
-                    /*for (const card of tPlayerState.activeCards) {
-                        guardians = card.type === CARD_TYPE.guardian ? guardians + 1 : guardians;
-                    }*/
+
+                    // search locations that include both player's adventurer and a guardian
+                    for (let location of tLocations.line1) {
+                        if (location.adventurers.includes(tPlayerState.playerIndex) && location.state === LOCATION_STATE.guarded) {
+                            guardians += 1;
+                        }
+                    }
+                    for (let location of tLocations.line2) {
+                        if (location.adventurers.includes(tPlayerState.playerIndex) && location.state === LOCATION_STATE.guarded) {
+                            guardians += 1;
+                        }
+                    }
+                    for (let location of tLocations.line3) {
+                        if (location.adventurers.includes(tPlayerState.playerIndex) && location.state === LOCATION_STATE.guarded) {
+                            guardians += 1;
+                        }
+                    }
+                    for (let location of tLocations.line4) {
+                        if (location.adventurers.includes(tPlayerState.playerIndex) && location.state === LOCATION_STATE.guarded) {
+                            guardians += 1;
+                        }
+                    }
+
                     guardians = guardians > 4 ? 4 : guardians;
                     tPlayerState.resources.explore += guardians;
                     break;
