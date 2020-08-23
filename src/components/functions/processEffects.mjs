@@ -16,7 +16,7 @@ import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
 import {getRelicsForUpgrade} from "./effectsFunctions/getRelicsForUpgrade";
 import {payForTravelIfPossible} from "../locations/functions/payForTravelIfPossible";
-import {getLogLegends} from "../main/logger";
+import {getLogLegend} from "../main/logger";
 import {getIdCard} from "../cards/getIdCard";
 import {shuffleArray} from "./cardManipulationFuntions";
 
@@ -640,7 +640,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gain2ResearchBonuses:
                     // prepare first token reward for each researched column
-                    const legend = getLogLegends()[0];
+                    const legend = getLogLegend()[0];
                     const columnIndex = legend.positions[tPlayerState.playerIndex][0].columnIndex;
                     const rewardEffects = [];
                     if (columnIndex != null) {
@@ -693,15 +693,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     }
                     break;
 
-                case EFFECT.loseMap:
-                    if (tPlayerState.resources.maps > 0) {
-                        tPlayerState.resources.maps -= 1;
-                    } else {
-                        processedAllEffects = false;
-                        return;
-                    }
-                    break;
-
                 case EFFECT.loseText:
                     if (tPlayerState.resources.texts > 0) {
                         tPlayerState.resources.texts -= 1;
@@ -726,6 +717,15 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     } else {
                         processedAllEffects = false;
                         return;
+                    }
+                    break;
+
+                case EFFECT.loseSlottableRelic:
+                    if (tPlayerState.resources.slottableRelics > 0) {
+                        tPlayerState.resources.slottableRelics -= 1;
+                    } else {
+                        processedAllEffects = false;
+                        return
                     }
                     break;
 
@@ -762,11 +762,14 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.upgradeAssistant:
-                    rewardsData = {
-                        type: REWARD_TYPE.upgradeAssistant,
-                        data: getAssistantsChoice(tPlayerState, tStore, ASSISTANT.upgrade)
-                    };
-                    showRewardsModal = true;
+                    const assistents = getAssistantsChoice(tPlayerState, tStore, ASSISTANT.upgrade);
+                    if (assistents.length > 0) {
+                        rewardsData = {
+                            type: REWARD_TYPE.upgradeAssistant,
+                            data: assistents
+                        };
+                        showRewardsModal = true;
+                    }
                     break;
 
                 case EFFECT.exchangeAssistant:
@@ -829,7 +832,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.refreshAnyAssistant:
-                    debugger
                     let assistants = [];
                     for (const assistant of tPlayerState.assistants) {
                         if (assistant.state === ASSISTANT_STATE.spent) {

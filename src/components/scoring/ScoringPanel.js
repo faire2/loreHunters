@@ -6,7 +6,7 @@ import Card from "../cards/Card";
 import {getPoints} from "./scoringFunctions";
 import {useHistory} from "react-router-dom";
 import {StatesSpinner} from "../../GameBoard";
-import {getLogLegends, setLogLegends} from "../main/logger";
+import {getLogLegend, setLogLegend} from "../main/logger";
 import {CARD_TYPE, LCL_STORAGE, TRANSMISSIONS} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
@@ -26,7 +26,7 @@ export function ScoringPanel(props) {
             setPlayerStates(data.playerStates);
             setNumOfPlayers(data.playerStates.length);
             setStatesLoading(false);
-            setLogLegends(getLogLegends());
+            setLogLegend(getLogLegend());
         } else if (localStorage.getItem(LCL_STORAGE.roomName)) {
             // ...otherwise check local storage for state id's and request the states from server...
             const roomName = localStorage.getItem(LCL_STORAGE.roomName);
@@ -42,7 +42,7 @@ export function ScoringPanel(props) {
 
         socket.on(TRANSMISSIONS.scoringStates, states => {
             console.log("scoring states received");
-            setLogLegends(states.legends);
+            setLogLegend(states.legend);
             setPlayerStates(states.playerStates);
             setNumOfPlayers(states.playerStates.length);
             setStatesLoading(false);

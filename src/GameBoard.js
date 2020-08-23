@@ -17,12 +17,12 @@ import ChooseRewardModal from "./components/rewardsModal/ChooseRewardModal";
 import {socket} from "./server/socketConnection";
 import BottomSlidingPanel from "./components/main/BottomSlidingPanel";
 import {RelicsArea} from "./components/relics/RelicsArea";
-import {LegendsArea} from "./components/legends/LegendsArea";
+import {LegendArea} from "./components/legends/LegendsArea";
 import {processUptrade} from "./components/resources/resourcesFunctions";
 import {ShowModalButton} from "./components/main/ShowModalButton";
 import {useHistory} from "react-router-dom";
 import {OpponentPlayArea} from "./components/main/OpponentPlayArea";
-import {addLogEntry, gameLog, setGameLog, setLogLegends} from "./components/main/logger";
+import {addLogEntry, gameLog, setGameLog, setLogLegend} from "./components/main/logger";
 import RightSlidingPanel from "./components/main/RightSlidingPanel";
 import Spinner from "react-bootstrap/Spinner";
 import TopSlidingPanel from "./components/main/TopSlidingPanel";
@@ -53,7 +53,7 @@ function GameBoard(props) {
     const [playerIndex, setPlayerIndex] = useState(null);
     const [playerState, setPlayerState] = useState(null);
     const [playerStates, setPlayerStates] = useState(null);
-    const [legends, setLegends] = useState(null);
+    const [legend, setLegend] = useState(null);
     const [locations, setLocations] = useState(null);
     const [store, setStore] = useState(null);
     const [round, setRound] = useState(null);
@@ -74,13 +74,13 @@ function GameBoard(props) {
             setPlayerState(states.playerStates[tPlayerIndex]);
             setStore(states.store);
             setLocations(states.locations);
-            setLegends(states.legends);
+            setLegend(states.legend);
             setRound(states.round);
             setIsActivePlayer(states.activePlayer === tPlayerIndex);
             setPreviousPlayer(states.previousPlayer);
             setNumOfPlayers(states.numOfPlayers);
             setExecutedAutomatonActions(states.executedAutomatonActions);
-            setLogLegends(states.legends);
+            setLogLegend(states.legend);
             setGameLog(states.gameLog);
             setStatesLoading(false);
         });
@@ -99,7 +99,7 @@ function GameBoard(props) {
             setRoomName(roomName);
             setPlayerIndex(playerIndex);
             setPlayerState(states.playerStates[playerIndex]);
-            setLegends(states.legends);
+            setLegend(states.legend);
             setLocations(states.locations);
             setStore(states.store);
             setRound(states.round);
@@ -108,7 +108,7 @@ function GameBoard(props) {
             setNumOfPlayers(states.numOfPlayers);
             setStatesLoading(false);
 
-            setLogLegends(states.legends);
+            setLogLegend(states.legend);
             setGameLog(states.gameLog);
             console.log("game log updated with initial data");
             localStorage.setItem(LCL_STORAGE.roomName, roomName);
@@ -200,7 +200,7 @@ function GameBoard(props) {
     }
 
     /** PROCESS REWARD MODAL **/
-    function handleRewards(tPlayerState, tStore, tLocations, tLegends, moreRewardsToProcess) {
+    function handleRewards(tPlayerState, tStore, tLocations, tLegend, moreRewardsToProcess) {
         if (!moreRewardsToProcess || tPlayerState.finishedRound) {
             setRewardsModalData([]);
             setShowRewardsModal(false);
@@ -219,13 +219,13 @@ function GameBoard(props) {
                 playerState: tPlayerState,
                 store: tStore,
                 locations: locations,
-                legends: legends,
+                legend: legend,
                 gameLog: gameLog
             });
         }
         setPlayerState(tPlayerState);
         setLocations(tLocations);
-        setLegends(tLegends);
+        setLegend(tLegend);
         setStore(tStore);
     }
 
@@ -358,16 +358,15 @@ function GameBoard(props) {
     /** HANDLE CLICK ON LEGEND **/
     function handleClickOnLegend(legendIndex, columnIndex, fieldIndex) {
         if (isActivePlayer && (playerState.actions > 0 || playerState.activeEffects.length > 0)) {
-            let tLegends = cloneDeep(legends);
-            const field = tLegends[legendIndex].fields[columnIndex][fieldIndex];
+            let tLegend = cloneDeep(legend);
+            const field = tLegend.fields[columnIndex][fieldIndex];
             const boon = field.effects[0];
             const effects = [...field.cost];
             if (boon) {
                 effects.push(boon);
             }
             // first we process effects to see whether player has enough resources
-            const legendResult = processLegend(cloneDeep(legends), legendIndex, columnIndex, fieldIndex, effects,
-                cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
+            const legendResult = processLegend(cloneDeep(legend), columnIndex, fieldIndex, effects, cloneDeep(playerState), cloneDeep(store), cloneDeep(locations));
             if (legendResult) {
                 const tStore = legendResult.tStore;
                 const rewardsData = [];
@@ -381,12 +380,12 @@ function GameBoard(props) {
                         rewardsData.push(legendResult.rewardsData);
                     }
                 }
-                tLegends = legendResult.tLegends;
+                tLegend = legendResult.tLegend;
 
                 // all rewards are one time now = todo remove
                 /*// resources that can only be used once have to be removed now...
                 if (boon.includes(EFFECT.gainCoinIfFirst) || boon.includes(EFFECT.gainExploreIfFirst) || boon.includes(EFFECT.gainMapIfFirst)) {
-                    tLegends[legendIndex].fields[columnIndex][fieldIndex] = removeFirstUserLegendResource(boon, field, numOfPlayers);
+                    tLegend[legendIndex].fields[columnIndex][fieldIndex] = removeFirstUserLegendResource(boon, field, numOfPlayers);
                 }
                 // ...but if the resource involves a choice, it is processed in the reward modal
                 if (boon.includes(EFFECT.gainCoinOrExploreIfFirst) || boon.includes(EFFECT.gainExploreOrMapIfFirst)) {
@@ -397,7 +396,7 @@ function GameBoard(props) {
                 }*/
 
                 if (boon) {
-                    tLegends[legendIndex].fields[columnIndex][fieldIndex].effects.splice(0, 1);
+                    tLegend.fields[columnIndex][fieldIndex].effects.splice(0, 1);
                 }
 
                 if (rewardsData.length > 0) {
@@ -405,9 +404,11 @@ function GameBoard(props) {
                 }
                 setPlayerState(legendResult.tPlayerState);
                 setLocations(legendResult.tLocations);
-                setLegends(tLegends);
+                setLegend(tLegend);
                 setStore(tStore);
-                setLogLegends(legendResult.tLegends);
+                setLogLegend(legendResult.tLegend);
+            } else {
+                addToastMessage("Unable to progress in the legend.")
             }
         }
     }
@@ -596,7 +597,7 @@ function GameBoard(props) {
                 playerState: tPlayerState,
                 store: store,
                 locations: locations,
-                legends: legends,
+                legend: legend,
                 gameLog: gameLog,
             });
             setPlayerState(tPlayerState);
@@ -618,7 +619,7 @@ function GameBoard(props) {
                 playerState: playerState,
                 store: store,
                 locations: locations,
-                legends: legends,
+                legend: legend,
                 gameLog: gameLog
             });
         }
@@ -630,13 +631,13 @@ function GameBoard(props) {
     }
 
     const boardStateContextValues = {
-        legends: legends,
+        legend: legend,
         locations: locations,
         modalData: rewardsModalData,
         numOfPlayers: numOfPlayers,
         playerState: playerState,
         playerIndex: playerIndex,
-        setLegends: setLegends,
+        setLegend: setLegend,
         showModal: showRewardsModal,
         setShowRewardsModal: setShowRewardsModal,
         store: store,
@@ -685,7 +686,7 @@ function GameBoard(props) {
                 <Store/>
             </div>
             <CardsArea/>
-            <LegendsArea/>
+            <LegendArea/>
             <ResourcesArea/>
             <RelicsArea/>
             <GuardianRewards />

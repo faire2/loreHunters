@@ -14,7 +14,6 @@ import {
     REWARD_TYPE
 } from "../functions/enums";
 import {replaceFirsUserJointLegendResource} from "../legends/functions/legendsFunctions";
-import {Legends} from "../../data/legends.mjs";
 import {EFFECT} from "../../data/effects";
 import {getRewardElement} from "./getRewardElement";
 import {getIdCard} from "../cards/getIdCard";
@@ -28,7 +27,7 @@ export default function ChooseRewardModal() {
     let tPlayerState = cloneDeep(boardStateContext.playerState);
     let tStore = cloneDeep(boardStateContext.store);
     let tLocations = cloneDeep(boardStateContext.locations);
-    let tLegends = cloneDeep(boardStateContext.legends);
+    let tLegend = cloneDeep(boardStateContext.legend);
     const numOfPlayers = boardStateContext.numOfPlayers;
 
     if (showModal) {
@@ -265,11 +264,10 @@ export default function ChooseRewardModal() {
                 if (legendEffectsResult.processedAllEffects) {
                     const fieldPosition = rewards[0].params;
                     tPlayerState = legendEffectsResult.tPlayerState;
-                    const jsxLegend = Legends[tLegends[fieldPosition.legendIndex].id];
-                    tLegends[fieldPosition.legendIndex].fields[fieldPosition.columnIndex][fieldPosition.fieldIndex]
-                        = replaceFirsUserJointLegendResource(reward.effects, jsxLegend.fields[fieldPosition.columnIndex]
+                    tLegend[fieldPosition.legendIndex].fields[fieldPosition.columnIndex][fieldPosition.fieldIndex]
+                        = replaceFirsUserJointLegendResource(reward.effects, tLegend.fields[fieldPosition.columnIndex]
                         [fieldPosition.fieldIndex], numOfPlayers);
-                    console.log(Legends);
+                    console.log(tLegend);
                 }
                 break;
             case REWARD_TYPE.location:
@@ -298,7 +296,7 @@ export default function ChooseRewardModal() {
                 console.log(rewardType);
         }
         const moreRewardsToProcess = rewards.length > 1;
-        boardStateContext.handleReward(tPlayerState, tStore, tLocations, tLegends, moreRewardsToProcess);
+        boardStateContext.handleReward(tPlayerState, tStore, tLocations, tLegend, moreRewardsToProcess);
     }
 
     return (

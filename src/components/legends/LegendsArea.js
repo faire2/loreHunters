@@ -2,9 +2,9 @@ import React, {useContext} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {Legend} from "./Legend";
 
-export function LegendsArea() {
+export function LegendArea() {
     const boardStateContext = useContext(BoardStateContext);
-    const legends = boardStateContext.legends;
+    const legend = boardStateContext.legend;
 
     const containerStyle = {
         position: "absolute",
@@ -19,11 +19,7 @@ export function LegendsArea() {
 
     return (
         <div style={containerStyle}>
-            {legends && legends.map((legend, i) =>
-                <div key={"legend" + i}>
-                    <Legend legend={legend} legends={legends} legendIndex={i}/>
-                </div>
-            )}
+            <Legend legend={legend}/>
         </div>
     )
 }

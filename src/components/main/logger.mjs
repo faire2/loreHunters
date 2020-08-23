@@ -1,5 +1,5 @@
 import {getPoints} from "../scoring/scoringFunctions.mjs";
-import {getInitialLegends} from "../functions/initialStates/initialLegends.mjs";
+import {getInitialLegend} from "../functions/initialStates/initialLegends.mjs";
 
 export var gameLog = [];
 
@@ -21,18 +21,18 @@ export function setGameLog(serverLog){
     }
 }
 
-let logLegends = getInitialLegends(4);
+let logLegend = getInitialLegend(4, "legend1");
 
-export function setLogLegends(legends){
-    if (legends) {
-        logLegends = legends;
-        console.log("Log legends set:");
-        console.log(legends);
+export function setLogLegend(legend){
+    if (legend) {
+        logLegend = legend;
+        console.log("Log legend set:");
+        console.log(legend);
     } else {
-        console.warn("Legends could not be set: " + legends);
+        console.warn("Legend could not be set: " + legend);
     }
 }
 
-export function getLogLegends(){
-    return logLegends;
+export function getLogLegend(){
+    return logLegend;
 }

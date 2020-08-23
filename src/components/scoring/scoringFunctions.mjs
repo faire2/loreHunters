@@ -1,12 +1,11 @@
 import {ITEM_IDs} from "../../data/idLists";
-import {getLogLegends} from "../main/logger";
+import {getLogLegend} from "../main/logger";
 import {CARD_TYPE, RELIC} from "../functions/enums";
-import {selectedLegendIndex} from "../functions/initialStates/initialLegends";
 import {ARTIFACTS, ITEMS} from "../../data/cards";
 import {pointsForUnusedRelics} from "../functions/constants";
 
 export function getPoints(playerState) {
-    const legends = getLogLegends();
+    const legend = getLogLegend();
     const playerIndex = playerState.playerIndex;
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards];
     const items = allDeckCards.filter(card => (card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic)
@@ -39,7 +38,6 @@ export function getPoints(playerState) {
 
     /* LEGEND */
     let legendPoints = 0;
-    const legend = legends[selectedLegendIndex];
     const victoryPoints = legend.victoryPoints;
     // points for columns any of tokens reached
     legendPoints += victoryPoints.firstToken[legend.positions[playerIndex][0].columnIndex];

@@ -118,6 +118,7 @@ export function getJsxSymbol(effect) {
             return <Discard/>;
         case EFFECT.gainOrUpgradeRelic:
         case EFFECT.gainBronzeRelic:
+        case EFFECT.loseSlottableRelic:
             return <BronzeRelic/>;
         case EFFECT.gainAction:
             return <GainAction/>;

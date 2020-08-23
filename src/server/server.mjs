@@ -19,7 +19,7 @@ import cloneDeep from "lodash/cloneDeep.js";
 import {TRANSMISSIONS} from "../components/functions/enums.mjs";
 import getInitialPlayerStates from "../components/functions/initialStates/initialPlayerStates.mjs";
 import {getInitialStore} from "../components/functions/initialStates/initialStore.mjs";
-import {getInitialLegends} from "../components/functions/initialStates/initialLegends.mjs";
+import {getInitialLegend} from "../components/functions/initialStates/initialLegends.mjs";
 import {getInitialLocations} from "../components/functions/initialStates/initialLocations.mjs";
 import {resetRelicEffects} from "../data/relicEffects.mjs";
 import {shuffleArray} from "../components/functions/cardManipulationFuntions.mjs";
@@ -62,7 +62,7 @@ io.on("connection", socket => {
                 /* beware! locations must be initialized before store because of relicEffects! */
                 locations: getInitialLocations(numOfPlayers),
                 store: getInitialStore(),
-                legends: getInitialLegends(numOfPlayers),
+                legend: getInitialLegend(numOfPlayers, "legend2"),
                 activePlayer: 0,
                 initialPlayer: 0,
                 previousPlayer: 0,
@@ -144,7 +144,7 @@ io.on("connection", socket => {
                 store: room.states.store,
                 locations: room.states.locations,
                 round: room.states.round,
-                legends: room.states.legends,
+                legend: room.states.legend,
                 activePlayer: room.states.activePlayer,
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
@@ -167,7 +167,7 @@ io.on("connection", socket => {
                 store: room.states.store,
                 locations: room.states.locations,
                 round: room.states.round,
-                legends: room.states.legends,
+                legend: room.states.legend,
                 activePlayer: room.states.activePlayer,
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
@@ -264,7 +264,7 @@ io.on("connection", socket => {
                         io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
                             playerStates: room.states.playerStates,
                             numOfPlayers: room.states.numOfPlayers,
-                            legends: room.states.legends,
+                            legend: room.states.legend,
                         })
                     }
                 } else {
@@ -292,7 +292,7 @@ io.on("connection", socket => {
                 users));
             socket.emit(TRANSMISSIONS.scoringStates, {
                 playerStates: room.states.playerStates,
-                legends: room.states.legends,
+                legend: room.states.legend,
             })
         } else {
             console.error("Couldn't find room during requested scoring update:" + data.roomName);
@@ -349,7 +349,7 @@ io.on("connection", socket => {
                 store: room.states.store,
                 locations: room.states.locations,
                 round: room.states.round,
-                legends: room.states.legends,
+                legend: room.states.legend,
                 activePlayer: room.states.activePlayer,
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,

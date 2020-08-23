@@ -29,6 +29,11 @@ export const Field = (props) => {
             height = "6vw";
             width = "5vw";
             break;
+        case FIELD_SIZE["1.5"]:
+            background = block1;
+            height = "6vw";
+            width = "5vw"
+            break;
         case FIELD_SIZE["2"]:
             background = block2;
             height = "12.5vw";
@@ -55,6 +60,7 @@ export const Field = (props) => {
         backgroundImage: `url(${background}`,
         backgroundSize: "100% 100%",
         height: height,
+        marginTop: columnHeight === FIELD_SIZE["1.5"] && fieldIndex === 0 ? "3vw" : 0,
     };
 
     const effectsTextStyle = {
