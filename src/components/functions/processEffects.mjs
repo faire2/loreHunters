@@ -661,7 +661,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gain2ResearchBonuses:
                     // prepare first token reward for each researched column
-                    const legend = getLogLegend()[0];
+                    const legend = getLogLegend();
                     const columnIndex = legend.positions[tPlayerState.playerIndex][0].columnIndex;
                     const rewardEffects = [];
                     if (columnIndex != null) {
