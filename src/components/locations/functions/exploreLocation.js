@@ -6,11 +6,8 @@ import {LOCATION_DISCOUNT_EFFECTS} from "../../functions/constants";
 
 export function exploreLocation(playerState, locations, store, location) {
     const exploreDiscount = hasPlayerExplorationDiscount(playerState);
-    // get exploration cost & process discount
-    const exploreCostEffects = getExplorationCost(location.type, location.level, exploreDiscount, playerState);
-    if (exploreDiscount) {
-        playerState.activeEffects.splice(0)
-    }
+    // get exploration cost & process explores discount
+    let exploreCostEffects = getExplorationCost(location, exploreDiscount, playerState);
     // process the cost
     const explorationCostResult = processEffects(null, null, playerState, exploreCostEffects, null, location, null);
     if (explorationCostResult.processedAllEffects) {
@@ -19,7 +16,7 @@ export function exploreLocation(playerState, locations, store, location) {
         playerState.actions -= exploreDiscount ? 0 : 1;
 
         // gain relic and relic resource
-        location.level === LOCATION_LEVEL["2"] ? playerState.resources.slottableRelics += 1 : playerState.resources.slottableRelics += 2;
+        location.level === LOCATION_LEVEL.level1 ? playerState.resources.slottableRelics += 1 : playerState.resources.slottableRelics += 2;
 
         // mark location as guarded
         locations[location.line][location.index].state = LOCATION_STATE.guarded;

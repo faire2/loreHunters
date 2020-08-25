@@ -4,9 +4,10 @@ import cloneDeep from "lodash/cloneDeep.js";
 import {Locations} from "../../../data/locations.mjs";
 import {Guardians} from "../../../data/guardians.mjs";
 import {relicEffects} from "../../../data/relicEffects.mjs";
+import {EFFECT} from "../../../data/effects.mjs";
 
 /* INITIAL Locations */
-export function getInitialLocations(numOfPlayers) {
+export function getInitialLocations(numOfPlayers, legend) {
     const locationKeys = shuffleArray(Object.keys(Locations));
     const guardianKeys = shuffleArray(Object.keys(Guardians));
 
@@ -22,9 +23,9 @@ export function getInitialLocations(numOfPlayers) {
                 level1locations.push(location);
                 break;
             case LOCATION_TYPE.undetermined:
-                if (location.level === LOCATION_LEVEL["2"]) {
+                if (location.level === LOCATION_LEVEL.level1) {
                     level2locations.push(location);
-                } else if (location.level === LOCATION_LEVEL["3"]) {
+                } else if (location.level === LOCATION_LEVEL.level2) {
                     level3locations.push(location);
                 }
                 break;
@@ -63,27 +64,33 @@ export function getInitialLocations(numOfPlayers) {
     relicEffects.silver = shuffleArray(relicEffects.silver);
 
     let line1 = [level1locations[0], level1locations[1], level1locations[2], level1locations[3], level1locations[4]];
-    line1 = setLocationIndexAndLine(LOCATION_LINE.line1, line1);
+    line1 = setLocationLineIndexTravel(LOCATION_LINE.line1, line1, legend);
+    for (let location of line1) {
+        location.level = LOCATION_LEVEL.basic
+    }
 
-    let line2 = [cloneDeep(Locations.emptyBrownLocation2),  cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyGreenLocation2),
+    let line2 = [cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyGreenLocation2),
         cloneDeep(Locations.emptyGreenLocation2)];
-    line2 = setLocationIndexAndLine(LOCATION_LINE.line2, line2);
+    line2 = setLocationLineIndexTravel(LOCATION_LINE.line2, line2, legend);
     for (let location of line2) {
         location = setRelicEffects(location, RELIC.bronze);
+        location.level = LOCATION_LEVEL.level1;
     }
 
     let line3 = [cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyBrownLocation2), cloneDeep(Locations.emptyGreenLocation2),
         cloneDeep(Locations.emptyGreenLocation2)];
-    line3 = setLocationIndexAndLine(LOCATION_LINE.line3, line3);
+    line3 = setLocationLineIndexTravel(LOCATION_LINE.line3, line3, legend);
     for (let location of line3) {
         location = setRelicEffects(location, RELIC.bronze);
+        location.level = LOCATION_LEVEL.level1;
     }
 
     let line4 = [cloneDeep(Locations.emptyBrownLocation3), cloneDeep(Locations.emptyBrownLocation3), cloneDeep(Locations.emptyGreenLocation3),
         cloneDeep(Locations.emptyGreenLocation3)];
-    line4 = setLocationIndexAndLine(LOCATION_LINE.line4, line4);
+    line4 = setLocationLineIndexTravel(LOCATION_LINE.line4, line4, legend);
     for (let location of line4) {
         location = setRelicEffects(location, RELIC.silver);
+        location.level = LOCATION_LEVEL.level2;
     }
 
     return {
@@ -95,14 +102,6 @@ export function getInitialLocations(numOfPlayers) {
         level3Locations: level3locations,
         guardianKeys: guardianKeys
     };
-}
-
-function setLocationIndexAndLine(locationLine, locations) {
-    for (let i = 0; i < locations.length; i++) {
-        locations[i].line = locationLine;
-        locations[i].index = i;
-    }
-    return locations
 }
 
 function setRelicEffects(location, relicType) {
@@ -117,4 +116,31 @@ function setRelicEffects(location, relicType) {
         console.error("Unable to determine relic type in setRelicEffects: " + relicType);
     }
     return location;
+}
+
+function setLocationLineIndexTravel(locationLine, locations, legend) {
+    for (let i = 0; i < locations.length; i++) {
+        locations[i].line = locationLine;
+        locations[i].index = i;
+        locations[i].travelCost = travelCost[legend][locationLine][i];
+    }
+    return locations
+}
+
+// location travel costs for each lines
+const travelCost = {
+    legend1: {
+        line1: [[EFFECT.loseWalk], [EFFECT.loseWalk], [EFFECT.loseWalk], [EFFECT.loseWalk], [EFFECT.loseWalk]],
+        line2: [[EFFECT.loseJeep], [EFFECT.loseJeep], [EFFECT.loseShip], [EFFECT.loseShip]],
+        line3: [[EFFECT.loseJeep], [EFFECT.loseJeep], [EFFECT.loseShip], [EFFECT.loseShip]],
+        line4: [[EFFECT.loseJeep, EFFECT.loseJeep], [EFFECT.loseJeep, EFFECT.loseJeep],
+            [EFFECT.loseShip, EFFECT.loseShip], [EFFECT.loseShip, EFFECT.loseShip]],
+    },
+    legend2: {
+        line1: [[EFFECT.loseWalk], [EFFECT.loseWalk], [EFFECT.loseWalk], [EFFECT.loseWalk], [EFFECT.loseWalk]],
+        line2: [[EFFECT.loseJeep], [EFFECT.loseJeep], [EFFECT.loseShip], [EFFECT.loseShip]],
+        line3: [[EFFECT.losePlane], [EFFECT.loseJeep], [EFFECT.loseShip], [EFFECT.loseWalk, EFFECT.loseWalk]],
+        line4: [[EFFECT.loseJeep, EFFECT.loseJeep], [EFFECT.loseWalk, EFFECT.losePlane],
+            [EFFECT.loseJeep, EFFECT.loseShip], [EFFECT.loseShip, EFFECT.loseShip]],
+    },
 }

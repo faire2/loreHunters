@@ -62,7 +62,7 @@ io.on("connection", socket => {
                 numOfPlayers: numOfPlayers,
                 playerStates: getInitialPlayerStates(numOfPlayers),
                 /* beware! locations must be initialized before store because of relicEffects! */
-                locations: getInitialLocations(numOfPlayers),
+                locations: getInitialLocations(numOfPlayers, "legend2"),
                 store: getInitialStore(numOfPlayers, true), // todo change to detection of legend type
                 legend: getInitialLegend(numOfPlayers, "legend2"),
                 activePlayer: 0,

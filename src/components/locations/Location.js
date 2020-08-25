@@ -5,14 +5,13 @@ import brownBgr from "../../img/locations/brownEmpty.png"
 import greenBgr from "../../img/locations/greenEmpty.png"
 import basicBgr from "../../img/locations/bgr-basic-empty.png"
 import {BoardStateContext} from "../../Contexts";
-import {LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE, RELIC} from "../functions/enums";
+import {LOCATION_STATE, LOCATION_TYPE, RELIC} from "../functions/enums";
 import {getExplorationCost} from "./functions/locationFunctions";
 import {ExplorationCost} from "./ExplorationCost";
 import {LocationEffects} from "./LocationEffects";
 import {LocationAdventurers} from "./LocationAdventurers";
 import {LocationGuardian} from "./LocationGuardian";
 import {RelicWithResource} from "../relics/RelicWithResource";
-import {EFFECT} from "../../data/effects";
 import {LocationTravelCost} from "./LocationTravelCost";
 
 export default function Location(props) {
@@ -27,27 +26,19 @@ export default function Location(props) {
         locationBackground = emptyBgr;
     } else if (location.type === LOCATION_TYPE.brown) {
         locationBackground = brownBgr;
-        if (location.level === LOCATION_LEVEL["2"]) {
-            travelCost = [EFFECT.loseJeep];
-        } else {
-            travelCost = [EFFECT.loseJeep, EFFECT.loseJeep];
-        }
     } else if (location.type === LOCATION_TYPE.green) {
         locationBackground = greenBgr;
-        if (location.level === LOCATION_LEVEL["2"]) {
-            travelCost = [EFFECT.loseShip];
-        } else {
-            travelCost = [EFFECT.loseShip, EFFECT.loseShip];
-        }
     } else if (location.type === LOCATION_TYPE.basic) {
         locationBackground = basicBgr;
-        travelCost = [location.slots];
     } else {
         console.log("Unable to process location level or type in Location.js: " + location.id + " / " + location.type + " / " + location.level)
     }
 
     /* explore costs for unexplored location */
-    const exploreCost = getExplorationCost(location.type, location.level, false, null);
+    let  exploreCost = []
+    if (location.state === LOCATION_STATE.unexplored) {
+        exploreCost = getExplorationCost(location, false, null);
+    }
     return (
         <LocationWrapper explored={location.state !== LOCATION_STATE.unexplored} exploredBgr={locationBackground}
              onClick={() => boardStateContext.handleClickOnLocation(location, false)}>
@@ -57,17 +48,17 @@ export default function Location(props) {
                                        effects={location.relicEffects} fontSize={1.3}/>
                 </RelicWrapper>
             }
+            {(location.state === LOCATION_STATE.explored || location.state === LOCATION_STATE.guarded)
+                && <LocationTravelCost travelCost={location.travelCost}/>}
+
+            {location.state === LOCATION_STATE.unexplored ? <ExplorationCost exploreCost={exploreCost}/>
+                : <LocationEffects effects={location.effects}/>}
+
             {location.guardian && location.state === LOCATION_STATE.guarded &&
                 <div onClick={() => boardStateContext.handleClickOnLocation(location, true)}>
                     <LocationGuardian guardian={location.guardian}/>
                 </div>
             }
-            {(location.state === LOCATION_STATE.explored || location.state === LOCATION_STATE.guarded)
-                && <LocationTravelCost travelCost={travelCost}/>}
-
-            {location.state === LOCATION_STATE.unexplored ? <ExplorationCost exploreCost={exploreCost}/>
-                : <LocationEffects effects={location.effects}/>}
-
             <LocationAdventurers adventurers={location.adventurers} locationType={location.type} guarded={location.guardian != null}/>
         </LocationWrapper>
     )

@@ -152,66 +152,43 @@ export function occupyLocation(tLocations, locationId, locationLine, playerIndex
     return tLocations;
 }
 
-export function getExplorationCost(locationType, locationLevel, exploreDiscount, playerState) {
-    let exploreCost = null;
+export function getExplorationCost(location, exploreDiscount, playerState) {
+    // initialize with travel cost
+    let exploreCost = location.travelCost;
 
-    switch (locationType) {
-        case LOCATION_TYPE.brown:
-        case LOCATION_TYPE.emptyBrownLocation:
-            if (locationLevel === LOCATION_LEVEL["2"]) {
-                exploreCost = [EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, ];
-            } else if (locationLevel === LOCATION_LEVEL["3"]) {
-                exploreCost = [EFFECT.loseJeep, EFFECT.loseJeep, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            }
+    switch (location.level) {
+        case LOCATION_LEVEL.basic:
             break;
-        case LOCATION_TYPE.green:
-        case LOCATION_TYPE.emptyGreenLocation:
-            if (locationLevel === LOCATION_LEVEL["2"]) {
-                exploreCost = [EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, ];
-            } else if (locationLevel === LOCATION_LEVEL["3"]) {
-                exploreCost = [EFFECT.loseShip, EFFECT.loseShip, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            }
+        case LOCATION_LEVEL.level1:
+            exploreCost = [...exploreCost, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             break;
-        case LOCATION_TYPE.undetermined:
-            if (locationLevel === LOCATION_LEVEL["2"]) {
-                exploreCost = [EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, ];
-            } else if (locationLevel === LOCATION_LEVEL["3"]) {
-                exploreCost = [EFFECT.loseWalk, EFFECT.loseWalk, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
-            }
+        case LOCATION_LEVEL.level2:
+            exploreCost = exploreCost = [...exploreCost, EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore,
+                EFFECT.loseExplore, EFFECT.loseExplore, EFFECT.loseExplore];
             break;
-            // todo remove - this was used when lost city was a location
-            /*case LOCATION_TYPE.lostCity:
-            exploreCost = [EFFECT.canActivateLostCity];
-            break;*/
-        case LOCATION_TYPE.basic:
-        case LOCATION_TYPE.emptyLocation:
-            exploreCost = [];
-            break;
-        default:
-        console.warn("Unable to recognize location type.");
+        default: console.error("Unable to determine location level in getExplorationCost:" + location.level)
     }
 
     if (exploreDiscount) {
-        exploreCost = getExplorationDiscount(playerState.activeEffects[0], exploreCost);
+        exploreCost = getExplorationDiscount(playerState.activeEffects[0], exploreCost, playerState);
     }
-
     return exploreCost;
 }
 
 export function removeExploredLocation(location, locations) {
     //todo rewrite for unified locatins (location type checking is redundant)
     if (location.type === LOCATION_TYPE.green) {
-        if (location.level === LOCATION_LEVEL["2"]) {
+        if (location.level === LOCATION_LEVEL.level1) {
             locations.level2Locations.splice(0, 1);
-        } else if (location.level === LOCATION_LEVEL["3"]) {
+        } else if (location.level === LOCATION_LEVEL.level2) {
             locations.level3Locations.splice(0, 1);
         } else {
             console.warn("Unable to determine location level:" + location.level);
         }
     } else if (location.type === LOCATION_TYPE.brown) {
-        if (location.level === LOCATION_LEVEL["2"]) {
+        if (location.level === LOCATION_LEVEL.level1) {
             locations.level2Locations.splice(0, 1);
-        } else if (location.level === LOCATION_LEVEL["3"]) {
+        } else if (location.level === LOCATION_LEVEL.level2) {
             locations.level3Locations.splice(0, 1);
         } else {
             console.warn("Unable to determine location level:" + location.level);

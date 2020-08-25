@@ -326,7 +326,14 @@ function GameBoard(props) {
                     initiateRewardsModal(locationResult.modalData);
                 }
             } else {
-                addToastMessage("Not enough resources to use the location!")
+                if (locationResult.failedEffect) {
+                    addToastMessage("Not enough resources to use the location! Could not process: " + locationResult.failedEffect)
+                } else if (playerState.availableAdventurers < 1) {
+                    addToastMessage("No free adventurer do deploy to the location!")
+                } else {
+                    addToastMessage("Not enough resources to use the location!")
+                }
+
             }
         }
     }

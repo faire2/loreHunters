@@ -3,7 +3,7 @@ import {occupyLocation} from "./locationFunctions";
 import {processEffects} from "../../functions/processEffects";
 import {addLogEntry} from "../../main/logger";
 import {cloneDeep} from "lodash";
-import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE, LOCATION_TYPE} from "../../functions/enums";
+import {ACTION_TYPE, LOCATION_LEVEL, LOCATION_STATE} from "../../functions/enums";
 import {exploreLocation} from "./exploreLocation";
 import {Guardians} from "../../../data/guardians";
 import {payForTravelIfPossible} from "./payForTravelIfPossible";
@@ -21,13 +21,11 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
     } else {
         switch (location.state) {
             case LOCATION_STATE.unexplored:
-                //if user clicked on empty location, give back choice modal with relevant locations
-                const locationsToExplore = [LOCATION_TYPE.emptyLocation, LOCATION_TYPE.emptyBrownLocation, LOCATION_TYPE.emptyGreenLocation];
-                if (locationsToExplore.includes(location.type) && tPlayerState.availableAdventurers > 0) {
+                if (tPlayerState.availableAdventurers > 0) {
                     const explorationResult = exploreLocation(tPlayerState, tLocations, tStore, location);
                     if (!explorationResult.failedEffect) {
                         let tLocation;
-                        if (location.level === LOCATION_LEVEL["2"]) {
+                        if (location.level === LOCATION_LEVEL.level1) {
                             tLocation = tLocations.level2Locations[0];
                             tLocations.level2Locations.splice(0,1);
                         } else {
@@ -44,6 +42,8 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                         tLocations[location.line][location.index] = tLocation;
                         tLocation.line = location.line;
                         tLocation.index = location.index;
+                        tLocation.level = location.level;
+                        tLocation.travelCost = location.travelCost;
 
                         // process effects
                         tPlayerState = explorationResult.playerState;
@@ -56,7 +56,7 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                         return {playerState: tPlayerState, locations: tLocations, store: tStore,
                             showRewardsModal: locationResult.showRewardsModal, modalData: locationResult.rewardsData};
                     } else {
-                        return ({failedTravel: true});
+                        return ({failedTravel: true, failedEffect: explorationResult.failedEffect});
                     }
                 }
                 return false;
@@ -86,9 +86,9 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                 } else {
                     //otherwise location effects are processed
                     if (hasLocationFreeSlots(location)) {
-                        const travelCheckResults = payForTravelIfPossible(tPlayerState, location);
+                        const travelCheckResults = payForTravelIfPossible(tPlayerState, location, null);
                         if (!travelCheckResults.enoughResources) {
-                            return ({failedTravel: true});
+                            return ({failedTravel: true, failedEffect: travelCheckResults.failedEffect});
                         }
                         if (travelCheckResults.enoughResources && (tPlayerState.actions > 0 || tPlayerState.activeEffects.length > 0)
                             && tPlayerState.availableAdventurers > 0) {

@@ -755,7 +755,8 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.loseJeep:
                 case EFFECT.loseShip:
                 case EFFECT.losePlane:
-                    const travelResults = payForTravelIfPossible(tPlayerState, null, effect);
+                    let tempLocation = location ? location : null;
+                    const travelResults = payForTravelIfPossible(tPlayerState, tempLocation, effect);
                     if (travelResults.enoughResources) {
                         tPlayerState = travelResults.tPlayerState;
                     } else {
@@ -783,7 +784,6 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainAssistantFromLegend:
-                    debugger
                     rewardsData = {
                         type: REWARD_TYPE.gainAssistantFromLegend,
                         data: [tStore.assistantsInLegendOffer[0], tStore.assistantsInLegendOffer[1]],

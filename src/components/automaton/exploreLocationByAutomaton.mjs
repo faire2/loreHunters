@@ -6,15 +6,15 @@ export function exploreLocationByAutomaton(states, round, direction) {
     // we determine what location will be explored according to the round
     switch (round) {
         case 1:
-            return findAndExploreLocation(states, LOCATION_TYPE.emptyBrownLocation, LOCATION_LEVEL["2"], true, direction);
+            return findAndExploreLocation(states, LOCATION_TYPE.emptyBrownLocation, LOCATION_LEVEL.level1, true, direction);
         case 2:
-            return findAndExploreLocation(states, LOCATION_TYPE.emptyGreenLocation, LOCATION_LEVEL["2"], false, direction);
+            return findAndExploreLocation(states, LOCATION_TYPE.emptyGreenLocation, LOCATION_LEVEL.level1, false, direction);
         case 3:
-            return findAndExploreLocation(states, LOCATION_TYPE.emptyBrownLocation, LOCATION_LEVEL["2"], false, direction);
+            return findAndExploreLocation(states, LOCATION_TYPE.emptyBrownLocation, LOCATION_LEVEL.level1, false, direction);
         case 4:
-            return findAndExploreLocation(states, LOCATION_TYPE.emptyGreenLocation, LOCATION_LEVEL["3"], true, direction);
+            return findAndExploreLocation(states, LOCATION_TYPE.emptyGreenLocation, LOCATION_LEVEL.level2, true, direction);
         case 5:
-            return findAndExploreLocation(states, LOCATION_TYPE.emptyBrownLocation, LOCATION_LEVEL["3"], false, direction);
+            return findAndExploreLocation(states, LOCATION_TYPE.emptyBrownLocation, LOCATION_LEVEL.level2, false, direction);
         default:
             console.error("Unable to process round in exploreLocationByAutomaton: " + states.round);
     }
@@ -90,10 +90,10 @@ function findAndExploreLocation(states, locationType, locationLevel, addGuardian
 
 function exploreLocation(location, locations, locationType, locationLevel, addGuardian) {
     let newLocation;
-    if (locationLevel === LOCATION_LEVEL["2"]) {
+    if (locationLevel === LOCATION_LEVEL.level1) {
         newLocation = locations.level2Locations[0];
         locations.level2Locations.splice(0, 1);
-    } else if (locationLevel === LOCATION_LEVEL["3"]) {
+    } else if (locationLevel === LOCATION_LEVEL.level2) {
         newLocation = locations.level3Locations[0];
         locations.level3Locations.splice(0, 1);
     }

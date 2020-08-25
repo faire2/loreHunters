@@ -36,9 +36,9 @@ export const CARD_TYPE = Object.freeze({
 });
 
 export const LOCATION_LEVEL = Object.freeze({
-    1: "I",
-    2: "II",
-    3: "III"
+    basic: "basic location",
+    level1: "level 1 location",
+    level2: "level 2 location"
 });
 
 export const LOCATION_LINE = Object.freeze({
