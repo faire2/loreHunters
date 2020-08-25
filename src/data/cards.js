@@ -575,8 +575,8 @@ export const ITEMS = Object.freeze({
         effectsText: <div style={bigIconsStyle}><Text/><DestroyCard/></div>,
         effects: [EFFECT.gainText, EFFECT.destroyCard],
         image: torchImg,
-        cost: 1,
-        points: 1
+        cost: 2,
+        points: 2
     },
     /*floraSamples: {
         id: "floraSamples",
@@ -715,7 +715,7 @@ export const ITEMS = Object.freeze({
     },
     pocketWatch: {
         id: "pocketWatch",
-        cardName: "Pocket Watch",
+        cardName: "Chronometer",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 2,
         effectsText: <div className="effectsText"><b>Gain:</b>
@@ -1012,8 +1012,8 @@ export const ARTIFACTS = Object.freeze({
         effects: [EFFECT.infinitePlanes, EFFECT.returnAdventurer],
         isGuarded: false,
         image: "",
-        cost: 5,
-        points: 2
+        cost: 4,
+        points: 1
     },
     owlEyes: {
         id: "owlEyes",
@@ -1081,7 +1081,7 @@ export const ARTIFACTS = Object.freeze({
         isGuarded: false,
         image: "",
         cost: 4,
-        points: 1
+        points: 2
     },
     huntingArrows: {
         id: "huntingArrows",
@@ -1163,8 +1163,8 @@ export const ARTIFACTS = Object.freeze({
         effects: [EFFECT.exchangeAssistant],
         isGuarded: false,
         image: null,
-        cost: 3,
-        points: 2
+        cost: 2,
+        points: 1
     },
     /*mirrorBowl: {
         id: "mirrorBowl",
@@ -1258,8 +1258,8 @@ export const ARTIFACTS = Object.freeze({
         effects: [EFFECT.refreshAnyAssistant],
         isGuarded: false,
         image: "",
-        cost: 2,
-        points: 1
+        cost: 3,
+        points: 2
     },
     sacredDrum: {
         id: "sacredDrum",
@@ -1271,7 +1271,7 @@ export const ARTIFACTS = Object.freeze({
         effects: [EFFECT.discard, EFFECT.refreshAllAssistants],
         isGuarded: false,
         image: "",
-        cost: 3,
+        cost: 4,
         points: 1
     },
     /*forbiddenScrolls: {
