@@ -16,7 +16,7 @@ import {
     updateRoomState
 } from "./serverFunctions.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {TRANSMISSIONS} from "../components/functions/enums.mjs";
+import {LOCATION_STATE, TRANSMISSIONS} from "../components/functions/enums.mjs";
 import getInitialPlayerStates from "../components/functions/initialStates/initialPlayerStates.mjs";
 import {getInitialStore} from "../components/functions/initialStates/initialStore.mjs";
 import {getInitialLegend} from "../components/functions/initialStates/initialLegends.mjs";
@@ -25,6 +25,8 @@ import {resetRelicEffects} from "../data/relicEffects.mjs";
 import {shuffleArray} from "../components/functions/cardManipulationFuntions.mjs";
 import {automatonActions} from "../components/functions/constants.mjs";
 import {performAutomatonAction} from "../components/automaton/performAutomatonAction.mjs";
+import {EFFECT} from "../data/effects.mjs";
+import {ITEM_IDs} from "../data/idLists.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -260,12 +262,35 @@ io.on("connection", socket => {
                             room.executedAutomatonActions = [];
                         }
                     } else {
-                        console.debug("Sending new round states to all players.");
-                        io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
-                            playerStates: room.states.playerStates,
-                            numOfPlayers: room.states.numOfPlayers,
-                            legend: room.states.legend,
-                        })
+                        // add final fears for players in guarded locations
+                        let tLocations = cloneDeep(room.states.locations);
+                        const extraFear = {0: 0, 1: 0, 2: 0, 3: 0};
+                        let locationLines = [tLocations.line1, tLocations.line2, tLocations.line3, tLocations.line4]
+                        for (let line of locationLines) {
+                            for (let location of line) {
+                                /* owner of each adventurer in a guarded location gains a fear */
+                                if (location.state === LOCATION_STATE.guarded) {
+                                    for (let playerId of location.adventurers) {
+                                        extraFear[playerId] += 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        for (let i = 0; i < room.numOfPlayers; i++) {
+                            if (!room.states.playerStates[i].longEffects.includes(EFFECT.protectFromFear)) {
+                                for (let x = 0; x < extraFear[i]; x++) {
+                                    room.states.playerStates[i].activeCards.push(cloneDeep(ITEM_IDs.fear));
+                                }
+                            }
+
+                            console.debug("Sending new round states to all players.");
+                            io.to(room.name).emit(TRANSMISSIONS.scoringStates, {
+                                playerStates: room.states.playerStates,
+                                numOfPlayers: room.states.numOfPlayers,
+                                legend: room.states.legend,
+                            })
+                        }
                     }
                 } else {
                     room.states.activePlayer = nextPlayer(playerIndex, room);
