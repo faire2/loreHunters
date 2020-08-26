@@ -9,9 +9,11 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     // effect can either come from location or can be given directly
     let effects = effect ? [effect] : location.travelCost;
 
-    // we pay extra transport for every other adventurer also deployed to this location
-    for (let adventurer of location.adventurers) {
-        effects = [...effects, ...effects];
+    if (!effect) {
+        // we pay extra transport for every other adventurer also deployed to this location
+        for (let adventurer of location.adventurers) {
+            effects = [...effects, ...effects];
+        }
     }
 
     // check for active effect with travel discount

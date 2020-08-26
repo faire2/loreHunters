@@ -443,27 +443,27 @@ export const LOCATION_IDs = Object.freeze({
     1: {
         id: "1",
         type: LOCATION_TYPE.basic,
-        level: LOCATION_LEVEL["1"],
+        level: LOCATION_LEVEL.basic,
     },
     2: {
         id: "2",
         type: LOCATION_TYPE.basic,
-        level: LOCATION_LEVEL["1"],
+        level: LOCATION_LEVEL.basic,
     },
     3: {
         id: "3",
         type: LOCATION_TYPE.basic,
-        level: LOCATION_LEVEL["1"],
+        level: LOCATION_LEVEL.basic,
     },
     4: {
         id: "4",
         type: LOCATION_TYPE.basic,
-        level: LOCATION_LEVEL["1"],
+        level: LOCATION_LEVEL.basic,
     },
     5: {
         id: "5",
         type: LOCATION_TYPE.basic,
-        level: LOCATION_LEVEL["1"],
+        level: LOCATION_LEVEL.basic,
     },
     b21: {
         id: "b21",

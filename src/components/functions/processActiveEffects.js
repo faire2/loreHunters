@@ -87,7 +87,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.activateL1Location:
-            if (tLocation && tLocation.level === LOCATION_LEVEL["1"]) {
+            if (tLocation && tLocation.level === LOCATION_LEVEL.basic) {
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
 
                 tPlayerState = effectsResult.tPlayerState;
@@ -111,7 +111,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.activateEmptyL1Location:
-            if (tLocation && tLocation.level === LOCATION_LEVEL["1"] && tLocation.adventurers.length === 0) {
+            if (tLocation && tLocation.level === LOCATION_LEVEL.basic && tLocation.adventurers.length === 0) {
                 const effectsResult = processEffects(null, null, tPlayerState, tLocation.effects, tStore, tLocation, tLocations);
 
                 tPlayerState = effectsResult.tPlayerState;
@@ -353,7 +353,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.moveAdvToL1Location:
-            if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level === LOCATION_LEVEL["1"]
+            if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level === LOCATION_LEVEL.basic
                 && tLocation.adventurers.length < tLocation.slots.length && tLocation.id !== tPlayerState.activeEffects[1]) {
                 tPlayerState.activeEffects.splice(0, 2);
                 const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);
