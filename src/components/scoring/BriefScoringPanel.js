@@ -11,7 +11,7 @@ export const BriefScoringPanel = () => {
     const history = useHistory();
     const points = getPoints(playerState);
     const totalPoints = points.itemPoints + points.artifactPoints + points.defeatedGuardianPoints + points.legendPoints
-        + points.relicsPoints;
+        + points.relicsPoints + points.fearPoints;
 
     return (
     <div>
