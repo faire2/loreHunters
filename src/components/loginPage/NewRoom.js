@@ -11,6 +11,7 @@ import {TRANSMISSIONS} from "../functions/enums";
 export function NewRoom(props) {
     const [numOfPlayers, setNumOfPlayers] = useState(1);
     const [automaton, setAutomaton] = useState(4);
+    const [legend, setLegend] = useState("legend2");
     const [roomName, setRoomName] = useState("");
     const [existingRoomName, setExistingRoomName] = useState(false);
 
@@ -21,7 +22,7 @@ export function NewRoom(props) {
     });
 
     function setUpGame() {
-        socket.emit(TRANSMISSIONS.createGame, {roomName: roomName, numOfPlayers: numOfPlayers, automaton: automaton});
+        socket.emit(TRANSMISSIONS.createGame, {roomName: roomName, numOfPlayers: numOfPlayers, automaton: automaton, legend: legend});
         console.log("emitting new room request");
         setExistingRoomName(false);
     }
@@ -55,6 +56,15 @@ export function NewRoom(props) {
                         <ToggleButton value={2}>2</ToggleButton>
                         <ToggleButton value={3}>3</ToggleButton>
                         <ToggleButton value={4}>4</ToggleButton>
+                    </ToggleButtonGroup>
+                </ControlsItem>
+                <ControlsItem>
+                    Legend:
+                </ControlsItem>
+                <ControlsItem>
+                    <ToggleButtonGroup type="radio" name="options" defaultValue={"legend2"} onChange={e => setLegend(e)}>
+                        <ToggleButton value={"legend1"}>Legend 1</ToggleButton>
+                        <ToggleButton value={"legend2"}>Legend 2</ToggleButton>
                     </ToggleButtonGroup>
                 </ControlsItem>
                 {roomName && <Button variant="secondary" onClick={() => setUpGame()}>Create game</Button>}
