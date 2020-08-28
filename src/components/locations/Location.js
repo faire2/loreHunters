@@ -39,6 +39,9 @@ export default function Location(props) {
     if (location.state === LOCATION_STATE.unexplored) {
         exploreCost = getExplorationCost(location, false, null);
     }
+
+
+
     return (
         <LocationWrapper explored={location.state !== LOCATION_STATE.unexplored} exploredBgr={locationBackground}
              onClick={() => boardStateContext.handleClickOnLocation(location, false)}>

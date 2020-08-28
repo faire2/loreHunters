@@ -19,7 +19,6 @@ export function getExplorationDiscount(discount, explorationCostEffects, playerS
         }
     }
 
-debugger
     // process travel discount
     if ([EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.exploreAnyLocationWithDiscount3,
         EFFECT.placeToBasicLocationActivateTwice, EFFECT.exploreAnyLocationWithDiscount2].includes(playerState.activeEffects[0])) {

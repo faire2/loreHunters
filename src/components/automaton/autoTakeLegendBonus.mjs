@@ -1,4 +1,5 @@
-export function takeLegendBonusByAutomaton(states) {
+export function     autoTakeLegendBonus(states) {
+    console.log("AUTOMATON: taking a legend bonus.");
     const legend = states.legend;
     let breakLoops = false;
     // remove first bonus effect found on legend

@@ -16,7 +16,9 @@ export const Field = (props) => {
     const fieldIndex = props.fieldIndex;
     const positions = props.positions;
     const boardStateContext = useContext(BoardStateContext);
-    const numOfPlayers = boardStateContext.numOfPlayers;
+    const automatonLevel = boardStateContext.automatonLevel;
+    let numOfPlayers = boardStateContext.numOfPlayers;
+    numOfPlayers = !automatonLevel > 0 ? numOfPlayers : 5;
 
     let effectsArr = props.field.effects;
     // set background and element height

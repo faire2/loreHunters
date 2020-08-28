@@ -4,18 +4,10 @@ import {shuffleArray} from "../cardManipulationFuntions.mjs";
 import {EFFECT} from "../../../data/effects.mjs";
 import {Legends} from "../../../data/legends.mjs";
 
-export function getInitialLegend(numOfPlayers, legendId) {
+export function getInitialLegend(numOfPlayers, legendId, automatonLevel) {
     let legend = Legends[legendId];
     legend.positions = [];
-    // add player token positions
-    for (let i = 0; i < numOfPlayers; i++) {
-        let playerArr = [];
-        let tokenPosition = {columnIndex: null, fieldIndex: null};
-        for (let i = 0; i < GLOBAL_VARS.numOfLegendTokens; i++) {
-            playerArr.push(tokenPosition);
-        }
-        legend.positions.push(playerArr);
-    }
+
     // add random effects to fields, as defined by effectSlots in given fields
     let tLegendEffects = [...legendEffects];
     tLegendEffects = shuffleArray(tLegendEffects);
@@ -30,6 +22,20 @@ export function getInitialLegend(numOfPlayers, legendId) {
             }
         }
     }
+
+    // automaton is always the fifth player
+    numOfPlayers = automatonLevel > 0 ? 5 : numOfPlayers;
+
+    // add player token positions
+    for (let i = 0; i < numOfPlayers; i++) {
+        let playerArr = [];
+        let tokenPosition = {columnIndex: null, fieldIndex: null};
+        for (let i = 0; i < GLOBAL_VARS.numOfLegendTokens; i++) {
+            playerArr.push(tokenPosition);
+        }
+        legend.positions.push(playerArr);
+    }
+
     return legend;
 }
 

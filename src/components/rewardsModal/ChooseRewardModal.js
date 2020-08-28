@@ -16,7 +16,6 @@ import {
 import {replaceFirsUserJointLegendResource} from "../legends/functions/legendsFunctions";
 import {EFFECT} from "../../data/effects";
 import {getRewardElement} from "./getRewardElement";
-import {getIdCard} from "../cards/getIdCard";
 
 
 export default function ChooseRewardModal() {
@@ -108,7 +107,7 @@ export default function ChooseRewardModal() {
                 }
                 break;
             case REWARD_TYPE.chooseDestroyedCard:
-                tPlayerState.drawDeck.push(getIdCard(reward.id));
+                tPlayerState.drawDeck.push(reward);
                 tPlayerState.drawDeck[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
                 rewardIndex = tStore.destroyedCards.findIndex(card => card.id === reward.id);
                 tStore.destroyedCards.splice(rewardIndex, 1);

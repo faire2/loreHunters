@@ -4,21 +4,34 @@ import {processEffects} from "../../functions/processEffects";
 import {addLogEntry} from "../../main/logger";
 import {ACTION_TYPE} from "../../functions/enums";
 import {checkTokenColumns, getDiscountForProgress} from "./legendsFunctions";
+import {getPreviousColumnPositions} from "./getPreviousColumnPositions.mjs";
+import {getCanPlaceTokens} from "./getCanPlaceTokens.mjs";
 
 export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerState, tStore, tLocations) {
     const field = legend.fields[columnIndex][fieldIndex];
     const playerIndex = tPlayerState.playerIndex;
     const positions = legend.positions[playerIndex];
     const previousColumnIndex = columnIndex - 1;
-    let canPlaceToken = [false, false];
     let isFirstToken = null;
     let tokenIndex;
-    let previousColumnPositions = [[false, false, false],[false, false, false]];
+
+    //previous positions will be used to calculate position in each of the field in column
+    let previousColumnPositions = [];
+    for (let position of positions) {
+        previousColumnPositions.push([false, false, false]);
+    }
+
+    // can place token will be used to check possibility to place each tokens stored in positions
+    let canPlaceTokens = [];
+    for (let position of positions) {
+        canPlaceTokens.push(false);
+    }
+
     if (columnIndex === 0) {
         // if first column was clicked we check if the player has any null column position
         for (let i = 0; i < positions.length; i++) {
             if (positions[i].columnIndex === null) {
-                canPlaceToken[i] = true;
+                canPlaceTokens[i] = true;
                 tokenIndex = i;
                 break;
             }
@@ -29,110 +42,10 @@ export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerS
         if (tokenIndex >= 0) {
 
             // prepare array of present positions in previous column, e.g. size 3 column = [true, true, true]
-            for (let i = 0; i < positions.length; i++) {
-                if (positions[i].columnIndex === previousColumnIndex) {
-                    if (positions[i].fieldIndex === 0) {
-                        switch (legend.fields[previousColumnIndex][0].size) {
-                            case FIELD_SIZE["1"]:
-                                previousColumnPositions[i] = [true, previousColumnPositions[i][1], previousColumnPositions[i][2]];
-                                break;
-                            case FIELD_SIZE["1.5"]:
-                            case FIELD_SIZE["2"]:
-                                previousColumnPositions[i] = [true, true, previousColumnPositions[i][2]];
-                                break;
-                            case FIELD_SIZE["3"]:
-                                previousColumnPositions[i] = [true, true, true];
-                                break;
-                            default:
-                                console.warn("Unable to determine field size in previousColumnPositions");
-                        }
-                        // index 1 can in fact be real index 1 (if previous field size is 0) or 2 (if previous field size is 1)
-                    } else if (positions[i].fieldIndex === 1 && (legend.fields[previousColumnIndex][0].size === FIELD_SIZE["1"]
-                        || legend.fields[previousColumnIndex][0].size === FIELD_SIZE["1.5"])) {
-                        switch (legend.fields[previousColumnIndex][1].size) {
-                            case FIELD_SIZE["1"]:
-                                previousColumnPositions[i] = [previousColumnPositions[i][0], true, previousColumnPositions[i][2]];
-                                break;
-                            case FIELD_SIZE["1.5"]:
-                            case FIELD_SIZE["2"]:
-                                previousColumnPositions[i] = [previousColumnPositions[i][0], true, true];
-                                break;
-                            default:
-                                console.warn("Unable to determine field size in previousColumnPositions");
-                        }
-                    } else if (positions[i].fieldIndex === 1 && legend.fields[previousColumnIndex][0].size === FIELD_SIZE["2"]) {
-                        switch (legend.fields[previousColumnIndex][1].size) {
-                            case FIELD_SIZE["1"]:
-                                previousColumnPositions[i] = [previousColumnPositions[i][0], previousColumnPositions[i][1], true];
-                                break;
-                            default:
-                                console.warn("Unable to determine field size in previousColumnPositions");
-                        }
-                    } else if (positions[i].fieldIndex === 2) {
-                        switch (legend.fields[previousColumnIndex][2].size) {
-                            case FIELD_SIZE["1"]:
-                                previousColumnPositions[i] = [previousColumnPositions[i][0], previousColumnPositions[i][1], true];
-                                break;
-                            default:
-                                console.warn("Unable to determine field size in previousColumnPositions");
-                        }
-                    }
-                }
-            }
+            previousColumnPositions = getPreviousColumnPositions(legend, previousColumnPositions, positions, previousColumnIndex);
 
             // we check position of the field that was clicked in relation to array of true positions in previous column
-            if (fieldIndex === 0) {
-                switch (legend.fields[columnIndex][0].size) {
-                    case FIELD_SIZE["1"]:
-                        canPlaceToken[0] = previousColumnPositions[0][0];
-                        canPlaceToken[1] = previousColumnPositions[1][0];
-                        break;
-                    case FIELD_SIZE["1.5"]:
-                    case FIELD_SIZE["2"]:
-                        canPlaceToken[0] = previousColumnPositions[0][0] || previousColumnPositions[0][1];
-                        canPlaceToken[1] = previousColumnPositions[1][0] || previousColumnPositions[1][1];
-                        break;
-                    case FIELD_SIZE["3"]:
-                        canPlaceToken[0] = previousColumnPositions[0][0] || previousColumnPositions[0][1] || previousColumnPositions[0][2];
-                        canPlaceToken[1] = previousColumnPositions[1][0] || previousColumnPositions[1][1] || previousColumnPositions[1][2];
-                        break;
-                    default:
-                        console.warn("Unable to determine field size in previousColumnPositions");
-                }
-            } else if (fieldIndex === 1 && (legend.fields[columnIndex][0].size === FIELD_SIZE["1"]
-                || legend.fields[columnIndex][0].size === FIELD_SIZE["1.5"])) {
-                switch (legend.fields[columnIndex][1].size) {
-                    case FIELD_SIZE["1"]:
-                        canPlaceToken[0] = previousColumnPositions[0][1];
-                        canPlaceToken[1] = previousColumnPositions[1][1];
-                        break;
-                    case FIELD_SIZE["1.5"]:
-                    case FIELD_SIZE["2"]:
-                        canPlaceToken[0] = previousColumnPositions[0][1] || previousColumnPositions[0][2];
-                        canPlaceToken[1] = previousColumnPositions[1][1] || previousColumnPositions[1][2];
-                        break;
-                    default:
-                        console.warn("Unable to determine field size in previousColumnPositions");
-                }
-            } else if (fieldIndex === 1 && legend.fields[columnIndex][0].size === FIELD_SIZE["2"]) {
-                switch (legend.fields[columnIndex][1].size) {
-                    case FIELD_SIZE["1"]:
-                        canPlaceToken[0] = previousColumnPositions[0][2];
-                        canPlaceToken[1] = previousColumnPositions[1][2];
-                        break;
-                    default:
-                        console.warn("Unable to determine field size in previousColumnPositions");
-                }
-            } else if (fieldIndex === 2) {
-                switch (legend.fields[columnIndex][2].size) {
-                    case FIELD_SIZE["1"]:
-                        canPlaceToken[0] = previousColumnPositions[0][2];
-                        canPlaceToken[1] = previousColumnPositions[1][2];
-                        break;
-                    default:
-                        console.warn("Unable to determine field size in previousColumnPositions");
-                }
-            }
+            canPlaceTokens = getCanPlaceTokens(canPlaceTokens,legend, fieldIndex, columnIndex, previousColumnPositions);
         }
     }
 
@@ -140,7 +53,7 @@ export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerS
     const isSecondTokenBehind = columnIndex > 0 ? positions[1].columnIndex < positions[0].columnIndex
         : true;
 
-    if (canPlaceToken.includes(true)) {
+    if (canPlaceTokens.includes(true)) {
         const activeEffect = tPlayerState.activeEffects[0];
         if ([EFFECT.progressWithTexts, EFFECT.progressWithTextsOrWeapon, EFFECT.progressWithWeapon, EFFECT.progressWithJewel,
             EFFECT.progressWithSecondToken, EFFECT.progress].includes(activeEffect)) {

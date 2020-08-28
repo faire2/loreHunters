@@ -15,9 +15,10 @@ export const JsxFromEffects = (props) => {
 };
 
 export const OverlappingJsxFromEffects = (props) => {
+    const effects = props.effectsArray ? props.effectsArray : [];
     return (
         <EffectsWrapper fontSize={props.fontSize}>
-            {props.effectsArray.map((effect, i) =>
+            {effects.map((effect, i) =>
                 <Effect i={i} key={i}>
                     {getJsxSymbol(effect)}
                 </Effect>

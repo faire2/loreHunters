@@ -1,42 +1,83 @@
-import {AUTOMATON} from "../functions/enums.mjs";
-import {occupyLocationByAutomaton} from "./occupyLocationByAutomaton.mjs";
+import {AUTOMATON, CARD_TYPE} from "../functions/enums.mjs";
+import {autoOccupyLocation} from "./autoOccupyLocation.mjs";
 import {EFFECT} from "../../data/effects.mjs";
-import {exploreLocationByAutomaton} from "./exploreLocationByAutomaton.mjs";
-import {EXILE_CARDS, exileCardsByAutomaton} from "./exileCardsByAutomaton.mjs";
-import {takeLegendBonusByAutomaton} from "./takeLegendBonusByAutomaton.mjs";
+import {autoExploreLocation} from "./autoExploreLocation.mjs";
+import {takeArtifactFromStore} from "./autoTakeFromStore.mjs";
+import {autoResearch} from "./autoResearch.mjs";
+import {autoDefeatAGuardian} from "./autoDefeatGuardian.mjs";
 
-export function performAutomatonAction(states, actionObject, round, previousAction) {
+export function performAutomatonAction(states, automatonState, round) {
+    const actionObject = automatonState.automatonActions[0];
+
+    // we look at previous action to determine the direction of automaton effect
+    const previousAction = automatonState.executedAutomatonActions[automatonState.executedAutomatonActions.length - 1];
     const direction = previousAction !== undefined ? previousAction.direction : actionObject.direction;
+    let actionResult;
+
     switch (actionObject.action) {
         case AUTOMATON.adventurerCoin:
-            states = occupyLocationByAutomaton(states, EFFECT.gainCoin, direction);
+            states = autoOccupyLocation(states, EFFECT.gainCoin, direction);
             break;
         case AUTOMATON.adventurerExplore:
-            states = occupyLocationByAutomaton(states, EFFECT.gainExplore, direction);
+            states = autoOccupyLocation(states, EFFECT.gainExplore, direction);
             break;
         case AUTOMATON.adventurerText:
-            states = occupyLocationByAutomaton(states, EFFECT.gainText, direction);
+            states = autoOccupyLocation(states, EFFECT.gainText, direction);
             break;
         case AUTOMATON.adventurerWeapon:
-            states = occupyLocationByAutomaton(states, EFFECT.gainWeapon, direction);
+            states = autoOccupyLocation(states, EFFECT.gainWeapon, direction);
             break;
         case AUTOMATON.adventurerJewel:
-            states = occupyLocationByAutomaton(states, EFFECT.gainJewel, direction);
+            states = autoOccupyLocation(states, EFFECT.gainJewel, direction);
             break;
         case AUTOMATON.exploresLocation:
-            states = exploreLocationByAutomaton(states, round, direction);
+            actionResult = autoExploreLocation(states, round, direction, automatonState);
+            automatonState = actionResult.automatonState;
+            states = actionResult.states;
             break;
-        case AUTOMATON.exilesInnerCards:
-            states = exileCardsByAutomaton(states, EXILE_CARDS.inner);
+        /*case AUTOMATON.exilesInnerCards:
+            states = autoExileCard(states, EXILE_CARDS.inner);
             break;
         case AUTOMATON.exilesOuterCards:
-            states = exileCardsByAutomaton(states, EXILE_CARDS.outer)
+            states = autoExileCard(states, EXILE_CARDS.outer)
+            break;*/
+        /*case AUTOMATON.takesLegendBonus:
+            states = autoTakeLegendBonus(states);
+            break;*/
+        case AUTOMATON.takesArtifact:
+            actionResult = takeArtifactFromStore(states, automatonState, direction, CARD_TYPE.artifact);
+            automatonState = actionResult.automatonState;
+            states = actionResult.states;
             break;
-        case AUTOMATON.takesLegendBonus:
-            states = takeLegendBonusByAutomaton(states);
+        case AUTOMATON.takesItem:
+            actionResult = takeArtifactFromStore(states, automatonState, direction, CARD_TYPE.item);
+            automatonState = actionResult.automatonState;
+            states = actionResult.states;
+            break;
+        case AUTOMATON.researches:
+            actionResult = autoResearch(states, automatonState, direction);
+            automatonState = actionResult.automatonState;
+            states = actionResult.states;
+
+            // replace the first assistant in the offer if there are any assistants left in the deck
+            if (states.store.assistantsDeck.length > 0) {
+                states.store.assistantsOffer.splice(0, 1, states.store.assistantsDeck[0]);
+                states.store.assistantsDeck.splice(0, 1);
+            }
+            break;
+        case AUTOMATON.defeatsOrResearches:
+            actionResult = autoDefeatAGuardian(states, automatonState, direction);
+            if (actionResult.defeatedGuardian) {
+                states = actionResult.states;
+                automatonState = actionResult.automatonState;
+            } else {
+                actionResult = autoResearch(states, automatonState, direction);
+                automatonState = actionResult.automatonState;
+                states = actionResult.states;
+            }
             break;
         default:
             console.error("Unable to recognize automaton action in performAutomatonAction");
     }
-    return states;
+    return {states: states, automatonState: automatonState};
 }

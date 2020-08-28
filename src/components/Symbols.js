@@ -42,6 +42,8 @@ import automatonExileInner from "../img/symbols/AutomatonExchangesInnerCards.png
 import automatonExileOuter from "../img/symbols/AutomatonExchangesOuterCards.png"
 import automatonExploration from "../img/symbols/AutomatonExploresLocation.png"
 import bonusRemoval from "../img/symbols/AutomatonRemovesLegendBonus.png"
+import lensIcon from "../img/symbols/LensIcon.png"
+import removeAssistant from "../img/symbols/RemoveAssistant.png"
 
 import placeAdventurer from "../img/symbols/PlaceAdventurer.png"
 
@@ -97,6 +99,8 @@ export const AssistantRemoval = () => <img src={assistantRemoval} alt="remove an
 export const RemoveInnerCards = () => <img src={automatonExileInner} alt="remove innermost cards from the store" style={responsive2x}/>;
 export const RemoveOuterCards = () => <img src={automatonExileOuter} alt="remove outermost cards from the store" style={responsive2x}/>;
 export const AutomatonExploresLocation = () => <img src={automatonExploration} alt="automaton places an adventurer to a location" style={responsive}/>;
+export const LensIcon = () => <img src={lensIcon} alt="icon of lens" style={responsive}/>;
+export const RemoveAssistant = () => <img src={removeAssistant} alt="remove one of assistants in the offer" style={responsive}/>;
 
 export const AdventurerIcon = () =>
     <svg width="5" height="6" viewBox="0 0 99 119">

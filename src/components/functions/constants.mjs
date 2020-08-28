@@ -25,8 +25,11 @@ export const automatonActions = [
     {action: AUTOMATON.adventurerText, direction: DIRECTION.left},
     {action: AUTOMATON.adventurerWeapon, direction: DIRECTION.right},
     {action: AUTOMATON.adventurerJewel, direction: DIRECTION.left},
-    {action: AUTOMATON.exilesInnerCards, direction: DIRECTION.right},
-    {action: AUTOMATON.exilesOuterCards, direction: DIRECTION.left},
+    {action: AUTOMATON.takesItem, direction: DIRECTION.right},
+    {action: AUTOMATON.takesArtifact, direction: DIRECTION.left},
     {action: AUTOMATON.exploresLocation, direction: DIRECTION.right},
-    {action: AUTOMATON.takesLegendBonus, direction: DIRECTION.left}
+    {action: AUTOMATON.researches, direction: DIRECTION.left},
+    {action: AUTOMATON.defeatsOrResearches, direction: DIRECTION.right}
 ];
+
+export const automatonTurns = [0, 7, 8, 9, 10];

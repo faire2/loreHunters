@@ -38,7 +38,6 @@ import {
     TRANSMISSIONS
 } from "./components/functions/enums";
 import LeftSlidingPanel from "./components/main/LeftSlidingPanel";
-import {handleGuardianArrival} from "./components/functions/guardians/handleGuardianArrival";
 import {processLegend} from "./components/legends/functions/processLegend";
 import {AssistantsArea} from "./components/assistantsChoice/AssistantsArea";
 import {getFailedEffectFeedback} from "./data/getFailedEffectFeedback";
@@ -57,7 +56,8 @@ function GameBoard(props) {
     const [locations, setLocations] = useState(null);
     const [store, setStore] = useState(null);
     const [round, setRound] = useState(null);
-    const [executedAutomatonActions, setExecutedAutomatonActions] = useState([]);
+    const [automatonLevel, setAutomatonLevel] = useState(false);
+    const [automatonState, setAutomatonState] = useState(null);
     const [previousPlayer, setPreviousPlayer] = useState(null);
     const [isActivePlayer, setIsActivePlayer] = useState(null);
     const [numOfPlayers, setNumOfPlayers] = useState(null);
@@ -79,7 +79,8 @@ function GameBoard(props) {
             setIsActivePlayer(states.activePlayer === tPlayerIndex);
             setPreviousPlayer(states.previousPlayer);
             setNumOfPlayers(states.numOfPlayers);
-            setExecutedAutomatonActions(states.executedAutomatonActions);
+            setAutomatonLevel(states.automatonLevel);
+            setAutomatonState(states.automatonState);
             setLogLegend(states.legend);
             setGameLog(states.gameLog);
             setStatesLoading(false);
@@ -106,6 +107,8 @@ function GameBoard(props) {
             setPreviousPlayer(states.previousPlayer);
             setIsActivePlayer(states.activePlayer === playerIndex);
             setNumOfPlayers(states.numOfPlayers);
+            setAutomatonLevel(props.location.data.room.automaton);
+            setAutomatonState(props.location.data.room.automatonState);
             setStatesLoading(false);
 
             setLogLegend(states.legend);
@@ -425,12 +428,6 @@ function GameBoard(props) {
         if (isActivePlayer) {
             const effectProcessResults = processActiveEffect(card, cardIndex, null, cloneDeep(playerState),
                 null, {...store}, {...locations}, initiateRewardsModal);
-            if (effectProcessResults.processGuardian) {
-                const guardianResult = handleGuardianArrival(effectProcessResults.tPlayerState, effectProcessResults.tStore,
-                    round);
-                effectProcessResults.tPlayerState = guardianResult.tPlayerState;
-                effectProcessResults.tStore = guardianResult.tStore;
-            }
             setPlayerState(effectProcessResults.tPlayerState);
             setStore(effectProcessResults.tStore);
             setLocations(effectProcessResults.tLocations);
@@ -494,11 +491,6 @@ function GameBoard(props) {
                 let tPlayerState = buyResult.tPlayerState;
                 let tStore = buyResult.tStore;
                 let tLocations = buyResult.tLocations;
-                if (buyResult.processGuardian) {
-                    const guardianResult = handleGuardianArrival(tPlayerState, tStore, round);
-                    tPlayerState = guardianResult.tPlayerState;
-                    tStore = guardianResult.tStore;
-                }
                 if (buyResult.showRewardsModal) {
                     initiateRewardsModal(buyResult.rewardsData);
                 }
@@ -661,7 +653,9 @@ function GameBoard(props) {
         toastMessages: toastMessages,
         setToastMessages: setToastMessages,
         setExtendRightPanel: setExtendRightPanel,
-        executedAutomatonActions: executedAutomatonActions,
+        automatonLevel: automatonLevel,
+        executedAutomatonActions: automatonState ? automatonState.executedAutomatonActions : null,
+        automatonState: automatonState,
     };
 
     const playerStateContextValues = {
@@ -682,7 +676,9 @@ function GameBoard(props) {
         undo: undo,
         revert: revert,
         getPlaneFor2Coins: getPlaneFor2Coins,
-        executedAutomatonActions: executedAutomatonActions,
+        automatonLevel: automatonLevel,
+        executedAutomatonActions: automatonState ? automatonState.executedAutomatonActions : null,
+        automatonState: automatonState,
     };
 
     const gameBoardElements =

@@ -7,7 +7,6 @@ import {BoardStateContext} from "../../Contexts";
 export const AutomatonCardsArea = () => {
     const boardStateContext = useContext(BoardStateContext);
 
-
     return (
         <AutomatonCards>
             {boardStateContext.executedAutomatonActions.map((actionObject, i) =>

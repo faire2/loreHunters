@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects.mjs";
-import {addCardToStore, getIdCard} from "./cardManipulationFuntions.mjs";
+import {addCardToStore} from "./cardManipulationFuntions.mjs";
 import {processEffects} from "./processEffects.mjs";
 import {addLogEntry} from "../main/logger";
 import {ACTION_TYPE, CARD_STATE, CARD_TYPE} from "./enums";
@@ -75,16 +75,16 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
         }
         /* we pay the cost and add the card to discard deck or to hand */
         if (activeEffect === EFFECT.gainItemToHand) {
-            tPlayerState.hand.push(getIdCard(card));
+            tPlayerState.hand.push(card);
             tPlayerState.hand[tPlayerState.hand.length - 1].state = CARD_STATE.inHand;
         } else if (activeEffect === EFFECT.gainItemToTop) {
-            tPlayerState.drawDeck.splice(0, 0, getIdCard(card));
+            tPlayerState.drawDeck.splice(0, 0, card);
             tPlayerState.drawDeck[0].state = CARD_STATE.drawDeck;
         } else if (activeEffect === EFFECT.gainItem) {
-            tPlayerState.drawDeck.push(getIdCard(card));
+            tPlayerState.drawDeck.push(card);
             tPlayerState.drawDeck[0].state = CARD_STATE.drawDeck;
         } else {
-            tPlayerState.drawDeck.push(getIdCard(card));
+            tPlayerState.drawDeck.push(card);
             tPlayerState.drawDeck[tPlayerState.drawDeck.length - 1].state = CARD_STATE.drawDeck;
         }
 
@@ -102,7 +102,7 @@ export function processCardBuy(card, cardIndex, tPlayerState, tStore, tLocations
             tStore.artifactsOffer.splice(cardIndex, 1);
             tStore = addCardToStore(card.type, tStore);
         }
-        tPlayerState.activeCards.push(getIdCard(card));
+        tPlayerState.activeCards.push(card);
         tPlayerState.activeCards[tPlayerState.activeCards.length - 1].state = CARD_STATE.drawDeck;
         tPlayerState.resources.explore -= card.cost;
         tPlayerState.actions -= 1;

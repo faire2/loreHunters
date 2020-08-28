@@ -1,9 +1,10 @@
 // insert player into null position or push him to the end
 import {EFFECT} from "../data/effects.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {GLOBAL_VARS, ITEM_IDs} from "../data/idLists.mjs";
+import {GLOBAL_VARS} from "../data/idLists.mjs";
 import {addCardToPlayedCards, drawCards} from "../components/functions/cardManipulationFuntions.mjs";
 import {ASSISTANT_STATE, CARD_STATE, LOCATION_STATE} from "../components/functions/enums.mjs";
+import {ITEMS} from "../data/cards.mjs";
 
 /*export function handleAssistants(playerState) {
     for (let assistant of playerState.assistants) {
@@ -100,22 +101,10 @@ export function processEndOfRound(room) {
         let tPlayerState = cloneDeep(room.states.playerStates[i]);
         tPlayerState.availableAdventurers = GLOBAL_VARS.adventurers;
 
-        /* discard active cards */
-        /*for (let card of tPlayerState.activeCards) {
-            /!* undefeated guardians are removed from the game *!/
-            if (card.type === CARD_TYPE.guardian) {
-                tPlayerState.destroyedCards.push(card);
-                tPlayerState = addCardToPlayedCards(cloneDeep(ITEM_IDs.fear), tPlayerState);
-            } else {
-                tPlayerState = addCardToPlayedCards(card, tPlayerState);
-            }
-        }
-        tPlayerState.activeCards = [];*/
-
         /* gain fears for adventurers in guarded locations */
         if (!tPlayerState.longEffects.includes(EFFECT.protectFromFear)) {
             for (let x = 0; x < extraFear[i]; x++) {
-                tPlayerState.activeCards.push(cloneDeep(ITEM_IDs.fear));
+                tPlayerState.activeCards.push(cloneDeep(ITEMS.fear));
             }
         }
 

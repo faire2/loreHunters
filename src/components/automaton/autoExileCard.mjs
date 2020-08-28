@@ -1,6 +1,6 @@
 import {CARD_STATE} from "../functions/enums.mjs";
 
-export function exileCardsByAutomaton(states, exileType) {
+export function autoExileCard(states, exileType) {
     const store = states.store;
     if (exileType === EXILE_CARDS.inner) {
         if (store.artifactsOffer.length > 3) {
@@ -21,7 +21,7 @@ export function exileCardsByAutomaton(states, exileType) {
         store.itemsOffer.splice(store.itemsOffer.length - 1, 1, store.itemsDeck[0]);
         store.itemsDeck.splice(0, 1);
     } else {
-        console.error("Unable to process exile type in exileCardsByAutomaton: " + exileType);
+        console.error("Unable to process exile type in autoExileCard: " + exileType);
     }
     for (let card of store.itemsOffer) {
         card.state = CARD_STATE.inStore

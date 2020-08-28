@@ -1,4 +1,6 @@
 import React, {useContext, useState} from "react";
+import styled from "styled-components";
+import relicBgr from "../../img/relics/Relic.png"
 import {PlayerStateContext} from "../../Contexts";
 import {AdventurerToken, Blimp, Coin, Explore, Jeep, Jewel, Ship, Text, Walk, Weapon} from "../Symbols";
 import {Assistant} from "../assistantsChoice/Assistant";
@@ -7,6 +9,7 @@ import {ASSISTANT_TILE_SIZE} from "../functions/enums";
 import {GLOBAL_VARS} from "../../data/idLists";
 import {emptyPlayerState} from "../functions/initialStates/initialPlayerStates";
 import {DivColumn} from "../functions/styles";
+import {JsxFromEffects} from "../JsxFromEffects.js";
 
 export default function ResourcesArea() {
     const playerStateContext = useContext(PlayerStateContext);
@@ -14,7 +17,7 @@ export default function ResourcesArea() {
     const ownPlayerState = playerStateContext.playerState;
     const [showPlayerIndex, setShowPlayerIndex] = useState(0);
     const showPlayerState = playerStates ? playerStates[showPlayerIndex] : emptyPlayerState;
-
+    const automatonLevel = playerStateContext.automatonLevel;
 
     function handleClickOnPlayerTab(index) {
         setShowPlayerIndex(index);
@@ -43,15 +46,30 @@ export default function ResourcesArea() {
         top: 0
     };
 
+    const opponentResources = !automatonLevel > 0 ?
+        <div>
+            <PlayerTabs width={tabWidth} height={tabHeight} handleClickOnTab={handleClickOnPlayerTab}
+                        numOfPlayers={playerStateContext.numOfPlayers}/>
+            <Resources playerState={showPlayerState}/>
+        </div>
+        : <div>
+            <div>AUTOMATON</div>
+            <RelicRowWrapper>
+                {playerStateContext.automatonState.relicEffects.map((effect, i) =>
+                    <RelicWrapper bgr={relicBgr} key={i}>
+                        <JsxFromEffects fontSize={"2vw"} effectsArray={[effect]} key={i}/>
+                    </RelicWrapper>
+                )}
+            </RelicRowWrapper>
+        </div>
+
     return (
         <div style={containerStyle}>
             <div style={showOwnContainerStyle}>
                 <Resources playerState={ownPlayerState}/>
             </div>
             <div style={showOtherContainerStyle}>
-                <PlayerTabs width={tabWidth} height={tabHeight} handleClickOnTab={handleClickOnPlayerTab}
-                            numOfPlayers={playerStateContext.numOfPlayers}/>
-                <Resources playerState={showPlayerState}/>
+                {opponentResources}
             </div>
         </div>
     )
@@ -188,9 +206,9 @@ const Resources = (props) => {
             </div>
             <div style={secondColumnFieldStyle}>
                 <DivColumn>
-                {playerState.assistants.map(income =>
-                    <Assistant assistant={income} size={ASSISTANT_TILE_SIZE.small}/>
-                )}
+                    {playerState.assistants.map(income =>
+                        <Assistant assistant={income} size={ASSISTANT_TILE_SIZE.small}/>
+                    )}
                 </DivColumn>
             </div>
         </div>
@@ -209,3 +227,20 @@ export const RESOURCES = Object.freeze({
     ship: "ship",
     blimp: "blimp",
 });
+
+const RelicRowWrapper = styled.div`
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+`
+
+const RelicWrapper = styled.div`
+    width: 2.4vw;
+    height: 3vw;
+    background-image: url("${props => props.bgr}");
+    background-size: cover;
+    margin: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`

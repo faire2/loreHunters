@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
-import {ARTIFACTS, CARD_TRANSPORT, ITEMS} from "../../data/cards";
+import {CARD_TRANSPORT, ITEMS} from "../../data/cards.mjs";
 import itemBgr from "../../img/cardBackgrounds/Item.png"
 import basicItemBgr from "../../img/cardBackgrounds/basicItemBackground.png"
 import fearBgr from "../../img/cardBackgrounds/fearBgr.png"
@@ -24,16 +24,20 @@ import {
 import {cloneDeep} from "lodash";
 import {CARD_STATE, CARD_TYPE} from "../functions/enums";
 import {gainLockedResourceBack} from "../functions/guardians/gainLockedResourceBack";
+import {CARD_TEXTS} from "../../data/cardTexts";
 
 export default function Card(props) {
     /* get JSX card */
-    let cardTemplate;
     let cardBackground;
     const cardType = props.card.type;
     const boardStateContext = useContext(BoardStateContext);
+    let card = cloneDeep(props.card);
+
+    if (!card) {
+        debugger
+    }
 
     if (cardType === CARD_TYPE.item) {
-        cardTemplate = ITEMS[props.card.id];
         cardBackground = itemBgr;
     } else if (cardType === CARD_TYPE.basic) {
         if (props.card.id === ITEMS.fear.id) {
@@ -41,23 +45,14 @@ export default function Card(props) {
         } else {
             cardBackground = basicItemBgr;
         }
-        cardTemplate = ITEMS[props.card.id]
     } else if (cardType === CARD_TYPE.artifact) {
-        cardTemplate = ARTIFACTS[props.card.id];
         cardBackground = artifactBgr;
-    /*} else if (cardType === CARD_TYPE.guardian) {
-        cardTemplate = GUARDIANS[props.card.id];
-        cardBackground = guardianBgr;*/
     } else {
         console.log("Unable to process card type in Card.js: " + cardType);
         console.log(props.card.id);
     }
-    if (!cardTemplate) {
-        debugger
-    }
 
     // prevents merge of two cards with same id
-    let card = cloneDeep(cardTemplate);
     card.state = props.card.state;
     card.type = cardType;
     if (props.card.locked) {card.locked = props.card.locked}
@@ -143,7 +138,6 @@ export default function Card(props) {
     // if cardsState = inShop => no effects, else (in hand) clickOn effects only active, if activeEffects.length = 0
     const isGuardian = card.type === CARD_TYPE.guardian;
     const isPointer = card.state !== CARD_STATE.inStore ? "pointer" : "default";
-    const effectsText = card.effectsText;
 
     // card enlargement is based on hover effect set in app.css
     const cardStyle = {
@@ -209,7 +203,7 @@ export default function Card(props) {
         marginTop: "17%",
         height: "45%",
         width: "100%",
-        backgroundImage: `url(${card.image})`,
+        backgroundImage: `url(${CARD_TEXTS[card.id].image})`,
         backgroundSize: "100% 100%",
         zIndex: -1
     };
@@ -226,7 +220,7 @@ export default function Card(props) {
         zIndex: 2,
     };
 
-    //todo fontSize is set in cards.js, should be moved here
+    //todo fontSize is set in cards.mjs, should be moved here
     const effectsStyle = {
         width: "91%",
         marginTop: !isGuardian ? "55%" : "59%",
@@ -317,7 +311,7 @@ export default function Card(props) {
             <div style={cardImageStyle}/>
 
             <div style={effectsWrapperStyle} onClick={() => handleClickOnEffect(card.effects, false)}>
-                <Effects effectsText={effectsText} style={effectsStyle}/>
+                <Effects effectsText={CARD_TEXTS[card.id].effectsText} style={effectsStyle}/>
             </div>
             <div style={guardianEscapeWrapperStyle} onClick={() =>
                 handleClickOnEffect([EFFECT.escapeGuardian], false)}/>

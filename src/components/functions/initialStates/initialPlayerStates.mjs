@@ -1,6 +1,6 @@
 import {GLOBAL_VARS} from "../../../data/idLists.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
-import {CARD_STATE} from "../enums.mjs";
+import {CARD_STATE, CARD_TYPE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 
 export const emptyPlayerState = Object.freeze({
@@ -39,7 +39,7 @@ export const emptyPlayerState = Object.freeze({
     victoryCards: [],
 });
 /* INITIAL PLAYER STATES */
-export default function getInitialPlayerStates(numOfPlayers) {
+export default function getInitialPlayerStates(numOfPlayers, automatonLevel) {
     let playerStates = [];
 
     for (let i = 0; i < numOfPlayers; i++) {
@@ -48,8 +48,8 @@ export default function getInitialPlayerStates(numOfPlayers) {
         // each player has different starting resources
         switch (i) {
             case 0:
-                playerState.resources.coins = 2;
-                playerState.resources.explore = 0;
+                playerState.resources.coins =  !automatonLevel > 0 ? 2 : 1;
+                playerState.resources.explore = !automatonLevel > 0 ? 0 : 1;
                 break;
             case 1:
                 playerState.resources.coins = 1;
@@ -84,23 +84,24 @@ export default function getInitialPlayerStates(numOfPlayers) {
 
         for (let card of cardsSetup.drawCards) {
             card.state = CARD_STATE.inHand;
+            card.type= CARD_TYPE.basic;
             hand.push(card);
         }
-        /*const testCard0 = {...ARTIFACT_IDs.runesOfDead };
+        /*const testCard0 = {...ARTIFACTS.runesOfDead };
         testCard0.state = CARD_STATE.drawDeck;
         drawDeck.splice(0, 0, testCard0);*/
 
-        /*const testCard = {...ITEM_IDs.airplane};
+        /*const testCard = {...ITEMS.airplane};
         testCard.state = CARD_STATE.inHand;
         hand.splice(0, 0, testCard);*/
 
-        /*for (let key in ITEM_IDs) {
-            let card = {...ITEM_IDs[key]};
+        /*for (let key in ITEMS) {
+            let card = {...ITEMS[key]};
             card.state = CARD_STATE.inHand;
             hand.push(card);
         }*/
 
-        /*for (let key in ARTIFACT_IDs) {
+        /*for (let key in ARTIFACTS) {
             let card = {...ARTIFACT_IDs[key]};
             card.state = CARD_STATE.inHand;
             hand.push(card);

@@ -1,6 +1,4 @@
 import cloneDeep from 'lodash/cloneDeep.js';
-import {ARTIFACT_IDs, ITEM_IDs} from "../../data/idLists.mjs";
-import {EFFECT} from "../../data/effects.mjs";
 import {CARD_STATE, CARD_TYPE} from "./enums.mjs";
 
 export function addCardToHand(card, origPlayerState) {
@@ -13,18 +11,10 @@ export function addCardToHand(card, origPlayerState) {
 }
 
 export function addCardToPlayedCards(card, tPlayersState) {
-    let idCard = getIdCard(card);
-    idCard.state = CARD_STATE.played;
-    tPlayersState.activeCards.push(idCard);
+    card.state = CARD_STATE.played;
+    tPlayersState.activeCards.push(card);
     return tPlayersState;
 }
-
-/*export function addCardToDiscardDeck(card, tPlayersState) {
-    let idCard = getIdCard(card);
-    idCard.state = CARD_STATE.discard;
-    tPlayersState.discardDeck.push(idCard);
-    return tPlayersState;
-}*/
 
 //todo remove guardians as they are part of location now
 export function drawCards(cardsNum, origPlayerState) {
@@ -56,7 +46,6 @@ export function drawCards(cardsNum, origPlayerState) {
             tPlayerState.drawDeck = drawDeck;
         }
     }
-    tPlayerState = activateGuardianAndLockEffects(tPlayerState, guardians, lockEffects);
     console.log("draw deck length: " + drawDeck.length);
     console.log("*Checking card states in hand:");
     for (let card of tPlayerState.hand) {
@@ -139,95 +128,8 @@ export function removeCard(card, tPlayerState, tStore) {
         default:
             console.log("Cannot remove card " + card.id + ", state: " + card.state);
     }
-    tStore.destroyedCards.push(getIdCard(card));
+    tStore.destroyedCards.push(card);
     return tPlayerState;
-}
-
-export function getIdCard(jsxCard) {
-    const cardId = jsxCard.id;
-    if (ITEM_IDs[cardId]) {
-        return ITEM_IDs[cardId]
-    } else if (ARTIFACT_IDs[cardId]) {
-        return ARTIFACT_IDs[cardId]
-    } else {
-        console.log("Unhable to get IdCard for: " + jsxCard.id);
-    }
-}
-
-export function activateGuardianAndLockEffects(tPlayerState, guardians, lockEffects) {
-    for (let i = 0; i < guardians.length; i++) {
-        guardians[i].state = CARD_STATE.active;
-        tPlayerState.activeCards.push(guardians[i]);
-        guardians[i].locked = [];
-        for (let effect of lockEffects[i]) {
-            switch (effect) {
-                case EFFECT.lockCard:
-                    // if guardians come at the beginning of the round, the card is locked when the whole hand is drawn
-                    if (tPlayerState.hand.length > 0) {
-                        const randomCardIndex = Math.floor(Math.random() * (tPlayerState.hand.length));
-                        let lockedCard = tPlayerState.hand[randomCardIndex];
-                        lockedCard.state = CARD_STATE.locked;
-                        tPlayerState.activeCards.push(lockedCard);
-                        tPlayerState.hand.splice(randomCardIndex, 1);
-                        guardians[i].locked.push(effect);
-                    } else {
-                        console.log("Unable to lock card while drawing. Player hand: " + tPlayerState.hand);
-                    }
-                    break;
-                case EFFECT.lockAdventurer:
-                    if (tPlayerState.availableAdventurers > 0) {
-                        tPlayerState.availableAdventurers -= 1;
-                        guardians[i].locked.push(effect);
-                    } else {
-                        console.log("Unable to lock adventurer while drawing. Adventurers: " + tPlayerState.availableAdventurers);
-                    }
-                    break;
-                case EFFECT.lockCoin:
-                    if (tPlayerState.resources.coins > 0) {
-                        tPlayerState.resources.coins -= 1;
-                        guardians[i].locked.push(effect);
-                    } else {
-                        console.log("Unable to lock coins while drawing. Resources: " + tPlayerState.resources);
-                    }
-                    break;
-                case EFFECT.lockExplore:
-                    if (tPlayerState.resources.explore > 0) {
-                        tPlayerState.resources.explore -= 1;
-                        guardians[i].locked.push(effect);
-                    } else {
-                        console.log("Unable to lock explore while drawing. Resources: " + tPlayerState.resources);
-                    }
-                    break;
-                case EFFECT.lockText:
-                    if (tPlayerState.resources.texts > 0) {
-                        tPlayerState.resources.texts -= 1;
-                        guardians[i].locked.push(effect);
-                    } else {
-                        console.log("Unable to lock weapons while drawing. Resources: " + tPlayerState.resources);
-                    }
-                    break;
-                case EFFECT.lockWeapon:
-                    if (tPlayerState.resources.weapons > 0) {
-                        tPlayerState.resources.weapons -= 1;
-                        guardians[i].locked.push(effect);
-                    } else {
-                        console.log("Unable to lock weapons while drawing. Resources: " + tPlayerState.resources);
-                    }
-                    break;
-                case EFFECT.lockJewel:
-                    if (tPlayerState.resources.jewels > 0) {
-                        tPlayerState.resources.jewels -= 1;
-                        guardians[i].locked.push(effect);
-                    } else {
-                        console.log("Unable to lock weapons while drawing. Resources: " + tPlayerState.resources);
-                    }
-                    break;
-                default:
-                    console.log("Cannot process lock effect in drawCards: " + lockEffects[i]);
-            }
-        }
-    }
-    return tPlayerState
 }
 
 export function spliceCardIfFound(card, cardsArr) {

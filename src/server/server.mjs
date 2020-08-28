@@ -23,10 +23,10 @@ import {getInitialLegend} from "../components/functions/initialStates/initialLeg
 import {getInitialLocations} from "../components/functions/initialStates/initialLocations.mjs";
 import {resetRelicEffects} from "../data/relicEffects.mjs";
 import {shuffleArray} from "../components/functions/cardManipulationFuntions.mjs";
-import {automatonActions} from "../components/functions/constants.mjs";
+import {automatonActions, automatonTurns} from "../components/functions/constants.mjs";
 import {performAutomatonAction} from "../components/automaton/performAutomatonAction.mjs";
 import {EFFECT} from "../data/effects.mjs";
-import {ITEM_IDs} from "../data/idLists.mjs";
+import {ITEMS} from "../data/cards.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -60,11 +60,11 @@ io.on("connection", socket => {
             const numOfPlayers = roomData.numOfPlayers;
             const states = {
                 numOfPlayers: numOfPlayers,
-                playerStates: getInitialPlayerStates(numOfPlayers),
+                playerStates: getInitialPlayerStates(numOfPlayers, roomData.automaton),
                 /* beware! locations must be initialized before store because of relicEffects! */
                 locations: getInitialLocations(numOfPlayers, "legend2"),
                 store: getInitialStore(numOfPlayers, true), // todo change to detection of legend type
-                legend: getInitialLegend(numOfPlayers, "legend2"),
+                legend: getInitialLegend(numOfPlayers, "legend2", roomData.automaton),
                 activePlayer: 0,
                 initialPlayer: 0,
                 previousPlayer: 0,
@@ -72,6 +72,7 @@ io.on("connection", socket => {
                 gameLog: [],
                 roomName: roomData.roomName,
             };
+            const allAutomatonActions = shuffleArray(cloneDeep(automatonActions));
             gameRooms.push({
                 name: roomData.roomName,
                 numOfPlayers: roomData.numOfPlayers,
@@ -79,9 +80,16 @@ io.on("connection", socket => {
                 states: states,
                 previousStates: states,
                 automaton: roomData.automaton,
-                automatonActions: cloneDeep(shuffleArray(automatonActions)),
-                executedAutomatonActions: [],
-                previousAutomatonActions: automatonActions,
+                automatonState: {
+                    automatonActions: allAutomatonActions,
+                    executedAutomatonActions: [],
+                    previousAutomatonActions: allAutomatonActions,
+                    victoryCards: [],
+                    relicEffects: [],
+                    silverRelics: 0,
+                    defeatedGuardians: 0,
+                    remainingActions: automatonTurns[roomData.automaton],
+                },
             });
             console.debug("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");
             resetRelicEffects();
@@ -151,7 +159,9 @@ io.on("connection", socket => {
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
                 numOfPlayers: room.states.numOfPlayers,
-                executedAutomatonActions: room.executedAutomatonActions
+                automatonLevel: room.automaton,
+                automatonState: room.automatonState,
+                executedAutomatonActions: room.automatonState.executedAutomatonActions
             })
         } else {
             console.error("Couldn't find room during requested status update:" + data.roomName);
@@ -174,7 +184,9 @@ io.on("connection", socket => {
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
                 numOfPlayers: room.states.numOfPlayers,
-                executedAutomatonActions: room.executedAutomatonActions,
+                automatonLevel: room.automaton,
+                automatonState: room.automatonState,
+                executedAutomatonActions: room.automatonState.executedAutomatonActions
             })
         } else {
             console.error("Room could not be found, turn was not passed.");
@@ -188,10 +200,11 @@ io.on("connection", socket => {
         console.log("room: " + room);
         if (room) {
             room.states = cloneDeep(room.previousStates);
-            if (room.automaton) {
-                room.automatonActions = room.previousAutomatonActions;
-                if (room.states.executedAutomatonActions && room.states.executedAutomatonActions.length > 0) {
-                    room.states.executedAutomatonActions.pop();
+            if (room.automaton > 0) {
+                room.automatonState.automatonActions = room.automatonState.previousAutomatonActions;
+                if (room.automatonState.executedAutomatonActions && room.automatonState.executedAutomatonActions.length > 0) {
+                    room.automatonState.executedAutomatonActions.pop();
+                    room.states.executedAutomatonActions = room.automatonState.executedAutomatonActions;
                 }
             }
             updateStatesToAll(room);
@@ -205,17 +218,26 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.nextPlayer, states => {
         console.debug("Passing turn to next player in room: " + states.roomName + "(" + getUserName(socket.id, users) + ")");
         let room = getRoom(states.roomName, gameRooms);
+        states.playerStates = room.states.playerStates;
+        states.round = room.states.round;
+        states.numOfPlayers = room.states.numOfPlayers;
+        states.activePlayer = room.states.activePlayer;
+        states.previousPlayer = room.states.previousPlayer;
+        states.initialPlayer = room.states.initialPlayer;
         if (room) {
             room.previousStates = cloneDeep(room.states);
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             console.debug("PLAYER " + (playerIndex) + " passing action.");
-            if (room.automaton) {
-                room.previousAutomatonActions = cloneDeep(room.automatonActions);
-                if (room.automatonActions.length > 0) {
-                    states = performAutomatonAction(states, room.automatonActions[0], room.states.round, room.executedAutomatonActions[
-                    room.executedAutomatonActions.length - 1]);
-                    room.executedAutomatonActions.push(room.automatonActions[0]);
-                    room.automatonActions.splice(0, 1);
+            if (room.automaton > 0 && room.automatonState.remainingActions > 0) {
+                if (room.automatonState.automatonActions.length > 0) {
+                    // perform automated action
+                    console.log("AUTOMATON PERFORMS AN ACTION");
+                    const automatonResult = performAutomatonAction(states, room.automatonState, room.states.round);
+                    room.states = automatonResult.states;
+                    room.automatonState = automatonResult.automatonState;
+                    room.automatonState.executedAutomatonActions.push(room.automatonState.automatonActions[0]);
+                    room.automatonState.automatonActions.splice(0, 1);
+                    room.automatonState.remainingActions -= 1;
                 }
             }
             console.debug("Adventurers check completed")
@@ -232,6 +254,12 @@ io.on("connection", socket => {
         let room = getRoom(states.roomName, gameRooms);
         if (room) {
             room.previousStates = cloneDeep(room.state);
+            states.playerStates = room.states.playerStates;
+            states.round = room.states.round;
+            states.numOfPlayers = room.states.numOfPlayers;
+            states.activePlayer = room.states.activePlayer;
+            states.previousPlayer = room.states.previousPlayer;
+            states.initialPlayer = room.states.initialPlayer;
 
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             for (let playerState of room.states.playerStates) {
@@ -254,12 +282,28 @@ io.on("connection", socket => {
                 console.debug("have all finished: " + haveAllFinished);
 
                 if (haveAllFinished) {
+                    if (room.automaton > 0 && room.automatonState.remainingActions > 0) {
+                        // if we have automaton we have to precessed remaining turns
+                        for (let i = 0; i < room.automatonState.remainingActions; i++) {
+                            room.automatonState.previousAutomatonActions = cloneDeep(room.automatonState.automatonActions);
+                            if (room.automatonState.automatonActions.length > 0) {
+                                console.log("AUTOMATON PERFORMS AN ACTION");
+                                const automatonResult = performAutomatonAction(states, room.automatonState, room.states.round);
+                                room.states = automatonResult.states;
+                                room.automatonState = automatonResult.automatonState;
+                                room.automatonState.executedAutomatonActions.push(room.automatonState.automatonActions[0]);
+                                room.automatonState.automatonActions.splice(0, 1);
+                            }
+                        }
+                    }
+
                     if (room.states.round < 5) {
                         room = processEndOfRound(room);
                         // replenish automaton actions
-                        if (room.automaton) {
-                            room.automatonActions = cloneDeep(shuffleArray(automatonActions));
-                            room.executedAutomatonActions = [];
+                        if (room.automaton > 0) {
+                            room.automatonState.automatonActions = cloneDeep(shuffleArray(automatonActions));
+                            room.automatonState.executedAutomatonActions = [];
+                            room.automatonState.remainingActions = automatonTurns[room.automaton];
                         }
                     } else {
                         // add final fears for players in guarded locations
@@ -280,7 +324,7 @@ io.on("connection", socket => {
                         for (let i = 0; i < room.numOfPlayers; i++) {
                             if (!room.states.playerStates[i].longEffects.includes(EFFECT.protectFromFear)) {
                                 for (let x = 0; x < extraFear[i]; x++) {
-                                    room.states.playerStates[i].activeCards.push(cloneDeep(ITEM_IDs.fear));
+                                    room.states.playerStates[i].activeCards.push(cloneDeep(ITEMS.fear));
                                 }
                             }
 
@@ -379,7 +423,8 @@ io.on("connection", socket => {
                 previousPlayer: room.states.previousPlayer,
                 gameLog: room.states.gameLog,
                 numOfPlayers: room.states.numOfPlayers,
-                executedAutomatonActions: room.executedAutomatonActions,
+                automatonLevel: room.automaton,
+                automatonState: room.automatonState,
             })
         } else {
             console.error("Unable to process room in updatesStatesToAll - probably result of earlier fail, e.g. to revert.");

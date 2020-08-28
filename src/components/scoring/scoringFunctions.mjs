@@ -1,7 +1,6 @@
-import {ITEM_IDs} from "../../data/idLists";
 import {getLogLegend} from "../main/logger";
 import {CARD_TYPE, RELIC} from "../functions/enums";
-import {ARTIFACTS, ITEMS} from "../../data/cards";
+import {ARTIFACTS, ITEMS} from "../../data/cards.mjs";
 import {pointsForUnusedRelics} from "../functions/constants";
 
 export function getPoints(playerState) {
@@ -9,7 +8,7 @@ export function getPoints(playerState) {
     const playerIndex = playerState.playerIndex;
     const allDeckCards = [...playerState.hand, ...playerState.drawDeck, ...playerState.activeCards];
     const items = allDeckCards.filter(card => (card.type === CARD_TYPE.item || card.type === CARD_TYPE.basic)
-        && card.id !== ITEM_IDs.fear.id);
+        && card.id !== ITEMS.fear.id);
 
     /* ITEM POINTS */
     let itemPoints = 0;
@@ -25,7 +24,7 @@ export function getPoints(playerState) {
     }
 
     /* FEARS */
-    const fears = allDeckCards.filter(card => card.id === ITEM_IDs.fear.id);
+    const fears = allDeckCards.filter(card => card.id === ITEMS.fear.id);
     let fearPoints = 0;
     for (let card of fears) {
         fearPoints += ITEMS[card.id].points;
@@ -48,6 +47,9 @@ export function getPoints(playerState) {
         if (playerState.playerIndex === i) {
             legendPoints += legend.lostCityPoints[i];
         }
+    }
+    if (isNaN(legendPoints)) {
+        legendPoints = 0;
     }
 
     /* RELICS */
@@ -90,5 +92,67 @@ export function getPoints(playerState) {
         legendPoints: legendPoints,
         relicsPoints: relicsPoints,
         totalPoints: totalPoints
+    }
+}
+
+export function getAutomatonPoints(automatonState) {
+    const legend = getLogLegend();
+
+    /* get card points */
+    let items = [];
+    let artifacts = [];
+    for (let card of automatonState.victoryCards) {
+        if (card.type === CARD_TYPE.item) {
+            items.push(card);
+        } else if (card.type === CARD_TYPE.artifact) {
+            artifacts.push(card);
+        } else {console.error("Unable to determine card type in getAutomatonPoints:" + card.type)};
+    }
+    let itemPoints = items.reduce((a, b) => a + b.points, 0);
+    let artifactPoints = artifacts.reduce((a, b) => a + b.points, 0);
+
+    /* get relic points */
+    let uniqueEffects = [];
+    let duplicateEffects = [];
+    // automaton gets more points for unique effects, so we have to separate them
+    for (let relicEffect of automatonState.relicEffects) {
+        if (!uniqueEffects.includes(relicEffect)) {
+            uniqueEffects.push(relicEffect);
+        } else {
+            duplicateEffects.push(relicEffect)
+        }
+    }
+
+    /* get legend points */
+    let legendPoints = 0;
+    const victoryPoints = legend.victoryPoints;
+    // points for columns any of tokens reached
+    legendPoints += parseInt(victoryPoints.firstToken[legend.positions[4][0].columnIndex], 10);
+    // points for position in the lost city
+    const lostCityPlayerPositions = legend.lostCityPlayers;
+    for (let i = 0; i < lostCityPlayerPositions.length; i++) {
+        if (4 === lostCityPlayerPositions[i]) {
+            legendPoints += legend.lostCityPoints[i];
+        }
+    }
+    if (isNaN(legendPoints)) {
+        legendPoints = 0;
+    }
+
+    /* silver relics for steps in lost city */
+    const silverRelicPoints = 7 * automatonState.silverRelics;
+
+    /* defeated guardians */
+    const defeatedGuardianPoints = automatonState.defeatedGuardians * 5;
+
+    let relicPoints = uniqueEffects.length * 3 + duplicateEffects.length * 2;
+
+    return {
+        itemPoints: itemPoints,
+        artifactPoints: artifactPoints,
+        relicPoints: relicPoints,
+        legendPoints: legendPoints,
+        silverRelicPoints: silverRelicPoints,
+        defeatedGuardianPoints: defeatedGuardianPoints
     }
 }

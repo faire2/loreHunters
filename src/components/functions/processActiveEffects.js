@@ -11,7 +11,6 @@ import {
     updateLocations
 } from "../locations/functions/locationFunctions";
 import {CARD_STATE, CARD_TYPE, LOCATION_LEVEL, LOCATION_STATE, REWARD_TYPE} from "./enums";
-import {getIdCard} from "../cards/getIdCard";
 import {spliceCardIfFound} from "./cardManipulationFuntions";
 
 export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, toBeRemoved, tStore, tLocations, initiateRewardsModal) {
@@ -223,7 +222,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         case EFFECT.destroyCardInStore:
             if (tCard !== null && tCard.state === CARD_STATE.inStore) {
-                tStore.destroyedCards.push(getIdCard(tCard.id));
+                tStore.destroyedCards.push(tCard);
                 if (tCard.type === CARD_TYPE.item) {
                     tStore.itemsOffer = spliceCardIfFound(tCard, tStore.itemsOffer);
                     tStore.itemsOffer.push(tStore.itemsDeck[0]);

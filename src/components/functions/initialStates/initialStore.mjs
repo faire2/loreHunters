@@ -1,5 +1,5 @@
 /* INITIAL STORE */
-import {ARTIFACT_IDs, GLOBAL_VARS, ITEM_IDs} from "../../../data/idLists.mjs";
+import {GLOBAL_VARS} from "../../../data/idLists.mjs";
 import {ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 import {relicEffects} from "../../../data/relicEffects.mjs";
@@ -7,19 +7,26 @@ import {Assistants} from "../../../data/assistants.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
 import {Guardians} from "../../../data/guardians.mjs";
 import {silverAssistantsOfferNumber} from "../constants.mjs";
+import {ARTIFACTS, ITEMS} from "../../../data/cards.mjs";
 
 export function getInitialStore(numOfPlayers, assistantsInLegend) {
     /* all items, each item is represented only once! */
-    let items = shuffleArray(Object.keys(ITEM_IDs).map(key => {
-        return ITEM_IDs[key];
+    let items = shuffleArray(Object.keys(ITEMS).map(key => {
+        return ITEMS[key];
     }));
     items = items.filter(card => card.type !== CARD_TYPE.basic);
+    for (let item of items) {
+        item.type = CARD_TYPE.item
+    }
 
     /* artifacts */
-    let artifacts = shuffleArray(Object.keys(ARTIFACT_IDs).map(key => {
-        ARTIFACT_IDs[key].state = CARD_STATE.inStore;
-        return ARTIFACT_IDs[key];
+    let artifacts = shuffleArray(Object.keys(ARTIFACTS).map(key => {
+        ARTIFACTS[key].state = CARD_STATE.inStore;
+        return ARTIFACTS[key];
     }));
+    for (let artifact of artifacts) {
+        artifact.type = CARD_TYPE.artifact;
+    }
 
     /* guardians */
     let guardians = [];

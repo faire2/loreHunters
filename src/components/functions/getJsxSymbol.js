@@ -5,11 +5,9 @@ import {
     AdventurerToken,
     Arrow,
     Artifact,
-    AssistantRemoval,
     AssistantUpgrade,
     AutomatonExploresLocation,
     Blimp,
-    BonusRemoval,
     BronzeRelic,
     Coin,
     DefeatedGuardian,
@@ -24,11 +22,10 @@ import {
     Item,
     Jeep,
     Jewel,
+    LensIcon,
     LocationL3,
     Map,
     PlaceAdventurer,
-    RemoveInnerCards,
-    RemoveOuterCards,
     SecondLegendToken,
     Ship,
     SilverAssistant,
@@ -161,19 +158,19 @@ export function getJsxSymbol(effect) {
         case LOCATION_SLOTS.single:
             return <Walk/>;
         case LOCATION_SLOTS.double:
-            return <DoubleBoots><Walk /><Walk/></DoubleBoots>;
+            return <DoubleBoots><Walk/><Walk/></DoubleBoots>;
         case LOCATION_SLOTS.both:
-            return <BasicLocationDoubleSlot><Walk /><div style={{width: "5vw"}}/><Walk /><Walk /></BasicLocationDoubleSlot>;
+            return <BasicLocationDoubleSlot><Walk/>
+                <div style={{width: "5vw"}}/>
+                <Walk/><Walk/></BasicLocationDoubleSlot>;
         case EFFECT.gainFear:
             return <Fear/>;
         case EFFECT.gainItemOrExplores:
             return <DivRow><Item/>|<Explore/><Explore/></DivRow>;
-        case AUTOMATON.exilesInnerCards:
+        /*case AUTOMATON.exilesInnerCards:
             return <RemoveInnerCards/>;
         case AUTOMATON.exilesOuterCards:
-            return <RemoveOuterCards/>;
-        case AUTOMATON.takesLegendBonus:
-            return <DivColumn><BonusRemoval/><AssistantRemoval/></DivColumn>;
+            return <RemoveOuterCards/>;*/
         case AUTOMATON.adventurerCoin:
             return <DivColumn><PlaceAdventurer/><Coin/></DivColumn>;
         case AUTOMATON.adventurerExplore:
@@ -186,6 +183,14 @@ export function getJsxSymbol(effect) {
             return <DivColumn><PlaceAdventurer/><Jewel/></DivColumn>;
         case AUTOMATON.exploresLocation:
             return <AutomatonExploresLocation/>;
+        case AUTOMATON.defeatsOrResearches:
+            return <DefeatedGuardian/>;
+        case AUTOMATON.takesArtifact:
+            return <Artifact/>;
+        case AUTOMATON.takesItem:
+            return <Item/>
+        case AUTOMATON.researches:
+            return <LensIcon/>;
         default:
             console.error("Unable to recognize effect in getJsxEffect: " + effect);
     }

@@ -1,7 +1,6 @@
 import {addCardToStore, drawCards, removeCard} from "./cardManipulationFuntions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
-import {ITEM_IDs} from "../../data/idLists.mjs";
 import {
     ASSISTANT,
     ASSISTANT_LEVEL,
@@ -17,8 +16,8 @@ import {updateLocations} from "../locations/functions/locationFunctions";
 import {getRelicsForUpgrade} from "./effectsFunctions/getRelicsForUpgrade";
 import {payForTravelIfPossible} from "../locations/functions/payForTravelIfPossible";
 import {getLogLegend} from "../main/logger";
-import {getIdCard} from "../cards/getIdCard";
 import {shuffleArray} from "./cardManipulationFuntions";
+import {ITEMS} from "../../data/cards.mjs";
 
 export function processEffects(tCard, cardIndex, originalPlayersState, effects, originalStore, location, originalLocations) {
     console.log("Processing effects");
@@ -266,7 +265,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     cardsToDraw = tPlayerState.drawDeck.length > 2 ? 3 : tPlayerState.drawDeck.length;
                     rewardsArr = [];
                     for (let i = 0; i < cardsToDraw; i++) {
-                        rewardsArr.push(getIdCard(tPlayerState.drawDeck[i].id));
+                        rewardsArr.push(tPlayerState.drawDeck[i]);
                     }
                     tPlayerState.drawDeck.splice(0, cardsToDraw);
                     rewardsData = {
@@ -280,7 +279,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     cardsToDraw = tPlayerState.drawDeck.length > 2 ? 3 : tPlayerState.drawDeck.length;
                     rewardsArr = [];
                     for (let i = 0; i < cardsToDraw; i++) {
-                        rewardsArr.push(getIdCard(tPlayerState.drawDeck[i].id));
+                        rewardsArr.push(tPlayerState.drawDeck[i]);
                     }
                     tPlayerState.drawDeck.splice(0, cardsToDraw);
                     rewardsData = {
@@ -294,7 +293,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     cardsToDraw = tPlayerState.drawDeck.length > 1 ? 2 : tPlayerState.drawDeck.length;
                     rewardsArr = [];
                     for (let i = 0; i < cardsToDraw; i++) {
-                        rewardsArr.push(getIdCard(tPlayerState.drawDeck[i].id));
+                        rewardsArr.push(tPlayerState.drawDeck[i]);
                     }
                     rewardsData = {
                         type: REWARD_TYPE.drawStackDiscardCard,
@@ -307,7 +306,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     cardsToDraw = tPlayerState.drawDeck.length > 2 ? 3 : tPlayerState.drawDeck.length;
                     rewardsArr = [];
                     for (let i = 0; i < cardsToDraw; i++) {
-                        rewardsArr.push(getIdCard(tPlayerState.drawDeck[i].id));
+                        rewardsArr.push(tPlayerState.drawDeck[i]);
                     }
                     rewardsData = {
                         type: REWARD_TYPE.drawStackDiscardCard,
@@ -583,7 +582,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.gainFear:
-                    tPlayerState.activeCards.push({...ITEM_IDs.fear});
+                    tPlayerState.activeCards.push({...ITEMS.fear});
                     tPlayerState.activeCards[tPlayerState.activeCards.length - 1].state = CARD_STATE.played;
                     break;
 

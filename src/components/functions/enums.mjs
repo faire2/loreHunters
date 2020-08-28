@@ -172,9 +172,10 @@ export const AUTOMATON = Object.freeze({
     adventurerWeapon: "automaton places an adventurer in a weapon location",
     adventurerJewel: "automaton places an adventurer in a jewel location",
     exploresLocation: "automaton explores location from left and top",
-    exilesOuterCards: "automaton exiles outer cards",
-    exilesInnerCards: "automaton exiles inner cards",
-    takesLegendBonus: "takes legend bonus"
+    takesArtifact: "takes an artifact from the store",
+    takesItem: "takes an item from the store",
+    researches: "researches legend",
+    defeatsOrResearches: "defeats a guardian or researches a legend",
 });
 
 export const DIRECTION = Object.freeze({

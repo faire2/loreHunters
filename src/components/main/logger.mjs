@@ -21,7 +21,7 @@ export function setGameLog(serverLog){
     }
 }
 
-let logLegend = getInitialLegend(4, "legend1");
+let logLegend = getInitialLegend(5, "legend1");
 
 export function setLogLegend(legend){
     if (legend) {

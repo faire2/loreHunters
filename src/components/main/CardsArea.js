@@ -17,7 +17,6 @@ export default function CardsArea() {
         <div style={containerStyle}>
             {playerState.activeCards !== false && <CardRow cards={playerState.activeCards} randomize={false} text={"PLAY AREA"}/>}
             <div style={cardRowStyle}>
-
                 <Hand/>
                 <div style={sideTextStyle}>DRAW DECK</div>
                 <DrawDeck cards={playerState.drawDeck}/>

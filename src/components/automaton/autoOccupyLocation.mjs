@@ -1,7 +1,8 @@
 import {hasLocationFreeSlots} from "../locations/functions/hasLocationFreeSlots.mjs";
 import {DIRECTION} from "../functions/enums.mjs";
 
-export function occupyLocationByAutomaton(states, effect, direction) {
+export function autoOccupyLocation(states, effect, direction) {
+    console.log("AUTOMATON: occupying location for effect " + effect + " from " + direction);
     const locations = states.locations;
     if (direction === DIRECTION.left) {
         for (let i = 0; i < locations.line4.length; i++) {
@@ -28,7 +29,7 @@ export function occupyLocationByAutomaton(states, effect, direction) {
                 return states;
             }
         }
-        console.log("Automaton unable to occupy location in occupyLocationByAutomaton - effect: " + effect);
+        console.log("Automaton unable to occupy location in autoOccupyLocation - effect: " + effect);
         return states;
     } else if (direction === DIRECTION.right) {
         for (let i = locations.line4.length - 1; i > -1; i--) {
@@ -55,9 +56,9 @@ export function occupyLocationByAutomaton(states, effect, direction) {
                 return states;
             }
         }
-        console.log("Automaton unable to occupy location in occupyLocationByAutomaton - effect: " + effect);
+        console.log("Automaton unable to occupy location in autoOccupyLocation - effect: " + effect);
         return states;
     } else {
-        console.error("Unable to determine direction in occupyLocationByAutomaton: " + direction);
+        console.error("Unable to determine direction in autoOccupyLocation: " + direction);
     }
 }
