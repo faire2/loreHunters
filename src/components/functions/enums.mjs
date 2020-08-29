@@ -179,6 +179,12 @@ export const AUTOMATON = Object.freeze({
 });
 
 export const DIRECTION = Object.freeze({
-   left: "direction - left",
-   right: "direction - right"
+    left: "direction - left",
+    right: "direction - right"
+});
+
+export const AUTOMATON_DIFFICULTY = Object.freeze({
+    easy: "easy difficulty",
+    hard: "hard difficulty",
+    fixed: "difficulty does not change"
 });

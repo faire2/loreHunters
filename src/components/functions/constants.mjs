@@ -1,5 +1,5 @@
 import {EFFECT} from "../../data/effects.mjs";
-import {AUTOMATON, DIRECTION} from "./enums.mjs";
+import {AUTOMATON, AUTOMATON_DIFFICULTY, DIRECTION} from "./enums.mjs";
 
 export const silverAssistantsOfferNumber = 3;
 
@@ -20,11 +20,11 @@ export const relicRewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], 
     [EFFECT.gainCoin, EFFECT.gainExplore], [EFFECT.draw1]];
 
 export const automatonActions = [
-    {action: AUTOMATON.adventurerCoin, direction: DIRECTION.left},
-    {action: AUTOMATON.adventurerExplore, direction: DIRECTION.right},
-    {action: AUTOMATON.adventurerText, direction: DIRECTION.left},
-    {action: AUTOMATON.adventurerWeapon, direction: DIRECTION.right},
-    {action: AUTOMATON.adventurerJewel, direction: DIRECTION.left},
+    {action: AUTOMATON.adventurerCoin, direction: DIRECTION.left, difficulty: AUTOMATON_DIFFICULTY.fixed},
+    {action: AUTOMATON.adventurerExplore, direction: DIRECTION.right, difficulty: AUTOMATON_DIFFICULTY.fixed},
+    {action: AUTOMATON.adventurerText, direction: DIRECTION.left, difficulty: AUTOMATON_DIFFICULTY.fixed},
+    {action: AUTOMATON.adventurerWeapon, direction: DIRECTION.right, difficulty: AUTOMATON_DIFFICULTY.fixed},
+    {action: AUTOMATON.adventurerJewel, direction: DIRECTION.left, difficulty: AUTOMATON_DIFFICULTY.fixed},
     {action: AUTOMATON.takesItem, direction: DIRECTION.right},
     {action: AUTOMATON.takesArtifact, direction: DIRECTION.left},
     {action: AUTOMATON.exploresLocation, direction: DIRECTION.right},
@@ -32,4 +32,5 @@ export const automatonActions = [
     {action: AUTOMATON.defeatsOrResearches, direction: DIRECTION.right}
 ];
 
-export const automatonTurns = [0, 7, 8, 9, 10];
+/*
+export const automatonTurns = [0, 7, 8, 9, 10];*/

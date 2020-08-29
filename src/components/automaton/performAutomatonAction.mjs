@@ -1,4 +1,4 @@
-import {AUTOMATON, CARD_TYPE} from "../functions/enums.mjs";
+import {AUTOMATON, AUTOMATON_DIFFICULTY, CARD_TYPE} from "../functions/enums.mjs";
 import {autoOccupyLocation} from "./autoOccupyLocation.mjs";
 import {EFFECT} from "../../data/effects.mjs";
 import {autoExploreLocation} from "./autoExploreLocation.mjs";
@@ -8,6 +8,7 @@ import {autoDefeatAGuardian} from "./autoDefeatGuardian.mjs";
 
 export function performAutomatonAction(states, automatonState, round) {
     const actionObject = automatonState.automatonActions[0];
+    console.log("Automaton action difficulty: " + actionObject.difficulty);
 
     // we look at previous action to determine the direction of automaton effect
     const previousAction = automatonState.executedAutomatonActions[automatonState.executedAutomatonActions.length - 1];
@@ -31,10 +32,15 @@ export function performAutomatonAction(states, automatonState, round) {
             states = autoOccupyLocation(states, EFFECT.gainJewel, direction);
             break;
         case AUTOMATON.exploresLocation:
-            actionResult = autoExploreLocation(states, round, direction, automatonState);
-            automatonState = actionResult.automatonState;
-            states = actionResult.states;
-            break;
+            if (actionObject.difficulty === AUTOMATON_DIFFICULTY.easy && round === 5) {
+                console.log("Automaton skips fifth turn.");
+                break;
+            } else {
+                actionResult = autoExploreLocation(states, round, direction, automatonState);
+                automatonState = actionResult.automatonState;
+                states = actionResult.states;
+                break;
+            }
         /*case AUTOMATON.exilesInnerCards:
             states = autoExileCard(states, EXILE_CARDS.inner);
             break;
@@ -45,35 +51,45 @@ export function performAutomatonAction(states, automatonState, round) {
             states = autoTakeLegendBonus(states);
             break;*/
         case AUTOMATON.takesArtifact:
-            actionResult = takeArtifactFromStore(states, automatonState, direction, CARD_TYPE.artifact);
+            actionResult = takeArtifactFromStore(states, automatonState, direction, CARD_TYPE.artifact, actionObject.difficulty);
             automatonState = actionResult.automatonState;
             states = actionResult.states;
             break;
         case AUTOMATON.takesItem:
-            actionResult = takeArtifactFromStore(states, automatonState, direction, CARD_TYPE.item);
+            actionResult = takeArtifactFromStore(states, automatonState, direction, CARD_TYPE.item, actionObject.difficulty);
             automatonState = actionResult.automatonState;
             states = actionResult.states;
             break;
         case AUTOMATON.researches:
-            actionResult = autoResearch(states, automatonState, direction);
-            automatonState = actionResult.automatonState;
-            states = actionResult.states;
-
-            // replace the first assistant in the offer if there are any assistants left in the deck
-            if (states.store.assistantsDeck.length > 0) {
-                states.store.assistantsOffer.splice(0, 1, states.store.assistantsDeck[0]);
-                states.store.assistantsDeck.splice(0, 1);
-            }
-            break;
-        case AUTOMATON.defeatsOrResearches:
-            actionResult = autoDefeatAGuardian(states, automatonState, direction);
-            if (actionResult.defeatedGuardian) {
-                states = actionResult.states;
-                automatonState = actionResult.automatonState;
+            if (actionObject.difficulty === AUTOMATON_DIFFICULTY.easy && round === 5) {
+                console.log("Automaton skips fifth turn.");
+                break;
             } else {
                 actionResult = autoResearch(states, automatonState, direction);
                 automatonState = actionResult.automatonState;
                 states = actionResult.states;
+
+                // replace the first assistant in the offer if there are any assistants left in the deck
+                if (states.store.assistantsDeck.length > 0) {
+                    states.store.assistantsOffer.splice(0, 1, states.store.assistantsDeck[0]);
+                    states.store.assistantsDeck.splice(0, 1);
+                }
+                break;
+            }
+        case AUTOMATON.defeatsOrResearches:
+            if (actionObject.difficulty === AUTOMATON_DIFFICULTY.easy && round === 5) {
+                console.log("Automaton skips fifth turn.");
+                break;
+            } else {
+                actionResult = autoDefeatAGuardian(states, automatonState, direction);
+                if (actionResult.defeatedGuardian) {
+                    states = actionResult.states;
+                    automatonState = actionResult.automatonState;
+                } else {
+                    actionResult = autoResearch(states, automatonState, direction);
+                    automatonState = actionResult.automatonState;
+                    states = actionResult.states;
+                }
             }
             break;
         default:

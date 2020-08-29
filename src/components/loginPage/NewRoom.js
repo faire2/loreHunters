@@ -56,6 +56,7 @@ export function NewRoom(props) {
                         <ToggleButton value={2}>2</ToggleButton>
                         <ToggleButton value={3}>3</ToggleButton>
                         <ToggleButton value={4}>4</ToggleButton>
+                        <ToggleButton value={5}>5</ToggleButton>
                     </ToggleButtonGroup>
                 </ControlsItem>
                 <ControlsItem>

@@ -10,7 +10,7 @@ export const AutomatonCardsArea = () => {
     return (
         <AutomatonCards>
             {boardStateContext.executedAutomatonActions.map((actionObject, i) =>
-                <AutomatonCard automatonAction={actionObject.action} key={i}/>
+                <AutomatonCard actionObject={actionObject} key={i}/>
             )}
         </AutomatonCards>
     )

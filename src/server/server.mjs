@@ -23,10 +23,10 @@ import {getInitialLegend} from "../components/functions/initialStates/initialLeg
 import {getInitialLocations} from "../components/functions/initialStates/initialLocations.mjs";
 import {resetRelicEffects} from "../data/relicEffects.mjs";
 import {shuffleArray} from "../components/functions/cardManipulationFuntions.mjs";
-import {automatonActions, automatonTurns} from "../components/functions/constants.mjs";
 import {performAutomatonAction} from "../components/automaton/performAutomatonAction.mjs";
 import {EFFECT} from "../data/effects.mjs";
 import {ITEMS} from "../data/cards.mjs";
+import {getDefaultAutomatonActions} from "../components/automaton/getDefaultAutomatonActions.mjs";
 
 const __dirname = dirname();
 const port = process.env.PORT || 4001;
@@ -72,7 +72,7 @@ io.on("connection", socket => {
                 gameLog: [],
                 roomName: roomData.roomName,
             };
-            const allAutomatonActions = shuffleArray(cloneDeep(automatonActions));
+            const defaultAutomatonActions = getDefaultAutomatonActions(roomData.automaton);
             gameRooms.push({
                 name: roomData.roomName,
                 numOfPlayers: roomData.numOfPlayers,
@@ -81,24 +81,25 @@ io.on("connection", socket => {
                 previousStates: states,
                 automaton: roomData.automaton,
                 automatonState: {
-                    automatonActions: allAutomatonActions,
+                    automatonActions: defaultAutomatonActions,
+                    defaultAutomatonActions: cloneDeep(defaultAutomatonActions),
                     executedAutomatonActions: [],
-                    previousAutomatonActions: allAutomatonActions,
+                    previousAutomatonActions: cloneDeep(defaultAutomatonActions),
                     victoryCards: [],
                     relicEffects: [],
                     silverRelics: 0,
                     defeatedGuardians: 0,
-                    remainingActions: automatonTurns[roomData.automaton],
+                    remainingActions: 10,
                 },
                 previousAutomatonState: {
-                    automatonActions: allAutomatonActions,
+                    automatonActions: cloneDeep(defaultAutomatonActions),
                     executedAutomatonActions: [],
-                    previousAutomatonActions: allAutomatonActions,
+                    previousAutomatonActions: cloneDeep(defaultAutomatonActions),
                     victoryCards: [],
                     relicEffects: [],
                     silverRelics: 0,
                     defeatedGuardians: 0,
-                    remainingActions: automatonTurns[roomData.automaton],
+                    remainingActions: 10,
                 },
             });
             console.debug("new room created (" + gameRooms[gameRooms.length - 1].name + "[" + gameRooms[gameRooms.length - 1].players + "])");
@@ -312,9 +313,9 @@ io.on("connection", socket => {
                         room = processEndOfRound(room);
                         // replenish automaton actions
                         if (room.automaton > 0) {
-                            room.automatonState.automatonActions = cloneDeep(shuffleArray(automatonActions));
+                            room.automatonState.automatonActions = cloneDeep(shuffleArray(room.automatonState.defaultAutomatonActions));
                             room.automatonState.executedAutomatonActions = [];
-                            room.automatonState.remainingActions = automatonTurns[room.automaton];
+                            room.automatonState.remainingActions = 10;
                         }
                     } else {
                         // add final fears for players in guarded locations

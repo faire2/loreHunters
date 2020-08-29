@@ -1,17 +1,17 @@
-import {CARD_TYPE, DIRECTION} from "../functions/enums.mjs";
+import {AUTOMATON_DIFFICULTY, CARD_TYPE, DIRECTION} from "../functions/enums.mjs";
 import {addCardToStore} from "../functions/cardManipulationFuntions.mjs";
 
-export function takeArtifactFromStore(states, automatonState, direction, cardType) {
+export function takeArtifactFromStore(states, automatonState, direction, cardType, difficulty) {
     console.log("AUTOMATON: Taking " + cardType + " from " + direction);
     let cardsPoints = [];
     const storeCards = cardType === CARD_TYPE.artifact ? states.store.artifactsOffer : states.store.itemsOffer;
     for (let i = 0; i < storeCards.length; i++) {
         cardsPoints.push(storeCards[i].points);
     }
-    const maxValue = Math.max(...cardsPoints);
+    const minMaxValue = difficulty === AUTOMATON_DIFFICULTY.easy ? Math.min(...cardsPoints) : Math.max(...cardsPoints);
 
     // we want either first or last card of that value, depending on the direction
-    const cardIndex = direction === DIRECTION.left ? cardsPoints.indexOf(maxValue) : cardsPoints.lastIndexOf(maxValue);
+    const cardIndex = direction === DIRECTION.left ? cardsPoints.indexOf(minMaxValue) : cardsPoints.lastIndexOf(minMaxValue);
 
     // add that card to the automaton's victory cards
     automatonState.victoryCards.push(storeCards[cardIndex]);
