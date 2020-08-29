@@ -747,7 +747,7 @@ export const ARTIFACTS = Object.freeze({
         cardName: "Guiding Skull",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
-        effects: [EFFECT.loseExplore, EFFECT.activateTopL3Location],
+        effects: [EFFECT.loseExplore, EFFECT.activateTopL2Location],
         isGuarded: false,
         cost: 4,
         points: 1

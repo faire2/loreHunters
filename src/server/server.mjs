@@ -63,7 +63,7 @@ io.on("connection", socket => {
                 playerStates: getInitialPlayerStates(numOfPlayers, roomData.automaton),
                 /* beware! locations must be initialized before store because of relicEffects! */
                 locations: getInitialLocations(numOfPlayers, roomData.legend),
-                store: getInitialStore(numOfPlayers, true), // todo change to detection of legend type
+                store: getInitialStore(numOfPlayers, true),
                 legend: getInitialLegend(numOfPlayers, roomData.legend, roomData.automaton),
                 activePlayer: 0,
                 initialPlayer: 0,
@@ -81,6 +81,16 @@ io.on("connection", socket => {
                 previousStates: states,
                 automaton: roomData.automaton,
                 automatonState: {
+                    automatonActions: allAutomatonActions,
+                    executedAutomatonActions: [],
+                    previousAutomatonActions: allAutomatonActions,
+                    victoryCards: [],
+                    relicEffects: [],
+                    silverRelics: 0,
+                    defeatedGuardians: 0,
+                    remainingActions: automatonTurns[roomData.automaton],
+                },
+                previousAutomatonState: {
                     automatonActions: allAutomatonActions,
                     executedAutomatonActions: [],
                     previousAutomatonActions: allAutomatonActions,
@@ -201,11 +211,7 @@ io.on("connection", socket => {
         if (room) {
             room.states = cloneDeep(room.previousStates);
             if (room.automaton > 0) {
-                room.automatonState.automatonActions = room.automatonState.previousAutomatonActions;
-                if (room.automatonState.executedAutomatonActions && room.automatonState.executedAutomatonActions.length > 0) {
-                    room.automatonState.executedAutomatonActions.pop();
-                    room.states.executedAutomatonActions = room.automatonState.executedAutomatonActions;
-                }
+                room.automatonState = cloneDeep(room.previousAutomatonState)
             }
             updateStatesToAll(room);
         } else {
@@ -226,9 +232,11 @@ io.on("connection", socket => {
         states.initialPlayer = room.states.initialPlayer;
         if (room) {
             room.previousStates = cloneDeep(room.states);
+            room.previousAutomatonState = cloneDeep(room.automatonState);
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
             console.debug("PLAYER " + (playerIndex) + " passing action.");
             if (room.automaton > 0 && room.automatonState.remainingActions > 0) {
+                room.automatonState.previousAutomatonActions = cloneDeep(room.automatonState.automatonActions);
                 if (room.automatonState.automatonActions.length > 0) {
                     // perform automated action
                     console.log("AUTOMATON PERFORMS AN ACTION");
@@ -254,6 +262,9 @@ io.on("connection", socket => {
         let room = getRoom(states.roomName, gameRooms);
         if (room) {
             room.previousStates = cloneDeep(room.state);
+            if (room.automaton > 0) {
+                room.previousAutomatonState = cloneDeep(room.automatonState);
+            }
             states.playerStates = room.states.playerStates;
             states.round = room.states.round;
             states.numOfPlayers = room.states.numOfPlayers;

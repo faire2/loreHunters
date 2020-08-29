@@ -12,7 +12,7 @@ export function getDiscountForProgress(effects, activeEffect, isFirstToken) {
         effects = getFilteredEffects(effects, EFFECT.loseJewel, 1);
     } else if (activeEffect === EFFECT.progressWithSecondToken) {
         effects = effects.filter(effect => ![EFFECT.loseCoin, EFFECT.loseExplore, EFFECT.loseText, EFFECT.loseWeapon,
-            EFFECT.loseJewel].includes(effect));
+            EFFECT.loseJewel, EFFECT.loseSlottableRelic].includes(effect));
     }
     return effects;
 
