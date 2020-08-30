@@ -92,7 +92,7 @@ export default function getInitialPlayerStates(numOfPlayers, automatonLevel) {
         testCard0.type = CARD_TYPE.artifact;
         drawDeck.splice(0, 0, testCard0);*/
 
-       /* const testCard = {...ITEMS.seaTurtle};
+        /*const testCard = {...ITEMS.seaTurtle};
         testCard.state = CARD_STATE.inHand;
         testCard.type = CARD_TYPE.item;
         hand.splice(0, 0, testCard);*/

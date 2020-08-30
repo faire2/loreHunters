@@ -2,7 +2,6 @@ import {EFFECT} from "../../../data/effects";
 import {LOCATION_TYPE} from "../../functions/enums";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
-    debugger
     const resources = tPlayerState.resources;
     let enoughResources = true;
     let failedEffect;
@@ -18,12 +17,19 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     }
 
     // check for active effect with travel discount
-    if ([EFFECT.placeToBrownLocation, EFFECT.placeToGreenLocation, EFFECT.exploreAnyLocationWithDiscount3,
-        EFFECT.placeToBasicLocationActivateTwice, EFFECT.exploreAnyLocationWithDiscount2].includes(tPlayerState.activeEffects[0])) {
+    if ([EFFECT.exploreAnyLocationWithDiscount3, EFFECT.placeToBasicLocationActivateTwice, EFFECT.exploreAnyLocationWithDiscount2].includes(tPlayerState.activeEffects[0])) {
         effects = processTravelDiscount(effects, 1, tPlayerState);
         tPlayerState.activeEffects.splice(0, 1);
     } else if ([EFFECT.placeToBasicLocationDiscount2].includes(tPlayerState.activeEffects[0]) && location.type === LOCATION_TYPE.basic) {
         effects = processTravelDiscount(effects, 2, tPlayerState);
+        tPlayerState.activeEffects.splice(0, 1);
+    } else if (EFFECT.placeToBrownLocation === tPlayerState.activeEffects[0] && (effects.includes(EFFECT.loseJeep) ||
+        effects.includes(EFFECT.loseWalk))) {
+        effects = processTravelDiscount(effects, 1, tPlayerState);
+        tPlayerState.activeEffects.splice(0, 1);
+    } else if (EFFECT.placeToGreenLocation === tPlayerState.activeEffects[0] && (effects.includes(EFFECT.loseShip) ||
+        effects.includes(EFFECT.loseWalk))) {
+        effects = processTravelDiscount(effects, 1, tPlayerState);
         tPlayerState.activeEffects.splice(0, 1);
     }
 
