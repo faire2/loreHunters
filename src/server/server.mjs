@@ -144,6 +144,22 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.startGame, data => {
         const roomName = data.roomName;
         let room = getRoom(roomName, gameRooms);
+        if (room && room.automaton > 0 && room.automatonState.remainingActions > 0) {
+            console.debug("Initial automaton turn.");
+                room.automatonState.previousAutomatonActions = cloneDeep(room.automatonState.automatonActions);
+                if (room.automatonState.automatonActions.length > 0) {
+                    // perform automated action
+                    console.log("AUTOMATON PERFORMS AN ACTION");
+                    const automatonResult = performAutomatonAction(room.states, room.automatonState, room.states.round);
+                    room.states = automatonResult.states;
+                    room.automatonState = automatonResult.automatonState;
+                    room.automatonState.executedAutomatonActions.push(room.automatonState.automatonActions[0]);
+                    room.automatonState.automatonActions.splice(0, 1);
+                    room.automatonState.remainingActions -= 1;
+            }
+            room.previousStates = cloneDeep(room.states);
+            room.previousAutomatonState = cloneDeep(room.automatonState);
+        }
         socket.join(data.roomName);
 
         io.to(roomName).emit(TRANSMISSIONS.startGame, {room: room});
