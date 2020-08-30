@@ -2,6 +2,7 @@ import {EFFECT} from "../../../data/effects";
 import {LOCATION_TYPE} from "../../functions/enums";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
+    debugger
     const resources = tPlayerState.resources;
     let enoughResources = true;
     let failedEffect;

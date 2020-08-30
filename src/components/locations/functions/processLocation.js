@@ -90,8 +90,7 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                         if (!travelCheckResults.enoughResources) {
                             return ({failedTravel: true, failedEffect: travelCheckResults.failedEffect});
                         }
-                        if (travelCheckResults.enoughResources && (tPlayerState.actions > 0 || tPlayerState.activeEffects.length > 0)
-                            && tPlayerState.availableAdventurers > 0) {
+                        if (travelCheckResults.enoughResources && tPlayerState.availableAdventurers > 0) {
                             let tPlayerState = travelCheckResults.tPlayerState;
                             const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, location.effects, {...tStore}, location, {...tLocations});
                             if (effectsResult.processedAllEffects) {

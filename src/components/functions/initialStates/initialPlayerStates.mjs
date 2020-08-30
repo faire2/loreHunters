@@ -87,12 +87,14 @@ export default function getInitialPlayerStates(numOfPlayers, automatonLevel) {
             card.type= CARD_TYPE.basic;
             hand.push(card);
         }
-        /*const testCard0 = {...ARTIFACTS.runesOfDead };
+        /*const testCard0 = {...ARTIFACTS.trophySkull };
         testCard0.state = CARD_STATE.drawDeck;
+        testCard0.type = CARD_TYPE.artifact;
         drawDeck.splice(0, 0, testCard0);*/
 
-        /*const testCard = {...ITEMS.airplane};
+       /* const testCard = {...ITEMS.seaTurtle};
         testCard.state = CARD_STATE.inHand;
+        testCard.type = CARD_TYPE.item;
         hand.splice(0, 0, testCard);*/
 
         /*for (let key in ITEMS) {

@@ -312,7 +312,7 @@ function GameBoard(props) {
 
     /** LOCATION EFFECTS **/
     function handleClickOnLocation(location, resolveGuardian) {
-        if (isActivePlayer && !showRewardsModal) {
+        if (isActivePlayer && !showRewardsModal && (playerState.actions > 0 || playerState.activeEffects.length > 0)) {
             console.log("Clicked on location " + location.id);
             const locationResult = processLocation(cloneDeep(playerState), cloneDeep(store), cloneDeep(locations), cloneDeep(location), setRewardsModal, resolveGuardian);
             if (!locationResult.failedTravel) {

@@ -884,7 +884,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 case EFFECT.refreshRelic:
-                    for (let i = 0; i < tPlayerState.relics.length; i++) {
+                    for (let i = tPlayerState.relics.length - 1; i > - 1; i--) {
                         if (tPlayerState.relics[i] !== null) {
                             if (tPlayerState.relics[i] === RELIC.bronze) {
                                 tPlayerState.resources.bronzeRelics += 1;
