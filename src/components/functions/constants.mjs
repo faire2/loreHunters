@@ -13,7 +13,7 @@ export const CANCELLABLE_EFFECTS = [EFFECT.destroyCard, EFFECT.uptrade, EFFECT.g
     ...LOCATION_DISCOUNT_EFFECTS, EFFECT.defeatGuardianOnOwnedLocation, EFFECT.defeatGuardianOnOwnOrEmptyLocation];
 
 export const pointsForUnusedRelics = [
-    [1], [2], [2], [3],
+    [1], [2], [3], [4],
 ];
 
 export const relicRewards = [[EFFECT.loseCoin, EFFECT.arrow, EFFECT.gainJewel], [EFFECT.gainWeapon], [EFFECT.gainText, EFFECT.gainText],
