@@ -63,7 +63,6 @@ export function autoResearch(states, automatonState, direction) {
         } else if (columnIndex === 7) {
             legend.lostCityPlayers.push(4);
             if (legend.lostCityEffects.length > 0) {
-                debugger
                 legend.lostCityEffects.splice(1, 0);
             }
         }

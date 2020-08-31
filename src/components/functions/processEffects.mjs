@@ -214,9 +214,13 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 // additionaly he can choose from array of effects set on legend initialization
                 case EFFECT.discoverLostCity:
                     tPlayerState.canActivateLostCity = true;
+                    let effectsArr = [];
+                    for (let effect of tLegend.lostCityEffects) {
+                        effectsArr.push([effect]);
+                    }
                     rewardsData = {
-                        type: REWARD_TYPE.effectsArr,
-                        data: tLegend.lostCityEffects,
+                        type: REWARD_TYPE.legendLostCityEffects,
+                        data: effectsArr,
                     };
                     showRewardsModal = true;
                     break;

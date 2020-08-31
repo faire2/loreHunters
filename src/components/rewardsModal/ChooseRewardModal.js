@@ -261,7 +261,6 @@ export default function ChooseRewardModal() {
                 }
                 break;
             case REWARD_TYPE.legendLostCityEffects:
-                debugger
                 const lostCityEffectsResult = processEffects(null, null, tPlayerState, [reward.effects], null, null, null);
                 if (lostCityEffectsResult.processedAllEffects) {
                     tLegend.lostCityEffects.splice(tLegend.lostCityEffects.indexOf(reward), 1);
