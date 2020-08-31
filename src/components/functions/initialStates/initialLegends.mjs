@@ -23,6 +23,15 @@ export function getInitialLegend(numOfPlayers, legendId, automatonLevel) {
         }
     }
 
+    // add legend effects for exploring the lost city
+    const lostCityEffectSlots = automatonLevel > 0 ? numOfPlayers + 1 : numOfPlayers;
+    let lostCityEffects = [];
+    for (let i = 0; i < lostCityEffectSlots; i++) {
+        lostCityEffects.push(tLegendEffects[0]);
+        tLegendEffects = tLegendEffects.shift();
+    }
+    legend.lostCityEffects = lostCityEffects;
+
     // automaton is always the fifth player
     numOfPlayers = automatonLevel > 0 ? 5 : numOfPlayers;
 
@@ -40,5 +49,6 @@ export function getInitialLegend(numOfPlayers, legendId, automatonLevel) {
 }
 
 const legendEffects = [EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainExplore,
-    EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.destroyCard, EFFECT.destroyCard, EFFECT.draw1, EFFECT.draw1,
-    EFFECT.gainText, EFFECT.gainText];
+    EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.destroyCard, EFFECT.destroyCard, EFFECT.destroyCard,
+    EFFECT.draw1, EFFECT.draw1, EFFECT.draw1, EFFECT.uptrade, EFFECT.uptrade, EFFECT.uptrade,
+    EFFECT.gainText, EFFECT.gainText, EFFECT.gainText];

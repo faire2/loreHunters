@@ -5,8 +5,8 @@ import cloneDeep from "lodash/cloneDeep.js";
 const persistentRelicEffects =
     {
         bronze: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin,
-            EFFECT.gainText, EFFECT.gainText, EFFECT.gainText, EFFECT.uptrade, EFFECT.uptrade, EFFECT.refreshAnyAssistant,
-            EFFECT.refreshAnyAssistant, EFFECT.destroyCard, EFFECT.destroyCard, EFFECT.destroyCard],
+            EFFECT.gainText, EFFECT.gainText, EFFECT.gainText, EFFECT.uptrade, EFFECT.uptrade, EFFECT.uptrade,
+            EFFECT.refreshAnyAssistant, EFFECT.refreshAnyAssistant, EFFECT.destroyCard, EFFECT.destroyCard, EFFECT.destroyCard],
         silver: [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainText, EFFECT.gainText],
         gold: [[], [], [], [], [], []]
     };
