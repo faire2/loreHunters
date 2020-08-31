@@ -3,6 +3,7 @@ import {GLOBAL_VARS,} from "../../../data/idLists.mjs";
 import {shuffleArray} from "../cardManipulationFuntions.mjs";
 import {EFFECT} from "../../../data/effects.mjs";
 import {Legends} from "../../../data/legends.mjs";
+import cloneDeep from 'lodash/cloneDeep.js';
 
 export function getInitialLegend(numOfPlayers, legendId, automatonLevel) {
     let legend = Legends[legendId];
@@ -40,7 +41,7 @@ export function getInitialLegend(numOfPlayers, legendId, automatonLevel) {
         let playerArr = [];
         let tokenPosition = {columnIndex: null, fieldIndex: null};
         for (let i = 0; i < GLOBAL_VARS.numOfLegendTokens; i++) {
-            playerArr.push(tokenPosition);
+            playerArr.push(cloneDeep(tokenPosition));
         }
         legend.positions.push(playerArr);
     }
