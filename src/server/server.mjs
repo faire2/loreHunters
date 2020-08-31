@@ -241,13 +241,14 @@ io.on("connection", socket => {
     socket.on(TRANSMISSIONS.nextPlayer, states => {
         console.debug("Passing turn to next player in room: " + states.roomName + "(" + getUserName(socket.id, users) + ")");
         let room = getRoom(states.roomName, gameRooms);
-        states.playerStates = room.states.playerStates;
-        states.round = room.states.round;
-        states.numOfPlayers = room.states.numOfPlayers;
-        states.activePlayer = room.states.activePlayer;
-        states.previousPlayer = room.states.previousPlayer;
-        states.initialPlayer = room.states.initialPlayer;
+
         if (room) {
+            states.playerStates = room.states.playerStates;
+            states.round = room.states.round;
+            states.numOfPlayers = room.states.numOfPlayers;
+            states.activePlayer = room.states.activePlayer;
+            states.previousPlayer = room.states.previousPlayer;
+            states.initialPlayer = room.states.initialPlayer;
             room.previousStates = cloneDeep(room.states);
             room.previousAutomatonState = cloneDeep(room.automatonState);
             let playerIndex = room.players.indexOf(getUserName(socket.id, users));
