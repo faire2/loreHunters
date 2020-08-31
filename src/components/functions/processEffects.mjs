@@ -546,7 +546,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainExploreForRelics:
                     let allRelics = tPlayerState.resources.bronzeRelics + tPlayerState.resources.silverRelics
-                        + tPlayerState.resources.goldRelics + tPlayerState.slottableRelics;
+                        + tPlayerState.resources.goldRelics + tPlayerState.resources.slottableRelics;
                     for (let relic of tPlayerState.relics) {
                         if (relic) {
                             allRelics += 1
@@ -885,7 +885,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.refreshRelic:
                     for (let i = tPlayerState.relics.length - 1; i > - 1; i--) {
                         if (tPlayerState.relics[i] !== null) {
-                            tPlayerState.slottableRelics += 1;
+                            tPlayerState.resources.slottableRelics += 1;
                             tPlayerState.relics[i] = null;
                             break;
                         }
