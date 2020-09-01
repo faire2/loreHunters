@@ -95,6 +95,7 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                             const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, location.effects, {...tStore}, location, {...tLocations});
                             if (effectsResult.processedAllEffects) {
                                 console.log("Location effects have been processed.");
+                                tLocations = effectsResult.tLocations;
                                 tPlayerState = effectsResult.tPlayerState;
                                 tPlayerState.availableAdventurers -= 1;
                                 tPlayerState.actions -= 1;
@@ -103,7 +104,12 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                                 }
                                 tLocations = occupyLocation(cloneDeep(tLocations), location.id, location.line, tPlayerState.playerIndex);
                                 addLogEntry(tPlayerState, ACTION_TYPE.activatesLocation, location.id, location.effects);
-                                return ({playerState: tPlayerState, locations: tLocations});
+                                if (effectsResult.showRewardsModal) {
+                                    return ({playerState: tPlayerState, locations: tLocations, showRewardsModal:
+                                        effectsResult.showRewardsModal, modalData: effectsResult.rewardsData});
+                                } else {
+                                    return ({playerState: tPlayerState, locations: tLocations});
+                                }
                             } else {
                                 console.log("Some effects were not processed. Location could not be used.");
                             }
