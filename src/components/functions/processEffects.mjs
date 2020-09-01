@@ -152,10 +152,10 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.discard:
                     if (tPlayerState.hand.length > 0) {
                         tActiveEffects.push(effect);
-                        let tEffects = [];
                         const discardIndex = effects.indexOf(EFFECT.discard);
                         // if we have more effects to process, we hide them to active effects
                         if (discardIndex < effects.length - 1) {
+                            let tEffects = [];
                             for (let i = discardIndex + 1; i < effects.length; i++) {
                                 tEffects.push(effects[i]);
                             }
