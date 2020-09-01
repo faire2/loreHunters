@@ -60,11 +60,11 @@ io.on("connection", socket => {
             const numOfPlayers = roomData.numOfPlayers;
             const states = {
                 numOfPlayers: numOfPlayers,
+                legend: getInitialLegend(numOfPlayers, roomData.legend, roomData.automaton),
                 playerStates: getInitialPlayerStates(numOfPlayers, roomData.automaton),
                 /* beware! locations must be initialized before store because of relicEffects! */
                 locations: getInitialLocations(numOfPlayers, roomData.legend),
                 store: getInitialStore(numOfPlayers, true),
-                legend: getInitialLegend(numOfPlayers, roomData.legend, roomData.automaton),
                 activePlayer: 0,
                 initialPlayer: 0,
                 previousPlayer: 0,
