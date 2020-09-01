@@ -28,7 +28,7 @@ export function getInitialLegend(numOfPlayers, legendId, automatonLevel) {
     let lostCityEffects = [];
     for (let i = 0; i < lostCityEffectSlots; i++) {
         lostCityEffects.push(tLegendEffects[0]);
-        tLegendEffects = tLegendEffects.shift();
+        tLegendEffects.splice(0, 1);
     }
     legend.lostCityEffects = lostCityEffects;
 
