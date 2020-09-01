@@ -1,5 +1,4 @@
 import {EFFECT} from "../../../data/effects";
-import {LOCATION_TYPE} from "../../functions/enums";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
@@ -20,7 +19,7 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     if ([EFFECT.exploreAnyLocationWithDiscount3, EFFECT.placeToBasicLocationActivateTwice, EFFECT.exploreAnyLocationWithDiscount2].includes(tPlayerState.activeEffects[0])) {
         effects = processTravelDiscount(effects, 1, tPlayerState);
         tPlayerState.activeEffects.splice(0, 1);
-    } else if ([EFFECT.placeToBasicLocationDiscount2].includes(tPlayerState.activeEffects[0]) && location.type === LOCATION_TYPE.basic) {
+    } else if ([EFFECT.placeToBasicLocationDiscount2].includes(tPlayerState.activeEffects[0])) {
         effects = processTravelDiscount(effects, 2, tPlayerState);
         tPlayerState.activeEffects.splice(0, 1);
     } else if (EFFECT.placeToBrownLocation === tPlayerState.activeEffects[0] && (effects.includes(EFFECT.loseJeep) ||
