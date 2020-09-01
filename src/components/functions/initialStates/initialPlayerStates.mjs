@@ -2,6 +2,7 @@ import {GLOBAL_VARS} from "../../../data/idLists.mjs";
 import cloneDeep from "lodash/cloneDeep.js";
 import {CARD_STATE, CARD_TYPE} from "../enums.mjs";
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
+import {ITEMS} from "../../../data/cards.mjs";
 
 export const emptyPlayerState = Object.freeze({
     resources: {
@@ -92,10 +93,10 @@ export default function getInitialPlayerStates(numOfPlayers, automatonLevel) {
         testCard0.type = CARD_TYPE.artifact;
         drawDeck.splice(0, 0, testCard0);*/
 
-        /*const testCard = {...ITEMS.seaTurtle};
+        const testCard = {...ITEMS.boots};
         testCard.state = CARD_STATE.inHand;
         testCard.type = CARD_TYPE.item;
-        hand.splice(0, 0, testCard);*/
+        hand.splice(0, 0, testCard);
 
         /*for (let key in ITEMS) {
             let card = {...ITEMS[key]};
