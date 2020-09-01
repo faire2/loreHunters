@@ -68,7 +68,9 @@ export function NewRoom(props) {
                         <ToggleButton value={"legend2"}>Legend 2</ToggleButton>
                     </ToggleButtonGroup>
                 </ControlsItem>
+                <ControlsItem>
                 {roomName && <Button variant="secondary" onClick={() => setUpGame()}>Create game</Button>}
+                </ControlsItem>
             </Controls>
         </div>
     )
@@ -81,7 +83,7 @@ const Controls = styled.div`{
 `;
 
 const RoomName = styled(FormControl)`
-    width: 20vw;
+    width: 15vw;
 `
 
 const ControlsItem = styled.div`

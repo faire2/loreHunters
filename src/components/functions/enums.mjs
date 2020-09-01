@@ -105,6 +105,7 @@ export const REWARD_TYPE = Object.freeze({
     guardian: "price for guardian",
     legendFieldEffects: "combined effects of a legend field",
     legendColumnEffects: "first token effects of legend columns",
+    legendLostCityEffects: "choose from effects remaining in lost city",
     location: "location",
     refreshAssistant: "refresh an assistant",
     relicWithEffects: "relic with effects",

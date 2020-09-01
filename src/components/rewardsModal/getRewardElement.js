@@ -27,6 +27,7 @@ export function getRewardElement(reward, rewardType, rewards) {
         case REWARD_TYPE.effectsArr:
         case REWARD_TYPE.legendFieldEffects:
         case REWARD_TYPE.legendColumnEffects:
+        case REWARD_TYPE.legendLostCityEffects:
             element = <JsxFromEffects effectsArray={reward}/>;
             break;
         /*case REWARD_TYPE.location:

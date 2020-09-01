@@ -62,6 +62,9 @@ export function autoResearch(states, automatonState, direction) {
             console.error("Automaton was unable to place a token!");
         } else if (columnIndex === 7) {
             legend.lostCityPlayers.push(4);
+            if (legend.lostCityEffects.length > 0) {
+                legend.lostCityEffects.splice(1, 0);
+            }
         }
     } else {
         // if token is already in the 8th column, add a silver statue

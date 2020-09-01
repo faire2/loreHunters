@@ -1,16 +1,7 @@
 import {addCardToStore, drawCards, removeCard} from "./cardManipulationFuntions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
 import cloneDeep from 'lodash/cloneDeep.js';
-import {
-    ASSISTANT,
-    ASSISTANT_LEVEL,
-    ASSISTANT_STATE,
-    CARD_STATE,
-    CARD_TYPE,
-    LOCATION_STATE,
-    RELIC,
-    REWARD_TYPE
-} from "./enums";
+import {ASSISTANT, ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
 import {getRelicsForUpgrade} from "./effectsFunctions/getRelicsForUpgrade";
@@ -19,13 +10,15 @@ import {getLogLegend} from "../main/logger";
 import {shuffleArray} from "./cardManipulationFuntions";
 import {ITEMS} from "../../data/cards.mjs";
 
-export function processEffects(tCard, cardIndex, originalPlayersState, effects, originalStore, location, originalLocations) {
+export function processEffects(tCard, cardIndex, originalPlayersState, effects, originalStore, location, originalLocations,
+                               originalLegend) {
     console.log("Processing effects");
     console.log(effects);
     let tPlayerState = cloneDeep(originalPlayersState);
     let tStore = cloneDeep(originalStore);
     let tLocations = cloneDeep(originalLocations);
     let tActiveEffects = cloneDeep(tPlayerState.activeEffects);
+    let tLegend = cloneDeep(originalLegend);
     let processedAllEffects = true;
     let showRewardsModal = false;
     let rewardsData = {type: REWARD_TYPE.card, data: []};
@@ -218,8 +211,18 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     break;
 
                 // if a player reaches lost city during research of a legend, we set that location state accordingly
+                // additionaly he can choose from array of effects set on legend initialization
                 case EFFECT.discoverLostCity:
                     tPlayerState.canActivateLostCity = true;
+                    let effectsArr = [];
+                    for (let effect of tLegend.lostCityEffects) {
+                        effectsArr.push([effect]);
+                    }
+                    rewardsData = {
+                        type: REWARD_TYPE.legendLostCityEffects,
+                        data: effectsArr,
+                    };
+                    showRewardsModal = true;
                     break;
 
                 case EFFECT.drawFromBottom:
@@ -547,7 +550,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
 
                 case EFFECT.gainExploreForRelics:
                     let allRelics = tPlayerState.resources.bronzeRelics + tPlayerState.resources.silverRelics
-                        + tPlayerState.resources.goldRelics + tPlayerState.slottableRelics;
+                        + tPlayerState.resources.goldRelics + tPlayerState.resources.slottableRelics;
                     for (let relic of tPlayerState.relics) {
                         if (relic) {
                             allRelics += 1
@@ -886,15 +889,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                 case EFFECT.refreshRelic:
                     for (let i = tPlayerState.relics.length - 1; i > - 1; i--) {
                         if (tPlayerState.relics[i] !== null) {
-                            if (tPlayerState.relics[i] === RELIC.bronze) {
-                                tPlayerState.resources.bronzeRelics += 1;
-                            } else if (tPlayerState.relics[i] === RELIC.silver) {
-                                tPlayerState.resources.silverRelics += 1;
-                            } else if (tPlayerState.relics[i] === RELIC.gold) {
-                                tPlayerState.resources.goldRelics += 1;
-                            } else {
-                                console.error("Unable to process relic type in EFFECT.refreshRelic: " + tPlayerState.relics[i])
-                            }
+                            tPlayerState.resources.slottableRelics += 1;
                             tPlayerState.relics[i] = null;
                             break;
                         }
@@ -966,6 +961,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
             tPlayerState: originalPlayersState,
             tStore: originalStore,
             tLocations: originalLocations,
+            tLegend: tLegend,
             processedAllEffects: processedAllEffects,
             failedEffect: lastEffect,
         }
@@ -976,6 +972,7 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
         tPlayerState: tPlayerState,
         tStore: tStore,
         tLocations: tLocations,
+        tLegend: tLegend,
         processedAllEffects: processedAllEffects,
         showRewardsModal: showRewardsModal,
         rewardsData: rewardsData,

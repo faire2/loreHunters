@@ -15,13 +15,14 @@ export default function TopSlidingPanel(props) {
 
 const Panel = styled.div`
     position: fixed;
-    top: ${props => props.extendPanel ? 0 : "-1.5vw"};
+    top: ${props => props.extendPanel ? 0 : "-3.5vw"};
     left: 0;
-    height: 1.5vw;
+    height: 3.5vw;
     width: 100vw;
     transition: all .5s cubic-bezier(0, 0.2, 0, 1);
     background-color: rgba(255,255,255,0.47);
-    font-size: 1vw;
+    font-size: 1.5vw;
     display: flex;
     flex-flow: column;
+    justify-content: center;
 `;

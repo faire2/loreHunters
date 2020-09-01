@@ -7,10 +7,10 @@ import {checkTokenColumns, getDiscountForProgress} from "./legendsFunctions";
 import {getPreviousColumnPositions} from "./getPreviousColumnPositions.mjs";
 import {getCanPlaceTokens} from "./getCanPlaceTokens.mjs";
 
-export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerState, tStore, tLocations) {
-    const field = legend.fields[columnIndex][fieldIndex];
+export function processLegend(tLegend, columnIndex, fieldIndex, effects, tPlayerState, tStore, tLocations) {
+    const field = tLegend.fields[columnIndex][fieldIndex];
     const playerIndex = tPlayerState.playerIndex;
-    const positions = legend.positions[playerIndex];
+    const positions = tLegend.positions[playerIndex];
     const previousColumnIndex = columnIndex - 1;
     let isFirstToken = null;
     let tokenIndex;
@@ -42,10 +42,10 @@ export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerS
         if (tokenIndex >= 0) {
 
             // prepare array of present positions in previous column, e.g. size 3 column = [true, true, true]
-            previousColumnPositions = getPreviousColumnPositions(legend, previousColumnPositions, positions, previousColumnIndex);
+            previousColumnPositions = getPreviousColumnPositions(tLegend, previousColumnPositions, positions, previousColumnIndex);
 
             // we check position of the field that was clicked in relation to array of true positions in previous column
-            canPlaceTokens = getCanPlaceTokens(canPlaceTokens,legend, fieldIndex, columnIndex, previousColumnPositions);
+            canPlaceTokens = getCanPlaceTokens(canPlaceTokens,tLegend, fieldIndex, columnIndex, previousColumnPositions);
         }
     }
 
@@ -126,13 +126,15 @@ export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerS
 
             // if player reached the lost city, we push him into extra points array
             if (columnIndex === 7) {
-                legend.lostCityPlayers.push(playerIndex);
+                tLegend.lostCityPlayers.push(playerIndex);
             }
 
             // each column has a reward for both first and second token - we have stored token index previously
-            const columnRewards = legend.columnRewards[columnIndex][tokenIndex];
-            const rewardsResult = processEffects(null, null, effectsResult.tPlayerState, columnRewards, tStore, null, null);
+            const columnRewards = tLegend.columnRewards[columnIndex][tokenIndex];
+            const rewardsResult = processEffects(null, null, effectsResult.tPlayerState, columnRewards,
+                tStore, null, null, tLegend);
             tPlayerState = rewardsResult.tPlayerState;
+            tLegend = rewardsResult.tLegend;
             if (rewardsResult.showRewardsModal) {
                 rewardsData.push(rewardsResult.rewardsData);
             }
@@ -141,11 +143,11 @@ export function processLegend(legend, columnIndex, fieldIndex, effects, tPlayerS
                 column: columnIndex,
                 field: fieldIndex
             }, effects);
-            legend.positions[playerIndex] = positions;
+            tLegend.positions[playerIndex] = positions;
             tPlayerState.actions = effectsResult.tPlayerState.actions -= 1;
             return {
                 tPlayerState: tPlayerState,
-                tLegend: legend,
+                tLegend: tLegend,
                 tStore: tStore,
                 tLocations: tLocations,
                 positions: positions,
