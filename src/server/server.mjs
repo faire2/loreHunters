@@ -159,11 +159,11 @@ io.on("connection", socket => {
             }
             room.previousStates = cloneDeep(room.states);
             room.previousAutomatonState = cloneDeep(room.automatonState);
-        }
         socket.join(data.roomName);
 
         io.to(roomName).emit(TRANSMISSIONS.startGame, {room: room});
         console.debug("New game data sent to: " + roomName + " [" + room.players + "]");
+        }
     });
 
     /** SEND GAME STATES **/

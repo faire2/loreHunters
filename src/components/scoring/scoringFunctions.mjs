@@ -36,20 +36,19 @@ export function getPoints(playerState) {
     defeatedGuardianPoints += defeatedGuardians * 5;
 
     /* LEGEND */
-    let legendPoints = 0;
+    let legendPoints;
     const victoryPoints = legend.victoryPoints;
     // points for columns any of tokens reached
-    legendPoints += victoryPoints.firstToken[legend.positions[playerIndex][0].columnIndex];
-    legendPoints += parseInt(victoryPoints.secondToken[legend.positions[playerIndex][1].columnIndex], 10);
+    const firstTokenPoints = victoryPoints.firstToken[legend.positions[playerIndex][0].columnIndex];
+    const secondTokenPoints = victoryPoints.secondToken[legend.positions[playerIndex][1].columnIndex];
+    legendPoints = (firstTokenPoints ? firstTokenPoints : 0) + (secondTokenPoints ? secondTokenPoints : 0);
     // points for position in the lost city
     const lostCityPlayerPositions = legend.lostCityPlayers;
     for (let i = 0; i < lostCityPlayerPositions.length; i++) {
-        if (playerState.playerIndex === i) {
+        if (playerState.playerIndex === lostCityPlayerPositions[i]) {
             legendPoints += legend.lostCityPoints[i];
+            break;
         }
-    }
-    if (isNaN(legendPoints)) {
-        legendPoints = 0;
     }
 
     /* RELICS */
@@ -106,7 +105,7 @@ export function getAutomatonPoints(automatonState) {
             items.push(card);
         } else if (card.type === CARD_TYPE.artifact) {
             artifacts.push(card);
-        } else {console.error("Unable to determine card type in getAutomatonPoints:" + card.type)};
+        } else {console.error("Unable to determine card type in getAutomatonPoints:" + card.type)}
     }
     let itemPoints = items.reduce((a, b) => a + b.points, 0);
     let artifactPoints = artifacts.reduce((a, b) => a + b.points, 0);

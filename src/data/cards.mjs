@@ -250,8 +250,8 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 2
     },
-    messengerPidgeon: {
-        id: "messengerPidgeon",
+    carrierPidgeon: {
+        id: "carrierPidgeon",
         cardName: "Carrier Pigeon",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
@@ -268,8 +268,8 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 1
     },
-    bookOfMyths: {
-        id: "bookOfMyths",
+    roughMap: {
+        id: "roughMap",
         cardName: "Rough Map",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
@@ -277,8 +277,8 @@ export const ITEMS = Object.freeze({
         cost: 1,
         points: 1
     },
-    airmail: {
-        id: "airmail",
+    airDrop: {
+        id: "airDrop",
         cardName: "Airdrop",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
@@ -360,7 +360,7 @@ export const ITEMS = Object.freeze({
     },
     beartrap: {
         id: "beartrap",
-        cardName: "Beat Trap",
+        cardName: "Bear Trap",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
         effects: [EFFECT.destroyThisCard ,EFFECT.defeatGuardianOnOwnOrEmptyLocation],
@@ -403,8 +403,8 @@ export const ITEMS = Object.freeze({
         cost: 3,
         points: 3
     },
-    pocketWatch: {
-        id: "pocketWatch",
+    chronometer: {
+        id: "chronometer",
         cardName: "Chronometer",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 2,
@@ -424,8 +424,8 @@ export const ITEMS = Object.freeze({
 });
 
 export const ARTIFACTS = Object.freeze({
-    seaNecklace: {
-        id: "seaNecklace",
+    pathfinderSandals: {
+        id: "pathfinderSandals",
         cardName: "Pathfinder's sandals",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
@@ -454,8 +454,8 @@ export const ARTIFACTS = Object.freeze({
         cost: 3,
         points: 1
     },
-    jewelryBox: {
-        id: "jewelryBox",
+    treasureChest: {
+        id: "treasureChest",
         cardName: "Treasure Chest",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
@@ -494,16 +494,6 @@ export const ARTIFACTS = Object.freeze({
         cost: 3,
         points: 1
     },
-    cursedTreasure: {
-        id: "cursedTreasure",
-        cardName: "Serpent's Gold",
-        transport: CARD_TRANSPORT.plane,
-        transportAmount: 1,
-        effects: [EFFECT.gainFear, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin, EFFECT.gainCoin],
-        isGuarded: false,
-        cost: 3,
-        points: 1
-    },
     serpentsIdol: {
         id: "serpentsIdol",
         cardName: "Serpent's Idol",
@@ -524,8 +514,8 @@ export const ARTIFACTS = Object.freeze({
         cost: 3,
         points: 2
     },
-    amuletOfCharm: {
-        id: "amuletOfCharm",
+    monkeyMedallion: {
+        id: "monkeyMedallion",
         cardName: "Monkey Medallion",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
@@ -573,8 +563,8 @@ export const ARTIFACTS = Object.freeze({
         cost: 4,
         points: 2
     },
-    beastKiller: {
-        id: "beastKiller",
+    warClub: {
+        id: "warClub",
         cardName: "War Club",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
@@ -663,8 +653,8 @@ export const ARTIFACTS = Object.freeze({
         cost: 4,
         points: 2
     },
-    snakeBracelet: {
-        id: "snakeBracelet",
+    starCharts: {
+        id: "starCharts",
         cardName: "Star Charts",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
@@ -693,8 +683,8 @@ export const ARTIFACTS = Object.freeze({
         cost: 3,
         points: 1
     },
-    boneRattle: {
-        id: "boneRattle",
+    ceremonialRattle: {
+        id: "ceremonialRattle",
         cardName: "Ceremonial Rattle",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
@@ -713,8 +703,8 @@ export const ARTIFACTS = Object.freeze({
         cost: 4,
         points: 1
     },
-    trophySkull: {
-        id: "trophySkull",
+    stoneKey: {
+        id: "stoneKey",
         cardName: "Stone Key",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,
@@ -723,8 +713,8 @@ export const ARTIFACTS = Object.freeze({
         cost: 3,
         points: 2
     },
-    earRingOfDarkness: {
-        id: "earRingOfDarkness",
+    obsidianEarring: {
+        id: "obsidianEarring",
         cardName: "Obsidian Earring",
         transport: CARD_TRANSPORT.plane,
         transportAmount: 1,

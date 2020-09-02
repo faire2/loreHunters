@@ -17,12 +17,14 @@ export function processLegend(tLegend, columnIndex, fieldIndex, effects, tPlayer
 
     //previous positions will be used to calculate position in each of the field in column
     let previousColumnPositions = [];
+    // eslint-disable-next-line no-unused-vars
     for (let position of positions) {
         previousColumnPositions.push([false, false, false]);
     }
 
     // can place token will be used to check possibility to place each tokens stored in positions
     let canPlaceTokens = [];
+    // eslint-disable-next-line no-unused-vars
     for (let position of positions) {
         canPlaceTokens.push(false);
     }
@@ -125,7 +127,7 @@ export function processLegend(tLegend, columnIndex, fieldIndex, effects, tPlayer
             }
 
             // if player reached the lost city, we push him into extra points array
-            if (columnIndex === 7) {
+            if (columnIndex === 7 && !tLegend.lostCityPlayers.includes(playerIndex)) {
                 tLegend.lostCityPlayers.push(playerIndex);
             }
 

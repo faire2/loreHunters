@@ -221,8 +221,8 @@ export const CARD_TEXTS = Object.freeze({
             each <Guardian/> you are confronting, up to 3.</div>,
         image: bowAndArrowsImg,
     },
-    messengerPidgeon: {
-        id: "messengerPidgeon",
+    carrierPidgeon: {
+        id: "carrierPidgeon",
         effectsText: <Icons><Text/><Text/><GainAction/></Icons>,
         image: messengerPidgeonImg,
     },
@@ -232,13 +232,13 @@ export const CARD_TEXTS = Object.freeze({
             <div>Exile this card to gain <Artifact/> for free.</div>,
         image: whipImg,
     },
-    bookOfMyths: {
-        id: "bookOfMyths",
+    roughMap: {
+        id: "roughMap",
         effectsText: <div>Exile this card to gain <Explore/><Explore/><Explore/></div>,
         image: bookOfMythsImg,
     },
-    airmail: {
-        id: "airmail",
+    airDrop: {
+        id: "airDrop",
         effectsText: <div>Exile this card to gain <Item/> for free to your hand.</div>,
         image: airmailImg,
     },
@@ -309,8 +309,8 @@ export const CARD_TEXTS = Object.freeze({
         effectsText: <div>Gain <Explore/> for each <BronzeRelic/> you own, up to 3.</div>,
         image: journalImg,
     },
-    pocketWatch: {
-        id: "pocketWatch",
+    chronometer: {
+        id: "chronometer",
         effectsText: <div><b>Gain:</b>
             <Coin/><Explore/><GainAction/> or <b>Pass</b> to gain <Coin/><Explore/><Explore/>.</div>,
         image: pocketWatchImg,
@@ -321,8 +321,8 @@ export const CARD_TEXTS = Object.freeze({
             placed on the board.</div>,
         image: null,
     },
-    seaNecklace: {
-        id: "seaNecklace",
+    pathfinderSandals: {
+        id: "pathfinderSandals",
         effectsText:
             <div>Relocate a placed <AdventurerIcon/> to a <LocationL1/> and <b>activate</b> it.</div>,
         image: "",
@@ -339,8 +339,8 @@ export const CARD_TEXTS = Object.freeze({
             <div><Weapon/><br/> Don't gain <Fear/> from <Guardian/> this round.</div>,
         image: warMaskImg,
     },
-    jewelryBox: {
-        id: "jewelryBox",
+    treasureChest: {
+        id: "treasureChest",
         effectsText:
             <Icons><Draw1Card/><Coin/></Icons>,
         image: null,
@@ -363,8 +363,8 @@ export const CARD_TEXTS = Object.freeze({
             <Icons><DestroyCard/><Arrow/><Coin/><Coin/></Icons>,
         image: transmutationImg,
     },
-    cursedTreasure: {
-        id: "cursedTreasure",
+    serpentGold: {
+        id: "serpentGold",
         effectsText:
             <div>You may gain <Fear/> to gain <Coin/><Coin/><Coin/><Coin/></div>,
         image: cursedTreasureImg,
@@ -381,8 +381,8 @@ export const CARD_TEXTS = Object.freeze({
             <div>Gain <Fear/> to gain <Coin/><Coin/><Coin/><Coin/></div>,
         image: darkKnowledgeImg,
     },
-    amuletOfCharm: {
-        id: "amuletOfCharm",
+    monkeyMedallion: {
+        id: "monkeyMedallion",
         effectsText: <div>Gain <Item/> for free, place it on the top of your deck.</div>,
     },
     idolOfAraAnu: {
@@ -410,8 +410,8 @@ export const CARD_TEXTS = Object.freeze({
         effectsText:
             <div><DestroyCard/><br/> Activate a completely unoccupied <LocationL1/>.</div>,
     },
-    beastKiller: {
-        id: "beastKiller",
+    warClub: {
+        id: "warClub",
         effectsText:
             <div>Overcome <Guardian/> on a site that is not occupied by another player.</div>,
         image: beastKillerImg,
@@ -448,7 +448,7 @@ export const CARD_TEXTS = Object.freeze({
     ancientWine: {
         id: "ancientWine",
         effectsText:
-            <div><Coin/><br/>Use effect of of <GoldAssistant/> available on the supply board.
+            <div><Coin/><br/>Use effect of <GoldAssistant/> available on the supply board.
             </div>,
     },
     decoratedHorn: {
@@ -462,8 +462,8 @@ export const CARD_TEXTS = Object.freeze({
         effectsText:
             <div>Exile rightmost <Item/> in the card row. Gain any <Item/> from the exile.</div>,
     },
-    snakeBracelet: {
-        id: "snakeBracelet",
+    starCharts: {
+        id: "starCharts",
         effectsText:
             <div>Pay <Coin/> to activate two different <LocationL1/>
             </div>,
@@ -479,8 +479,8 @@ export const CARD_TEXTS = Object.freeze({
         effectsText:
             <div><PlaceAdventurer/> on a <LocationL1/> site. You may <b>activate</b> it twice instead of once.</div>,
     },
-    boneRattle: {
-        id: "boneRattle",
+    ceremonialRattle: {
+        id: "ceremonialRattle",
         effectsText:
             <div>Refresh <AssistantUpgrade/></div>,
     },
@@ -489,13 +489,13 @@ export const CARD_TEXTS = Object.freeze({
         effectsText:
             <div><Discard/><br/>Refresh all of your <AssistantUpgrade/></div>,
     },
-    trophySkull: {
-        id: "trophySkull",
+    stoneKey: {
+        id: "stoneKey",
         effectsText:
             <div>Return a slotted <BronzeRelic/> back to your pool.</div>,
     },
-    earRingOfDarkness: {
-        id: "earRingOfDarkness",
+    obsidianEarring: {
+        id: "obsidianEarring",
         effectsText:
             <div>Draw up to two cards from the bottom of your deck. Keep one of them and discard the
             other one with no effect.</div>,

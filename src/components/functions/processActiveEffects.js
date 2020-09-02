@@ -71,6 +71,9 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
                 tPlayerState.activeEffects = effectsResult.tPlayerState.activeEffects;
                 tStore = effectsResult.tStore;
                 tPlayerState.activeEffects.splice(0, 1);
+                if (effectsResult.showRewardsModal) {
+                    initiateRewardsModal(effectsResult.rewardsData);
+                }
             }
             break;
 
