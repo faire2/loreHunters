@@ -55,9 +55,10 @@ export function getInitialStore(numOfPlayers, assistantsInLegend) {
         assistantsInLegendSetup = drawInitialCards(assistants, numOfPlayers + 1);
     }
 
-    /*let card = ARTIFACT_IDs.ornateHammer;
+    /*let card = ARTIFACTS.passageShell;
     card.state = CARD_STATE.inStore;
-    artifactsSetup.deck.splice(3, 1, card);*/
+    card.type = CARD_TYPE.artifact;
+    artifactsSetup.drawCards.splice(0, 1, card);*/
 
     for (let card of itemsSetup.drawCards) {
         card.state = CARD_STATE.inStore;

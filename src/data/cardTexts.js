@@ -61,7 +61,6 @@ import {
     Draw2Cards,
     Explore,
     Fear,
-    FirstLegendToken,
     Flash,
     GainAction,
     GoldAssistant,
@@ -293,12 +292,6 @@ export const CARD_TEXTS = Object.freeze({
         effectsText: <Icons><Discard/><Arrow/><Draw1Card/><DestroyCard/></Icons>,
         image: grapplingHookImg,
     },
-    handLens: {
-        id: "handLens",
-        effectsText: <div>Gain up to two <FirstLegendToken/> bonuses that you have already
-            researched.</div>,
-        image: "",
-    },
     dog: {
         id: "dog",
         effectsText: <div><Explore/><br/> <b>Activate</b> an unoccupied <LocationL1/> site.</div>,
@@ -312,12 +305,12 @@ export const CARD_TEXTS = Object.freeze({
     chronometer: {
         id: "chronometer",
         effectsText: <div><b>Gain:</b>
-            <Coin/><Explore/><GainAction/> or <b>Pass</b> to gain <Coin/><Explore/><Explore/>.</div>,
+            <Coin/><Explore/><GainAction/> or <b>Pass</b> to gain <Explore/><Explore/><Explore/>.</div>,
         image: pocketWatchImg,
     },
     theodolite: {
         id: "theodolite",
-        effectsText: <div><Explore/> plus <Explore/> for each of your <AdventurerIcon/> already
+        effectsText: <div><Coin/><br/> Gain <Explore/> for each of your <AdventurerIcon/> already
             placed on the board.</div>,
         image: null,
     },
@@ -477,7 +470,7 @@ export const CARD_TEXTS = Object.freeze({
     passageShell: {
         id: "passageShell",
         effectsText:
-            <div><PlaceAdventurer/> on a <LocationL1/> site. You may <b>activate</b> it twice instead of once.</div>,
+            <div><PlaceAdventurer/> onto a <LocationL1/> site for free. You may activate it twice instead of once.</div>,
     },
     ceremonialRattle: {
         id: "ceremonialRattle",
@@ -523,4 +516,8 @@ export const CARD_TEXTS = Object.freeze({
             <div>Move <Guardian/> from a site you occupy to any unocuppied
                 <LocationL1/> or <LocationL2/> with no <Guardian/>. Activate the site.</div>,
     },
+    lantern: {
+        id: "lantern",
+        effectsText: <div>Activate a <LocationL1 /> site.</div>
+    }
 });

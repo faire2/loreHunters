@@ -172,10 +172,10 @@ export const ITEMS = Object.freeze({
     journal: {
         id: "journal",
         cardName: "Journal",
-        transport: CARD_TRANSPORT.ship,
-        transportAmount: 1,
+        transport: CARD_TRANSPORT.jeep,
+        transportAmount: 2,
         effects: [EFFECT.destroyThisCard, EFFECT.progressWithSecondToken],
-        cost: 2,
+        cost: 3,
         points: 1
     },
     parrot: {
@@ -376,14 +376,14 @@ export const ITEMS = Object.freeze({
         cost: 2,
         points: 2
     },
-    handLens: {
-        id: "handLens",
-        cardName: "Hand Lens",
+    lantern: {
+        id: "lantern",
+        cardName: "Lantern",
         transport: CARD_TRANSPORT.jeep,
         transportAmount: 1,
-        effects: [EFFECT.gain2ResearchBonuses],
-            cost: 2,
-        points: 1
+        effects: [EFFECT.activateL1Location],
+        cost: 3,
+        points: 2
     },
     dog: {
         id: "dog",
@@ -408,7 +408,7 @@ export const ITEMS = Object.freeze({
         cardName: "Chronometer",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 2,
-        effects: [EFFECT.gainCoinExploreOrPassForExtraExplore],
+        effects: [EFFECT.gainCoinExploreOrPassForThreeExplore],
         cost: 3,
         points: 2
     },
@@ -417,9 +417,9 @@ export const ITEMS = Object.freeze({
         cardName: "Theodolite",
         transport: CARD_TRANSPORT.ship,
         transportAmount: 1,
-        effects: [EFFECT.gainExplore, EFFECT.gainExploreForPlacedAdventurers],
-        cost: 4,
-        points: 2
+        effects: [EFFECT.gainCoin, EFFECT.gainExploreForPlacedAdventurers],
+        cost: 3,
+        points: 1
     },
 });
 

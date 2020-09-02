@@ -405,12 +405,12 @@ export function processEffects(tCard, cardIndex, originalPlayersState, effects, 
                     };
                     break;
 
-                case EFFECT.gainCoinExploreOrPassForExtraExplore:
+                case EFFECT.gainCoinExploreOrPassForThreeExplore:
                     showRewardsModal = true;
                     rewardsData = {
                         type: REWARD_TYPE.effectsArr, data: [
                             [EFFECT.gainCoin, EFFECT.gainExplore, EFFECT.gainAction],
-                            [EFFECT.gainCoin, EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.finishRound]
+                            [EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.gainExplore, EFFECT.finishRound]
                         ]
                     };
                     break;

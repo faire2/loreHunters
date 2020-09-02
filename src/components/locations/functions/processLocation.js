@@ -92,7 +92,7 @@ export function processLocation(tPlayerState, tStore, tLocations, location, init
                         }
                         if (travelCheckResults.enoughResources && tPlayerState.availableAdventurers > 0) {
                             let tPlayerState = travelCheckResults.tPlayerState;
-                            const effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, location.effects, {...tStore}, location, {...tLocations});
+                            let effectsResult = processEffects(null, null, travelCheckResults.tPlayerState, location.effects, {...tStore}, location, {...tLocations});
                             if (effectsResult.processedAllEffects) {
                                 console.log("Location effects have been processed.");
                                 tLocations = effectsResult.tLocations;

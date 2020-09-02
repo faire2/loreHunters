@@ -61,7 +61,7 @@ export const EFFECT = Object.freeze({
     gainCoinForGuardians: "gain a coin for each destroyed Guardian (max. 4)",
     gainCoinsAndJewelForGuardian: "gain a jewel and coins for VP of a defeated guardian",
     gain2CoinsOrPassAnd3: "gain 2 coins or pass the round and gain 3",
-    gainCoinExploreOrPassForExtraExplore: "gain coin and explore or pass and gain one more explore",
+    gainCoinExploreOrPassForThreeExplore: "gain coin and explore or pass and gain one more explore",
     gain2TextsOrPassAndJewel: "gain two texts or pass the round and gain a jewel",
     gain2ResearchBonuses: "gain 2 first token research bonuses",
     buyWithDiscount1: "buy an item or artifact with discount of 1",

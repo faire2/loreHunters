@@ -343,7 +343,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
 
         /* checks if the clicked location is not the same as the location from which the adv. was removed earlier */
         case EFFECT.moveAdvToEmptyLocation:
-            if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.id !== tPlayerState.activeEffects[1]
+            if (tLocation && tLocation.state !== LOCATION_STATE.unexplored && tLocation.id !== tPlayerState.activeEffects[1]
                 && tLocation.level !== LOCATION_LEVEL.level2) {
                 /* we have to remove original location id from the activeAffects array */
                 tPlayerState.activeEffects.splice(0, 2);
@@ -355,7 +355,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.moveAdvToL1Location:
-            if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level === LOCATION_LEVEL.basic
+            if (tLocation && tLocation.state !== LOCATION_STATE.unexplored && tLocation.level === LOCATION_LEVEL.basic
                 && tLocation.adventurers.length < tLocation.slots.length && tLocation.id !== tPlayerState.activeEffects[1]) {
                 tPlayerState.activeEffects.splice(0, 2);
                 const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);
@@ -366,7 +366,7 @@ export function processActiveEffect(tCard, cardIndex, tLocation, tPlayerState, t
             break;
 
         case EFFECT.moveAdvToL1L2Location:
-            if (tLocation && tLocation.state === LOCATION_STATE.explored && tLocation.level !== LOCATION_LEVEL.level2
+            if (tLocation && tLocation.state !== LOCATION_STATE.unexplored  && tLocation.level !== LOCATION_LEVEL.level2
                 && tLocation.adventurers.length < tLocation.slots.length && tLocation.id !== tPlayerState.activeEffects[1]) {
                 tPlayerState.activeEffects.splice(0, 2);
                 const result = resolveRelocation(tLocation.line, tLocation.index, tPlayerState, tLocations, tStore);

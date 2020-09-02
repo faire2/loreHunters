@@ -1,4 +1,5 @@
 import {EFFECT} from "../../../data/effects";
+import {LOCATION_LEVEL} from "../../functions/enums";
 
 export function payForTravelIfPossible(tPlayerState, location, effect) {
     const resources = tPlayerState.resources;
@@ -16,7 +17,7 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
     }
 
     // check for active effect with travel discount
-    if ([EFFECT.exploreAnyLocationWithDiscount3, EFFECT.placeToBasicLocationActivateTwice, EFFECT.exploreAnyLocationWithDiscount2].includes(tPlayerState.activeEffects[0])) {
+    if ([EFFECT.exploreAnyLocationWithDiscount3, EFFECT.exploreAnyLocationWithDiscount2].includes(tPlayerState.activeEffects[0])) {
         effects = processTravelDiscount(effects, 1, tPlayerState);
         tPlayerState.activeEffects.splice(0, 1);
     } else if ([EFFECT.placeToBasicLocationDiscount2].includes(tPlayerState.activeEffects[0])) {
@@ -26,6 +27,9 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
         effects.includes(EFFECT.loseWalk))) {
         effects = processTravelDiscount(effects, 1, tPlayerState);
         tPlayerState.activeEffects.splice(0, 1);
+    } else if (EFFECT.placeToBasicLocationActivateTwice === tPlayerState.activeEffects[0]
+        && (location.level === LOCATION_LEVEL.basic)) {
+        effects = processTravelDiscount(effects, 2, tPlayerState);
     } else if (EFFECT.placeToGreenLocation === tPlayerState.activeEffects[0] && (effects.includes(EFFECT.loseShip) ||
         effects.includes(EFFECT.loseWalk))) {
         effects = processTravelDiscount(effects, 1, tPlayerState);
