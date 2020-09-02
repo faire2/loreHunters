@@ -261,12 +261,11 @@ export default function ChooseRewardModal() {
                 }
                 break;
             case REWARD_TYPE.legendLostCityEffects:
-                const lostCityEffectsResult = processEffects(null, null, tPlayerState, [reward.effects], null, null, null);
+                const lostCityEffectsResult = processEffects(null, null, tPlayerState, reward, null, null, null);
                 if (lostCityEffectsResult.processedAllEffects) {
+                    debugger
                     tLegend.lostCityEffects.splice(tLegend.lostCityEffects.indexOf(reward), 1);
                     tPlayerState = lostCityEffectsResult.tPlayerState;
-                    tStore = lostCityEffectsResult.tStore;
-                    tLocations = lostCityEffectsResult.tLocations;
                 }
                 break;
             case REWARD_TYPE.location:
