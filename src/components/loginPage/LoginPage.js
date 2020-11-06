@@ -25,19 +25,42 @@ export function LoginPage() {
     function handleUsernameChange(username) {
         setCookie("username", username, {path: "/", expires: expirationDate});
         setFormerUsername(username);
-        if (!formerUsername) {
-            socket.emit(TRANSMISSIONS.handShake, cookies.username);
-        } else {
-            socket.emit(TRANSMISSIONS.usernameChanged, {formerUsername: formerUsername, newUsername: username});
-        }
         setShowCreateUsername(false);
     }
+
+    useEffect(() => {
+        if (!shakedHand) {
+            socket.emit(TRANSMISSIONS.handShake, cookies.username);
+        } else {
+            socket.emit(
+                TRANSMISSIONS.usernameChanged,
+                {
+                    formerUsername: formerUsername,
+                    newUsername: cookies.username,
+                },
+            );
+        }
+    }, [cookies, formerUsername]);
 
     function pressEnterToBlur(e) {
         if (e.keyCode === 13) {
             e.target.blur();
         }
     }
+
+    const startGame = data => {
+        const playerIndex = data.room.players.indexOf(cookies.username);
+        debugger
+        history.push({
+            pathname: "/game",
+            data: {
+                username: cookies.username,
+                room: data.room,
+                playerIndex: playerIndex,
+            },
+        });
+    };
+
 
     useEffect(() => {
         // extend cookie if it exists
@@ -56,11 +79,7 @@ export function LoginPage() {
             setRoomIsFull(true);
         });
 
-        socket.on(TRANSMISSIONS.startGame, data => {
-            let playerIndex = data.room.players.indexOf(cookies.username);
-            history.push({pathname: "/game", data: {username: cookies.username, room: data.room, playerIndex: playerIndex,
-                    }});
-        });
+        socket.on(TRANSMISSIONS.startGame, startGame);
 
         socket.on(TRANSMISSIONS.currentUsersAndData, data => {
             console.log("received actual room and users data");
@@ -70,8 +89,8 @@ export function LoginPage() {
             setUsers(data.users);
             setRooms(data.rooms);
             setRoomIsFull(false);
-        }, [])
-    });
+        })
+    }, [formerUsername]);
 
     const containerStyle = {
         margin: "10vw"
