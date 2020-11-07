@@ -84,7 +84,7 @@ const Controls = styled.div`{
 
 const RoomName = styled(FormControl)`
     width: 15vw;
-`
+`;
 
 const ControlsItem = styled.div`
     margin: 0 0 0 1vw;

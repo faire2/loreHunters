@@ -28,6 +28,13 @@ export function LoginPage() {
         setShowCreateUsername(false);
     }
 
+    function pressEnterToBlur(e) {
+        if (e.keyCode === 13) {
+            e.target.blur();
+        }
+    }
+
+    // shake hand / change username
     useEffect(() => {
         if (!shakedHand) {
             socket.emit(TRANSMISSIONS.handShake, cookies.username);
@@ -42,25 +49,27 @@ export function LoginPage() {
         }
     }, [cookies, formerUsername]);
 
-    function pressEnterToBlur(e) {
-        if (e.keyCode === 13) {
-            e.target.blur();
-        }
-    }
+    // start a game
+    useEffect(() => {
+        console.log("startGame useEffect username: " + cookies.username);
+        socket.on(TRANSMISSIONS.startGame, data => (
+            startGame(data, cookies.username)
+        ));
+        return () => socket.off(TRANSMISSIONS.startGame);
+    }, [cookies]);
 
-    const startGame = data => {
+    const startGame = (data, username) => {
         const playerIndex = data.room.players.indexOf(cookies.username);
-        debugger
+        console.log("Username in startGame: " + username);
         history.push({
             pathname: "/game",
             data: {
-                username: cookies.username,
+                username: username,
                 room: data.room,
                 playerIndex: playerIndex,
             },
         });
     };
-
 
     useEffect(() => {
         // extend cookie if it exists
@@ -79,8 +88,6 @@ export function LoginPage() {
             setRoomIsFull(true);
         });
 
-        socket.on(TRANSMISSIONS.startGame, startGame);
-
         socket.on(TRANSMISSIONS.currentUsersAndData, data => {
             console.log("received actual room and users data");
             if (!shakedHand) {
@@ -90,7 +97,7 @@ export function LoginPage() {
             setRooms(data.rooms);
             setRoomIsFull(false);
         })
-    }, [formerUsername]);
+    });
 
     const containerStyle = {
         margin: "10vw"
