@@ -47,29 +47,24 @@ export function LoginPage() {
                 },
             );
         }
-    }, [cookies, formerUsername]);
+    }, [cookies, formerUsername, shakedHand]);
 
     // start a game
     useEffect(() => {
-        console.log("startGame useEffect username: " + cookies.username);
-        socket.on(TRANSMISSIONS.startGame, data => (
-            startGame(data, cookies.username)
-        ));
-        return () => socket.off(TRANSMISSIONS.startGame);
-    }, [cookies]);
-
-    const startGame = (data, username) => {
+        console.log("starting game with user " + cookies.username);
+        socket.on(TRANSMISSIONS.startGame, data => {
         const playerIndex = data.room.players.indexOf(cookies.username);
-        console.log("Username in startGame: " + username);
         history.push({
             pathname: "/game",
             data: {
-                username: username,
+                username: cookies.username,
                 room: data.room,
                 playerIndex: playerIndex,
             },
-        });
-    };
+        })});
+        return () => socket.off(TRANSMISSIONS.startGame);
+    }, [cookies, history]);
+
 
     useEffect(() => {
         // extend cookie if it exists

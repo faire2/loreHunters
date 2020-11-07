@@ -11,6 +11,7 @@ export function payForTravelIfPossible(tPlayerState, location, effect) {
 
     if (!effect) {
         // we pay extra transport for every other adventurer also deployed to this location
+        // eslint-disable-next-line no-unused-vars
         for (let adventurer of location.adventurers) {
             effects = [...effects, ...effects];
         }

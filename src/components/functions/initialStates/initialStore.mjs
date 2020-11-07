@@ -4,7 +4,7 @@ import {ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE} from "../enums.
 import {drawInitialCards, shuffleArray} from "../cardManipulationFuntions.mjs";
 import {relicEffects} from "../../../data/relicEffects.mjs";
 import {Assistants} from "../../../data/assistants.mjs";
-import cloneDeep from 'lodash/cloneDeep.js';
+import cloneDeep from "lodash/cloneDeep.js";
 import {Guardians} from "../../../data/guardians.mjs";
 import {silverAssistantsOfferNumber} from "../constants.mjs";
 import {ARTIFACTS, ITEMS} from "../../../data/cards.mjs";

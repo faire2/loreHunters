@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {Field} from "./tiles/Field";
 import {ColunmRewards} from "../assistantsChoice/ColumnRewards";
 

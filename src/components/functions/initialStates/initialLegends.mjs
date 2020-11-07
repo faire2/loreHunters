@@ -3,7 +3,7 @@ import {GLOBAL_VARS,} from "../../../data/idLists.mjs";
 import {shuffleArray} from "../cardManipulationFuntions.mjs";
 import {EFFECT} from "../../../data/effects.mjs";
 import {Legends} from "../../../data/legends.mjs";
-import cloneDeep from 'lodash/cloneDeep.js';
+import cloneDeep from "lodash/cloneDeep.js";
 
 export function getInitialLegend(numOfPlayers, legendId, automatonLevel) {
     let legend = Legends[legendId];

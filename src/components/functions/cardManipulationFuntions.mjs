@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep.js';
+import cloneDeep from "lodash/cloneDeep.js";
 import {CARD_STATE, CARD_TYPE} from "./enums.mjs";
 
 export function addCardToHand(card, origPlayerState) {

@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState} from "react";
 import {BoardStateContext} from "../../Contexts";
 import {EFFECT} from "../../data/effects.mjs";
 import {CARD_TRANSPORT, ITEMS} from "../../data/cards.mjs";

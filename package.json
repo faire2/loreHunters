@@ -3,9 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.1",
-    "@testing-library/user-event": "^7.2.1",
     "bootstrap": "^4.4.1",
     "cors": "^2.8.5",
     "es-dirname": "^0.1.0",
@@ -50,6 +47,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-syntax-import-meta": "^7.8.3"
+    "@babel/plugin-syntax-import-meta": "^7.8.3",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.1",
+    "@testing-library/user-event": "^7.2.1"
   }
 }

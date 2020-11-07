@@ -1,4 +1,4 @@
-import path from 'path';
+import path from "path";
 import http from "http";
 import dirname from "es-dirname"
 import express from "express";

@@ -19,7 +19,6 @@ export default function Location(props) {
     const location = props.location;
 
     let locationBackground = null;
-    let travelCost = [];
 
     // location background
     if (location.state === LOCATION_STATE.unexplored) {

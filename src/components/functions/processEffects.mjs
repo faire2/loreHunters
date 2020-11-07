@@ -1,6 +1,6 @@
 import {addCardToStore, drawCards, removeCard} from "./cardManipulationFuntions.mjs";
 import {EFFECT} from "../../data/effects.mjs";
-import cloneDeep from 'lodash/cloneDeep.js';
+import cloneDeep from "lodash/cloneDeep.js";
 import {ASSISTANT, ASSISTANT_LEVEL, ASSISTANT_STATE, CARD_STATE, CARD_TYPE, LOCATION_STATE, REWARD_TYPE} from "./enums";
 import {getAssistantsChoice} from "./incomesFunctions";
 import {updateLocations} from "../locations/functions/locationFunctions";
